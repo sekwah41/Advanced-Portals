@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals;
 
-import net.minecraft.server.v1_6_R3.Item;
-
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +18,8 @@ public class Listeners implements Listener {
     
     
     
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
     public void oniteminteract(PlayerInteractEvent event) {
     	// will detect if the player is using an axe so the points of a portal can be set
     	// also any other detections such as sign interaction or basic block protection
