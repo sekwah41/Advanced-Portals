@@ -19,7 +19,7 @@ public class Listeners implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 	
-    @EventHandler
+    @EventHandler 
     public void onMoveEvent(PlayerMoveEvent event) {
     	// will check if the player is in the portal or not.
     	
