@@ -2,6 +2,7 @@
 
 # To set this file back to its default state just delete it and reload the server or restart it!
 
-# Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
 
+
+# Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
 UseOnlyServerMadeAxe: false
