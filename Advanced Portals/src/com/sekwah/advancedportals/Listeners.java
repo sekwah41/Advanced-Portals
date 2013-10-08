@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals;
 
+import java.io.File;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,6 +24,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onMoveEvent(PlayerMoveEvent event) {
     	// will check if the player is in the portal or not.
+    	ConfigAccessor config = new ConfigAccessor(plugin, "PlayerStats" + File.separator + "Portals.yml");
     	
     }
     
