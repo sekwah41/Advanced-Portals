@@ -9,7 +9,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		new Listeners(this);
 		
 		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
-		 
+		
 	}
 	
 	
