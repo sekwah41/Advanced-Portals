@@ -24,7 +24,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onMoveEvent(PlayerMoveEvent event) {
     	// will check if the player is in the portal or not.
-    	ConfigAccessor config = new ConfigAccessor(plugin, "PlayerStats" + File.separator + "Portals.yml");
+    	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	
     }
     
