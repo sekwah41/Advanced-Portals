@@ -62,10 +62,21 @@ public class ConfigAccessor {
     }
     
     // Saves 
-    public void saveDefaultConfig() {
+    /**public void saveDefaultConfig() {
         if (!configFile.exists()) {       
             this.plugin.saveResource(fileName, false);
         }
+    }*/
+    
+    // New save default config saving code, it checks if the needed config is in the jar file before
+    // overriding it.
+    public void saveDefaultConfig() {
+        if (configFile == null) {
+        	configFile = new File(plugin.getDataFolder(), fileName);
+        }
+        if (!configFile.exists()) {            
+             plugin.saveResource(fileName, false);
+         }
     }
  
 }

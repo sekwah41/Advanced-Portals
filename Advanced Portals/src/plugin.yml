@@ -3,3 +3,8 @@ name: AdvancedPortals
 version: 0.0.1
 author: SEKWAH41
 description: An advanced portals plugin for bukkit.
+commands:
+    advancedportals:
+        description: The main command for the advanced portals
+        aliases: [portals, aportals]
+        usage: /<command>
