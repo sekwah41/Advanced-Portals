@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals;
 
-import java.io.File;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,8 +20,10 @@ public class Listeners implements Listener {
 	
     public Listeners(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
+        
         ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
         this.UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
+        
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 	

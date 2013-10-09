@@ -17,6 +17,8 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 
 	public AdvancedPortalsCommand(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
+		
+		plugin.getCommand("advancedportals").setExecutor(this);
 	}
 
 	@Override
@@ -28,14 +30,14 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 				if(sender.hasPermission("AdvancedPortals.create")){
 					PlayerInventory inventory = player.getInventory();
 					
-					ItemStack shopitem = new ItemStack(Material.IRON_AXE);
-					ItemMeta shopname = shopitem.getItemMeta();
-					shopname.setDisplayName("§ePortal Region Selector");
-					shopname.setLore(Arrays.asList("§rThis iron axe with has the power to help"
+					ItemStack regionselector = new ItemStack(Material.IRON_AXE);
+					ItemMeta selectorname = regionselector.getItemMeta();
+					selectorname.setDisplayName("§ePortal Region Selector");
+					selectorname.setLore(Arrays.asList("§rThis iron axe with has the power to help"
 							, "§r create portals bistowed upon it!"));
-					shopitem.setItemMeta(shopname);
+					regionselector.setItemMeta(selectorname);
 					
-					inventory.addItem(shopitem);
+					inventory.addItem(regionselector);
 					sender.sendMessage("§a[§7AdvancedPortals§a] You have been given a §ePortal Region Selector§a!");
 				}
 				else{
