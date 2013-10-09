@@ -27,7 +27,7 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		if(args.length > 0){
 			if(args[0].toLowerCase().equals("wand") || args[0].toLowerCase().equals("selector")){
-				if(sender.hasPermission("AdvancedPortals.create")){
+				if(sender.hasPermission("AdvancedPortals.CreatePortal")){
 					PlayerInventory inventory = player.getInventory();
 					
 					ItemStack regionselector = new ItemStack(Material.IRON_AXE);
@@ -41,8 +41,11 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 					sender.sendMessage("§a[§7AdvancedPortals§a] You have been given a §ePortal Region Selector§a!");
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You do not have permission to create portals so you cannot give yourself a §ePortal Region Selector§c!");
+					PluginMessages.NoPermission(sender, command);
 				}
+			}
+			else{
+				PluginMessages.UnknownCommand(sender, command);
 			}
 		}
 		else{
