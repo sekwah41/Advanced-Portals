@@ -55,7 +55,8 @@ public class Listeners implements Listener {
     				player.setMetadata("Pos1X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
     				player.setMetadata("Pos1Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
     				player.setMetadata("Pos1Z", new FixedMetadataValue(plugin, blockloc.getBlockZ()));
-    				player.sendMessage("§eYou have selected pos1! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY() + " Z:" + blockloc.getBlockZ());
+    				player.setMetadata("Pos1World", new FixedMetadataValue(plugin, blockloc.getWorld().getName()));
+    				player.sendMessage("§eYou have selected pos1! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY() + " Z:" + blockloc.getBlockZ() + " World:" +  blockloc.getWorld().getName());
     				
     				// Stops the event so the block is not damaged
     				event.setCancelled(true);
@@ -67,7 +68,8 @@ public class Listeners implements Listener {
     				player.setMetadata("Pos2X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
     				player.setMetadata("Pos2Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
     				player.setMetadata("Pos2Z", new FixedMetadataValue(plugin, blockloc.getBlockZ()));
-    				player.sendMessage("§eYou have selected pos2! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY() + " Z:" + blockloc.getBlockZ());
+    				player.setMetadata("Pos2World", new FixedMetadataValue(plugin, blockloc.getWorld().getName()));
+    				player.sendMessage("§eYou have selected pos2! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY() + " Z:" + blockloc.getBlockZ() + " World:" +  blockloc.getWorld().getName());
     				
     				// Stops the event so the block is not interacted with
     				event.setCancelled(true);

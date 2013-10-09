@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.sekwah.advancedportals.portalcontrolls.CreatePortal;
+
 public class AdvancedPortalsCommand implements CommandExecutor {
 	
 	private AdvancedPortalsPlugin plugin;
@@ -43,6 +45,9 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 				else{
 					PluginMessages.NoPermission(sender, command);
 				}
+			}
+			else if(args[0].toLowerCase().equals("create")) {
+				// CreatePortal.CreatePortal(pos1, pos2); need to get pos 1 and 2
 			}
 			else{
 				PluginMessages.UnknownCommand(sender, command);
