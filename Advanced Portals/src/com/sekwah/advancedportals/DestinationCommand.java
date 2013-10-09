@@ -1,14 +1,8 @@
 package com.sekwah.advancedportals;
 
-import java.util.Arrays;
-
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class DestinationCommand implements CommandExecutor {
 	
