@@ -19,6 +19,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		// These register the listeners
 		new Listeners(this);
 		
+		Selection.LoadData(this);
+		
 		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
 		
 	}

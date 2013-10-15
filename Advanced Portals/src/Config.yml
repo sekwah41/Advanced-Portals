@@ -6,3 +6,11 @@
 
 # Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
 UseOnlyServerMadeAxe: false
+
+
+ShowSelectionBlockID: WOOL
+ShowSelectionBlockData: 14
+
+
+# This changes how long the show seletion lasts in seconds
+ShowSelectionShowDuration: 3
