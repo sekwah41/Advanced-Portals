@@ -7,30 +7,29 @@ import org.bukkit.entity.Player;
 
 public class Selection {
 	
-	public static Material blockType;
-	public static int timeout;
-	public static byte metadata;
+	public static Material blockType = Material.WOOL;
+	public static int timeout = 10;
+	public static byte metadata = 14;
 	
 	public static void LoadData(AdvancedPortalsPlugin plugin) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		
-		Material blockType;
-		
-		timeout = config.getConfig().getInt("ShowSelectionBlockID");
+		timeout = config.getConfig().getInt("ShowSelectionShowDuration");
 		
 		String BlockID = config.getConfig().getString("ShowSelectionBlockID");
-		try  
-		{  
-			blockType = Material.getMaterial(Integer.parseInt(BlockID)); 
-		}  
-		catch(Exception e)  
-		{  
+		try
+		{
+			blockType = Material.getMaterial(Integer.parseInt(BlockID));
+		}
+		catch(Exception e)
+		{
 			blockType = Material.getMaterial(BlockID);
-		}  
+		}
 		
 		metadata = (byte) config.getConfig().getInt("ShowSelectionBlockData");
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void Show(final Player player, final AdvancedPortalsPlugin plugin) {
 		
 		int LowX = 0;
@@ -69,9 +68,14 @@ public class Selection {
 		final Location pos1 = new Location(player.getWorld(), LowX, LowY, LowZ);
 		final Location pos2 = new Location(player.getWorld(), HighX, HighY, HighZ);
 		
+		/*
+		 * There are alot of for loops at the moment, when i find an easier way to do these other that a load of if statements
+		 * then i will change it, but for now its the best way i can think of for doing this. 
+		 */
+		
 		for(int x = LowX; x <= HighX; x++){
-				Location loc = new Location(player.getWorld(), x, LowY, LowZ);
-				player.sendBlockChange(loc, blockType, metadata);
+			Location loc = new Location(player.getWorld(), x, LowY, LowZ);
+			player.sendBlockChange(loc, blockType, metadata);
 		}
 		for(int x = LowX; x <= HighX; x++){
 			Location loc = new Location(player.getWorld(), x, LowY, HighZ);
@@ -127,6 +131,7 @@ public class Selection {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	protected static void Hide(Player player, AdvancedPortalsPlugin plugin, Location pos1, Location pos2) {
 		
 		int LowX = pos1.getBlockX();

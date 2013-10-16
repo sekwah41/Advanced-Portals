@@ -13,4 +13,5 @@ ShowSelectionBlockData: 14
 
 
 # This changes how long the show seletion lasts in seconds
-ShowSelectionShowDuration: 3
+
+ShowSelectionShowDuration: 10
