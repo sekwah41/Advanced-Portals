@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.sekwah.advancedportals.portalcontrolls.Portals;
+
 public class AdvancedPortalsCommand implements CommandExecutor {
 	
 	private AdvancedPortalsPlugin plugin;
@@ -21,6 +23,7 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 		plugin.getCommand("advancedportals").setExecutor(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		Player player = (Player)sender;
@@ -47,8 +50,22 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 			else if(args[0].toLowerCase().equals("create")) {
 				if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
 					if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
-						player.sendMessage("§a[§eAdvancedPortals§a] Your currently selected area has been shown, it will dissapear shortly!");
-						CreatePortal
+						player.sendMessage("");
+						player.sendMessage("§a[§eAdvancedPortals§a] You have created a new portal with the following details:");
+						boolean hasTriggerBlock = false;
+						Material triggerBlockId = Material.getMaterial(0);
+						if(hasTriggerBlock){
+							
+							try
+							{
+								triggerBlockId = Material.getMaterial(Integer.parseInt("90"));
+							}
+							catch(Exception e)
+							{
+								triggerBlockId = Material.getMaterial("PORTAL");
+							}
+						}
+						Portals.CreatePortal(player, false, triggerBlockId);
 					}
 					else{
 						player.sendMessage("§c[§7AdvancedPortals§c] The points you have selected need to be in the same world!");
