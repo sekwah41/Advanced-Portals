@@ -1,0 +1,21 @@
+portals:
+
+
+#  ExamplePortal:
+#    hastriggerblock: false # if false it will teleport a player when they enter the region, usefull if u want air or just you enter an area.
+#    triggerblock: LAVA # will only be used if the hastriggerblock is true
+#    pos1:
+#      X:
+#      Y:
+#      Z:
+#    pos2:
+#      X:
+#      Y:
+#      Z:
+#    destination:
+#      issetpoint: true # if this was false point name would not be used and the coordinates would be saved here, it just adds more customisation.
+#      pointname: examplepoint # if issetpoint is false this wont be here and tppos will be.
+#      tppos:
+#        X:
+#        Y:
+#        Z:

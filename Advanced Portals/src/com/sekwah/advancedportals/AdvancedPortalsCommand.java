@@ -75,6 +75,9 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 					player.sendMessage("§c[§7AdvancedPortals§c] You need to have two points selected to make a portal!");
 				}
 			}
+			else if(args[0].toLowerCase().equals("select")) {
+				
+			}
 			else if(args[0].toLowerCase().equals("show")){
 				if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
 					if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
