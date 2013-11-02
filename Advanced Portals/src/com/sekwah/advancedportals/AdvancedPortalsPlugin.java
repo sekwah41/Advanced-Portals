@@ -14,6 +14,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         ConfigAccessor config = new ConfigAccessor(this, "Config.yml");
         config.saveDefaultConfig();
 		
+        // Loads the current portal data
+        new Portals(this);
         
         // These register the commands
 		new AdvancedPortalsCommand(this);
