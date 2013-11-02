@@ -6,6 +6,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 	
 	public void onEnable() {
 		
+		// Opens a channel that messages bungeeCord
+		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		
 		// thanks to the new config accessor code the config.saveDefaultConfig(); will now
 		//  only copy the file if it doesnt exist!
         ConfigAccessor config = new ConfigAccessor(this, "Config.yml");
