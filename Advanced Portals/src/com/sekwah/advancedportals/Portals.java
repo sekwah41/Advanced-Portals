@@ -10,6 +10,8 @@ public class Portals {
 	
 	private final AdvancedPortalsPlugin plugin;
 	
+	private List<String> portals;
+	
 	
 	
     public Portals(AdvancedPortalsPlugin plugin) {
@@ -19,8 +21,8 @@ public class Portals {
 	
 	public void loadPortalData(){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
-        List<?> portallist = config.getConfig().getList("portals");
-        if(portallist.size() > 0){
+        List<String> portals = config.getConfig().getStringList("portals");
+        if(portals.size() > 0){
         	
         }
         else{
