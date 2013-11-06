@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.sekwah.advancedportals.portalcontrolls.Portals;
+import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class AdvancedPortalsCommand implements CommandExecutor {
 	
@@ -65,7 +65,7 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 								triggerBlockId = Material.getMaterial("PORTAL");
 							}
 						}
-						Portals.CreatePortal(player, false, triggerBlockId);
+						Portal.create(player, null, null, "portalname");
 					}
 					else{
 						player.sendMessage("§c[§7AdvancedPortals§c] The points you have selected need to be in the same world!");
