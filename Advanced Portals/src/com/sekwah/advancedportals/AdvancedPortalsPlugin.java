@@ -2,6 +2,8 @@ package com.sekwah.advancedportals;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sekwah.advancedportals.portalcontrolls.Portal;
+
 public class AdvancedPortalsPlugin extends JavaPlugin {
 	
 	public void onEnable() {
@@ -16,6 +18,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		
         // Loads the current portal data
         new Portals(this);
+        
+        // Loads the portal and destination editors
+        new Portal(this);
         
         // These register the commands
 		new AdvancedPortalsCommand(this);
