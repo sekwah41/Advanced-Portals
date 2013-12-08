@@ -57,6 +57,8 @@ public class Portal {
 		config.getConfig().set(name + ".creator", player.getName());
 		
 		config.saveConfig();
+		
+		loadPortals();
 	}
 	
 	public static void create(Player player, Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
@@ -74,6 +76,8 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
 		config.getConfig().set(name + ".creator", player.getName());
+		
+		loadPortals();
 	}
 	
 	public static void redefine(Player player, Location pos1, Location pos2, String name){
@@ -89,6 +93,8 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
 		config.saveConfig();
+		
+		loadPortals();
 		
 	}
 	
@@ -109,6 +115,8 @@ public class Portal {
 		config.getConfig().set(name + ".creator", null);
 		
 		config.saveConfig();
+		
+		loadPortals();
 	}
 	
 	

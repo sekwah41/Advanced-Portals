@@ -15,6 +15,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		//  only copy the file if it doesnt exist!
         ConfigAccessor config = new ConfigAccessor(this, "Config.yml");
         config.saveDefaultConfig();
+        
+        ConfigAccessor portalconfig = new ConfigAccessor(this, "Portals.yml");
+        portalconfig.saveDefaultConfig();
 		
         
         // Loads the portal and destination editors
