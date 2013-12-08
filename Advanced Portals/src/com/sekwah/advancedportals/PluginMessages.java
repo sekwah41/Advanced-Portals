@@ -8,7 +8,6 @@ public class PluginMessages {
 	//  easily changed.
 	
 	public static void UnknownCommand(CommandSender sender, String command) {
-		sender.sendMessage(" ");
 		sender.sendMessage("§c[§7AdvancedPortals§c] You need to type something after /" + command + "\n");
 		sender.sendMessage("§cIf you do not know what you can put or would like some help with the commands please type §e" + '"' + "§e/" + command + " help" + '"' + "§c\n");
 	}
