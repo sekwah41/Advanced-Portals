@@ -18,9 +18,9 @@ public class Listeners implements Listener {
 	
 	// The needed config values will be stored so they are easier to access later
 	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("§eP...
-	private boolean UseOnlyServerAxe = false;
+	private static boolean UseOnlyServerAxe = false;
 
-	private Material WandMaterial;
+	private static Material WandMaterial;
 	
     public Listeners(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -41,13 +41,30 @@ public class Listeners implements Listener {
         
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+    
+    public static void reloadValues(AdvancedPortalsPlugin plugin) {
+        
+        ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+        UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
+        
+		String ItemID = config.getConfig().getString("AxeItemId");
+		
+		try
+		{
+			WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
+		}
+		catch(Exception e)
+		{
+			WandMaterial = Material.getMaterial(ItemID);
+		}
+    }
 	
     @EventHandler
     public void onMoveEvent(PlayerMoveEvent event) {
     	// will check if the player is in the portal or not.
     	Object[] portals = Portal.Portals;
     	for(Object portal : portals){
-    		System.out.println(portal.toString());
+    		System.out.println("Checking " + portal.toString());
     	}
     	
     }
