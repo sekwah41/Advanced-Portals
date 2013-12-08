@@ -131,6 +131,7 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 								{
 									triggerBlockId = Material.getMaterial(triggerBlock);
 								}
+								
 							}
 							
 							
@@ -149,19 +150,6 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 							player.sendMessage("§c[§7AdvancedPortals§c] You need to at least add the name of the portal as a variable, §cType §e/portal variables§c"
 									+ " for a full list of currently available variables and an example command!");
 						}
-						/**Material triggerBlockId = Material.getMaterial(0);
-						if(hasTriggerBlock){
-							
-							try
-							{
-								triggerBlockId = Material.getMaterial(Integer.parseInt("90"));
-							}
-							catch(Exception e)
-							{
-								triggerBlockId = Material.getMaterial("PORTAL");
-							}
-						}
-						Portal.create(player, null, null, "portalname");*/
 					}
 					else{
 						player.sendMessage("§c[§7AdvancedPortals§c] The points you have selected need to be in the same world!");
