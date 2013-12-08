@@ -14,10 +14,11 @@ public class Portal {
 	
 	private static AdvancedPortalsPlugin plugin;
 	
-	private static Object[] Portals;
+	public static Object[] Portals;
 	
     public Portal(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
+        this.loadPortals();
     }
     
 	/**
@@ -29,7 +30,7 @@ public class Portal {
 	 * 
 	 */
     
-    public static void load(){
+    public static void loadPortals(){
     	
     	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	Set<String> PortalSet = config.getConfig().getKeys(false);

@@ -2,6 +2,8 @@ package com.sekwah.advancedportals;
 
 import java.util.Arrays;
 
+import net.minecraft.server.v1_7_R1.Item;
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,10 +35,23 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 				if(sender.hasPermission("AdvancedPortals.CreatePortal")){
 					PlayerInventory inventory = player.getInventory();
 					
-					ItemStack regionselector = new ItemStack(Material.IRON_AXE);
+					String ItemID = config.getConfig().getString("AxeItemId");
+					
+					Material WandMaterial;
+					
+					try
+					{
+						WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
+					}
+					catch(Exception e)
+					{
+						WandMaterial = Material.getMaterial(ItemID);
+					}
+					
+					ItemStack regionselector = new ItemStack(WandMaterial);
 					ItemMeta selectorname = regionselector.getItemMeta();
 					selectorname.setDisplayName("§ePortal Region Selector");
-					selectorname.setLore(Arrays.asList("§rThis iron axe with has the power to help"
+					selectorname.setLore(Arrays.asList("§rThis wand with has the power to help"
 							, "§r create portals bistowed upon it!"));
 					regionselector.setItemMeta(selectorname);
 					

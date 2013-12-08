@@ -5,9 +5,13 @@
 
 
 # Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
+# It can be usefull if people with permission want to use an iron axe on a survival server
 UseOnlyServerMadeAxe: false
 
+# Preferably an item and not a block but it shouldnt matter
+AxeItemId: IRON_AXE
 
+# This must be a placeable block or it will not work and may even crash
 ShowSelectionBlockID: WOOL
 ShowSelectionBlockData: 14
 
