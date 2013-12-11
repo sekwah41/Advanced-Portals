@@ -11,8 +11,12 @@ UseOnlyServerMadeAxe: false
 # Preferably an item and not a block but it shouldnt matter
 AxeItemId: IRON_AXE
 
+# This stops all water flowing inside a portal area(can be disabled if something like world edit is handelling the water flow or you dont want it active)
+#    you want to 
+StopWaterFlow: true
+
 # This must be a placeable block or it will not work and may even crash
-ShowSelectionBlockID: WOOL
+ShowSelectionBlockID: STAINED_GLASS
 ShowSelectionBlockData: 14
 
 

@@ -20,7 +20,19 @@ public class DestinationCommand implements CommandExecutor {
 		if(args.length > 0){
 			if(args[0].toLowerCase().equals("create")){
 				if(sender.hasPermission("AdvancedPortals.create")){
-					
+					if(args.length > 1){
+						ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
+						if(posX == null){
+							
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] A destination by that name already exists!!");
+						}
+					}
+					else{
+						sender.sendMessage("§c[§7AdvancedPortals§c] Please state the name of the destination you would like to create!");
+					}
 				}
 				else{
 					sender.sendMessage("§c[§7AdvancedPortals§c] You do not have permission to create portals so you cannot give yourself a §ePortal Region Selector§c!");

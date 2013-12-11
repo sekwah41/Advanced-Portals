@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.portalcontrolls;
 
-import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -16,9 +15,13 @@ public class Portal {
 	
 	public static Object[] Portals;
 	
+	public static Object[] pos1;
+	
+	public static Object[] pos2;
+	
     public Portal(AdvancedPortalsPlugin plugin) {
-        this.plugin = plugin;
-        this.loadPortals();
+        Portal.plugin = plugin;
+        Portal.loadPortals();
     }
     
 	/**
@@ -36,9 +39,15 @@ public class Portal {
     	Set<String> PortalSet = config.getConfig().getKeys(false);
     	Portals = PortalSet.toArray();
     	
+    	for(Object portal: Portals){
+    		portal.toString();
+    		
+    	}
+    	
     }
     
-	public static void create(Player player, Material triggerBlockId, Location pos1, Location pos2 , String name) {
+	@SuppressWarnings("deprecation")
+	public static void create(Player creator, Material triggerBlockId, Location pos1, Location pos2 , String name) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
@@ -54,14 +63,14 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Y", pos2.getY());
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
-		config.getConfig().set(name + ".creator", player.getName());
+		config.getConfig().set(name + ".creator", creator.getName());
 		
 		config.saveConfig();
 		
 		loadPortals();
 	}
 	
-	public static void create(Player player, Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
+	public static void create(Player creator, Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
@@ -75,12 +84,12 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Y", pos2.getY());
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
-		config.getConfig().set(name + ".creator", player.getName());
+		config.getConfig().set(name + ".creator", creator.getName());
 		
 		loadPortals();
 	}
 	
-	public static void redefine(Player player, Location pos1, Location pos2, String name){
+	public static void redefine(Player creator, Location pos1, Location pos2, String name){
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
@@ -98,7 +107,7 @@ public class Portal {
 		
 	}
 	
-	public static void remove(Player player, String name){
+	public static void remove(Player creator, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", null);
