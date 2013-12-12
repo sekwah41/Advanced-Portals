@@ -118,7 +118,6 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 							World world = org.bukkit.Bukkit.getWorld(player.getMetadata("Pos1World").get(0).asString());
 							Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(), player.getMetadata("Pos1Y").get(0).asInt(), player.getMetadata("Pos1Z").get(0).asInt());
 							Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
-							Portal.create(player, pos1, pos2, "portalname");
 														
 							Material triggerBlockId = Material.getMaterial(0);
 							if(hasTriggerBlock){
@@ -136,10 +135,10 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 							
 							
 							if(!hasTriggerBlock || triggerBlockId == null){
-								Portal.create(player, pos1, pos2, "portalname");
+								Portal.create(pos1, pos2, "portalname");
 							}
 							else{
-								Portal.create(player, pos1, pos2, "portalname");
+								Portal.create(pos1, pos2, "portalname", triggerBlockId);
 							}
 							
 							// add code to save the portal to the portal config and reload the portals
