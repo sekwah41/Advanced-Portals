@@ -15,7 +15,7 @@ public class Destination {
     	Destination.plugin = plugin;
     }
 	
-	public void create(Player creator, Location location, String name){
+	public void create(Location location, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
 		config.getConfig().set(name + ".world", location.getWorld().getName());
@@ -24,20 +24,44 @@ public class Destination {
 		config.getConfig().set(name + ".pos.Y", location.getY());
 		config.getConfig().set(name + ".pos.Z", location.getZ());
 		
-		config.getConfig().set(name + ".creator", creator.getName());
+		config.saveConfig();
+	}
+	
+	public void move(Location location, String name){
+		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		
+		config.getConfig().set(name + ".world", location.getWorld().getName());
+		
+		config.getConfig().set(name + ".pos.X", location.getX());
+		config.getConfig().set(name + ".pos.Y", location.getY());
+		config.getConfig().set(name + ".pos.Z", location.getZ());
 		
 		config.saveConfig();
 	}
 	
-	public void move(Player creator, Location location, String name){
+	public void rename(String oldName, String newName){
+		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
+		config.getConfig().set(newName + ".world", config.getConfig().getString(oldName + ".world"));
+		
+		config.getConfig().set(newName + ".pos.X", config.getConfig().getInt(oldName + ".pos.X"));
+		config.getConfig().set(newName + ".pos.Y", config.getConfig().getInt(oldName + ".pos.Y"));
+		config.getConfig().set(newName + ".pos.Z", config.getConfig().getInt(oldName + ".pos.Z"));
+		
+		this.remove(oldName);
+		
+		config.saveConfig();
 	}
 	
-	public void rename(Player creator, String oldName, String newName){
+	public void remove(String name){
+		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
-	}
-	
-	public void remove(Player player, String name){
+		config.getConfig().set(name + ".world", null);
 		
+		config.getConfig().set(name + ".pos.X", null);
+		config.getConfig().set(name + ".pos.Y", null);
+		config.getConfig().set(name + ".pos.Z", null);
+		
+		config.saveConfig();
 	}
 }

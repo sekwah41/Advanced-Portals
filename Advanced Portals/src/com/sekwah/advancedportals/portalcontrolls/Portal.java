@@ -47,13 +47,13 @@ public class Portal {
     }
     
 	@SuppressWarnings("deprecation")
-	public static void create(Player creator, Material triggerBlockId, Location pos1, Location pos2 , String name) {
+	public static void create(Location pos1, Location pos2 , String name, Material triggerBlockId) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
 		config.getConfig().set(name + ".hastriggerblock", true);
 		
-		config.getConfig().set(name + ".triggerblock", triggerBlockId.getId());
+		config.getConfig().set(name + ".triggerblock", triggerBlockId.toString());
 		
 		config.getConfig().set(name + ".pos1.X", pos1.getX());
 		config.getConfig().set(name + ".pos1.Y", pos1.getY());
@@ -63,14 +63,12 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Y", pos2.getY());
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
-		config.getConfig().set(name + ".creator", creator.getName());
-		
 		config.saveConfig();
 		
 		loadPortals();
 	}
 	
-	public static void create(Player creator, Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
+	public static void create(Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
@@ -84,12 +82,10 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.Y", pos2.getY());
 		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
-		config.getConfig().set(name + ".creator", creator.getName());
-		
 		loadPortals();
 	}
 	
-	public static void redefine(Player creator, Location pos1, Location pos2, String name){
+	public static void redefine(Location pos1, Location pos2, String name){
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
@@ -107,7 +103,7 @@ public class Portal {
 		
 	}
 	
-	public static void remove(Player creator, String name){
+	public static void remove(String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", null);
@@ -120,8 +116,6 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.X", null);
 		config.getConfig().set(name + ".pos2.Y", null);
 		config.getConfig().set(name + ".pos2.Z", null);
-		
-		config.getConfig().set(name + ".creator", null);
 		
 		config.saveConfig();
 		

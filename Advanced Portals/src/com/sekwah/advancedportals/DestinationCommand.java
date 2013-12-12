@@ -27,7 +27,7 @@ public class DestinationCommand implements CommandExecutor {
 							
 						}
 						else{
-							sender.sendMessage("§c[§7AdvancedPortals§c] A destination by that name already exists!!");
+							sender.sendMessage("§c[§7AdvancedPortals§c] A destination by that name already exists!");
 						}
 					}
 					else{
