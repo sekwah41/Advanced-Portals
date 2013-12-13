@@ -11,6 +11,9 @@ UseOnlyServerMadeAxe: false
 # Preferably an item and not a block but it shouldnt matter
 AxeItemId: IRON_AXE
 
+# Will be implemented so you can give yourself the portal block and build manually with it so its easier to make portals with the portal block.
+CanBuildPortalBlock: true
+
 # This stops all water flowing inside a portal area(can be disabled if something like world edit is handelling the water flow or you dont want it active)
 #    you want to 
 StopWaterFlow: true
