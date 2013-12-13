@@ -135,10 +135,10 @@ public class AdvancedPortalsCommand implements CommandExecutor {
 							
 							
 							if(!hasTriggerBlock || triggerBlockId == null){
-								Portal.create(pos1, pos2, "portalname");
+								Portal.create(pos1, pos2, "portalname", destination);
 							}
 							else{
-								Portal.create(pos1, pos2, "portalname", triggerBlockId);
+								Portal.create(pos1, pos2, "portalname", destination, triggerBlockId);
 							}
 							
 							// add code to save the portal to the portal config and reload the portals

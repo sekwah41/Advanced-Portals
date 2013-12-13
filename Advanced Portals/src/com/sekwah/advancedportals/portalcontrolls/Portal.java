@@ -47,13 +47,15 @@ public class Portal {
     }
     
 	@SuppressWarnings("deprecation")
-	public static void create(Location pos1, Location pos2 , String name, Material triggerBlockId) {
+	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlockId) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
 		config.getConfig().set(name + ".hastriggerblock", true);
 		
 		config.getConfig().set(name + ".triggerblock", triggerBlockId.toString());
+		
+		config.getConfig().set(name + ".destination", destination);
 		
 		config.getConfig().set(name + ".pos1.X", pos1.getX());
 		config.getConfig().set(name + ".pos1.Y", pos1.getY());
@@ -68,11 +70,13 @@ public class Portal {
 		loadPortals();
 	}
 	
-	public static void create(Location pos1, Location pos2, String name) { // add stuff for destination names or coordinates
+	public static void create(Location pos1, Location pos2, String name, String destination) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name + ".world", pos1.getWorld().getName());
 		config.getConfig().set(name + ".hastriggerblock", false);
+		
+		config.getConfig().set(name + ".destination", destination);
 		
 		config.getConfig().set(name + ".pos1.X", pos1.getX());
 		config.getConfig().set(name + ".pos1.Y", pos1.getY());
