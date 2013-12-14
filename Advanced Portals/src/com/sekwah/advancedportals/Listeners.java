@@ -10,6 +10,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import org.bukkit.event.player.PlayerPortalEvent;
+
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class Listeners implements Listener {
@@ -22,11 +24,12 @@ public class Listeners implements Listener {
 
 	private static Material WandMaterial;
 	
-    public Listeners(AdvancedPortalsPlugin plugin) {
+    @SuppressWarnings("deprecation")
+	public Listeners(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
         
         ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
-        this.UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
+        UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
         
 		String ItemID = config.getConfig().getString("AxeItemId");
 		
@@ -42,7 +45,8 @@ public class Listeners implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    public static void reloadValues(AdvancedPortalsPlugin plugin) {
+    @SuppressWarnings("deprecation")
+	public static void reloadValues(AdvancedPortalsPlugin plugin) {
         
         ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
@@ -64,9 +68,16 @@ public class Listeners implements Listener {
     	// will check if the player is in the portal or not.
     	Object[] portals = Portal.Portals;
     	for(Object portal : portals){
+    		
     		System.out.println("Checking " + portal.toString());
     	}
     	
+    }
+    
+    @SuppressWarnings("deprecation")
+    @EventHandler
+    public void onPortalEvent(PlayerPortalEvent event) {
+    	// check if the portal is inside the region so it doesnt teleport you to the nether
     }
     
     @SuppressWarnings("deprecation")

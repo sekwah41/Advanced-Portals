@@ -14,6 +14,9 @@ AxeItemId: IRON_AXE
 # Will be implemented so you can give yourself the portal block and build manually with it so its easier to make portals with the portal block.
 CanBuildPortalBlock: true
 
+# What the default trigger block is for portals if nothing is defined.
+DefaultPortalTriggerBlock: PORTAL
+
 # This stops all water flowing inside a portal area(can be disabled if something like world edit is handelling the water flow or you dont want it active)
 #    you want to 
 StopWaterFlow: true

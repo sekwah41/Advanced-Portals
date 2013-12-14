@@ -1,7 +1,11 @@
 package com.sekwah.advancedportals;
 
+import java.io.IOException;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
@@ -18,19 +22,34 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         
         ConfigAccessor portalconfig = new ConfigAccessor(this, "Portals.yml");
         portalconfig.saveDefaultConfig();
+        
+        ConfigAccessor destinationconfig = new ConfigAccessor(this, "Destinations.yml");
+        destinationconfig.saveDefaultConfig();
 		
         
         // Loads the portal and destination editors
         new Portal(this);
+        new Destination(this);
         
         // These register the commands
 		new AdvancedPortalsCommand(this);
 		new DestinationCommand(this);
 		
+		
 		// These register the listeners
 		new Listeners(this);
 		
+		new FlowStopper(this);
+		new PortalPlacer(this);
+		
 		Selection.LoadData(this);
+		
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}
 		
 		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
 		
