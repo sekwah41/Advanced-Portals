@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
@@ -12,13 +13,15 @@ public class Portal {
 	
 	private static AdvancedPortalsPlugin plugin;
 	
-	public static Object[] Portals;
+	public static String[] Portals;
 	
-	public static Object[] triggers;
+	public static Material[] triggers;
 	
-	public static Object[] pos1;
+	public static World[] world;
 	
-	public static Object[] pos2;
+	public static Location[] pos1;
+	
+	public static Location[] pos2;
 	
     public Portal(AdvancedPortalsPlugin plugin) {
         Portal.plugin = plugin;
@@ -38,14 +41,27 @@ public class Portal {
     	
     	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	Set<String> PortalSet = config.getConfig().getKeys(false);
-    	Portals = PortalSet.toArray();
+    	Portals = (String[]) PortalSet.toArray();
     	int portalId = 0;
-    	for(Object portal: Portals){
+    	for(String portal: Portals){
     		portal.toString();
-    		triggers[portalId] = config.getConfig().getString(portal.toString() + ".triggerblock");
-    		// pos1[portalId] = config.getConfig().getString(portal.toString() + ".triggerblock"); // will be a location
-    		// pos2[portalId] = config.getConfig().getString(portal.toString() + ".triggerblock"); // will be a location
-    		portalId++;
+    		Material blockType;
+    		String BlockID = config.getConfig().getString(portal.toString() + ".triggerblock");
+    		try
+    		{
+    			blockType = Material.getMaterial(Integer.parseInt(BlockID));
+    		}
+    		catch(Exception e)
+    		{
+    			blockType = Material.getMaterial(BlockID);
+    		}
+    		triggers[portalId] = blockType;
+    		
+    		world[portalId] = org.bukkit.Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
+			pos1[portalId] = new Location(world[portalId], config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));
+			pos2[portalId] = new Location(world[portalId], config.getConfig().getInt(portal.toString() + ".pos2.X"), config.getConfig().getInt(portal.toString() + ".pos2.Y"), config.getConfig().getInt(portal.toString() + ".pos2.Z"));
+    		
+			portalId++;
     	}
     	
     }
