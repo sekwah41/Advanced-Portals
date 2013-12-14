@@ -1,10 +1,20 @@
 package com.sekwah.advancedportals;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
-public class DestinationCommand implements CommandExecutor {
+import com.sekwah.advancedportals.destinations.Destination;
+
+public class DestinationCommand implements CommandExecutor, TabCompleter {
 	
 	private AdvancedPortalsPlugin plugin;
 	
@@ -24,7 +34,9 @@ public class DestinationCommand implements CommandExecutor {
 						ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
 						if(posX == null){
-							
+							sender.sendMessage("§c[§7AdvancedPortals§c] You have created a new destination called " + args[1] +  "!");
+							Player player = sender.getServer().getPlayer(sender.getName());
+							Destination.create(player.getLocation(), args[1]);
 						}
 						else{
 							sender.sendMessage("§c[§7AdvancedPortals§c] A destination by that name already exists!");
@@ -44,6 +56,27 @@ public class DestinationCommand implements CommandExecutor {
 					+ "if you do not know what you can put or would like some help with the commands please type /" + command + " help");
 		}
 		return true;
+	}
+
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
+		LinkedList<String> autoComplete = new LinkedList<String>();
+		
+		if(sender.hasPermission("AdvancedPortals.CreatePortal")){
+			if(args.length == 1){
+				autoComplete.addAll(Arrays.asList("create", "goto", "redefine", "move", "rename", "remove"));
+			}
+			else if(args[0].toLowerCase().equals("create")){
+			}
+		}
+		Collections.sort(autoComplete);
+		for(Object result: autoComplete.toArray()){
+			if(!result.toString().startsWith(args[args.length - 1])){
+				autoComplete.remove(result);
+			}
+		}
+		return autoComplete;
 	}
 
 

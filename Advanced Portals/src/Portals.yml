@@ -1,7 +1,6 @@
 
 #  ExamplePortal:
 #    world: it will be the world name
-#    hastriggerblock: false # if false it will teleport a player when they enter the region, usefull if u want air or just you enter an area.
 #    triggerblock: LAVA # will only be used if the hastriggerblock is true and can be id or text
 #    pos1:
 #      X:

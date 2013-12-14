@@ -11,6 +11,7 @@ public class Selection {
 	public static int timeout = 10;
 	public static byte metadata = 14;
 	
+	@SuppressWarnings("deprecation")
 	public static void LoadData(AdvancedPortalsPlugin plugin) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		
@@ -24,6 +25,10 @@ public class Selection {
 		catch(Exception e)
 		{
 			blockType = Material.getMaterial(BlockID);
+		}
+		
+		if(blockType == null){
+			blockType = Material.STAINED_GLASS;
 		}
 		
 		metadata = (byte) config.getConfig().getInt("ShowSelectionBlockData");

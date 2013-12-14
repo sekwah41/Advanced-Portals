@@ -1,11 +1,8 @@
 package com.sekwah.advancedportals.destinations;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class Destination {
 	
@@ -15,31 +12,31 @@ public class Destination {
     	Destination.plugin = plugin;
     }
 	
-	public void create(Location location, String name){
+	public static void create(Location location, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
-		config.getConfig().set(name + ".world", location.getWorld().getName());
+		config.getConfig().set(name.toLowerCase() + ".world", location.getWorld().getName());
 		
-		config.getConfig().set(name + ".pos.X", location.getX());
-		config.getConfig().set(name + ".pos.Y", location.getY());
-		config.getConfig().set(name + ".pos.Z", location.getZ());
+		config.getConfig().set(name.toLowerCase() + ".pos.X", location.getX());
+		config.getConfig().set(name.toLowerCase() + ".pos.Y", location.getY());
+		config.getConfig().set(name.toLowerCase() + ".pos.Z", location.getZ());
 		
 		config.saveConfig();
 	}
 	
-	public void move(Location location, String name){
+	public static void move(Location location, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
-		config.getConfig().set(name + ".world", location.getWorld().getName());
+		config.getConfig().set(name.toLowerCase() + ".world", location.getWorld().getName());
 		
-		config.getConfig().set(name + ".pos.X", location.getX());
-		config.getConfig().set(name + ".pos.Y", location.getY());
-		config.getConfig().set(name + ".pos.Z", location.getZ());
+		config.getConfig().set(name.toLowerCase() + ".pos.X", location.getX());
+		config.getConfig().set(name.toLowerCase() + ".pos.Y", location.getY());
+		config.getConfig().set(name.toLowerCase() + ".pos.Z", location.getZ());
 		
 		config.saveConfig();
 	}
 	
-	public void rename(String oldName, String newName){
+	public static void rename(String oldName, String newName){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
 		config.getConfig().set(newName + ".world", config.getConfig().getString(oldName + ".world"));
@@ -48,12 +45,12 @@ public class Destination {
 		config.getConfig().set(newName + ".pos.Y", config.getConfig().getInt(oldName + ".pos.Y"));
 		config.getConfig().set(newName + ".pos.Z", config.getConfig().getInt(oldName + ".pos.Z"));
 		
-		this.remove(oldName);
+		remove(oldName);
 		
 		config.saveConfig();
 	}
 	
-	public void remove(String name){
+	public static void remove(String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
 		config.getConfig().set(name + ".world", null);

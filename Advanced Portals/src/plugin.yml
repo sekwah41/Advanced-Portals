@@ -12,3 +12,11 @@ commands:
         description: Can be used to access portal destinations.
         aliases: [desti]
         usage: /<command>
+permissions:
+   advancedportals.*:
+     description: Gives access to all portal commands
+     children:
+       advancedportals.createportal: true
+   advancedportals.createportal:
+     description: Allows you to create portals
+     default: op
