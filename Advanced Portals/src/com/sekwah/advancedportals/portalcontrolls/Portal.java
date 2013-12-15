@@ -2,22 +2,28 @@ package com.sekwah.advancedportals.portalcontrolls;
 
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.DataCollector.DataCollector;
+import com.sekwah.advancedportals.destinations.Destination;
 
 public class Portal {
 	
 	private static AdvancedPortalsPlugin plugin;
 	
-	public static String[] Portals;
+	public static boolean portalsActive = true;
+	
+	public static Object[] Portals;
 	
 	public static Material[] triggers;
 	
-	public static World[] world;
+	public static String[] worldName;
 	
 	public static Location[] pos1;
 	
@@ -41,32 +47,81 @@ public class Portal {
     	
     	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	Set<String> PortalSet = config.getConfig().getKeys(false);
-    	Portals = (String[]) PortalSet.toArray();
-    	int portalId = 0;
-    	for(String portal: Portals){
-    		portal.toString();
-    		Material blockType;
-    		String BlockID = config.getConfig().getString(portal.toString() + ".triggerblock");
-    		try
-    		{
-    			blockType = Material.getMaterial(Integer.parseInt(BlockID));
-    		}
-    		catch(Exception e)
-    		{
-    			blockType = Material.getMaterial(BlockID);
-    		}
-    		triggers[portalId] = blockType;
-    		
-    		world[portalId] = org.bukkit.Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
-			pos1[portalId] = new Location(world[portalId], config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));
-			pos2[portalId] = new Location(world[portalId], config.getConfig().getInt(portal.toString() + ".pos2.X"), config.getConfig().getInt(portal.toString() + ".pos2.Y"), config.getConfig().getInt(portal.toString() + ".pos2.Z"));
-    		
-			portalId++;
+    	if(PortalSet.size() > 0){
+        	Portals = PortalSet.toArray();
+        	
+        	// allocates the memory for the arrays
+        	worldName = new String[Portals.length];
+        	triggers = new Material[Portals.length];
+        	pos1 = new Location[Portals.length];
+        	pos2 = new Location[Portals.length];
+        	
+        	int portalId = 0;
+        	for(Object portal: Portals){
+        		
+        		Material blockType;
+        		String BlockID = config.getConfig().getString(portal.toString() + ".triggerblock");
+        		try
+        		{
+        			blockType = Material.getMaterial(Integer.parseInt(BlockID));
+        		}
+        		catch(Exception e)
+        		{
+        			blockType = Material.getMaterial(BlockID);
+        		}
+        		triggers[portalId] = blockType;
+        		
+        		worldName[portalId] = config.getConfig().getString(portal.toString() + ".world");
+        		World world = Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
+    			pos1[portalId] = new Location(world, config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));
+    			pos2[portalId] = new Location(world, config.getConfig().getInt(portal.toString() + ".pos2.X"), config.getConfig().getInt(portal.toString() + ".pos2.Y"), config.getConfig().getInt(portal.toString() + ".pos2.Z"));
+        		
+    			portalId++;
+        	}
+        	portalsActive = true;
+    	}
+    	else{
+    		portalsActive = false;
     	}
     	
     }
     
 	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlockId) {
+		
+		
+		int LowX = 0;
+		int LowY = 0;		
+		int LowZ = 0;
+		
+		int HighX = 0;
+		int HighY = 0;
+		int HighZ = 0;
+		
+		if(pos1.getX() > pos2.getX()){
+			LowX = (int) pos2.getX();
+			HighX = (int) pos1.getX();
+		}
+		else{
+			LowX = (int) pos1.getX();
+			HighX = (int) pos2.getX();
+		}
+		if(pos1.getY() > pos2.getY()){
+			LowY = (int) pos2.getY();
+			HighY = (int) pos1.getY();
+		}
+		else{
+			LowY = (int) pos1.getY();
+			HighY = (int) pos2.getY();
+		}
+		if(pos1.getZ() > pos2.getZ()){
+			LowZ = (int) pos2.getZ();
+			HighZ = (int) pos1.getZ();
+		}
+		else{
+			LowZ = (int) pos1.getZ();
+			HighZ = (int) pos2.getZ();
+		}
+		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", pos1.getWorld().getName());
@@ -75,15 +130,17 @@ public class Portal {
 		
 		config.getConfig().set(name.toLowerCase() + ".destination", destination);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos1.X", pos1.getX());
-		config.getConfig().set(name.toLowerCase() + ".pos1.Y", pos1.getY());
-		config.getConfig().set(name.toLowerCase() + ".pos1.Z", pos1.getZ());
+		config.getConfig().set(name.toLowerCase() + ".pos1.X", HighX);
+		config.getConfig().set(name.toLowerCase() + ".pos1.Y", HighY);
+		config.getConfig().set(name.toLowerCase() + ".pos1.Z", HighZ);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos2.X", pos2.getX());
-		config.getConfig().set(name.toLowerCase() + ".pos2.Y", pos2.getY());
-		config.getConfig().set(name.toLowerCase() + ".pos2.Z", pos2.getZ());
+		config.getConfig().set(name.toLowerCase() + ".pos2.X", LowX);
+		config.getConfig().set(name.toLowerCase() + ".pos2.Y", LowY);
+		config.getConfig().set(name.toLowerCase() + ".pos2.Z", LowZ);
 		
 		config.saveConfig();
+		
+		DataCollector.portalCreated(triggerBlockId.toString());
 		
 		loadPortals();
 	}
@@ -134,7 +191,8 @@ public class Portal {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", null);
-		config.getConfig().set(name.toLowerCase() + ".hastriggerblock", null);
+		config.getConfig().set(name.toLowerCase() + ".triggerblock", null);
+		config.getConfig().set(name.toLowerCase() + ".destination", null);
 		
 		config.getConfig().set(name.toLowerCase() + ".pos1.X", null);
 		config.getConfig().set(name.toLowerCase() + ".pos1.Y", null);
@@ -144,9 +202,22 @@ public class Portal {
 		config.getConfig().set(name.toLowerCase() + ".pos2.Y", null);
 		config.getConfig().set(name.toLowerCase() + ".pos2.Z", null);
 		
+		config.getConfig().set(name.toLowerCase() + ".pos1", null);
+		config.getConfig().set(name.toLowerCase() + ".pos2", null);
+		
+		config.getConfig().set(name.toLowerCase(), null);
+		
 		config.saveConfig();
 		
 		loadPortals();
+	}
+
+	public static void activate(Player player, String portalName) {
+		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+		
+		Destination.warp(player, config.getConfig().getString(portalName + ".destination"));
+		
+		
 	}
 	
 	

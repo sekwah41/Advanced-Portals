@@ -7,6 +7,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
+import com.sekwah.advancedportals.portalcontrolls.Portal;
+
 public class FlowStopper implements Listener {
 
 	@SuppressWarnings("unused")
@@ -27,22 +29,41 @@ public class FlowStopper implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockFromTo(BlockFromToEvent event) {
 		// when checking positions check the block and the to block
 		Block blockTo = event.getToBlock();
 		Block block = event.getBlock();
-		if (block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER
-				|| blockTo.getType() == Material.WATER || blockTo.getType() == Material.STATIONARY_WATER) {
+		
+		Object[] portals = Portal.Portals;
+		int portalId = 0;
+		for(Object portal : portals){
+			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
 
-			event.setCancelled(true);
+				if((Portal.pos1[portalId].getX() + 3D) >= block.getX() && (Portal.pos1[portalId].getY() + 3D) >= block.getY() && (Portal.pos1[portalId].getZ() + 3D) >= block.getZ()){
 
-		}
-		else if (block.getType() == Material.LAVA || block.getType() == Material.STATIONARY_LAVA
-				|| blockTo.getType() == Material.LAVA || blockTo.getType() == Material.STATIONARY_LAVA) {
+					if((Portal.pos2[portalId].getX() - 3D) <= block.getX() && (Portal.pos2[portalId].getY() - 3D) <= block.getY() && (Portal.pos2[portalId].getZ() - 3D) <= block.getZ()){
+						
+						event.setCancelled(true);
 
-			event.setCancelled(true);
+					}
+				}
 
+			}
+			
+			if(Portal.worldName[portalId].equals(blockTo.getWorld().getName())){
+
+				if((Portal.pos1[portalId].getX() + 3D) >= blockTo.getX() && (Portal.pos1[portalId].getY() + 3D) >= blockTo.getY() && (Portal.pos1[portalId].getZ() + 3D) >= blockTo.getZ()){
+
+					if((Portal.pos2[portalId].getX() - 3D) <= blockTo.getX() && (Portal.pos2[portalId].getY() - 3D) <= blockTo.getY() && (Portal.pos2[portalId].getZ() - 3D) <= blockTo.getZ()){
+						
+						event.setCancelled(true);
+
+					}
+				}
+
+			}
+			portalId++;
 		}
 	}
 

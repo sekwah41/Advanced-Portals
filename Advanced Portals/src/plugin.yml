@@ -17,6 +17,10 @@ permissions:
      description: Gives access to all portal commands
      children:
        advancedportals.createportal: true
+       advancedportals.build: true
    advancedportals.createportal:
      description: Allows you to create portals
+     default: op
+   advancedportals.build:
+     description: Allows you to build in the portal regions
      default: op

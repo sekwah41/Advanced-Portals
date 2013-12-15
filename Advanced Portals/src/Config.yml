@@ -14,6 +14,12 @@ AxeItemId: IRON_AXE
 # Will be implemented so you can give yourself the portal block and build manually with it so its easier to make portals with the portal block.
 CanBuildPortalBlock: true
 
+# Defines if portals protect themselves
+PortalProtection: true
+
+# How many blocks around the portals will be protected from griefing or destruction
+PortalProtectionRadius: 5
+
 # What the default trigger block is for portals if nothing is defined.
 DefaultPortalTriggerBlock: PORTAL
 

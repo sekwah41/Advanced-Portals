@@ -1,17 +1,20 @@
 package com.sekwah.advancedportals;
 
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-
 import org.bukkit.event.player.PlayerPortalEvent;
 
+import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class Listeners implements Listener {
@@ -63,13 +66,42 @@ public class Listeners implements Listener {
 		}
     }
 	
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onMoveEvent(PlayerMoveEvent event) {
     	// will check if the player is in the portal or not.
-    	Object[] portals = Portal.Portals;
-    	for(Object portal : portals){
-    		
-    		System.out.println("Checking " + portal.toString());
+    	if(Portal.portalsActive){
+        	Player player = event.getPlayer();
+        	Location loc = player.getLocation();
+        	Object[] portals = Portal.Portals;
+        	int portalId = 0;
+        	for(Object portal : portals){
+        		if(Portal.worldName[portalId].equals(player.getWorld().getName())){
+        			if(Portal.triggers[portalId].equals(player.getLocation().getBlock().getType())
+        					|| Portal.triggers[portalId].equals(player.getEyeLocation().getBlock().getType())){
+        				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
+        					if(Portal.pos2[portalId].getX() <= loc.getX() && Portal.pos2[portalId].getY() <= loc.getY() && Portal.pos2[portalId].getZ() <= loc.getZ()){
+        						Portal.activate(player, portal.toString());
+        						
+        						DataCollector.playerWarped();
+        						
+        						final Player finalplayer = event.getPlayer();
+        						if(player.getGameMode().equals(GameMode.CREATIVE)){
+        							player.setMetadata("HasWarped", new FixedMetadataValue(plugin, true));
+            				        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+            							public void run(){
+            								finalplayer.removeMetadata("HasWarped", plugin);
+            							}
+            						}, 20);
+        						}
+        						
+        					}
+        				}
+        				
+        			}
+        		}
+        		portalId++;
+        	}
+        	
     	}
     	
     }
@@ -77,7 +109,36 @@ public class Listeners implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPortalEvent(PlayerPortalEvent event) {
-    	// check if the portal is inside the region so it doesnt teleport you to the nether
+
+    	if(Portal.portalsActive){
+    		Player player = event.getPlayer();
+    		
+			if(player.hasMetadata("HasWarped")){
+				event.setCancelled(true);
+				return;
+			}
+			
+    		Location loc = player.getLocation();
+    		Object[] portals = Portal.Portals;
+    		int portalId = 0;
+    		for(Object portal : portals){
+    			if(Portal.worldName[portalId].equals(player.getWorld().getName())){
+
+    				if((Portal.pos1[portalId].getX() + 3D) >= loc.getX() && (Portal.pos1[portalId].getY() + 3D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 3D) >= loc.getZ()){
+
+    					if((Portal.pos2[portalId].getX() - 3D) <= loc.getX() && (Portal.pos2[portalId].getY() - 3D) <= loc.getY() && (Portal.pos2[portalId].getZ() - 3D) <= loc.getZ()){
+    						
+    						event.setCancelled(true);
+
+    					}
+    				}
+
+    			}
+    			portalId++;
+    		}
+
+    	}
+
     }
     
     @SuppressWarnings("deprecation")
