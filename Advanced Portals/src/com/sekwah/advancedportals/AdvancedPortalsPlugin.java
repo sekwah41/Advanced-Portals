@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
@@ -31,6 +32,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         new Portal(this);
         new Destination(this);
         
+        new DataCollector(this);
+        
         // These register the commands
 		new AdvancedPortalsCommand(this);
 		new DestinationCommand(this);
@@ -40,6 +43,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		new Listeners(this);
 		
 		new FlowStopper(this);
+		new PortalProtect(this);
 		new PortalPlacer(this);
 		
 		Selection.LoadData(this);

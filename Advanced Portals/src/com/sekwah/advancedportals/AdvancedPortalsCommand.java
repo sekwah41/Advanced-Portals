@@ -183,10 +183,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				else if(args[0].toLowerCase().equals("select")) {
 
 				}
-				else if(args[0].toLowerCase().equals("reload")) {
-					player.sendMessage("§a[§eAdvancedPortals§a] Reloaded values!");
-					Listeners.reloadValues(plugin);
-					Portal.loadPortals();
+				else if(args[0].toLowerCase().equals("remove")) {
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+					if(posX != null){
+						Portal.remove(args[1]);
+						sender.sendMessage("§a[§eAdvancedPortals§a] Portal removed!");
+					}
+					else{
+						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+					}
 				}
 				else if(args[0].toLowerCase().equals("bukkitpage")) {
 					player.sendMessage("§a[§eAdvancedPortals§a] Bukkit page: (insert bitly link)!");
@@ -234,7 +240,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		LinkedList<String> autoComplete = new LinkedList<String>();
 		if(sender.hasPermission("AdvancedPortals.CreatePortal")){
 			if(args.length == 1){
-				autoComplete.addAll(Arrays.asList("create", "portal", "portalblock", "reload", "select", "selector"
+				autoComplete.addAll(Arrays.asList("create", "portal", "portalblock", "select", "selector"
 						, "show", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
 			}
 			else if(args[0].toLowerCase().equals("create")){
