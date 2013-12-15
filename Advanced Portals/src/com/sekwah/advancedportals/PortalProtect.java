@@ -104,6 +104,7 @@ public class PortalProtect implements Listener {
     					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
     						
     						blockList.remove(i);
+    						i--;
 
     					}
     				}
