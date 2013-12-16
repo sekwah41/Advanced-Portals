@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.portalcontrolls;
 
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -214,8 +215,26 @@ public class Portal {
 
 	public static void activate(Player player, String portalName) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+
+		if(config.getConfig().getString(portalName + ".destination") != null){
+			ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
+			String destiName = config.getConfig().getString(portalName + ".destination");
+			if(configDesti.getConfig().getString(destiName  + ".world") != null){
+				Destination.warp(player, destiName);
+			}
+			else{
+				player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
+				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+						+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
+			}
+		}
+		else{
+			player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
+			plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+					+ "attempt and either the data is corrupt or portal doesn't exist!");
+		}
 		
-		Destination.warp(player, config.getConfig().getString(portalName + ".destination"));
+		// add code for if the portal doesnt have a destination but a teleport location
 		
 		
 	}
