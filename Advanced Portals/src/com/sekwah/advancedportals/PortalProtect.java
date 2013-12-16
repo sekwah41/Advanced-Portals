@@ -91,6 +91,7 @@ public class PortalProtect implements Listener {
  	
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event){
+    	// Debug this as is was working at one point but it has stopped working
     	List<Block> blockList = event.blockList();
     	for (int i = 0; i < blockList.size(); i++) {
     		Block block = blockList.get(i);
