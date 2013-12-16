@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.destinations;
 
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -96,6 +98,10 @@ public class Destination {
 			loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
 			
 			player.teleport(loc);
+		}
+		else{
+			plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
+					+ "attempt and either the data is corrupt or that destination doesn't exist!");
 		}
 		
 	}
