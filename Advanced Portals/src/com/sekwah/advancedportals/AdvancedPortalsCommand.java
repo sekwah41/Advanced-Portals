@@ -123,7 +123,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									player.sendMessage("§atriggerBlock: §e" + triggerBlock);
 								}
 								else{
-									player.sendMessage("§ctriggerBlock: §eN/A");
+									ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+									player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 								}
 
 								World world = org.bukkit.Bukkit.getWorld(player.getMetadata("Pos1World").get(0).asString());
