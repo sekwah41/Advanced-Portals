@@ -80,9 +80,12 @@ public class Listeners implements Listener {
         					|| Portal.triggers[portalId].equals(player.getEyeLocation().getBlock().getType())){
         				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
         					if(Portal.pos2[portalId].getX() <= loc.getX() && Portal.pos2[portalId].getY() <= loc.getY() && Portal.pos2[portalId].getZ() <= loc.getZ()){
-        						Portal.activate(player, portal.toString());
+        						
+        						boolean warped = Portal.activate(player, portal.toString());
         						
         						DataCollector.playerWarped();
+        						
+        						// event.setCancelled(!warped); fix the warpback
         						
         						final Player finalplayer = event.getPlayer();
         						if(player.getGameMode().equals(GameMode.CREATIVE)){

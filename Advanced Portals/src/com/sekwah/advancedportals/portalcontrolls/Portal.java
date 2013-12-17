@@ -213,25 +213,30 @@ public class Portal {
 		loadPortals();
 	}
 
-	public static void activate(Player player, String portalName) {
+	public static boolean activate(Player player, String portalName) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
-
+		
+		// add other variables or filter code here, or somehow have a way to register them
+		
 		if(config.getConfig().getString(portalName + ".destination") != null){
 			ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 			String destiName = config.getConfig().getString(portalName + ".destination");
 			if(configDesti.getConfig().getString(destiName  + ".world") != null){
-				Destination.warp(player, destiName);
+				boolean warped = Destination.warp(player, destiName);
+				return warped;
 			}
 			else{
 				player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
 				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 						+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
+				return false;
 			}
 		}
 		else{
 			player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
 			plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 					+ "attempt and either the data is corrupt or portal doesn't exist!");
+			return false;
 		}
 		
 		// add code for if the portal doesnt have a destination but a teleport location

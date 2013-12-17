@@ -83,7 +83,7 @@ public class Destination {
 		config.saveConfig();
 	}
 	
-	public static void warp(Player player, String name){
+	public static boolean warp(Player player, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		if(config.getConfig().getString(name + ".world") != null){
 			Location loc = player.getLocation();
@@ -98,10 +98,13 @@ public class Destination {
 			loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
 			
 			player.teleport(loc);
+			
+			return true;
 		}
 		else{
 			plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
 					+ "attempt and either the data is corrupt or that destination doesn't exist!");
+			return false;
 		}
 		
 	}
