@@ -16,8 +16,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class PortalProtect implements Listener {
-
-	@SuppressWarnings("unused")
+	
 	private final AdvancedPortalsPlugin plugin;
 
 	// The needed config values will be stored so they are easier to access later
@@ -101,13 +100,14 @@ public class PortalProtect implements Listener {
     			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
 
     				if((Portal.pos1[portalId].getX() + PortalProtectionRadius) >= block.getX() && (Portal.pos1[portalId].getY() + PortalProtectionRadius) >= block.getY() && (Portal.pos1[portalId].getZ() + PortalProtectionRadius) >= block.getZ()){
-
+    					
     					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
-    						
+    						System.out.println("Remove");
     						blockList.remove(i);
     						i--;
 
     					}
+    					
     				}
 
     			}
