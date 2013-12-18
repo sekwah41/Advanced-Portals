@@ -90,7 +90,6 @@ public class PortalProtect implements Listener {
  	
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event){
-    	// Debug this as is was working at one point but it has stopped working
     	List<Block> blockList = event.blockList();
     	for (int i = 0; i < blockList.size(); i++) {
     		Block block = blockList.get(i);
@@ -102,7 +101,6 @@ public class PortalProtect implements Listener {
     				if((Portal.pos1[portalId].getX() + PortalProtectionRadius) >= block.getX() && (Portal.pos1[portalId].getY() + PortalProtectionRadius) >= block.getY() && (Portal.pos1[portalId].getZ() + PortalProtectionRadius) >= block.getZ()){
     					
     					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
-    						System.out.println("Remove");
     						blockList.remove(i);
     						i--;
 
@@ -111,6 +109,7 @@ public class PortalProtect implements Listener {
     				}
 
     			}
+    			portalId++;
     		}
     	}
     }
