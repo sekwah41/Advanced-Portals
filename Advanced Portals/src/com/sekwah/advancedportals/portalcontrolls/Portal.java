@@ -233,7 +233,7 @@ public class Portal {
 			}
 		}
 		else{
-			player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
+			player.sendMessage("§cThe portal you are trying to use doesn't have a destination!");
 			plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 					+ "attempt and either the data is corrupt or portal doesn't exist!");
 			return false;

@@ -86,21 +86,25 @@ public class Listeners implements Listener {
         						
         						boolean warped = Portal.activate(player, portal.toString());
         						
-        						DataCollector.playerWarped();
         						
-        						if(warped){
+        						if(!warped){
         							player.teleport(fromloc);
         							event.setCancelled(true);
         						}
+        						else{
+        							DataCollector.playerWarped();
+        						}
         						
-        						final Player finalplayer = event.getPlayer();
-        						if(player.getGameMode().equals(GameMode.CREATIVE)){
-        							player.setMetadata("HasWarped", new FixedMetadataValue(plugin, true));
-            				        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-            							public void run(){
-            								finalplayer.removeMetadata("HasWarped", plugin);
-            							}
-            						}, 20);
+        						if(Portal.triggers[portalId].equals(Material.PORTAL)){
+        							final Player finalplayer = event.getPlayer();
+        							if(player.getGameMode().equals(GameMode.CREATIVE)){
+        								player.setMetadata("HasWarped", new FixedMetadataValue(plugin, true));
+        								Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+        									public void run(){
+        										finalplayer.removeMetadata("HasWarped", plugin);
+        									}
+        								}, 20);
+        							}
         						}
         						
         					}
