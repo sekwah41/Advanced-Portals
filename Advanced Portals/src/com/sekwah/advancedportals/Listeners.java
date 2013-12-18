@@ -71,13 +71,16 @@ public class Listeners implements Listener {
     	// will check if the player is in the portal or not.
     	if(Portal.portalsActive){
         	Player player = event.getPlayer();
-        	Location loc = player.getLocation();
+        	Location fromloc = event.getFrom();
+        	Location loc = event.getTo();
+        	Location eyeloc = event.getTo();
+        	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
         	Object[] portals = Portal.Portals;
         	int portalId = 0;
         	for(Object portal : portals){
-        		if(Portal.worldName[portalId].equals(player.getWorld().getName())){
-        			if(Portal.triggers[portalId].equals(player.getLocation().getBlock().getType())
-        					|| Portal.triggers[portalId].equals(player.getEyeLocation().getBlock().getType())){
+        		if(Portal.worldName[portalId].equals(loc.getWorld().getName())){
+        			if(Portal.triggers[portalId].equals(loc.getBlock().getType())
+        					|| Portal.triggers[portalId].equals(eyeloc.getBlock().getType())){
         				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
         					if(Portal.pos2[portalId].getX() <= loc.getX() && Portal.pos2[portalId].getY() <= loc.getY() && Portal.pos2[portalId].getZ() <= loc.getZ()){
         						
@@ -85,7 +88,10 @@ public class Listeners implements Listener {
         						
         						DataCollector.playerWarped();
         						
-        						// event.setCancelled(!warped); fix the warpback
+        						if(warped){
+        							player.teleport(fromloc);
+        							event.setCancelled(true);
+        						}
         						
         						final Player finalplayer = event.getPlayer();
         						if(player.getGameMode().equals(GameMode.CREATIVE)){
