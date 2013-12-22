@@ -110,46 +110,64 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									return true;
 								}
 
-								player.sendMessage("");
-								player.sendMessage("§a[§eAdvancedPortals§a]§e You have created a new portal with the following details:");
-								player.sendMessage("§aname: §e" + portalName);
-								if(hasDestination){
-									player.sendMessage("§adestination: §e" + destination);
-								}
-								else{
-									player.sendMessage("§cdestination: §eN/A (will not work)");
-								}
-								if(hasTriggerBlock){
-									player.sendMessage("§atriggerBlock: §e" + triggerBlock);
-								}
-								else{
-									ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
-									player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-								}
-
 								World world = org.bukkit.Bukkit.getWorld(player.getMetadata("Pos1World").get(0).asString());
 								Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(), player.getMetadata("Pos1Y").get(0).asInt(), player.getMetadata("Pos1Z").get(0).asInt());
 								Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
 
-								Material triggerBlockId = Material.getMaterial(0);
+								Material triggerBlockMat = Material.getMaterial(0);
 								if(hasTriggerBlock){
 
 									try
 									{
-										triggerBlockId = Material.getMaterial(Integer.parseInt(triggerBlock));
+										triggerBlockMat = Material.getMaterial(Integer.parseInt(triggerBlock));
+										System.out.println(triggerBlockMat.toString());
 									}
 									catch(Exception e)
 									{
-										triggerBlockId = Material.getMaterial(triggerBlock);
+										try
+										{
+											triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
+											System.out.println(triggerBlockMat.toString());
+										}
+										catch(Exception exeption)
+										{
+											hasTriggerBlock = false;
+											player.sendMessage("§cThe trigger block entered is not a valid block name in minecraft!");
+										}
 									}
 
 								}
 								
-								ConfigAccessor config2 = new ConfigAccessor(plugin, "Portals.yml");
-								String posX = config2.getConfig().getString(portalName + ".pos1.X");
+								ConfigAccessor portalconfig = new ConfigAccessor(plugin, "Portals.yml");
+								String posX = portalconfig.getConfig().getString(portalName + ".pos1.X");
+								
+								ConfigAccessor desticonfig = new ConfigAccessor(plugin, "Destinations.yml");
+								String destiPosX = desticonfig.getConfig().getString(destination + ".pos1.X");
+								
 								if(posX == null){
+									
+									player.sendMessage("");
+									player.sendMessage("§a[§eAdvancedPortals§a]§e You have created a new portal with the following details:");
+									player.sendMessage("§aname: §e" + portalName);
+									if(hasDestination){
+										player.sendMessage("§adestination: §e" + destination);
+									}
+									else if(destiPosX == null){
+										player.sendMessage("§cdestination: §e" + destination + " (undefined destination)");
+									}
+									else{
+										player.sendMessage("§cdestination: §eN/A (will not work)");
+									}
 									if(hasTriggerBlock){
-										Portal.create(pos1, pos2, portalName, destination, triggerBlockId);
+										player.sendMessage("§atriggerBlock: §e" + triggerBlock);
+									}
+									else{
+										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+										player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+									}
+									
+									if(hasTriggerBlock){
+										Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
 									}
 									else{
 										Portal.create(pos1, pos2, portalName, destination);

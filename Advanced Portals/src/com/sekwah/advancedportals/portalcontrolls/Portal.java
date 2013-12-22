@@ -87,7 +87,7 @@ public class Portal {
     	
     }
     
-	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlockId) {
+	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlock) {
 		
 		
 		int LowX = 0;
@@ -127,7 +127,7 @@ public class Portal {
 		
 		config.getConfig().set(name.toLowerCase() + ".world", pos1.getWorld().getName());
 		
-		config.getConfig().set(name.toLowerCase() + ".triggerblock", triggerBlockId.toString());
+		config.getConfig().set(name.toLowerCase() + ".triggerblock", checkMaterial(triggerBlock));
 		
 		config.getConfig().set(name.toLowerCase() + ".destination", destination);
 		
@@ -141,11 +141,21 @@ public class Portal {
 		
 		config.saveConfig();
 		
-		DataCollector.portalCreated(triggerBlockId.toString());
+		DataCollector.portalCreated(triggerBlock.toString());
 		
 		loadPortals();
 	}
 	
+	private static String checkMaterial(Material triggerBlock) {
+		if(triggerBlock.equals(Material.WATER)){
+			return "STATIONARY_WATER";
+		}
+		else if(triggerBlock.equals(Material.LAVA)){
+			return "STATIONARY_LAVA";
+		}
+		return triggerBlock.toString();
+	}
+
 	@SuppressWarnings("deprecation")
 	public static void create(Location pos1, Location pos2, String name, String destination) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
@@ -226,7 +236,7 @@ public class Portal {
 				return warped;
 			}
 			else{
-				player.sendMessage("§cThe destination you are attempting to warp to doesnt exist!");
+				player.sendMessage("§cThe destination you are currently attempting to warp to doesnt exist!");
 				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 						+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 				return false;

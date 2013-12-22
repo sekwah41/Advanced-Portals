@@ -74,6 +74,7 @@ public class Listeners implements Listener {
         	Location fromloc = event.getFrom();
         	Location loc = event.getTo();
         	Location eyeloc = event.getTo();
+        	//System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
         	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
         	Object[] portals = Portal.Portals;
         	int portalId = 0;
