@@ -113,30 +113,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								World world = org.bukkit.Bukkit.getWorld(player.getMetadata("Pos1World").get(0).asString());
 								Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(), player.getMetadata("Pos1Y").get(0).asInt(), player.getMetadata("Pos1Z").get(0).asInt());
 								Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
-
-								Material triggerBlockMat = Material.getMaterial(0);
-								if(hasTriggerBlock){
-
-									try
-									{
-										triggerBlockMat = Material.getMaterial(Integer.parseInt(triggerBlock));
-										System.out.println(triggerBlockMat.toString());
-									}
-									catch(Exception e)
-									{
-										try
-										{
-											triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
-											System.out.println(triggerBlockMat.toString());
-										}
-										catch(Exception exeption)
-										{
-											hasTriggerBlock = false;
-											player.sendMessage("§cThe trigger block entered is not a valid block name in minecraft!");
-										}
-									}
-
-								}
 								
 								ConfigAccessor portalconfig = new ConfigAccessor(plugin, "Portals.yml");
 								String posX = portalconfig.getConfig().getString(portalName + ".pos1.X");
@@ -158,18 +134,39 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else{
 										player.sendMessage("§cdestination: §eN/A (will not work)");
 									}
+									
+									Material triggerBlockMat = Material.getMaterial(0);
 									if(hasTriggerBlock){
-										player.sendMessage("§atriggerBlock: §e" + triggerBlock);
+
+										try
+										{
+											triggerBlockMat = Material.getMaterial(Integer.parseInt(triggerBlock));
+											player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
+											Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
+										}
+										catch(Exception e)
+										{
+											try
+											{
+												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
+												player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
+												Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
+											}
+											catch(Exception exeption)
+											{
+												hasTriggerBlock = false;
+												ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+												player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+												
+												player.sendMessage("§cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
+												Portal.create(pos1, pos2, portalName, destination);
+											}
+										}
+
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 										player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-									}
-									
-									if(hasTriggerBlock){
-										Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
-									}
-									else{
 										Portal.create(pos1, pos2, portalName, destination);
 									}
 								}
