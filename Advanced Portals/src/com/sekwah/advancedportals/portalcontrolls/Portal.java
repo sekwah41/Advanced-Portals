@@ -4,10 +4,12 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
@@ -89,6 +91,16 @@ public class Portal {
     
 	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlock) {
 		
+		if(!pos1.getWorld().equals(pos2.getWorld())){
+			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
+			return;
+		}
+		
+		if(checkPortalOverlap(pos1, pos2)){
+			System.out.println("Portals must not overlap!");
+			plugin.getLogger().log(Level.WARNING, "Portals must not overlap!");
+			return;
+		}
 		
 		int LowX = 0;
 		int LowY = 0;		
@@ -146,6 +158,44 @@ public class Portal {
 		loadPortals();
 	}
 	
+	private static boolean checkPortalOverlap(Location pos1, Location pos2) {
+		int portalId = 0;
+		for(Object portal : Portal.Portals){
+			if(Portal.worldName[portalId].equals(Portal.pos2[portalId].getWorld().getName())){
+
+				if(pos1.getX() >= Portal.pos1[portalId].getX() && pos1.getY() >= Portal.pos1[portalId].getY() && pos1.getZ() >= Portal.pos1[portalId].getZ()){
+					
+					if((pos2.getX()) <= Portal.pos1[portalId].getX() && pos2.getY() <= Portal.pos1[portalId].getY() && pos2.getZ() <= Portal.pos1[portalId].getZ()){
+						
+						return true;
+						
+					}
+					
+				}
+
+			}
+			portalId++;
+		}
+		portalId = 0;
+		for(Object portal : Portal.Portals){
+			if(Portal.worldName[portalId].equals(Portal.pos2[portalId].getWorld().getName())){
+
+				if(pos1.getX() >= Portal.pos2[portalId].getX() && pos1.getY() >= Portal.pos2[portalId].getY() && pos1.getZ() >= Portal.pos2[portalId].getZ()){
+					
+					if((pos2.getX()) <= Portal.pos2[portalId].getX() && pos2.getY() <= Portal.pos2[portalId].getY() && pos2.getZ() <= Portal.pos2[portalId].getZ()){
+						
+						return true;
+						
+					}
+					
+				}
+
+			}
+			portalId++;
+		}
+		return false;
+	}
+
 	private static String checkMaterial(Material triggerBlock) {
 		if(triggerBlock.equals(Material.WATER)){
 			return "STATIONARY_WATER";
