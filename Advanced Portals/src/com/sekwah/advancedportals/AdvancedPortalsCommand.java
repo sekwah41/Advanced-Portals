@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -78,14 +79,17 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				else if(args[0].toLowerCase().equals("create")) {
 					if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
 						if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
-							if(args.length >= 2){
+							if(args.length >= 2){ // may make this next piece of code more efficient, maybe check against a list of available variables or something
 								boolean hasName = false;
 								boolean hasTriggerBlock = false;
 								boolean hasDestination = false;
+								boolean isBungeePortal = false;
 								String destination = null;
 								String portalName = null;
 								String triggerBlock = null;
-								for(int i = 0; i < args.length; i++){
+								String serverName = null;
+								List<String> addArgs = new ArrayList<String>();
+								for(int i = 1; i < args.length; i++){
 									if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
 										hasName = true;
 										portalName = args[i].replaceFirst("name:", "");
@@ -94,15 +98,22 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										player.sendMessage("§c[§7AdvancedPortals§c] You must include a name for the portal that isnt nothing!");
 										return true;
 									}
-
-									if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
+									else if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
 										hasDestination = true;
-										destination = args[i].replaceFirst("destination:", "");
+										destination = args[i].toLowerCase().replaceFirst("destination:", "");
 									}
-
-									if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
+									else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
 										hasTriggerBlock = true;
-										triggerBlock = args[i].replaceFirst("triggerblock:", "");
+										triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
+									}
+									else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
+										hasTriggerBlock = true;
+										triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
+									}
+									else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){ // not completely implemented
+										isBungeePortal = true;
+										serverName = args[i].toLowerCase().replaceFirst("bungee:", "");
+										addArgs.add(args[i]);
 									}
 								}
 								if(!hasName){
@@ -135,6 +146,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										player.sendMessage("§cdestination: §eN/A (will not work)");
 									}
 									
+									if(isBungeePortal){
+										player.sendMessage("§abungee: §e" + serverName);
+									}
+									
 									Material triggerBlockMat = Material.getMaterial(0);
 									if(hasTriggerBlock){
 
@@ -142,7 +157,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										{
 											triggerBlockMat = Material.getMaterial(Integer.parseInt(triggerBlock));
 											player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
-											Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
+											player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));
 										}
 										catch(Exception e)
 										{
@@ -150,7 +165,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 											{
 												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
 												player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
-												Portal.create(pos1, pos2, portalName, destination, triggerBlockMat);
+												player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));
 											}
 											catch(Exception exeption)
 											{
@@ -159,15 +174,15 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 												player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 												
 												player.sendMessage("§cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-												Portal.create(pos1, pos2, portalName, destination);
+												player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
 											}
 										}
 
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
-										player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-										Portal.create(pos1, pos2, portalName, destination);
+										player.sendMessage("§atriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
 									}
 								}
 								else{
@@ -264,24 +279,28 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				boolean hasName = false;
 				boolean hasTriggerBlock = false;
 				boolean hasDestination = false;
+				boolean isBungeePortal = false;
 				
-				for(int i = 0; i < args.length; i++){
+				for(int i = 1; i < args.length; i++){
 					if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
 						hasName = true;
 					}
-
-					if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
+					else if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
 						hasDestination = true;
 					}
-
-					if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
+					else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
 						hasTriggerBlock = true;
 					}
+					else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){
+						isBungeePortal = true;
+					}
+					
 				}
 				
 				if(!hasName){autoComplete.add("name:");}
 				if(!hasTriggerBlock){autoComplete.add("triggerblock:");}
 				if(!hasDestination){autoComplete.add("destination:");}
+				if(!isBungeePortal){autoComplete.add("bungee:");}
 			}
 		}
 		Collections.sort(autoComplete);
