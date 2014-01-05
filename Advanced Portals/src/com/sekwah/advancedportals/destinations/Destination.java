@@ -3,9 +3,12 @@ package com.sekwah.advancedportals.destinations;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.mysql.jdbc.Util;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 
@@ -87,21 +90,42 @@ public class Destination {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		if(config.getConfig().getString(name + ".world") != null){
 			Location loc = player.getLocation();
-			
-			loc.setWorld(Bukkit.getWorld(config.getConfig().getString(name + ".world")));
-			
-			loc.setX(config.getConfig().getDouble(name + ".pos.X"));
-			loc.setY(config.getConfig().getDouble(name + ".pos.Y"));
-			loc.setZ(config.getConfig().getDouble(name + ".pos.Z"));
-			
-			loc.setPitch((float) config.getConfig().getDouble(name + ".pos.pitch"));
-			loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
-			
-			player.teleport(loc);
-			
-			return true;
+			if(Bukkit.getWorld(config.getConfig().getString(name + ".world")) != null){
+				loc.setWorld(Bukkit.getWorld(config.getConfig().getString(name + ".world")));
+				
+				loc.setX(config.getConfig().getDouble(name + ".pos.X"));
+				loc.setY(config.getConfig().getDouble(name + ".pos.Y"));
+				loc.setZ(config.getConfig().getDouble(name + ".pos.Z"));
+				
+				loc.setPitch((float) config.getConfig().getDouble(name + ".pos.pitch"));
+				loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
+				
+				Chunk c = loc.getChunk();
+				Entity riding = player.getVehicle();
+				if (!c.isLoaded()) c.load();
+				if(player.getVehicle() != null){
+					player.sendMessage("§c[§7AdvancedPortals§c] You cannot currently teleport while riding");
+					riding.setPassenger(null);
+					riding.teleport(loc);
+					player.teleport(loc);
+					riding.setPassenger(player);
+				}
+				else{
+					player.teleport(loc);	
+				}
+				
+				
+				return true;
+			}
+			else{
+				player.sendMessage("§cThe destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+				plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
+						+ config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
+				return false;
+			}
 		}
 		else{
+			player.sendMessage("§cThere has been a problem warping you to the selected destination!");
 			plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
 					+ "attempt and either the data is corrupt or that destination doesn't exist!");
 			return false;

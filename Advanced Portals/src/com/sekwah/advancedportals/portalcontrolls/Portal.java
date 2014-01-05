@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.portalcontrolls;
 
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -11,6 +12,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.DataCollector.DataCollector;
@@ -89,17 +92,11 @@ public class Portal {
     	
     }
     
-	public static void create(Location pos1, Location pos2 , String name, String destination , Material triggerBlock) {
+	public static String create(Location pos1, Location pos2 , String name, String destination , Material triggerBlock, List<String> addArgs) {
 		
 		if(!pos1.getWorld().equals(pos2.getWorld())){
 			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
-			return;
-		}
-		
-		if(checkPortalOverlap(pos1, pos2)){
-			System.out.println("Portals must not overlap!");
-			plugin.getLogger().log(Level.WARNING, "Portals must not overlap!");
-			return;
+			return "§cPortal creation error, pos1 and pos2 must be in the same world!";
 		}
 		
 		int LowX = 0;
@@ -135,6 +132,14 @@ public class Portal {
 			HighZ = (int) pos2.getZ();
 		}
 		
+		Location checkpos1 = new Location(pos1.getWorld(), HighX, HighY, HighZ);
+		Location checkpos2 = new Location(pos2.getWorld(), LowX, LowY, LowZ);
+		
+		if(checkPortalOverlap(checkpos1, checkpos2)){
+			plugin.getLogger().log(Level.WARNING, "Portals must not overlap!");
+			return "§cPortal creation error, portals must not overlap!";
+		}
+		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", pos1.getWorld().getName());
@@ -156,44 +161,46 @@ public class Portal {
 		DataCollector.portalCreated(triggerBlock.toString());
 		
 		loadPortals();
+		
+		return "§aPortal creation successful!";
 	}
 	
+	// make this actually work!
 	private static boolean checkPortalOverlap(Location pos1, Location pos2) {
+		
+		
 		int portalId = 0;
 		for(Object portal : Portal.Portals){
-			if(Portal.worldName[portalId].equals(Portal.pos2[portalId].getWorld().getName())){
-
-				if(pos1.getX() >= Portal.pos1[portalId].getX() && pos1.getY() >= Portal.pos1[portalId].getY() && pos1.getZ() >= Portal.pos1[portalId].getZ()){
-					
-					if((pos2.getX()) <= Portal.pos1[portalId].getX() && pos2.getY() <= Portal.pos1[portalId].getY() && pos2.getZ() <= Portal.pos1[portalId].getZ()){
-						
-						return true;
-						
-					}
-					
-				}
-
-			}
-			portalId++;
-		}
-		portalId = 0;
-		for(Object portal : Portal.Portals){
-			if(Portal.worldName[portalId].equals(Portal.pos2[portalId].getWorld().getName())){
-
-				if(pos1.getX() >= Portal.pos2[portalId].getX() && pos1.getY() >= Portal.pos2[portalId].getY() && pos1.getZ() >= Portal.pos2[portalId].getZ()){
-					
-					if((pos2.getX()) <= Portal.pos2[portalId].getX() && pos2.getY() <= Portal.pos2[portalId].getY() && pos2.getZ() <= Portal.pos2[portalId].getZ()){
-						
-						return true;
-						
-					}
-					
-				}
-
+			if(Portal.worldName[portalId].equals(pos2.getWorld().getName())){ // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
+				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
+				
+				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
 			}
 			portalId++;
 		}
 		return false;
+	}
+
+	private static boolean checkOverLapPortal(Location pos1, Location pos2, int posX, int posY, int posZ) {
+			if(pos1.getX() >= posX && pos1.getY() >= posX && pos1.getZ() >= posZ){
+				if((pos2.getX()) <= posX && pos2.getY() <= posY && pos2.getZ() <= posZ){
+					return true;
+					
+				}
+			}
+			return false;
 	}
 
 	private static String checkMaterial(Material triggerBlock) {
@@ -207,7 +214,7 @@ public class Portal {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void create(Location pos1, Location pos2, String name, String destination) { // add stuff for destination names or coordinates
+	public static String create(Location pos1, Location pos2, String name, String destination, List<String> addArgs) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		
 		Material triggerBlockType;
@@ -225,9 +232,11 @@ public class Portal {
 			triggerBlockType = Material.PORTAL;
 		}
 		
-		create(pos1, pos2, name, destination, triggerBlockType);
+		String result = create(pos1, pos2, name, destination, triggerBlockType, addArgs);
 		
 		loadPortals();
+		
+		return result;
 	}
 	
 	public static void redefine(Location pos1, Location pos2, String name){
@@ -278,25 +287,37 @@ public class Portal {
 		
 		// add other variables or filter code here, or somehow have a way to register them
 		
-		if(config.getConfig().getString(portalName + ".destination") != null){
-			ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
-			String destiName = config.getConfig().getString(portalName + ".destination");
-			if(configDesti.getConfig().getString(destiName  + ".world") != null){
-				boolean warped = Destination.warp(player, destiName);
-				return warped;
-			}
-			else{
-				player.sendMessage("§cThe destination you are currently attempting to warp to doesnt exist!");
-				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
-						+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
-				return false;
-			}
+		if(config.getConfig().getString(portalName + ".bungee") != null){
+
+			ByteArrayDataOutput out = ByteStreams.newDataOutput();
+			out.writeUTF("Connect");
+			out.writeUTF(config.getConfig().getString(portalName + ".bungee"));
+			player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+			return true;
+
 		}
 		else{
-			player.sendMessage("§cThe portal you are trying to use doesn't have a destination!");
-			plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
-					+ "attempt and either the data is corrupt or portal doesn't exist!");
-			return false;
+			if(config.getConfig().getString(portalName + ".destination") != null){
+				ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
+				String destiName = config.getConfig().getString(portalName + ".destination");
+				if(configDesti.getConfig().getString(destiName  + ".world") != null){
+					boolean warped = Destination.warp(player, destiName);
+					return warped;
+				}
+				else{
+					player.sendMessage("§cThe destination you are currently attempting to warp to doesnt exist!");
+					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
+					return false;
+				}
+
+			}
+			else{
+				player.sendMessage("§cThe portal you are trying to use doesn't have a destination!");
+				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+						+ "attempt and either the data is corrupt or portal doesn't exist!");
+				return false;
+			}
 		}
 		
 		// add code for if the portal doesnt have a destination but a teleport location
