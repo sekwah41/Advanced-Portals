@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -86,7 +87,7 @@ public class Destination {
 		config.saveConfig();
 	}
 	
-	public static boolean warp(Player player, String name){
+	public static boolean warp(Player player, String name, boolean senderror){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		if(config.getConfig().getString(name + ".world") != null){
 			Location loc = player.getLocation();
@@ -104,8 +105,7 @@ public class Destination {
 				Entity riding = player.getVehicle();
 				if (!c.isLoaded()) c.load();
 				if(player.getVehicle() != null){
-					player.sendMessage("§c[§7AdvancedPortals§c] You cannot currently teleport while riding");
-					riding.setPassenger(null);
+					riding.eject();
 					riding.teleport(loc);
 					player.teleport(loc);
 					riding.setPassenger(player);
@@ -118,18 +118,60 @@ public class Destination {
 				return true;
 			}
 			else{
-				player.sendMessage("§cThe destination you are trying to warp to seems to be linked to a world that doesn't exist!");
-				plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
-						+ config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
+				if(senderror){
+					player.sendMessage("§cThe destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+					plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
+							+ config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
+				}
 				return false;
 			}
 		}
 		else{
-			player.sendMessage("§cThere has been a problem warping you to the selected destination!");
-			plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
-					+ "attempt and either the data is corrupt or that destination doesn't exist!");
+			if(senderror){
+				player.sendMessage("§cThere has been a problem warping you to the selected destination!");
+				plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
+						+ "attempt and either the data is corrupt or that destination doesn't exist!");
+			}
 			return false;
 		}
+		
+	}
+	
+	/**
+	 * Same as other warp but changes sender to player for you.
+	 * 
+	 * @param sender
+	 * @param name
+	 * @return 
+	 */
+	public static boolean warp(Player player, String name) {
+		return warp(player, name, true);
+		
+	}
+	
+	/**
+	 * Same as other warp but changes sender to player for you.
+	 * 
+	 * @param sender
+	 * @param name
+	 * @return 
+	 */
+	public static boolean warp(CommandSender sender, String name, boolean senderror) {
+		Player player = (Player)sender;
+		return warp(player, name, senderror);
+		
+	}
+	
+	/**
+	 * Same as other warp but changes sender to player for you.
+	 * 
+	 * @param sender
+	 * @param name
+	 * @return 
+	 */
+	public static boolean warp(CommandSender sender, String name) {
+		Player player = (Player)sender;
+		return warp(player, name, true);
 		
 	}
 }
