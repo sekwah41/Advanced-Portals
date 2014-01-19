@@ -12,6 +12,9 @@ commands:
         description: Can be used to access portal destinations.
         aliases: [desti]
         usage: /<command>
+    warp:
+        description: Used to warp to destinations.
+        usage: /<command>
 permissions:
    advancedportals.*:
      description: Gives access to all portal commands
