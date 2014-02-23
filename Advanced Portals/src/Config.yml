@@ -35,3 +35,11 @@ ShowSelectionBlockData: 14
 # This changes how long the show seletion lasts in seconds
 
 ShowSelectionShowDuration: 10
+
+# If a player is riding a entity, warp the entity too?
+
+WarpRiddenEntity: true
+
+# Use plugin name in the warp prefix
+
+useWarpPrefix: true

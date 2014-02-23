@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
@@ -35,7 +36,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		Player player = (Player)sender;
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
-		if(sender.hasPermission("advancedportals.createportal")){
+		if(sender.hasPermission("advancedportals.portal")){
 			if(args.length > 0){
 				if(args[0].toLowerCase().equals("wand") || args[0].toLowerCase().equals("selector")){
 					PlayerInventory inventory = player.getInventory();
@@ -212,17 +213,28 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					player.sendMessage("§aExample command: §e/portal create name:test triggerId:portal");
 				}
 				else if(args[0].toLowerCase().equals("select")) {
-
+					
+					// TODO finish the select command and the hit block to replace!
+					
+					if(player.hasMetadata("selectingPortal")){
+						player.sendMessage("§a[§eAdvancedPortals§a] Hit a block inside the portal region to select the portal!");
+						player.setMetadata("selectingPortal", new FixedMetadataValue(plugin, true));
+					}
+					else{
+						player.sendMessage("§c[§7AdvancedPortals§c] You are already selecting a portal!");
+					}
 				}
 				else if(args[0].toLowerCase().equals("remove")) {
 					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
-					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
-					if(posX != null){
-						Portal.remove(args[1]);
-						sender.sendMessage("§a[§eAdvancedPortals§a] Portal removed!");
-					}
-					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+					if(args.length > 1){
+						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+						if(posX != null){
+							Portal.remove(args[1]);
+							sender.sendMessage("§a[§eAdvancedPortals§a] Portal removed!");
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+						}
 					}
 				}
 				else if(args[0].toLowerCase().equals("bukkitpage")) {
