@@ -34,6 +34,8 @@ public class Portal {
 	public static Location[] pos1;
 	
 	public static Location[] pos2;
+
+	public static String[] portalName;
 	
     public Portal(AdvancedPortalsPlugin plugin) {
         Portal.plugin = plugin;
@@ -55,7 +57,7 @@ public class Portal {
     	Set<String> PortalSet = config.getConfig().getKeys(false);
     	if(PortalSet.size() > 0){
         	Portals = PortalSet.toArray();
-        	
+        	portalName = new String[Portals.length];
         	// allocates the memory for the arrays
         	worldName = new String[Portals.length];
         	triggers = new Material[Portals.length];
@@ -76,7 +78,7 @@ public class Portal {
         			blockType = Material.getMaterial(BlockID);
         		}
         		triggers[portalId] = blockType;
-        		
+        		portalName[portalId] = portal.toString();
         		worldName[portalId] = config.getConfig().getString(portal.toString() + ".world");
         		World world = Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
     			pos1[portalId] = new Location(world, config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));

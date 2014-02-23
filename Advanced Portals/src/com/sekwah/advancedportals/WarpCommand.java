@@ -21,7 +21,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 	public WarpCommand(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
 		
-		plugin.getCommand("destination").setExecutor(this);
+		plugin.getCommand("warp").setExecutor(this);
 	}
 	
 

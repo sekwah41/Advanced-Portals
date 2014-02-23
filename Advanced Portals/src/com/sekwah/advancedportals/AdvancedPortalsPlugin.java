@@ -37,6 +37,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         // These register the commands
 		new AdvancedPortalsCommand(this);
 		new DestinationCommand(this);
+		new WarpCommand(this);
 		
 		
 		// These register the listeners
