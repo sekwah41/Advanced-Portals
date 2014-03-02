@@ -126,13 +126,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(), player.getMetadata("Pos1Y").get(0).asInt(), player.getMetadata("Pos1Z").get(0).asInt());
 								Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
 								
-								ConfigAccessor portalconfig = new ConfigAccessor(plugin, "Portals.yml");
-								String posX = portalconfig.getConfig().getString(portalName + ".pos1.X");
-								
 								ConfigAccessor desticonfig = new ConfigAccessor(plugin, "Destinations.yml");
 								String destiPosX = desticonfig.getConfig().getString(destination + ".pos1.X");
 								
-								if(posX == null){
+								if(!Portal.portalExists(portalName)){
 									
 									player.sendMessage("");
 									player.sendMessage("§a[§eAdvancedPortals§a]§e You have created a new portal with the following details:");
@@ -141,7 +138,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										player.sendMessage("§adestination: §e" + destination);
 									}
 									else if(destiPosX == null){
-										player.sendMessage("§cdestination: §e" + destination + " (undefined destination)");
+										player.sendMessage("§cdestination: §e" + destination + " (destination does not exist)");
 									}
 									else{
 										player.sendMessage("§cdestination: §eN/A (will not work)");
@@ -216,12 +213,24 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					
 					// TODO finish the select command and the hit block to replace!
 					
-					if(player.hasMetadata("selectingPortal")){
-						player.sendMessage("§a[§eAdvancedPortals§a] Hit a block inside the portal region to select the portal!");
-						player.setMetadata("selectingPortal", new FixedMetadataValue(plugin, true));
+					if(!player.hasMetadata("selectingPortal")){
+						if(args.length > 1){
+							if(Portal.portalExists(args[1])){
+								
+							}
+							else{
+								player.sendMessage("§c[§7AdvancedPortals§c] No portal by the name §e" + args[1] + "§c exists (maybe you got the caps wrong)\n Try typing §e/portal select§c and hit inside the apropriate portals area!");
+							}
+						}
+						else{
+							player.sendMessage("§a[§eAdvancedPortals§a] Hit a block inside the portal region to select the portal!");
+							player.setMetadata("selectingPortal", new FixedMetadataValue(plugin, true));
+						}
+						
 					}
 					else{
-						player.sendMessage("§c[§7AdvancedPortals§c] You are already selecting a portal!");
+						player.removeMetadata("selectingPortal", plugin);
+						player.sendMessage("§c[§7AdvancedPortals§c] Portal selection cancelled!");
 					}
 				}
 				else if(args[0].toLowerCase().equals("remove")) {

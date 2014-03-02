@@ -283,7 +283,20 @@ public class Portal {
 		
 		loadPortals();
 	}
-
+	
+	public static boolean portalExists(String portalName){
+		
+		ConfigAccessor portalconfig = new ConfigAccessor(plugin, "Portals.yml");
+		String posX = portalconfig.getConfig().getString(portalName + ".pos1.X");
+		
+		if(posX == null){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
 	public static boolean activate(Player player, String portalName) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		

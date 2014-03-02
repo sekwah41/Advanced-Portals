@@ -139,9 +139,9 @@ public class Listeners implements Listener {
     		for(Object portal : portals){
     			if(Portal.worldName[portalId].equals(player.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + 3D) >= loc.getX() && (Portal.pos1[portalId].getY() + 3D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 3D) >= loc.getZ()){
+    				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
 
-    					if((Portal.pos2[portalId].getX() - 3D) <= loc.getX() && (Portal.pos2[portalId].getY() - 3D) <= loc.getY() && (Portal.pos2[portalId].getZ() - 3D) <= loc.getZ()){
+    					if((Portal.pos2[portalId].getX()) <= loc.getX() && (Portal.pos2[portalId].getY()) <= loc.getY() && (Portal.pos2[portalId].getZ()) <= loc.getZ()){
     						
     						event.setCancelled(true);
 
@@ -164,7 +164,6 @@ public class Listeners implements Listener {
     	Player player = event.getPlayer();
     	
     	if(player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)){
-    		player.removeMetadata("selectingPortal", plugin);
     		Block block = event.getClickedBlock();
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
@@ -174,9 +173,13 @@ public class Listeners implements Listener {
     				if((Portal.pos1[portalId].getX() + 3D) >= block.getX() && (Portal.pos1[portalId].getY() + 3D) >= block.getY() && (Portal.pos1[portalId].getZ() + 3D) >= block.getZ()){
 
     					if((Portal.pos2[portalId].getX() - 3D) <= block.getX() && (Portal.pos2[portalId].getY() - 3D) <= block.getY() && (Portal.pos2[portalId].getZ() - 3D) <= block.getZ()){
-    						player.sendMessage("§a[§eAdvancedPortals§a]" + Portal.portalName[portalId]);
-    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.portalName[portalId]));
+    						player.sendMessage("§a[§eAdvancedPortals§a] You have selected: §e" + Portal.portalName[portalId]);
+    						// TODO add code somewhere so when a portal is removed or changed if someone has it selected it notifies them
+    						//   or removed their selections and tells them, maybe not before this update.
+    						player.removeMetadata("selectingPortal", plugin);
+    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.portalName[portalId])); // adds the name to the metadata of the character
     						event.setCancelled(true);
+    						player.removeMetadata("selectingPortal", plugin);
     			    		return;
 
     					}
@@ -185,7 +188,7 @@ public class Listeners implements Listener {
     			}
     			portalId++;
     		}
-    		player.sendMessage("§c[§7AdvancedPortals§c] No portal was selected!");
+    		player.sendMessage("§c[§7AdvancedPortals§c] No portal was selected - if you would like to stop selecting please type §e/portal select §cagain!");
     		event.setCancelled(true);
     		return;
     	}
