@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.server.v1_7_R1.ChatSerializer;
+import net.minecraft.server.v1_7_R1.IChatBaseComponent;
+import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,6 +17,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -233,13 +238,58 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						player.sendMessage("§c[§7AdvancedPortals§c] Portal selection cancelled!");
 					}
 				}
-				else if(args[0].toLowerCase().equals("remove")) {
+				else if(args[0].toLowerCase().equals("gui")){
+					if(args.length > 1){
+						if(args[1].toLowerCase().equals("remove") && args.length > 2){
+							sender.sendMessage("");
+							sender.sendMessage("§c[§7AdvancedPortals§c] Are you sure you would like to remove the portal §e" + args[2] + "§c?");
+							sender.sendMessage("");
+							IChatBaseComponent comp = ChatSerializer.a("{text:\"    \",extra:[{text:\"§e[Yes]\",clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}, " +
+							"{text:\"     \"},{text:\"§e[No]\",clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}]}");
+					        PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
+					        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+					        sender.sendMessage("");
+						}
+					}
+				}
+				else if(args[0].toLowerCase().equals("edit")) {
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					if(args.length > 1){
+						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+						if(posX != null){
+							portalEditMenu(sender, portalConfig, args[1]);
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by the name §e" + args[1] + "§c exists!");
+						}
+					}
+					else{
+						if(player.hasMetadata("selectedPortal")){
+							String portalName = player.getMetadata("selectedPortal").get(0).asString();
+							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
+							if(posX != null){
+								portalEditMenu(sender, portalConfig, portalName);
+							}
+							else{
+								sender.sendMessage("§c[§7AdvancedPortals§c] The portal you had selected no longer seems to exist!");
+								player.removeMetadata("selectedPortal", plugin);
+							}
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal has been defined or selected!");
+						}
+					}
+				}
+				else if(args[0].toLowerCase().equals("rename")) {
+					
+					// not finished yet /
+					/**
 					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
 					if(args.length > 1){
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 						if(posX != null){
 							Portal.remove(args[1]);
-							sender.sendMessage("§a[§eAdvancedPortals§a] The portal §7" + args[1] + " has been removed!");
+							sender.sendMessage("§a[§eAdvancedPortals§a] The portal §e" + args[1] + "§a has been removed!");
 						}
 						else{
 							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
@@ -252,6 +302,36 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							if(posX != null){
 								Portal.remove(args[1]);
 								sender.sendMessage("§a[§eAdvancedPortals§a] The portal §7" + portalName + " has been removed!");
+							}
+							else{
+								sender.sendMessage("§c[§7AdvancedPortals§c] The portal you had selected no longer seems to exist!");
+								player.removeMetadata("selectedPortal", plugin);
+							}
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal has been defined or selected!");
+						}
+					}*/
+				}
+				else if(args[0].toLowerCase().equals("remove")) {
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					if(args.length > 1){
+						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+						if(posX != null){
+							Portal.remove(args[1]);
+							sender.sendMessage("§c[§7AdvancedPortals§c] The portal §e" + args[1] + "§c has been removed!");
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+						}
+					}
+					else{
+						if(player.hasMetadata("selectedPortal")){
+							String portalName = player.getMetadata("selectedPortal").get(0).asString();
+							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
+							if(posX != null){
+								Portal.remove(args[1]);
+								sender.sendMessage("§c[§7AdvancedPortals§c] The portal §7" + portalName + " has been removed!");
 							}
 							else{
 								sender.sendMessage("§c[§7AdvancedPortals§c] The portal you had selected no longer seems to exist!");
@@ -302,6 +382,45 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		}
 
 		return true;
+	}
+
+	private void portalEditMenu(CommandSender sender, ConfigAccessor portalConfig, String portalName) {
+		// make the text gui with the json message for a list of edit commands to be clicked or hovered
+		// put \" for a " in the json messages
+		// sadly there is no newline code so these three lines will have to be copied and pasted for each line
+		
+		// use the usual messages for normal lines but anything that needs special features make sure you use the
+		//  chat steriliser
+		sender.sendMessage("");
+		sender.sendMessage("§a[§eAdvancedPortals§a] Editing: §e" + portalName);
+		
+		sender.sendMessage(" §apos1§e: " + portalConfig.getConfig().getString(portalName + ".pos1.X"));
+		sender.sendMessage(" §apos2§e: " + portalConfig.getConfig().getString(portalName + ".pos2.X"));
+		
+		String destination = portalConfig.getConfig().getString(portalName + ".destination");
+		if(destination != null){
+			sender.sendMessage(" §adestination§e: " + destination);
+		}
+		else{
+			sender.sendMessage(" §cdestination§e: null");
+		}
+		
+		String trigger = portalConfig.getConfig().getString(portalName + ".triggerblock");
+		if(trigger != null){
+			sender.sendMessage(" §atriggerBlock§e: " + trigger);
+		}
+		else{
+			sender.sendMessage(" §ctriggerBlock§e: null");
+		}
+		sender.sendMessage(" ");
+		
+		Player player = (Player)sender;
+		
+		IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}]}");
+        PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        sender.sendMessage("");
+		
 	}
 
 	@Override

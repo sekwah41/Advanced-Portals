@@ -340,6 +340,26 @@ public class Portal {
 		
 	}
 	
+	public static void rename(String oldName, String newName){
+		
+		// set it so it gets all data from one and puts it into another place
+		
+		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		
+		config.getConfig().set(newName.toLowerCase() + ".world", config.getConfig().getString(oldName + ".world"));
+		
+		config.getConfig().set(newName.toLowerCase() + ".pos.X", config.getConfig().getDouble(oldName + ".pos.X"));
+		config.getConfig().set(newName.toLowerCase() + ".pos.Y", config.getConfig().getDouble(oldName + ".pos.Y"));
+		config.getConfig().set(newName.toLowerCase() + ".pos.Z", config.getConfig().getDouble(oldName + ".pos.Z"));
+		
+		config.getConfig().set(newName.toLowerCase() + ".pos.pitch", config.getConfig().getDouble(oldName + ".pos.pitch"));
+		config.getConfig().set(newName.toLowerCase() + ".pos.yaw", config.getConfig().getDouble(oldName + ".pos.yaw"));
+		
+		remove(oldName);
+		
+		config.saveConfig();
+	}
+	
 	
 
 }
