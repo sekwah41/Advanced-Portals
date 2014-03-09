@@ -216,7 +216,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					if(!player.hasMetadata("selectingPortal")){
 						if(args.length > 1){
 							if(Portal.portalExists(args[1])){
-								
+								player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
 							}
 							else{
 								player.sendMessage("§c[§7AdvancedPortals§c] No portal by the name §e" + args[1] + "§c exists (maybe you got the caps wrong)\n Try typing §e/portal select§c and hit inside the apropriate portals area!");
@@ -239,10 +239,27 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 						if(posX != null){
 							Portal.remove(args[1]);
-							sender.sendMessage("§a[§eAdvancedPortals§a] Portal removed!");
+							sender.sendMessage("§a[§eAdvancedPortals§a] The portal §7" + args[1] + " has been removed!");
 						}
 						else{
 							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+						}
+					}
+					else{
+						if(player.hasMetadata("selectedPortal")){
+							String portalName = player.getMetadata("selectedPortal").get(0).asString();
+							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
+							if(posX != null){
+								Portal.remove(args[1]);
+								sender.sendMessage("§a[§eAdvancedPortals§a] The portal §7" + portalName + " has been removed!");
+							}
+							else{
+								sender.sendMessage("§c[§7AdvancedPortals§c] The portal you had selected no longer seems to exist!");
+								player.removeMetadata("selectedPortal", plugin);
+							}
+						}
+						else{
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal has been defined or selected!");
 						}
 					}
 				}
