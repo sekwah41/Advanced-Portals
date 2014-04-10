@@ -244,8 +244,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 							sender.sendMessage("§c[§7AdvancedPortals§c] Are you sure you would like to remove the portal §e" + args[2] + "§c?");
 							sender.sendMessage("");
-							IChatBaseComponent comp = ChatSerializer.a("{text:\"    \",extra:[{text:\"§e[Yes]\",clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}, " +
-							"{text:\"     \"},{text:\"§e[No]\",clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}]}");
+							IChatBaseComponent comp = ChatSerializer.a("{text:\"    \",extra:[{text:\"§e[Yes]\",hoverEvent:{action:show_text,value:\"Confirm removing this portal\"},clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\"}}, " +
+							"{text:\"     \"},{text:\"§e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}");
 					        PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
 					        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					        sender.sendMessage("");
@@ -350,17 +350,29 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					player.sendMessage("§a[§eAdvancedPortals§a] Help page: (insert bitly link)!");
 				}
 				else if(args[0].toLowerCase().equals("show")){
-					if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
-						if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
-							player.sendMessage("§a[§eAdvancedPortals§a] Your currently selected area has been shown, it will dissapear shortly!");
-							Selection.Show(player, this.plugin);
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					if(args.length > 1){
+						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+						if(posX != null){
+							Selection.Show(player, this.plugin, args[1]);
 						}
 						else{
-							player.sendMessage("§c[§7AdvancedPortals§c] The points you have selected need to be in the same world!");
+							sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
 						}
 					}
 					else{
-						player.sendMessage("§c[§7AdvancedPortals§c] You need to have both points selected!");
+						if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
+							if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
+								player.sendMessage("§a[§eAdvancedPortals§a] Your currently selected area has been shown, it will dissapear shortly!");
+								Selection.Show(player, this.plugin);
+							}
+							else{
+								player.sendMessage("§c[§7AdvancedPortals§c] The points you have selected need to be in the same world!");
+							}
+						}
+						else{
+							player.sendMessage("§c[§7AdvancedPortals§c] You need to have both points selected!");
+						}
 					}
 				}
 				else if(args[0].toLowerCase().equals("help")) {
@@ -412,11 +424,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		else{
 			sender.sendMessage(" §ctriggerBlock§e: null");
 		}
-		sender.sendMessage(" ");
+		sender.sendMessage("");
 		
 		Player player = (Player)sender;
 		
-		IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\",hoverEvent:{action:show_text,value:\"This is a test\"}}}]}");
+		IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
+				+ ",{text:\"  \"},{text:\"§eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}]}");
         PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         sender.sendMessage("");
