@@ -33,6 +33,85 @@ public class Selection {
 		
 		metadata = (byte) config.getConfig().getInt("ShowSelectionBlockData");
 	}
+	
+	@SuppressWarnings("deprecation")
+	public static void Show(final Player player, final AdvancedPortalsPlugin plugin, String portalName) {
+		
+		ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+		
+		int LowX = portalConfig.getConfig().getInt(portalName + ".pos2.X");
+		int LowY = portalConfig.getConfig().getInt(portalName + ".pos2.Y");		
+		int LowZ = portalConfig.getConfig().getInt(portalName + ".pos2.Z");
+		
+		int HighX = portalConfig.getConfig().getInt(portalName + ".pos1.X");
+		int HighY = portalConfig.getConfig().getInt(portalName + ".pos1.Y");
+		int HighZ = portalConfig.getConfig().getInt(portalName + ".pos1.Z");
+		
+		final Location pos1 = new Location(player.getWorld(), LowX, LowY, LowZ);
+		final Location pos2 = new Location(player.getWorld(), HighX, HighY, HighZ);
+		
+		/*
+		 * There are alot of for loops at the moment, when i find an easier way to do these other that a load of if statements
+		 * then i will change it, but for now its the best way i can think of for doing this. 
+		 */
+		
+		for(int x = LowX; x <= HighX; x++){
+			Location loc = new Location(player.getWorld(), x, LowY, LowZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int x = LowX; x <= HighX; x++){
+			Location loc = new Location(player.getWorld(), x, LowY, HighZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int z = LowZ; z <= HighZ; z++){
+			Location loc = new Location(player.getWorld(), LowX, LowY, z);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int z = LowZ; z <= HighZ; z++){
+			Location loc = new Location(player.getWorld(), HighX, LowY, z);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int y = LowY; y <= HighY; y++){
+			Location loc = new Location(player.getWorld(), LowX, y, LowZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int y = LowY; y <= HighY; y++){
+			Location loc = new Location(player.getWorld(), LowX, y, HighZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int y = LowY; y <= HighY; y++){
+			Location loc = new Location(player.getWorld(), HighX, y, LowZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int y = LowY; y <= HighY; y++){
+			Location loc = new Location(player.getWorld(), HighX, y, HighZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int x = LowX; x <= HighX; x++){
+			Location loc = new Location(player.getWorld(), x, HighY, HighZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int x = LowX; x <= HighX; x++){
+			Location loc = new Location(player.getWorld(), x, HighY, LowZ);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int z = LowZ; z <= HighZ; z++){
+			Location loc = new Location(player.getWorld(), LowX, HighY, z);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		for(int z = LowZ; z <= HighZ; z++){
+			Location loc = new Location(player.getWorld(), HighX, HighY, z);
+			player.sendBlockChange(loc, blockType, metadata);
+		}
+		
+		
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+			public void run(){
+				Selection.Hide(player, plugin, pos1, pos2);
+			}
+		}, timeout * 20);
+		
+	}
 
 	@SuppressWarnings("deprecation")
 	public static void Show(final Player player, final AdvancedPortalsPlugin plugin) {

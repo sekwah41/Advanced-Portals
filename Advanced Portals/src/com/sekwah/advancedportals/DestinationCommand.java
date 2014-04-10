@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 	
@@ -48,6 +49,22 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 				}
 				else{
 					sender.sendMessage("§c[§7AdvancedPortals§c] You do not have permission to create portals so you cannot give yourself a §ePortal Region Selector§c!");
+				}
+			}
+			else if(args[0].toLowerCase().equals("remove")) {
+				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Destinations.yml");
+				if(args.length > 1){
+					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+					if(posX != null){
+						Destination.remove(args[1]);
+						sender.sendMessage("§c[§7AdvancedPortals§c] The portal §e" + args[1] + "§c has been removed!");
+					}
+					else{
+						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+					}
+				}
+				else{
+					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to remove!");
 				}
 			}
 		}
