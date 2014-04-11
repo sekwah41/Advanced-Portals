@@ -40,6 +40,13 @@ ShowSelectionShowDuration: 10
 
 WarpRiddenEntity: true
 
-# Use plugin name in the warp prefix
+# Use plugin name in the warp messages
 
 useWarpPrefix: true
+
+# If this is true a custom prefix can be used
+
+useCustomPrefix: false
+
+customPrefix: '[Test]'
+

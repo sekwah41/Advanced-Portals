@@ -67,10 +67,24 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to remove!");
 				}
 			}
+			else if(args[0].toLowerCase().equals("goto")) {
+				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Destinations.yml");
+				if(args.length > 1){
+					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+					if(posX != null){
+						Destination.warp(sender, args[1]);
+					}
+					else{
+						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+					}
+				}
+				else{
+					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to teleport to!");
+				}
+			}
 		}
 		else{
-			sender.sendMessage("§c[§7AdvancedPortals§c] You need to type something after /" + command + "\n"
-					+ "if you do not know what you can put or would like some help with the commands please type /" + command + " help");
+			sender.sendMessage("§c[§7AdvancedPortals§c] You need to type something after /" + command + ", if you do not know what you can put or would like some help with the commands please type /" + command + " help");
 		}
 		return true;
 	}
