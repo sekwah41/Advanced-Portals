@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -60,26 +61,73 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						sender.sendMessage("§c[§7AdvancedPortals§c] The portal §e" + args[1] + "§c has been removed!");
 					}
 					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists.");
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to remove!");
+					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to remove.");
 				}
 			}
-			else if(args[0].toLowerCase().equals("goto")) {
-				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Destinations.yml");
+			else if(args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
 				if(args.length > 1){
-					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
-					if(posX != null){
+					System.out.println(args[1]);
+					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
+					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
+						sender.sendMessage("§a[§eAdvancedPortals§a] You have been warped to §e" + args[1] + "§a.");
 					}
 					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists!");
+						sender.sendMessage("§c[§7AdvancedPortals§c] No destination by that name exists.");
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to teleport to!");
+					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to teleport to.");
+				}
+			}
+			else if(args[0].toLowerCase().equals("list")) {
+				List<String> destiList = Destination.destiList();
+				if(destiList.size() >= 1){
+					if(args.length > 1){
+						try
+						{
+							int page = Integer.parseInt(args[1]);
+							if(page * 5 >= destiList.size() - 5){ // add this if statement so that the user cant select a list page higher than the max
+								if((int) destiList.size() / 5 ==  destiList.size()){
+									
+								}
+							}
+							sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+							for(int i = (page - 1) * 5; i < page * 5; i++){
+								if(i > destiList.size()){
+									break;
+								}
+								sender.sendMessage(" §e" + destiList.get(i));
+							}
+							return true;
+						}
+						catch(Exception e)
+						{
+						}
+					}
+					
+					sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+					for(int i = 0; i < 5; i++){
+						if(i > destiList.size()){
+							break;
+						}
+						sender.sendMessage(" §e" + destiList.get(i));
+					}
+					
+					sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+					for(int i = 0; i < 5; i++){
+						if(i > destiList.size()){
+							break;
+						}
+						sender.sendMessage(" §e" + destiList.get(i));
+					}
+				}
+				else{
+					sender.sendMessage("§c[§7AdvancedPortals§c] There are currently no defined destinations.");
 				}
 			}
 		}

@@ -77,7 +77,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					PlayerInventory inventory = player.getInventory();
 
 					ItemStack portalBlock = new ItemStack(Material.PORTAL);
-
+					
 					inventory.addItem(portalBlock);
 					
 					sender.sendMessage("§a[§eAdvancedPortals§a] You have been given a §ePortal Block§a!");

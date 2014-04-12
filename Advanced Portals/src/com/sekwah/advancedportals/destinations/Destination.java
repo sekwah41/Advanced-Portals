@@ -1,10 +1,17 @@
 package com.sekwah.advancedportals.destinations;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -173,5 +180,22 @@ public class Destination {
 		Player player = (Player)sender;
 		return warp(player, name, true);
 		
+	}
+	
+	public static List<String> destiList(){
+		
+		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		
+		LinkedList<String> destiList = new LinkedList<String>();
+		
+		Set<String> destiSet = config.getConfig().getKeys(false);
+    	if(destiSet.size() > 0){;
+    		for(Object desti: destiSet.toArray()){
+    			destiSet.add(desti.toString());
+    		}
+    	}
+		
+		Collections.sort(destiList);
+		return destiList;
 	}
 }
