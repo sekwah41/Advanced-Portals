@@ -144,19 +144,19 @@ public class Portal {
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
-		config.getConfig().set(name.toLowerCase() + ".world", pos1.getWorld().getName());
+		config.getConfig().set(name + ".world", pos1.getWorld().getName());
 		
-		config.getConfig().set(name.toLowerCase() + ".triggerblock", checkMaterial(triggerBlock));
+		config.getConfig().set(name + ".triggerblock", checkMaterial(triggerBlock));
 		
-		config.getConfig().set(name.toLowerCase() + ".destination", destination);
+		config.getConfig().set(name + ".destination", destination);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos1.X", HighX);
-		config.getConfig().set(name.toLowerCase() + ".pos1.Y", HighY);
-		config.getConfig().set(name.toLowerCase() + ".pos1.Z", HighZ);
+		config.getConfig().set(name + ".pos1.X", HighX);
+		config.getConfig().set(name + ".pos1.Y", HighY);
+		config.getConfig().set(name + ".pos1.Z", HighZ);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos2.X", LowX);
-		config.getConfig().set(name.toLowerCase() + ".pos2.Y", LowY);
-		config.getConfig().set(name.toLowerCase() + ".pos2.Z", LowZ);
+		config.getConfig().set(name + ".pos2.X", LowX);
+		config.getConfig().set(name + ".pos2.Y", LowY);
+		config.getConfig().set(name + ".pos2.Z", LowZ);
 		
 		config.saveConfig();
 		
@@ -245,13 +245,13 @@ public class Portal {
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
-		config.getConfig().set(name.toLowerCase() + ".pos1.X", pos1.getX());
-		config.getConfig().set(name.toLowerCase() + ".pos1.Y", pos1.getY());
-		config.getConfig().set(name.toLowerCase() + ".pos1.Z", pos1.getZ());
+		config.getConfig().set(name + ".pos1.X", pos1.getX());
+		config.getConfig().set(name + ".pos1.Y", pos1.getY());
+		config.getConfig().set(name + ".pos1.Z", pos1.getZ());
 		
-		config.getConfig().set(name.toLowerCase() + ".pos2.X", pos2.getX());
-		config.getConfig().set(name.toLowerCase() + ".pos2.Y", pos2.getY());
-		config.getConfig().set(name.toLowerCase() + ".pos2.Z", pos2.getZ());
+		config.getConfig().set(name + ".pos2.X", pos2.getX());
+		config.getConfig().set(name + ".pos2.Y", pos2.getY());
+		config.getConfig().set(name + ".pos2.Z", pos2.getZ());
 		
 		config.saveConfig();
 		
@@ -262,22 +262,39 @@ public class Portal {
 	public static void remove(String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
-		config.getConfig().set(name.toLowerCase() + ".world", null);
-		config.getConfig().set(name.toLowerCase() + ".triggerblock", null);
-		config.getConfig().set(name.toLowerCase() + ".destination", null);
+		Object[] keys = config.getConfig().getKeys(true).toArray();
+		for(int i = keys.length - 1; i >= 0; i--){
+			String key = keys[i].toString();
+			if(key.startsWith(name + ".")){
+				System.out.println(key);
+				config.getConfig().set(key, null);
+			}
+		}
+		config.getConfig().set(name, null);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos1.X", null);
-		config.getConfig().set(name.toLowerCase() + ".pos1.Y", null);
-		config.getConfig().set(name.toLowerCase() + ".pos1.Z", null);
+		/**Set<String> keys = config.getConfig().getKeys(true);
+		for(String key: keys){
+			if(key.startsWith(name)){
+				config.getConfig().set(key, null);
+			}
+		}*/
 		
-		config.getConfig().set(name.toLowerCase() + ".pos2.X", null);
-		config.getConfig().set(name.toLowerCase() + ".pos2.Y", null);
-		config.getConfig().set(name.toLowerCase() + ".pos2.Z", null);
+		/**config.getConfig().set(name + ".world", null);
+		config.getConfig().set(name + ".triggerblock", null);
+		config.getConfig().set(name + ".destination", null);
 		
-		config.getConfig().set(name.toLowerCase() + ".pos1", null);
-		config.getConfig().set(name.toLowerCase() + ".pos2", null);
+		config.getConfig().set(name + ".pos1.X", null);
+		config.getConfig().set(name + ".pos1.Y", null);
+		config.getConfig().set(name + ".pos1.Z", null);
 		
-		config.getConfig().set(name.toLowerCase(), null);
+		config.getConfig().set(name + ".pos2.X", null);
+		config.getConfig().set(name + ".pos2.Y", null);
+		config.getConfig().set(name + ".pos2.Z", null);
+		
+		config.getConfig().set(name + ".pos1", null);
+		config.getConfig().set(name + ".pos2", null);
+		
+		config.getConfig().set(name, null);*/
 		
 		config.saveConfig();
 		
@@ -344,20 +361,30 @@ public class Portal {
 		
 		// set it so it gets all data from one and puts it into another place
 		
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 		
-		config.getConfig().set(newName.toLowerCase() + ".world", config.getConfig().getString(oldName + ".world"));
+		Set<String> keys = config.getConfig().getKeys(true);
+		for(String key: keys){
+			if(key.startsWith(oldName + ".")){
+				if(config.getConfig().getString(key) != null){
+					try
+					{
+						int intData = Integer.parseInt(config.getConfig().getString(key));
+						config.getConfig().set(key.replace(oldName + ".", newName + "."), intData);
+					}
+					catch(Exception e)
+					{
+						config.getConfig().set(key.replace(oldName + ".", newName + "."), config.getConfig().getString(key));
+					}
+					
+				}
+			}
+		}
 		
-		config.getConfig().set(newName.toLowerCase() + ".pos.X", config.getConfig().getDouble(oldName + ".pos.X"));
-		config.getConfig().set(newName.toLowerCase() + ".pos.Y", config.getConfig().getDouble(oldName + ".pos.Y"));
-		config.getConfig().set(newName.toLowerCase() + ".pos.Z", config.getConfig().getDouble(oldName + ".pos.Z"));
-		
-		config.getConfig().set(newName.toLowerCase() + ".pos.pitch", config.getConfig().getDouble(oldName + ".pos.pitch"));
-		config.getConfig().set(newName.toLowerCase() + ".pos.yaw", config.getConfig().getDouble(oldName + ".pos.yaw"));
+		config.saveConfig();
 		
 		remove(oldName);
 		
-		config.saveConfig();
 	}
 	
 	

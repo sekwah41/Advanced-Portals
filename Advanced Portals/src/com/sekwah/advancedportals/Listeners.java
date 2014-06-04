@@ -105,7 +105,7 @@ public class Listeners implements Listener {
         									public void run(){
         										finalplayer.removeMetadata("HasWarped", plugin);
         									}
-        								}, 20);
+        								}, 40);
         							}
         						}
         						
