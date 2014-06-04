@@ -21,6 +21,8 @@ import com.sekwah.advancedportals.portalcontrolls.Portal;
 public class Listeners implements Listener {
 	
 	private final AdvancedPortalsPlugin plugin;
+
+	private boolean defaultPortalMessages = true;
 	
 	// The needed config values will be stored so they are easier to access later
 	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("§eP...
@@ -36,6 +38,8 @@ public class Listeners implements Listener {
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
         
 		String ItemID = config.getConfig().getString("AxeItemId");
+		
+		defaultPortalMessages  = config.getConfig().getBoolean("portalWarpMessages");
 		
 		try
 		{
@@ -86,8 +90,14 @@ public class Listeners implements Listener {
         				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
         					if(Portal.pos2[portalId].getX() <= loc.getX() && Portal.pos2[portalId].getY() <= loc.getY() && Portal.pos2[portalId].getZ() <= loc.getZ()){
         						
-        						boolean warped = Portal.activate(player, portal.toString());
         						
+        						boolean warped = Portal.activate(player, portal.toString());
+        						if(defaultPortalMessages && warped){
+        							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+        							player.sendMessage("");
+        							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(portal.toString() + ".destination") + ".");
+        							player.sendMessage("");
+        						}
         						
         						if(!warped){
         							player.teleport(fromloc);
@@ -105,7 +115,7 @@ public class Listeners implements Listener {
         									public void run(){
         										finalplayer.removeMetadata("HasWarped", plugin);
         									}
-        								}, 40);
+        								}, 20);
         							}
         						}
         						

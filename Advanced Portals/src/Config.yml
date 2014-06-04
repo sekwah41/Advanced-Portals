@@ -40,8 +40,10 @@ ShowSelectionShowDuration: 10
 
 WarpRiddenEntity: true
 
-# Use plugin name in the warp messages
+# Use the default warp messages for portals
+portalWarpMessages: true
 
+# Use plugin name in the warp messages
 useWarpPrefix: true
 
 # If this is true a custom prefix can be used

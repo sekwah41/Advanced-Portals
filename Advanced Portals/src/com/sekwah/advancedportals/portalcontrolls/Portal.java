@@ -325,7 +325,7 @@ public class Portal {
 			out.writeUTF("Connect");
 			out.writeUTF(config.getConfig().getString(portalName + ".bungee"));
 			player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-			return true;
+			return false;
 
 		}
 		else{

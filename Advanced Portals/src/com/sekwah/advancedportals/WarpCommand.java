@@ -29,14 +29,20 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		if(args.length > 0){
 			if(Destination.warp(sender, args[0], false)){
+				sender.sendMessage("");
 				sender.sendMessage("§a[§eAdvancedPortals§a] You have been warped to §e" + args[0] + ".");
+				sender.sendMessage("");
 			}
 			else{
+				sender.sendMessage("");
 				sender.sendMessage("§c[§7AdvancedPortals§c] The destination you tried to warp to does not exist!");
+				sender.sendMessage("");
 			}
 		}
 		else{
+			sender.sendMessage("");
 			sender.sendMessage("§c[§7AdvancedPortals§c] You need to type a destination after /" + command + "!");
+			sender.sendMessage("");
 		}
 		return true;
 	}

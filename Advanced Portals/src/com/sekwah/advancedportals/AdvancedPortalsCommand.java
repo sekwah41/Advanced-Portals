@@ -433,7 +433,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		
 		IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
 				+ ",{text:\"  \"},{text:\"§eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
-				+ ",{text:\"  \"},{text:\"§eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}]}");
+				+ ",{text:\"  \"},{text:\"§eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
+				+ ",{text:\"  \"},{text:\"§eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}");
         PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         sender.sendMessage("");
