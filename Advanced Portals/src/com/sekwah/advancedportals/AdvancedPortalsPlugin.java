@@ -10,8 +10,10 @@ import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
-	
+
 	public void onEnable() {
+		
+		new Assets(this);
 		
 		// Opens a channel that messages bungeeCord
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
