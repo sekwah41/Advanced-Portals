@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import com.mysql.jdbc.Util;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.effects.WarpEffects;
 
 public class Destination {
 	
@@ -108,6 +109,8 @@ public class Destination {
 				loc.setPitch((float) config.getConfig().getDouble(name + ".pos.pitch"));
 				loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
 				
+				WarpEffects.activateParticles(player);
+				WarpEffects.activateSound(player);
 				Chunk c = loc.getChunk();
 				Entity riding = player.getVehicle();
 				if (!c.isLoaded()) c.load();
@@ -118,15 +121,17 @@ public class Destination {
 					riding.setPassenger(player);
 				}
 				else{
-					player.teleport(loc);	
+					player.teleport(loc);
 				}
+				WarpEffects.activateParticles(player);
+				WarpEffects.activateSound(player);
 				
 				
 				return true;
 			}
 			else{
 				if(senderror){
-					player.sendMessage("§cThe destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+					player.sendMessage("§c[§7AdvancedPortals§c] The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
 					plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
 							+ config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
 				}
@@ -135,7 +140,7 @@ public class Destination {
 		}
 		else{
 			if(senderror){
-				player.sendMessage("§cThere has been a problem warping you to the selected destination!");
+				player.sendMessage("§c[§7AdvancedPortals§c] There has been a problem warping you to the selected destination!");
 				plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
 						+ "attempt and either the data is corrupt or that destination doesn't exist!");
 			}

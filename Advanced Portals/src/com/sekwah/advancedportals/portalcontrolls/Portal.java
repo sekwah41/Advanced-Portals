@@ -234,6 +234,8 @@ public class Portal {
 			triggerBlockType = Material.PORTAL;
 		}
 		
+		// TODO add a for loop which scans through the addArgs and adds them to the config so that the application can use them
+		
 		String result = create(pos1, pos2, name, destination, triggerBlockType, addArgs);
 		
 		loadPortals();
@@ -320,7 +322,7 @@ public class Portal {
 		// add other variables or filter code here, or somehow have a way to register them
 		
 		if(config.getConfig().getString(portalName + ".bungee") != null){
-
+			player.sendMessage("§a[§eAdvancedPortals§a] Attempting to warp to §e" + config.getConfig().getString(portalName + ".bungee") + "§a.");
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
 			out.writeUTF(config.getConfig().getString(portalName + ".bungee"));
@@ -337,7 +339,7 @@ public class Portal {
 					return warped;
 				}
 				else{
-					player.sendMessage("§cThe destination you are currently attempting to warp to doesnt exist!");
+					player.sendMessage("§c[§7AdvancedPortals§c] The destination you are currently attempting to warp to doesnt exist!");
 					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 					return false;
@@ -345,7 +347,7 @@ public class Portal {
 
 			}
 			else{
-				player.sendMessage("§cThe portal you are trying to use doesn't have a destination!");
+				player.sendMessage("§c[§7AdvancedPortals§c] The portal you are trying to use doesn't have a destination!");
 				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 						+ "attempt and either the data is corrupt or portal doesn't exist!");
 				return false;
