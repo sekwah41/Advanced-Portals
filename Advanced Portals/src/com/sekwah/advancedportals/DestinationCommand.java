@@ -36,7 +36,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
 						if(posX == null){
-							sender.sendMessage("§a[§eAdvancedPortals§a] You have created a new destination called " + args[1] +  "!");
+							sender.sendMessage("§a[§eAdvancedPortals§a] You have created a new destination called §e" + args[1] +  "!");
 							Player player = sender.getServer().getPlayer(sender.getName());
 							Destination.create(player.getLocation(), args[1]);
 						}

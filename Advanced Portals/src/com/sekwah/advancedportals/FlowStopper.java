@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
+import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class FlowStopper implements Listener {
@@ -35,14 +36,14 @@ public class FlowStopper implements Listener {
 		Block blockTo = event.getToBlock();
 		Block block = event.getBlock();
 		
-		Object[] portals = Portal.Portals;
+		AdvancedPortal[] portals = Portal.Portals;
 		int portalId = 0;
 		for(Object portal : portals){
-			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
+			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-				if((Portal.pos1[portalId].getX() + 3D) >= block.getX() && (Portal.pos1[portalId].getY() + 3D) >= block.getY() && (Portal.pos1[portalId].getZ() + 3D) >= block.getZ()){
+				if((Portal.Portals[portalId].pos1.getX() + 3D) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= block.getZ()){
 
-					if((Portal.pos2[portalId].getX() - 3D) <= block.getX() && (Portal.pos2[portalId].getY() - 3D) <= block.getY() && (Portal.pos2[portalId].getZ() - 3D) <= block.getZ()){
+					if((Portal.Portals[portalId].pos2.getX() - 3D) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= block.getZ()){
 						
 						event.setCancelled(true);
 
@@ -51,11 +52,11 @@ public class FlowStopper implements Listener {
 
 			}
 			
-			if(Portal.worldName[portalId].equals(blockTo.getWorld().getName())){
+			if(Portal.Portals[portalId].worldName.equals(blockTo.getWorld().getName())){
 
-				if((Portal.pos1[portalId].getX() + 3D) >= blockTo.getX() && (Portal.pos1[portalId].getY() + 3D) >= blockTo.getY() && (Portal.pos1[portalId].getZ() + 3D) >= blockTo.getZ()){
+				if((Portal.Portals[portalId].pos1.getX() + 3D) >= blockTo.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= blockTo.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= blockTo.getZ()){
 
-					if((Portal.pos2[portalId].getX() - 3D) <= blockTo.getX() && (Portal.pos2[portalId].getY() - 3D) <= blockTo.getY() && (Portal.pos2[portalId].getZ() - 3D) <= blockTo.getZ()){
+					if((Portal.Portals[portalId].pos2.getX() - 3D) <= blockTo.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= blockTo.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= blockTo.getZ()){
 						
 						event.setCancelled(true);
 

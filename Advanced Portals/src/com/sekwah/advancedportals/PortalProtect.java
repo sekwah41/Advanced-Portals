@@ -47,11 +47,11 @@ public class PortalProtect implements Listener {
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
     		for(Object portal : portals){
-    			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
+    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + PortalProtectionRadius) >= block.getX() && (Portal.pos1[portalId].getY() + PortalProtectionRadius) >= block.getY() && (Portal.pos1[portalId].getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
 
-    					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
+    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
 
     						event.setCancelled(true);
 
@@ -72,11 +72,11 @@ public class PortalProtect implements Listener {
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
     		for(Object portal : portals){
-    			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
+    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + PortalProtectionRadius) >= block.getX() && (Portal.pos1[portalId].getY() + PortalProtectionRadius) >= block.getY() && (Portal.pos1[portalId].getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
 
-    					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
+    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
 
     						event.setCancelled(true);
 
@@ -96,11 +96,11 @@ public class PortalProtect implements Listener {
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
     		for(Object portal : portals){ // change for format for(int i = 0; i < portals.length; i++){
-    			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
+    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + PortalProtectionRadius) >= block.getX() && (Portal.pos1[portalId].getY() + PortalProtectionRadius) >= block.getY() && (Portal.pos1[portalId].getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
     					
-    					if((Portal.pos2[portalId].getX() - PortalProtectionRadius) <= block.getX() && (Portal.pos2[portalId].getY() - PortalProtectionRadius) <= block.getY() && (Portal.pos2[portalId].getZ() - PortalProtectionRadius) <= block.getZ()){
+    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
     						blockList.remove(i);
     						i--;
 
