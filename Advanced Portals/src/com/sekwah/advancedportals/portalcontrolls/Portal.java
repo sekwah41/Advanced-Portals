@@ -88,7 +88,11 @@ public class Portal {
     	
     }
     
-	public static String create(Location pos1, Location pos2 , String name, String destination , Material triggerBlock, List<String> addArgs) {
+    public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock) {
+    	return create(pos1, pos2, name, destination, triggerBlock, null);
+    }
+    
+	public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock, String serverName) {
 		
 		if(!pos1.getWorld().equals(pos2.getWorld())){
 			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -143,6 +147,8 @@ public class Portal {
 		config.getConfig().set(name + ".triggerblock", checkMaterial(triggerBlock));
 		
 		config.getConfig().set(name + ".destination", destination);
+		
+		config.getConfig().set(name + ".bungee", serverName);
 		
 		config.getConfig().set(name + ".pos1.X", HighX);
 		config.getConfig().set(name + ".pos1.Y", HighY);
@@ -209,9 +215,13 @@ public class Portal {
 		}
 		return triggerBlock.toString();
 	}
-
+	
+	public static String create(Location pos1, Location pos2, String name, String destination) {
+		return create(pos1, pos2, name, destination,(String) null);
+	}
+	
 	@SuppressWarnings("deprecation")
-	public static String create(Location pos1, Location pos2, String name, String destination, List<String> addArgs) { // add stuff for destination names or coordinates
+	public static String create(Location pos1, Location pos2, String name, String destination, String serverName) { // add stuff for destination names or coordinates
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		
 		Material triggerBlockType;
@@ -231,9 +241,7 @@ public class Portal {
 		
 		// TODO add a for loop which scans through the addArgs and adds them to the config so that the application can use them
 		
-		String result = create(pos1, pos2, name, destination, triggerBlockType, addArgs);
-		
-		loadPortals();
+		String result = create(pos1, pos2, name, destination, triggerBlockType, serverName);
 		
 		return result;
 	}

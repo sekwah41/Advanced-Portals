@@ -86,7 +86,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								String portalName = null;
 								String triggerBlock = null;
 								String serverName = null;
-								List<String> addArgs = new ArrayList<String>();
 								for(int i = 1; i < args.length; i++){
 									if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
 										hasName = true;
@@ -111,7 +110,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){ // not completely implemented
 										isBungeePortal = true;
 										serverName = args[i].toLowerCase().replaceFirst("bungee:", "");
-										addArgs.add(args[i]);
 									}
 								}
 								if(!hasName){
@@ -150,20 +148,20 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
 												if(triggerBlockMat != null){
 													player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));;												}
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName));;												}
 												else{
 													hasTriggerBlock = false;
 													ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 													player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 													
 													player.sendMessage("§cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName));
 											}
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 										player.sendMessage("§atriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
+										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName));
 									}
 								}
 								else{
