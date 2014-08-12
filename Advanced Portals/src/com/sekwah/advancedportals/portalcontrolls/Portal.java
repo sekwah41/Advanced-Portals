@@ -5,12 +5,10 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -25,17 +23,7 @@ public class Portal {
 	
 	public static boolean portalsActive = true;
 	
-	public static Object[] Portals;
-	
-	public static Material[] triggers;
-	
-	public static String[] worldName;
-	
-	public static Location[] pos1;
-	
-	public static Location[] pos2;
-
-	public static String[] portalName;
+	public static AdvancedPortal[] Portals;
 	
     public Portal(AdvancedPortalsPlugin plugin) {
         Portal.plugin = plugin;
@@ -51,38 +39,44 @@ public class Portal {
 	 * 
 	 */
     
-    public static void loadPortals(){
+    @SuppressWarnings("deprecation")
+	public static void loadPortals(){
     	
     	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	Set<String> PortalSet = config.getConfig().getKeys(false);
     	if(PortalSet.size() > 0){
-        	Portals = PortalSet.toArray();
-        	portalName = new String[Portals.length];
-        	// allocates the memory for the arrays
-        	worldName = new String[Portals.length];
-        	triggers = new Material[Portals.length];
-        	pos1 = new Location[Portals.length];
-        	pos2 = new Location[Portals.length];
+    		Portals = new AdvancedPortal[PortalSet.toArray().length];
         	
+    		for(int i = 0; i <= PortalSet.toArray().length - 1; i++){
+    			Portals[i] = new AdvancedPortal();
+    		}
+    		
         	int portalId = 0;
-        	for(Object portal: Portals){
+        	for(Object portal: PortalSet.toArray()){
         		
-        		Material blockType;
+        		Material blockType = Material.PORTAL;
         		String BlockID = config.getConfig().getString(portal.toString() + ".triggerblock");
         		try
         		{
-        			blockType = Material.getMaterial(Integer.parseInt(BlockID));
+        			Integer.parseInt(BlockID);
+        			System.out.println("Block names must be given not IDs");
         		}
-        		catch(Exception e)
+        		catch(NumberFormatException e)
         		{
         			blockType = Material.getMaterial(BlockID);
         		}
-        		triggers[portalId] = blockType;
-        		portalName[portalId] = portal.toString();
-        		worldName[portalId] = config.getConfig().getString(portal.toString() + ".world");
+        		
+        		if(blockType == null){
+        			blockType = Material.PORTAL;
+        		}
+        		
+        		Portals[portalId].trigger = blockType;
+        		System.out.println("Test: " + portal.toString());
+        		Portals[portalId].portalName = portal.toString();
+        		Portals[portalId].worldName = config.getConfig().getString(portal.toString() + ".world");
         		World world = Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
-    			pos1[portalId] = new Location(world, config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));
-    			pos2[portalId] = new Location(world, config.getConfig().getInt(portal.toString() + ".pos2.X"), config.getConfig().getInt(portal.toString() + ".pos2.Y"), config.getConfig().getInt(portal.toString() + ".pos2.Z"));
+        		Portals[portalId].pos1 = new Location(world, config.getConfig().getInt(portal.toString() + ".pos1.X"), config.getConfig().getInt(portal.toString() + ".pos1.Y"), config.getConfig().getInt(portal.toString() + ".pos1.Z"));
+        		Portals[portalId].pos2 = new Location(world, config.getConfig().getInt(portal.toString() + ".pos2.X"), config.getConfig().getInt(portal.toString() + ".pos2.Y"), config.getConfig().getInt(portal.toString() + ".pos2.Z"));
         		
     			portalId++;
         	}
@@ -170,27 +164,28 @@ public class Portal {
 	// make this actually work!
 	private static boolean checkPortalOverlap(Location pos1, Location pos2) {
 		
-		
-		int portalId = 0;
-		for(Object portal : Portal.Portals){
-			if(Portal.worldName[portalId].equals(pos2.getWorld().getName())){ // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
-				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos1[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos1[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos2[portalId].getBlockZ())){return true;}
-				
-				if(checkOverLapPortal(pos1, pos2, Portal.pos2[portalId].getBlockX(), Portal.pos2[portalId].getBlockY(), Portal.pos1[portalId].getBlockZ())){return true;}
+		if(portalsActive){
+			int portalId = 0;
+			for(@SuppressWarnings("unused") Object portal : Portal.Portals){
+				if(Portals[portalId].worldName.equals(pos2.getWorld().getName())){ // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos1.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos2.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos1.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos1.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos2.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos2.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos2.getBlockZ())){return true;}
+					
+					if(checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos1.getBlockZ())){return true;}
+				}
+				portalId++;
 			}
-			portalId++;
 		}
 		return false;
 	}

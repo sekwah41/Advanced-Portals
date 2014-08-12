@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R1.ChatSerializer;
-import net.minecraft.server.v1_7_R1.IChatBaseComponent;
-import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R3.ChatSerializer;
+import net.minecraft.server.v1_7_R3.IChatBaseComponent;
+import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +17,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -48,16 +48,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 					String ItemID = config.getConfig().getString("AxeItemId");
 
-					Material WandMaterial;
-
-					try
-					{
-						WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
-					}
-					catch(Exception e)
-					{
-						WandMaterial = Material.getMaterial(ItemID);
-					}
+					
+					Material WandMaterial = Material.getMaterial(ItemID);
 					
 					if(WandMaterial == null){
 						WandMaterial = Material.IRON_AXE;
@@ -155,32 +147,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									
 									Material triggerBlockMat = Material.getMaterial(0);
 									if(hasTriggerBlock){
-
-										try
-										{
-											triggerBlockMat = Material.getMaterial(Integer.parseInt(triggerBlock));
-											player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
-											player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));
-										}
-										catch(Exception e)
-										{
-											try
-											{
 												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
-												player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
-												player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));
+												if(triggerBlockMat != null){
+													player.sendMessage("§atriggerBlock: §e" + triggerBlock.toUpperCase());
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, addArgs));;												}
+												else{
+													hasTriggerBlock = false;
+													ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+													player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+													
+													player.sendMessage("§cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
 											}
-											catch(Exception exeption)
-											{
-												hasTriggerBlock = false;
-												ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
-												player.sendMessage("§ctriggerBlock: §edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-												
-												player.sendMessage("§cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-												player.sendMessage(Portal.create(pos1, pos2, portalName, destination, addArgs));
-											}
-										}
-
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");

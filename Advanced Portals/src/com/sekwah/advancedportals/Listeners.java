@@ -12,10 +12,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.sekwah.advancedportals.DataCollector.DataCollector;
+import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class Listeners implements Listener {
@@ -81,21 +82,21 @@ public class Listeners implements Listener {
         	Location eyeloc = event.getTo();
         	//System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
         	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
-        	Object[] portals = Portal.Portals;
+        	AdvancedPortal[] portals = Portal.Portals;
         	int portalId = 0;
-        	for(Object portal : portals){
-        		if(Portal.worldName[portalId].equals(loc.getWorld().getName())){
-        			if(Portal.triggers[portalId].equals(loc.getBlock().getType())
-        					|| Portal.triggers[portalId].equals(eyeloc.getBlock().getType())){
-        				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
-        					if(Portal.pos2[portalId].getX() <= loc.getX() && Portal.pos2[portalId].getY() <= loc.getY() && Portal.pos2[portalId].getZ() <= loc.getZ()){
+        	for(AdvancedPortal portal : portals){
+        		if(Portal.Portals[portalId].worldName.equals(loc.getWorld().getName())){
+        			if(Portal.Portals[portalId].trigger.equals(loc.getBlock().getType())
+        					|| Portal.Portals[portalId].trigger.equals(eyeloc.getBlock().getType())){
+        				if((Portal.Portals[portalId].pos1.getX() + 1D) >= loc.getX() && (Portal.Portals[portalId].pos1.getY() + 1D) >= loc.getY() && (Portal.Portals[portalId].pos1.getZ() + 1D) >= loc.getZ()){
+        					if(Portal.Portals[portalId].pos2.getX() <= loc.getX() && Portal.Portals[portalId].pos2.getY() <= loc.getY() && Portal.Portals[portalId].pos2.getZ() <= loc.getZ()){
         						
         						
-        						boolean warped = Portal.activate(player, portal.toString());
+        						boolean warped = Portal.activate(player, portal.portalName);
         						if(defaultPortalMessages && warped){
         							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
         							player.sendMessage("");
-        							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(portal.toString() + ".destination") + ".");
+        							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination") + ".");
         							player.sendMessage("");
         						}
         						
@@ -107,7 +108,7 @@ public class Listeners implements Listener {
         							DataCollector.playerWarped();
         						}
         						
-        						if(Portal.triggers[portalId].equals(Material.PORTAL)){
+        						if(Portal.Portals[portalId].trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();
         							if(player.getGameMode().equals(GameMode.CREATIVE)){
         								player.setMetadata("HasWarped", new FixedMetadataValue(plugin, true));
@@ -147,11 +148,11 @@ public class Listeners implements Listener {
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
     		for(Object portal : portals){
-    			if(Portal.worldName[portalId].equals(player.getWorld().getName())){
+    			if(Portal.Portals[portalId].worldName.equals(player.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + 1D) >= loc.getX() && (Portal.pos1[portalId].getY() + 1D) >= loc.getY() && (Portal.pos1[portalId].getZ() + 1D) >= loc.getZ()){
+    				if((Portal.Portals[portalId].pos1.getX() + 1D) >= loc.getX() && (Portal.Portals[portalId].pos1.getY() + 1D) >= loc.getY() && (Portal.Portals[portalId].pos1.getZ() + 1D) >= loc.getZ()){
 
-    					if((Portal.pos2[portalId].getX()) <= loc.getX() && (Portal.pos2[portalId].getY()) <= loc.getY() && (Portal.pos2[portalId].getZ()) <= loc.getZ()){
+    					if((Portal.Portals[portalId].pos2.getX()) <= loc.getX() && (Portal.Portals[portalId].pos2.getY()) <= loc.getY() && (Portal.Portals[portalId].pos2.getZ()) <= loc.getZ()){
     						
     						event.setCancelled(true);
 
@@ -178,16 +179,16 @@ public class Listeners implements Listener {
     		Object[] portals = Portal.Portals;
     		int portalId = 0;
     		for(Object portal : portals){
-    			if(Portal.worldName[portalId].equals(block.getWorld().getName())){
+    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.pos1[portalId].getX() + 3D) >= block.getX() && (Portal.pos1[portalId].getY() + 3D) >= block.getY() && (Portal.pos1[portalId].getZ() + 3D) >= block.getZ()){
+    				if((Portal.Portals[portalId].pos1.getX() + 3D) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= block.getZ()){
 
-    					if((Portal.pos2[portalId].getX() - 3D) <= block.getX() && (Portal.pos2[portalId].getY() - 3D) <= block.getY() && (Portal.pos2[portalId].getZ() - 3D) <= block.getZ()){
-    						player.sendMessage("§a[§eAdvancedPortals§a] You have selected: §e" + Portal.portalName[portalId]);
+    					if((Portal.Portals[portalId].pos2.getX() - 3D) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= block.getZ()){
+    						player.sendMessage("§a[§eAdvancedPortals§a] You have selected: §e" + Portal.Portals[portalId].portalName);
     						// TODO add code somewhere so when a portal is removed or changed if someone has it selected it notifies them
     						//   or removed their selections and tells them, maybe not before this update.
     						player.removeMetadata("selectingPortal", plugin);
-    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.portalName[portalId])); // adds the name to the metadata of the character
+    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.Portals[portalId].portalName)); // adds the name to the metadata of the character
     						event.setCancelled(true);
     						player.removeMetadata("selectingPortal", plugin);
     			    		return;
