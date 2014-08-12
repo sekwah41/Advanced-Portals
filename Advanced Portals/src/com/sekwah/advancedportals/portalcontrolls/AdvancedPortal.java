@@ -15,7 +15,7 @@ public class AdvancedPortal {
 
 	public String portalName = null;
 	
-	public String destiation = null; // Could possibly store the destination name to stop the server having to read the config
+	public String destiation = null; // Could possibly store the destination name to stop the server having to read the config file
 	
-	public String bungee = null; // Could possibly store the bungee server name to stop the server having to read the config
+	public String bungee = null; // Could possibly store the bungee server name to stop the server having to read the config file
 }
