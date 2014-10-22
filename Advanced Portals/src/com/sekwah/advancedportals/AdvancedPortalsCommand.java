@@ -440,6 +440,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					else if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
 						hasDestination = true;
 					}
+					else if(args[i].toLowerCase().startsWith("desti:") && args[i].length() > 6){
+						hasDestination = true;
+					}
 					else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
 						hasTriggerBlock = true;
 					}
@@ -451,7 +454,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				
 				if(!hasName){autoComplete.add("name:");}
 				if(!hasTriggerBlock){autoComplete.add("triggerblock:");}
-				if(!hasDestination){autoComplete.add("destination:");}
+				if(!hasDestination){autoComplete.add("destination:");autoComplete.add("desti:");}
 				if(!isBungeePortal){autoComplete.add("bungee:");}
 			}
 		}
