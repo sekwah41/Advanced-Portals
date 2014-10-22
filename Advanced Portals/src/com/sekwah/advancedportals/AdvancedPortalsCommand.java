@@ -5,10 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R3.ChatSerializer;
-import net.minecraft.server.v1_7_R3.IChatBaseComponent;
-import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,7 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -219,7 +214,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 							sender.sendMessage("§c[§7AdvancedPortals§c] Are you sure you would like to remove the portal §e" + args[2] + "§c?");
 							sender.sendMessage("");
-							
+							plugin.nmsAccess.sendRawMessage("{text:\"    \",extra:[{text:\"§e[Yes]\",hoverEvent:{action:show_text,value:\"Confirm removing this portal\"},clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\"}}, " +
+							"{text:\"     \"},{text:\"§e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}", player);
 					        sender.sendMessage("");
 						}
 					}
@@ -403,12 +399,17 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		
 		Player player = (Player)sender;
 		
-		IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
+		plugin.nmsAccess.sendRawMessage("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
+				+ ",{text:\"  \"},{text:\"§eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
+				+ ",{text:\"  \"},{text:\"§eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
+				+ ",{text:\"  \"},{text:\"§eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}", player);
+		
+		/**IChatBaseComponent comp = ChatSerializer.a("{text:\"§aFunctions§e: \",extra:[{text:\"§eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
 				+ ",{text:\"  \"},{text:\"§eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
 				+ ",{text:\"  \"},{text:\"§eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
 				+ ",{text:\"  \"},{text:\"§eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}");
         PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);*/
         sender.sendMessage("");
 		
 	}

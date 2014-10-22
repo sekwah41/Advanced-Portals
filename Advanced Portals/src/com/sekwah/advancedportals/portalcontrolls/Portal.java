@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.portalcontrolls;
 
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -24,8 +23,13 @@ public class Portal {
 	public static boolean portalsActive = true;
 	
 	public static AdvancedPortal[] Portals;
+
+	private static boolean ShowBungeeMessage;
 	
     public Portal(AdvancedPortalsPlugin plugin) {
+    	ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+    	ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+    	
         Portal.plugin = plugin;
         Portal.loadPortals();
     }
@@ -39,8 +43,7 @@ public class Portal {
 	 * 
 	 */
     
-    @SuppressWarnings("deprecation")
-	public static void loadPortals(){
+    public static void loadPortals(){
     	
     	ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
     	Set<String> PortalSet = config.getConfig().getKeys(false);
@@ -325,7 +328,9 @@ public class Portal {
 		// add other variables or filter code here, or somehow have a way to register them
 		
 		if(config.getConfig().getString(portalName + ".bungee") != null){
-			player.sendMessage("§a[§eAdvancedPortals§a] Attempting to warp to §e" + config.getConfig().getString(portalName + ".bungee") + "§a.");
+			if(ShowBungeeMessage){
+				player.sendMessage("§a[§eAdvancedPortals§a] Attempting to warp to §e" + config.getConfig().getString(portalName + ".bungee") + "§a.");
+			}
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
 			out.writeUTF(config.getConfig().getString(portalName + ".bungee"));
