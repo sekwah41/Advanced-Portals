@@ -93,6 +93,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										hasDestination = true;
 										destination = args[i].toLowerCase().replaceFirst("destination:", "");
 									}
+									else if(args[i].toLowerCase().startsWith("desti:") && args[i].length() > 6){
+										hasDestination = true;
+										destination = args[i].toLowerCase().replaceFirst("destination:", "");
+									}
 									else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
 										hasTriggerBlock = true;
 										triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");

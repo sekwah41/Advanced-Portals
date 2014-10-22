@@ -31,7 +31,7 @@ public class Portal {
     	ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
     	
         Portal.plugin = plugin;
-        Portal.loadPortals();
+        Portal.loadPortals(); 
     }
     
 	/**
