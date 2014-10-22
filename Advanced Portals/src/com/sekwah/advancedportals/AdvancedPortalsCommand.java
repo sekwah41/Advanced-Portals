@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -220,10 +219,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 							sender.sendMessage("§c[§7AdvancedPortals§c] Are you sure you would like to remove the portal §e" + args[2] + "§c?");
 							sender.sendMessage("");
-							IChatBaseComponent comp = ChatSerializer.a("{text:\"    \",extra:[{text:\"§e[Yes]\",hoverEvent:{action:show_text,value:\"Confirm removing this portal\"},clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\"}}, " +
-							"{text:\"     \"},{text:\"§e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}");
-					        PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
-					        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+							
 					        sender.sendMessage("");
 						}
 					}
