@@ -41,29 +41,29 @@ warpParticles: 1
 # 0 = disabled(no sound)
 # 1 = Enderman Warp Sound
 # 2 = Explosion
-warpSound: 1
+WarpSound: 1
 
-
-
+# In case you want to show the bungee attempting warp message
+ShowBungeeWarpMessage: false
 
 # This changes how long the show seletion lasts in seconds
 
 ShowSelectionShowDuration: 10
 
-# If a player is riding a entity, warp the entity too?
+# If a player is riding a entity, warp the entity too?(unless its a bungee portal)
 
 WarpRiddenEntity: true
 
 # Use the default warp messages for portals
-portalWarpMessages: true
+PortalWarpMessages: true
 
 # Use plugin name in the warp messages
-useWarpPrefix: true
+UseWarpPrefix: true
 
 # If this is true a custom prefix can be used
 
-useCustomPrefix: false
+UseCustomPrefix: false
 
-customPrefix: '[Test]'
+CustomPrefix: '[Test]'
 
 

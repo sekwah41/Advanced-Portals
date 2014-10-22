@@ -8,8 +8,8 @@ public class Assets {
 
 	public Assets(AdvancedPortalsPlugin plugin) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
-		currentWarpParticles = config.getConfig().getInt("warpParticles");
-		currentWarpSound = config.getConfig().getInt("warpSound");
+		currentWarpParticles = config.getConfig().getInt("WarpParticles");
+		currentWarpSound = config.getConfig().getInt("WarpSound");
 	}
 
 }

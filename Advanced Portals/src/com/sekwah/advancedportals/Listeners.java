@@ -23,13 +23,15 @@ public class Listeners implements Listener {
 	
 	private final AdvancedPortalsPlugin plugin;
 
-	private boolean defaultPortalMessages = true;
+	private boolean DefaultPortalMessages = true;
 	
 	// The needed config values will be stored so they are easier to access later
 	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("§eP...
 	private static boolean UseOnlyServerAxe = false;
 
 	private static Material WandMaterial;
+
+	private static boolean ShowBungeeMessage;
 	
     @SuppressWarnings("deprecation")
 	public Listeners(AdvancedPortalsPlugin plugin) {
@@ -40,7 +42,7 @@ public class Listeners implements Listener {
         
 		String ItemID = config.getConfig().getString("AxeItemId");
 		
-		defaultPortalMessages  = config.getConfig().getBoolean("portalWarpMessages");
+		DefaultPortalMessages  = config.getConfig().getBoolean("PortalWarpMessages");
 		
 		try
 		{
@@ -59,6 +61,8 @@ public class Listeners implements Listener {
         
         ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
+        
+        ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
         
 		String ItemID = config.getConfig().getString("AxeItemId");
 		
@@ -93,7 +97,7 @@ public class Listeners implements Listener {
         						
         						
         						boolean warped = Portal.activate(player, portal.portalName);
-        						if(defaultPortalMessages && warped){
+        						if(DefaultPortalMessages && warped){
         							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
         							player.sendMessage("");
         							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination") + ".");
