@@ -35,7 +35,7 @@ ShowSelectionBlockData: 14
 # 0 = disabled(no particles)
 # 1 = Eye of ender explode efffect(loads of portal particles)
 # 2 = Explosion particles
-warpParticles: 1
+WarpParticles: 1
 
 # WarpSound generally suggested to keep the same as warpeffect but can usually be used for just the sound and no particle effects
 # 0 = disabled(no sound)
