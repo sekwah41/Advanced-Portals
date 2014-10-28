@@ -108,9 +108,6 @@ public class Listeners implements Listener {
         							player.teleport(fromloc);
         							event.setCancelled(true);
         						}
-        						else{
-        							DataCollector.playerWarped();
-        						}
         						
         						if(Portal.Portals[portalId].trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();
