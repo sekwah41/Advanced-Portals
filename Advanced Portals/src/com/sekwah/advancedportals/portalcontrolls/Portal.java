@@ -163,8 +163,6 @@ public class Portal {
 		
 		config.saveConfig();
 		
-		DataCollector.portalCreated(triggerBlock.toString());
-		
 		loadPortals();
 		
 		return "§aPortal creation successful!";

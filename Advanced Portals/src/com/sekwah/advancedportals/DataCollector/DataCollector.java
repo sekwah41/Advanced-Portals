@@ -1,12 +1,18 @@
 package com.sekwah.advancedportals.DataCollector;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.metrics.Metrics.Graph;
+import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
+import com.sekwah.advancedportals.portalcontrolls.Portal;
+
+import org.bukkit.Material;
 
 public class DataCollector {
 
@@ -22,12 +28,12 @@ public class DataCollector {
 	 * 
 	 */
 	
-	public static void playerWarped() {
+	/**public static void playerWarped() {
 		try {
 		    Metrics metrics = new Metrics(plugin);
 
 		    Graph TotalWarps = metrics.createGraph("Total Warps");
-
+		    
 		    TotalWarps.addPlotter(new Metrics.Plotter("Internal Warps") {
 
 		            @Override
@@ -37,45 +43,32 @@ public class DataCollector {
 
 		    });
 
-		    /**TotalWarps.addPlotter(new Metrics.Plotter("Iron Sword") {
-		    	// can be used to add more data to the graph, can be in a pie chart or multiple lines on one graph
-		            @Override
-		            public int getValue() {
-		                    return 17;
-		            }
-
-		    });*/
-
 		    metrics.start();
 		} catch (IOException e) {
 			plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
 		}
-	}
+	}*/
 	
-	public static void portalCreated(String triggerName) {
+	public static void setupMetrics() {
+		
 		try {
 		    Metrics metrics = new Metrics(plugin);
 		    Graph TotalWarps = metrics.createGraph("Portal Trigger Blocks");
+		    
+		    /**List<Material> MaterialList = new ArrayList<Material>();
+		    for(AdvancedPortal portal : Portal.Portals){
+		    	MaterialList.add(portal.trigger);
+		    }*/
 
-		    TotalWarps.addPlotter(new Metrics.Plotter(triggerName) {
+		    /**TotalWarps.addPlotter(new Metrics.Plotter(triggerName) {
 
 		            @Override
 		            public int getValue() {
 		                    return 1; // number of portals created
 		            }
 
-		    });
-
-		    /**TotalWarps.addPlotter(new Metrics.Plotter("Iron Sword") {
-		    	// can be used to add more data to the graph, can be in a pie chart or multiple lines on one graph
-		            @Override
-		            public int getValue() {
-		                    return 17;
-		            }
-
 		    });*/
-
-		    metrics.start();
+		    
 		} catch (IOException e) {
 			plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
 		}

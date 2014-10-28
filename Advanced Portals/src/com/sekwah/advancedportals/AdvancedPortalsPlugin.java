@@ -17,6 +17,45 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 	
 	public void onEnable() {
 		
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}
+		
+		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
+		
+		String packageName = getServer().getClass().getPackage().getName();
+		String[] packageSplit = packageName.split("\\.");
+		String version = packageSplit[packageSplit.length - 1];
+
+		try {
+			Class<?> nmsClass = Class.forName("com.sekwah.advancedportals.compat." + version);
+			if(NMS.class.isAssignableFrom(nmsClass)){
+				this.nmsAccess = (NMS) nmsClass.getConstructor().newInstance();
+			}else
+			{
+				System.out.println("Something went wrong, please notify the author and tell them this version v:" + version);
+				this.setEnabled(false);
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("This version of craftbukkit is not yet supported, please notify the author and give them this version v:" + version);
+			this.setEnabled(false);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		
 		new Assets(this);
 		
 		// Opens a channel that messages bungeeCord
@@ -55,50 +94,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		
 		Selection.LoadData(this);
 		
-		try {
-		    Metrics metrics = new Metrics(this);
-		    metrics.start();
-		} catch (IOException e) {
-		    // Failed to submit the stats :-(
-		}
-		
-		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
-		
-		String packageName = getServer().getClass().getPackage().getName();
-		String[] packageSplit = packageName.split("\\.");
-		String version = packageSplit[packageSplit.length - 1];
-
-		try {
-			Class<?> nmsClass = Class.forName("com.sekwah.advancedportals.compat." + version);
-			if(NMS.class.isAssignableFrom(nmsClass)){
-				this.nmsAccess = (NMS) nmsClass.getConstructor().newInstance();
-			}else
-			{
-				System.out.println("Something went wrong, please notify the author and tell them this version v:" + version);
-				this.setEnabled(false);
-			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("This version of craftbukkit is not yet supported, please notify the author and give them this version v:" + version);
-			this.setEnabled(false);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		DataCollector.setupMetrics();
 	}
 	
 	
