@@ -15,6 +15,7 @@ import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.events.WarpEvent;
 
 public class Portal {
 	
@@ -272,7 +273,6 @@ public class Portal {
 		for(int i = keys.length - 1; i >= 0; i--){
 			String key = keys[i].toString();
 			if(key.startsWith(name + ".")){
-				System.out.println(key);
 				config.getConfig().set(key, null);
 			}
 		}
