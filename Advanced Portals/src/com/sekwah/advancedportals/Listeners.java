@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.sekwah.advancedportals.DataCollector.DataCollector;
+import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
 
@@ -96,18 +97,27 @@ public class Listeners implements Listener {
         					if(Portal.Portals[portalId].pos2.getX() <= loc.getX() && Portal.Portals[portalId].pos2.getY() <= loc.getY() && Portal.Portals[portalId].pos2.getZ() <= loc.getZ()){
         						
         						
-        						boolean warped = Portal.activate(player, portal.portalName);
-        						if(DefaultPortalMessages && warped){
-        							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
-        							player.sendMessage("");
-        							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination") + ".");
-        							player.sendMessage("");
+        						WarpEvent warpEvent = new WarpEvent(player, portal.portalName);
+        						plugin.getServer().getPluginManager().callEvent(event);
+        						
+        						if (!event.isCancelled()) {
+        							boolean warped = Portal.activate(player, portal.portalName);
+            						if(DefaultPortalMessages && warped){
+            							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+            							player.sendMessage("");
+            							player.sendMessage("§a[§eAdvancedPortals§a] You have warped to §e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination") + ".");
+            							player.sendMessage("");
+            						}
+            						
+            						if(!warped){
+            							player.teleport(fromloc);
+            							event.setCancelled(true);
+            						}
+        				        }
+        						else{
+        							
         						}
         						
-        						if(!warped){
-        							player.teleport(fromloc);
-        							event.setCancelled(true);
-        						}
         						
         						if(Portal.Portals[portalId].trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();

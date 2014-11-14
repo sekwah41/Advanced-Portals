@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Cancellable;
+
+import com.sekwah.advancedportals.portalcontrolls.Portal;
  
 public final class WarpEvent extends Event implements Cancellable {
 	
@@ -14,17 +16,24 @@ public final class WarpEvent extends Event implements Cancellable {
 	
 	
     private static final HandlerList handlers = new HandlerList();
-    private String message;
-    private boolean cancelled;
+    
+    private boolean cancelled = false;
+	private Player player;
+	private String portalName;
+
+	private boolean hasWarped = false;
  
     public WarpEvent(Player player, String portalName) {
-    	// add code for the custom listener
+    	this.player = player;
+    	this.portalName = portalName;
     }
- 
-    public String getMessage() {
-        return message;
-    }
- 
+    
+    
+    /**
+     * Returns if the event has been cancelled
+     * 
+     * @return cancelled
+     */
     public boolean isCancelled() {
         return cancelled;
     }
@@ -32,6 +41,29 @@ public final class WarpEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
+    
+    /**
+     * If the 
+     * 
+     * @param warped
+     */
+    public void setHasWarped(boolean warped){
+    	this.hasWarped = warped;
+    }
+    
+    /**
+     * This will return true if another plugin has warped the player(and set this to true)
+     * 
+     * @return hasWarped
+     */
+    public boolean getHasWarped(){
+    	return hasWarped;
+    }
+    
+    public Player getPlayer(){
+    	return player;
+    }
+    
  
     public HandlerList getHandlers() {
         return handlers;
