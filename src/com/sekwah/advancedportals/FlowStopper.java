@@ -1,14 +1,12 @@
 package com.sekwah.advancedportals;
 
-import org.bukkit.Material;
+import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
+import com.sekwah.advancedportals.portalcontrolls.Portal;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
-
-import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
 
 public class FlowStopper implements Listener {
 
@@ -16,7 +14,7 @@ public class FlowStopper implements Listener {
 	private final AdvancedPortalsPlugin plugin;
 
 	// The needed config values will be stored so they are easier to access later
-	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("§eP...
+	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("ï¿½eP...
 	private boolean WaterFlow = true;
 
 	public FlowStopper(AdvancedPortalsPlugin plugin) {

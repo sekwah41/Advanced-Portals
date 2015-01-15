@@ -1,21 +1,18 @@
 package com.sekwah.advancedportals.portalcontrolls;
 
-import java.util.Set;
-import java.util.logging.Level;
-
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.destinations.Destination;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import com.sekwah.advancedportals.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.DataCollector.DataCollector;
-import com.sekwah.advancedportals.destinations.Destination;
-import com.sekwah.advancedportals.events.WarpEvent;
+import java.util.Set;
+import java.util.logging.Level;
 
 public class Portal {
 	
@@ -100,7 +97,7 @@ public class Portal {
 		
 		if(!pos1.getWorld().equals(pos2.getWorld())){
 			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
-			return "§cPortal creation error, pos1 and pos2 must be in the same world!";
+			return "\u00A7cPortal creation error, pos1 and pos2 must be in the same world!";
 		}
 		
 		int LowX = 0;
@@ -141,7 +138,7 @@ public class Portal {
 		
 		if(checkPortalOverlap(checkpos1, checkpos2)){
 			plugin.getLogger().log(Level.WARNING, "Portals must not overlap!");
-			return "§cPortal creation error, portals must not overlap!";
+			return "\u00A7cPortal creation error, portals must not overlap!";
 		}
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
@@ -166,7 +163,7 @@ public class Portal {
 		
 		loadPortals();
 		
-		return "§aPortal creation successful!";
+		return "\u00A7aPortal creation successful!";
 	}
 	
 	// make this actually work!
@@ -327,7 +324,7 @@ public class Portal {
 		
 		if(config.getConfig().getString(portalName + ".bungee") != null){
 			if(ShowBungeeMessage){
-				player.sendMessage("§a[§eAdvancedPortals§a] Attempting to warp to §e" + config.getConfig().getString(portalName + ".bungee") + "§a.");
+				player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Attempting to warp to \u00A7e" + config.getConfig().getString(portalName + ".bungee") + "\u00A7a.");
 			}
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
@@ -345,7 +342,7 @@ public class Portal {
 					return warped;
 				}
 				else{
-					player.sendMessage("§c[§7AdvancedPortals§c] The destination you are currently attempting to warp to doesnt exist!");
+					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
 					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 					return false;
@@ -353,7 +350,7 @@ public class Portal {
 
 			}
 			else{
-				player.sendMessage("§c[§7AdvancedPortals§c] The portal you are trying to use doesn't have a destination!");
+				player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you are trying to use doesn't have a destination!");
 				plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 						+ "attempt and either the data is corrupt or portal doesn't exist!");
 				return false;

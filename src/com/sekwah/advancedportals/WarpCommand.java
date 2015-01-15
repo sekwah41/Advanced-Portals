@@ -1,21 +1,19 @@
 package com.sekwah.advancedportals;
 
+import com.sekwah.advancedportals.destinations.Destination;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
-import com.sekwah.advancedportals.destinations.Destination;
-
 public class WarpCommand implements CommandExecutor, TabCompleter {
-	
+
+	@SuppressWarnings("unused")
 	private AdvancedPortalsPlugin plugin;
 	
 	public WarpCommand(AdvancedPortalsPlugin plugin) {
@@ -30,18 +28,18 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 		if(args.length > 0){
 			if(Destination.warp(sender, args[0], false)){
 				sender.sendMessage("");
-				sender.sendMessage("§a[§eAdvancedPortals§a] You have been warped to §e" + args[0] + ".");
+				sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0] + ".");
 				sender.sendMessage("");
 			}
 			else{
 				sender.sendMessage("");
-				sender.sendMessage("§c[§7AdvancedPortals§c] The destination you tried to warp to does not exist!");
+				sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you tried to warp to does not exist!");
 				sender.sendMessage("");
 			}
 		}
 		else{
 			sender.sendMessage("");
-			sender.sendMessage("§c[§7AdvancedPortals§c] You need to type a destination after /" + command + "!");
+			sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to type a destination after /" + command + "!");
 			sender.sendMessage("");
 		}
 		return true;
@@ -52,7 +50,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
 		LinkedList<String> autoComplete = new LinkedList<String>();
 		
-		if(sender.hasPermission("AdvancedPortals.CreatePortal")){
+		/**if(sender.hasPermission("AdvancedPortals.CreatePortal")){
 			if(args.length == 1){
 				autoComplete.addAll(Arrays.asList("create", "goto", "redefine", "move", "rename", "remove"));
 			}
@@ -64,7 +62,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 			if(!result.toString().startsWith(args[args.length - 1])){
 				autoComplete.remove(result);
 			}
-		}
+		}*/
 		return autoComplete;
 	}
 

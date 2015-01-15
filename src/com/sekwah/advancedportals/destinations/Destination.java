@@ -1,25 +1,20 @@
 package com.sekwah.advancedportals.destinations;
 
-import java.util.Arrays;
+import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.effects.WarpEffects;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-
-import com.mysql.jdbc.Util;
-import com.sekwah.advancedportals.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.effects.WarpEffects;
 
 public class Destination {
 	
@@ -131,7 +126,7 @@ public class Destination {
 			}
 			else{
 				if(senderror){
-					player.sendMessage("§c[§7AdvancedPortals§c] The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
 					plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
 							+ config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
 				}
@@ -140,7 +135,7 @@ public class Destination {
 		}
 		else{
 			if(senderror){
-				player.sendMessage("§c[§7AdvancedPortals§c] There has been a problem warping you to the selected destination!");
+				player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There has been a problem warping you to the selected destination!");
 				plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
 						+ "attempt and either the data is corrupt or that destination doesn't exist!");
 			}
@@ -152,7 +147,7 @@ public class Destination {
 	/**
 	 * Same as other warp but changes sender to player for you.
 	 * 
-	 * @param sender
+	 * @param player
 	 * @param name
 	 * @return 
 	 */
@@ -194,8 +189,8 @@ public class Destination {
 		LinkedList<String> destiList = new LinkedList<String>();
 		
 		Set<String> destiSet = config.getConfig().getKeys(false);
-    	if(destiSet.size() > 0){;
-    		for(Object desti: destiSet.toArray()){
+    	if(destiSet.size() > 0){
+			for(Object desti: destiSet.toArray()){
     			destiSet.add(desti.toString());
     		}
     	}
