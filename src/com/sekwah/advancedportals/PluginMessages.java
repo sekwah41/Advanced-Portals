@@ -8,12 +8,12 @@ public class PluginMessages {
 	//  easily changed.
 	
 	public static void UnknownCommand(CommandSender sender, String command) {
-		sender.sendMessage("§c[§7AdvancedPortals§c] You need to type something after /" + command + "\n");
-		sender.sendMessage("§cIf you do not know what you can put or would like some help with the commands please type §e" + '"' + "§e/" + command + " help" + '"' + "§c\n");
+		sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to type something after /" + command + "\n");
+		sender.sendMessage("\u00A7cIf you do not know what you can put or would like some help with the commands please type \u00A7e" + '"' + "\u00A7e/" + command + " help" + '"' + "\u00A7c\n");
 	}
 
 	public static void NoPermission(CommandSender sender, String command) {
-		sender.sendMessage("§c[§7AdvancedPortals§c] You do not have permission to perform that command!");
+		sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to perform that command!");
 	}
 
 }

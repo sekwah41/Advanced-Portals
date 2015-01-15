@@ -1,15 +1,11 @@
 package com.sekwah.advancedportals.effects;
 
+import com.sekwah.advancedportals.Assets;
 import org.bukkit.Effect;
-import org.bukkit.Instrument;
 import org.bukkit.Location;
-import org.bukkit.Note;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.Note.Tone;
 import org.bukkit.entity.Player;
-
-import com.sekwah.advancedportals.Assets;
 
 public class WarpEffects {
 

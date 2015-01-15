@@ -1,20 +1,16 @@
 package com.sekwah.advancedportals;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import com.sekwah.advancedportals.destinations.Destination;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import com.sekwah.advancedportals.destinations.Destination;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 	
@@ -36,20 +32,20 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
 						if(posX == null){
-							sender.sendMessage("§a[§eAdvancedPortals§a] You have created a new destination called §e" + args[1] +  "!");
+							sender.sendMessage("Â§a[\u00A7eAdvancedPortals\u00A7a] You have created a new destination called \u00A7e" + args[1] +  "!");
 							Player player = sender.getServer().getPlayer(sender.getName());
 							Destination.create(player.getLocation(), args[1]);
 						}
 						else{
-							sender.sendMessage("§c[§7AdvancedPortals§c] A destination by that name already exists!");
+							sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] A destination by that name already exists!");
 						}
 					}
 					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] Please state the name of the destination you would like to create!");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Please state the name of the destination you would like to create!");
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You do not have permission to create portals so you cannot give yourself a §ePortal Region Selector§c!");
+					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to create portals so you cannot give yourself a \u00A7ePortal Region Selector\u00A7c!");
 				}
 			}
 			else if(args[0].toLowerCase().equals("remove")) {
@@ -58,14 +54,14 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 					if(posX != null){
 						Destination.remove(args[1]);
-						sender.sendMessage("§c[§7AdvancedPortals§c] The portal §e" + args[1] + "§c has been removed!");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A7e" + args[1] + "\u00A7c has been removed!");
 					}
 					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] No portal by that name exists.");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by that name exists.");
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to remove.");
+					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to remove.");
 				}
 			}
 			else if(args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
@@ -74,14 +70,14 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
-						sender.sendMessage("§a[§eAdvancedPortals§a] You have been warped to §e" + args[1] + "§a.");
+						sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[1] + "\u00A7a.");
 					}
 					else{
-						sender.sendMessage("§c[§7AdvancedPortals§c] No destination by that name exists.");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No destination by that name exists.");
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] You need to state the name of the destination you wish to teleport to.");
+					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to teleport to.");
 				}
 			}
 			else if(args[0].toLowerCase().equals("list")) {
@@ -92,16 +88,16 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						{
 							int page = Integer.parseInt(args[1]);
 							if(page * 5 >= destiList.size() - 5){ // add this if statement so that the user cant select a list page higher than the max
-								if((int) destiList.size() / 5 ==  destiList.size()){
+								if(destiList.size() / 5 ==  destiList.size()){
 									
 								}
 							}
-							sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+							sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
 							for(int i = (page - 1) * 5; i < page * 5; i++){
 								if(i > destiList.size()){
 									break;
 								}
-								sender.sendMessage(" §e" + destiList.get(i));
+								sender.sendMessage(" \u00A7e" + destiList.get(i));
 							}
 							return true;
 						}
@@ -110,29 +106,29 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						}
 					}
 					
-					sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
 					for(int i = 0; i < 5; i++){
 						if(i > destiList.size()){
 							break;
 						}
-						sender.sendMessage(" §e" + destiList.get(i));
+						sender.sendMessage(" \u00A7e" + destiList.get(i));
 					}
 					
-					sender.sendMessage("§a[§eAdvancedPortals§a] Showing destinations page 1 of 1");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
 					for(int i = 0; i < 5; i++){
 						if(i > destiList.size()){
 							break;
 						}
-						sender.sendMessage(" §e" + destiList.get(i));
+						sender.sendMessage(" \u00A7e" + destiList.get(i));
 					}
 				}
 				else{
-					sender.sendMessage("§c[§7AdvancedPortals§c] There are currently no defined destinations.");
+					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There are currently no defined destinations.");
 				}
 			}
 		}
 		else{
-			sender.sendMessage("§c[§7AdvancedPortals§c] You need to type something after /" + command + ", if you do not know what you can put or would like some help with the commands please type /" + command + " help");
+			sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to type something after /" + command + ", if you do not know what you can put or would like some help with the commands please type /" + command + " help");
 		}
 		return true;
 	}

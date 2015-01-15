@@ -1,18 +1,11 @@
 package com.sekwah.advancedportals.DataCollector;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.metrics.Metrics.Graph;
-import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
 
-import org.bukkit.Material;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public class DataCollector {
 

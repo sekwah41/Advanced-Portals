@@ -1,31 +1,30 @@
 package com.sekwah.advancedportals;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.compat.NMS;
 import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portalcontrolls.Portal;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
-	
+
 	public NMS nmsAccess;
-	
+
 	public void onEnable() {
-		
+
 		try {
 		    Metrics metrics = new Metrics(this);
 		    metrics.start();
 		} catch (IOException e) {
 		    // Failed to submit the stats :-(
 		}
-		
-		this.getServer().getConsoleSender().sendMessage("§aAdvanced portals have been sucsessfully enabled!");
-		
+
+		this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been sucsessfully enabled!");
+
 		String packageName = getServer().getClass().getPackage().getName();
 		String[] packageSplit = packageName.split("\\.");
 		String version = packageSplit[packageSplit.length - 1];
@@ -99,7 +98,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 	
 	
 	public void onDisable() {
-		this.getServer().getConsoleSender().sendMessage("§cAdvanced portals are being disabled!");
+		this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
 	}
 	
 	

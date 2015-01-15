@@ -228,51 +228,51 @@ public class Selection {
 		
 		for(int x = LowX; x <= HighX; x++){
 				Location loc = new Location(player.getWorld(), x, LowY, LowZ);
-				player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+				player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int x = LowX; x <= HighX; x++){
 			Location loc = new Location(player.getWorld(), x, LowY, HighZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int z = LowZ; z <= HighZ; z++){
 			Location loc = new Location(player.getWorld(), LowX, LowY, z);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int z = LowZ; z <= HighZ; z++){
 			Location loc = new Location(player.getWorld(), HighX, LowY, z);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int y = LowY; y <= HighY; y++){
 			Location loc = new Location(player.getWorld(), LowX, y, LowZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int y = LowY; y <= HighY; y++){
 			Location loc = new Location(player.getWorld(), LowX, y, HighZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int y = LowY; y <= HighY; y++){
 			Location loc = new Location(player.getWorld(), HighX, y, LowZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int y = LowY; y <= HighY; y++){
 			Location loc = new Location(player.getWorld(), HighX, y, HighZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int x = LowX; x <= HighX; x++){
 			Location loc = new Location(player.getWorld(), x, HighY, HighZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int x = LowX; x <= HighX; x++){
 			Location loc = new Location(player.getWorld(), x, HighY, LowZ);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int z = LowZ; z <= HighZ; z++){
 			Location loc = new Location(player.getWorld(), LowX, HighY, z);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		for(int z = LowZ; z <= HighZ; z++){
 			Location loc = new Location(player.getWorld(), HighX, HighY, z);
-			player.sendBlockChange(loc, loc.getBlock().getType(), (byte) loc.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 		
 	}
