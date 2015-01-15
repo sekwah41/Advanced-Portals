@@ -1,0 +1,29 @@
+main: com.sekwah.advancedportals.AdvancedPortalsPlugin
+name: AdvancedPortals
+version: 0.0.3
+author: SEKWAH41
+description: An advanced portals plugin for bukkit.
+commands:
+    advancedportals:
+        description: The main command for the advanced portals
+        aliases: [portals, aportals, portal]
+        usage: /<command>
+    destination:
+        description: Can be used to access portal destinations.
+        aliases: [desti]
+        usage: /<command>
+    warp:
+        description: Used to warp to destinations.
+        usage: /<command>
+permissions:
+   advancedportals.*:
+     description: Gives access to all portal commands
+     children:
+       advancedportals.createportal: true
+       advancedportals.build: true
+   advancedportals.createportal:
+     description: Allows you to create portals
+     default: op
+   advancedportals.build:
+     description: Allows you to build in the portal regions
+     default: op
