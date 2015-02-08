@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.destinations.Destination;
-import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
