@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.portalcontrolls;
+package com.sekwah.advancedportals.portals;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

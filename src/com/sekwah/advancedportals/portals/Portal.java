@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.portalcontrolls;
+package com.sekwah.advancedportals.portals;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -274,6 +274,8 @@ public class Portal {
 			}
 		}
 		config.getConfig().set(name, null);
+
+		// TODO add code to check if people have the portal selected and notify if removed.
 		
 		/**Set<String> keys = config.getConfig().getKeys(true);
 		for(String key: keys){
