@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.compat;
 
-import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import org.bukkit.entity.Player;
 
 public interface NMS {
