@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,13 +14,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
-	
+
+	private final int PortalMessagesDisplay;
+
 	private AdvancedPortalsPlugin plugin;
 	
 	public DestinationCommand(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
 		
 		plugin.getCommand("destination").setExecutor(this);
+
+		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+
+		PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
+		
+		
 	}
 	
 
@@ -70,7 +79,17 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
-						sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[1] + "\u00A7a.");
+						if(PortalMessagesDisplay == 1){
+							sender.sendMessage("");
+							sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.");
+							sender.sendMessage("");
+						}
+						else if(PortalMessagesDisplay == 2){
+							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+							plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
+							/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
+							 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
+						}
 					}
 					else{
 						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No destination by that name exists.");

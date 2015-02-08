@@ -1,10 +1,14 @@
 package com.sekwah.advancedportals.compat;
 
+import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.ConfigAccessor;
 import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import java.util.logging.Level;
 
 @SuppressWarnings("unused")
 public class v1_7_R4 implements NMS {
@@ -15,5 +19,11 @@ public class v1_7_R4 implements NMS {
 		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
-	
+
+	@Override
+	public void sendActionBarMessage(String rawMessage, Player player) {
+		IChatBaseComponent comp = ChatSerializer.a(" " + rawMessage);
+		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+	}
 }
