@@ -19,6 +19,8 @@ public class v1_7_R2 implements NMS {
 
 	@Override
 	public void sendActionBarMessage(String rawMessage, Player player) {
-
+		IChatBaseComponent comp = ChatSerializer.a(" " + rawMessage);
+		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
 }
