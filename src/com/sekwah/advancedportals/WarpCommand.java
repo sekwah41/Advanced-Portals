@@ -28,7 +28,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 		if(args.length > 0){
 			if(Destination.warp(sender, args[0], false)){
 				sender.sendMessage("");
-				sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0] + ".");
+				sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0] + "\u00A7a.");
 				sender.sendMessage("");
 			}
 			else{

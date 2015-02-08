@@ -52,16 +52,15 @@ ShowSelectionShowDuration: 10
 
 WarpRiddenEntity: true
 
-# Use the default warp messages for portals
-PortalWarpMessages: true
+# Where to display the message 0 = disabled(replaces PortalWarpMessages), 1 = in chat and 2 = action bar(1.8 and above only, anything lower will print the message that would
+#  generally on the action bar in the chat without a prefix or extra chat formatting)
+WarpMessageDisplay: 2
 
 # Use plugin name in the warp messages
 UseWarpPrefix: true
 
-# If this is true a custom prefix can be used
+# If this is true a custom prefix can be used, (not fully coded yet!!)
 
 UseCustomPrefix: false
 
 CustomPrefix: '[Test]'
-
-

@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.compat;
 
+import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import net.minecraft.server.v1_7_R1.ChatSerializer;
 import net.minecraft.server.v1_7_R1.IChatBaseComponent;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
@@ -14,5 +15,10 @@ public class v1_7_R1 implements NMS {
 		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
-	
+
+	@Override
+	public void sendActionBarMessage(String rawMessage, Player player) {
+
+	}
+
 }
