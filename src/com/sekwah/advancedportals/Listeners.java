@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.events.WarpEvent;
-import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
+import com.sekwah.advancedportals.portals.AdvancedPortal;
+import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -194,8 +194,6 @@ public class Listeners implements Listener {
 
     					if((Portal.Portals[portalId].pos2.getX() - 3D) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= block.getZ()){
     						player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have selected: \u00A7e" + Portal.Portals[portalId].portalName);
-    						// TODO add code somewhere so when a portal is removed or changed if someone has it selected it notifies them
-    						//   or removed their selections and tells them, maybe not before this update.
     						player.removeMetadata("selectingPortal", plugin);
     						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.Portals[portalId].portalName)); // adds the name to the metadata of the character
     						event.setCancelled(true);

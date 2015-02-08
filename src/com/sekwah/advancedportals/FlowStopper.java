@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals;
 
-import com.sekwah.advancedportals.portalcontrolls.AdvancedPortal;
-import com.sekwah.advancedportals.portalcontrolls.Portal;
+import com.sekwah.advancedportals.portals.AdvancedPortal;
+import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
