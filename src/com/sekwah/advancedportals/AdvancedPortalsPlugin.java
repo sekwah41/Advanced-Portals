@@ -14,6 +14,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
 	public NMS nmsAccess;
 
+	public boolean useCustomPrefix = false;
+
+	public String customPrefix = "\u00A7a[\u00A7eAdvancedPortals\u00A7a]";
+
 	public void onEnable() {
 
 		try {
@@ -64,7 +68,12 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		//  only copy the file if it doesnt exist!
         ConfigAccessor config = new ConfigAccessor(this, "Config.yml");
         config.saveDefaultConfig();
-        
+
+		this.useCustomPrefix = config.getConfig().getBoolean("UseCustomPrefix");
+		if(useCustomPrefix){
+			this.customPrefix = config.getConfig().getString("CustomPrefix");
+		}
+
         ConfigAccessor portalconfig = new ConfigAccessor(this, "Portals.yml");
         portalconfig.saveDefaultConfig();
         
