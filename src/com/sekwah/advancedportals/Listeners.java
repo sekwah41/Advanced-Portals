@@ -103,12 +103,12 @@ public class Listeners implements Listener {
             						if(PortalMessagesDisplay == 1 && warped){
             							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
             							player.sendMessage("");
-            							player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7.");
+            							player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7.");
             							player.sendMessage("");
             						}
 									else if(PortalMessagesDisplay == 2 && warped){
 										ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
-										plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7a.\"}", player);
+										plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have been warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7a.\"}", player);
 										/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
 												+ "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 									}
