@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -89,11 +90,11 @@ public class Portal {
     	
     }
     
-    public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock) {
-    	return create(pos1, pos2, name, destination, triggerBlock, null);
+    public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock, PortalArgs... extraData) {
+    	return create(pos1, pos2, name, destination, triggerBlock, null, extraData);
     }
     
-	public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock, String serverName) {
+	public static String create(Location pos1, Location pos2, String name, String destination, Material triggerBlock, String serverName, PortalArgs... extraData) {
 		
 		if(!pos1.getWorld().equals(pos2.getWorld())){
 			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -158,6 +159,10 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.X", LowX);
 		config.getConfig().set(name + ".pos2.Y", LowY);
 		config.getConfig().set(name + ".pos2.Z", LowZ);
+
+        for(PortalArgs arg: extraData){
+            config.getConfig().set(name + ".extraData." + arg.argName, arg.value);
+        }
 		
 		config.saveConfig();
 		
@@ -215,8 +220,8 @@ public class Portal {
 		return triggerBlock.toString();
 	}
 	
-	public static String create(Location pos1, Location pos2, String name, String destination) {
-		return create(pos1, pos2, name, destination,(String) null);
+	public static String create(Location pos1, Location pos2, String portalName, String name, String destination, PortalArgs... extraData) {
+        return create(pos1, pos2, name, destination,(String) null);
 	}
 	
 	@SuppressWarnings("deprecation")
