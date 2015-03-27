@@ -33,15 +33,13 @@ public class FlowStopper implements Listener {
 		// when checking positions check the block and the to block
 		Block blockTo = event.getToBlock();
 		Block block = event.getBlock();
-		
-		AdvancedPortal[] portals = Portal.Portals;
-		int portalId = 0;
-		for(Object portal : portals){
-			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
 
-				if((Portal.Portals[portalId].pos1.getX() + 3D) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= block.getZ()){
+		for(AdvancedPortal portal : Portal.Portals){
+			if(portal.worldName.equals(block.getWorld().getName())){
 
-					if((Portal.Portals[portalId].pos2.getX() - 3D) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= block.getZ()){
+				if((portal.pos1.getX() + 3D) >= block.getX() && (portal.pos1.getY() + 3D) >= block.getY() && (portal.pos1.getZ() + 3D) >= block.getZ()){
+
+					if((portal.pos2.getX() - 3D) <= block.getX() && (portal.pos2.getY() - 3D) <= block.getY() && (portal.pos2.getZ() - 3D) <= block.getZ()){
 						
 						event.setCancelled(true);
 
@@ -50,11 +48,11 @@ public class FlowStopper implements Listener {
 
 			}
 			
-			if(Portal.Portals[portalId].worldName.equals(blockTo.getWorld().getName())){
+			if(portal.worldName.equals(blockTo.getWorld().getName())){
 
-				if((Portal.Portals[portalId].pos1.getX() + 3D) >= blockTo.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= blockTo.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= blockTo.getZ()){
+				if((portal.pos1.getX() + 3D) >= blockTo.getX() && (portal.pos1.getY() + 3D) >= blockTo.getY() && (portal.pos1.getZ() + 3D) >= blockTo.getZ()){
 
-					if((Portal.Portals[portalId].pos2.getX() - 3D) <= blockTo.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= blockTo.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= blockTo.getZ()){
+					if((portal.pos2.getX() - 3D) <= blockTo.getX() && (portal.pos2.getY() - 3D) <= blockTo.getY() && (portal.pos2.getZ() - 3D) <= blockTo.getZ()){
 						
 						event.setCancelled(true);
 
@@ -62,7 +60,6 @@ public class FlowStopper implements Listener {
 				}
 
 			}
-			portalId++;
 		}
 	}
 
