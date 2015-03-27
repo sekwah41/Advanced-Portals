@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.portals.Portal;
-import com.sekwah.advancedportals.portals.PortalArgs;
+import com.sekwah.advancedportals.portals.PortalArg;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -80,7 +80,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								String serverName = null;
                                 String permission = null;
 
-                                ArrayList<PortalArgs> extraData = new ArrayList<PortalArgs>();
+                                ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
 
 								for(int i = 1; i < args.length; i++){
 									if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
@@ -115,7 +115,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){ // not completely implemented
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
-                                        extraData.add(new PortalArgs("permission", serverName));
+                                        extraData.add(new PortalArg("permission", serverName));
                                     }
 								}
 								if(!hasName){
@@ -161,7 +161,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
 												if(triggerBlockMat != null){
 													player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, (PortalArgs[]) extraData.toArray()));
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, (PortalArg[]) extraData.toArray()));
 												}
 												else{
 													hasTriggerBlock = false;
@@ -169,13 +169,13 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 													player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
 													player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArgs[]) extraData.toArray()));
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArg[]) extraData.toArray()));
 											}
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 										player.sendMessage("\u00A7atriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArgs[]) extraData.toArray()));
+										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArg[]) extraData.toArray()));
 									}
 								}
 								else{
