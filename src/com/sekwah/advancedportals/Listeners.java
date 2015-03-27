@@ -86,13 +86,12 @@ public class Listeners implements Listener {
         	//System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
         	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
         	AdvancedPortal[] portals = Portal.Portals;
-        	int portalId = 0;
         	for(AdvancedPortal portal : portals){
-        		if(Portal.Portals[portalId].worldName.equals(loc.getWorld().getName())){
-        			if(Portal.Portals[portalId].trigger.equals(loc.getBlock().getType())
-        					|| Portal.Portals[portalId].trigger.equals(eyeloc.getBlock().getType())){
-        				if((Portal.Portals[portalId].pos1.getX() + 1D) >= loc.getX() && (Portal.Portals[portalId].pos1.getY() + 1D) >= loc.getY() && (Portal.Portals[portalId].pos1.getZ() + 1D) >= loc.getZ()){
-        					if(Portal.Portals[portalId].pos2.getX() <= loc.getX() && Portal.Portals[portalId].pos2.getY() <= loc.getY() && Portal.Portals[portalId].pos2.getZ() <= loc.getZ()){
+        		if(portal.worldName.equals(loc.getWorld().getName())){
+        			if(portal.trigger.equals(loc.getBlock().getType())
+        					|| portal.trigger.equals(eyeloc.getBlock().getType())){
+        				if((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()){
+        					if(portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()){
         						
         						
         						WarpEvent warpEvent = new WarpEvent(player, portal.portalName);
@@ -103,13 +102,13 @@ public class Listeners implements Listener {
             						if(PortalMessagesDisplay == 1 && warped){
             							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
             							player.sendMessage("");
-            							player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7.");
+            							player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ") + "\u00A7.");
             							player.sendMessage("");
             						}
 									else if(PortalMessagesDisplay == 2 && warped){
 										ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
-										plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have been warped to \u00A7e" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ") + "\u00A7a.\"}", player);
-										/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
+										plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have been warped to \u00A7e" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ") + "\u00A7a.\"}", player);
+										/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
 												+ "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 									}
             						
@@ -123,7 +122,7 @@ public class Listeners implements Listener {
         						}
         						
         						
-        						if(Portal.Portals[portalId].trigger.equals(Material.PORTAL)){
+        						if(portal.trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();
         							if(player.getGameMode().equals(GameMode.CREATIVE)){
         								player.setMetadata("HasWarped", new FixedMetadataValue(plugin, true));
@@ -140,7 +139,6 @@ public class Listeners implements Listener {
         				
         			}
         		}
-        		portalId++;
         	}
         	
     	}
@@ -161,13 +159,12 @@ public class Listeners implements Listener {
 			
     		Location loc = player.getLocation();
     		Object[] portals = Portal.Portals;
-    		int portalId = 0;
-    		for(Object portal : portals){
-    			if(Portal.Portals[portalId].worldName.equals(player.getWorld().getName())){
+            for(AdvancedPortal portal : Portal.Portals){
+    			if(portal.worldName.equals(player.getWorld().getName())){
 
-    				if((Portal.Portals[portalId].pos1.getX() + 1D) >= loc.getX() && (Portal.Portals[portalId].pos1.getY() + 1D) >= loc.getY() && (Portal.Portals[portalId].pos1.getZ() + 1D) >= loc.getZ()){
+    				if((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()){
 
-    					if((Portal.Portals[portalId].pos2.getX()) <= loc.getX() && (Portal.Portals[portalId].pos2.getY()) <= loc.getY() && (Portal.Portals[portalId].pos2.getZ()) <= loc.getZ()){
+    					if((portal.pos2.getX()) <= loc.getX() && (portal.pos2.getY()) <= loc.getY() && (portal.pos2.getZ()) <= loc.getZ()){
     						
     						event.setCancelled(true);
 
@@ -175,7 +172,6 @@ public class Listeners implements Listener {
     				}
 
     			}
-    			portalId++;
     		}
 
     	}
@@ -184,24 +180,22 @@ public class Listeners implements Listener {
     
     @SuppressWarnings("deprecation")
     @EventHandler
-    public void oniteminteract(PlayerInteractEvent event) {
+    public void onItemInteract(PlayerInteractEvent event) {
     	// will detect if the player is using an axe so the points of a portal can be set
     	// also any other detections such as sign interaction or basic block protection
     	Player player = event.getPlayer();
     	
     	if(player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)){
     		Block block = event.getClickedBlock();
-    		Object[] portals = Portal.Portals;
-    		int portalId = 0;
-    		for(Object portal : portals){
-    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
+            for(AdvancedPortal portal : Portal.Portals){
+    			if(portal.worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.Portals[portalId].pos1.getX() + 3D) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + 3D) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + 3D) >= block.getZ()){
+    				if((portal.pos1.getX() + 3D) >= block.getX() && (portal.pos1.getY() + 3D) >= block.getY() && (portal.pos1.getZ() + 3D) >= block.getZ()){
 
-    					if((Portal.Portals[portalId].pos2.getX() - 3D) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - 3D) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - 3D) <= block.getZ()){
-    						player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have selected: \u00A7e" + Portal.Portals[portalId].portalName);
+    					if((portal.pos2.getX() - 3D) <= block.getX() && (portal.pos2.getY() - 3D) <= block.getY() && (portal.pos2.getZ() - 3D) <= block.getZ()){
+    						player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have selected: \u00A7e" + portal.portalName);
     						player.removeMetadata("selectingPortal", plugin);
-    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, Portal.Portals[portalId].portalName)); // adds the name to the metadata of the character
+    						player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
     						event.setCancelled(true);
     						player.removeMetadata("selectingPortal", plugin);
     			    		return;
@@ -210,7 +204,6 @@ public class Listeners implements Listener {
     				}
 
     			}
-    			portalId++;
     		}
     		player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal was selected - if you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
     		event.setCancelled(true);

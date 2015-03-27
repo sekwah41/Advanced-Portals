@@ -345,7 +345,7 @@ public class Portal {
 				String destiName = config.getConfig().getString(portalName + ".destination");
 				if(configDesti.getConfig().getString(destiName  + ".world") != null){
                     String permission = config.getConfig().getString(portalName + ".portalArgs.permission");
-                    if(permission != null && player.hasPermission(permission)){
+                    if(permission != null && player.hasPermission(permission) || player.isOp()){
                         boolean warped = Destination.warp(player, destiName);
                         return warped;
                     }
