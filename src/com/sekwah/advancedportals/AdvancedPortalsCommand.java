@@ -59,7 +59,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				else if(args[0].toLowerCase().equals("portal") || args[0].toLowerCase().equals("portalblock")){
 					PlayerInventory inventory = player.getInventory();
 
-					ItemStack portalBlock = new ItemStack(Material.PORTAL);
+					ItemStack portalBlock = new ItemStack(Material.PORTAL, 1);
 
 					inventory.addItem(portalBlock);
 
