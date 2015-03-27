@@ -49,7 +49,6 @@ public class PortalProtect implements Listener {
     				if((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
 
     					if((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
-
     						event.setCancelled(true);
                             break;
 
