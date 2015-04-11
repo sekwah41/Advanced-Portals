@@ -72,7 +72,6 @@ public class Portal {
         		}
         		
         		Portals[portalId].trigger = blockType;
-        		System.out.println("Test: " + portal.toString());
         		Portals[portalId].portalName = portal.toString();
         		Portals[portalId].worldName = config.getConfig().getString(portal.toString() + ".world");
         		World world = Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
@@ -345,7 +344,7 @@ public class Portal {
 				String destiName = config.getConfig().getString(portalName + ".destination");
 				if(configDesti.getConfig().getString(destiName  + ".world") != null){
                     String permission = config.getConfig().getString(portalName + ".portalArgs.permission");
-                    if(permission != null && player.hasPermission(permission) || player.isOp()){
+                    if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
                         boolean warped = Destination.warp(player, destiName);
                         return warped;
                     }

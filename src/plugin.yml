@@ -1,6 +1,6 @@
 main: com.sekwah.advancedportals.AdvancedPortalsPlugin
 name: AdvancedPortals
-version: 0.0.4
+version: 0.0.6
 author: SEKWAH41
 description: An advanced portals plugin for bukkit.
 commands:
@@ -20,9 +20,13 @@ permissions:
      description: Gives access to all portal commands
      children:
        advancedportals.createportal: true
+       advancedportals.portal: true
        advancedportals.build: true
    advancedportals.createportal:
      description: Allows you to create portals
+     default: op
+   advancedportals.portal:
+     description: Allows use of portal commands
      default: op
    advancedportals.build:
      description: Allows you to build in the portal regions

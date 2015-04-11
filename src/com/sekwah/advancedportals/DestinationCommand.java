@@ -74,7 +74,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 			}
 			else if(args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
 				if(args.length > 1){
-					System.out.println(args[1]);
+					//System.out.println(args[1]);
 					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
