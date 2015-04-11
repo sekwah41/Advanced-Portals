@@ -115,7 +115,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){ // not completely implemented
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
-                                        extraData.add(new PortalArg("permission", serverName));
+                                        extraData.add(new PortalArg("permission", permission));
                                     }
 								}
 								if(!hasName){
@@ -161,7 +161,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
 												if(triggerBlockMat != null){
 													player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, (PortalArg[]) extraData.toArray()));
+                                                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                                                    portalArgs = extraData.toArray(portalArgs);
+													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, portalArgs));
 												}
 												else{
 													hasTriggerBlock = false;
@@ -169,13 +171,17 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 													player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
 													player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArg[]) extraData.toArray()));
+                                                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                                                    portalArgs = extraData.toArray(portalArgs);
+                                                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
 											}
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 										player.sendMessage("\u00A7atriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, (PortalArg[]) extraData.toArray()));
+                                        PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                                        portalArgs = extraData.toArray(portalArgs);
+										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
 									}
 								}
 								else{
