@@ -59,13 +59,13 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 			else if(args[0].toLowerCase().equals("remove")) {
 				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Destinations.yml");
 				if(args.length > 1){
-					String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
+					String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
 					if(posX != null){
 						Destination.remove(args[1]);
-						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A7e" + args[1] + "\u00A7c has been removed!");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination \u00A7e" + args[1] + "\u00A7c has been removed!");
 					}
 					else{
-						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by that name exists.");
+						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No destination by that name exists.");
 					}
 				}
 				else{
@@ -74,7 +74,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 			}
 			else if(args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
 				if(args.length > 1){
-					System.out.println(args[1]);
+					//System.out.println(args[1]);
 					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
@@ -84,7 +84,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 						}
 						else if(PortalMessagesDisplay == 2){
-							ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+							ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 							plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
 							/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
 							 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/

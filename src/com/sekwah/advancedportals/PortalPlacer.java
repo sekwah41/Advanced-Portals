@@ -1,6 +1,9 @@
 package com.sekwah.advancedportals;
 
+import com.sekwah.advancedportals.portals.AdvancedPortal;
+import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,8 +14,10 @@ public class PortalPlacer implements Listener {
 	@SuppressWarnings("unused")
 	private final AdvancedPortalsPlugin plugin;
 
-	// The needed config values will be stored so they are easier to access later
-	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("§eP...
+    private final double PortalProtectionRadius;
+
+    // The needed config values will be stored so they are easier to access later
+	// an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("ï¿½eP...
 	private boolean PortalPlace = true;
 	
     public PortalPlacer(AdvancedPortalsPlugin plugin) {
@@ -20,6 +25,8 @@ public class PortalPlacer implements Listener {
         
         ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
         this.PortalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
+
+        this.PortalProtectionRadius = config.getConfig().getDouble("PortalProtectionRadius");
         
         if(PortalPlace){
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -28,11 +35,27 @@ public class PortalPlacer implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPhysics(BlockPhysicsEvent event) {
-		Material material = event.getBlock().getType();
+        Block block = event.getBlock();
+		Material material = block.getType();
 		if (material == Material.PORTAL)
 		{
-			event.getChangedType();
-			event.setCancelled(true);
+            for(AdvancedPortal portal : Portal.Portals){
+                if(portal.worldName.equals(block.getWorld().getName())){
+
+                    if((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
+
+                        if((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
+
+                            event.setCancelled(true);
+                            break;
+
+                        }
+                    }
+
+                }
+            }
+			//event.getChangedType();
+			//event.setCancelled(true);
 		}
 	}
 

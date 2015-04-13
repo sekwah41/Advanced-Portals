@@ -43,7 +43,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 				this.setEnabled(false);
 			}
 		} catch (ClassNotFoundException e) {
-			System.out.println("This version of craftbukkit is not yet supported, please notify the author and give them this version v:" + version);
+			System.out.println("This version of craftbukkit is not yet supported, please notify the author and give version v:" + version);
 			this.setEnabled(false);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
