@@ -72,7 +72,6 @@ public class Portal {
         		}
         		
         		Portals[portalId].trigger = blockType;
-        		System.out.println("Test: " + portal.toString());
         		Portals[portalId].portalName = portal.toString();
         		Portals[portalId].worldName = config.getConfig().getString(portal.toString() + ".world");
         		World world = Bukkit.getWorld(config.getConfig().getString(portal.toString() + ".world"));
@@ -89,11 +88,11 @@ public class Portal {
     	
     }
     
-    public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock) {
-    	return create(pos1, pos2, name, destination, triggerBlock, null);
+    public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock, PortalArg... extraData) {
+    	return create(pos1, pos2, name, destination, triggerBlock, null, extraData);
     }
     
-	public static String create(Location pos1, Location pos2 , String name, String destination, Material triggerBlock, String serverName) {
+	public static String create(Location pos1, Location pos2, String name, String destination, Material triggerBlock, String serverName, PortalArg... portalArgs) {
 		
 		if(!pos1.getWorld().equals(pos2.getWorld())){
 			plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -158,6 +157,10 @@ public class Portal {
 		config.getConfig().set(name + ".pos2.X", LowX);
 		config.getConfig().set(name + ".pos2.Y", LowY);
 		config.getConfig().set(name + ".pos2.Z", LowZ);
+
+        for(PortalArg arg: portalArgs){
+            config.getConfig().set(name + ".portalArgs." + arg.argName, arg.value);
+        }
 		
 		config.saveConfig();
 		
@@ -215,8 +218,8 @@ public class Portal {
 		return triggerBlock.toString();
 	}
 	
-	public static String create(Location pos1, Location pos2, String name, String destination) {
-		return create(pos1, pos2, name, destination,(String) null);
+	public static String create(Location pos1, Location pos2, String portalName, String name, String destination, PortalArg... extraData) {
+        return create(pos1, pos2, name, destination,(String) null);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -340,8 +343,15 @@ public class Portal {
 				ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
 				String destiName = config.getConfig().getString(portalName + ".destination");
 				if(configDesti.getConfig().getString(destiName  + ".world") != null){
-					boolean warped = Destination.warp(player, destiName);
-					return warped;
+                    String permission = config.getConfig().getString(portalName + ".portalArgs.permission");
+                    if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
+                        boolean warped = Destination.warp(player, destiName);
+                        return warped;
+                    }
+					else{
+                        player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to use this portal!");
+                        return false;
+                    }
 				}
 				else{
 					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");

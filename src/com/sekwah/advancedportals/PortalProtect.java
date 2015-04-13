@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals;
 
+import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -42,16 +43,14 @@ public class PortalProtect implements Listener {
     	if(!event.getPlayer().hasPermission("advancedportals.build")){
     		Block block = event.getBlock();
 
-    		Object[] portals = Portal.Portals;
-    		int portalId = 0;
-    		for(Object portal : portals){
-    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
+            for(AdvancedPortal portal : Portal.Portals){
+    			if(portal.worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
 
-    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
-
+    					if((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
     						event.setCancelled(true);
+                            break;
 
     					}
     				}
@@ -68,16 +67,15 @@ public class PortalProtect implements Listener {
     	if(!event.getPlayer().hasPermission("advancedportals.build")){
     		Block block = event.getBlock();
 
-    		Object[] portals = Portal.Portals;
-    		for(int portalId = 0; portalId < portals.length; portalId++){
-    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
+            for(AdvancedPortal portal : Portal.Portals){
+    			if(portal.worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
 
-    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
+    					if((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
 
     						event.setCancelled(true);
-
+                            break;
     					}
     				}
 
@@ -92,13 +90,12 @@ public class PortalProtect implements Listener {
     	for (int i = 0; i < blockList.size(); i++) {
     		Block block = blockList.get(i);
     		Object[] portals = Portal.Portals;
-    		int portalId = 0;
-    		for(Object portal : portals){ // change for format for(int i = 0; i < portals.length; i++){
-    			if(Portal.Portals[portalId].worldName.equals(block.getWorld().getName())){
+            for(AdvancedPortal portal : Portal.Portals){ // change for format for(int i = 0; i < portals.length; i++){
+    			if(portal.worldName.equals(block.getWorld().getName())){
 
-    				if((Portal.Portals[portalId].pos1.getX() + PortalProtectionRadius) >= block.getX() && (Portal.Portals[portalId].pos1.getY() + PortalProtectionRadius) >= block.getY() && (Portal.Portals[portalId].pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
+    				if((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()){
     					
-    					if((Portal.Portals[portalId].pos2.getX() - PortalProtectionRadius) <= block.getX() && (Portal.Portals[portalId].pos2.getY() - PortalProtectionRadius) <= block.getY() && (Portal.Portals[portalId].pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
+    					if((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()){
     						blockList.remove(i);
     						i--;
 
@@ -107,7 +104,6 @@ public class PortalProtect implements Listener {
     				}
 
     			}
-    			portalId++;
     		}
     	}
     }
