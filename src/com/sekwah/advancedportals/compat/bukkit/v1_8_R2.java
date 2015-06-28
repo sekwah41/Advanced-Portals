@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.compat;
+package com.sekwah.advancedportals.compat.bukkit;
 
 import net.minecraft.server.v1_8_R2.IChatBaseComponent;
 import net.minecraft.server.v1_8_R2.PacketPlayOutChat;

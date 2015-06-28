@@ -16,6 +16,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
@@ -112,15 +113,15 @@ public class Listeners implements Listener {
 												+ "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 									}
             						
-            						if(!warped){
-            							player.teleport(fromloc);
-            							event.setCancelled(true);
+            						if(warped){
+										event.setFrom(player.getLocation());
+										event.setTo(player.getLocation());
             						}
+									else{
+										player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+										event.setCancelled(true);
+									}
         				        }
-        						else{
-        							
-        						}
-        						
         						
         						if(portal.trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();
@@ -232,7 +233,6 @@ public class Listeners implements Listener {
     				event.setCancelled(true);
     				
     				// Returns the event so no more code is executed(stops unnecessary code being executed)
-    				return;
     			}
     			else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
     				Location blockloc = event.getClickedBlock().getLocation();
@@ -246,7 +246,6 @@ public class Listeners implements Listener {
     				event.setCancelled(true);
     				
     				// Returns the event so no more code is executed(stops unnecessary code being executed)
-    				return;
     			}
     			
     		}
