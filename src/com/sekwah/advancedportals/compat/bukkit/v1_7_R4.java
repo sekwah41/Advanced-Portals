@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.compat;
+package com.sekwah.advancedportals.compat.bukkit;
 
 import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.IChatBaseComponent;
