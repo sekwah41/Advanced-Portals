@@ -46,6 +46,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 			e.printStackTrace();
 		}
 
+		if(getServer().getPluginManager().getPlugin("NoCheatPlus") != null){
+			Listeners.noCheatsPlus = true;
+		}
+
 		new Assets(this);
 		
 		// Opens a channel that messages bungeeCord

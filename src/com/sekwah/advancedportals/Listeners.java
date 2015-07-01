@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals;
 
+import com.sekwah.advancedportals.compat.NoCheatPlus;
 import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
@@ -20,7 +21,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
-	
+
+	public static boolean noCheatsPlus = false;
 	private final AdvancedPortalsPlugin plugin;
 
 	private int PortalMessagesDisplay = 2;
@@ -81,6 +83,7 @@ public class Listeners implements Listener {
     	// will check if the player is in the portal or not.
     	if(Portal.portalsActive){
         	Player player = event.getPlayer();
+
         	Location fromloc = event.getFrom();
         	Location loc = event.getTo();
         	Location eyeloc = event.getTo();
@@ -112,10 +115,12 @@ public class Listeners implements Listener {
 										/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
 												+ "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 									}
-            						
-            						if(warped){
-										event.setFrom(player.getLocation());
-										event.setTo(player.getLocation());
+
+									if(warped){
+										if(noCheatsPlus){
+											NoCheatPlus.teleport(player);
+										}
+										//event.setCancelled(true);
             						}
 									else{
 										player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
