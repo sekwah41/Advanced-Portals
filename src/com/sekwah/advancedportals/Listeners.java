@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals;
 
-import com.sekwah.advancedportals.compat.NoCheatPlus;
 import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
@@ -22,7 +21,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
 
-	public static boolean noCheatsPlus = false;
 	private final AdvancedPortalsPlugin plugin;
 
 	private int PortalMessagesDisplay = 2;
@@ -91,7 +89,7 @@ public class Listeners implements Listener {
         	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
         	AdvancedPortal[] portals = Portal.Portals;
         	for(AdvancedPortal portal : portals){
-        		if(portal.worldName.equals(loc.getWorld().getName())){
+        		if(loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())){
         			if(portal.trigger.equals(loc.getBlock().getType())
         					|| portal.trigger.equals(eyeloc.getBlock().getType())){
         				if((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()){
@@ -99,8 +97,8 @@ public class Listeners implements Listener {
         						
         						
         						WarpEvent warpEvent = new WarpEvent(player, portal.portalName);
-        						plugin.getServer().getPluginManager().callEvent(event);
-        						
+        						plugin.getServer().getPluginManager().callEvent(warpEvent);
+
         						if (!event.isCancelled()) {
         							boolean warped = Portal.activate(player, portal.portalName);
             						if(PortalMessagesDisplay == 1 && warped){
@@ -117,9 +115,9 @@ public class Listeners implements Listener {
 									}
 
 									if(warped){
-										if(noCheatsPlus){
-											NoCheatPlus.teleport(player);
-										}
+										//event.setFrom(player.getLocation());
+										//event.setTo(player.getLocation());
+
 										//event.setCancelled(true);
             						}
 									else{

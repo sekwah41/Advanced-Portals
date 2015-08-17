@@ -23,7 +23,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		    // Failed to submit the stats :-(
 		}
 
-		this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been sucsessfully enabled!");
+		this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
 		String packageName = getServer().getClass().getPackage().getName();
 		String[] packageSplit = packageName.split("\\.");
@@ -44,10 +44,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException |
 				NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
-		}
-
-		if(getServer().getPluginManager().getPlugin("NoCheatPlus") != null){
-			Listeners.noCheatsPlus = true;
 		}
 
 		new Assets(this);
