@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,9 +26,17 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		if(args.length > 0){
 			if(Destination.warp(sender, args[0], false)){
-				sender.sendMessage("");
-				sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0] + "\u00A7a.");
-				sender.sendMessage("");
+				if(DestinationCommand.PortalMessagesDisplay == 1){
+					sender.sendMessage("");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0].replaceAll("_", " ") + "\u00A7a.");
+					sender.sendMessage("");
+				}
+				else if(DestinationCommand.PortalMessagesDisplay == 2){
+					ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+					plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have warped to \u00A7e" + args[0].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
+					/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
+					 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
+				}
 			}
 			else{
 				sender.sendMessage("");

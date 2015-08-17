@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 public class Selection {
 	
-	public static Material blockType = Material.WOOL;
+	public static Material blockType = Material.STAINED_GLASS;
 	public static int timeout = 10;
 	public static byte metadata = 14;
 	

@@ -369,7 +369,7 @@ public class Portal {
 			}
 		}
 		
-		// add code for if the portal doesnt have a destination but a teleport location
+		// add code for if the portal doesnt have a destination but a exemptPlayer location
 		
 		
 	}
