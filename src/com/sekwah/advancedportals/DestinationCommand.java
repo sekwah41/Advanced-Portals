@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 
-	private final int PortalMessagesDisplay;
+	public static int PortalMessagesDisplay = 0;
 
 	private AdvancedPortalsPlugin plugin;
 	
@@ -95,7 +95,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else{
-					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to teleport to.");
+					sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to exemptPlayer to.");
 				}
 			}
 			else if(args[0].toLowerCase().equals("list")) {

@@ -1,13 +1,12 @@
-package com.sekwah.advancedportals.compat;
+package com.sekwah.advancedportals.compat.bukkit;
 
-import net.minecraft.server.v1_7_R2.ChatSerializer;
-import net.minecraft.server.v1_7_R2.IChatBaseComponent;
-import net.minecraft.server.v1_7_R2.PacketPlayOutChat;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import net.minecraft.server.v1_7_R1.ChatSerializer;
+import net.minecraft.server.v1_7_R1.IChatBaseComponent;
+import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-@SuppressWarnings("unused")
-public class v1_7_R2 implements NMS {
+public class v1_7_R1 implements NMS {
 	
 	@Override
 	public void sendRawMessage(String rawMessage, Player player) {
@@ -22,4 +21,5 @@ public class v1_7_R2 implements NMS {
 		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
+
 }
