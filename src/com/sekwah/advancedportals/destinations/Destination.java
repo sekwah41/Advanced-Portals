@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -65,7 +66,7 @@ public class Destination {
 		
 		config.getConfig().set(newName.toLowerCase() + ".pos.pitch", config.getConfig().getDouble(oldName + ".pos.pitch"));
 		config.getConfig().set(newName.toLowerCase() + ".pos.yaw", config.getConfig().getDouble(oldName + ".pos.yaw"));
-		
+
 		remove(oldName);
 		
 		config.saveConfig();
@@ -111,12 +112,12 @@ public class Destination {
 				if (!c.isLoaded()) c.load();
 				if(player.getVehicle() != null){
 					riding.eject();
-					riding.teleport(loc);
-					player.teleport(loc);
+					riding.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+					player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 					riding.setPassenger(player);
 				}
 				else{
-					player.teleport(loc);
+					player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 				}
 				WarpEffects.activateParticles(player);
 				WarpEffects.activateSound(player);
@@ -147,9 +148,9 @@ public class Destination {
 	/**
 	 * Same as other warp but changes sender to player for you.
 	 * 
-	 * @param player
-	 * @param name
-	 * @return 
+	 * @param player the player being warped
+	 * @param name name of the warp
+	 * @return returns if the player has warped
 	 */
 	public static boolean warp(Player player, String name) {
 		return warp(player, name, true);
@@ -159,9 +160,9 @@ public class Destination {
 	/**
 	 * Same as other warp but changes sender to player for you.
 	 * 
-	 * @param sender
-	 * @param name
-	 * @return 
+	 * @param sender the player being warped
+	 * @param name name of the warp
+	 * @return returns if the player has warped
 	 */
 	public static boolean warp(CommandSender sender, String name, boolean senderror) {
 		Player player = (Player)sender;
@@ -172,9 +173,9 @@ public class Destination {
 	/**
 	 * Same as other warp but changes sender to player for you.
 	 * 
-	 * @param sender
-	 * @param name
-	 * @return 
+	 * @param sender the player being warped
+	 * @param name name of the warp
+	 * @return returns if the player has warped
 	 */
 	public static boolean warp(CommandSender sender, String name) {
 		Player player = (Player)sender;
@@ -186,7 +187,7 @@ public class Destination {
 		
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
 		
-		LinkedList<String> destiList = new LinkedList<String>();
+		LinkedList<String> destiList = new LinkedList<>();
 		
 		Set<String> destiSet = config.getConfig().getKeys(false);
     	if(destiSet.size() > 0){

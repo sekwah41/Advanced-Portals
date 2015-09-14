@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.DataCollector.DataCollector;
-import com.sekwah.advancedportals.compat.NMS;
+import com.sekwah.advancedportals.compat.bukkit.NMS;
 import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
@@ -27,14 +27,14 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		    // Failed to submit the stats :-(
 		}
 
-		this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been sucsessfully enabled!");
+		this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
 		String packageName = getServer().getClass().getPackage().getName();
 		String[] packageSplit = packageName.split("\\.");
 		String version = packageSplit[packageSplit.length - 1];
 
 		try {
-			Class<?> nmsClass = Class.forName("com.sekwah.advancedportals.compat." + version);
+			Class<?> nmsClass = Class.forName("com.sekwah.advancedportals.compat.bukkit." + version);
 			if(NMS.class.isAssignableFrom(nmsClass)){
 				this.nmsAccess = (NMS) nmsClass.getConstructor().newInstance();
 			}else
@@ -45,20 +45,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		} catch (ClassNotFoundException e) {
 			System.out.println("This version of craftbukkit is not yet supported, please notify the author and give version v:" + version);
 			this.setEnabled(false);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException |
+				NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
-		
+
 		new Assets(this);
 		
 		// Opens a channel that messages bungeeCord

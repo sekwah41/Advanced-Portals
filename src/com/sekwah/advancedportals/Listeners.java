@@ -16,10 +16,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
-	
+
 	private final AdvancedPortalsPlugin plugin;
 
 	private int PortalMessagesDisplay = 2;
@@ -80,6 +81,7 @@ public class Listeners implements Listener {
     	// will check if the player is in the portal or not.
     	if(Portal.portalsActive){
         	Player player = event.getPlayer();
+
         	Location fromloc = event.getFrom();
         	Location loc = event.getTo();
 			// Potentially fixes that stupid error cauzed by a bukkit update.
@@ -90,7 +92,7 @@ public class Listeners implements Listener {
 			// rather than sorta making a clone of the object.
         	AdvancedPortal[] portals = Portal.Portals;
         	for(AdvancedPortal portal : portals){
-        		if(portal.worldName.equals(loc.getWorld().getName())){
+        		if(loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())){
         			if(portal.trigger.equals(loc.getBlock().getType())
         					|| portal.trigger.equals(eyeLoc.getBlock().getType())){
         				if((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()){
@@ -98,8 +100,8 @@ public class Listeners implements Listener {
         						
         						
         						WarpEvent warpEvent = new WarpEvent(player, portal.portalName);
-        						plugin.getServer().getPluginManager().callEvent(event);
-        						
+        						plugin.getServer().getPluginManager().callEvent(warpEvent);
+
         						if (!event.isCancelled()) {
         							boolean warped = Portal.activate(player, portal.portalName);
             						if(PortalMessagesDisplay == 1 && warped){
@@ -114,16 +116,18 @@ public class Listeners implements Listener {
 										/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
 												+ "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 									}
-            						
-            						if(!warped){
-            							player.teleport(fromloc);
-            							event.setCancelled(true);
+
+									if(warped){
+										//event.setFrom(player.getLocation());
+										//event.setTo(player.getLocation());
+
+										//event.setCancelled(true);
             						}
+									else{
+										player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+										event.setCancelled(true);
+									}
         				        }
-        						else{
-        							
-        						}
-        						
         						
         						if(portal.trigger.equals(Material.PORTAL)){
         							final Player finalplayer = event.getPlayer();
@@ -235,7 +239,6 @@ public class Listeners implements Listener {
     				event.setCancelled(true);
     				
     				// Returns the event so no more code is executed(stops unnecessary code being executed)
-    				return;
     			}
     			else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
     				Location blockloc = event.getClickedBlock().getLocation();
@@ -249,7 +252,6 @@ public class Listeners implements Listener {
     				event.setCancelled(true);
     				
     				// Returns the event so no more code is executed(stops unnecessary code being executed)
-    				return;
     			}
     			
     		}
