@@ -82,14 +82,17 @@ public class Listeners implements Listener {
         	Player player = event.getPlayer();
         	Location fromloc = event.getFrom();
         	Location loc = event.getTo();
-        	Location eyeloc = event.getTo();
+			// Potentially fixes that stupid error cauzed by a bukkit update.
+			// Would save event.getTo() as eyeLoc and change the Y position but that seemed to teleport players.
+			Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
         	//System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
-        	eyeloc.setY(eyeloc.getY() + player.getEyeHeight());
+			// This is probably the culprite of the bloody problem, setting the location its pointing to the event location
+			// rather than sorta making a clone of the object.
         	AdvancedPortal[] portals = Portal.Portals;
         	for(AdvancedPortal portal : portals){
         		if(portal.worldName.equals(loc.getWorld().getName())){
         			if(portal.trigger.equals(loc.getBlock().getType())
-        					|| portal.trigger.equals(eyeloc.getBlock().getType())){
+        					|| portal.trigger.equals(eyeLoc.getBlock().getType())){
         				if((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()){
         					if(portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()){
         						
