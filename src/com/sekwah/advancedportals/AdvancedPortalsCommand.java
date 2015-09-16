@@ -30,11 +30,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
-		Player player = (Player)sender;
 		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
 		if(sender.hasPermission("advancedportals.portal")){
 			if(args.length > 0){
 				if(args[0].toLowerCase().equals("wand") || args[0].toLowerCase().equals("selector")){
+					Player player = (Player) sender;
 					PlayerInventory inventory = player.getInventory();
 
 					String ItemID = config.getConfig().getString("AxeItemId");
@@ -57,6 +57,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been given a \u00A7ePortal Region Selector\u00A7a!");
 				}
 				else if(args[0].toLowerCase().equals("portal") || args[0].toLowerCase().equals("portalblock")){
+					Player player = (Player)sender;
 					PlayerInventory inventory = player.getInventory();
 
 					ItemStack portalBlock = new ItemStack(Material.PORTAL, 1);
@@ -66,6 +67,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been given a \u00A7ePortal Block\u00A7a!");
 				}
 				else if(args[0].toLowerCase().equals("create")) {
+					Player player = (Player)sender;
 					if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
 						if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
 							if(args.length >= 2){ // may make this next piece of code more efficient, maybe check against a list of available variables or something
@@ -206,14 +208,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else if(args[0].toLowerCase().equals("variables")) {
-					player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Currently available variables: name, triggerBlock, destination");
-					player.sendMessage("");
-					player.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Currently available variables: name, triggerBlock, destination");
+					sender.sendMessage("");
+					sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
 				}
 				else if(args[0].toLowerCase().equals("select")) {
 
 					// TODO finish the select command and the hit block to replace!
-
+					Player player = (Player)sender;
 					if(!player.hasMetadata("selectingPortal")){
 						if(args.length > 1){
 							if(Portal.portalExists(args[1])){
@@ -235,6 +237,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else if(args[0].toLowerCase().equals("gui")){
+					Player player = (Player)sender;
 					if(args.length > 1){
 						if(args[1].toLowerCase().equals("remove") && args.length > 2){
 							sender.sendMessage("");
@@ -258,6 +261,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						}
 					}
 					else{
+						Player player = (Player)sender;
 						if(player.hasMetadata("selectedPortal")){
 							String portalName = player.getMetadata("selectedPortal").get(0).asString();
 							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
@@ -279,6 +283,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					// not finished yet /
 					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
 					if(args.length > 1){
+						Player player = (Player)sender;
 						if(player.hasMetadata("selectedPortal")){
 							String portalName = player.getMetadata("selectedPortal").get(0).asString();
 							if(portalName.toLowerCase() != args[1].toLowerCase()){
@@ -323,6 +328,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						}
 					}
 					else{
+						Player player = (Player)sender;
 						if(player.hasMetadata("selectedPortal")){
 							String portalName = player.getMetadata("selectedPortal").get(0).asString();
 							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
@@ -341,13 +347,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else if(args[0].toLowerCase().equals("bukkitpage")) {
-					player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Bukkit page: (insert bitly link)!");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Bukkit page: http://bit.ly/adv-portals!");
 				}
 				else if(args[0].toLowerCase().equals("helppage")) {
-					player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Help page: (insert bitly link)!");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Help page: http://bit.ly/portals-help!");
 				}
 				else if(args[0].toLowerCase().equals("show")){
 					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					Player player = (Player) sender;
 					if(args.length > 1){
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 						if(posX != null){
@@ -372,8 +379,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						}
 					}
 				}
-				else if(args[0].toLowerCase().equals("help")) {
-					player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Reloaded values!");
+				else if(args[0].toLowerCase().equals("reload")) {
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Reloaded values!");
 					Listeners.reloadValues(plugin);
 					Portal.loadPortals();
 				}
