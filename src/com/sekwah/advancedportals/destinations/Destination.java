@@ -24,6 +24,8 @@ public class Destination {
 	public Destination(AdvancedPortalsPlugin plugin) {
     	Destination.plugin = plugin;
     }
+
+	// TODO add permissions for destinations.
 	
 	public static void create(Location location, String name){
 		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
