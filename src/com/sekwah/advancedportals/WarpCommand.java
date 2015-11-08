@@ -17,8 +17,14 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 	
 	public WarpCommand(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
-		
-		plugin.getCommand("warp").setExecutor(this);
+
+
+		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		boolean useWarpCommand = !config.getConfig().getBoolean("DisableWarpCommand");
+		if(useWarpCommand){
+			plugin.getCommand("warp").setExecutor(this);
+		}
+		plugin.getCommand("awarp").setExecutor(this);
 	}
 	
 

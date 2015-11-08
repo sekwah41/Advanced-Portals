@@ -1,6 +1,6 @@
 main: com.sekwah.advancedportals.AdvancedPortalsPlugin
 name: AdvancedPortals
-version: 0.0.8
+version: 0.0.10
 author: SEKWAH41
 description: An advanced portals plugin for bukkit.
 commands:
@@ -14,6 +14,9 @@ commands:
         usage: /<command>
     warp:
         description: Used to warp to destinations.
+        usage: /<command>
+    awarp:
+        description: Used to warp to destinations (mostly used when /warp is disabled.
         usage: /<command>
 permissions:
    advancedportals.*:
