@@ -34,6 +34,10 @@ public class FlowStopper implements Listener {
 		Block blockTo = event.getToBlock();
 		Block block = event.getBlock();
 
+		if(!Portal.portalsActive){
+			return;
+		}
+
 		for(AdvancedPortal portal : Portal.Portals){
 			if(portal.worldName.equals(block.getWorld().getName())){
 

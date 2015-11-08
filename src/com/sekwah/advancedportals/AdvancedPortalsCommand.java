@@ -463,6 +463,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				boolean isBungeePortal = false;
                 boolean needsPermission = false;
 
+
+				// TODO change auto complete when quotes are opened and closed. Such as autocomplete @Player and stuff when specifying commands
+
 				for(int i = 1; i < args.length; i++){
 					if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
 						hasName = true;
