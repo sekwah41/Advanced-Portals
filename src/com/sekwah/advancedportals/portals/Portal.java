@@ -18,7 +18,7 @@ public class Portal {
 	
 	private static AdvancedPortalsPlugin plugin;
 	
-	public static boolean portalsActive = true;
+	public static boolean portalsActive = false;
 	
 	public static AdvancedPortal[] Portals;
 
