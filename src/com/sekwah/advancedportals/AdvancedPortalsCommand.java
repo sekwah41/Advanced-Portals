@@ -21,6 +21,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 	private AdvancedPortalsPlugin plugin;
 
+	private int portalArgsStringLength = 0;
+
+	// TODO recode the portal args to be put into a hashmap and use a string array
+	// to store all possible portal arguments. Makes code shorter and possibly more efficient.
+	//private HashMap<String, String> portalArgs = new HashMap<>();
+
 	public AdvancedPortalsCommand(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
 
@@ -71,16 +77,19 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					if(player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")){
 						if(player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())){
 							if(args.length >= 2){ // may make this next piece of code more efficient, maybe check against a list of available variables or something
+								// TODO change system to use arrays and hashmaps
 								boolean hasName = false;
 								boolean hasTriggerBlock = false;
 								boolean hasDestination = false;
 								boolean isBungeePortal = false;
                                 boolean needsPermission = false;
+								boolean executesCommand = false;
 								String destination = null;
 								String portalName = null;
 								String triggerBlock = null;
 								String serverName = null;
                                 String permission = null;
+								String portalCommand = null;
 
                                 ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
 
@@ -115,10 +124,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         //extraData.add(new PortalArgs("bungee", serverName));
 									}
                                     else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){ // not completely implemented
-                                        needsPermission = true;
-                                        permission = args[i].toLowerCase().replaceFirst("permission:", "");
-                                        extraData.add(new PortalArg("permission", permission));
-                                    }
+										needsPermission = true;
+										permission = args[i].toLowerCase().replaceFirst("permission:", "");
+										extraData.add(new PortalArg("permission", permission));
+									}
+									else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){ // not completely implemented
+										executesCommand = true;
+										portalCommand = parseArgVariable(args,i,"command:");
+										i += this.portalArgsStringLength;
+										extraData.add(new PortalArg("command", portalCommand));
+									}
 								}
 								if(!hasName){
 									player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must include a name for the portal that you are creating in the variables!");
@@ -400,6 +415,21 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		return true;
 	}
 
+	private String parseArgVariable(String[] args, int currentArg, String argStarter) {
+		String variableString = args[currentArg].replaceFirst(argStarter,"");
+		if(variableString.charAt(0) == '"'){
+			currentArg++;
+			for( ; currentArg < args.length; currentArg++){
+				variableString += " " + args[currentArg];
+				if(variableString.charAt(variableString.length() - 1) == '"'){
+					variableString = variableString.substring(0,variableString.length() - 1);
+					break;
+				}
+			}
+		}
+		return variableString;
+	}
+
 	private void portalEditMenu(CommandSender sender, ConfigAccessor portalConfig, String portalName) {
 		// make the text gui with the json message for a list of edit commands to be clicked or hovered
 		// put \" for a " in the json messages
@@ -462,6 +492,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				boolean hasDestination = false;
 				boolean isBungeePortal = false;
                 boolean needsPermission = false;
+				boolean hasCommand = false;
 
 
 				// TODO change auto complete when quotes are opened and closed. Such as autocomplete @Player and stuff when specifying commands
@@ -485,6 +516,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){
                         needsPermission = true;
                     }
+					else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){
+						hasCommand = true;
+					}
 
 				}
 
@@ -493,6 +527,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				if(!hasDestination){autoComplete.add("destination:");autoComplete.add("desti:");}
 				if(!isBungeePortal){autoComplete.add("bungee:");}
                 if(!isBungeePortal){autoComplete.add("permission:");}
+				if(!hasCommand){autoComplete.add("command:");}
 			}
 		}
 		Collections.sort(autoComplete);
