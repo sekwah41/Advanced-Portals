@@ -131,8 +131,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){ // not completely implemented
 										executesCommand = true;
 										portalCommand = parseArgVariable(args,i,"command:");
-										i += this.portalArgsStringLength;
-										extraData.add(new PortalArg("command", portalCommand));
+										i = this.portalArgsStringLength;
+										extraData.add(new PortalArg("command.1", portalCommand));
 									}
 								}
 								if(!hasName){
@@ -172,6 +172,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     else{
                                         player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
                                     }
+
+									if(executesCommand){
+										player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
+									}
 
 									Material triggerBlockMat = Material.getMaterial(0);
 									if(hasTriggerBlock){
@@ -349,7 +353,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
 							if(posX != null){
 								Portal.remove(portalName);
-								sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A77" + portalName + " has been removed!");
+								sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A77" + portalName + "\u00A7c has been removed!");
 							}
 							else{
 								sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you had selected no longer seems to exist!");
@@ -417,10 +421,13 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 	private String parseArgVariable(String[] args, int currentArg, String argStarter) {
 		String variableString = args[currentArg].replaceFirst(argStarter,"");
+		this.portalArgsStringLength = 1;
 		if(variableString.charAt(0) == '"'){
+			variableString = variableString.substring(1,variableString.length());
 			currentArg++;
 			for( ; currentArg < args.length; currentArg++){
 				variableString += " " + args[currentArg];
+				this.portalArgsStringLength += 1;
 				if(variableString.charAt(variableString.length() - 1) == '"'){
 					variableString = variableString.substring(0,variableString.length() - 1);
 					break;
@@ -457,6 +464,24 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		}
 		else{
 			sender.sendMessage(" \u00A7ctriggerBlock\u00A7e: null");
+		}
+
+		if(portalConfig.getConfig().getString(portalName + ".portalArgs.command.1") != null){
+			int commands = 0;
+			String command = portalConfig.getConfig().getString(portalName + ".portalArgs.command.1");
+			// TODO possibly change code so it counds number of subvalues rather than a loop.
+			while(command != null){
+				command = portalConfig.getConfig().getString(portalName + ".portalArgs.command." + ++commands);
+			}
+			if(--commands > 1){
+				sender.sendMessage(" \u00A7acommands\u00A7e: " + commands + " commands");
+			}
+			else{
+				sender.sendMessage(" \u00A7acommands\u00A7e: " + commands + " command");
+			}
+		}
+		else{
+			sender.sendMessage(" \u00A7ccommands\u00A7e: none");
 		}
 		sender.sendMessage("");
 
