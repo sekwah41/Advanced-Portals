@@ -465,5 +465,18 @@ public class Portal {
 	}
 
 
-
+	public static boolean addCommand(String portalName, String portalCommand) {
+		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+		if(portalExists(portalName)){
+			int commandLine = 0;
+			while(config.getConfig().getString(portalName + ".portalArgs.command." + ++commandLine) != null); //Loops increasing commandLine till 1 is null
+			config.getConfig().set(portalName + ".portalArgs.command." + commandLine, portalCommand);
+			config.saveConfig();
+			loadPortals();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
