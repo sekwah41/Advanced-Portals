@@ -82,16 +82,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								boolean hasTriggerBlock = false;
 								boolean hasDestination = false;
 								boolean isBungeePortal = false;
-                                boolean needsPermission = false;
+								boolean needsPermission = false;
 								boolean executesCommand = false;
 								String destination = null;
 								String portalName = null;
 								String triggerBlock = null;
 								String serverName = null;
-                                String permission = null;
+								String permission = null;
 								String portalCommand = null;
 
-                                ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
+								ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
 
 								for(int i = 1; i < args.length; i++){
 									if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
@@ -121,9 +121,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){ // not completely implemented
 										isBungeePortal = true;
 										serverName = args[i].toLowerCase().replaceFirst("bungee:", "");
-                                        //extraData.add(new PortalArgs("bungee", serverName));
+										//extraData.add(new PortalArgs("bungee", serverName));
 									}
-                                    else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){ // not completely implemented
+									else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){ // not completely implemented
 										needsPermission = true;
 										permission = args[i].toLowerCase().replaceFirst("permission:", "");
 										extraData.add(new PortalArg("permission", permission));
@@ -166,12 +166,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										player.sendMessage("\u00A7abungee: \u00A7e" + serverName);
 									}
 
-                                    if(needsPermission){
-                                        player.sendMessage("\u00A7apermission: \u00A7e" + permission);
-                                    }
-                                    else{
-                                        player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
-                                    }
+									if(needsPermission){
+										player.sendMessage("\u00A7apermission: \u00A7e" + permission);
+									}
+									else{
+										player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
+									}
 
 									if(executesCommand){
 										player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
@@ -179,29 +179,29 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 									Material triggerBlockMat = Material.getMaterial(0);
 									if(hasTriggerBlock){
-												triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
-												if(triggerBlockMat != null){
-													player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
-                                                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                                    portalArgs = extraData.toArray(portalArgs);
-													player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, portalArgs));
-												}
-												else{
-													hasTriggerBlock = false;
-													ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
-													player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+										triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
+										if(triggerBlockMat != null){
+											player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
+											PortalArg[] portalArgs = new PortalArg[extraData.size()];
+											portalArgs = extraData.toArray(portalArgs);
+											player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, portalArgs));
+										}
+										else{
+											hasTriggerBlock = false;
+											ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+											player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
-													player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
-                                                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                                    portalArgs = extraData.toArray(portalArgs);
-                                                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
-											}
+											player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
+											PortalArg[] portalArgs = new PortalArg[extraData.size()];
+											portalArgs = extraData.toArray(portalArgs);
+											player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
+										}
 									}
 									else{
 										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
 										player.sendMessage("\u00A7atriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-                                        PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                        portalArgs = extraData.toArray(portalArgs);
+										PortalArg[] portalArgs = new PortalArg[extraData.size()];
+										portalArgs = extraData.toArray(portalArgs);
 										player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
 									}
 								}
@@ -263,8 +263,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Are you sure you would like to remove the portal \u00A7e" + args[2] + "\u00A7c?");
 							sender.sendMessage("");
 							plugin.nmsAccess.sendRawMessage("{text:\"    \",extra:[{text:\"\u00A7e[Yes]\",hoverEvent:{action:show_text,value:\"Confirm removing this portal\"},clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\"}}, " +
-							"{text:\"     \"},{text:\"\u00A7e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}", player);
-					        sender.sendMessage("");
+									"{text:\"     \"},{text:\"\u00A7e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}", player);
+							sender.sendMessage("");
 						}
 					}
 				}
@@ -332,6 +332,49 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 					else{
 						sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must select a portal first and then type \u00A7e/portal rename (new name)\u00A7c!");
+					}
+				}
+				else if(args[0].toLowerCase().equals("command")) {
+					Player player = (Player)sender;
+					if(player.hasMetadata("selectedPortal")) {
+						String portalName = player.getMetadata("selectedPortal").get(0).asString();
+						if(args.length > 1){
+							// TODO add the command autocompletes, add, remove and show
+							if(args[1].toLowerCase().equals("add")) {
+								if(args.length > 2){
+									String portalCommand = args[2];
+									for(int i = 3; i < args.length; i++){
+										portalCommand += args[i];
+									}
+									if(Portal.addCommand(portalName, portalCommand)){
+										sender.sendMessage("\u00A77a[\u00A77eAdvancedPortals\u00A77a] Command added to portal!");
+									}
+									else{
+										sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Failed to add command to portal!");
+									}
+
+								}
+								else{
+									sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must actually specify a command to execute!");
+								}
+
+							}
+							else if(args[1].toLowerCase().equals("remove")) {
+								// Specify what line to remove
+							}
+							else if(args[1].toLowerCase().equals("show")) {
+								// Show all the commands the portal executes
+							}
+							else{
+								sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must specify to \u00A7eadd\u00A7c or \u00A7eremove a command!");
+							}
+						}
+						else{
+							sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must specify to \u00A7eadd\u00A7c or \u00A7eremove\u00A7c a command!");
+						}
+					}
+					else{
+
 					}
 				}
 				else if(args[0].toLowerCase().equals("remove")) {
@@ -493,12 +536,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				+ ",{text:\"  \"},{text:\"\u00A7eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}", player);
 
 		/**IChatBaseComponent comp = ChatSerializer.a("{text:\"\u00A7aFunctions\u00A7e: \",extra:[{text:\"\u00A7eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}");
-        PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);*/
-        sender.sendMessage("");
+		 + ",{text:\"  \"},{text:\"\u00A7eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
+		 + ",{text:\"  \"},{text:\"\u00A7eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
+		 + ",{text:\"  \"},{text:\"\u00A7eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}");
+		 PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
+		 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);*/
+		sender.sendMessage("");
 
 	}
 
@@ -516,7 +559,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				boolean hasTriggerBlock = false;
 				boolean hasDestination = false;
 				boolean isBungeePortal = false;
-                boolean needsPermission = false;
+				boolean needsPermission = false;
 				boolean hasCommand = false;
 
 
@@ -538,9 +581,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){
 						isBungeePortal = true;
 					}
-                    else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){
-                        needsPermission = true;
-                    }
+					else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){
+						needsPermission = true;
+					}
 					else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){
 						hasCommand = true;
 					}
@@ -551,7 +594,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				if(!hasTriggerBlock){autoComplete.add("triggerblock:");}
 				if(!hasDestination){autoComplete.add("destination:");autoComplete.add("desti:");}
 				if(!isBungeePortal){autoComplete.add("bungee:");}
-                if(!isBungeePortal){autoComplete.add("permission:");}
+				if(!isBungeePortal){autoComplete.add("permission:");}
 				if(!hasCommand){autoComplete.add("command:");}
 			}
 		}
