@@ -408,6 +408,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 						}
 					}
 				}
+				else if(args[0].toLowerCase().equals("help")) {
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Still designing in game help page :(");
+					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] For now please use the wiki http://bit.ly/portals-help");
+				}
 				else if(args[0].toLowerCase().equals("bukkitpage")) {
 					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Bukkit page: http://bit.ly/adv-portals!");
 				}
