@@ -251,7 +251,6 @@ public class Listeners implements Listener {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onItemInteract(PlayerInteractEvent event) {
 
@@ -301,7 +300,7 @@ public class Listeners implements Listener {
 			catch(NullPointerException e){
 
 			}*/
-			if(event.getItem() != null && event.getPlayer().getItemInHand().getTypeId() == WandMaterial.getId()
+			if(event.getItem() != null && event.getPlayer().getItemInHand().getType() == WandMaterial // was type id
 					&& (!UseOnlyServerAxe || (event.getItem().getItemMeta().getDisplayName() != null && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
 				// This checks if the action was a left or right click and if it was directly effecting a block.
