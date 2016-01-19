@@ -570,26 +570,31 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				// TODO change auto complete when quotes are opened and closed. Such as autocomplete @Player and stuff when specifying commands
 
 				for(int i = 1; i < args.length; i++){
-					if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
-						hasName = true;
-					}
-					else if(args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12){
-						hasDestination = true;
-					}
-					else if(args[i].toLowerCase().startsWith("desti:") && args[i].length() > 6){
-						hasDestination = true;
-					}
-					else if(args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13){
-						hasTriggerBlock = true;
-					}
-					else if(args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7){
-						isBungeePortal = true;
-					}
-					else if(args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11){
-						needsPermission = true;
-					}
-					else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){
-						hasCommand = true;
+					String argTag = getTag(args[i].toLowerCase());
+					if(argTag.length() + 1 < args[i].length()){
+						switch(argTag){
+							case "name":
+								hasName = true;
+								break;
+							case "destination":
+								hasDestination = true;
+								break;
+							case "desti":
+								hasDestination = true;
+								break;
+							case "triggerblock":
+								hasTriggerBlock = true;
+								break;
+							case "bungee":
+								isBungeePortal = true;
+								break;
+							case "permission":
+								needsPermission = true;
+								break;
+							case "command":
+								hasCommand = true;
+								break;
+						}
 					}
 
 				}
@@ -598,7 +603,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				if(!hasTriggerBlock){autoComplete.add("triggerblock:");}
 				if(!hasDestination){autoComplete.add("destination:");autoComplete.add("desti:");}
 				if(!isBungeePortal){autoComplete.add("bungee:");}
-				if(!isBungeePortal){autoComplete.add("permission:");}
+				if(!needsPermission){autoComplete.add("permission:");}
 				if(!hasCommand){autoComplete.add("command:");}
 			}
 		}
@@ -609,6 +614,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 			}
 		}
 		return autoComplete;
+	}
+
+	private String getTag(String arg) {
+		int indexOfSplitter = arg.indexOf(':');
+		if(indexOfSplitter > 0){
+			return arg.substring(0,indexOfSplitter);
+		}
+		return "";
 	}
 
 }
