@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.events;
 
+import com.sekwah.advancedportals.portals.AdvancedPortal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -20,13 +21,13 @@ public final class WarpEvent extends Event implements Cancellable {
 	private Player player;
 
     @SuppressWarnings("unused")
-	private String portalName;
+	private AdvancedPortal portalData;
 
 	private boolean hasWarped = false;
  
-    public WarpEvent(Player player, String portalName) {
+    public WarpEvent(Player player, AdvancedPortal portalData) {
     	this.player = player;
-    	this.portalName = portalName;
+    	this.portalData = portalData;
     }
     
     
@@ -42,6 +43,8 @@ public final class WarpEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
+
+    public AdvancedPortal getPortalData(){return portalData;}
     
     /**
      * If the 

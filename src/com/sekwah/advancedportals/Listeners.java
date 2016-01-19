@@ -96,8 +96,7 @@ public class Listeners implements Listener {
 		// This is probably the culprite of the bloody problem, setting the location its pointing to the event location
 		// rather than sorta making a clone of the object.
 		//System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
-		AdvancedPortal[] portals = Portal.Portals;
-		for(AdvancedPortal portal : portals){
+		for(AdvancedPortal portal : Portal.Portals){
 			if(loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())){
 				if(portal.trigger.equals(loc.getBlock().getType())
 						|| portal.trigger.equals(eyeLoc.getBlock().getType())){
@@ -105,15 +104,14 @@ public class Listeners implements Listener {
 						if(portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()){
 
 
-							WarpEvent warpEvent = new WarpEvent(player, portal.portalName);
+							WarpEvent warpEvent = new WarpEvent(player, portal);
 							plugin.getServer().getPluginManager().callEvent(warpEvent);
 
 							if (!event.isCancelled()) {
-								boolean warped = Portal.activate(player, portal.portalName);
+								boolean warped = Portal.activate(player, portal);
 								if(PortalMessagesDisplay == 1 && warped){
-									ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
 									player.sendMessage("");
-									player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ") + "\u00A7.");
+									player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + Portal.getDestination(portal.portalName).replaceAll("_", " ") + "\u00A7.");
 									player.sendMessage("");
 								}
 								else if(PortalMessagesDisplay == 2 && warped){
