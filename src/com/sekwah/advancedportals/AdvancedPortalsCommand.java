@@ -131,7 +131,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){ // not completely implemented
 										executesCommand = true;
 										portalCommand = parseArgVariable(args,i,"command:");
-										i = this.portalArgsStringLength;
+										i += this.portalArgsStringLength;
 										extraData.add(new PortalArg("command.1", portalCommand));
 									}
 								}
