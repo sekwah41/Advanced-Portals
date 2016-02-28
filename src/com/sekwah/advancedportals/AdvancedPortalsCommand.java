@@ -131,7 +131,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 									else if(args[i].toLowerCase().startsWith("command:") && args[i].length() > 8){ // not completely implemented
 										executesCommand = true;
 										portalCommand = parseArgVariable(args,i,"command:");
-										i += this.portalArgsStringLength;
+										i += this.portalArgsStringLength - 1;
 										extraData.add(new PortalArg("command.1", portalCommand));
 									}
 								}
@@ -471,15 +471,21 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 		this.portalArgsStringLength = 1;
 		if(variableString.charAt(0) == '"'){
 			variableString = variableString.substring(1,variableString.length());
-			currentArg++;
-			for( ; currentArg < args.length; currentArg++){
-				variableString += " " + args[currentArg];
-				this.portalArgsStringLength += 1;
-				if(variableString.charAt(variableString.length() - 1) == '"'){
-					variableString = variableString.substring(0,variableString.length() - 1);
-					break;
+			if(variableString.charAt(variableString.length()-1) != '"'){
+				currentArg++;
+				for( ; currentArg < args.length; currentArg++){
+					variableString += " " + args[currentArg];
+					this.portalArgsStringLength += 1;
+					if(variableString.charAt(variableString.length() - 1) == '"'){
+						variableString = variableString.substring(0,variableString.length() - 1);
+						break;
+					}
 				}
 			}
+			else{
+				variableString = variableString.substring(0,variableString.length() - 1);
+			}
+
 		}
 		return variableString;
 	}
