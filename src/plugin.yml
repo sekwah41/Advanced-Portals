@@ -1,12 +1,12 @@
 main: com.sekwah.advancedportals.AdvancedPortalsPlugin
 name: AdvancedPortals
-version: 0.0.11
+version: 0.0.12
 author: SEKWAH41
 description: An advanced portals plugin for bukkit.
 commands:
     advancedportals:
         description: The main command for the advanced portals
-        aliases: [portals, aportals, portal]
+        aliases: [portals, aportals, portal, ap]
         usage: /<command>
     destination:
         description: Can be used to access portal destinations.

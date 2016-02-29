@@ -91,7 +91,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								String permission = null;
 								String portalCommand = null;
 
-								ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
+								ArrayList<PortalArg> extraData = new ArrayList<>();
 
 								for(int i = 1; i < args.length; i++){
 									if(args[i].toLowerCase().startsWith("name:") && args[i].length() > 5){
