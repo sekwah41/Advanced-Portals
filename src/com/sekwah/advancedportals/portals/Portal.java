@@ -78,23 +78,32 @@ public class Portal {
 					blockType = Material.PORTAL;
 				}
 
-				ConfigurationSection portalArgs = portalConfigSection.getConfigurationSection("portalArgs");
-				Set<String> argsSet = portalArgs.getKeys(true);
+				ConfigurationSection portalArgsConf = portalConfigSection.getConfigurationSection("portalArgs");
 
-				ArrayList<PortalArg> extraData = new ArrayList<PortalArg>();
+				ArrayList<PortalArg> extraData = new ArrayList<>();
 
-				for(Object argName : argsSet.toArray()){
-					if(portalArgs.isString(argName.toString())){
-						extraData.add(new PortalArg(argName.toString(), portalArgs.getString(argName.toString())));
+				if (portalArgsConf != null) {
+					Set<String> argsSet = portalArgsConf.getKeys(true);
+
+					for(Object argName : argsSet.toArray()){
+						if(portalArgsConf.isString(argName.toString())){
+							extraData.add(new PortalArg(argName.toString(), portalArgsConf.getString(argName.toString())));
+						}
 					}
 				}
 
+
+
 				String worldName = portalData.getConfig().getString(portal.toString() + ".world");
+
 				World world = Bukkit.getWorld(worldName);
 				Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
 				Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
 
-				Portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName);
+				PortalArg[] portalArgs = new PortalArg[extraData.size()];
+				extraData.toArray(portalArgs);
+
+				Portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName, portalArgs);
 
 				Portals[portalId].bungee = portalConfigSection.getString("bungee");
 
@@ -346,17 +355,17 @@ public class Portal {
 		return false;
 	}
 
-	public static boolean activate(Player player, AdvancedPortal portalName) {
+	public static boolean activate(Player player, AdvancedPortal portal) {
 
 		// add other variables or filter code here, or somehow have a way to register them
 
-		if(portalData.getConfig().getString(portalName + ".bungee") != null){
+		if(portal.bungee != null){
 			if(ShowBungeeMessage){
-				player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Attempting to warp to \u00A7e" + portalData.getConfig().getString(portalName + ".bungee") + "\u00A7a.");
+				player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
 			}
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
-			out.writeUTF(portalData.getConfig().getString(portalName + ".bungee"));
+			out.writeUTF(portal.bungee);
 			player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
 			return false;
 
@@ -364,10 +373,10 @@ public class Portal {
 		else{
 			boolean showFailMessage = true;
 
-			if(portalData.getConfig().getString(portalName + ".portalArgs.command.1") != null){
+			if(portal.getArg("command.1") != null){
 				showFailMessage = false;
 				int commandLine = 1;
-				String command = portalData.getConfig().getString(portalName + ".portalArgs.command." + commandLine);
+				String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
 				do{
 					// (?i) makes the search case insensitive
 					command = command.replaceAll("@player", player.getName());
@@ -402,22 +411,21 @@ public class Portal {
 					else{
 						player.performCommand(command);
 					}
-					command = portalData.getConfig().getString(portalName + ".portalArgs.command."  + ++commandLine);
+					command = portal.getArg("command." + ++commandLine);
 				}while(command != null);
 			}
-
-			if(portalData.getConfig().getString(portalName + ".destination") != null){
+			plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
+			if(portal.destiation != null){
 				ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
-				String destiName = portalData.getConfig().getString(portalName + ".destination");
-				String permission = portalData.getConfig().getString(portalName + ".portalArgs.permission");
+				String permission = portal.getArg("permission");
 				if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
-					if(configDesti.getConfig().getString(destiName  + ".world") != null){
-						boolean warped = Destination.warp(player, destiName);
+					if(configDesti.getConfig().getString(portal.destiation  + ".world") != null){
+						boolean warped = Destination.warp(player, portal.destiation);
 						return warped;
 					}
 					else{
 						player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
-						plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+						plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
 								+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 						return false;
 					}
@@ -448,7 +456,7 @@ public class Portal {
 			else{
 				if(showFailMessage) {
 					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you are trying to use doesn't have a destination!");
-					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
+					plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
 							+ "attempt and either the data is corrupt or portal doesn't exist!");
 				}
 				return false;
