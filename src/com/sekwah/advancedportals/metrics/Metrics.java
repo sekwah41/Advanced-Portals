@@ -323,7 +323,7 @@ public class Metrics {
         String serverVersion = Bukkit.getVersion();
         // make sure that the older versions of bukkit are added first in project imports, so it can be compiled
         // against an older version
-        int playersOnline = Bukkit.getOnlinePlayers().length;//Bukkit.getServer().getOnlinePlayers().length;
+        int playersOnline = Bukkit.getOnlinePlayers().size(); //Bukkit.getServer().getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
 

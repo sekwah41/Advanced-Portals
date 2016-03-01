@@ -3,6 +3,7 @@ package com.sekwah.advancedportals;
 import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.compat.bukkit.NMS;
 import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -82,6 +83,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 		new AdvancedPortalsCommand(this);
 		new DestinationCommand(this);
 		new WarpCommand(this);
+
+		new WarpEffects(this);
 		
 		
 		// These register the listeners

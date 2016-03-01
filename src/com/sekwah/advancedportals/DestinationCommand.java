@@ -85,7 +85,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 						}
 						else if(PortalMessagesDisplay == 2){
 							ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
-							plugin.nmsAccess.sendActionBarMessage("{text:\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
+							plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
 							/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
 							 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
 						}
