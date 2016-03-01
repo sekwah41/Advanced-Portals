@@ -65,11 +65,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 			this.customPrefix = config.getConfig().getString("CustomPrefix");
 		}
 
-        ConfigAccessor portalconfig = new ConfigAccessor(this, "Portals.yml");
-        portalconfig.saveDefaultConfig();
+        ConfigAccessor portalConfig = new ConfigAccessor(this, "Portals.yml");
+        portalConfig.saveDefaultConfig();
         
-        ConfigAccessor destinationconfig = new ConfigAccessor(this, "Destinations.yml");
-        destinationconfig.saveDefaultConfig();
+        ConfigAccessor destinationConfig = new ConfigAccessor(this, "Destinations.yml");
+        destinationConfig.saveDefaultConfig();
 		
         
         // Loads the portal and destination editors
