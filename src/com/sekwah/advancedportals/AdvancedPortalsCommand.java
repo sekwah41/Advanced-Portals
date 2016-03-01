@@ -262,8 +262,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 							sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Are you sure you would like to remove the portal \u00A7e" + args[2] + "\u00A7c?");
 							sender.sendMessage("");
-							plugin.nmsAccess.sendRawMessage("{text:\"    \",extra:[{text:\"\u00A7e[Yes]\",hoverEvent:{action:show_text,value:\"Confirm removing this portal\"},clickEvent:{action:run_command,value:\"/portal remove " + args[2] + "\"}}, " +
-									"{text:\"     \"},{text:\"\u00A7e[No]\",hoverEvent:{action:show_text,value:\"Cancel removing this portal\"},clickEvent:{action:run_command,value:\"/portal edit " + args[2] + "\"}}]}", player);
+							plugin.nmsAccess.sendRawMessage("{\"text\":\"    \",\"extra\":[{\"text\":\"\u00A7e[Yes]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Confirm removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal remove " + args[2] + "\"}}, " +
+									"{\"text\":\"     \"},{\"text\":\"\u00A7e[No]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Cancel removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal edit " + args[2] + "\"}}]}", player);
 							sender.sendMessage("");
 						}
 					}
@@ -540,17 +540,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 		Player player = (Player)sender;
 
-		plugin.nmsAccess.sendRawMessage("{text:\"\u00A7aFunctions\u00A7e: \",extra:[{text:\"\u00A7eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
-				+ ",{text:\"  \"},{text:\"\u00A7eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}", player);
+		plugin.nmsAccess.sendRawMessage("{\"text\":\"\u00A7aFunctions\u00A7e: \",\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":show_text,\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/portal gui remove " + portalName + "\"}}"
+				+ ",{\"text\":\"  \"},{\"text\":\"\u00A7eShow\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Show the selected portal\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/portal show " + portalName + "\"}}"
+				+ ",{\"text\":\"  \"},{\"text\":\"\u00A7eRename\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Change the name of the portal\"},\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/portal rename \"}}"
+				+ ",{\"text\":\"  \"},{\"text\":\"\u00A7eActivate\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(same as entering the portal)\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/warp " + destination + "\"}}]}", player);
 
-		/**IChatBaseComponent comp = ChatSerializer.a("{text:\"\u00A7aFunctions\u00A7e: \",extra:[{text:\"\u00A7eRemove\",hoverEvent:{action:show_text,value:\"Remove the selected portal\"},clickEvent:{action:run_command,value:\"/portal gui remove " + portalName + "\"}}"
-		 + ",{text:\"  \"},{text:\"\u00A7eShow\",hoverEvent:{action:show_text,value:\"Show the selected portal\"},clickEvent:{action:run_command,value:\"/portal show " + portalName + "\"}}"
-		 + ",{text:\"  \"},{text:\"\u00A7eRename\",hoverEvent:{action:show_text,value:\"Change the name of the portal\"},clickEvent:{action:suggest_command,value:\"/portal rename \"}}"
-		 + ",{text:\"  \"},{text:\"\u00A7eActivate\",hoverEvent:{action:show_text,value:\"Teleport to the set destination\n(same as entering the portal)\"},clickEvent:{action:run_command,value:\"/warp " + destination + "\"}}]}");
-		 PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
-		 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);*/
 		sender.sendMessage("");
 
 	}
