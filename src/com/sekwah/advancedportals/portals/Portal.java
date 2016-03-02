@@ -23,7 +23,7 @@ public class Portal {
 
 	public static boolean portalsActive = false;
 
-	public static AdvancedPortal[] Portals;
+	public static AdvancedPortal[] Portals = new AdvancedPortal[0];
 
 	private static boolean ShowBungeeMessage;
 
