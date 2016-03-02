@@ -36,7 +36,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		if(sender.hasPermission("advancedportals.portal")){
 			if(args.length > 0){
 				if(args[0].toLowerCase().equals("wand") || args[0].toLowerCase().equals("selector")){
@@ -188,7 +188,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										}
 										else{
 											hasTriggerBlock = false;
-											ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+											ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
 											player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
 											player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
@@ -198,7 +198,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 										}
 									}
 									else{
-										ConfigAccessor Config = new ConfigAccessor(plugin, "Config.yml");
+										ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
 										player.sendMessage("\u00A7atriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 										PortalArg[] portalArgs = new PortalArg[extraData.size()];
 										portalArgs = extraData.toArray(portalArgs);

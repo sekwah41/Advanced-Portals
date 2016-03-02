@@ -30,7 +30,7 @@ public class Portal {
 	public static ConfigAccessor portalData = new ConfigAccessor(plugin, "Portals.yml");
 
 	public Portal(AdvancedPortalsPlugin plugin) {
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
 
 		Portal.plugin = plugin;
@@ -249,7 +249,7 @@ public class Portal {
 
 	@SuppressWarnings("deprecation")
 	public static String create(Location pos1, Location pos2, String name, String destination, String serverName, PortalArg... extraData) { // add stuff for destination names or coordinates
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
 		Material triggerBlockType;
 		String BlockID = config.getConfig().getString("DefaultPortalTriggerBlock");

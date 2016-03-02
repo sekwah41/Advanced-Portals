@@ -7,7 +7,7 @@ public class Assets {
     public static int currentWarpSound = 0;
 
     public Assets(AdvancedPortalsPlugin plugin) {
-        ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         currentWarpParticles = config.getConfig().getInt("WarpParticles");
         currentWarpSound = config.getConfig().getInt("WarpSound");
     }

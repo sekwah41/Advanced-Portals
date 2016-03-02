@@ -51,27 +51,27 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 			e.printStackTrace();
 		}
 
-		new Assets(this);
-		
-		// Opens a channel that messages bungeeCord
-		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		
+		saveDefaultConfig();
+
 		// thanks to the new config accessor code the config.saveDefaultConfig(); will now
 		//  only copy the file if it doesnt exist!
-        ConfigAccessor config = new ConfigAccessor(this, "Config.yml");
-        config.saveDefaultConfig();
+		ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
 		this.useCustomPrefix = config.getConfig().getBoolean("UseCustomPrefix");
 		if(useCustomPrefix){
 			this.customPrefix = config.getConfig().getString("CustomPrefix");
 		}
 
-        ConfigAccessor portalConfig = new ConfigAccessor(this, "Portals.yml");
-        portalConfig.saveDefaultConfig();
-        
-        ConfigAccessor destinationConfig = new ConfigAccessor(this, "Destinations.yml");
-        destinationConfig.saveDefaultConfig();
+		ConfigAccessor portalConfig = new ConfigAccessor(this, "Portals.yml");
+		portalConfig.saveDefaultConfig();
+
+		ConfigAccessor destinationConfig = new ConfigAccessor(this, "Destinations.yml");
+		destinationConfig.saveDefaultConfig();
+
+		new Assets(this);
 		
+		// Opens a channel that messages bungeeCord
+		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         
         // Loads the portal and destination editors
         new Portal(this);

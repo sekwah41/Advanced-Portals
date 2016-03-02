@@ -39,7 +39,7 @@ public class Listeners implements Listener {
 	public Listeners(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
 
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
 
 		String ItemID = config.getConfig().getString("AxeItemId");
@@ -61,7 +61,7 @@ public class Listeners implements Listener {
 	@SuppressWarnings("deprecation")
 	public static void reloadValues(AdvancedPortalsPlugin plugin) {
 
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
 
 		ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
@@ -139,7 +139,9 @@ public class Listeners implements Listener {
 									player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
 									Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 										public void run(){
-											finalplayer.removeMetadata("hasWarped", plugin);
+											if(finalplayer != null && finalplayer.isOnline()){
+												finalplayer.removeMetadata("hasWarped", plugin);
+											}
 										}
 									}, 10);
 								}

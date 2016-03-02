@@ -20,7 +20,7 @@ public class FlowStopper implements Listener {
 	public FlowStopper(AdvancedPortalsPlugin plugin) {
 		this.plugin = plugin;
 
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		this.WaterFlow = config.getConfig().getBoolean("StopWaterFlow");
 
 		if(WaterFlow){
