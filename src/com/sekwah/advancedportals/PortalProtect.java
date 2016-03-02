@@ -39,7 +39,11 @@ public class PortalProtect implements Listener {
 	@SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event){
-    	
+
+		if(!Portal.portalsActive){
+			return;
+		}
+
     	if(!event.getPlayer().hasPermission("advancedportals.build")){
     		Block block = event.getBlock();
 
@@ -63,6 +67,10 @@ public class PortalProtect implements Listener {
 	@SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event){
+
+		if(!Portal.portalsActive){
+			return;
+		}
     	
     	if(!event.getPlayer().hasPermission("advancedportals.build")){
     		Block block = event.getBlock();
@@ -86,6 +94,11 @@ public class PortalProtect implements Listener {
  	
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event){
+
+		if(!Portal.portalsActive){
+			return;
+		}
+
     	List<Block> blockList = event.blockList();
     	for (int i = 0; i < blockList.size(); i++) {
     		Block block = blockList.get(i);
