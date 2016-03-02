@@ -13,7 +13,7 @@ public class Selection {
 	
 	@SuppressWarnings("deprecation")
 	public static void LoadData(AdvancedPortalsPlugin plugin) {
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 		
 		timeout = config.getConfig().getInt("ShowSelectionShowDuration");
 		

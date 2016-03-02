@@ -23,7 +23,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 		
 		plugin.getCommand("destination").setExecutor(this);
 
-		ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
 		PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
 		

@@ -26,7 +26,7 @@ public class PortalProtect implements Listener {
     public PortalProtect(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
         
-        ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalProtect = config.getConfig().getBoolean("PortalProtection");
         
         this.PortalProtectionRadius = config.getConfig().getDouble("PortalProtectionRadius");

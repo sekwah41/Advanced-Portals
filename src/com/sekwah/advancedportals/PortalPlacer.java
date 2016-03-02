@@ -23,7 +23,7 @@ public class PortalPlacer implements Listener {
     public PortalPlacer(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
         
-        ConfigAccessor config = new ConfigAccessor(plugin, "Config.yml");
+        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
 
         this.PortalProtectionRadius = config.getConfig().getDouble("PortalProtectionRadius");
