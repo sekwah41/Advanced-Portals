@@ -27,7 +27,7 @@ public class Portal {
 
 	private static boolean ShowBungeeMessage;
 
-	public static ConfigAccessor portalData = new ConfigAccessor(plugin, "Portals.yml");
+	public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
 
 	public Portal(AdvancedPortalsPlugin plugin) {
 		ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
@@ -47,7 +47,7 @@ public class Portal {
 	 */
 
 	public static void loadPortals(){
-		portalData = new ConfigAccessor(plugin, "Portals.yml");
+		portalData = new ConfigAccessor(plugin, "portals.yml");
 		Set<String> PortalSet = portalData.getConfig().getKeys(false);
 		if(PortalSet.size() > 0){
 			Portals = new AdvancedPortal[PortalSet.toArray().length];
@@ -416,7 +416,7 @@ public class Portal {
 			}
 			plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
 			if(portal.destiation != null){
-				ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
+				ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
 				String permission = portal.getArg("permission");
 				if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
 					if(configDesti.getConfig().getString(portal.destiation  + ".world") != null){
@@ -472,7 +472,7 @@ public class Portal {
 
 		// set it so it gets all data from one and puts it into another place
 
-		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
 
 		Set<String> keys = config.getConfig().getKeys(true);
 		for(String key: keys){
@@ -500,7 +500,7 @@ public class Portal {
 
 
 	public static boolean addCommand(String portalName, String portalCommand) {
-		ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
 		if(portalExists(portalName)){
 			int commandLine = 0;
 			while(config.getConfig().getString(portalName + ".portalArgs.command." + ++commandLine) != null); //Loops increasing commandLine till 1 is null

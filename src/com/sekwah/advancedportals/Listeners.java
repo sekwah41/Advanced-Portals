@@ -115,7 +115,7 @@ public class Listeners implements Listener {
 									player.sendMessage("");
 								}
 								else if(PortalMessagesDisplay == 2 && warped){
-									ConfigAccessor config = new ConfigAccessor(plugin, "Portals.yml");
+									ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
 									plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7a.\"}", player);
 									/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
 									 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/

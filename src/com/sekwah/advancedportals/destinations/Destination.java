@@ -28,7 +28,7 @@ public class Destination {
 	// TODO add permissions for destinations.
 	
 	public static void create(Location location, String name){
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", location.getWorld().getName());
 		
@@ -43,7 +43,7 @@ public class Destination {
 	}
 	
 	public static void move(Location location, String name){
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", location.getWorld().getName());
 		
@@ -58,7 +58,7 @@ public class Destination {
 	}
 	
 	public static void rename(String oldName, String newName){
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		
 		config.getConfig().set(newName.toLowerCase() + ".world", config.getConfig().getString(oldName + ".world"));
 		
@@ -75,7 +75,7 @@ public class Destination {
 	}
 	
 	public static void remove(String name){
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		
 		config.getConfig().set(name.toLowerCase() + ".world", null);
 		
@@ -94,7 +94,7 @@ public class Destination {
 	}
 	
 	public static boolean warp(Player player, String name, boolean senderror){
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		if(config.getConfig().getString(name + ".world") != null){
 			Location loc = player.getLocation();
 			if(Bukkit.getWorld(config.getConfig().getString(name + ".world")) != null){
@@ -187,7 +187,7 @@ public class Destination {
 	
 	public static List<String> destiList(){
 		
-		ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+		ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 		
 		LinkedList<String> destiList = new LinkedList<>();
 		
