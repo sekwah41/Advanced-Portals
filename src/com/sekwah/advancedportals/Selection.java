@@ -37,7 +37,7 @@ public class Selection {
 	@SuppressWarnings("deprecation")
 	public static void Show(final Player player, final AdvancedPortalsPlugin plugin, String portalName) {
 		
-		ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+		ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
 		
 		int LowX = portalConfig.getConfig().getInt(portalName + ".pos2.X");
 		int LowY = portalConfig.getConfig().getInt(portalName + ".pos2.Y");		

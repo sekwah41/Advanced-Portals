@@ -37,7 +37,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 			if(args[0].toLowerCase().equals("create")){
 				if(sender.hasPermission("AdvancedPortals.create")){
 					if(args.length > 1){
-						ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+						ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
 						if(posX == null){
 							sender.sendMessage("§a[\u00A7eAdvancedPortals\u00A7a] You have created a new destination called \u00A7e" + args[1] +  "!");
@@ -57,7 +57,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 				}
 			}
 			else if(args[0].toLowerCase().equals("remove")) {
-				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Destinations.yml");
+				ConfigAccessor portalConfig = new ConfigAccessor(plugin, "destinations.yml");
 				if(args.length > 1){
 					String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
 					if(posX != null){
@@ -75,7 +75,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 			else if(args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
 				if(args.length > 1){
 					//System.out.println(args[1]);
-					ConfigAccessor configDesti = new ConfigAccessor(plugin, "Destinations.yml");
+					ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
 					if(configDesti.getConfig().getString(args[1]  + ".world") != null){
 						Destination.warp(sender, args[1]);
 						if(PortalMessagesDisplay == 1){
@@ -84,7 +84,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 							sender.sendMessage("");
 						}
 						else if(PortalMessagesDisplay == 2){
-							ConfigAccessor config = new ConfigAccessor(plugin, "Destinations.yml");
+							ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 							plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
 							/**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
 							 + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/

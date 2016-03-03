@@ -144,7 +144,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 								Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(), player.getMetadata("Pos1Y").get(0).asInt(), player.getMetadata("Pos1Z").get(0).asInt());
 								Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
 
-								ConfigAccessor desticonfig = new ConfigAccessor(plugin, "Destinations.yml");
+								ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
 								String destiPosX = desticonfig.getConfig().getString(destination + ".pos1.X");
 
 								if(!Portal.portalExists(portalName)){
@@ -269,7 +269,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else if(args[0].toLowerCase().equals("edit")) {
-					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
 					if(args.length > 1){
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 						if(posX != null){
@@ -300,7 +300,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 				else if(args[0].toLowerCase().equals("rename")) {
 
 					// not finished yet /
-					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
 					if(args.length > 1){
 						Player player = (Player)sender;
 						if(player.hasMetadata("selectedPortal")){
@@ -378,7 +378,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				else if(args[0].toLowerCase().equals("remove")) {
-					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
 					if(args.length > 1){
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
 						if(posX != null){
@@ -419,7 +419,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Help page: http://bit.ly/portals-help!");
 				}
 				else if(args[0].toLowerCase().equals("show")){
-					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "Portals.yml");
+					ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
 					Player player = (Player) sender;
 					if(args.length > 1){
 						String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
