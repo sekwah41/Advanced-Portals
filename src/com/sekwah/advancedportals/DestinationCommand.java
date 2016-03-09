@@ -35,7 +35,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 		if(args.length > 0){
 			if(args[0].toLowerCase().equals("create")){
-				if(sender.hasPermission("AdvancedPortals.create")){
+				if(sender.hasPermission("advancedportals.create")){
 					if(args.length > 1){
 						ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
 						String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
