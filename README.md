@@ -5,6 +5,8 @@ Advanced Portals
 
 <a href="https://github.com/sekwah41/Advanced-Portals/wiki/Commands">List Of Commands</a>
 
+<a href="https://www.spigotmc.org/resources/advanced-portals.14356/">Spigot Page</a>
+
 <a href="http://dev.bukkit.org/bukkit-plugins/advanced-portals/">Bukkit Page</a>
 <br>
 <br>
