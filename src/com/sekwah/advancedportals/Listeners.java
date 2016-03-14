@@ -141,25 +141,23 @@ public class Listeners implements Listener {
 							}
 
 							if(portal.trigger.equals(Material.PORTAL)){
-								final Player finalplayer = event.getPlayer();
 								if(player.getGameMode().equals(GameMode.CREATIVE)){
 									player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
 									Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 										public void run(){
-											if(finalplayer != null && finalplayer.isOnline()){
-												finalplayer.removeMetadata("hasWarped", plugin);
+											if(player != null && player.isOnline()){
+												player.removeMetadata("hasWarped", plugin);
 											}
 										}
 									}, 10);
 								}
 							}
 							else if(portal.trigger.equals(Material.LAVA)){
-								final Player finalplayer = event.getPlayer();
 								player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
 								Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 									public void run(){
-										finalplayer.removeMetadata("lavaWarped", plugin);
-										finalplayer.setFireTicks(-1);
+										player.removeMetadata("lavaWarped", plugin);
+										player.setFireTicks(0);
 									}
 								}, 10);
 							}

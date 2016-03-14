@@ -17,11 +17,12 @@ commands:
         usage: /<command>
 permissions:
    advancedportals.*:
-     description: Gives access to all portal commands
+     description: Gives access to all commands
      children:
        advancedportals.createportal: true
        advancedportals.portal: true
        advancedportals.build: true
+       advancedportals.desti.*: true
    advancedportals.createportal:
      description: Allows you to create portals
      default: op
@@ -30,4 +31,11 @@ permissions:
      default: op
    advancedportals.build:
      description: Allows you to build in the portal regions
+     default: op
+   advancedportals.desti.*:
+     description: Gives access to all desti commands
+     children:
+       advancedportals.desti.create: true
+   advancedportals.desti.create:
+     description: Allows users to create portal destinations
      default: op
