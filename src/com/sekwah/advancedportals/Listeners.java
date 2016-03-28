@@ -8,7 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -87,10 +86,6 @@ public class Listeners implements Listener {
 		}
 
 		Player player = event.getPlayer();
-
-		CraftPlayer cPlayer = (CraftPlayer) player;
-
-		cPlayer.isOnGround();
 
 		Location fromloc = event.getFrom();
 		Location loc = event.getTo();
