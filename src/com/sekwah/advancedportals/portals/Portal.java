@@ -63,7 +63,7 @@ public class Portal {
 
 				Material blockType = Material.PORTAL;
 				String BlockID = portalConfigSection.getString("triggerblock");
-				
+
 				try
 				{
 					Integer.parseInt(BlockID);
@@ -359,6 +359,13 @@ public class Portal {
 
 		// add other variables or filter code here, or somehow have a way to register them
 
+		String permission = portal.getArg("permission");
+		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
+		if(!((permission != null && player.hasPermission(permission)) || player.isOp())){
+			player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to use this portal!");
+			return false;
+		}
+
 		if(portal.bungee != null){
 			if(ShowBungeeMessage){
 				player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
@@ -414,26 +421,29 @@ public class Portal {
 					command = portal.getArg("command." + ++commandLine);
 				}while(command != null);
 			}
-			plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
+			//plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
 			if(portal.destiation != null){
 				ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-				String permission = portal.getArg("permission");
-				if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
-					if(configDesti.getConfig().getString(portal.destiation  + ".world") != null){
-						boolean warped = Destination.warp(player, portal.destiation);
-						return warped;
-					}
-					else{
-						player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
-						plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-								+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
-						return false;
-					}
+				if(configDesti.getConfig().getString(portal.destiation  + ".world") != null){
+					boolean warped = Destination.warp(player, portal.destiation);
+					return warped;
 				}
 				else{
-					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to use this portal!");
+					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
+					plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 					return false;
 				}
+			}
+			else{
+				if(showFailMessage) {
+					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you are trying to use doesn't have a destination!");
+					plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+							+ "attempt and either the data is corrupt or portal doesn't exist!");
+				}
+				return false;
+			}
+
 				/*if(configDesti.getConfig().getString(destiName  + ".world") != null){
                     String permission = portalData.getConfig().getString(portalName + ".portalArgs.permission");
                     if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
@@ -452,20 +462,7 @@ public class Portal {
 					return false;
 				}*/
 
-			}
-			else{
-				if(showFailMessage) {
-					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you are trying to use doesn't have a destination!");
-					plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-							+ "attempt and either the data is corrupt or portal doesn't exist!");
-				}
-				return false;
-			}
 		}
-
-		// add code for if the portal doesnt have a destination but a exemptPlayer location
-
-
 	}
 
 	public static void rename(String oldName, String newName){
