@@ -92,8 +92,6 @@ public class Listeners implements Listener {
 
 		cPlayer.isOnGround();
 
-		cPlayer.setFallDistance(-10);
-
 		Location fromloc = event.getFrom();
 		Location loc = event.getTo();
 		// Potentially fixes that stupid error cauzed by a bukkit update.
