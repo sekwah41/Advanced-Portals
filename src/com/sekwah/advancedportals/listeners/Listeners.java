@@ -1,10 +1,12 @@
 package com.sekwah.advancedportals.listeners;
 
+import com.avaje.ebeaninternal.server.transaction.RemoteTransactionEvent;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
+import com.sun.org.apache.regexp.internal.RE;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -122,26 +124,14 @@ public class Listeners implements Listener {
                                     event.setCancelled(true);
                                 }
                             }
-
                             if (portal.trigger.equals(Material.PORTAL)) {
                                 if (player.getGameMode().equals(GameMode.CREATIVE)) {
                                     player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
-                                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                                        public void run() {
-                                            if (player != null && player.isOnline()) {
-                                                player.removeMetadata("hasWarped", plugin);
-                                            }
-                                        }
-                                    }, 10);
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
                                 }
                             } else if (portal.trigger.equals(Material.LAVA)) {
                                 player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                                    public void run() {
-                                        player.removeMetadata("lavaWarped", plugin);
-                                        player.setFireTicks(0);
-                                    }
-                                }, 10);
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                             }
 
                         }
@@ -152,6 +142,40 @@ public class Listeners implements Listener {
         }
 
     }
+
+    // These are here because java 7 can only take finals straight into a runnable
+    class RemoveLavaData implements Runnable{
+
+
+        private Player player;
+
+        public RemoveLavaData(Player player){
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            player.removeMetadata("lavaWarped", plugin);
+            player.setFireTicks(0);
+        }
+    };
+
+    class RemoveWarpData implements Runnable{
+
+
+        private Player player;
+
+        public RemoveWarpData(Player player){
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            if (player != null && player.isOnline()) {
+                player.removeMetadata("hasWarped", plugin);
+            }
+        }
+    };
 
     @EventHandler
     public void onCombustEntityEvent(EntityCombustEvent event) {
@@ -208,6 +232,7 @@ public class Listeners implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPortalEvent(PlayerPortalEvent event) {
+
         if (!Portal.portalsActive) {
             return;
         }
