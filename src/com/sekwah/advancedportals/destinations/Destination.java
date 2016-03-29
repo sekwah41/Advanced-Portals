@@ -127,7 +127,7 @@ public class Destination {
                 return true;
             } else {
                 if (senderror) {
-                    player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+                    player.sendMessage(plugin.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
                     plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
                             + config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
                 }
@@ -135,7 +135,7 @@ public class Destination {
             }
         } else {
             if (senderror) {
-                player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There has been a problem warping you to the selected destination!");
+                player.sendMessage(plugin.customPrefixFail + "\u00A7c There has been a problem warping you to the selected destination!");
                 plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
                         + "attempt and either the data is corrupt or that destination doesn't exist!");
             }

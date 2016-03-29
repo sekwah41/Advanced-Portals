@@ -73,7 +73,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         Destination.warp(sender, args[1]);
                         if (PortalMessagesDisplay == 1) {
                             sender.sendMessage("");
-                            sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.");
+                            sender.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.");
                             sender.sendMessage("");
                         } else if (PortalMessagesDisplay == 2) {
                             ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");

@@ -67,3 +67,5 @@ UseWarpPrefix: true
 UseCustomPrefix: false
 
 CustomPrefix: '&a[&eAdvancedPortals&a]'
+
+CustomPrefixFail: '&c[&7AdvancedPortals&c]'

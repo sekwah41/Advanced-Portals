@@ -20,6 +20,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public String customPrefix = "\u00A7a[\u00A7eAdvancedPortals\u00A7a]";
 
+    public String customPrefixFail = "\u00A7c[\u00A77AdvancedPortals\u00A7c]";
+
     public void onEnable() {
 
         try {
@@ -59,7 +61,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         this.useCustomPrefix = config.getConfig().getBoolean("UseCustomPrefix");
         if (useCustomPrefix) {
-            this.customPrefix = config.getConfig().getString("CustomPrefix");
+            this.customPrefix = config.getConfig().getString("CustomPrefix").replaceAll("&", "\u00A7");
+            this.customPrefixFail = config.getConfig().getString("CustomPrefixFail").replaceAll("&", "\u00A7");
         }
 
         ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
