@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Created by on 29/03/2016.
- *
+ * <p>
  * TODO add all the normal tags then add the extradata tags
  *
  * @author sekwah41
@@ -15,12 +15,12 @@ public class PortalTags {
 
     // TODO create a list or hashmap of tags to check for.
 
-    public Map<String, String> tagDesc = new HashMap<String,String>();
+    public Map<String, String> tagDesc = new HashMap<String, String>();
 
     public ArrayList<String> tags = new ArrayList<String>();
 
 
-    public void registerTag(String tagName){
+    public void registerTag(String tagName) {
         this.registerTag(tagName, false);
     }
 
@@ -31,11 +31,11 @@ public class PortalTags {
      * @param tagName
      * @param description
      */
-    public void registerTag(String tagName, boolean multiWord, String description){
+    public void registerTag(String tagName, boolean multiWord, String description) {
         this.registerTag(tagName, multiWord);
     }
 
-    public void registerTag(String tagName, boolean multiWord){
+    public void registerTag(String tagName, boolean multiWord) {
 
     }
 
