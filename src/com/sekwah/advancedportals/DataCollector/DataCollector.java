@@ -9,62 +9,62 @@ import java.util.logging.Level;
 
 public class DataCollector {
 
-	private static AdvancedPortalsPlugin plugin;
+    private static AdvancedPortalsPlugin plugin;
 
-	public DataCollector(AdvancedPortalsPlugin plugin) {
-		DataCollector.plugin = plugin;
-	}
-	
-	/**
-	 * 
-	 * This is currently being tested as it doesn't fully work at the moment.
-	 * 
-	 */
-	
-	/**public static void playerWarped() {
-		try {
-		    Metrics metrics = new Metrics(plugin);
+    public DataCollector(AdvancedPortalsPlugin plugin) {
+        DataCollector.plugin = plugin;
+    }
 
-		    Graph TotalWarps = metrics.createGraph("Total Warps");
-		    
-		    TotalWarps.addPlotter(new Metrics.Plotter("Internal Warps") {
+    /**
+     *
+     * This is currently being tested as it doesn't fully work at the moment.
+     *
+     */
 
-		            @Override
-		            public int getValue() {
-		                    return 1; // number of warps
-		            }
+    /**
+     * public static void playerWarped() {
+     * try {
+     * Metrics metrics = new Metrics(plugin);
+     * <p>
+     * Graph TotalWarps = metrics.createGraph("Total Warps");
+     * <p>
+     * TotalWarps.addPlotter(new Metrics.Plotter("Internal Warps") {
+     *
+     * @Override public int getValue() {
+     * return 1; // number of warps
+     * }
+     * <p>
+     * });
+     * <p>
+     * metrics.start();
+     * } catch (IOException e) {
+     * plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
+     * }
+     * }
+     */
 
-		    });
+    public static void setupMetrics() {
 
-		    metrics.start();
-		} catch (IOException e) {
-			plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
-		}
-	}*/
-	
-	public static void setupMetrics() {
-		
-		try {
-		    Metrics metrics = new Metrics(plugin);
-		    Graph TotalWarps = metrics.createGraph("Portal Trigger Blocks");
-		    
-		    /**List<Material> MaterialList = new ArrayList<Material>();
-		    for(AdvancedPortal portal : Portal.Portals){
-		    	MaterialList.add(portal.trigger);
-		    }*/
+        try {
+            Metrics metrics = new Metrics(plugin);
+            Graph TotalWarps = metrics.createGraph("Portal Trigger Blocks");
 
-		    /**TotalWarps.addPlotter(new Metrics.Plotter(triggerName) {
+            /**List<Material> MaterialList = new ArrayList<Material>();
+             for(AdvancedPortal portal : Portal.Portals){
+             MaterialList.add(portal.trigger);
+             }*/
 
-		            @Override
-		            public int getValue() {
-		                    return 1; // number of portals created
-		            }
+            /**TotalWarps.addPlotter(new Metrics.Plotter(triggerName) {
 
-		    });*/
-		    
-		} catch (IOException e) {
-			plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
-		}
-	}
+            @Override public int getValue() {
+            return 1; // number of portals created
+            }
+
+            });*/
+
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Could not submit data", e);
+        }
+    }
 
 }
