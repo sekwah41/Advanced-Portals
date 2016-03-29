@@ -32,7 +32,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             if (Destination.warp(sender, args[0], false)) {
                 if (DestinationCommand.PortalMessagesDisplay == 1) {
                     sender.sendMessage("");
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + args[0].replaceAll("_", " ") + "\u00A7a.");
+                    sender.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + args[0].replaceAll("_", " ") + "\u00A7a.");
                     sender.sendMessage("");
                 } else if (DestinationCommand.PortalMessagesDisplay == 2) {
                     ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
@@ -42,12 +42,12 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                 }
             } else {
                 sender.sendMessage("");
-                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you tried to warp to does not exist!");
+                sender.sendMessage(plugin.customPrefixFail + "\u00A7c The destination you tried to warp to does not exist!");
                 sender.sendMessage("");
             }
         } else {
             sender.sendMessage("");
-            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to type a destination after /" + command + "!");
+            sender.sendMessage(plugin.customPrefixFail + "\u00A7c You need to type a destination after /" + command + "!");
             sender.sendMessage("");
         }
         return true;

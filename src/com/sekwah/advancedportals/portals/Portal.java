@@ -362,13 +362,13 @@ public class Portal {
 		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
-            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to use this portal!");
+            player.sendMessage(plugin.customPrefix + "\u00A7c You do not have permission to use this portal!");
             return false;
         }
 
         if (portal.bungee != null) {
             if (ShowBungeeMessage) {
-                player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
+                player.sendMessage(plugin.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
             }
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
@@ -422,14 +422,14 @@ public class Portal {
                     boolean warped = Destination.warp(player, portal.destiation);
                     return warped;
                 } else {
-                    player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
+                    player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
                     plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                             + "attempt and either the data is corrupt or that destination listed doesn't exist!");
                     return false;
                 }
             } else {
                 if (showFailMessage) {
-                    player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you are trying to use doesn't have a destination!");
+                    player.sendMessage(plugin.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
                     plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                             + "attempt and either the data is corrupt or portal doesn't exist!");
                 }
@@ -443,12 +443,12 @@ public class Portal {
                         return warped;
                     }
 					else{
-                        player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to use this portal!");
+                        player.sendMessage(plugin.customPrefix + "\u00A7c You do not have permission to use this portal!");
                         return false;
                     }
 				}
 				else{
-					player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination you are currently attempting to warp to doesnt exist!");
+					player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
 					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
 							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
 					return false;

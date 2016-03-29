@@ -105,7 +105,7 @@ public class Listeners implements Listener {
                                 boolean warped = Portal.activate(player, portal);
                                 if (PortalMessagesDisplay == 1 && warped) {
                                     player.sendMessage("");
-                                    player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
+                                    player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
                                     player.sendMessage("");
                                 } else if (PortalMessagesDisplay == 2 && warped) {
                                     ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
@@ -284,7 +284,7 @@ public class Listeners implements Listener {
                     if ((portal.pos1.getX()) >= block.getX() && (portal.pos1.getY()) >= block.getY() && (portal.pos1.getZ()) >= block.getZ()) {
 
                         if ((portal.pos2.getX()) <= block.getX() && (portal.pos2.getY()) <= block.getY() && (portal.pos2.getZ()) <= block.getZ()) {
-                            player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have selected: \u00A7e" + portal.portalName);
+                            player.sendMessage(plugin.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
                             player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
                             event.setCancelled(true);
                             player.removeMetadata("selectingPortal", plugin);
@@ -295,7 +295,7 @@ public class Listeners implements Listener {
 
                 }
             }
-            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
+            player.sendMessage(plugin.customPrefixFail + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
             event.setCancelled(true);
             return;
         }
