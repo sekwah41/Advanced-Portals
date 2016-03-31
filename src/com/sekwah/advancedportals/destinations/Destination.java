@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -21,11 +23,20 @@ public class Destination {
 
     private static AdvancedPortalsPlugin plugin;
 
+    private static boolean TeleportRiding = false;
+
     public Destination(AdvancedPortalsPlugin plugin) {
         Destination.plugin = plugin;
+
+        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
+        TeleportRiding = config.getConfig().getBoolean("WarpRiddenEntity");
     }
 
     // TODO add permissions for destinations.
+
+    // TODO try keeping the chunks loaded and add different delays to events to make
+    // the horse teleport when you have more time.(its an annoying bug caused by changed)
+    // in mc
 
     public static void create(Location location, String name) {
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
@@ -112,11 +123,14 @@ public class Destination {
                 Chunk c = loc.getChunk();
                 Entity riding = player.getVehicle();
                 if (!c.isLoaded()) c.load();
-                if (player.getVehicle() != null) {
+
+                if (player.getVehicle() != null && TeleportRiding) {
+
                     riding.eject();
                     riding.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     riding.setPassenger(player);
+
                 } else {
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }

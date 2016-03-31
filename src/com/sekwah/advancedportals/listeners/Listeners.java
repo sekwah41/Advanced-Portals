@@ -7,11 +7,9 @@ import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import com.sun.org.apache.regexp.internal.RE;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,7 +21,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.HashMap;
 
 public class Listeners implements Listener {
 
