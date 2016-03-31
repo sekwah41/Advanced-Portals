@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.listeners;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
-import net.minecraft.util.com.google.common.io.ByteArrayDataInput;
-import net.minecraft.util.com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 

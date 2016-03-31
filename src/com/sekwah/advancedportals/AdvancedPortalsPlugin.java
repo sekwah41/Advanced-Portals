@@ -7,10 +7,14 @@ import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.Chunk;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -30,8 +34,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         } catch (IOException e) {
             // Failed to submit the stats :-(
         }
-
-        this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
         String packageName = getServer().getClass().getPackage().getName();
         String[] packageSplit = packageName.split("\\.");
@@ -103,6 +105,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+
+        this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
     }
 
