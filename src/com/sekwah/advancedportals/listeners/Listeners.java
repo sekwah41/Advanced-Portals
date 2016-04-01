@@ -199,6 +199,7 @@ public class Listeners implements Listener {
         }
     }
 
+
     @EventHandler
     public void onDamEvent(EntityDamageEvent event) {
         if (!Portal.portalsActive) {
@@ -229,7 +230,8 @@ public class Listeners implements Listener {
 
     }
 
-
+    // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+    // Also listen to this possibly.
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPortalEvent(PlayerPortalEvent event) {
