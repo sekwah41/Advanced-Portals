@@ -95,7 +95,7 @@ public class Listeners implements Listener {
             if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
                 if (portal.trigger.equals(loc.getBlock().getType())
                         || portal.trigger.equals(eyeLoc.getBlock().getType())) {
-                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
+                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY()) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
                         if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
 
 
