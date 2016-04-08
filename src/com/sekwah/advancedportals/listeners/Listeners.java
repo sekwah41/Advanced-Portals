@@ -8,12 +8,8 @@ import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import com.sun.org.apache.regexp.internal.RE;
-import net.minecraft.server.v1_9_R1.DataWatcherObject;
-import net.minecraft.server.v1_9_R1.EntityItem;
-import net.minecraft.server.v1_9_R1.ItemStack;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -268,16 +264,6 @@ public class Listeners implements Listener {
 
             }
         }
-        EntityItem item = new EntityItem(((CraftWorld)loc.getWorld()).getHandle());
-try {
-    Field f = item.getClass().getDeclaredField("c");
-    f.setAccessible(true);
-    DataWatcherObject<Optional<ItemStack>> ITEM_DATA = (DataWatcherObject<Optional<ItemStack>>) f.get(item);
-} catch (NoSuchFieldException e) {
-    e.printStackTrace();
-} catch (IllegalAccessException e) {
-    e.printStackTrace();
-}
 
 
     }
