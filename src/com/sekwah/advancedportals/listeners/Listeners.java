@@ -38,6 +38,8 @@ public class Listeners implements Listener {
     private final AdvancedPortalsPlugin plugin;
     private int PortalMessagesDisplay = 2;
 
+    private boolean teleportDuringMove = false;
+
     @SuppressWarnings("deprecation")
     public Listeners(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -77,10 +79,13 @@ public class Listeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMoveEvent(PlayerMoveEvent event) {
+
         // will check if the player is in the portal or not.
         if (!Portal.portalsActive) {
             return;
         }
+
+        teleportDuringMove = false;
 
         Player player = event.getPlayer();
 
@@ -116,15 +121,18 @@ public class Listeners implements Listener {
                                     /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
                                      + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
                                 }
-
                                 if (warped) {
                                     //event.setFrom(player.getLocation());
                                     //event.setTo(player.getLocation());
 
                                     //event.setCancelled(true);
                                 } else {
-                                    player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                                    event.setCancelled(true);
+                                    //player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                                    //plugin.getLogger().info(String.valueOf(teleportDuringMove));
+                                    if(!teleportDuringMove){
+                                        event.setCancelled(true);
+                                    }
+
                                 }
                             }
                             if (portal.trigger.equals(Material.PORTAL)) {
@@ -144,6 +152,33 @@ public class Listeners implements Listener {
             }
         }
 
+    }
+
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.LOWEST)
+    public void onPlayerTeleport(final PlayerTeleportEvent event){
+        Player player = event.getPlayer();
+        plugin.getLogger().info(String.valueOf(event.getCause()));
+        if(event.getCause() != PlayerTeleportEvent.TeleportCause.NETHER_PORTAL && event.getCause() != PlayerTeleportEvent.TeleportCause.END_PORTAL){
+            teleportDuringMove = true;
+        }
+        else{
+            Location loc = player.getLocation();
+            Object[] portals = Portal.Portals;
+            for (AdvancedPortal portal : Portal.Portals) {
+                if (portal.worldName.equals(player.getWorld().getName())) {
+
+                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
+
+                        if ((portal.pos2.getX()) <= loc.getX() && (portal.pos2.getY()) <= loc.getY() && (portal.pos2.getZ()) <= loc.getZ()) {
+
+                            event.setCancelled(true);
+
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
     // These are here because java 7 can only take finals straight into a runnable
