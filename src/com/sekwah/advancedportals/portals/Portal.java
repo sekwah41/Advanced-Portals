@@ -366,6 +366,45 @@ public class Portal {
             return false;
         }
 
+        boolean showFailMessage = true;
+
+        if (portal.getArg("command.1") != null) {
+            showFailMessage = false;
+            int commandLine = 1;
+            String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
+            do {
+                // (?i) makes the search case insensitive
+                command = command.replaceAll("@player", player.getName());
+                plugin.getLogger().log(Level.INFO, "Portal command: " + command);
+                if (command.startsWith("#")) {
+                    command = command.substring(1);
+                    plugin.getLogger().log(Level.INFO, "Portal command: " + command);
+                    plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                } else if (command.startsWith("!")) {
+                    command = command.substring(1);
+                    boolean wasOp = player.isOp();
+                    try {
+                        player.setOp(true);
+                        player.performCommand(command);
+                    } finally {
+                        player.setOp(wasOp);
+                    }
+                } else if (command.startsWith("^")) {
+                    command = command.substring(1);
+                    PermissionAttachment permissionAttachment = null;
+                    try {
+                        permissionAttachment = player.addAttachment(plugin, "*", true);
+                        player.performCommand(command);
+                    } finally {
+                        player.removeAttachment(permissionAttachment);
+                    }
+                } else {
+                    player.performCommand(command);
+                }
+                command = portal.getArg("command." + ++commandLine);
+            } while (command != null);
+        }
+        //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
         if (portal.bungee != null) {
             if (ShowBungeeMessage) {
                 player.sendMessage(plugin.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
@@ -374,86 +413,27 @@ public class Portal {
             out.writeUTF("Connect");
             out.writeUTF(portal.bungee);
             player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-            return false;
-
-        } else {
-            boolean showFailMessage = true;
-
-            if (portal.getArg("command.1") != null) {
-                showFailMessage = false;
-                int commandLine = 1;
-                String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
-                do {
-                    // (?i) makes the search case insensitive
-                    command = command.replaceAll("@player", player.getName());
-                    plugin.getLogger().log(Level.SEVERE, "Portal command: " + command);
-                    if (command.startsWith("#")) {
-                        command = command.substring(1);
-                        plugin.getLogger().log(Level.SEVERE, "Portal command: " + command);
-                        plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
-                    } else if (command.startsWith("!")) {
-                        command = command.substring(1);
-                        boolean wasOp = player.isOp();
-                        try {
-                            player.setOp(true);
-                            player.performCommand(command);
-                        } finally {
-                            player.setOp(wasOp);
-                        }
-                    } else if (command.startsWith("^")) {
-                        command = command.substring(1);
-                        PermissionAttachment permissionAttachment = null;
-                        try {
-                            permissionAttachment = player.addAttachment(plugin, "*", true);
-                            player.performCommand(command);
-                        } finally {
-                            player.removeAttachment(permissionAttachment);
-                        }
-                    } else {
-                        player.performCommand(command);
-                    }
-                    command = portal.getArg("command." + ++commandLine);
-                } while (command != null);
-            }
-            //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
-            if (portal.destiation != null) {
-                ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-                if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
-                    boolean warped = Destination.warp(player, portal.destiation);
-                    return warped;
-                } else {
-                    player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
-                    plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-                            + "attempt and either the data is corrupt or that destination listed doesn't exist!");
-                    return false;
-                }
+            // Down to bungee to sort out the teleporting but yea theoretically they should warp.
+            return true;
+        }
+        else if (portal.destiation != null) {
+            ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
+            if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
+                boolean warped = Destination.warp(player, portal.destiation);
+                return warped;
             } else {
-                if (showFailMessage) {
-                    player.sendMessage(plugin.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
-                    plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-                            + "attempt and either the data is corrupt or portal doesn't exist!");
-                }
+                player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
+                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+                        + "attempt and either the data is corrupt or that destination listed doesn't exist!");
                 return false;
             }
-
-				/*if(configDesti.getConfig().getString(destiName  + ".world") != null){
-                    String permission = portalData.getConfig().getString(portalName + ".portalArgs.permission");
-                    if(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp()){
-                        boolean warped = Destination.warp(player, destiName);
-                        return warped;
-                    }
-					else{
-                        player.sendMessage(plugin.customPrefix + "\u00A7c You do not have permission to use this portal!");
-                        return false;
-                    }
-				}
-				else{
-					player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
-					plugin.getLogger().log(Level.SEVERE, "The portal '" + portalName + "' has just had a warp "
-							+ "attempt and either the data is corrupt or that destination listed doesn't exist!");
-					return false;
-				}*/
-
+        } else {
+            if (showFailMessage) {
+                player.sendMessage(plugin.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
+                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+                        + "attempt and either the data is corrupt or portal doesn't exist!");
+            }
+            return false;
         }
     }
 

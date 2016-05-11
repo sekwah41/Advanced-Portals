@@ -244,16 +244,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 } else if (args[0].toLowerCase().equals("edit")) {
+                    Player player = (Player) sender;
                     ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
                     if (args.length > 1) {
-                        String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
-                        if (posX != null) {
+                        if (Portal.portalExists(args[1])) {
+                            player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
                             portalEditMenu(sender, portalConfig, args[1]);
                         } else {
                             sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by the name \u00A7e" + args[1] + "\u00A7c exists!");
                         }
                     } else {
-                        Player player = (Player) sender;
                         if (player.hasMetadata("selectedPortal")) {
                             String portalName = player.getMetadata("selectedPortal").get(0).asString();
                             String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");

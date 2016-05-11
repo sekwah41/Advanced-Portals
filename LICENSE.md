@@ -1,5 +1,9 @@
 Copyright (c) 2016 sekwah
 
+Note: If anyone has a better solution for licenses please contact me. I want to
+make it so if there are major edits you can redistribute but you can't just re-upload
+the code somewhere else as I have had my projects stolen before.
+
 The plugin comes with no warranty of any kind. In no event shall I liable for
 any claim, damages or other liability. (Not that it will ever come to that)
 
