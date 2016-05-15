@@ -379,7 +379,12 @@ public class Portal {
                 if (command.startsWith("#")) {
                     command = command.substring(1);
                     plugin.getLogger().log(Level.INFO, "Portal command: " + command);
-                    plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                    try{
+                       plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                    }
+                    catch(Exception e){
+                        plugin.getLogger().warning("Error while executing: " + command);
+                    }
                 } else if (command.startsWith("!")) {
                     command = command.substring(1);
                     boolean wasOp = player.isOp();

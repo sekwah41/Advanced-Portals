@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.effects;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.Assets;
+import com.sekwah.advancedportals.portals.AdvancedPortal;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -17,20 +18,29 @@ public class WarpEffects {
 	public static boolean soundError = false;
 
 	public WarpEffects(AdvancedPortalsPlugin plugin) {
-		try {
-			sounds[0] = Sound.valueOf("ENTITY_ENDERMEN_TELEPORT");
-			plugin.getLogger().info("Sounds found");
+
+		sounds[0] = findSound(plugin, "ENTITY_ENDERMEN_TELEPORT", "ENDERMAN_TELEPORT");
+
+		// SPIGOT STOP CHANGING THE BLOODY NAMES! we already knew what an explosion was...
+		sounds[1] = findSound(plugin, "ENTITY_GENERIC_EXPLODE", "EXPLODE");
+
+	}
+
+	public Sound findSound(AdvancedPortalsPlugin plugin, String newName, String oldName){
+		Sound soundFound = null;
+		try{
+			soundFound = Sound.valueOf(newName);
+			plugin.getLogger().info(newName + " found");
 		} catch (IllegalArgumentException e) {
-			plugin.getLogger().info("Using old effect names");
 			try {
-			sounds[0] = Sound.valueOf("ENDERMAN_TELEPORT");
+				soundFound = Sound.valueOf(oldName);
+				plugin.getLogger().info("Using old effect name: " + oldName);
 			} catch (IllegalArgumentException e2) {
-				plugin.getLogger().warning("There was an error using both the old and new names.");
+				plugin.getLogger().warning("There was an error using both the old and new names for " + newName);
 				soundError = true;
 			}
 		}
-
-		sounds[1] = Sound.EXPLODE;
+		return soundFound;
 	}
 
 	public static void activateParticles(Player player) {
