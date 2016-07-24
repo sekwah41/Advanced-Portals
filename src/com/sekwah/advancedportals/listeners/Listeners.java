@@ -1,16 +1,12 @@
 package com.sekwah.advancedportals.listeners;
 
-import com.avaje.ebeaninternal.server.transaction.RemoteTransactionEvent;
-import com.google.common.base.Optional;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
-import com.sun.org.apache.regexp.internal.RE;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,11 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
 
 public class Listeners implements Listener {
     // The needed config values will be stored so they are easier to access later
