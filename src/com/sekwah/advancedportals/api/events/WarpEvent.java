@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.events;
+package com.sekwah.advancedportals.api.events;
 
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import org.bukkit.entity.Player;
@@ -12,8 +12,6 @@ public final class WarpEvent extends Event implements Cancellable {
      * Use listeners so you can add new triggers easier and also other plugins can listen for the event
      * and add their own triggers
      */
-
-
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancelled = false;
