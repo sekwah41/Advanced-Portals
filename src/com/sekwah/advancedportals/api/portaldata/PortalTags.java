@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.api;
+package com.sekwah.advancedportals.api.portaldata;
 
 import java.util.ArrayList;
 import java.util.HashMap;

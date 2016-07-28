@@ -12,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
+import com.sekwah.advancedportals.api.portaldata.PortalArg;
 
 import java.util.ArrayList;
 import java.util.Set;
