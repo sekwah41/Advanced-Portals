@@ -419,7 +419,6 @@ public class Portal {
             out.writeUTF(portal.bungee);
             player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             // Down to bungee to sort out the teleporting but yea theoretically they should warp.
-            return true;
         }
         else if (portal.destiation != null) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
@@ -430,7 +429,6 @@ public class Portal {
                 player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or that destination listed doesn't exist!");
-                return false;
             }
         } else {
             if (showFailMessage) {
@@ -438,8 +436,8 @@ public class Portal {
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
             }
-            return false;
         }
+        return false;
     }
 
     public static void rename(String oldName, String newName) {
