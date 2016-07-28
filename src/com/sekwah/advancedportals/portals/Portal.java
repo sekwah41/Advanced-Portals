@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.destinations.Destination;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -14,20 +15,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
 public class Portal {
-
+    public static HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
+    // Config values
     public static boolean portalsActive = false;
     public static AdvancedPortal[] Portals = new AdvancedPortal[0];
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
     private static boolean ShowBungeeMessage;
+    private static int cooldelay = 5;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        cooldelay = config.getConfig().getInt("Cooldown");
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -366,6 +371,14 @@ public class Portal {
             return false;
         }
 
+        if (cooldown.get(player) != null) {
+            int diff = (int) ((System.currentTimeMillis() - cooldown.get(player)) / 1000);
+            if (diff < cooldelay) {
+                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
+                return false;
+            }
+        }
+        cooldown.put(player, System.currentTimeMillis());
         boolean showFailMessage = true;
 
         if (portal.getArg("command.1") != null) {
