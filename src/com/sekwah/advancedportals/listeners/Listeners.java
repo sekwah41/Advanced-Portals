@@ -30,6 +30,7 @@ import java.util.HashMap;
 
 public class Listeners implements Listener {
 
+    private HashMap<Player, Boolean> inPortal = new HashMap<Player, Boolean>();
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
     private static boolean UseOnlyServerAxe = false;
@@ -83,7 +84,7 @@ public class Listeners implements Listener {
         }
 
         Player player = event.getPlayer();
-
+        if (inPortal.get(player) == null) inPortal.put(player, false);
         Location fromloc = event.getFrom();
         Location loc = event.getTo();
         // Potentially fixes that stupid error cauzed by a bukkit update.
@@ -99,11 +100,9 @@ public class Listeners implements Listener {
                         || portal.trigger.equals(eyeLoc.getBlock().getType())) {
                     if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY()) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
                         if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
-
-
                             WarpEvent warpEvent = new WarpEvent(player, portal);
                             plugin.getServer().getPluginManager().callEvent(warpEvent);
-
+                            if (inPortal.get(player)) return;
                             if (!event.isCancelled()) {
                                 boolean warped = Portal.activate(player, portal);
                                 if (PortalMessagesDisplay == 1 && warped) {
@@ -116,16 +115,6 @@ public class Listeners implements Listener {
                                     /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
                                      + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
                                 }
-
-                                if (warped) {
-                                    //event.setFrom(player.getLocation());
-                                    //event.setTo(player.getLocation());
-
-                                    //event.setCancelled(true);
-                                } else {
-                                    player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                                    event.setCancelled(true);
-                                }
                             }
                             if (portal.trigger.equals(Material.PORTAL)) {
                                 if (player.getGameMode().equals(GameMode.CREATIVE)) {
@@ -136,12 +125,14 @@ public class Listeners implements Listener {
                                 player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                             }
-
+                            inPortal.put(player, true);
+                            return;
                         }
                     }
 
                 }
             }
+            inPortal.put(player, false);
         }
 
     }
