@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sekwah.advancedportals</groupId>
+  <artifactId>Advanced-Portals</artifactId>
+  <build>
+	<sourceDirectory>${basedir}/src/</sourceDirectory>
+	<resources>
+		<resource>
+			<directory>${basedir}/Resources</directory>
+		</resource>
+	</resources>
+  </build>
+  <version>0.0.20-snapshot</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.10.2</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/target/buildtools/craftbukkit-1.10.2.jar</systemPath>
+		</dependency>
+	</dependencies>
+</project>
