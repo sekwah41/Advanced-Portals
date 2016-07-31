@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="Advanced-Portals:jar" />
-    </artifacts-to-build>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368e433-6dd6-403e-8cc4-e48205b32956" name="Default" comment="removed tracking for an artifact">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Resources/config.yml" afterPath="$PROJECT_DIR$/Resources/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sekwah/advancedportals/listeners/Listeners.java" afterPath="$PROJECT_DIR$/src/com/sekwah/advancedportals/listeners/Listeners.java" />
+    <list default="true" id="6368e433-6dd6-403e-8cc4-e48205b32956" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java" afterPath="$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java" />
     </list>
     <list id="a9cf1f7b-5d47-42ba-b6ef-f6cd036bf528" name="Failed commit: Default" comment="removed tracking for an artifact">
@@ -39,11 +32,11 @@
       <file leaf-file-name="Portal.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36681715">
-              <caret line="491" column="24" selection-start-line="491" selection-start-column="24" selection-end-line="491" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.73137695">
+              <caret line="509" column="9" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
               <folding>
-                <element signature="e#21770#21771#0" expanded="true" />
-                <element signature="e#21821#21822#0" expanded="true" />
+                <element signature="e#21769#21770#0" expanded="true" />
+                <element signature="e#21820#21821#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -127,8 +120,8 @@
       <list>
         <option value="$PROJECT_DIR$/Resources/config.yml" />
         <option value="$PROJECT_DIR$/src/com/sekwah/advancedportals/listeners/Listeners.java" />
-        <option value="$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java" />
       </list>
     </option>
   </component>
@@ -555,6 +548,13 @@
       <option name="number" value="Default" />
       <updated>1469971648312</updated>
     </task>
+    <task id="LOCAL-00001" summary="trying to fix tracking for workspace">
+      <created>1469982364493</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1469982364493</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -590,7 +590,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed tracking for an artifact" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed tracking for an artifact" />
+    <MESSAGE value="trying to fix tracking for workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to fix tracking for workspace" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -654,11 +655,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sekwah/advancedportals/portals/Portal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36681715">
-          <caret line="491" column="24" selection-start-line="491" selection-start-column="24" selection-end-line="491" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.73137695">
+          <caret line="509" column="9" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
           <folding>
-            <element signature="e#21770#21771#0" expanded="true" />
-            <element signature="e#21821#21822#0" expanded="true" />
+            <element signature="e#21769#21770#0" expanded="true" />
+            <element signature="e#21820#21821#0" expanded="true" />
           </folding>
         </state>
       </provider>

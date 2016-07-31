@@ -508,7 +508,6 @@ public class Portal {
                 }
             }
         }
-
         return null;
     }
 
