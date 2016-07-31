@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.api.registry;
 
+import com.sekwah.advancedportals.api.warphandler.TagHandler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +17,30 @@ public class TagRegistry {
 
     private Map<String, TagInfo> tagDesc = new HashMap<String, TagInfo>();
 
+    // TODO the event can be used for general data detection and management, but use a TagHandler to make it so they can register
+    // the individual class to handle.
+
     public TagRegistry(){
 
+    }
+
+
+    /**
+     *
+     * @return if the tag has been registered or if it already exists.
+     */
+    public boolean registerTag(String tag, TagHandler tagHandler){
+        tagDesc.
+        if(tagHandler == null){
+
+        }
+        else{
+            if(!(tagHandler instanceof TagHandler.Activation) && !(tagHandler instanceof TagHandler.TagStatus) &&
+                    !(tagHandler instanceof TagHandler.Creation)){
+
+            }
+        }
+        return true;
     }
 
 
