@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Advanced-Portals:jar">
-    <output-path>$USER_HOME$/Desktop/Sekwah41 plugin test/plugins</output-path>
-    <root id="archive" name="AdvancedPortals.jar">
-      <element id="module-output" name="Advanced-Portals" />
-    </root>
-  </artifact>
-</component>
