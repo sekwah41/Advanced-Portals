@@ -20,17 +20,33 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.HashMap;
+
 public class Listeners implements Listener {
+
+    // TODO rewrite and remove unneeded listeners and also fix the warp delay using a hashmap of users last attempt times.
 
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
     private static boolean UseOnlyServerAxe = false;
-    private static Material WandMaterial;
-    private static boolean ShowBungeeMessage;
-    private final AdvancedPortalsPlugin plugin;
-    private int PortalMessagesDisplay = 2;
 
-    private boolean teleportDuringMove = false;
+    /**
+     * Can't enter another portal until this time has passed.
+     */
+    private HashMap<Player, Boolean> hasPortalCooldown = new HashMap<Player, Boolean>();
+
+    /**
+     * Cant use portals until they leave one.
+     */
+    private HashMap<Player, Boolean> hasPortalImmunity = new HashMap<Player, Boolean>();
+
+    private static Material WandMaterial;
+
+    //private static boolean ShowBungeeMessage;
+
+    private final AdvancedPortalsPlugin plugin;
+
+    private int PortalMessagesDisplay = 2;
 
     @SuppressWarnings("deprecation")
     public Listeners(AdvancedPortalsPlugin plugin) {
@@ -58,7 +74,7 @@ public class Listeners implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
 
-        ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        //ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
 
         String ItemID = config.getConfig().getString("AxeItemId");
 
@@ -76,8 +92,6 @@ public class Listeners implements Listener {
         if (!Portal.portalsActive) {
             return;
         }
-
-        teleportDuringMove = false;
 
         Player player = event.getPlayer();
 
@@ -119,11 +133,9 @@ public class Listeners implements Listener {
 
                                     //event.setCancelled(true);
                                 } else {
-                                    //player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                                    //plugin.getLogger().info(String.valueOf(teleportDuringMove));
-                                    if(!teleportDuringMove){
-                                        event.setCancelled(true);
-                                    }
+                                    player.teleport(fromloc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+
+                                    event.setCancelled(true);
 
                                 }
                             }
@@ -146,32 +158,27 @@ public class Listeners implements Listener {
 
     }
 
-    @EventHandler(ignoreCancelled = false, priority = EventPriority.LOWEST)
-    public void onPlayerTeleport(final PlayerTeleportEvent event){
+    /*@EventHandler(ignoreCancelled = false, priority = EventPriority.LOWEST)
+    public void onPlayerTeleport(PlayerTeleportEvent event){
         Player player = event.getPlayer();
         plugin.getLogger().info(String.valueOf(event.getCause()));
-        if(event.getCause() != PlayerTeleportEvent.TeleportCause.NETHER_PORTAL && event.getCause() != PlayerTeleportEvent.TeleportCause.END_PORTAL){
-            teleportDuringMove = true;
-        }
-        else{
-            Location loc = player.getLocation();
-            Object[] portals = Portal.Portals;
-            for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(player.getWorld().getName())) {
+        Location loc = player.getLocation();
+        Object[] portals = Portal.Portals;
+        for (AdvancedPortal portal : Portal.Portals) {
+            if (portal.worldName.equals(player.getWorld().getName())) {
 
-                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
+                if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
 
-                        if ((portal.pos2.getX()) <= loc.getX() && (portal.pos2.getY()) <= loc.getY() && (portal.pos2.getZ()) <= loc.getZ()) {
+                    if ((portal.pos2.getX()) <= loc.getX() && (portal.pos2.getY()) <= loc.getY() && (portal.pos2.getZ()) <= loc.getZ()) {
 
-                            event.setCancelled(true);
+                        event.setCancelled(true);
 
-                        }
                     }
-
                 }
+
             }
         }
-    }
+    }*/
 
     // These are here because java 7 can only take finals straight into a runnable
     class RemoveLavaData implements Runnable{
