@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.listeners;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.events.WarpEvent;
+import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.*;
@@ -80,7 +80,7 @@ public class Listeners implements Listener {
         }
 
         Player player = event.getPlayer();
-        Location fromloc = event.getFrom();
+        //Location fromloc = event.getFrom();
         Location loc = event.getTo();
         // Potentially fixes that stupid error cauzed by a bukkit update.
         // Would save event.getTo() as eyeLoc and change the Y position but that seemed to teleport players.
