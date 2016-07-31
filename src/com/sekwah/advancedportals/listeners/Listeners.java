@@ -19,6 +19,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -29,8 +30,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class Listeners implements Listener {
-
-    private HashMap<Player, Boolean> inPortal = new HashMap<Player, Boolean>();
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
     private static boolean UseOnlyServerAxe = false;
@@ -76,6 +75,11 @@ public class Listeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onJoinEvent(PlayerJoinEvent event) {
+        Portal.cooldown.put(event.getPlayer(), System.currentTimeMillis());
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMoveEvent(PlayerMoveEvent event) {
         // will check if the player is in the portal or not.
@@ -84,7 +88,6 @@ public class Listeners implements Listener {
         }
 
         Player player = event.getPlayer();
-        if (inPortal.get(player) == null) inPortal.put(player, false);
         Location fromloc = event.getFrom();
         Location loc = event.getTo();
         // Potentially fixes that stupid error cauzed by a bukkit update.
@@ -102,7 +105,7 @@ public class Listeners implements Listener {
                         if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
                             WarpEvent warpEvent = new WarpEvent(player, portal);
                             plugin.getServer().getPluginManager().callEvent(warpEvent);
-                            if (inPortal.get(player)) return;
+                            if (portal.inPortal.contains(player)) return;
                             if (!event.isCancelled()) {
                                 boolean warped = Portal.activate(player, portal);
                                 if (PortalMessagesDisplay == 1 && warped) {
@@ -125,14 +128,14 @@ public class Listeners implements Listener {
                                 player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                             }
-                            inPortal.put(player, true);
+                            portal.inPortal.add(player);
                             return;
                         }
                     }
 
                 }
             }
-            inPortal.put(player, false);
+            portal.inPortal.remove(player);
         }
 
     }
