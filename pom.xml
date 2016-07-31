@@ -18,11 +18,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<!-- spigot's buildtools automatically places it in maven's repository after building it -->
 			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.10.2</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/target/buildtools/craftbukkit-1.10.2.jar</systemPath>
+			<artifactId>craftbukkit</artifactId>
+			<version>1.10.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
