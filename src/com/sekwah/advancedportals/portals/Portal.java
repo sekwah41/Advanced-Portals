@@ -485,4 +485,34 @@ public class Portal {
             return false;
         }
     }
+
+
+    public AdvancedPortal playerInPortal(Player player, Location loc){
+
+        if(loc == null){
+            loc = player.getLocation();
+        }
+
+        Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
+
+        for (AdvancedPortal portal : Portal.Portals) {
+            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
+                if (portal.trigger.equals(loc.getBlock().getType())
+                        || portal.trigger.equals(eyeLoc.getBlock().getType())) {
+                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY()) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
+                        if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
+                            return portal;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public AdvancedPortal playerInPortal(Player player){
+        return playerInPortal(player, null);
+    }
 }
