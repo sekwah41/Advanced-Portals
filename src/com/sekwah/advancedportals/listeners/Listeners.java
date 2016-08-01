@@ -6,7 +6,6 @@ import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
@@ -82,52 +80,36 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
         //Location fromloc = event.getFrom();
         Location loc = event.getTo();
-        // Potentially fixes that stupid error cauzed by a bukkit update.
-        // Would save event.getTo() as eyeLoc and change the Y position but that seemed to teleport players.
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
-        //System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
-        // This is probably the culprite of the bloody problem, setting the location its pointing to the event location
-        // rather than sorta making a clone of the object.
-        //System.out.println(loc.getBlock().getType()); // for debugging, remove or comment out when not needed
         for (AdvancedPortal portal : Portal.Portals) {
-            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
-                if (portal.trigger.equals(loc.getBlock().getType())
-                        || portal.trigger.equals(eyeLoc.getBlock().getType())) {
-                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY()) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
-                        if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
-                            WarpEvent warpEvent = new WarpEvent(player, portal);
-                            plugin.getServer().getPluginManager().callEvent(warpEvent);
-                            if (portal.inPortal.contains(player)) return;
-                            if (!event.isCancelled()) {
-                                boolean warped = Portal.activate(player, portal);
-                                if (PortalMessagesDisplay == 1 && warped) {
-                                    player.sendMessage("");
-                                    player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
-                                    player.sendMessage("");
-                                } else if (PortalMessagesDisplay == 2 && warped) {
-                                    ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
-                                    plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7a.\"}", player);
-                                    /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
+            if (Portal.locationInPortalTrigger(portal, loc) | Portal.locationInPortalTrigger(portal, eyeLoc)) {
+                WarpEvent warpEvent = new WarpEvent(player, portal);
+                plugin.getServer().getPluginManager().callEvent(warpEvent);
+                if (portal.inPortal.contains(player)) return;
+                if (!event.isCancelled()) {
+                    boolean warped = Portal.activate(player, portal);
+                    if (PortalMessagesDisplay == 1 && warped) {
+                        player.sendMessage("");
+                        player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
+                        player.sendMessage("");
+                    } else if (PortalMessagesDisplay == 2 && warped) {
+                        ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
+                        plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7a.\"}", player);
+                        /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
                                      + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
-                                }
-                            }
-                            if (portal.trigger.equals(Material.PORTAL)) {
-                                if (player.getGameMode().equals(GameMode.CREATIVE)) {
-                                    player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
-                                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
-                                }
-                            } else if (portal.trigger.equals(Material.LAVA)) {
-                                player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
-                            }
-                            portal.inPortal.add(player);
-                            return;
-                        }
                     }
-
                 }
-            }
-            portal.inPortal.remove(player);
+                if (portal.trigger.equals(Material.PORTAL)) {
+                    if (player.getGameMode().equals(GameMode.CREATIVE)) {
+                        player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
+                    }
+                } else if (portal.trigger.equals(Material.LAVA)) {
+                    player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                }
+                portal.inPortal.add(player);
+            } else portal.inPortal.remove(player);
         }
 
     }
@@ -168,90 +150,26 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onCombustEntityEvent(EntityCombustEvent event) {
-        if (!Portal.portalsActive) {
-            return;
-        }
-        Location loc = event.getEntity().getLocation();
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (portal.worldName.equals(loc.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 3D) >= loc.getX() && (portal.pos1.getY() + 3D) >= loc.getY() && (portal.pos1.getZ() + 3D) >= loc.getZ()) {
-
-                    if ((portal.pos2.getX() - 3D) <= loc.getX() && (portal.pos2.getY() - 3D) <= loc.getY() && (portal.pos2.getZ() - 3D) <= loc.getZ()) {
-                        event.setCancelled(true);
-                        return;
-                    }
-                }
-
-            }
-        }
+        if (Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
+            event.setCancelled(true);
     }
 
 
     @EventHandler
     public void onDamEvent(EntityDamageEvent event) {
-        if (!Portal.portalsActive) {
-            return;
-        }
-        //System.out.println(event.getCause());
         if (event.getCause() == EntityDamageEvent.DamageCause.LAVA || event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
-            Location loc = event.getEntity().getLocation();
-            if (event.getEntity().hasMetadata("lavaWarped")) {
+            if (event.getEntity().hasMetadata("lavaWarped") | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
                 event.setCancelled(true);
-                return;
-            }
-            for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(loc.getWorld().getName())) {
-
-                    if ((portal.pos1.getX() + 3D) >= loc.getX() && (portal.pos1.getY() + 3D) >= loc.getY() && (portal.pos1.getZ() + 3D) >= loc.getZ()) {
-
-                        if ((portal.pos2.getX() - 3D) <= loc.getX() && (portal.pos2.getY() - 3D) <= loc.getY() && (portal.pos2.getZ() - 3D) <= loc.getZ()) {
-                            event.setCancelled(true);
-                            return;
-
-                        }
-                    }
-
-                }
-            }
         }
-
     }
 
     // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
     // Also listen to this possibly.
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onPortalEvent(PlayerPortalEvent event) {
-
-        if (!Portal.portalsActive) {
-            return;
-        }
         Player player = event.getPlayer();
-
-        if (player.hasMetadata("hasWarped")) {
+        if (player.hasMetadata("hasWarped") | Portal.inPortalTriggerRegion(player.getLocation()))
             event.setCancelled(true);
-            return;
-        }
-
-        Location loc = player.getLocation();
-        Object[] portals = Portal.Portals;
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (portal.worldName.equals(player.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY() + 1D) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
-
-                    if ((portal.pos2.getX()) <= loc.getX() && (portal.pos2.getY()) <= loc.getY() && (portal.pos2.getZ()) <= loc.getZ()) {
-
-                        event.setCancelled(true);
-
-                    }
-                }
-
-            }
-        }
-
-
     }
 
     @EventHandler
@@ -262,28 +180,13 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
 
         if (player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            if (!Portal.portalsActive) {
-                player.sendMessage("\u00A7a[\u00A77AdvancedPortals\u00A7c] There are no portals that exist to select. Portal selection canceled.");
-                event.setCancelled(true);
-                player.removeMetadata("selectingPortal", plugin);
-                return;
-            }
-            Block block = event.getClickedBlock();
             for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(block.getWorld().getName())) {
-
-                    if ((portal.pos1.getX()) >= block.getX() && (portal.pos1.getY()) >= block.getY() && (portal.pos1.getZ()) >= block.getZ()) {
-
-                        if ((portal.pos2.getX()) <= block.getX() && (portal.pos2.getY()) <= block.getY() && (portal.pos2.getZ()) <= block.getZ()) {
-                            player.sendMessage(plugin.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
-                            player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
-                            event.setCancelled(true);
-                            player.removeMetadata("selectingPortal", plugin);
-                            return;
-
-                        }
-                    }
-
+                if (Portal.locationInPortal(portal, event.getClickedBlock().getLocation(), 0)) {
+                    player.sendMessage(plugin.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
+                    player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
+                    event.setCancelled(true);
+                    player.removeMetadata("selectingPortal", plugin);
+                    return;
                 }
             }
             player.sendMessage(plugin.customPrefixFail + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");

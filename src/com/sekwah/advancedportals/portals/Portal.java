@@ -496,4 +496,34 @@ public class Portal {
             return false;
         }
     }
+
+    public static boolean inPortalTriggerRegion(Location loc) {
+        for (AdvancedPortal portal : Portal.Portals)
+            if (Portal.locationInPortalTrigger(portal, loc))
+                return true;
+        return false;
+    }
+
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
+        if (portal.trigger.equals(loc.getBlock().getType()))
+            return locationInPortal(portal, loc, 0);
+        return false;
+    }
+
+    public static boolean inPortalRegion(Location loc, int additionalArea) {
+        for (AdvancedPortal portal : Portal.Portals)
+            if (Portal.locationInPortal(portal, loc, additionalArea))
+                return true;
+        return false;
+    }
+
+    public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
+        if (!portalsActive)
+            return false;
+        if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName()))
+            if ((portal.pos1.getX() + 1 + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1 + additionalArea) >= loc.getZ())
+                if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ())
+                    return true;
+        return false;
+    }
 }
