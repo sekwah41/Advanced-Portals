@@ -6,28 +6,34 @@ import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.destinations.Destination;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
+import com.sekwah.advancedportals.api.portaldata.PortalArg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
 public class Portal {
-
+    public static HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
+    // Config values
     public static boolean portalsActive = false;
     public static AdvancedPortal[] Portals = new AdvancedPortal[0];
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
     private static boolean ShowBungeeMessage;
+    private static int cooldelay = 5;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        cooldelay = config.getConfig().getInt("Cooldown");
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -366,6 +372,14 @@ public class Portal {
             return false;
         }
 
+        if (cooldown.get(player) != null) {
+            int diff = (int) ((System.currentTimeMillis() - cooldown.get(player)) / 1000);
+            if (diff < cooldelay) {
+                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
+                return false;
+            }
+        }
+        cooldown.put(player, System.currentTimeMillis());
         boolean showFailMessage = true;
 
         if (portal.getArg("command.1") != null) {
@@ -419,7 +433,6 @@ public class Portal {
             out.writeUTF(portal.bungee);
             player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             // Down to bungee to sort out the teleporting but yea theoretically they should warp.
-            return true;
         }
         else if (portal.destiation != null) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
@@ -430,7 +443,6 @@ public class Portal {
                 player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or that destination listed doesn't exist!");
-                return false;
             }
         } else {
             if (showFailMessage) {
@@ -438,8 +450,8 @@ public class Portal {
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
             }
-            return false;
         }
+        return false;
     }
 
     public static void rename(String oldName, String newName) {
@@ -483,5 +495,35 @@ public class Portal {
         } else {
             return false;
         }
+    }
+
+    public static boolean inPortalTriggerRegion(Location loc) {
+        for (AdvancedPortal portal : Portal.Portals)
+            if (Portal.locationInPortalTrigger(portal, loc))
+                return true;
+        return false;
+    }
+
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
+        if (portal.trigger.equals(loc.getBlock().getType()))
+            return locationInPortal(portal, loc, 0);
+        return false;
+    }
+
+    public static boolean inPortalRegion(Location loc, int additionalArea) {
+        for (AdvancedPortal portal : Portal.Portals)
+            if (Portal.locationInPortal(portal, loc, additionalArea))
+                return true;
+        return false;
+    }
+
+    public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
+        if (!portalsActive)
+            return false;
+        if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName()))
+            if ((portal.pos1.getX() + 1 + additionalArea) >= loc.getX() && (portal.pos1.getY() + 1 + additionalArea) > loc.getY() && (portal.pos1.getZ() + 1 + additionalArea) >= loc.getZ())
+                if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ())
+                    return true;
+        return false;
     }
 }
