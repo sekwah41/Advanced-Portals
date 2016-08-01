@@ -521,7 +521,7 @@ public class Portal {
         if (!portalsActive)
             return false;
         if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName()))
-            if ((portal.pos1.getX() + 1 + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1 + additionalArea) >= loc.getZ())
+            if ((portal.pos1.getX() + 1 + additionalArea) >= loc.getX() && (portal.pos1.getY() + 1 + additionalArea) > loc.getY() && (portal.pos1.getZ() + 1 + additionalArea) >= loc.getZ())
                 if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ())
                     return true;
         return false;
