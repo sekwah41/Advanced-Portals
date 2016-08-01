@@ -10,19 +10,31 @@
 		</resource>
 	</resources>
   </build>
+  <repositories>
+    <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
   <version>0.0.20-snapshot</version>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-	</properties>
-	<dependencies>
-		<dependency>
-			<!-- spigot's buildtools automatically places it in maven's repository after building it -->
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.10.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+  <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<maven.compiler.source>1.7</maven.compiler.source>
+	<maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+  <dependencies>
+	<dependency>
+        <groupId>org.bukkit</groupId>
+        <artifactId>bukkit</artifactId>
+        <version>1.10.2-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+		<!-- spigot's buildtools automatically places it in maven's repository after building it -->
+		<groupId>org.bukkit</groupId>
+		<artifactId>craftbukkit</artifactId>
+		<version>1.10.2-R0.1-SNAPSHOT</version>
+		<scope>provided</scope>
+	</dependency>
+  </dependencies>
 </project>
