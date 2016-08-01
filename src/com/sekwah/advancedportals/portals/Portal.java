@@ -381,7 +381,7 @@ public class Portal {
                     command = command.substring(1);
                     plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                     try{
-                       plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                        plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
                     }
                     catch(Exception e){
                         plugin.getLogger().warning("Error while executing: " + command);
@@ -486,8 +486,39 @@ public class Portal {
         }
     }
 
+    public static AdvancedPortal locationInPortal(Location loc){
+        return locationInPortal(loc, 0);
+    }
 
-    public AdvancedPortal playerInPortal(Player player, Location loc){
+    /**
+     * Only returns the first portal found. May have issues with additional area but overlapping should not occour at 0.
+     * @param loc
+     * @param additionalArea
+     * @return
+     */
+    public static AdvancedPortal locationInPortal(Location loc, int additionalArea){
+
+        for (AdvancedPortal portal : Portal.Portals) {
+            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
+                if ((portal.pos1.getX() + 1D + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1D + additionalArea) >= loc.getZ()) {
+                    if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
+                        return portal;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Only returns the first portal found. May have issues with additional area but overlapping should not occour at 0.
+     * @param player
+     * @param loc
+     * @param additionalArea
+     * @return
+     */
+    public static AdvancedPortal playerInPortal(Player player, Location loc, int additionalArea){
 
         if(loc == null){
             loc = player.getLocation();
@@ -499,8 +530,8 @@ public class Portal {
             if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
                 if (portal.trigger.equals(loc.getBlock().getType())
                         || portal.trigger.equals(eyeLoc.getBlock().getType())) {
-                    if ((portal.pos1.getX() + 1D) >= loc.getX() && (portal.pos1.getY()) >= loc.getY() && (portal.pos1.getZ() + 1D) >= loc.getZ()) {
-                        if (portal.pos2.getX() <= loc.getX() && portal.pos2.getY() <= loc.getY() && portal.pos2.getZ() <= loc.getZ()) {
+                    if ((portal.pos1.getX() + 1D + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1D + additionalArea) >= loc.getZ()) {
+                        if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
                             return portal;
                         }
                     }
@@ -511,7 +542,15 @@ public class Portal {
         return null;
     }
 
-    public AdvancedPortal playerInPortal(Player player){
-        return playerInPortal(player, null);
+    public static AdvancedPortal playerInPortal(Player player){
+        return playerInPortal(player, null, 0);
+    }
+
+    public static AdvancedPortal playerInPortal(Player player, Location loc){
+        return playerInPortal(player, loc, 0);
+    }
+
+    public static AdvancedPortal playerInPortal(Player player, int additionalArea){
+        return playerInPortal(player, null, additionalArea);
     }
 }

@@ -23,7 +23,7 @@ public class PortalProtect implements Listener {
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
     private boolean PortalProtect = true;
 
-    private double PortalProtectionRadius = 5D;
+    private int PortalProtectionRadius = 5;
 
     public PortalProtect(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -31,7 +31,7 @@ public class PortalProtect implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalProtect = config.getConfig().getBoolean("PortalProtection");
 
-        this.PortalProtectionRadius = config.getConfig().getDouble("PortalProtectionRadius");
+        this.PortalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
 
         if (PortalProtect) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -49,19 +49,9 @@ public class PortalProtect implements Listener {
         if (!event.getPlayer().hasPermission("advancedportals.build")) {
             Block block = event.getBlock();
 
-            for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(block.getWorld().getName())) {
-
-                    if ((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()) {
-
-                        if ((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()) {
-                            event.setCancelled(true);
-                            break;
-
-                        }
-                    }
-
-                }
+            AdvancedPortal inPortal = Portal.locationInPortal(block.getLocation(), PortalProtectionRadius);
+            if(inPortal != null){
+                event.setCancelled(true);
             }
         }
     }
@@ -77,19 +67,9 @@ public class PortalProtect implements Listener {
         if (!event.getPlayer().hasPermission("advancedportals.build")) {
             Block block = event.getBlock();
 
-            for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(block.getWorld().getName())) {
-
-                    if ((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()) {
-
-                        if ((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()) {
-
-                            event.setCancelled(true);
-                            break;
-                        }
-                    }
-
-                }
+            AdvancedPortal inPortal = Portal.locationInPortal(block.getLocation(), PortalProtectionRadius);
+            if(inPortal != null){
+                event.setCancelled(true);
             }
         }
     }
@@ -104,21 +84,11 @@ public class PortalProtect implements Listener {
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {
             Block block = blockList.get(i);
-            Object[] portals = Portal.Portals;
-            for (AdvancedPortal portal : Portal.Portals) { // change for format for(int i = 0; i < portals.length; i++){
-                if (portal.worldName.equals(block.getWorld().getName())) {
 
-                    if ((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()) {
-
-                        if ((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()) {
-                            blockList.remove(i);
-                            i--;
-
-                        }
-
-                    }
-
-                }
+            AdvancedPortal inPortal = Portal.locationInPortal(block.getLocation(), PortalProtectionRadius);
+            if(inPortal != null){
+                blockList.remove(i);
+                i--;
             }
         }
     }
