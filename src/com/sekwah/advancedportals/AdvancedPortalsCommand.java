@@ -374,15 +374,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by that name exists!");
                         }
                     } else {
-                        if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
+                        if (player.hasMetadata("selectedPortal")) {
+                            player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Your currently selected portal has been shown, it will dissapear shortly!");
+                            Selection.Show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
+                        } else if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
                             if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
                                 player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Your currently selected area has been shown, it will dissapear shortly!");
-                                Selection.Show(player, this.plugin);
-                            } else {
-                                player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The points you have selected need to be in the same world!");
+                                Selection.Show(player, this.plugin, null);
                             }
                         } else {
-                            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to have both points selected!");
+                            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No regions selected!");
                         }
                     }
                 case "reload":
