@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.listeners.Listeners;
+import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import com.sekwah.advancedportals.portals.PortalArg;
 import org.bukkit.Location;
@@ -386,10 +387,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No regions selected!");
                         }
                     }
+                    break;
                 case "reload":
                     sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Reloaded values!");
                     Listeners.reloadValues(plugin);
                     Portal.loadPortals();
+                    break;
+                case "list" :
+                    String message = "\u00A7eAdvancedPortals\u00A7a :";
+                    for (AdvancedPortal portal : Portal.Portals) {
+                        message = message + " " + portal.portalName;
+                    }
+                    player.sendMessage(message);
                     break;
                 default:
                     PluginMessages.UnknownCommand(sender, command);
