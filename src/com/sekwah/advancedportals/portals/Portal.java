@@ -20,7 +20,15 @@ import java.util.logging.Level;
 
 public class Portal {
 
+    /**
+     * Maybe change to get portals active so it cant be changed by plugins :P
+     */
     public static boolean portalsActive = false;
+
+    /**
+     * possibly create a hashmap of portals and worlds for quicker access (it might not be tho)
+     */
+
     public static AdvancedPortal[] Portals = new AdvancedPortal[0];
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
@@ -498,9 +506,35 @@ public class Portal {
      */
     public static AdvancedPortal locationInPortal(Location loc, int additionalArea){
 
+        if (!Portal.portalsActive) {
+            return null;
+        }
+
         for (AdvancedPortal portal : Portal.Portals) {
             if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
                 if ((portal.pos1.getX() + 1D + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1D + additionalArea) >= loc.getZ()) {
+                    if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
+                        return portal;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static AdvancedPortal blockLocationInPortal(Location loc){
+        return locationInPortal(loc, 0);
+    }
+
+    public static AdvancedPortal blockLocationInPortal(Location loc, int additionalArea){
+
+        if (!Portal.portalsActive) {
+            return null;
+        }
+
+        for (AdvancedPortal portal : Portal.Portals) {
+            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
+                if ((portal.pos1.getX() + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + additionalArea) >= loc.getZ()) {
                     if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
                         return portal;
                     }
@@ -519,6 +553,10 @@ public class Portal {
      * @return
      */
     public static AdvancedPortal playerInPortal(Player player, Location loc, int additionalArea){
+
+        if (!Portal.portalsActive) {
+            return null;
+        }
 
         if(loc == null){
             loc = player.getLocation();
