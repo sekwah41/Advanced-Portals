@@ -69,3 +69,5 @@ UseCustomPrefix: false
 CustomPrefix: '&a[&eAdvancedPortals&a]'
 
 CustomPrefixFail: '&c[&7AdvancedPortals&c]'
+
+Cooldown: 5 # In Seconds, -1 to disable
