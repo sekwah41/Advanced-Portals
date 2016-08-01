@@ -36,36 +36,17 @@ public class FlowStopper implements Listener {
         Block blockTo = event.getToBlock();
         Block block = event.getBlock();
 
-        if (!Portal.portalsActive) {
-            return;
+
+        int floodRegion = 3;
+
+        AdvancedPortal inPortal = Portal.blockLocationInPortal(block.getLocation(), floodRegion);
+        if(inPortal != null){
+            event.setCancelled(true);
         }
 
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (portal.worldName.equals(block.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 3D) >= block.getX() && (portal.pos1.getY() + 3D) >= block.getY() && (portal.pos1.getZ() + 3D) >= block.getZ()) {
-
-                    if ((portal.pos2.getX() - 3D) <= block.getX() && (portal.pos2.getY() - 3D) <= block.getY() && (portal.pos2.getZ() - 3D) <= block.getZ()) {
-
-                        event.setCancelled(true);
-
-                    }
-                }
-
-            }
-
-            if (portal.worldName.equals(blockTo.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 3D) >= blockTo.getX() && (portal.pos1.getY() + 3D) >= blockTo.getY() && (portal.pos1.getZ() + 3D) >= blockTo.getZ()) {
-
-                    if ((portal.pos2.getX() - 3D) <= blockTo.getX() && (portal.pos2.getY() - 3D) <= blockTo.getY() && (portal.pos2.getZ() - 3D) <= blockTo.getZ()) {
-
-                        event.setCancelled(true);
-
-                    }
-                }
-
-            }
+        inPortal = Portal.blockLocationInPortal(blockTo.getLocation(), floodRegion);
+        if(inPortal != null){
+            event.setCancelled(true);
         }
     }
 

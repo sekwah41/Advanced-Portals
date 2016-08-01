@@ -16,7 +16,7 @@ public class PortalPlacer implements Listener {
     @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
 
-    private final double PortalProtectionRadius;
+    private final int PortalProtectionRadius;
 
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
@@ -28,7 +28,7 @@ public class PortalPlacer implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
 
-        this.PortalProtectionRadius = config.getConfig().getDouble("PortalProtectionRadius");
+        this.PortalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
 
         if (PortalPlace) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -40,20 +40,10 @@ public class PortalPlacer implements Listener {
         Block block = event.getBlock();
         Material material = block.getType();
         if (material == Material.PORTAL) {
-            for (AdvancedPortal portal : Portal.Portals) {
-                if (portal.worldName.equals(block.getWorld().getName())) {
 
-                    if ((portal.pos1.getX() + PortalProtectionRadius) >= block.getX() && (portal.pos1.getY() + PortalProtectionRadius) >= block.getY() && (portal.pos1.getZ() + PortalProtectionRadius) >= block.getZ()) {
-
-                        if ((portal.pos2.getX() - PortalProtectionRadius) <= block.getX() && (portal.pos2.getY() - PortalProtectionRadius) <= block.getY() && (portal.pos2.getZ() - PortalProtectionRadius) <= block.getZ()) {
-
-                            event.setCancelled(true);
-                            break;
-
-                        }
-                    }
-
-                }
+            AdvancedPortal inPortal = Portal.blockLocationInPortal(block.getLocation(), PortalProtectionRadius);
+            if(inPortal != null){
+                event.setCancelled(true);
             }
             //event.getChangedType();
             //event.setCancelled(true);
