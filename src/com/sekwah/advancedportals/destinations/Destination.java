@@ -163,21 +163,4 @@ public class Destination {
         }
         return false;
     }
-
-    public static List<String> destiList() {
-
-        ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
-
-        LinkedList<String> destiList = new LinkedList<>();
-
-        Set<String> destiSet = config.getConfig().getKeys(false);
-        if (destiSet.size() > 0) {
-            for (Object desti : destiSet.toArray()) {
-                destiSet.add(desti.toString());
-            }
-        }
-
-        Collections.sort(destiList);
-        return destiList;
-    }
 }
