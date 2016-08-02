@@ -30,7 +30,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (args.length > 0) { switch (args[0].toLowerCase()) {
             case "create":
-                if (sender.hasPermission("advancedportals.desti.create")) {
+                if (sender.hasPermission("advancedportals.desti")) {
                     if (args.length > 1) {
                         String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
                         if (posX == null) {
@@ -44,35 +44,34 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(PluginMessages.customPrefixFail + " Please state the name of the destination you would like to create!");
                     }
                 } else {
-                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to create portals so you cannot give yourself a \u00A7ePortal Region Selector\u00A7c!");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to create destinations!");
                 }
                 break;
             case "remove":
                 ConfigAccessor portalConfig = new ConfigAccessor(plugin, "destinations.yml");
-                if (args.length > 1) {
-                    String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
-                    if (posX != null) {
-                        Destination.remove(args[1]);
-                        sender.sendMessage(PluginMessages.customPrefixFail + " The destination \u00A7e" + args[1] + "\u00A7c has been removed!");
+                if (sender.hasPermission("advancedportals.desti")) {
+                    if (args.length > 1) {
+                        String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
+                        if (posX != null) {
+                            Destination.remove(args[1]);
+                            sender.sendMessage(PluginMessages.customPrefixFail + " The destination \u00A7e" + args[1] + "\u00A7c has been removed!");
+                        } else {
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No destination by that name exists.");
+                        }
                     } else {
-                        sender.sendMessage(PluginMessages.customPrefixFail + " No destination by that name exists.");
+                        sender.sendMessage(PluginMessages.customPrefixFail + " You need to state the name of the destination you wish to remove.");
                     }
                 } else {
-                    sender.sendMessage(PluginMessages.customPrefixFail + " You need to state the name of the destination you wish to remove.");
-                }
-                break;
-            case "goto":
-            case "warp":
-                if (args.length > 1) {
-                    Destination.warp((Player) sender, args[1]);
-                } else {
-                    sender.sendMessage(PluginMessages.customPrefixFail + " You need to state the name of the destination you wish to warp to.");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to remove destinations!");
                 }
                 break;
             case "list":
                 String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
                 for (String desti : config.getConfig().getKeys(false)) message = message + " " + desti;
                 sender.sendMessage(message);
+                break;
+            default:
+                Destination.warp((Player) sender, args[0]);
                 break;
             }
         } else {
@@ -85,10 +84,14 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
         LinkedList<String> autoComplete = new LinkedList<String>();
-
-        if (sender.hasPermission("AdvancedPortals.CreatePortal")) {
+        ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
+        for (String string : config.getConfig().getKeys(false)) {
+            if (sender.hasPermission("advancedportals.desti.*") | sender.hasPermission("advancedportals.desti." + string))
+                autoComplete.add(string);
+        }
+        if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("AdvancedPortals.CreatePortal")) {
             if (args.length == 1) {
-                autoComplete.addAll(Arrays.asList("create", "goto", "redefine", "move", "rename", "remove"));
+                autoComplete.addAll(Arrays.asList("create", "remove", "help"));
             } else if (args[0].toLowerCase().equals("create")) {
             }
         }

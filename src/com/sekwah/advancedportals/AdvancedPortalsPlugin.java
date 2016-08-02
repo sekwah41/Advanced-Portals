@@ -56,7 +56,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 new PluginMessages(this);
                 new AdvancedPortalsCommand(this);
                 new DestinationCommand(this);
-                new WarpCommand(this);
 
                 new WarpEffects(this);
 
