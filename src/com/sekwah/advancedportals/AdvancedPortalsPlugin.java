@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.DataCollector.DataCollector;
-import com.sekwah.advancedportals.compat.bukkit.NMS;
+import com.sekwah.advancedportals.compat.CraftBukkit;
 import com.sekwah.advancedportals.destinations.*;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
@@ -10,11 +10,10 @@ import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
-    public NMS nmsAccess;
+    public CraftBukkit compat = null;
 
     public void onEnable() {
 
@@ -30,63 +29,61 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String version = packageSplit[packageSplit.length - 1];
 
         try {
-            Class<?> nmsClass = Class.forName("com.sekwah.advancedportals.compat.bukkit." + version);
-            if (NMS.class.isAssignableFrom(nmsClass)) {
-                this.nmsAccess = (NMS) nmsClass.getConstructor().newInstance();
+
+            this.compat = new CraftBukkit(version);
+
+            ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
+            portalConfig.saveDefaultConfig();
+
+            ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
+            destinationConfig.saveDefaultConfig();
+
+            new Assets(this);
+
+            // Opens a channel that messages bungeeCord
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+            // Loads the portal and destination editors
+            new Portal(this);
+            new Destination(this);
+
+            new DataCollector(this);
 
 
-                ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
-                portalConfig.saveDefaultConfig();
+            // These register the commands
+            new PluginMessages(this);
+            new AdvancedPortalsCommand(this);
+            new DestinationCommand(this);
 
-                ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
-                destinationConfig.saveDefaultConfig();
-
-                new Assets(this);
-
-                // Opens a channel that messages bungeeCord
-                this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-                // Loads the portal and destination editors
-                new Portal(this);
-                new Destination(this);
-
-                new DataCollector(this);
-
-                // These register the commands
-                new PluginMessages(this);
-                new AdvancedPortalsCommand(this);
-                new DestinationCommand(this);
-
-                new WarpEffects(this);
+            new WarpEffects(this);
 
 
-                // These register the listeners
-                new Listeners(this);
+            // These register the listeners
+            new Listeners(this);
 
-                new FlowStopper(this);
-                new PortalProtect(this);
-                new PortalPlacer(this);
+            new FlowStopper(this);
+            new PortalProtect(this);
+            new PortalPlacer(this);
 
-                Selection.LoadData(this);
+            Selection.LoadData(this);
 
-                DataCollector.setupMetrics();
+            DataCollector.setupMetrics();
 
-                this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-                this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
-                this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
+            this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
 
-            } else {
-                this.getLogger().warning("Something went wrong, please notify the author and tell them this version v:" + version);
-                this.setEnabled(false);
-            }
         } catch (ClassNotFoundException e) {
-            this.getLogger().warning("This version of craftbukkit is not yet supported, please notify the author and give version v:" + version);
+            this.getLogger().warning("This version of craftbukkit is not yet supported, please notify sekwah and tell him about this version v:" + version);
             this.setEnabled(false);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException |
-                NoSuchMethodException | SecurityException e) {
+        } catch (IllegalArgumentException |
+                NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
+            this.getLogger().warning("Something went wrong, please notify sekwah and tell him about this version v:" + version);
+            this.getLogger().warning("Along with the above stacktrace");
+            this.setEnabled(false);
         }
 
         saveDefaultConfig();
