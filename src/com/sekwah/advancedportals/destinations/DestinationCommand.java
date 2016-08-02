@@ -34,17 +34,17 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                     if (args.length > 1) {
                         String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
                         if (posX == null) {
-                            sender.sendMessage("§a[\u00A7eAdvancedPortals\u00A7a] You have created a new destination called \u00A7e" + args[1] + "!");
+                            sender.sendMessage(PluginMessages.customPrefix + " You have created a new destination called \u00A7e" + args[1] + "!");
                             Player player = sender.getServer().getPlayer(sender.getName());
                             Destination.create(player.getLocation(), args[1]);
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] A destination by that name already exists!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " A destination by that name already exists!");
                         }
                     } else {
-                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Please state the name of the destination you would like to create!");
+                        sender.sendMessage(PluginMessages.customPrefixFail + " Please state the name of the destination you would like to create!");
                     }
                 } else {
-                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to create portals so you cannot give yourself a \u00A7ePortal Region Selector\u00A7c!");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to create portals so you cannot give yourself a \u00A7ePortal Region Selector\u00A7c!");
                 }
                 break;
             case "remove":
@@ -53,12 +53,12 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                     String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
                     if (posX != null) {
                         Destination.remove(args[1]);
-                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The destination \u00A7e" + args[1] + "\u00A7c has been removed!");
+                        sender.sendMessage(PluginMessages.customPrefixFail + " The destination \u00A7e" + args[1] + "\u00A7c has been removed!");
                     } else {
-                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No destination by that name exists.");
+                        sender.sendMessage(PluginMessages.customPrefixFail + " No destination by that name exists.");
                     }
                 } else {
-                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to remove.");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You need to state the name of the destination you wish to remove.");
                 }
                 break;
             case "goto":
@@ -66,7 +66,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 if (args.length > 1) {
                     Destination.warp((Player) sender, args[1]);
                 } else {
-                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to warp to.");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You need to state the name of the destination you wish to warp to.");
                 }
                 break;
             case "list":
@@ -80,7 +80,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 
                                 }
                             }
-                            sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
+                            sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
                             for (int i = (page - 1) * 5; i < page * 5; i++) {
                                 if (i > destiList.size()) {
                                     break;
@@ -92,7 +92,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         }
                     }
 
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
+                    sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
                     for (int i = 0; i < 5; i++) {
                         if (i > destiList.size()) {
                             break;
@@ -100,7 +100,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(" \u00A7e" + destiList.get(i));
                     }
 
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Showing destinations page 1 of 1");
+                    sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
                     for (int i = 0; i < 5; i++) {
                         if (i > destiList.size()) {
                             break;
@@ -108,7 +108,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(" \u00A7e" + destiList.get(i));
                     }
                 } else {
-                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There are currently no defined destinations.");
+                    sender.sendMessage(PluginMessages.customPrefixFail + " There are currently no defined destinations.");
                 }
                 break;
             }
