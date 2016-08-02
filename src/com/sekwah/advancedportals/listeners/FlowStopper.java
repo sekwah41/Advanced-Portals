@@ -2,9 +2,8 @@ package com.sekwah.advancedportals.listeners;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.block.Block;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -32,42 +31,7 @@ public class FlowStopper implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event) {
-        // when checking positions check the block and the to block
-        Block blockTo = event.getToBlock();
-        Block block = event.getBlock();
-
-        if (!Portal.portalsActive) {
-            return;
-        }
-
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (portal.worldName.equals(block.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 3D) >= block.getX() && (portal.pos1.getY() + 3D) >= block.getY() && (portal.pos1.getZ() + 3D) >= block.getZ()) {
-
-                    if ((portal.pos2.getX() - 3D) <= block.getX() && (portal.pos2.getY() - 3D) <= block.getY() && (portal.pos2.getZ() - 3D) <= block.getZ()) {
-
-                        event.setCancelled(true);
-
-                    }
-                }
-
-            }
-
-            if (portal.worldName.equals(blockTo.getWorld().getName())) {
-
-                if ((portal.pos1.getX() + 3D) >= blockTo.getX() && (portal.pos1.getY() + 3D) >= blockTo.getY() && (portal.pos1.getZ() + 3D) >= blockTo.getZ()) {
-
-                    if ((portal.pos2.getX() - 3D) <= blockTo.getX() && (portal.pos2.getY() - 3D) <= blockTo.getY() && (portal.pos2.getZ() - 3D) <= blockTo.getZ()) {
-
-                        event.setCancelled(true);
-
-                    }
-                }
-
-            }
-        }
+        if (Portal.inPortalRegion(event.getBlock().getLocation(), 3) | Portal.inPortalRegion(event.getToBlock().getLocation(), 3))
+            event.setCancelled(true);
     }
-
-
 }
