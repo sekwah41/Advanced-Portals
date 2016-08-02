@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.destinations;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -141,7 +142,7 @@ public class Destination {
 
                 if (PortalMessagesDisplay == 1) {
                     player.sendMessage("");
-                    player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
+                    player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
                 } else if (PortalMessagesDisplay == 2) {
                     plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.\"}", player);
@@ -151,12 +152,12 @@ public class Destination {
 
                 return true;
             } else {
-                player.sendMessage(plugin.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+                player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
                 plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
                         + config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
             }
         } else {
-            player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
+            player.sendMessage(PluginMessages.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
             plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
                     + "attempt and either the data is corrupt or that destination doesn't exist!");
         }

@@ -16,12 +16,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public NMS nmsAccess;
 
-    public boolean useCustomPrefix = false;
-
-    public String customPrefix = "\u00A7a[\u00A7eAdvancedPortals\u00A7a]";
-
-    public String customPrefixFail = "\u00A7c[\u00A77AdvancedPortals\u00A7c]";
-
     public void onEnable() {
 
         try {
@@ -59,6 +53,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 new DataCollector(this);
 
                 // These register the commands
+                new PluginMessages(this);
                 new AdvancedPortalsCommand(this);
                 new DestinationCommand(this);
                 new WarpCommand(this);
@@ -99,14 +94,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         // thanks to the new config accessor code the config.saveDefaultConfig(); will now
         //  only copy the file if it doesnt exist!
-        ConfigAccessor config = new ConfigAccessor(this, "config.yml");
-
-        this.useCustomPrefix = config.getConfig().getBoolean("UseCustomPrefix");
-        if (useCustomPrefix) {
-            this.customPrefix = config.getConfig().getString("CustomPrefix").replaceAll("&", "\u00A7");
-            this.customPrefixFail = config.getConfig().getString("CustomPrefixFail").replaceAll("&", "\u00A7");
-        }
-
     }
 
 

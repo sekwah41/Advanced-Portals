@@ -63,7 +63,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     regionselector.setItemMeta(selectorname);
 
                     inventory.addItem(regionselector);
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been given a \u00A7ePortal Region Selector\u00A7a!");
+                    sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Region Selector\u00A7a!");
                     break;
                 case "portal":
                 case "portalblock":
@@ -71,7 +71,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                     inventory.addItem(portalBlock);
 
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] You have been given a \u00A7ePortal Block\u00A7a!");
+                    sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
                     break;
                 case "create":
                     if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
@@ -98,7 +98,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         hasName = true;
                                         portalName = args[i].replaceFirst("name:", "");
                                     } else if (args[i].toLowerCase().startsWith("name:")) {
-                                        player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must include a name for the portal that isnt nothing!");
+                                        player.sendMessage(PluginMessages.customPrefixFail + " You must include a name for the portal that isnt nothing!");
                                         return true;
                                     } else if (args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12) {
                                         hasDestination = true;
@@ -128,7 +128,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     }
                                 }
                                 if (!hasName) {
-                                    player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must include a name for the portal that you are creating in the variables!");
+                                    player.sendMessage(PluginMessages.customPrefixFail + " You must include a name for the portal that you are creating in the variables!");
                                     return true;
                                 }
 
@@ -142,7 +142,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 if (!Portal.portalExists(portalName)) {
 
                                     player.sendMessage("");
-                                    player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a]\u00A7e You have created a new portal with the following details:");
+                                    player.sendMessage(PluginMessages.customPrefix + "\u00A7e You have created a new portal with the following details:");
                                     player.sendMessage("\u00A7aname: \u00A7e" + portalName);
                                     if (hasDestination) {
                                         player.sendMessage("\u00A7adestination: \u00A7e" + destination);
@@ -192,25 +192,25 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
                                     }
                                 } else {
-                                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] A portal by that name already exists!");
+                                    sender.sendMessage(PluginMessages.customPrefixFail + " A portal by that name already exists!");
                                 }
 
                                 // add code to save the portal to the portal config and reload the portals
 
                                 player.sendMessage("");
                             } else {
-                                player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to at least add the name of the portal as a variable, \u00A7cType \u00A7e/portal variables\u00A7c"
+                                player.sendMessage(PluginMessages.customPrefixFail + " You need to at least add the name of the portal as a variable, \u00A7cType \u00A7e/portal variables\u00A7c"
                                         + " for a full list of currently available variables and an example command!");
                             }
                         } else {
-                            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The points you have selected need to be in the same world!");
+                            player.sendMessage(PluginMessages.customPrefixFail + " The points you have selected need to be in the same world!");
                         }
                     } else {
-                        player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to have two points selected to make a portal!");
+                        player.sendMessage(PluginMessages.customPrefixFail + " You need to have two points selected to make a portal!");
                     }
                     break;
                 case "variables" :
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Currently available variables: name, triggerBlock, destination");
+                    sender.sendMessage(PluginMessages.customPrefix + " Currently available variables: name, triggerBlock, destination");
                     sender.sendMessage("");
                     sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
                     break;
@@ -221,23 +221,23 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             if (Portal.portalExists(args[1])) {
                                 player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
                             } else {
-                                player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by the name \u00A7e" + args[1] + "\u00A7c exists (maybe you got the caps wrong)\n Try typing \u00A7e/portal select\u00A7c and hit inside the apropriate portals area!");
+                                player.sendMessage(PluginMessages.customPrefixFail + " No portal by the name \u00A7e" + args[1] + "\u00A7c exists (maybe you got the caps wrong)\n Try typing \u00A7e/portal select\u00A7c and hit inside the apropriate portals area!");
                             }
                         } else {
-                            player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Hit a block inside the portal region to select the portal!");
+                            player.sendMessage(PluginMessages.customPrefix + " Hit a block inside the portal region to select the portal!");
                             player.setMetadata("selectingPortal", new FixedMetadataValue(plugin, true));
                         }
 
                     } else {
                         player.removeMetadata("selectingPortal", plugin);
-                        player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Portal selection cancelled!");
+                        player.sendMessage(PluginMessages.customPrefixFail + " Portal selection cancelled!");
                     }
                     break;
                 case "gui" :
                     if (args.length > 1) {
                         if (args[1].toLowerCase().equals("remove") && args.length > 2) {
                             sender.sendMessage("");
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Are you sure you would like to remove the portal \u00A7e" + args[2] + "\u00A7c?");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " Are you sure you would like to remove the portal \u00A7e" + args[2] + "\u00A7c?");
                             sender.sendMessage("");
                             plugin.nmsAccess.sendRawMessage("{\"text\":\"    \",\"extra\":[{\"text\":\"\u00A7e[Yes]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Confirm removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal remove " + args[2] + "\"}}, " +
                                     "{\"text\":\"     \"},{\"text\":\"\u00A7e[No]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Cancel removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal edit " + args[2] + "\"}}]}", player);
@@ -251,7 +251,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
                             portalEditMenu(sender, portalConfig, args[1]);
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by the name \u00A7e" + args[1] + "\u00A7c exists!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal by the name \u00A7e" + args[1] + "\u00A7c exists!");
                         }
                     } else {
                         if (player.hasMetadata("selectedPortal")) {
@@ -260,11 +260,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             if (posX != null) {
                                 portalEditMenu(sender, portalConfig, portalName);
                             } else {
-                                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you had selected no longer seems to exist!");
+                                sender.sendMessage(PluginMessages.customPrefixFail + " The portal you had selected no longer seems to exist!");
                                 player.removeMetadata("selectedPortal", plugin);
                             }
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal has been defined or selected!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal has been defined or selected!");
                         }
                     }
                     break;
@@ -280,22 +280,22 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 String newPortalPosX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
                                 if (posX != null && newPortalPosX == null) {
                                     Portal.rename(portalName, args[1]);
-                                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] The portal \u00A7e" + portalName + "\u00A7a has been renamed to \u00A7e" + args[1] + "\u00A7a.");
+                                    sender.sendMessage(PluginMessages.customPrefix + " The portal \u00A7e" + portalName + "\u00A7a has been renamed to \u00A7e" + args[1] + "\u00A7a.");
                                     player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
                                 } else if (newPortalPosX != null) {
-                                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There is already a portal with the name \u00A7e" + args[1] + "\u00A7c!");
+                                    sender.sendMessage(PluginMessages.customPrefixFail + " There is already a portal with the name \u00A7e" + args[1] + "\u00A7c!");
                                 } else {
-                                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you had selected no longer seems to exist!");
+                                    sender.sendMessage(PluginMessages.customPrefixFail + " The portal you had selected no longer seems to exist!");
                                     player.removeMetadata("selectedPortal", plugin);
                                 }
                             } else {
-                                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you have selected is already called that!");
+                                sender.sendMessage(PluginMessages.customPrefixFail + " The portal you have selected is already called that!");
                             }
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal has been defined or selected!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal has been defined or selected!");
                         }
                     } else {
-                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must select a portal first and then type \u00A7e/portal rename (new name)\u00A7c!");
+                        sender.sendMessage(PluginMessages.customPrefixFail + " You must select a portal first and then type \u00A7e/portal rename (new name)\u00A7c!");
                     }
                     break;
                 case "command":
@@ -310,13 +310,13 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         portalCommand += args[i];
                                     }
                                     if (Portal.addCommand(portalName, portalCommand)) {
-                                        sender.sendMessage("\u00A77a[\u00A77eAdvancedPortals\u00A77a] Command added to portal!");
+                                        sender.sendMessage(PluginMessages.customPrefixFail + " Command added to portal!");
                                     } else {
-                                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] Failed to add command to portal!");
+                                        sender.sendMessage(PluginMessages.customPrefixFail + " Failed to add command to portal!");
                                     }
 
                                 } else {
-                                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must actually specify a command to execute!");
+                                    sender.sendMessage(PluginMessages.customPrefixFail + " You must actually specify a command to execute!");
                                 }
 
                             } else if (args[1].toLowerCase().equals("remove")) {
@@ -324,10 +324,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             } else if (args[1].toLowerCase().equals("show")) {
                                 // Show all the commands the portal executes
                             } else {
-                                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must specify to \u00A7eadd\u00A7c or \u00A7eremove a command!");
+                                sender.sendMessage(PluginMessages.customPrefixFail + " You must specify to \u00A7eadd\u00A7c or \u00A7eremove a command!");
                             }
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You must specify to \u00A7eadd\u00A7c or \u00A7eremove\u00A7c a command!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " You must specify to \u00A7eadd\u00A7c or \u00A7eremove\u00A7c a command!");
                         }
                     } else {
 
@@ -338,9 +338,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
                         if (posX != null) {
                             Portal.remove(args[1]);
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A7e" + args[1] + "\u00A7c has been removed!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " The portal \u00A7e" + args[1] + "\u00A7c has been removed!");
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by that name exists!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
                         }
                     } else {
                         if (player.hasMetadata("selectedPortal")) {
@@ -348,23 +348,23 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
                             if (posX != null) {
                                 Portal.remove(portalName);
-                                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal \u00A77" + portalName + "\u00A7c has been removed!");
+                                sender.sendMessage(PluginMessages.customPrefixFail + " The portal \u00A77" + portalName + "\u00A7c has been removed!");
                             } else {
-                                sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] The portal you had selected no longer seems to exist!");
+                                sender.sendMessage(PluginMessages.customPrefixFail + " The portal you had selected no longer seems to exist!");
                                 player.removeMetadata("selectedPortal", plugin);
                             }
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal has been defined or selected!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal has been defined or selected!");
                         }
                     }
                     break;
                 case "help":
                 case "helppage":
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Still designing in game help page :(");
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] For now please use the wiki http://bit.ly/portals-help");
+                    sender.sendMessage(PluginMessages.customPrefix + " Still designing in game help page :(");
+                    sender.sendMessage(PluginMessages.customPrefix + " For now please use the wiki http://bit.ly/portals-help");
                     break;
                 case "bukkitpage":
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Bukkit page: http://bit.ly/adv-portals!");
+                    sender.sendMessage(PluginMessages.customPrefix + " Bukkit page: http://bit.ly/adv-portals!");
                     break;
                 case "show":
                     if (args.length > 1) {
@@ -372,29 +372,29 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         if (posX != null) {
                             Selection.Show(player, this.plugin, args[1]);
                         } else {
-                            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No portal by that name exists!");
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
                         }
                     } else {
                         if (player.hasMetadata("selectedPortal")) {
-                            player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Your currently selected portal has been shown, it will dissapear shortly!");
+                            player.sendMessage(PluginMessages.customPrefix + " Your currently selected portal has been shown, it will dissapear shortly!");
                             Selection.Show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
                         } else if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
                             if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
-                                player.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Your currently selected area has been shown, it will dissapear shortly!");
+                                player.sendMessage(PluginMessages.customPrefix + " Your currently selected area has been shown, it will dissapear shortly!");
                                 Selection.Show(player, this.plugin, null);
                             }
                         } else {
-                            player.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No regions selected!");
+                            player.sendMessage(PluginMessages.customPrefixFail + " No regions selected!");
                         }
                     }
                     break;
                 case "reload":
-                    sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Reloaded values!");
+                    sender.sendMessage(PluginMessages.customPrefix + " Reloaded values!");
                     Listeners.reloadValues(plugin);
                     Portal.loadPortals();
                     break;
                 case "list" :
-                    String message = "\u00A7eAdvancedPortals\u00A7a :";
+                    String message = PluginMessages.customPrefix + " \u00A7c:\u00A7a";
                     for (AdvancedPortal portal : Portal.Portals) {
                         message = message + " " + portal.portalName;
                     }
@@ -444,7 +444,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         // use the usual messages for normal lines but anything that needs special features make sure you use the
         //  chat steriliser
         sender.sendMessage("");
-        sender.sendMessage("\u00A7a[\u00A7eAdvancedPortals\u00A7a] Editing: \u00A7e" + portalName);
+        sender.sendMessage(PluginMessages.customPrefix + " Editing: \u00A7e" + portalName);
 
         sender.sendMessage(" \u00A7apos1\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos1.X") + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Z"));
         sender.sendMessage(" \u00A7apos2\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos2.X") + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Z"));
