@@ -1,6 +1,8 @@
-package com.sekwah.advancedportals;
+package com.sekwah.advancedportals.destinations;
 
-import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,30 +16,22 @@ import java.util.List;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 
-    public static int PortalMessagesDisplay = 0;
-
     private AdvancedPortalsPlugin plugin;
 
     public DestinationCommand(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
         plugin.getCommand("destination").setExecutor(this);
-
-        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-
-        PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
-
-
     }
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
-        if (args.length > 0) {
-            if (args[0].toLowerCase().equals("create")) {
+        ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
+        if (args.length > 0) { switch (args[0].toLowerCase()) {
+            case "create":
                 if (sender.hasPermission("advancedportals.desti.create")) {
                     if (args.length > 1) {
-                        ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
                         String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
                         if (posX == null) {
                             sender.sendMessage("§a[\u00A7eAdvancedPortals\u00A7a] You have created a new destination called \u00A7e" + args[1] + "!");
@@ -52,7 +46,8 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 } else {
                     sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You do not have permission to create portals so you cannot give yourself a \u00A7ePortal Region Selector\u00A7c!");
                 }
-            } else if (args[0].toLowerCase().equals("remove")) {
+                break;
+            case "remove":
                 ConfigAccessor portalConfig = new ConfigAccessor(plugin, "destinations.yml");
                 if (args.length > 1) {
                     String posX = portalConfig.getConfig().getString(args[1] + ".pos.X");
@@ -65,29 +60,16 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 } else {
                     sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to remove.");
                 }
-            } else if (args[0].toLowerCase().equals("goto") || args[0].toLowerCase().equals("warp")) {
+                break;
+            case "goto":
+            case "warp":
                 if (args.length > 1) {
-                    //System.out.println(args[1]);
-                    ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-                    if (configDesti.getConfig().getString(args[1] + ".world") != null) {
-                        Destination.warp(sender, args[1]);
-                        if (PortalMessagesDisplay == 1) {
-                            sender.sendMessage("");
-                            sender.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.");
-                            sender.sendMessage("");
-                        } else if (PortalMessagesDisplay == 2) {
-                            ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
-                            plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + args[1].replaceAll("_", " ") + "\u00A7a.\"}", (Player) sender);
-                            /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
-                             + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
-                        }
-                    } else {
-                        sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] No destination by that name exists.");
-                    }
+                    Destination.warp((Player) sender, args[1]);
                 } else {
-                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to exemptPlayer to.");
+                    sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to state the name of the destination you wish to warp to.");
                 }
-            } else if (args[0].toLowerCase().equals("list")) {
+                break;
+            case "list":
                 List<String> destiList = Destination.destiList();
                 if (destiList.size() >= 1) {
                     if (args.length > 1) {
@@ -128,9 +110,10 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 } else {
                     sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] There are currently no defined destinations.");
                 }
+                break;
             }
         } else {
-            sender.sendMessage("\u00A7c[\u00A77AdvancedPortals\u00A7c] You need to type something after /" + command + ", if you do not know what you can put or would like some help with the commands please type /" + command + " help");
+            PluginMessages.UnknownCommand(sender, command);
         }
         return true;
     }

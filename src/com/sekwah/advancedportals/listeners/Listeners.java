@@ -86,19 +86,7 @@ public class Listeners implements Listener {
                 WarpEvent warpEvent = new WarpEvent(player, portal);
                 plugin.getServer().getPluginManager().callEvent(warpEvent);
                 if (portal.inPortal.contains(player)) return;
-                if (!event.isCancelled()) {
-                    boolean warped = Portal.activate(player, portal);
-                    if (PortalMessagesDisplay == 1 && warped) {
-                        player.sendMessage("");
-                        player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
-                        player.sendMessage("");
-                    } else if (PortalMessagesDisplay == 2 && warped) {
-                        ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
-                        plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7a.\"}", player);
-                        /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
-                                     + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
-                    }
-                }
+                if (!event.isCancelled()) Portal.activate(player, portal);
                 if (portal.trigger.equals(Material.PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
                         player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));

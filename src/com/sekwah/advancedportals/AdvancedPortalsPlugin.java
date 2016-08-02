@@ -2,7 +2,7 @@ package com.sekwah.advancedportals;
 
 import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.compat.bukkit.NMS;
-import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.destinations.*;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
