@@ -84,10 +84,6 @@ public class Listeners implements Listener {
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
         for (AdvancedPortal portal : Portal.Portals) {
             if (Portal.locationInPortalTrigger(portal, loc) | Portal.locationInPortalTrigger(portal, eyeLoc)) {
-                WarpEvent warpEvent = new WarpEvent(player, portal);
-                plugin.getServer().getPluginManager().callEvent(warpEvent);
-                if (portal.inPortal.contains(player)) return;
-                if (!event.isCancelled()) Portal.activate(player, portal);
                 if (portal.trigger.equals(Material.PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
                         player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
@@ -97,6 +93,10 @@ public class Listeners implements Listener {
                     player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                 }
+                if (portal.inPortal.contains(player)) return;
+                WarpEvent warpEvent = new WarpEvent(player, portal);
+                plugin.getServer().getPluginManager().callEvent(warpEvent);
+                if (!event.isCancelled()) Portal.activate(player, portal);
                 portal.inPortal.add(player);
             } else portal.inPortal.remove(player);
         }
