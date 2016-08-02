@@ -363,7 +363,7 @@ public class Portal {
         // add other variables or filter code here, or somehow have a way to register them
 
         // TODO on load and unload recode the permissions to try to register themselves
-        // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/plugin/PluginManager.html#addPermission(org.bukkit.permissions.Permission)
+        // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/plugin/PluginManager.html#addPermission(org.CraftBukkit.permissions.Permission)
         // check they havent been registered before too and store a list of ones made by this plugin to remove when portals are unloaded.
         // When a portal is added or removed it reloads all portals(i think) so add code for unloading too.
 
