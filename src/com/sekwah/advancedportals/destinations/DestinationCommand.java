@@ -70,46 +70,9 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 }
                 break;
             case "list":
-                List<String> destiList = Destination.destiList();
-                if (destiList.size() >= 1) {
-                    if (args.length > 1) {
-                        try {
-                            int page = Integer.parseInt(args[1]);
-                            if (page * 5 >= destiList.size() - 5) { // add this if statement so that the user cant select a list page higher than the max
-                                if (destiList.size() / 5 == destiList.size()) {
-
-                                }
-                            }
-                            sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
-                            for (int i = (page - 1) * 5; i < page * 5; i++) {
-                                if (i > destiList.size()) {
-                                    break;
-                                }
-                                sender.sendMessage(" \u00A7e" + destiList.get(i));
-                            }
-                            return true;
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
-                    for (int i = 0; i < 5; i++) {
-                        if (i > destiList.size()) {
-                            break;
-                        }
-                        sender.sendMessage(" \u00A7e" + destiList.get(i));
-                    }
-
-                    sender.sendMessage(PluginMessages.customPrefix + " Showing destinations page 1 of 1");
-                    for (int i = 0; i < 5; i++) {
-                        if (i > destiList.size()) {
-                            break;
-                        }
-                        sender.sendMessage(" \u00A7e" + destiList.get(i));
-                    }
-                } else {
-                    sender.sendMessage(PluginMessages.customPrefixFail + " There are currently no defined destinations.");
-                }
+                String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
+                for (String desti : config.getConfig().getKeys(false)) message = message + " " + desti;
+                sender.sendMessage(message);
                 break;
             }
         } else {
