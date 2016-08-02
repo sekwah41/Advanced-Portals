@@ -439,10 +439,6 @@ public class Portal {
             if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
                 boolean warped = Destination.warp(player, portal.destiation);
                 return warped;
-            } else {
-                player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
-                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-                        + "attempt and either the data is corrupt or that destination listed doesn't exist!");
             }
         } else {
             if (showFailMessage) {
