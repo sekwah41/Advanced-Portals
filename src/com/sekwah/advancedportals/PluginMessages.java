@@ -29,5 +29,4 @@ public class PluginMessages {
     public static void NoPermission(CommandSender sender, String command) {
         sender.sendMessage(customPrefixFail + " You do not have permission to perform that command!");
     }
-
 }
