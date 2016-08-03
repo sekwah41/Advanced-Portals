@@ -70,6 +70,15 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 for (String desti : config.getConfig().getKeys(false)) message = message + " " + desti;
                 sender.sendMessage(message);
                 break;
+            case "help":
+                sender.sendMessage(PluginMessages.customPrefix + " Destination Help Menu");
+                sender.sendMessage("\u00A7e\u00A7m----------------------------");
+                sender.sendMessage("\u00A76/" + command + " \u00A7c[name] \u00A7a- teleport to destination");
+                sender.sendMessage("\u00A76/" + command + " create \u00A7c[name] \u00A7a- create destination at your location");
+                sender.sendMessage("\u00A76/" + command + " remove \u00A7c[name] \u00A7a- remove destination");
+                sender.sendMessage("\u00A76/" + command + " list \u00A7a- list all destinations");
+                sender.sendMessage("\u00A7e\u00A7m----------------------------");
+                break;
             default:
                 Destination.warp((Player) sender, args[0]);
                 break;
