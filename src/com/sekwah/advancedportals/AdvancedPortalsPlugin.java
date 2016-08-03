@@ -36,7 +36,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         try {
 
-            this.compat = new CraftBukkit(version);
+            this.compat = new CraftBukkit(this, version);
 
             ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
             portalConfig.saveDefaultConfig();
@@ -84,7 +84,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             this.getLogger().warning("This version of craftbukkit is not yet supported, please notify sekwah and tell him about this version v:" + version);
             this.setEnabled(false);
         } catch (IllegalArgumentException |
-                NoSuchFieldException | SecurityException e) {
+                NoSuchFieldException | SecurityException | NoSuchMethodException e) {
             e.printStackTrace();
             this.getLogger().warning("Something went wrong, please notify sekwah and tell him about this version v:" + version);
             this.getLogger().warning("Along with the above stacktrace");
