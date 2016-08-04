@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.destinations;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -24,12 +25,14 @@ public class Destination {
     private static AdvancedPortalsPlugin plugin;
 
     private static boolean TeleportRiding = false;
+    public static int PortalMessagesDisplay = 0;
 
     public Destination(AdvancedPortalsPlugin plugin) {
         Destination.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         TeleportRiding = config.getConfig().getBoolean("WarpRiddenEntity");
+        PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
     }
 
     // TODO add permissions for destinations.
@@ -104,7 +107,11 @@ public class Destination {
         config.saveConfig();
     }
 
-    public static boolean warp(Player player, String name, boolean senderror) {
+    public static boolean warp(Player player, String name) {
+        if (!player.hasPermission("advancedportals.warp.*") && !player.hasPermission("advancedportals.warp." + name)) {
+            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to warp to " + name + "!");
+            return false;
+        }
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (config.getConfig().getString(name + ".world") != null) {
             Location loc = player.getLocation();
@@ -137,79 +144,27 @@ public class Destination {
                 WarpEffects.activateParticles(player);
                 WarpEffects.activateSound(player);
 
+                if (PortalMessagesDisplay == 1) {
+                    player.sendMessage("");
+                    player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
+                    player.sendMessage("");
+                } else if (PortalMessagesDisplay == 2) {
+                    plugin.compat.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.\"}", player);
+                    /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.Portals[portalId].portalName + ".destination").replaceAll("_", " ")
+                     + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
+                }
 
                 return true;
             } else {
-                if (senderror) {
-                    player.sendMessage(plugin.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
-                    plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
-                            + config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
-                }
-                return false;
+                player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
+                plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
+                        + config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
             }
         } else {
-            if (senderror) {
-                player.sendMessage(plugin.customPrefixFail + "\u00A7c There has been a problem warping you to the selected destination!");
-                plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
-                        + "attempt and either the data is corrupt or that destination doesn't exist!");
-            }
-            return false;
+            player.sendMessage(PluginMessages.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
+            plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
+                    + "attempt and either the data is corrupt or that destination doesn't exist!");
         }
-
-    }
-
-    /**
-     * Same as other warp but changes sender to player for you.
-     *
-     * @param player the player being warped
-     * @param name   name of the warp
-     * @return returns if the player has warped
-     */
-    public static boolean warp(Player player, String name) {
-        return warp(player, name, true);
-
-    }
-
-    /**
-     * Same as other warp but changes sender to player for you.
-     *
-     * @param sender the player being warped
-     * @param name   name of the warp
-     * @return returns if the player has warped
-     */
-    public static boolean warp(CommandSender sender, String name, boolean senderror) {
-        Player player = (Player) sender;
-        return warp(player, name, senderror);
-
-    }
-
-    /**
-     * Same as other warp but changes sender to player for you.
-     *
-     * @param sender the player being warped
-     * @param name   name of the warp
-     * @return returns if the player has warped
-     */
-    public static boolean warp(CommandSender sender, String name) {
-        Player player = (Player) sender;
-        return warp(player, name, true);
-
-    }
-
-    public static List<String> destiList() {
-
-        ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
-
-        LinkedList<String> destiList = new LinkedList<>();
-
-        Set<String> destiSet = config.getConfig().getKeys(false);
-        if (destiSet.size() > 0) {
-            for (Object desti : destiSet.toArray()) {
-                destiSet.add(desti.toString());
-            }
-        }
-
-        Collections.sort(destiList);
-        return destiList;
+        return false;
     }
 }

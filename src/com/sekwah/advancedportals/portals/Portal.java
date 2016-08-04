@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.destinations.Destination;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -368,7 +369,7 @@ public class Portal {
 		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
-            player.sendMessage(plugin.customPrefix + "\u00A7c You do not have permission to use this portal!");
+            player.sendMessage(PluginMessages.customPrefix + "\u00A7c You do not have permission to use this portal!");
             return false;
         }
 
@@ -426,7 +427,7 @@ public class Portal {
         //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
         if (portal.bungee != null) {
             if (ShowBungeeMessage) {
-                player.sendMessage(plugin.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
             }
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
@@ -439,14 +440,10 @@ public class Portal {
             if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
                 boolean warped = Destination.warp(player, portal.destiation);
                 return warped;
-            } else {
-                player.sendMessage(plugin.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
-                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-                        + "attempt and either the data is corrupt or that destination listed doesn't exist!");
             }
         } else {
             if (showFailMessage) {
-                player.sendMessage(plugin.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
             }

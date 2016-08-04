@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.listeners;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
@@ -83,22 +84,6 @@ public class Listeners implements Listener {
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
         for (AdvancedPortal portal : Portal.Portals) {
             if (Portal.locationInPortalTrigger(portal, loc) | Portal.locationInPortalTrigger(portal, eyeLoc)) {
-                WarpEvent warpEvent = new WarpEvent(player, portal);
-                plugin.getServer().getPluginManager().callEvent(warpEvent);
-                if (portal.inPortal.contains(player)) return;
-                if (!event.isCancelled()) {
-                    boolean warped = Portal.activate(player, portal);
-                    if (PortalMessagesDisplay == 1 && warped) {
-                        player.sendMessage("");
-                        player.sendMessage(plugin.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7.");
-                        player.sendMessage("");
-                    } else if (PortalMessagesDisplay == 2 && warped) {
-                        ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
-                        plugin.nmsAccess.sendActionBarMessage("{\"text\":\"\u00A7aYou have been warped to \u00A7e" + portal.destiation.replaceAll("_", " ") + "\u00A7a.\"}", player);
-                        /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(portal.portalName + ".destination").replaceAll("_", " ")
-                                     + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
-                    }
-                }
                 if (portal.trigger.equals(Material.PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
                         player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
@@ -108,6 +93,10 @@ public class Listeners implements Listener {
                     player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                 }
+                if (portal.inPortal.contains(player)) return;
+                WarpEvent warpEvent = new WarpEvent(player, portal);
+                plugin.getServer().getPluginManager().callEvent(warpEvent);
+                if (!event.isCancelled()) Portal.activate(player, portal);
                 portal.inPortal.add(player);
             } else portal.inPortal.remove(player);
         }
@@ -182,14 +171,14 @@ public class Listeners implements Listener {
         if (player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             for (AdvancedPortal portal : Portal.Portals) {
                 if (Portal.locationInPortal(portal, event.getClickedBlock().getLocation(), 0)) {
-                    player.sendMessage(plugin.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
+                    player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
                     player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
                     event.setCancelled(true);
                     player.removeMetadata("selectingPortal", plugin);
                     return;
                 }
             }
-            player.sendMessage(plugin.customPrefixFail + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
+            player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
             event.setCancelled(true);
             return;
         }
