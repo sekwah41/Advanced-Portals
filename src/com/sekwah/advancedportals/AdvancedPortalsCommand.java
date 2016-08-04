@@ -404,14 +404,19 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     break;
                 case "list" :
                     String message = PluginMessages.customPrefix + " \u00A77Portals \u00A7c:\u00A7a";
+                    LinkedList<String> portals = new LinkedList<>();
                     for (AdvancedPortal portal : Portal.Portals) {
-                        message = message + " " + portal.portalName;
+                        portals.add(portal.portalName);
+                    }
+                    Collections.sort(portals);
+                    for (Object portalName : portals.toArray()) {
+                        message = message + " " + portalName;
                     }
                     player.sendMessage(message);
                     break;
                 default:
                     PluginMessages.UnknownCommand(sender, command);
-                }
+            }
             } else {
                 PluginMessages.UnknownCommand(sender, command);
             }
