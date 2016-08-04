@@ -5,16 +5,13 @@ import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.PluginMessages;
+import com.sekwah.advancedportals.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.destinations.Destination;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-import com.sekwah.advancedportals.api.portaldata.PortalArg;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +19,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class Portal {
+
     public static HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
     // Config values
     public static boolean portalsActive = false;
@@ -34,7 +32,7 @@ public class Portal {
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
-        cooldelay = config.getConfig().getInt("Cooldown");
+        cooldelay = config.getConfig().getInt("PortalCooldown");
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -370,6 +368,7 @@ public class Portal {
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
             player.sendMessage(PluginMessages.customPrefix + "\u00A7c You do not have permission to use this portal!");
+            throwPlayerBack(player);
             return false;
         }
 
@@ -377,6 +376,7 @@ public class Portal {
             int diff = (int) ((System.currentTimeMillis() - cooldown.get(player)) / 1000);
             if (diff < cooldelay) {
                 player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
+                throwPlayerBack(player);
                 return false;
             }
         }
@@ -395,7 +395,7 @@ public class Portal {
                     command = command.substring(1);
                     plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                     try{
-                       plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                        plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
                     }
                     catch(Exception e){
                         plugin.getLogger().warning("Error while executing: " + command);
@@ -446,6 +446,7 @@ public class Portal {
                 player.sendMessage(PluginMessages.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
+                throwPlayerBack(player);
             }
         }
         return false;
@@ -620,5 +621,11 @@ public class Portal {
 
     public static AdvancedPortal playerInPortal(Player player, int additionalArea){
         return playerInPortal(player, null, additionalArea);
+    }
+
+    public static void throwPlayerBack(Player player){
+        // Not ensured to remove them out of the portal but it makes it feel nicer for the player.
+        Vector velocity = player.getLocation().getDirection();
+        player.setVelocity(velocity.setY(0).normalize().multiply(-1).setY(0.7D));
     }
 }
