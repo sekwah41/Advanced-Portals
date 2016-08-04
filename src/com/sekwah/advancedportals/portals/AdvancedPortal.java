@@ -1,8 +1,10 @@
 package com.sekwah.advancedportals.portals;
 
 import com.sekwah.advancedportals.api.portaldata.PortalArg;
+import java.util.HashSet;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 public class AdvancedPortal {
 
@@ -24,6 +26,8 @@ public class AdvancedPortal {
     // Bungee will be stored inside the destination.
 
     public PortalArg[] portalArgs = null;
+
+    public HashSet<Player> inPortal = new HashSet<Player>();
 
     // TODO think of relaying out the data input to a more logical format.
     public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, PortalArg... portalArgs) {
