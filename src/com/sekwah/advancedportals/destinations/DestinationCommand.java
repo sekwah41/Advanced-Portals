@@ -64,21 +64,13 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 break;
             case "list":
                 String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
-                int locationsPerPage = 5;
-                if(locationsPerPage > 5){
-                    List<Object> destiObj = Arrays.asList(config.getConfig().getKeys(false).toArray());
-                    List<String> destis = new ArrayList<>();
-                    for (Object object : destiObj) {
-                        destis.add(object != null ? object.toString() : null);
-                    }
-                    Collections.sort(destis);
-                    for (String desti : destis) message = message + " " + desti;
-                    sender.sendMessage(message);
+                List<Object> destiObj = Arrays.asList(config.getConfig().getKeys(false).toArray());
+                LinkedList<String> destis = new LinkedList<>();
+                for (Object object : destiObj.toArray()) {
+                    destis.add(object.toString());
                 }
-                else{
-
-                }
-                for (String desti : config.getConfig().getKeys(false)) message = message + " " + desti;
+                Collections.sort(destis);
+                for (Object desti : destis.toArray()) message = message + " " + desti;
                 sender.sendMessage(message);
                 break;
             case "help":
@@ -111,13 +103,13 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
-        LinkedList<String> autoComplete = new LinkedList<String>();
+        LinkedList<String> autoComplete = new LinkedList<>();
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if(args.length > 1 && args[0].equalsIgnoreCase("warp")){
             for (String string : config.getConfig().getKeys(false)) {
-            if (sender.hasPermission("advancedportals.desti.*") | sender.hasPermission("advancedportals.desti." + string))
-                autoComplete.add(string);
-        }
+                if (sender.hasPermission("advancedportals.desti.*") | sender.hasPermission("advancedportals.desti." + string))
+                    autoComplete.add(string);
+            }
         }
         if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("AdvancedPortals.CreatePortal")) {
             if (args.length == 1) {
