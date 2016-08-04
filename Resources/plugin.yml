@@ -10,10 +10,7 @@ commands:
         usage: /<command>
     destination:
         description: Can be used to access portal destinations.
-        aliases: [desti]
-        usage: /<command>
-    awarp:
-        description: Used to warp to destinations.
+        aliases: [desti, awarp]
         usage: /<command>
 permissions:
    advancedportals.*:
@@ -22,7 +19,8 @@ permissions:
        advancedportals.createportal: true
        advancedportals.portal: true
        advancedportals.build: true
-       advancedportals.desti.*: true
+       advancedportals.desti: true
+       advancedportals.warp.*: true
    advancedportals.createportal:
      description: Allows you to create portals
      default: op
@@ -32,10 +30,9 @@ permissions:
    advancedportals.build:
      description: Allows you to build in the portal regions
      default: op
-   advancedportals.desti.*:
+   advancedportals.desti:
      description: Gives access to all desti commands
-     children:
-       advancedportals.desti.create: true
-   advancedportals.desti.create:
-     description: Allows users to create portal destinations
      default: op
+   advancedportals.warp.*:
+     description: Access to all warps
+     default: true
