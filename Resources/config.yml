@@ -69,3 +69,5 @@ UseCustomPrefix: false
 CustomPrefix: '&a[&eAdvancedPortals&a]'
 
 CustomPrefixFail: '&c[&7AdvancedPortals&c]'
+
+PortalCooldown: 5 # How long after trying to enter a portal until the player can try to enter another. 0 or lower to deactivate.
