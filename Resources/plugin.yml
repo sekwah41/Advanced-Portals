@@ -10,7 +10,7 @@ commands:
         usage: /<command>
     destination:
         description: Can be used to access portal destinations.
-        aliases: [desti, awarp]
+        aliases: [desti]
         usage: /<command>
 permissions:
    advancedportals.*:

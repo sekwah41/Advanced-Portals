@@ -65,8 +65,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     inventory.addItem(regionselector);
                     sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Region Selector\u00A7a!");
                     break;
-                case "portal":
                 case "portalblock":
+                    // TODO change this to a purple wool block and give it a name with a color. Then listen to when its placed.
+                    // Also do this for other blocks such as gateways and end portals just in case they want it.
                     ItemStack portalBlock = new ItemStack(Material.PORTAL, 1);
 
                     inventory.addItem(portalBlock);
@@ -75,7 +76,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     break;
                 case "create":
                     if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
-                        if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
+                        if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString())
+                                && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
                             if (args.length >= 2) { // may make this next piece of code more efficient, maybe check against a list of available variables or something
                                 // TODO change system to use arrays and hashmaps
                                 boolean hasName = false;
@@ -210,7 +212,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "variables" :
-                    sender.sendMessage(PluginMessages.customPrefix + " Currently available variables: name, triggerBlock, destination");
+                    sender.sendMessage(PluginMessages.customPrefix + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, destination");
                     sender.sendMessage("");
                     sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
                     break;
@@ -239,8 +241,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             sender.sendMessage("");
                             sender.sendMessage(PluginMessages.customPrefixFail + " Are you sure you would like to remove the portal \u00A7e" + args[2] + "\u00A7c?");
                             sender.sendMessage("");
-                            plugin.compat.sendRawMessage("{\"text\":\"    \",\"extra\":[{\"text\":\"\u00A7e[Yes]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Confirm removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal remove " + args[2] + "\"}}, " +
-                                    "{\"text\":\"     \"},{\"text\":\"\u00A7e[No]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Cancel removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal edit " + args[2] + "\"}}]}", player);
+                            plugin.compat.sendRawMessage("{\"text\":\"    \",\"extra\":[{\"text\":\"\u00A7e[Yes]\",\"hoverEvent\":{\"action\":\"show_text\"," +
+                                    "\"value\":\"Confirm removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal remove " + args[2] + "\"}}, " +
+                                    "{\"text\":\"     \"},{\"text\":\"\u00A7e[No]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Cancel removing this portal\"}" +
+                                    ",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal edit " + args[2] + "\"}}]}", player);
                             sender.sendMessage("");
                         }
                     }
@@ -366,6 +370,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("\u00A76/" + command + " portal \u00A7a- gives you a portal block");
                     sender.sendMessage("\u00A76/" + command + " select \u00A7a- selects an existing portal");
                     sender.sendMessage("\u00A76/" + command + " remove \u00A7a- removes a portal");
+                    sender.sendMessage("\u00A76/" + command + " list \u00A7a- lists all the current portals");
                     sender.sendMessage("\u00A76/" + command + " variables \u00A7a- lists all available tags");
                     sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
                     break;
@@ -382,7 +387,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             player.sendMessage(PluginMessages.customPrefix + " Your currently selected portal has been shown, it will dissapear shortly!");
                             Selection.Show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
                         } else if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
-                            if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString()) && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
+                            if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString())
+                                    && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
                                 player.sendMessage(PluginMessages.customPrefix + " Your currently selected area has been shown, it will dissapear shortly!");
                                 Selection.Show(player, this.plugin, null);
                             }
@@ -397,7 +403,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     Portal.loadPortals();
                     break;
                 case "list" :
-                    String message = PluginMessages.customPrefix + " \u00A7c:\u00A7a";
+                    String message = PluginMessages.customPrefix + " \u00A77Portals \u00A7c:\u00A7a";
                     for (AdvancedPortal portal : Portal.Portals) {
                         message = message + " " + portal.portalName;
                     }
@@ -449,8 +455,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("");
         sender.sendMessage(PluginMessages.customPrefix + " Editing: \u00A7e" + portalName);
 
-        sender.sendMessage(" \u00A7apos1\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos1.X") + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Z"));
-        sender.sendMessage(" \u00A7apos2\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos2.X") + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Z"));
+        sender.sendMessage(" \u00A7apos1\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos1.X")
+                + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos1.Z"));
+        sender.sendMessage(" \u00A7apos2\u00A7e: " + portalConfig.getConfig().getString(portalName + ".pos2.X")
+                + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Y") + ", " + portalConfig.getConfig().getString(portalName + ".pos2.Z"));
 
         String destination = portalConfig.getConfig().getString(portalName + ".destination");
         if (destination != null) {
@@ -485,7 +493,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        plugin.compat.sendRawMessage("{\"text\":\"\u00A7aFunctions\u00A7e: \",\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/portal gui remove " + portalName + "\"}}"
+        plugin.compat.sendRawMessage("{\"text\":\"\u00A7aFunctions\u00A7e: \"," +
+                "\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/portal gui remove " + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eShow\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Show the selected portal\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/portal show " + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eRename\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Change the name of the portal\"},\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/portal rename \"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eActivate\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(same as entering the portal)\"},\"clickEvent\":{\"action\":\"clickEvent\",\"value\":\"/warp " + destination + "\"}}]}", player);
@@ -499,7 +508,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         LinkedList<String> autoComplete = new LinkedList<String>();
         if (sender.hasPermission("AdvancedPortals.CreatePortal")) {
             if (args.length == 1) {
-                autoComplete.addAll(Arrays.asList("create", "portal", "portalblock", "select", "selector"
+                autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "selector"
                         , "show", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
             } else if (args[0].toLowerCase().equals("create")) {
 
