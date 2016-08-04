@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.listeners;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
-import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -39,16 +38,7 @@ public class PortalPlacer implements Listener {
     public void onBlockPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
         Material material = block.getType();
-        if (material == Material.PORTAL) {
-
-            AdvancedPortal inPortal = Portal.blockLocationInPortal(block.getLocation(), PortalProtectionRadius);
-            if(inPortal != null){
-                event.setCancelled(true);
-            }
-            //event.getChangedType();
-            //event.setCancelled(true);
-        }
+        if (material == Material.PORTAL && Portal.inPortalRegion(block.getLocation(), PortalProtectionRadius))
+            event.setCancelled(true);
     }
-
-
 }

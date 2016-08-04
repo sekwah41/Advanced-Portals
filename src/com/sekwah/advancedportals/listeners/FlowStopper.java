@@ -32,22 +32,8 @@ public class FlowStopper implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event) {
-        // when checking positions check the block and the to block
-        Block blockTo = event.getToBlock();
-        Block block = event.getBlock();
-
-
-        int floodRegion = 3;
-
-        AdvancedPortal inPortal = Portal.blockLocationInPortal(block.getLocation(), floodRegion);
-        if(inPortal != null){
+        if (Portal.inPortalRegion(event.getBlock().getLocation(), 3) | Portal.inPortalRegion(event.getToBlock().getLocation(), 3))
             event.setCancelled(true);
-        }
-
-        inPortal = Portal.blockLocationInPortal(blockTo.getLocation(), floodRegion);
-        if(inPortal != null){
-            event.setCancelled(true);
-        }
     }
 
 
