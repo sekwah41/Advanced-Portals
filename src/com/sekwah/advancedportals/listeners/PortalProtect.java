@@ -54,11 +54,6 @@ public class PortalProtect implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event) {
-
-        if (!Portal.portalsActive) {
-            return;
-        }
-
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {
             Block block = blockList.get(i);
