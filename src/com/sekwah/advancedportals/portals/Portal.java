@@ -27,12 +27,14 @@ public class Portal {
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
     private static boolean ShowBungeeMessage;
-    private static int cooldelay = 5;
+    private static int cooldelay;
+    private static double throwback;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
-        cooldelay = config.getConfig().getInt("PortalCooldown");
+        cooldelay = config.getConfig().getInt("PortalCooldown", 5);
+        throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -525,107 +527,11 @@ public class Portal {
         return false;
     }
 
-    public static AdvancedPortal locationInPortal(Location loc){
-        return locationInPortal(loc, 0);
-    }
-
-    /**
-     * Only returns the first portal found. May have issues with additional area but overlapping should not occour at 0.
-     * @param loc
-     * @param additionalArea
-     * @return
-     */
-    public static AdvancedPortal locationInPortal(Location loc, int additionalArea){
-
-        if (!Portal.portalsActive) {
-            return null;
-        }
-
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
-                if ((portal.pos1.getX() + 1D + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1D + additionalArea) >= loc.getZ()) {
-                    if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
-                        return portal;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public static AdvancedPortal blockLocationInPortal(Location loc){
-        return locationInPortal(loc, 0);
-    }
-
-    public static AdvancedPortal blockLocationInPortal(Location loc, int additionalArea){
-
-        if (!Portal.portalsActive) {
-            return null;
-        }
-
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
-                if ((portal.pos1.getX() + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + additionalArea) >= loc.getZ()) {
-                    if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
-                        return portal;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * Only returns the first portal found. May have issues with additional area but overlapping should not occour at 0.
-     * @param player
-     * @param loc
-     * @param additionalArea
-     * @return
-     */
-    public static AdvancedPortal playerInPortal(Player player, Location loc, int additionalArea){
-
-        if (!Portal.portalsActive) {
-            return null;
-        }
-
-        if(loc == null){
-            loc = player.getLocation();
-        }
-
-        Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
-
-        for (AdvancedPortal portal : Portal.Portals) {
-            if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName())) {
-                if (portal.trigger.equals(loc.getBlock().getType())
-                        || portal.trigger.equals(eyeLoc.getBlock().getType())) {
-                    if ((portal.pos1.getX() + 1D + additionalArea) >= loc.getX() && (portal.pos1.getY() + additionalArea) >= loc.getY() && (portal.pos1.getZ() + 1D + additionalArea) >= loc.getZ()) {
-                        if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ()) {
-                            return portal;
-                        }
-                    }
-
-                }
-            }
-        }
-        return null;
-    }
-
-    public static AdvancedPortal playerInPortal(Player player){
-        return playerInPortal(player, null, 0);
-    }
-
-    public static AdvancedPortal playerInPortal(Player player, Location loc){
-        return playerInPortal(player, loc, 0);
-    }
-
-    public static AdvancedPortal playerInPortal(Player player, int additionalArea){
-        return playerInPortal(player, null, additionalArea);
-    }
-
     public static void throwPlayerBack(Player player){
         // Not ensured to remove them out of the portal but it makes it feel nicer for the player.
-        Vector velocity = player.getLocation().getDirection();
-        player.setVelocity(velocity.setY(0).normalize().multiply(-1).setY(0.7D));
+        if (throwback > 0) {
+            Vector velocity = player.getLocation().getDirection();
+            player.setVelocity(velocity.setY(0).normalize().multiply(-1).setY(throwback));
+        }
     }
 }
