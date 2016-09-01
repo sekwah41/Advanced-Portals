@@ -70,6 +70,5 @@ CustomPrefix: '&a[&eAdvancedPortals&a]'
 
 CustomPrefixFail: '&c[&7AdvancedPortals&c]'
 
-PortalCooldownJoin: 5 # How long after the player joins the server until they will be warped. (if a player joins in a portal it will be disabled until they exit it). 0 or lower to deactivate.
-
 PortalCooldown: 5 # How long after trying to enter a portal until the player can try to enter another. 0 or lower to deactivate.
+ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwback
