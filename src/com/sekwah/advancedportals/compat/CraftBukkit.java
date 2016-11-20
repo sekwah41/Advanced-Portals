@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * Created by on 02/08/2016.
  *
  * I don't think there will be any others supported other than bukkit but if there are its not just the compat that will
- * need to change.
+ * need to change unless it has a different package for the minecraft server parts.
  *
  * @author sekwah41
  */
