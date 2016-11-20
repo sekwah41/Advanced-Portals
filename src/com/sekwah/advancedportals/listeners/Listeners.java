@@ -25,9 +25,8 @@ public class Listeners implements Listener {
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
     private static boolean UseOnlyServerAxe = false;
     private static Material WandMaterial;
-    private static boolean ShowBungeeMessage;
+
     private final AdvancedPortalsPlugin plugin;
-    private int PortalMessagesDisplay = 2;
 
     @SuppressWarnings("deprecation")
     public Listeners(AdvancedPortalsPlugin plugin) {
@@ -37,8 +36,6 @@ public class Listeners implements Listener {
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
 
         String ItemID = config.getConfig().getString("AxeItemId");
-
-        PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
 
         try {
             WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
@@ -54,8 +51,6 @@ public class Listeners implements Listener {
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         UseOnlyServerAxe = config.getConfig().getBoolean("UseOnlyServerMadeAxe");
-
-        ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
 
         String ItemID = config.getConfig().getString("AxeItemId");
 
@@ -83,7 +78,7 @@ public class Listeners implements Listener {
         Location loc = event.getTo();
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
         for (AdvancedPortal portal : Portal.Portals) {
-            if (Portal.locationInPortalTrigger(portal, loc) | Portal.locationInPortalTrigger(portal, eyeLoc)) {
+            if (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc)) {
                 if (portal.trigger.equals(Material.PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
                         player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));

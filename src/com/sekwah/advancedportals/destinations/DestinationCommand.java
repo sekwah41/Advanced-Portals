@@ -9,10 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 
@@ -67,22 +64,36 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 break;
             case "list":
                 String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
-                for (String desti : config.getConfig().getKeys(false)) message = message + " " + desti;
+                List<Object> destiObj = Arrays.asList(config.getConfig().getKeys(false).toArray());
+                LinkedList<String> destis = new LinkedList<>();
+                for (Object object : destiObj.toArray()) {
+                    destis.add(object.toString());
+                }
+                Collections.sort(destis);
+                for (Object desti : destis.toArray()) message = message + " " + desti;
                 sender.sendMessage(message);
                 break;
             case "help":
                 sender.sendMessage(PluginMessages.customPrefix + " Destination Help Menu");
                 sender.sendMessage("\u00A7e\u00A7m----------------------------");
-                sender.sendMessage("\u00A76/" + command + " \u00A7c[name] \u00A7a- teleport to destination");
                 sender.sendMessage("\u00A76/" + command + " create \u00A7c[name] \u00A7a- create destination at your location");
                 sender.sendMessage("\u00A76/" + command + " remove \u00A7c[name] \u00A7a- remove destination");
+                sender.sendMessage("\u00A76/" + command + " warp \u00A7c[name] \u00A7a- teleport to destination");
                 sender.sendMessage("\u00A76/" + command + " list \u00A7a- list all destinations");
                 sender.sendMessage("\u00A7e\u00A7m----------------------------");
                 break;
-            default:
-                Destination.warp((Player) sender, args[0]);
+            case "warp":
+                if(args.length >= 2){
+                    Destination.warp((Player) sender, args[1]);
+                }
+                else{
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You must specify a warp location!");
+                }
                 break;
-            }
+            default:
+                PluginMessages.UnknownCommand(sender, command);
+                break;
+        }
         } else {
             PluginMessages.UnknownCommand(sender, command);
         }
@@ -92,11 +103,13 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
-        LinkedList<String> autoComplete = new LinkedList<String>();
+        LinkedList<String> autoComplete = new LinkedList<>();
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
-        for (String string : config.getConfig().getKeys(false)) {
-            if (sender.hasPermission("advancedportals.desti.*") | sender.hasPermission("advancedportals.desti." + string))
-                autoComplete.add(string);
+        if(args.length > 1 && args[0].equalsIgnoreCase("warp")){
+            for (String string : config.getConfig().getKeys(false)) {
+                if (sender.hasPermission("advancedportals.desti.*") | sender.hasPermission("advancedportals.desti." + string))
+                    autoComplete.add(string);
+            }
         }
         if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("AdvancedPortals.CreatePortal")) {
             if (args.length == 1) {
@@ -104,6 +117,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].toLowerCase().equals("create")) {
             }
         }
+        autoComplete.add("warp");
         Collections.sort(autoComplete);
         for (Object result : autoComplete.toArray()) {
             if (!result.toString().startsWith(args[args.length - 1])) {

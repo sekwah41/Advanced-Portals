@@ -86,7 +86,7 @@ public class CraftBukkit {
 
             playerConnection.getClass().getMethod("sendPacket", this.packet).invoke(playerConnection, packet);
 
-        } catch (IllegalAccessException |InvocationTargetException | NoSuchMethodException | NoSuchFieldException
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException
                 | InstantiationException e) {
             this.plugin.getLogger().warning("Error creating raw message, something must be wrong with reflection");
             e.printStackTrace();
