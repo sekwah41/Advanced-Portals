@@ -14,3 +14,10 @@ Advanced Portals
 
 <img src="http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png" alt="Global Plugin Stats" title="Global Plugin Stats">
 
+
+<p>To get the needed bukkit versions download the spigot buildtools and run the appropriate commands for the versions listed in the pom file.</p>
+<p>e.g. "java -jar BuildTools.jar --rev 1.10.2" (Enter this into git bash)</p>
+
+<p>Use the versions to test code before you turn it into reflection or suggest it to be turned into reflection.</p>
+
+<p>You should never use direct craftbukkit references in public builds as it would only work in one spigot version</p>
