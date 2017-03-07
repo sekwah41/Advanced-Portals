@@ -108,7 +108,8 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String name) {
-        if (!player.hasPermission("advancedportals.warp.*") && !player.hasPermission("advancedportals.warp." + name)) {
+        if (!player.hasPermission("advancedportals.warp.*") && !player.hasPermission("advancedportals.desti." + name)
+                && !player.hasPermission("advancedportals.warp.default")) {
             player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to warp to " + name + "!");
             return false;
         }

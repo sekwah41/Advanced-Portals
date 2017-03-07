@@ -166,7 +166,7 @@ public class Listeners implements Listener {
         if (player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             for (AdvancedPortal portal : Portal.Portals) {
                 if (Portal.locationInPortal(portal, event.getClickedBlock().getLocation(), 0)) {
-                    player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have selected: \u00A7e" + portal.portalName);
+                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have selected: \u00A7e" + portal.portalName);
                     player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character
                     event.setCancelled(true);
                     player.removeMetadata("selectingPortal", plugin);
