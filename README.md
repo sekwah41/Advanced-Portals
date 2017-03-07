@@ -18,6 +18,6 @@ Advanced Portals
 <p>To get the needed bukkit versions download the spigot buildtools and run the appropriate commands for the versions listed in the pom file.</p>
 <p>e.g. "java -jar BuildTools.jar --rev 1.10.2" (Enter this into git bash)</p>
 
-<p>When each version is compiled place it in the craftbukkit folder and import the folder of jar's. This should allow you to compile and place more.</p>
+<p>Use the versions to test code before you turn it into reflection or suggest it to be turned into reflection.</p>
 
-<p>If it wasnt for the fact craftbukkit is being used then this would work perfectly with maven. However maven cannot support multiple versions of the same dependency by default at least</p>
+<p>You should never use direct craftbukkit references in public builds as it would only work in one spigot version</p>
