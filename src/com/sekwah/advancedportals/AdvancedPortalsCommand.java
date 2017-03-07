@@ -367,7 +367,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
                     sender.sendMessage("\u00A76/" + command + " selector \u00A7a- gives you a region selector");
                     sender.sendMessage("\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ");
-                    sender.sendMessage("\u00A76/" + command + " portal \u00A7a- gives you a portal block");
+                    sender.sendMessage("\u00A76/" + command + " portalblock \u00A7a- gives you a portal block");
                     sender.sendMessage("\u00A76/" + command + " select \u00A7a- selects an existing portal");
                     sender.sendMessage("\u00A76/" + command + " remove \u00A7a- removes a portal");
                     sender.sendMessage("\u00A76/" + command + " list \u00A7a- lists all the current portals");
