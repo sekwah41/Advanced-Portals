@@ -385,6 +385,32 @@ public class Portal {
         cooldown.put(player, System.currentTimeMillis());
         boolean showFailMessage = true;
 
+        //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
+        boolean warped = false;
+        if (portal.bungee != null) {
+            if (ShowBungeeMessage) {
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
+            }
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("Connect");
+            out.writeUTF(portal.bungee);
+            player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+            // Down to bungee to sort out the teleporting but yea theoretically they should warp.
+        }
+        else if (portal.destiation != null) {
+            ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
+            if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
+                warped = Destination.warp(player, portal.destiation);
+            }
+        } else {
+            if (showFailMessage) {
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
+                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+                        + "attempt and either the data is corrupt or portal doesn't exist!");
+                throwPlayerBack(player);
+            }
+        }
+
         if (portal.getArg("command.1") != null) {
             showFailMessage = false;
             int commandLine = 1;
@@ -426,32 +452,8 @@ public class Portal {
                 command = portal.getArg("command." + ++commandLine);
             } while (command != null);
         }
-        //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
-        if (portal.bungee != null) {
-            if (ShowBungeeMessage) {
-                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
-            }
-            ByteArrayDataOutput out = ByteStreams.newDataOutput();
-            out.writeUTF("Connect");
-            out.writeUTF(portal.bungee);
-            player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-            // Down to bungee to sort out the teleporting but yea theoretically they should warp.
-        }
-        else if (portal.destiation != null) {
-            ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-            if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
-                boolean warped = Destination.warp(player, portal.destiation);
-                return warped;
-            }
-        } else {
-            if (showFailMessage) {
-                player.sendMessage(PluginMessages.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
-                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
-                        + "attempt and either the data is corrupt or portal doesn't exist!");
-                throwPlayerBack(player);
-            }
-        }
-        return false;
+
+        return warped;
     }
 
     public static void rename(String oldName, String newName) {
