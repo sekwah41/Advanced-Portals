@@ -401,6 +401,9 @@ public class Portal {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
             if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
                 warped = Destination.warp(player, portal.destiation);
+                if(!warped){
+                    throwPlayerBack(player);
+                }
             }
         } else {
             if (showFailMessage) {
