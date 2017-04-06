@@ -21,7 +21,6 @@ permissions:
        advancedportals.portal: true
        advancedportals.build: true
        advancedportals.desti: true
-       advancedportals.warp.*: true
    advancedportals.createportal:
      description: Allows you to create portals
      default: op
