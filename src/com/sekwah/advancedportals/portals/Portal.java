@@ -383,7 +383,7 @@ public class Portal {
             }
         }
         cooldown.put(player, System.currentTimeMillis());
-        boolean showFailMessage = true;
+        boolean showFailMessage = !portal.hasArg("command.1");
 
         //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
         boolean warped = false;
@@ -414,8 +414,7 @@ public class Portal {
             }
         }
 
-        if (portal.getArg("command.1") != null) {
-            showFailMessage = false;
+        if (!portal.hasArg("command.1")) {
             int commandLine = 1;
             String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
             do {

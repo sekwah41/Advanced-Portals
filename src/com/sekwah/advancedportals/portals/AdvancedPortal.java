@@ -1,10 +1,11 @@
 package com.sekwah.advancedportals.portals;
 
 import com.sekwah.advancedportals.api.portaldata.PortalArg;
-import java.util.HashSet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+
+import java.util.HashSet;
 
 public class AdvancedPortal {
 
@@ -62,4 +63,7 @@ public class AdvancedPortal {
         return null;
     }
 
+    public boolean hasArg(String arg) {
+        return this.getArg(arg) != null;
+    }
 }
