@@ -35,4 +35,4 @@ permissions:
      default: op
    advancedportals.warp.*:
      description: Access to all warps
-     default: true
+     default: op
