@@ -79,10 +79,12 @@ ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwb
 # Remember enabling this means potentially admins could leave a portal lying around which could let them reop themselves.
 # If you think this may be an issue use a permission plugin and specifically give the users you trust permissions.
 #
-# n Disabled (none
+# n Disabled none, best just put this to really make sure the fact none are here is specified. It disables any others too
 # o Admin Heighten Enabled      Permission advancedportals.createportal.commandlevel.op
+# p Perm Heighten Enabled    Permission advancedportals.createportal.commandlevel.perms
 # c Console Heighten Enabled    Permission advancedportals.createportal.commandlevel.console
-# p Ops can create admin commands without special perms
+# h Ops can create admin commands without special perms
+# e Ops can create all perm commands without special perms
 # k Ops can create console commands without special perms
 #
 CommandLevels: n

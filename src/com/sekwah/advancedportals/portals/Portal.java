@@ -414,7 +414,7 @@ public class Portal {
             }
         }
 
-        if (!portal.hasArg("command.1")) {
+        if (portal.hasArg("command.1")) {
             int commandLine = 1;
             String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
             do {
