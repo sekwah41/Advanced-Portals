@@ -421,7 +421,7 @@ public class Portal {
                 // (?i) makes the search case insensitive
                 command = command.replaceAll("@player", player.getName());
                 plugin.getLogger().log(Level.INFO, "Portal command: " + command);
-                if (command.startsWith("#")) {
+                if (command.startsWith("#") && plugin.getSettings().hasCommandLevel("c")) {
                     command = command.substring(1);
                     plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                     try{
@@ -430,7 +430,7 @@ public class Portal {
                     catch(Exception e){
                         plugin.getLogger().warning("Error while executing: " + command);
                     }
-                } else if (command.startsWith("!")) {
+                } else if (command.startsWith("!") && plugin.getSettings().hasCommandLevel("o")) {
                     command = command.substring(1);
                     boolean wasOp = player.isOp();
                     try {
