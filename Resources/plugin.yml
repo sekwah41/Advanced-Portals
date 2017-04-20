@@ -24,6 +24,18 @@ permissions:
    advancedportals.createportal:
      description: Allows you to create portals
      default: op
+   advancedportals.createportal.commandlevel.*:
+     description: Gives access to all level raisers
+     default: false
+     children:
+       advancedportals.createportal.commandlevel.op: true
+       advancedportals.createportal.commandlevel.console: true
+   advancedportals.createportal.commandlevel.op:
+        description: Allows you to increase the users level temporaily to op
+        default: false
+   advancedportals.createportal.commandlevel.console:
+        description: Executes command in the console
+        default: false
    advancedportals.portal:
      description: Allows use of portal commands
      default: op

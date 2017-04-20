@@ -1,8 +1,6 @@
 package com.sekwah.advancedportals.effects;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.Assets;
-import com.sekwah.advancedportals.portals.AdvancedPortal;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -11,13 +9,17 @@ import org.bukkit.entity.Player;
 
 public class WarpEffects {
 
+	private static AdvancedPortalsPlugin plugin = null;
+
 	public boolean oldSoundLoc = true;
 
 	public static Sound[] sounds = new Sound[2];
 
 	public static boolean soundError = false;
 
-	public WarpEffects(AdvancedPortalsPlugin plugin) {
+	public WarpEffects(AdvancedPortalsPlugin pluginTemp) {
+
+		plugin = pluginTemp;
 
 		sounds[0] = findSound(plugin, "ENTITY_ENDERMEN_TELEPORT", "ENDERMAN_TELEPORT");
 
@@ -46,7 +48,7 @@ public class WarpEffects {
 	public static void activateParticles(Player player) {
 		Location loc = player.getLocation();
 		World world = player.getWorld();
-		switch (Assets.currentWarpParticles){
+		switch (plugin.getSettings().getCurrentWarpParticles()){
 			case 1: 
 				for(int i = 0; i < 10; i++){
 					world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
@@ -64,7 +66,7 @@ public class WarpEffects {
 		if(!soundError){
 			Location loc = player.getLocation();
 			World world = player.getWorld();
-			switch (Assets.currentWarpParticles){
+			switch (plugin.getSettings().getCurrentWarpSound()){
 				case 1:
 					world.playSound(loc, sounds[0], 1F, 1F);
 				default: break;

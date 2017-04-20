@@ -14,6 +14,7 @@ import java.io.IOException;
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public CraftBukkit compat = null;
+    private Settings settings;
 
     public void onEnable() {
 
@@ -38,10 +39,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
             destinationConfig.saveDefaultConfig();
 
-            new Assets(this);
-
-            // Opens a channel that messages bungeeCord
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.settings = new Settings(this);
 
             // Loads the portal and destination editors
             new Portal(this);
@@ -50,27 +48,14 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             new DataCollector(this);
 
 
-            // These register the commands
-            new PluginMessages(this);
-            new AdvancedPortalsCommand(this);
-            new DestinationCommand(this);
+            this.registerCommands();
 
             new WarpEffects(this);
 
+            this.addListeners();
+            this.setupDataCollector();
 
-            // These register the listeners
-            new Listeners(this);
-
-            new FlowStopper(this);
-            new PortalProtect(this);
-            new PortalPlacer(this);
-
-            Selection.LoadData(this);
-
-            DataCollector.setupMetrics();
-
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+            this.setupBungee();
 
             this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
@@ -92,10 +77,38 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         //  only copy the file if it doesnt exist!
     }
 
+    private void registerCommands() {
+        new PluginMessages(this);
+        new AdvancedPortalsCommand(this);
+        new DestinationCommand(this);
+    }
+
+    private void addListeners() {
+        new Listeners(this);
+
+        new FlowStopper(this);
+        new PortalProtect(this);
+        new PortalPlacer(this);
+    }
+
+    private void setupDataCollector() {
+        Selection.LoadData(this);
+
+        DataCollector.setupMetrics();
+    }
+
+    private void setupBungee() {
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+    }
+
 
     public void onDisable() {
         this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
     }
 
 
+    public Settings getSettings() {
+        return settings;
+    }
 }
