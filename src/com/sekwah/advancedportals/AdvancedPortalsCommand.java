@@ -126,18 +126,25 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         executesCommand = true;
                                         portalCommand = parseArgVariable(args, i, "command:");
                                         i += this.portalArgsStringLength - 1;
-                                        if(!( portalCommand.startsWith("#")
-                                                && this.plugin.getSettings().hasCommandLevel("c")
+                                        if(portalCommand.startsWith("#")
+                                                && !(this.plugin.getSettings().hasCommandLevel("c")
                                                 && (sender.hasPermission("advancedportals.createportal.commandlevel.console")
                                                 || (this.plugin.getSettings().hasCommandLevel("k") && sender.isOp()) ) )){
                                             player.sendMessage(PluginMessages.customPrefixFail + " You need permission to make a console command portal!");
                                             return true;
                                         }
-                                        else if(!( portalCommand.startsWith("!")
-                                                && this.plugin.getSettings().hasCommandLevel("o")
+                                        else if(portalCommand.startsWith("!")
+                                                && !(this.plugin.getSettings().hasCommandLevel("o")
                                                 && (sender.hasPermission("advancedportals.createportal.commandlevel.op")
-                                                || (this.plugin.getSettings().hasCommandLevel("p") && sender.isOp()) ) )){
+                                                || (this.plugin.getSettings().hasCommandLevel("h") && sender.isOp()) ) )){
                                             player.sendMessage(PluginMessages.customPrefixFail + " You need permission to make a op command portal!");
+                                            return true;
+                                        }
+                                        else if(portalCommand.startsWith("^")
+                                                && !(this.plugin.getSettings().hasCommandLevel("p")
+                                                && (sender.hasPermission("advancedportals.createportal.commandlevel.perms")
+                                                || (this.plugin.getSettings().hasCommandLevel("e") && sender.isOp()) ) )){
+                                            player.sendMessage(PluginMessages.customPrefixFail + " You need permission to make a all perms command portal!");
                                             return true;
                                         }
                                         extraData.add(new PortalArg("command.1", portalCommand));

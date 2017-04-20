@@ -17,7 +17,7 @@ public class Settings {
         currentWarpSound = config.getConfig().getInt("WarpSound");
 
         commandLevels = config.getConfig().getString("CommandLevels", "n");
-        if(commandLevels.equals("")){
+        if(commandLevels.contains("n") || commandLevels.equals("")) {
             commandLevels = "n";
         }
     }
