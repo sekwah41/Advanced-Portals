@@ -39,7 +39,17 @@ public class CraftBukkit {
             String minecraftPackage = "net.minecraft.server." + bukkitImpl + ".";
 
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
-            this.serializeMessage = this.findClass(chatBaseComponent, "ChatSerializer").getMethod("a", String.class);
+            Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
+
+            if(chatSerialClass == null){
+                plugin.getLogger().info("Old version detected, changing chat method");
+                this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
+            }
+            else{
+                plugin.getLogger().info("Old version detected, changing chat method");
+                this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
+            }
+
             this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
 
             this.playerGetHandle = Class.forName(craftBukkitPackage + "entity.CraftPlayer").getMethod("getHandle");
@@ -47,6 +57,8 @@ public class CraftBukkit {
             Class<?> packet = Class.forName(minecraftPackage + "Packet");
             this.sendPacket = playerConnection.getType().getMethod("sendPacket", packet);
         } catch (Exception e) {
+            e.printStackTrace();
+            plugin.getLogger().warning("Attempting to use backup porekit locations");
             // Fall back on your Porekit
             Class<?> textBaseComponent = Class.forName("net.minecraft.util.text.ITextComponent"); // string to packet methods
             this.serializeMessage = this.findClass(textBaseComponent, "Serializer").getMethod("func_150699_a", String.class); // md: jsonToComponent
