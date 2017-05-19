@@ -23,16 +23,16 @@ public class Portal {
     public static HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
     // Config values
     public static boolean portalsActive = false;
-    public static AdvancedPortal[] Portals = new AdvancedPortal[0];
+    public static AdvancedPortal[] portals = new AdvancedPortal[0];
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
-    private static boolean ShowBungeeMessage;
+    private static boolean showBungeeMessage;
     private static int cooldelay;
     private static double throwback;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        ShowBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
         cooldelay = config.getConfig().getInt("PortalCooldown", 5);
         throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
@@ -52,10 +52,10 @@ public class Portal {
         portalData = new ConfigAccessor(plugin, "portals.yml");
         Set<String> PortalSet = portalData.getConfig().getKeys(false);
         if (PortalSet.size() > 0) {
-            Portals = new AdvancedPortal[PortalSet.toArray().length];
+            portals = new AdvancedPortal[PortalSet.toArray().length];
 
 			/*for(int i = 0; i <= PortalSet.toArray().length - 1; i++){
-                Portals[i] = new AdvancedPortal();
+                portals[i] = new AdvancedPortal();
 			}*/
 
             int portalId = 0;
@@ -93,21 +93,29 @@ public class Portal {
 
 
                 String worldName = portalData.getConfig().getString(portal.toString() + ".world");
+                if(worldName != null) {
+                    World world = Bukkit.getWorld(worldName);
+                    Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
+                    Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
 
-                World world = Bukkit.getWorld(worldName);
-                Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
-                Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
+                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                    extraData.toArray(portalArgs);
 
-                PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                extraData.toArray(portalArgs);
+                    portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName, portalArgs);
 
-                Portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName, portalArgs);
+                    portals[portalId].bungee = portalConfigSection.getString("bungee");
 
-                Portals[portalId].bungee = portalConfigSection.getString("bungee");
+                    portals[portalId].destiation = portalConfigSection.getString("destination");
 
-                Portals[portalId].destiation = portalConfigSection.getString("destination");
+                    portalId++;
+                }
+                else{
+                    AdvancedPortal[] tempPortals = portals;
 
-                portalId++;
+                    portals = new AdvancedPortal[portals.length - 1];
+
+                    System.arraycopy(portal, 0, portals, 0, portalId);
+                }
             }
             portalsActive = true;
         } else {
@@ -161,7 +169,7 @@ public class Portal {
         Location checkpos2 = new Location(pos2.getWorld(), LowX, LowY, LowZ);
 
         if (checkPortalOverlap(checkpos1, checkpos2)) {
-            plugin.getLogger().log(Level.WARNING, "Portals must not overlap!");
+            plugin.getLogger().log(Level.WARNING, "portals must not overlap!");
             return "\u00A7cPortal creation error, portals must not overlap!";
         }
 
@@ -197,37 +205,37 @@ public class Portal {
 
         if (portalsActive) {
             int portalId = 0;
-            for (@SuppressWarnings("unused") Object portal : Portal.Portals) {
-                if (Portals[portalId].worldName.equals(pos2.getWorld().getName())) { // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos1.getBlockZ())) {
+            for (@SuppressWarnings("unused") Object portal : Portal.portals) {
+                if (portals[portalId].worldName.equals(pos2.getWorld().getName())) { // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos1.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos2.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos1.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos1.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos2.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos1.getBlockY(), Portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos2.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos1.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos2.getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, Portals[portalId].pos2.getBlockX(), Portals[portalId].pos2.getBlockY(), Portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos1.getBlockZ())) {
                         return true;
                     }
                 }
@@ -349,7 +357,7 @@ public class Portal {
     }
 
     public static boolean activate(Player player, String portalName) {
-        for (AdvancedPortal portal : Portal.Portals) {
+        for (AdvancedPortal portal : Portal.portals) {
             if (portal.portalName.equals(portalName)) return activate(player, portal);
         }
         plugin.getLogger().log(Level.SEVERE, "Portal not found by name of: " + portalName);
@@ -388,7 +396,7 @@ public class Portal {
         //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
         boolean warped = false;
         if (portal.bungee != null) {
-            if (ShowBungeeMessage) {
+            if (showBungeeMessage) {
                 player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
             }
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -502,7 +510,7 @@ public class Portal {
     }
 
     public static boolean inPortalTriggerRegion(Location loc) {
-        for (AdvancedPortal portal : Portal.Portals)
+        for (AdvancedPortal portal : Portal.portals)
             if (Portal.locationInPortalTrigger(portal, loc))
                 return true;
         return false;
@@ -515,7 +523,7 @@ public class Portal {
     }
 
     public static boolean inPortalRegion(Location loc, int additionalArea) {
-        for (AdvancedPortal portal : Portal.Portals)
+        for (AdvancedPortal portal : Portal.portals)
             if (Portal.locationInPortal(portal, loc, additionalArea))
                 return true;
         return false;
