@@ -47,15 +47,16 @@ public class CraftBukkit {
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
             Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
 
-            Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
+            try{
+                Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
 
-            if(chatMessageTypeClass != null){
                 useEnumType = true;
                 this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
 
                 this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
             }
-            else{
+            catch(ClassNotFoundException e) {
+                plugin.getLogger().info("Old version detected, changing chat method");
                 this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
             }
 
@@ -63,7 +64,7 @@ public class CraftBukkit {
                 this.serializeMessage = chatSerialClass.getMethod("a", String.class);
             }
             else{
-                plugin.getLogger().info("Old version detected, changing chat method");
+                plugin.getLogger().info("Even older version detected, changing chat method");
                 this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
             }
 
