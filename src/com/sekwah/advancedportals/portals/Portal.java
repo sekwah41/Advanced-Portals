@@ -114,7 +114,7 @@ public class Portal {
 
                     portals = new AdvancedPortal[portals.length - 1];
 
-                    System.arraycopy(portal, 0, portals, 0, portalId);
+                    System.arraycopy(tempPortals, 0, portals, 0, portalId);
                 }
             }
             portalsActive = true;
