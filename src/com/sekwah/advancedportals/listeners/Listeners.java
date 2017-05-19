@@ -77,7 +77,7 @@ public class Listeners implements Listener {
         //Location fromloc = event.getFrom();
         Location loc = event.getTo();
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
-        for (AdvancedPortal portal : Portal.Portals) {
+        for (AdvancedPortal portal : Portal.portals) {
             if (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc)) {
                 if (portal.trigger.equals(Material.PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
@@ -164,7 +164,7 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
 
         if (player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            for (AdvancedPortal portal : Portal.Portals) {
+            for (AdvancedPortal portal : Portal.portals) {
                 if (Portal.locationInPortal(portal, event.getClickedBlock().getLocation(), 0)) {
                     player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have selected: \u00A7e" + portal.portalName);
                     player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.portalName)); // adds the name to the metadata of the character

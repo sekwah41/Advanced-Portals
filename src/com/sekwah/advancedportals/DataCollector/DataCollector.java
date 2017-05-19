@@ -50,7 +50,7 @@ public class DataCollector {
             Graph TotalWarps = metrics.createGraph("Portal Trigger Blocks");
 
             /**List<Material> MaterialList = new ArrayList<Material>();
-             for(AdvancedPortal portal : Portal.Portals){
+             for(AdvancedPortal portal : Portal.portals){
              MaterialList.add(portal.trigger);
              }*/
 

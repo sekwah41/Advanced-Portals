@@ -33,11 +33,9 @@ public class ConfigAccessor {
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
         // Look for defaults in the jar
-        InputStream defConfigStream = plugin.getResource(fileName);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            fileConfiguration.setDefaults(defConfig);
-        }
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new File(this.getClass()
+                .getClassLoader().getResource(fileName).getPath()));
+        fileConfiguration.setDefaults(defConfig);
     }
 
     public FileConfiguration getConfig() {

@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Created by on 02/08/2016.
@@ -19,12 +20,17 @@ import java.lang.reflect.Method;
 public class CraftBukkit {
 
     private final AdvancedPortalsPlugin plugin;
+
+    private Method chatMessageTypeMethod;
+
     private Method serializeMessage;
     private Constructor<?> chatPacketConstructor;
 
     private Method playerGetHandle;
     private Field playerConnection;
     private Method sendPacket;
+
+    private boolean useEnumType = true;
 
 
     // Classes so it doesnt keep fetching them.
@@ -41,16 +47,25 @@ public class CraftBukkit {
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
             Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
 
-            if(chatSerialClass == null){
-                plugin.getLogger().info("Old version detected, changing chat method");
-                this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
+            Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
+
+            if(chatMessageTypeClass != null){
+                useEnumType = true;
+                this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
+
+                this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
+            }
+            else{
+                this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
+            }
+
+            if(chatSerialClass != null){
+                this.serializeMessage = chatSerialClass.getMethod("a", String.class);
             }
             else{
                 plugin.getLogger().info("Old version detected, changing chat method");
                 this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
             }
-
-            this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
 
             this.playerGetHandle = Class.forName(craftBukkitPackage + "entity.CraftPlayer").getMethod("getHandle");
             this.playerConnection = Class.forName(minecraftPackage + "EntityPlayer").getField("playerConnection"); // get player connection
@@ -82,7 +97,13 @@ public class CraftBukkit {
     public void sendMessage(String rawMessage, Player player, byte msgType) {
         try {
             Object comp = this.serializeMessage.invoke(null,rawMessage); // convert string into bytes
-            Object packet = this.chatPacketConstructor.newInstance(comp, msgType); // convert bytes into packet
+            Object packet;
+            if(useEnumType){
+                packet = this.chatPacketConstructor.newInstance(comp, this.chatMessageTypeMethod.invoke(null,msgType)); // convert bytes into packet
+            }
+            else{
+                packet = this.chatPacketConstructor.newInstance(comp, msgType); // convert bytes into packet
+            }
 
             Object handle = this.playerGetHandle.invoke(player);
             Object playerConnection = this.playerConnection.get(handle); // get players connection

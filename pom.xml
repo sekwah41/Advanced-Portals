@@ -16,7 +16,7 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-    <version>0.0.25-snapshot</version>
+    <version>0.0.26-snapshot</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <version>1.12-pre2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--<dependency>
