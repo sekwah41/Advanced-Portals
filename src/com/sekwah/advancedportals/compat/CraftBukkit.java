@@ -50,10 +50,10 @@ public class CraftBukkit {
             try{
                 Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
 
-                useEnumType = true;
                 this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
 
                 this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
+                useEnumType = true;
             }
             catch(ClassNotFoundException e) {
                 plugin.getLogger().info("Old version detected, changing chat method");
