@@ -30,7 +30,7 @@ public class CraftBukkit {
     private Field playerConnection;
     private Method sendPacket;
 
-    private boolean useEnumType = true;
+    private boolean useEnumType = false;
 
 
     // Classes so it doesnt keep fetching them.
@@ -53,12 +53,14 @@ public class CraftBukkit {
                 this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
 
                 this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
+
                 useEnumType = true;
             }
             catch(ClassNotFoundException e) {
                 plugin.getLogger().info("Old version detected, changing chat method");
                 this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
             }
+            System.out.println(useEnumType);
 
             if(chatSerialClass != null){
                 this.serializeMessage = chatSerialClass.getMethod("a", String.class);
