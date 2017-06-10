@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.compat.CraftBukkit;
 import com.sekwah.advancedportals.destinations.*;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
-import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,13 +16,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private Settings settings;
 
     public void onEnable() {
-
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-            // Failed to submit the stats :-(
-        }
 
         String packageName = getServer().getClass().getPackage().getName();
         String[] packageSplit = packageName.split("\\.");
