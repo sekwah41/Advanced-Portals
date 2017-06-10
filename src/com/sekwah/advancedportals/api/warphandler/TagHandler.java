@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.api.warphandler;
 
-import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.entity.Player;
 
 /**
