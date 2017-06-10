@@ -523,7 +523,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 "\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal gui remove " + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eShow\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Show the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal show " + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eRename\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Change the name of the portal\"},\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/portal rename \"}}"
-                + ",{\"text\":\"  \"},{\"text\":\"\u00A7eActivate\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(same as entering the portal)\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/warp " + destination + "\"}}]}", player);
+                + ",{\"text\":\"  \"},{\"text\":\"\u00A7eActivate\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(same as entering the portal)\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/desti warp " + destination + "\"}}]}", player);
 
         sender.sendMessage("");
 
