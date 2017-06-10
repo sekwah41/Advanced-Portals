@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals;
 
-import com.sekwah.advancedportals.DataCollector.DataCollector;
 import com.sekwah.advancedportals.compat.CraftBukkit;
 import com.sekwah.advancedportals.destinations.*;
 import com.sekwah.advancedportals.effects.WarpEffects;
@@ -36,8 +35,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             // Loads the portal and destination editors
             new Portal(this);
             new Destination(this);
-
-            new DataCollector(this);
 
 
             this.registerCommands();
@@ -87,8 +84,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     private void setupDataCollector() {
         Selection.LoadData(this);
-
-        DataCollector.setupMetrics();
     }
 
     private void setupBungee() {
