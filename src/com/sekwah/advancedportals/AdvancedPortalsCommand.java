@@ -59,7 +59,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                     ItemStack regionselector = new ItemStack(WandMaterial);
                     ItemMeta selectorname = regionselector.getItemMeta();
-                    selectorname.setDisplayName("\u00A5ePortal Region Selector");
+                    selectorname.setDisplayName("\u00A7ePortal Region Selector");
                     selectorname.setLore(Arrays.asList("\u00A7rThis wand with has the power to help"
                             , "\u00A7r create portals bistowed upon it!"));
                     regionselector.setItemMeta(selectorname);
@@ -73,9 +73,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     ItemStack portalBlock = new Wool(DyeColor.PURPLE).toItemStack(1);
                     ItemMeta blockName = portalBlock.getItemMeta();
                     blockName.setDisplayName("\u00A75Portal Block Placer");
-                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
-                            "Right Click: Place portal block\n" +
-                            "Left Click: Rotate portal block"));
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance",
+                            "\u00A7rRight Click: Place portal block",
+                            "\u00A7rLeft Click: Rotate portal block"));
                     portalBlock.setItemMeta(blockName);
                     inventory.addItem(portalBlock);
 
@@ -87,8 +87,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     portalBlock = new Wool(DyeColor.BLACK).toItemStack(1);
                     blockName = portalBlock.getItemMeta();
                     blockName.setDisplayName("\u00A78End Portal Block Placer");
-                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
-                            "Right Click: Place portal block"));
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance",
+                            "\u00A7rRight Click: Place portal block"));
                     portalBlock.setItemMeta(blockName);
                     inventory.addItem(portalBlock);
                     sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
@@ -99,8 +99,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     portalBlock = new Wool(DyeColor.BLACK).toItemStack(1);
                     blockName = portalBlock.getItemMeta();
                     blockName.setDisplayName("\u00A78Gateway Block Placer");
-                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
-                            "Right Click: Place portal block"));
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance",
+                            "\u00A7rRight Click: Place portal block"));
                     portalBlock.setItemMeta(blockName);
                     inventory.addItem(portalBlock);
 
@@ -421,6 +421,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("\u00A76/" + command + " selector \u00A7a- gives you a region selector");
                     sender.sendMessage("\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ");
                     sender.sendMessage("\u00A76/" + command + " portalblock \u00A7a- gives you a portal block");
+                    sender.sendMessage("\u00A76/" + command + " endportalblock \u00A7a- gives you a portal block");
+                    sender.sendMessage("\u00A76/" + command + " gatewayblock \u00A7a- gives you a portal block");
                     sender.sendMessage("\u00A76/" + command + " select \u00A7a- selects an existing portal");
                     sender.sendMessage("\u00A76/" + command + " remove \u00A7a- removes a portal");
                     sender.sendMessage("\u00A76/" + command + " list \u00A7a- lists all the current portals");
