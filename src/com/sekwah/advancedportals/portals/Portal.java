@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -378,6 +379,7 @@ public class Portal {
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
             player.sendMessage(PluginMessages.customPrefix + "\u00A7c You do not have permission to use this portal!");
+            failSound(player, portal);
             throwPlayerBack(player);
             return false;
         }
@@ -386,6 +388,7 @@ public class Portal {
             int diff = (int) ((System.currentTimeMillis() - cooldown.get(player)) / 1000);
             if (diff < cooldelay) {
                 player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
+                failSound(player, portal);
                 throwPlayerBack(player);
                 return false;
             }
@@ -419,6 +422,7 @@ public class Portal {
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
                 throwPlayerBack(player);
+                failSound(player, portal);
             }
         }
 
@@ -464,6 +468,12 @@ public class Portal {
         }
 
         return warped;
+    }
+
+    private static void failSound(Player player, AdvancedPortal portal) {
+        if(!(portal.trigger == Material.PORTAL && player.getGameMode() == GameMode.CREATIVE)){
+            player.playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
+        }
     }
 
     public static void rename(String oldName, String newName) {
