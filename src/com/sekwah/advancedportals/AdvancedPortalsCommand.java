@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.listeners.Listeners;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.*;
@@ -57,7 +59,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                     ItemStack regionselector = new ItemStack(WandMaterial);
                     ItemMeta selectorname = regionselector.getItemMeta();
-                    selectorname.setDisplayName("\u00A7ePortal Region Selector");
+                    selectorname.setDisplayName("\u00A5ePortal Region Selector");
                     selectorname.setLore(Arrays.asList("\u00A7rThis wand with has the power to help"
                             , "\u00A7r create portals bistowed upon it!"));
                     regionselector.setItemMeta(selectorname);
@@ -68,8 +70,38 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 case "portalblock":
                     // TODO change this to a purple wool block and give it a name with a color. Then listen to when its placed.
                     // Also do this for other blocks such as gateways and end portals just in case they want it.
-                    ItemStack portalBlock = new ItemStack(Material.PORTAL, 1);
+                    ItemStack portalBlock = new Wool(DyeColor.PURPLE).toItemStack(1);
+                    ItemMeta blockName = portalBlock.getItemMeta();
+                    blockName.setDisplayName("\u00A75Portal Block Placer");
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
+                            "Right Click: Place portal block\n" +
+                            "Left Click: Rotate portal block"));
+                    portalBlock.setItemMeta(blockName);
+                    inventory.addItem(portalBlock);
 
+                    sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
+                    break;
+                case "endportalblock":
+                    // TODO change this to a purple wool block and give it a name with a color. Then listen to when its placed.
+                    // Also do this for other blocks such as gateways and end portals just in case they want it.
+                    portalBlock = new Wool(DyeColor.BLACK).toItemStack(1);
+                    blockName = portalBlock.getItemMeta();
+                    blockName.setDisplayName("\u00A78End Portal Block Placer");
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
+                            "Right Click: Place portal block"));
+                    portalBlock.setItemMeta(blockName);
+                    inventory.addItem(portalBlock);
+                    sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
+                    break;
+                case "gatewayblock":
+                    // TODO change this to a purple wool block and give it a name with a color. Then listen to when its placed.
+                    // Also do this for other blocks such as gateways and end portals just in case they want it.
+                    portalBlock = new Wool(DyeColor.BLACK).toItemStack(1);
+                    blockName = portalBlock.getItemMeta();
+                    blockName.setDisplayName("\u00A78Gateway Block Placer");
+                    blockName.setLore(Arrays.asList("\u00A7rThis wool is made of a magical substance\n" +
+                            "Right Click: Place portal block"));
+                    portalBlock.setItemMeta(blockName);
                     inventory.addItem(portalBlock);
 
                     sender.sendMessage(PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
@@ -535,7 +567,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("AdvancedPortals.CreatePortal")) {
             if (args.length == 1) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "selector"
-                        , "show", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
+                        , "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
             } else if (args[0].toLowerCase().equals("create")) {
 
                 boolean hasName = false;

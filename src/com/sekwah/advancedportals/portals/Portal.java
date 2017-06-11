@@ -529,6 +529,13 @@ public class Portal {
         return false;
     }
 
+    public static boolean locationInPortal(Location loc, int additionalArea) {
+        for (AdvancedPortal portal : Portal.portals)
+            if (Portal.locationInPortal(portal, loc, additionalArea))
+                return true;
+        return false;
+    }
+
     public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
         if (!portalsActive)
             return false;
