@@ -19,6 +19,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String[] packageSplit = packageName.split("\\.");
         String version = packageSplit[packageSplit.length - 1];
 
+        saveDefaultConfig();
+
         try {
 
             this.compat = new CraftBukkit(this, version);
@@ -60,8 +62,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             this.getLogger().warning("Along with the above stacktrace");
             this.setEnabled(false);
         }
-
-        saveDefaultConfig();
 
         // thanks to the new config accessor code the config.saveDefaultConfig(); will now
         //  only copy the file if it doesnt exist!

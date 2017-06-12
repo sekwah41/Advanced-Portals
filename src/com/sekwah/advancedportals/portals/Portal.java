@@ -418,7 +418,7 @@ public class Portal {
             }
         } else {
             if (showFailMessage) {
-                player.sendMessage(PluginMessages.customPrefix + "\u00A7c The portal you are trying to use doesn't have a destination!");
+                player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c The portal you are trying to use doesn't have a destination!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
                 throwPlayerBack(player);

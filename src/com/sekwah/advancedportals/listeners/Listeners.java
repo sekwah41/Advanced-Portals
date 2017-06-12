@@ -192,7 +192,7 @@ public class Listeners implements Listener {
 			catch(NullPointerException e){
 
 			}*/
-            if (event.getItem() != null && event.getPlayer().getItemInHand().getType() == WandMaterial // was type id
+            if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType() == WandMaterial // was type id
                     && (!UseOnlyServerAxe || (event.getItem().getItemMeta().getDisplayName() != null && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
                 // This checks if the action was a left or right click and if it was directly effecting a block.
@@ -226,14 +226,12 @@ public class Listeners implements Listener {
                     // Returns the event so no more code is executed(stops unnecessary code being executed)
                 }
 
-            }
-            else if(event.getItem() != null && event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
-                    event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.PORTAL){
+            } else if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
+                    event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.PORTAL) {
                 Block block = event.getClickedBlock();
-                if(block.getData() == 1){
+                if (block.getData() == 1) {
                     block.setData((byte) 2);
-                }
-                else{
+                } else {
                     block.setData((byte) 1);
                 }
                 event.setCancelled(true);
