@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class Listeners implements Listener {
@@ -41,11 +42,17 @@ public class Listeners implements Listener {
 
         String ItemID = config.getConfig().getString("AxeItemId");
 
-        try {
-            WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
-        } catch (Exception e) {
-            WandMaterial = Material.getMaterial(ItemID);
+        if(ItemID == null){
+            WandMaterial = Material.IRON_AXE;
         }
+        else{
+            try {
+                WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
+            } catch (Exception e) {
+                WandMaterial = Material.getMaterial(ItemID);
+            }
+        }
+
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -192,8 +199,8 @@ public class Listeners implements Listener {
 			catch(NullPointerException e){
 
 			}*/
-            if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType() == WandMaterial // was type id
-                    && (!UseOnlyServerAxe || (event.getItem().getItemMeta().getDisplayName() != null && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
+            if (player.getItemInHand() != null && player.getItemInHand().getType() == WandMaterial // was type id
+                    && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
                 // This checks if the action was a left or right click and if it was directly effecting a block.
                 if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -226,7 +233,7 @@ public class Listeners implements Listener {
                     // Returns the event so no more code is executed(stops unnecessary code being executed)
                 }
 
-            } else if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
+            } else if (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
                     event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.PORTAL) {
                 Block block = event.getClickedBlock();
                 if (block.getData() == 1) {
@@ -238,6 +245,10 @@ public class Listeners implements Listener {
             }
         }
 
+    }
+
+    private boolean checkItemForName(ItemStack item){
+        return item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName();
     }
 
 
