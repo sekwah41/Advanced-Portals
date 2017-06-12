@@ -37,22 +37,30 @@ public class PortalPlacer implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getPlayer().hasPermission("advancedportals.build") && event.getItemInHand().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer")){
-            event.getBlockPlaced().setType(Material.PORTAL);
+        if(event.getPlayer().hasPermission("advancedportals.build") && event.getItemInHand() != null &&
+                event.getItemInHand().hasItemMeta()){
+            String name = event.getItemInHand().getItemMeta().getDisplayName();
+
+            if(name == null) return;
+
+            if (name.equals("\u00A75Portal Block Placer")){
+                event.getBlockPlaced().setType(Material.PORTAL);
+            }
+            else if (name.equals("\u00A78End Portal Block Placer")){
+                event.getBlockPlaced().setType(Material.ENDER_PORTAL);
+            }
+            else if (name.equals("\u00A78Gateway Block Placer")){
+                event.getBlockPlaced().setType(Material.END_GATEWAY);
+            }
         }
-        else if (event.getPlayer().hasPermission("advancedportals.build") && event.getItemInHand().getItemMeta().getDisplayName().equals("\u00A78End Portal Block Placer")){
-            event.getBlockPlaced().setType(Material.ENDER_PORTAL);
-        }
-        else if (event.getPlayer().hasPermission("advancedportals.build") && event.getItemInHand().getItemMeta().getDisplayName().equals("\u00A78Gateway Block Placer")){
-            event.getBlockPlaced().setType(Material.END_GATEWAY);
-        }
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
-        //Material material = block.getType();
-        if (event.getChangedType() == Material.PORTAL/*(material == Material.PORTAL)*/ && Portal.inPortalRegion(block.getLocation(), PortalProtectionRadius))
+        Material material = block.getType();
+        if (material == Material.PORTAL && Portal.inPortalRegion(block.getLocation(), PortalProtectionRadius))
             event.setCancelled(true);
     }
 }
