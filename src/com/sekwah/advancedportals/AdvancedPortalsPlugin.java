@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         try {
             Metrics metrics = new Metrics(this);
+
             metrics.start();
         } catch (IOException e) {
             // Failed to submit the stats :-(
@@ -103,6 +105,21 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public void onDisable() {
         this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
+    }
+
+    private class MaterialPlotter extends Metrics.Plotter {
+
+        private final int count;
+
+        public MaterialPlotter(Material triggerBlock, int count){
+            super(triggerBlock.toString());
+            this.count = count;
+        }
+
+        @Override
+        public int getValue() {
+            return this.count;
+        }
     }
 
 
