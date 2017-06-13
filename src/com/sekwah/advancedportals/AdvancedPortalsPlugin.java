@@ -5,8 +5,11 @@ import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.destinations.DestinationCommand;
 import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
+import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -20,6 +23,13 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String version = packageSplit[packageSplit.length - 1];
 
         saveDefaultConfig();
+
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+        }
 
         try {
 
