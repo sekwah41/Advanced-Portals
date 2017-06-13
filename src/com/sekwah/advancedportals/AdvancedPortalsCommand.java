@@ -288,6 +288,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(PluginMessages.customPrefixFail + " Portal selection cancelled!");
                     }
                     break;
+                case "unselect":
+                    if(player.hasMetadata("selectedPortal")){
+                        player.sendMessage(PluginMessages.customPrefix + " You have unselected\u00A7e" + player.getMetadata("selectedPortal").get(0).asString()
+                                + "\u00A7a.");
+                    }
+                    else{
+                        player.sendMessage(PluginMessages.customPrefixFail + " You had no portal selected!");
+                    }
                 case "gui" :
                     if (args.length > 1) {
                         if (args[1].toLowerCase().equals("remove") && args.length > 2) {
@@ -379,7 +387,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             } else if (args[1].toLowerCase().equals("remove")) {
                                 // Specify what line to remove
                             } else if (args[1].toLowerCase().equals("show")) {
-                                // Show all the commands the portal executes
                             } else {
                                 sender.sendMessage(PluginMessages.customPrefixFail + " You must specify to \u00A7eadd\u00A7c or \u00A7eremove a command!");
                             }
@@ -416,18 +423,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "help":
-                    sender.sendMessage(PluginMessages.customPrefix + " Help Menu");
-                    sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
-                    sender.sendMessage("\u00A76/" + command + " selector \u00A7a- gives you a region selector");
-                    sender.sendMessage("\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ");
-                    sender.sendMessage("\u00A76/" + command + " portalblock \u00A7a- gives you a portal block");
-                    sender.sendMessage("\u00A76/" + command + " endportalblock \u00A7a- gives you a portal block");
-                    sender.sendMessage("\u00A76/" + command + " gatewayblock \u00A7a- gives you a portal block");
-                    sender.sendMessage("\u00A76/" + command + " select \u00A7a- selects an existing portal");
-                    sender.sendMessage("\u00A76/" + command + " remove \u00A7a- removes a portal");
-                    sender.sendMessage("\u00A76/" + command + " list \u00A7a- lists all the current portals");
-                    sender.sendMessage("\u00A76/" + command + " variables \u00A7a- lists all available tags");
-                    sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
+                    helpCommand(sender, command, args);
                     break;
                 case "show":
                     if (args.length > 1) {
@@ -480,6 +476,64 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         }
 
         return true;
+    }
+
+    private void helpCommand(CommandSender sender, String command, String[] args) {
+        // Add pages if there starts to become too many
+        if(args.length == 1) {
+            sendMenu(sender, "Help Menu",
+                    "\u00A76/" + command + " selector \u00A7a- gives you a region selector",
+                    "\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ",
+                    "\u00A76/" + command + " portalblock \u00A7a- gives you a portal block",
+                    "\u00A76/" + command + " endportalblock \u00A7a- gives you a end portal block",
+                    "\u00A76/" + command + " gatewayblock \u00A7a- gives you a gatewayl block",
+                    "\u00A76/" + command + " select \u00A7a- selects an existing portal",
+                    "\u00A76/" + command + " unselect \u00A7a- unselects the current portal",
+                    "\u00A76/" + command + " command \u00A7a- adds or removes commands from the selected portal",
+                    "\u00A76/" + command + " help \u00A7a- shows this help section",
+                    "\u00A76/" + command + " help <arg> \u00A7a- shows help for the specified arg",
+                    "\u00A76/" + command + " remove \u00A7a- removes a portal",
+                    "\u00A76/" + command + " list \u00A7a- lists all the current portals",
+                    "\u00A76/" + command + " variables \u00A7a- lists all available tags");
+        }
+        else if(args.length > 1){
+            if(args[1].toLowerCase().equals("help")) {
+                sendMenu(sender, "Help Command",
+                        "Shows the help section. You can also use a single argument after it to show the " +
+                                "help section for the corresponding command.");
+            }
+            else if(args[1].toLowerCase().equals("portalblock")) {
+                sendMenu(sender, "Help Command",
+                        "Gives you a special wool block to place portal blocks.",
+                        "",
+                        "\u00A7eLeft Click: \u00A76Rotates the hit portal block",
+                        "\u00A7eRight Click: \u00A76Placed a portal block");
+            }
+            else if(args[1].toLowerCase().equals("endportalblock")) {
+                sendMenu(sender, "Help Command",
+                        "Gives you a special wool block to place end portal blocks.",
+                        "",
+                        "\u00A7eRight Click: \u00A76Placed a end portal block");
+            }
+            else if(args[1].toLowerCase().equals("gatewayblock")) {
+                sendMenu(sender, "Help Command",
+                        "Gives you a special wool block to place gateway blocks.",
+                        "",
+                        "\u00A7eRight Click: \u00A76Placed a gateway block");
+            }
+            else{
+                sender.sendMessage(PluginMessages.customPrefix + " Either \u00A7e" + args[1] + "\u00A7a is not a command or a help page has not been added yet.");
+            }
+        }
+    }
+
+    private void sendMenu(CommandSender sender, String title, String... lines) {
+        sender.sendMessage(PluginMessages.customPrefix + " " + title);
+        sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
+        for(String line : lines){
+            sender.sendMessage("\u00A7a" + line);
+        }
+        sender.sendMessage("\u00A7e\u00A7m-----------------------------------");
     }
 
     private String parseArgVariable(String[] args, int currentArg, String argStarter) {
@@ -567,8 +621,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
         LinkedList<String> autoComplete = new LinkedList<String>();
         if (sender.hasPermission("AdvancedPortals.CreatePortal")) {
-            if (args.length == 1) {
-                autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "selector"
+            if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
+                autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command", "selector"
                         , "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
             } else if (args[0].toLowerCase().equals("create")) {
 
