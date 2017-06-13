@@ -9,24 +9,24 @@ import java.util.HashSet;
 
 public class AdvancedPortal {
 
-    public Material trigger = null;
+    private Material trigger = null;
 
-    public String worldName = null;
+    private String worldName = null;
 
-    public Location pos1 = null;
+    private Location pos1 = null;
 
-    public Location pos2 = null;
+    private Location pos2 = null;
 
-    public String portalName = null;
+    private String portalName = null;
 
     // TODO store destinations also as variables like portals
-    public String destiation = null; // Could possibly store the destination name to stop the server having to read the config file
+    private String destiation = null; // Could possibly store the destination name to stop the server having to read the config file
 
-    public String bungee = null; // Could possibly store the bungee server name to stop the server having to read the config file
+    private String bungee = null; // Could possibly store the bungee server name to stop the server having to read the config file
 
     // Bungee will be stored inside the destination.
 
-    public PortalArg[] portalArgs = null;
+    private PortalArg[] portalArgs = null;
 
     public HashSet<Player> inPortal = new HashSet<Player>();
 
@@ -55,7 +55,7 @@ public class AdvancedPortal {
     }
 
     public String getArg(String arg) {
-        for (PortalArg portalArg : portalArgs) {
+        for (PortalArg portalArg : this.portalArgs) {
             if (arg.equals(portalArg.argName)) {
                 return portalArg.value;
             }
@@ -63,7 +63,47 @@ public class AdvancedPortal {
         return null;
     }
 
+    public PortalArg[] getArgs(){
+        return this.portalArgs;
+    }
+
     public boolean hasArg(String arg) {
         return this.getArg(arg) != null;
+    }
+
+    public Material getTrigger() {
+        return this.trigger;
+    }
+
+    public String getWorldName() {
+        return this.worldName;
+    }
+
+    public Location getPos1() {
+        return this.pos1;
+    }
+
+    public Location getPos2() {
+        return this.pos2;
+    }
+
+    public String getName() {
+        return this.portalName;
+    }
+
+    public String getDestiation() {
+        return this.destiation;
+    }
+
+    public void setDestiation(String destiation) {
+        this.destiation = destiation;
+    }
+
+    public String getBungee() {
+        return this.bungee;
+    }
+
+    public void setBungee(String bungee) {
+        this.bungee = bungee;
     }
 }

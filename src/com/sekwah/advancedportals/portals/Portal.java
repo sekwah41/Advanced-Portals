@@ -96,17 +96,17 @@ public class Portal {
                 String worldName = portalData.getConfig().getString(portal.toString() + ".world");
                 if(worldName != null) {
                     World world = Bukkit.getWorld(worldName);
-                    Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
-                    Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
+                    Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".getPos1().X"), portalData.getConfig().getInt(portal.toString() + ".getPos1().Y"), portalData.getConfig().getInt(portal.toString() + ".getPos1().Z"));
+                    Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".getPos2().X"), portalData.getConfig().getInt(portal.toString() + ".getPos2().Y"), portalData.getConfig().getInt(portal.toString() + ".getPos2().Z"));
 
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     extraData.toArray(portalArgs);
 
                     portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName, portalArgs);
 
-                    portals[portalId].bungee = portalConfigSection.getString("bungee");
+                    portals[portalId].setBungee(portalConfigSection.getString("bungee"));
 
-                    portals[portalId].destiation = portalConfigSection.getString("destination");
+                    portals[portalId].setDestiation(portalConfigSection.getString("destination"));
 
                     portalId++;
                 }
@@ -122,7 +122,6 @@ public class Portal {
         } else {
             portalsActive = false;
         }
-
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination, Material triggerBlock, PortalArg... extraData) {
@@ -180,15 +179,15 @@ public class Portal {
 
         portalData.getConfig().set(name + ".destination", destination);
 
-        portalData.getConfig().set(name + ".bungee", serverName);
+        portalData.getConfig().set(name + ".getBungee()", serverName);
 
-        portalData.getConfig().set(name + ".pos1.X", HighX);
-        portalData.getConfig().set(name + ".pos1.Y", HighY);
-        portalData.getConfig().set(name + ".pos1.Z", HighZ);
+        portalData.getConfig().set(name + ".getPos1().X", HighX);
+        portalData.getConfig().set(name + ".getPos1().Y", HighY);
+        portalData.getConfig().set(name + ".getPos1().Z", HighZ);
 
-        portalData.getConfig().set(name + ".pos2.X", LowX);
-        portalData.getConfig().set(name + ".pos2.Y", LowY);
-        portalData.getConfig().set(name + ".pos2.Z", LowZ);
+        portalData.getConfig().set(name + ".getPos2().X", LowX);
+        portalData.getConfig().set(name + ".getPos2().Y", LowY);
+        portalData.getConfig().set(name + ".getPos2().Z", LowZ);
 
         for (PortalArg arg : portalArgs) {
             portalData.getConfig().set(name + ".portalArgs." + arg.argName, arg.value);
@@ -207,36 +206,36 @@ public class Portal {
         if (portalsActive) {
             int portalId = 0;
             for (@SuppressWarnings("unused") Object portal : Portal.portals) {
-                if (portals[portalId].worldName.equals(pos2.getWorld().getName())) { // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos1.getBlockZ())) {
+                if (portals[portalId].getWorldName().equals(pos2.getWorld().getName())) { // checks that the cubes arnt overlapping by seeing if all 4 corners are not in side another
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos1().getBlockX(), portals[portalId].getPos1().getBlockY(), portals[portalId].getPos1().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos1().getBlockX(), portals[portalId].getPos1().getBlockY(), portals[portalId].getPos2().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos1().getBlockX(), portals[portalId].getPos2().getBlockY(), portals[portalId].getPos1().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos2().getBlockX(), portals[portalId].getPos1().getBlockY(), portals[portalId].getPos1().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos2().getBlockX(), portals[portalId].getPos2().getBlockY(), portals[portalId].getPos2().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos1.getBlockY(), portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos2().getBlockX(), portals[portalId].getPos1().getBlockY(), portals[portalId].getPos2().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos1.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos2.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos1().getBlockX(), portals[portalId].getPos2().getBlockY(), portals[portalId].getPos2().getBlockZ())) {
                         return true;
                     }
 
-                    if (checkOverLapPortal(pos1, pos2, portals[portalId].pos2.getBlockX(), portals[portalId].pos2.getBlockY(), portals[portalId].pos1.getBlockZ())) {
+                    if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos2().getBlockX(), portals[portalId].getPos2().getBlockY(), portals[portalId].getPos1().getBlockZ())) {
                         return true;
                     }
                 }
@@ -290,13 +289,13 @@ public class Portal {
 
     public static void redefine(Location pos1, Location pos2, String name) {
 
-        portalData.getConfig().set(name + ".pos1.X", pos1.getX());
-        portalData.getConfig().set(name + ".pos1.Y", pos1.getY());
-        portalData.getConfig().set(name + ".pos1.Z", pos1.getZ());
+        portalData.getConfig().set(name + ".getPos1().X", pos1.getX());
+        portalData.getConfig().set(name + ".getPos1().Y", pos1.getY());
+        portalData.getConfig().set(name + ".getPos1().Z", pos1.getZ());
 
-        portalData.getConfig().set(name + ".pos2.X", pos2.getX());
-        portalData.getConfig().set(name + ".pos2.Y", pos2.getY());
-        portalData.getConfig().set(name + ".pos2.Z", pos2.getZ());
+        portalData.getConfig().set(name + ".getPos2().X", pos2.getX());
+        portalData.getConfig().set(name + ".getPos2().Y", pos2.getY());
+        portalData.getConfig().set(name + ".getPos2().Z", pos2.getZ());
 
         portalData.saveConfig();
 
@@ -332,16 +331,16 @@ public class Portal {
          portalData.getConfig().set(name + ".triggerblock", null);
          portalData.getConfig().set(name + ".destination", null);
 
-         portalData.getConfig().set(name + ".pos1.X", null);
-         portalData.getConfig().set(name + ".pos1.Y", null);
-         portalData.getConfig().set(name + ".pos1.Z", null);
+         portalData.getConfig().set(name + ".getPos1().X", null);
+         portalData.getConfig().set(name + ".getPos1().Y", null);
+         portalData.getConfig().set(name + ".getPos1().Z", null);
 
-         portalData.getConfig().set(name + ".pos2.X", null);
-         portalData.getConfig().set(name + ".pos2.Y", null);
-         portalData.getConfig().set(name + ".pos2.Z", null);
+         portalData.getConfig().set(name + ".getPos2().X", null);
+         portalData.getConfig().set(name + ".getPos2().Y", null);
+         portalData.getConfig().set(name + ".getPos2().Z", null);
 
-         portalData.getConfig().set(name + ".pos1", null);
-         portalData.getConfig().set(name + ".pos2", null);
+         portalData.getConfig().set(name + ".getPos1()", null);
+         portalData.getConfig().set(name + ".getPos2()", null);
 
          portalData.getConfig().set(name, null);*/
 
@@ -352,14 +351,14 @@ public class Portal {
 
     public static boolean portalExists(String portalName) {
 
-        String posX = portalData.getConfig().getString(portalName + ".pos1.X");
+        String posX = portalData.getConfig().getString(portalName + ".getPos1().X");
 
         return posX != null;
     }
 
     public static boolean activate(Player player, String portalName) {
         for (AdvancedPortal portal : Portal.portals) {
-            if (portal.portalName.equals(portalName)) return activate(player, portal);
+            if (portal.getName().equals(portalName)) return activate(player, portal);
         }
         plugin.getLogger().log(Level.SEVERE, "Portal not found by name of: " + portalName);
         return false;
@@ -396,22 +395,22 @@ public class Portal {
         cooldown.put(player, System.currentTimeMillis());
         boolean showFailMessage = !portal.hasArg("command.1");
 
-        //plugin.getLogger().info(portal.portalName + ":" + portal.destiation);
+        //plugin.getLogger().info(portal.getName() + ":" + portal.getDestiation());
         boolean warped = false;
-        if (portal.bungee != null) {
+        if (portal.getBungee() != null) {
             if (showBungeeMessage) {
-                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.bungee + "\u00A7a.");
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.getBungee() + "\u00A7a.");
             }
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
-            out.writeUTF(portal.bungee);
+            out.writeUTF(portal.getBungee());
             player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             // Down to bungee to sort out the teleporting but yea theoretically they should warp.
         }
-        else if (portal.destiation != null) {
+        else if (portal.getDestiation() != null) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-            if (configDesti.getConfig().getString(portal.destiation + ".world") != null) {
-                warped = Destination.warp(player, portal.destiation);
+            if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
+                warped = Destination.warp(player, portal.getDestiation());
                 if(!warped){
                     throwPlayerBack(player);
                 }
@@ -419,7 +418,7 @@ public class Portal {
         } else {
             if (showFailMessage) {
                 player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c The portal you are trying to use doesn't have a destination!");
-                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.portalName + "' has just had a warp "
+                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.getName() + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
                 throwPlayerBack(player);
                 failSound(player, portal);
@@ -428,7 +427,7 @@ public class Portal {
 
         if (portal.hasArg("command.1")) {
             int commandLine = 1;
-            String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.portalName+ ".portalArgs.command." + commandLine);
+            String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.getName()+ ".portalArgs.command." + commandLine);
             do {
                 // (?i) makes the search case insensitive
                 command = command.replaceAll("@player", player.getName());
@@ -471,7 +470,7 @@ public class Portal {
     }
 
     private static void failSound(Player player, AdvancedPortal portal) {
-        if(!(portal.trigger == Material.PORTAL && player.getGameMode() == GameMode.CREATIVE)){
+        if(!(portal.getTrigger() == Material.PORTAL && player.getGameMode() == GameMode.CREATIVE)){
             player.playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
         }
     }
@@ -527,7 +526,7 @@ public class Portal {
     }
 
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
-        if (portal.trigger.equals(loc.getBlock().getType()))
+        if (portal.getTrigger().equals(loc.getBlock().getType()))
             return locationInPortal(portal, loc, 0);
         return false;
     }
@@ -549,9 +548,9 @@ public class Portal {
     public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
         if (!portalsActive)
             return false;
-        if (loc.getWorld() != null && portal.worldName.equals(loc.getWorld().getName()))
-            if ((portal.pos1.getX() + 1 + additionalArea) >= loc.getX() && (portal.pos1.getY() + 1 + additionalArea) > loc.getY() && (portal.pos1.getZ() + 1 + additionalArea) >= loc.getZ())
-                if (portal.pos2.getX() - additionalArea <= loc.getX() && portal.pos2.getY() - additionalArea <= loc.getY() && portal.pos2.getZ() - additionalArea <= loc.getZ())
+        if (loc.getWorld() != null && portal.getWorldName().equals(loc.getWorld().getName()))
+            if ((portal.getPos1().getX() + 1 + additionalArea) >= loc.getX() && (portal.getPos1().getY() + 1 + additionalArea) > loc.getY() && (portal.getPos1().getZ() + 1 + additionalArea) >= loc.getZ())
+                if (portal.getPos2().getX() - additionalArea <= loc.getX() && portal.getPos2().getY() - additionalArea <= loc.getY() && portal.getPos2().getZ() - additionalArea <= loc.getZ())
                     return true;
         return false;
     }
