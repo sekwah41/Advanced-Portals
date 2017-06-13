@@ -199,7 +199,7 @@ public class Listeners implements Listener {
 			catch(NullPointerException e){
 
 			}*/
-            if (player.getItemInHand() != null && player.getItemInHand().getType() == WandMaterial // was type id
+            if (event.getItem() != null && event.getItem().getType() == WandMaterial // was type id
                     && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
                 // This checks if the action was a left or right click and if it was directly effecting a block.
@@ -219,6 +219,7 @@ public class Listeners implements Listener {
 
                     // Returns the event so no more code is executed(stops unnecessary code being executed)
                 } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    System.out.println(event.getHand());
                     Location blockloc = event.getClickedBlock().getLocation();
                     player.setMetadata("Pos2X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
                     player.setMetadata("Pos2Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
