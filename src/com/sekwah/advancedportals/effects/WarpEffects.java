@@ -28,7 +28,7 @@ public class WarpEffects {
 
 	}
 
-	public Sound findSound(AdvancedPortalsPlugin plugin, String newName, String oldName){
+	public static Sound findSound(AdvancedPortalsPlugin plugin, String newName, String oldName){
 		Sound soundFound = null;
 		try{
 			soundFound = Sound.valueOf(newName);

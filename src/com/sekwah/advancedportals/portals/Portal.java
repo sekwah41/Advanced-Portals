@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.destinations.Destination;
+import com.sekwah.advancedportals.effects.WarpEffects;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -30,12 +31,15 @@ public class Portal {
     private static boolean showBungeeMessage;
     private static int cooldelay;
     private static double throwback;
+    private static Sound portalSound;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
         cooldelay = config.getConfig().getInt("PortalCooldown", 5);
         throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
+
+        this.portalSound = WarpEffects.findSound(plugin, "BLOCK_PORTAL_TRAVEL", "PORTAL_TRAVEL");
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -471,7 +475,7 @@ public class Portal {
 
     private static void failSound(Player player, AdvancedPortal portal) {
         if(!(portal.getTrigger() == Material.PORTAL && player.getGameMode() == GameMode.CREATIVE)){
-            player.playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
+            player.playSound(player.getLocation(), portalSound, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
         }
     }
 
