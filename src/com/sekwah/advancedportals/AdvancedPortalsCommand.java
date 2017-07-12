@@ -44,6 +44,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
         Player player = (Player) sender;
         PlayerInventory inventory = player.getInventory();
+
         if (sender.hasPermission("advancedportals.portal")) {
             if (args.length > 0) { switch (args[0].toLowerCase()) {
                 case "wand":
@@ -200,11 +201,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     player.sendMessage(PluginMessages.customPrefix + "\u00A7e You have created a new portal with the following details:");
                                     player.sendMessage("\u00A7aname: \u00A7e" + portalName);
                                     if (hasDestination) {
-                                        player.sendMessage("\u00A7adestination: \u00A7e" + destination);
-                                    } else if (destiPosX == null) {
-                                        player.sendMessage("\u00A7cdestination: \u00A7e" + destination + " (destination does not exist)");
+                                        if (destiPosX == null) {
+                                            player.sendMessage("\u00A7cdestination: \u00A7e" + destination + " (destination does not exist)");
+                                            return true;
+                                        }
+                                        else{
+                                            player.sendMessage("\u00A7adestination: \u00A7e" + destination);
+                                        }
+
                                     } else {
-                                        player.sendMessage("\u00A7cdestination: \u00A7eN/A (will not work)");
+                                        player.sendMessage("\u00A7cdestination: \u00A7eN/A (will not teleport to a location)");
                                     }
 
                                     if (isBungeePortal) {
@@ -221,7 +227,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
                                     }
 
-                                    Material triggerBlockMat = Material.getMaterial(0);
+                                    Material triggerBlockMat;
                                     if (hasTriggerBlock) {
                                         triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
                                         if (triggerBlockMat != null) {
