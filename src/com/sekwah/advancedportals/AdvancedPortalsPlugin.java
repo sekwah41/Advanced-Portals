@@ -10,7 +10,7 @@ import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
+import java.io.*;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -37,8 +37,56 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
             this.compat = new CraftBukkit(this, version);
 
+
+            // This is a fix for my stupidity with the last version
+            File dataFolder = this.getDataFolder();
+            File configFile = new File(dataFolder, "portals.yml");
+
+            InputStreamReader inr = null;
+            try {
+                inr = new InputStreamReader(new FileInputStream(configFile), "ASCII");
+                BufferedReader br = new BufferedReader(inr);
+                StringBuffer sb = new StringBuffer();
+                while (true) {
+                    String line = br.readLine();
+                    if (line == null)
+                        break;
+                    sb.append(line);
+                    sb.append("\n");
+                }
+                br.close();
+                inr.close();
+
+                String fileContents = sb.toString();
+
+                fileContents = fileContents.replaceAll("  getPos1\\(\\):", "  pos1:");
+                fileContents = fileContents.replaceAll("  getPos2\\(\\):", "  pos2:");
+                fileContents = fileContents.replaceAll("  getBungee\\(\\):", "  bungee:");
+
+                try {
+                    FileWriter fileWriter = new FileWriter(configFile);
+
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    bufferedWriter.write(fileContents);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    fileWriter.close();
+                }
+                catch(IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (UnsupportedEncodingException e) {
+                this.getLogger().warning("Invalid Encoding");
+            } catch (FileNotFoundException e) {
+                this.getLogger().info("File not found");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
             ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
             portalConfig.saveDefaultConfig();
+
 
             ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
             destinationConfig.saveDefaultConfig();
@@ -105,21 +153,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public void onDisable() {
         this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
-    }
-
-    private class MaterialPlotter extends Metrics.Plotter {
-
-        private final int count;
-
-        public MaterialPlotter(Material triggerBlock, int count){
-            super(triggerBlock.toString());
-            this.count = count;
-        }
-
-        @Override
-        public int getValue() {
-            return this.count;
-        }
     }
 
 

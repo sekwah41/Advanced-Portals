@@ -96,8 +96,8 @@ public class Portal {
                 String worldName = portalData.getConfig().getString(portal.toString() + ".world");
                 if(worldName != null) {
                     World world = Bukkit.getWorld(worldName);
-                    Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".getPos1().X"), portalData.getConfig().getInt(portal.toString() + ".getPos1().Y"), portalData.getConfig().getInt(portal.toString() + ".getPos1().Z"));
-                    Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".getPos2().X"), portalData.getConfig().getInt(portal.toString() + ".getPos2().Y"), portalData.getConfig().getInt(portal.toString() + ".getPos2().Z"));
+                    Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
+                    Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
 
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     extraData.toArray(portalArgs);
@@ -179,15 +179,15 @@ public class Portal {
 
         portalData.getConfig().set(name + ".destination", destination);
 
-        portalData.getConfig().set(name + ".getBungee()", serverName);
+        portalData.getConfig().set(name + ".bungee", serverName);
 
-        portalData.getConfig().set(name + ".getPos1().X", HighX);
-        portalData.getConfig().set(name + ".getPos1().Y", HighY);
-        portalData.getConfig().set(name + ".getPos1().Z", HighZ);
+        portalData.getConfig().set(name + ".pos1.X", HighX);
+        portalData.getConfig().set(name + ".pos1.Y", HighY);
+        portalData.getConfig().set(name + ".pos1.Z", HighZ);
 
-        portalData.getConfig().set(name + ".getPos2().X", LowX);
-        portalData.getConfig().set(name + ".getPos2().Y", LowY);
-        portalData.getConfig().set(name + ".getPos2().Z", LowZ);
+        portalData.getConfig().set(name + ".pos2.X", LowX);
+        portalData.getConfig().set(name + ".pos2.Y", LowY);
+        portalData.getConfig().set(name + ".pos2.Z", LowZ);
 
         for (PortalArg arg : portalArgs) {
             portalData.getConfig().set(name + ".portalArgs." + arg.argName, arg.value);
@@ -289,13 +289,13 @@ public class Portal {
 
     public static void redefine(Location pos1, Location pos2, String name) {
 
-        portalData.getConfig().set(name + ".getPos1().X", pos1.getX());
-        portalData.getConfig().set(name + ".getPos1().Y", pos1.getY());
-        portalData.getConfig().set(name + ".getPos1().Z", pos1.getZ());
+        portalData.getConfig().set(name + ".pos1.X", pos1.getX());
+        portalData.getConfig().set(name + ".pos1.Y", pos1.getY());
+        portalData.getConfig().set(name + ".pos1.Z", pos1.getZ());
 
-        portalData.getConfig().set(name + ".getPos2().X", pos2.getX());
-        portalData.getConfig().set(name + ".getPos2().Y", pos2.getY());
-        portalData.getConfig().set(name + ".getPos2().Z", pos2.getZ());
+        portalData.getConfig().set(name + ".pos2.X", pos2.getX());
+        portalData.getConfig().set(name + ".pos2.Y", pos2.getY());
+        portalData.getConfig().set(name + ".pos2.Z", pos2.getZ());
 
         portalData.saveConfig();
 
@@ -331,15 +331,15 @@ public class Portal {
          portalData.getConfig().set(name + ".triggerblock", null);
          portalData.getConfig().set(name + ".destination", null);
 
-         portalData.getConfig().set(name + ".getPos1().X", null);
-         portalData.getConfig().set(name + ".getPos1().Y", null);
-         portalData.getConfig().set(name + ".getPos1().Z", null);
+         portalData.getConfig().set(name + ".pos1.X", null);
+         portalData.getConfig().set(name + ".pos1.Y", null);
+         portalData.getConfig().set(name + ".pos1.Z", null);
 
-         portalData.getConfig().set(name + ".getPos2().X", null);
-         portalData.getConfig().set(name + ".getPos2().Y", null);
-         portalData.getConfig().set(name + ".getPos2().Z", null);
+         portalData.getConfig().set(name + ".pos2.X", null);
+         portalData.getConfig().set(name + ".pos2.Y", null);
+         portalData.getConfig().set(name + ".pos2.Z", null);
 
-         portalData.getConfig().set(name + ".getPos1()", null);
+         portalData.getConfig().set(name + ".pos1", null);
          portalData.getConfig().set(name + ".getPos2()", null);
 
          portalData.getConfig().set(name, null);*/
@@ -351,7 +351,7 @@ public class Portal {
 
     public static boolean portalExists(String portalName) {
 
-        String posX = portalData.getConfig().getString(portalName + ".getPos1().X");
+        String posX = portalData.getConfig().getString(portalName + ".pos1.X");
 
         return posX != null;
     }
@@ -507,8 +507,7 @@ public class Portal {
         ConfigAccessor config = new ConfigAccessor(plugin, "portals.yml");
         if (portalExists(portalName)) {
             int commandLine = 0;
-            while (config.getConfig().getString(portalName + ".portalArgs.command." + ++commandLine) != null)
-                ; //Loops increasing commandLine till 1 is null
+            while (config.getConfig().getString(portalName + ".portalArgs.command." + ++commandLine) != null); //Loops increasing commandLine till 1 is null
             config.getConfig().set(portalName + ".portalArgs.command." + commandLine, portalCommand);
             config.saveConfig();
             loadPortals();
