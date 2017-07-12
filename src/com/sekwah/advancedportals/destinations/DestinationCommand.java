@@ -35,7 +35,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                         String posX = config.getConfig().getString(args[1].toLowerCase() + ".pos.X");
                         if (posX == null) {
                             sender.sendMessage(PluginMessages.customPrefix + " You have created a new destination called \u00A7e" + args[1] + "!");
-                            Player player = sender.getServer().getPlayer(sender.getName());
+                            Player player = (Player) sender;
                             Destination.create(player.getLocation(), args[1]);
                         } else {
                             sender.sendMessage(PluginMessages.customPrefixFail + " A destination by that name already exists!");
