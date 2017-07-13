@@ -42,6 +42,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(PluginMessages.customPrefixFail + " You cannot use commands with the console.");
+            return true;
+        }
         Player player = (Player) sender;
         PlayerInventory inventory = player.getInventory();
 

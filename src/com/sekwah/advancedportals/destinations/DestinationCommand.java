@@ -27,6 +27,10 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(PluginMessages.customPrefixFail + " You cannot use commands with the console.");
+            return true;
+        }
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (args.length > 0) { switch (args[0].toLowerCase()) {
             case "create":
