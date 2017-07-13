@@ -22,7 +22,7 @@ import java.util.logging.Level;
 
 public class Portal {
 
-    public static HashMap<Player, Long> cooldown = new HashMap<Player, Long>();
+    public static HashMap<String, Long> cooldown = new HashMap<String, Long>();
     // Config values
     public static boolean portalsActive = false;
     public static AdvancedPortal[] portals = new AdvancedPortal[0];
@@ -125,6 +125,7 @@ public class Portal {
             portalsActive = true;
         } else {
             portalsActive = false;
+            portals = new AdvancedPortal[0];
         }
     }
 
@@ -387,8 +388,8 @@ public class Portal {
             return false;
         }
 
-        if (cooldown.get(player) != null) {
-            int diff = (int) ((System.currentTimeMillis() - cooldown.get(player)) / 1000);
+        if (cooldown.get(player.getName()) != null) {
+            int diff = (int) ((System.currentTimeMillis() - cooldown.get(player.getName())) / 1000);
             if (diff < cooldelay) {
                 player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
                 failSound(player, portal);
@@ -396,7 +397,7 @@ public class Portal {
                 return false;
             }
         }
-        cooldown.put(player, System.currentTimeMillis());
+        cooldown.put(player.getName(), System.currentTimeMillis());
         boolean showFailMessage = !portal.hasArg("command.1");
 
         //plugin.getLogger().info(portal.getName() + ":" + portal.getDestiation());

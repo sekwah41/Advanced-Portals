@@ -18,10 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -74,7 +71,12 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
-        Portal.cooldown.put(event.getPlayer(), System.currentTimeMillis());
+        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+    }
+
+    @EventHandler
+    public void onLeaveEvent(PlayerQuitEvent event) {
+        Portal.cooldown.remove(event.getPlayer().getName());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
