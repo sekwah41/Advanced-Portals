@@ -193,7 +193,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(), player.getMetadata("Pos2Y").get(0).asInt(), player.getMetadata("Pos2Z").get(0).asInt());
 
                                 ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
-                                String destiPosX = desticonfig.getConfig().getString(destination + ".pos1.X");
+                                String destiPosX = desticonfig.getConfig().getString(destination + ".pos.X");
 
                                 if (!Portal.portalExists(portalName)) {
 
