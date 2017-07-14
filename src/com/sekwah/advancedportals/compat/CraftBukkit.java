@@ -64,7 +64,7 @@ public class CraftBukkit {
                 this.serializeMessage = chatSerialClass.getMethod("a", String.class);
             }
             else{
-                plugin.getLogger().info("Even older version detected, changing chat method");
+                plugin.getLogger().info("Even older version detected, changing chat method.");
                 this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
             }
 
