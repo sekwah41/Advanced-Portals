@@ -4,7 +4,6 @@ public class PortalArg {
 
     public final String argName;
     public final String value;
-    //public final int type;
 
     public PortalArg(String argName, String value/*, int type*/) {
         this.argName = argName;
