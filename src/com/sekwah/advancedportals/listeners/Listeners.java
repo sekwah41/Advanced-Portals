@@ -223,7 +223,6 @@ public class Listeners implements Listener {
 
                     // Returns the event so no more code is executed(stops unnecessary code being executed)
                 } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    System.out.println(event.getHand());
                     Location blockloc = event.getClickedBlock().getLocation();
                     player.setMetadata("Pos2X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
                     player.setMetadata("Pos2Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
