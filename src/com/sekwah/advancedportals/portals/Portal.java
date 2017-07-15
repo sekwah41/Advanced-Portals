@@ -73,7 +73,7 @@ public class Portal {
 
                 try {
                     Integer.parseInt(BlockID);
-                    System.out.println("Block names must be given not IDs");
+                    plugin.getLogger().info("Block names must be given not IDs");
                 } catch (NumberFormatException e) {
                     blockType = Material.getMaterial(BlockID);
                 }
