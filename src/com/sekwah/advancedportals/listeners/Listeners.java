@@ -75,6 +75,16 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
+    public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
+        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+    }
+
+    @EventHandler
+    public void onTeleportEvent(PlayerTeleportEvent event) {
+        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+    }
+
+    @EventHandler
     public void onLeaveEvent(PlayerQuitEvent event) {
         Portal.cooldown.remove(event.getPlayer().getName());
     }
