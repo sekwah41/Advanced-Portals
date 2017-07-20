@@ -7,7 +7,6 @@ import com.sekwah.advancedportals.effects.WarpEffects;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -142,7 +141,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     }
 
     private void setupDataCollector() {
-        Selection.LoadData(this);
+        Selection.loadData(this);
     }
 
     private void setupBungee() {

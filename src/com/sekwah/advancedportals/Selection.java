@@ -7,12 +7,12 @@ import org.bukkit.entity.Player;
 
 public class Selection {
 
-    public static Material blockType = Material.STAINED_GLASS;
-    public static int timeout = 10;
-    public static byte metadata = 14;
+    private static Material blockType = Material.STAINED_GLASS;
+    private static int timeout = 10;
+    private static byte metadata = 14;
 
     @SuppressWarnings("deprecation")
-    public static void LoadData(AdvancedPortalsPlugin plugin) {
+    public static void loadData(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
         timeout = config.getConfig().getInt("ShowSelectionShowDuration");
@@ -32,7 +32,7 @@ public class Selection {
     }
 
     @SuppressWarnings("deprecation")
-    public static void Show(final Player player, final AdvancedPortalsPlugin plugin, String portalName) {
+    public static void show(final Player player, final AdvancedPortalsPlugin plugin, String portalName) {
 
         int LowX = 0;
         int LowY = 0;
@@ -136,14 +136,14 @@ public class Selection {
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             public void run() {
-                Selection.Hide(player, plugin, pos1, pos2);
+                Selection.hide(player, plugin, pos1, pos2);
             }
         }, timeout * 20);
 
     }
 
     @SuppressWarnings("deprecation")
-    protected static void Hide(Player player, AdvancedPortalsPlugin plugin, Location pos1, Location pos2) {
+    protected static void hide(Player player, AdvancedPortalsPlugin plugin, Location pos1, Location pos2) {
 
         int LowX = pos1.getBlockX();
         int LowY = pos1.getBlockY();

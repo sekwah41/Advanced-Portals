@@ -440,19 +440,19 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     if (args.length > 1) {
                         String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
                         if (posX != null) {
-                            Selection.Show(player, this.plugin, args[1]);
+                            Selection.show(player, this.plugin, args[1]);
                         } else {
                             sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
                         }
                     } else {
                         if (player.hasMetadata("selectedPortal")) {
                             player.sendMessage(PluginMessages.customPrefix + " Your currently selected portal has been shown, it will dissapear shortly!");
-                            Selection.Show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
+                            Selection.show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
                         } else if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
                             if (player.getMetadata("Pos1World").get(0).asString().equals(player.getMetadata("Pos2World").get(0).asString())
                                     && player.getMetadata("Pos1World").get(0).asString().equals(player.getLocation().getWorld().getName())) {
                                 player.sendMessage(PluginMessages.customPrefix + " Your currently selected area has been shown, it will dissapear shortly!");
-                                Selection.Show(player, this.plugin, null);
+                                Selection.show(player, this.plugin, null);
                             }
                         } else {
                             player.sendMessage(PluginMessages.customPrefixFail + " No regions selected!");
@@ -631,7 +631,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
         LinkedList<String> autoComplete = new LinkedList<String>();
-        if (sender.hasPermission("AdvancedPortals.CreatePortal")) {
+        if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command", "selector"
                         , "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
