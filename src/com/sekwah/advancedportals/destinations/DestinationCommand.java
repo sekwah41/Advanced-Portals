@@ -118,7 +118,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                     autoComplete.add(string);
             }
         }
-        if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("AdvancedPortals.CreatePortal")) {
+        if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1) {
                 autoComplete.addAll(Arrays.asList("create", "remove", "help"));
             } else if (args[0].toLowerCase().equals("create")) {
