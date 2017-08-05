@@ -87,4 +87,4 @@ ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwb
 # e Ops can create all perm commands without special perms
 # k Ops can create console commands without special perms
 #
-CommandLevels: n
+CommandLevels: opchek
