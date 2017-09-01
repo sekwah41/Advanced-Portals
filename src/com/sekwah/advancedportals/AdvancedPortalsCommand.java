@@ -23,6 +23,7 @@ import java.util.*;
 
 public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
+    private final ArrayList<String> blockMaterialList = new ArrayList<>();
     private AdvancedPortalsPlugin plugin;
 
     private int portalArgsStringLength = 0;
@@ -34,12 +35,17 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     public AdvancedPortalsCommand(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
+
+        for(Material material : Material.values()) {
+            this.blockMaterialList.add("triggerblock:" + material.name());
+        }
         plugin.getCommand("advancedportals").setExecutor(this);
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
+        System.out.printf("%s %s %s %s%n", sender, cmd, command, args   );
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
         if(!(sender instanceof Player)) {
@@ -272,7 +278,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "variables" :
-                    sender.sendMessage(PluginMessages.customPrefix + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, destination");
+                    sender.sendMessage(PluginMessages.customPrefix + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, desti, destination, bungee, permission, command");
                     sender.sendMessage("");
                     sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
                     break;
@@ -679,6 +685,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (!hasTriggerBlock) {
                     autoComplete.add("triggerblock:");
+                    autoComplete.addAll(this.blockMaterialList);
                 }
                 if (!hasDestination) {
                     autoComplete.add("destination:");
