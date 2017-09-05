@@ -37,7 +37,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
 
         for(Material material : Material.values()) {
-            this.blockMaterialList.add("triggerblock:" + material.name());
+            this.blockMaterialList.add("triggerblock:" + material.name().toLowerCase());
         }
         plugin.getCommand("advancedportals").setExecutor(this);
     }
@@ -633,6 +633,15 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
+
+        /*System.out.printf("%s %s %s %s%n", sender, cmd, command, args);
+
+        System.out.println(args.length);
+        System.out.println("ARRAY");
+        for(String arg : args) {
+            System.out.println(arg);
+        }*/
+
         LinkedList<String> autoComplete = new LinkedList<String>();
         if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
@@ -650,55 +659,75 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                 // TODO change auto complete when quotes are opened and closed. Such as autocomplete @Player and stuff when specifying commands
 
-                for (int i = 1; i < args.length; i++) {
-                    String argTag = getTag(args[i].toLowerCase());
-                    if (argTag.length() + 1 < args[i].length()) {
-                        switch (argTag) {
-                            case "name":
-                                hasName = true;
-                                break;
-                            case "destination":
-                                hasDestination = true;
-                                break;
-                            case "desti":
-                                hasDestination = true;
-                                break;
-                            case "triggerblock":
-                                hasTriggerBlock = true;
-                                break;
-                            case "bungee":
-                                isBungeePortal = true;
-                                break;
-                            case "permission":
-                                needsPermission = true;
-                                break;
-                            case "command":
-                                hasCommand = true;
-                                break;
-                        }
-                    }
+                // For if partially complete found and also valid
+                boolean partialComplete = true;
 
-                }
+                // TODO add a better version of this to the new api.
 
-                if (!hasName) {
-                    autoComplete.add("name:");
-                }
-                if (!hasTriggerBlock) {
-                    autoComplete.add("triggerblock:");
+                //System.out.println(args[args.length - 1].equals(""));
+
+                String stillToComplete = args[args.length - 1];
+
+                if(stillToComplete.toLowerCase().startsWith("triggerblock:")) {
                     autoComplete.addAll(this.blockMaterialList);
                 }
-                if (!hasDestination) {
-                    autoComplete.add("destination:");
-                    autoComplete.add("desti:");
+                else {
+                    partialComplete = false;
                 }
-                if (!isBungeePortal) {
-                    autoComplete.add("bungee:");
-                }
-                if (!needsPermission) {
-                    autoComplete.add("permission:");
-                }
-                if (!hasCommand) {
-                    autoComplete.add("command:");
+
+                if(!partialComplete) {
+                    for (int i = 1; i < args.length; i++) {
+                        String argTag = getTag(args[i].toLowerCase());
+                        if (argTag.length() + 1 < args[i].length()) {
+                            switch (argTag) {
+                                case "name":
+                                    hasName = true;
+                                    break;
+                                case "destination":
+                                    hasDestination = true;
+                                    break;
+                                case "desti":
+                                    hasDestination = true;
+                                    break;
+                                case "triggerblock":
+                                    hasTriggerBlock = true;
+                                    break;
+                                case "bungee":
+                                    isBungeePortal = true;
+                                    break;
+                                case "permission":
+                                    needsPermission = true;
+                                    break;
+                                case "command":
+                                    hasCommand = true;
+                                    break;
+                            }
+                        }
+
+                    }
+
+                    if (!hasName) {
+                        autoComplete.add("name:");
+                    }
+                    if (!hasTriggerBlock) {
+                        autoComplete.add("triggerblock:");
+                    }
+                    if (!hasDestination) {
+                        autoComplete.add("destination:");
+                        autoComplete.add("desti:");
+                    }
+                    if (!isBungeePortal) {
+                        autoComplete.add("bungee:");
+                    }
+                    if (!needsPermission) {
+                        autoComplete.add("permission:");
+                    }
+                    if (!hasCommand) {
+                        autoComplete.add("command:");
+                    }
+                    else {
+                        autoComplete.add("@player");
+                    }
                 }
             }
         }
