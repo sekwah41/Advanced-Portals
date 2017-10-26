@@ -2,8 +2,11 @@ package com.sekwah.advancedportals.listeners;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
+import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,16 +42,22 @@ public class PortalProtect implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!event.getPlayer().hasPermission("advancedportals.build")
-                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius))
+        Player player = event.getPlayer();
+        if (!player.hasPermission("advancedportals.build")
+                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius)) {
             event.setCancelled(true);
+            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!event.getPlayer().hasPermission("advancedportals.build")
-                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius))
+        Player player = event.getPlayer();
+        if (!player.hasPermission("advancedportals.build")
+                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius)) {
             event.setCancelled(true);
+            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
