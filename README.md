@@ -15,6 +15,8 @@ Advanced Portals ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals
 <img src="http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png" alt="Global Plugin Stats" title="Global Plugin Stats">
 
 
+The api isn't implemented in this version, sorry for any inconvenience. Check the recode tree for possibly a working recode at some point.
+
 <p>To get the needed bukkit versions download the spigot buildtools and run the appropriate commands for the versions listed in the pom file.</p>
 <p>e.g. "java -jar BuildTools.jar --rev 1.10.2" (Enter this into git bash)</p>
 
