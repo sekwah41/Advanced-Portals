@@ -13,7 +13,7 @@ public class PluginMessages {
         ConfigAccessor config = new ConfigAccessor(this.plugin, "config.yml");
         this.useCustomPrefix = config.getConfig().getBoolean("UseCustomPrefix");
         if (useCustomPrefix) {
-            PluginMessages.customPrefixFail = config.getConfig().getString("CustomPrefix").replaceAll("&", "\u00A7");
+            PluginMessages.customPrefix = config.getConfig().getString("CustomPrefix").replaceAll("&", "\u00A7");
             PluginMessages.customPrefixFail = config.getConfig().getString("CustomPrefixFail").replaceAll("&", "\u00A7");
         }
     }

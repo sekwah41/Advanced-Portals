@@ -382,7 +382,7 @@ public class Portal {
 		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
-            player.sendMessage(PluginMessages.customPrefix + "\u00A7c You do not have permission to use this portal!");
+            player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
             failSound(player, portal);
             throwPlayerBack(player);
             return false;
