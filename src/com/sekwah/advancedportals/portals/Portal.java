@@ -33,10 +33,11 @@ public class Portal {
     private static double throwback;
     private static Sound portalSound;
     private static int portalProtectionRadius;
+    private static boolean blockSpectatorMode;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage", false);
         this.cooldelay = config.getConfig().getInt("PortalCooldown", 5);
 
         this.portalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
@@ -44,6 +45,7 @@ public class Portal {
         this.throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
         this.portalSound = WarpEffects.findSound(plugin, "BLOCK_PORTAL_TRAVEL", "PORTAL_TRAVEL");
+        this.blockSpectatorMode = config.getConfig().getBoolean("BlockSpectatorMode", false);
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -209,7 +211,6 @@ public class Portal {
         return "\u00A7aPortal creation successful!";
     }
 
-    // make this actually work!
     private static boolean checkPortalOverlap(Location pos1, Location pos2) {
 
         if (portalsActive) {
@@ -365,6 +366,7 @@ public class Portal {
         return posX != null;
     }
 
+
     public static boolean activate(Player player, String portalName) {
         for (AdvancedPortal portal : Portal.portals) {
             if (portal.getName().equals(portalName)) return activate(player, portal);
@@ -381,6 +383,11 @@ public class Portal {
         // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/plugin/PluginManager.html#addPermission(org.bukkit.permissions.Permission)
         // check they havent been registered before too and store a list of ones made by this plugin to remove when portals are unloaded.
         // When a portal is added or removed it reloads all portals(i think) so add code for unloading too.
+
+        if(blockSpectatorMode && player.getGameMode() == GameMode.SPECTATOR) {
+            player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You cannot enter a portal in spectator mode!");
+            return false;
+        }
 
         String permission = portal.getArg("permission");
 		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
