@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
@@ -82,6 +83,13 @@ public class Listeners implements Listener {
     @EventHandler
     public void onTeleportEvent(PlayerTeleportEvent event) {
         Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+    }
+
+    @EventHandler
+    public void spawnMobEvent(CreatureSpawnEvent event) {
+        if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && Portal.inPortalRegion(event.getLocation(), Portal.getPortalProtectionRadius())) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
