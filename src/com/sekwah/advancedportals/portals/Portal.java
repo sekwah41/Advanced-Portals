@@ -32,12 +32,16 @@ public class Portal {
     private static int cooldelay;
     private static double throwback;
     private static Sound portalSound;
+    private static int portalProtectionRadius;
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
-        cooldelay = config.getConfig().getInt("PortalCooldown", 5);
-        throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
+        this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage");
+        this.cooldelay = config.getConfig().getInt("PortalCooldown", 5);
+
+        this.portalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
+
+        this.throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
         this.portalSound = WarpEffects.findSound(plugin, "BLOCK_PORTAL_TRAVEL", "PORTAL_TRAVEL");
 
@@ -565,5 +569,9 @@ public class Portal {
             Vector velocity = player.getLocation().getDirection();
             player.setVelocity(velocity.setY(0).normalize().multiply(-1).setY(throwback));
         }
+    }
+
+    public static int getPortalProtectionRadius() {
+        return portalProtectionRadius;
     }
 }

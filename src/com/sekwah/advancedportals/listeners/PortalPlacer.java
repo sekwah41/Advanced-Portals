@@ -16,8 +16,6 @@ public class PortalPlacer implements Listener {
     @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
 
-    private final int PortalProtectionRadius;
-
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
     private boolean PortalPlace = true;
@@ -27,8 +25,6 @@ public class PortalPlacer implements Listener {
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
-
-        this.PortalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
 
         if (PortalPlace) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -60,7 +56,7 @@ public class PortalPlacer implements Listener {
     public void onBlockPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
         Material material = block.getType();
-        if (material == Material.PORTAL && Portal.inPortalRegion(block.getLocation(), PortalProtectionRadius))
+        if (material == Material.PORTAL && Portal.inPortalRegion(block.getLocation(), Portal.getPortalProtectionRadius()))
             event.setCancelled(true);
     }
 }
