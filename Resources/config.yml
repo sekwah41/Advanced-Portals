@@ -70,6 +70,8 @@ CustomPrefix: '&a[&eAdvancedPortals&a]'
 
 CustomPrefixFail: '&c[&7AdvancedPortals&c]'
 
+BlockSpectatorMode: false
+
 PortalCooldown: 5 # How long after trying to enter a portal until the player can try to enter another. 0 or lower to deactivate.
 ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwback
 
