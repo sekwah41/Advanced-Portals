@@ -10,7 +10,6 @@ import org.bukkit.event.block.BlockFromToEvent;
 
 public class FlowStopper implements Listener {
 
-    @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
 
     // The needed config values will be stored so they are easier to access later
