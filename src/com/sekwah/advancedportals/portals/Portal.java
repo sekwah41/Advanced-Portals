@@ -462,7 +462,8 @@ public class Portal {
                     boolean wasOp = player.isOp();
                     try {
                         player.setOp(true);
-                        player.performCommand(command);
+                        player.chat("/" + command);
+                        //player.performCommand(command);
                     } finally {
                         player.setOp(wasOp);
                     }
@@ -471,12 +472,14 @@ public class Portal {
                     PermissionAttachment permissionAttachment = null;
                     try {
                         permissionAttachment = player.addAttachment(plugin, "*", true);
-                        player.performCommand(command);
+                        player.chat("/" + command);
+                        //player.performCommand(command);
                     } finally {
                         player.removeAttachment(permissionAttachment);
                     }
                 } else {
-                    player.performCommand(command);
+                    player.chat("/" + command);
+                    //player.performCommand(command);
                 }
                 command = portal.getArg("command." + ++commandLine);
             } while (command != null);
