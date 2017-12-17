@@ -16,7 +16,7 @@ public class Settings {
         currentWarpParticles = config.getConfig().getInt("WarpParticles");
         currentWarpSound = config.getConfig().getInt("WarpSound");
 
-        commandLevels = config.getConfig().getString("CommandLevels", "n");
+        commandLevels = config.getConfig().getString("CommandLevels", "opchek");
         if(commandLevels.contains("n") || commandLevels.equals("")) {
             commandLevels = "n";
         }
