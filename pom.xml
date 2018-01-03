@@ -6,7 +6,7 @@
         <sourceDirectory>${basedir}/src/</sourceDirectory>
         <resources>
             <resource>
-                <directory>${basedir}/CoreResources</directory>
+                <directory>${basedir}/Resources</directory>
             </resource>
         </resources>
     </build>
