@@ -3,10 +3,10 @@
     <groupId>com.sekwah.advancedportals</groupId>
     <artifactId>Advanced-Portals</artifactId>
     <build>
-        <sourceDirectory>${basedir}/core/</sourceDirectory>
+        <sourceDirectory>${basedir}/src/</sourceDirectory>
         <resources>
             <resource>
-                <directory>${basedir}/Resources</directory>
+                <directory>${basedir}/CoreResources</directory>
             </resource>
         </resources>
     </build>
