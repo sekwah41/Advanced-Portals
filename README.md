@@ -1,5 +1,7 @@
-Advanced Portals ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)
+Advanced Portals ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=portals-old)
 ================
+
+<p>NOTE: This is the old version of Advanced Portals, look in the appropriate branch for the newer versions.</p>
 
 <p>An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.</p>
 
