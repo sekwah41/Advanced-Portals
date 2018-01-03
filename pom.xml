@@ -3,7 +3,7 @@
     <groupId>com.sekwah.advancedportals</groupId>
     <artifactId>Advanced-Portals</artifactId>
     <build>
-        <sourceDirectory>${basedir}/core/</sourceDirectory>
+        <sourceDirectory>${basedir}/src/</sourceDirectory>
         <resources>
             <resource>
                 <directory>${basedir}/Resources</directory>
@@ -12,10 +12,10 @@
     </build>
     <repositories>
         <!-- Only needed for spigot -->
-        <!--<repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>-->
+        </repository>
     </repositories>
     <version>1.0.0-snapshot</version>
     <properties>
@@ -25,12 +25,12 @@
     </properties>
     <dependencies>
         <!-- Only needed for spigot -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.12.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
         <!-- spigot's buildtools automatically places it in maven's repository after building it -->
         <!-- Craftbukkit contains the bukkit code. But as the majority uses it uses bukkit
          it stops the need to build to edit at least -->
