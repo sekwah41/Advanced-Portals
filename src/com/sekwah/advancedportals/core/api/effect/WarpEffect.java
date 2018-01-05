@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.api.effect;
 
 import com.sekwah.advancedportals.core.api.portal.Portal;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
  * Effects to be registered to the list.
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  */
 public interface WarpEffect {
 
-    void onWarp(Player player, Location loc, Action action, Portal portal);
+    void onWarp(PlayerContainer player, PortalLocation loc, Action action, Portal portal);
 
     Type getType();
 

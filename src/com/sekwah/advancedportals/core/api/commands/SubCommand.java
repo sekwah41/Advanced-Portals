@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.core.api.commands;
 
-import org.bukkit.command.CommandSender;
+import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface SubCommand {
      * @param args arguments including the subcommand that has been specified.
      * @return if the command has worked (if false it will just display a message from the command suggesting to check help)
      */
-    boolean onCommand(CommandSender sender, String[] args);
+    boolean onCommand(CommandSenderContainer sender, String[] args);
 
     /**
      *
@@ -25,7 +25,7 @@ public interface SubCommand {
      * @param args arguments including the subcommand that has been specified.
      * @return tab completion for the subcommand
      */
-    List<String> onTabComplete(CommandSender sender, String[] args);
+    List<String> onTabComplete(CommandSenderContainer sender, String[] args);
 
     /**
      * @return the string to show on the above help menu. (describing the subcommand)
