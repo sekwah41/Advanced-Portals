@@ -1,10 +1,9 @@
 package com.sekwah.advancedportals.core.util;
 
-import com.google.common.collect.Maps;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ import java.util.Scanner;
 public class Lang {
 
     private static final Lang instance = new Lang();
-    private final Map<String, String> languageMap = Maps.newHashMap();
+    private final HashMap<String, String> languageMap = new HashMap<>();
     private final String DEFAULT_LANG = "en_GB";
 
     public Lang() {
@@ -84,7 +83,7 @@ public class Lang {
     private Map<String, String> parseLang(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream, "UTF-8");
         String line = getNextLine(scanner);
-        Map<String, String> newMap = Maps.newHashMap();
+        HashMap<String, String> newMap = new HashMap<>();
         while (scanner != null && line != null) {
             //System.out.println(line);
             if (!line.startsWith("#") && line.indexOf('=') > -1) {
@@ -94,7 +93,6 @@ public class Lang {
                 newMap.put(key, value);
             }
             line = getNextLine(scanner);
-            // TODO add split code at the first = and also conversion of strings/codes which are constants like colors.
         }
         try {
             inputStream.close();
