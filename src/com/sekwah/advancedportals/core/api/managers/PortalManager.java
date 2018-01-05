@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.api.managers;
 
 import com.sekwah.advancedportals.core.api.portal.Portal;
-import org.bukkit.entity.Player;
+import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.HashMap;
 
@@ -21,11 +21,11 @@ public class PortalManager {
     /**
      * Store data of when the player last entered the portal
      */
-    private HashMap<Player, Long> lastAttempt = new HashMap();
+    private HashMap<String, Long> lastAttempt = new HashMap();
     /**
      * Tracks what portal a player has selected
      */
-    private HashMap<Player, Portal> selectedPortal = new HashMap();
+    private HashMap<String, Portal> selectedPortal = new HashMap();
 
     public PortalManager() {
         this.loadPortals();
@@ -36,9 +36,9 @@ public class PortalManager {
      *
      * @param player
      */
-    public static void playerLeave(Player player) {
-        instance.lastAttempt.remove(player);
-        instance.selectedPortal.remove(player);
+    public static void playerLeave(PlayerContainer player) {
+        instance.lastAttempt.remove(player.getUUID());
+        instance.selectedPortal.remove(player.getUUID());
     }
 
     /**
