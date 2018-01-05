@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.api.effect;
 
 import com.sekwah.advancedportals.core.api.portal.Portal;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
  * @author sekwah41
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class TestEffect implements WarpEffect {
 
     @Override
-    public void onWarp(Player player, Location loc, Action action, Portal portal) {
+    public void onWarp(PlayerContainer player, PortalLocation loc, Action action, Portal portal) {
 
     }
 
