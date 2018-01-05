@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.api.warphandler;
+package com.sekwah.advancedportals.core.api.warphandler;
 
 
 /**
