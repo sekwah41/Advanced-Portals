@@ -1,6 +1,6 @@
-package com.sekwah.advancedportals.api.registry;
+package com.sekwah.advancedportals.core.api.registry;
 
-import com.sekwah.advancedportals.api.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.util.ArrayList;
