@@ -1,12 +1,19 @@
 package com.sekwah.advancedportals.core.util;
 
+import com.google.gson.Gson;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.io.*;
 
-public abstract class DataStorage {
+public class DataStorage {
 
-    protected File dataFolder;
+    private Gson gson;
+
+    private File dataFolder;
+
+    public DataStorage(File dataFolder) {
+        gson = new Gson();
+    }
 
     /**
      * Copies the default file, defaults to true to keep true to the name
@@ -22,6 +29,16 @@ public abstract class DataStorage {
         for (String fileLoc : fileLocs) {
             this.copyDefaultFile(fileLoc, override);
         }
+    }
+
+    public <T> T loadJson(Class<T> dataHolder, String location) {
+        // TODO get json
+        return gson.fromJson("", dataHolder);
+    }
+
+    public void storeJson(Object dataHolder, String location) {
+        // TODO do writing code
+        gson.toJson(dataHolder);
     }
 
     /**
