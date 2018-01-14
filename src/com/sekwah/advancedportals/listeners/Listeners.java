@@ -100,7 +100,7 @@ public class Listeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMoveEvent(PlayerMoveEvent event) {
         // will check if the player is in the portal or not.
-        if (!Portal.portalsActive) {
+        if (!Portal.portalsActive || event.isCancelled()) {
             return;
         }
 
@@ -123,7 +123,7 @@ public class Listeners implements Listener {
                 WarpEvent warpEvent = new WarpEvent(player, portal);
                 plugin.getServer().getPluginManager().callEvent(warpEvent);
 
-                if (!event.isCancelled()) Portal.activate(player, portal);
+                if (!warpEvent.isCancelled()) Portal.activate(player, portal);
 
                 portal.inPortal.add(player);
             } else portal.inPortal.remove(player);
