@@ -12,6 +12,7 @@ public class DataStorage {
     private File dataFolder;
 
     public DataStorage(File dataFolder) {
+        this.dataFolder = dataFolder;
         gson = new Gson();
     }
 
