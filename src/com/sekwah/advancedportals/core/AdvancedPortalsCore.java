@@ -7,9 +7,9 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
-    private static DataStorage dataStorage;
-    private static InfoLogger infoLogger;
-    private static Config config;
+    private DataStorage dataStorage;
+    private InfoLogger infoLogger;
+    private Config config;
 
     public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger) {
         this.dataStorage = dataStorage;
@@ -19,12 +19,20 @@ public class AdvancedPortalsCore {
     }
 
     private void onEnable() {
-        config = dataStorage.loadJson(Config.class, "config.json");
-        infoLogger.log("\u00A7aAdvanced portals have been successfully enabled!");
+        this.loadPortalData();
+        infoLogger.log("Advanced portals have been successfully enabled!");
+    }
+
+    /**
+     * Can be used for in /portal reload as well.
+     */
+    private void loadPortalData() {
+        this.config = this.dataStorage.loadJson(Config.class, "config.json");
+        this.dataStorage.storeJson(this.config, "config.json");
     }
 
     public void onDisable() {
-        infoLogger.log("\u00A7cAdvanced portals are being disabled!");
+        infoLogger.log("Advanced portals are being disabled!");
     }
 
     private static AdvancedPortalsCore getInstance() {
@@ -32,10 +40,10 @@ public class AdvancedPortalsCore {
     }
 
     public static DataStorage getDataStorage() {
-        return dataStorage;
+        return instance.dataStorage;
     }
 
     public static InfoLogger getInfoLogger() {
-        return infoLogger;
+        return instance.infoLogger;
     }
 }
