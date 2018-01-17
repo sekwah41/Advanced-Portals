@@ -22,6 +22,11 @@ public class AdvancedPortalsCore {
 
     private void onEnable() {
         config = dataStorage.loadJson(Config.class, "config.json");
+        infoLogger.log("\u00A7aAdvanced portals have been successfully enabled!");
+    }
+
+    public void onDisable() {
+        infoLogger.log("\u00A7cAdvanced portals are being disabled!");
     }
 
     private static AdvancedPortalsCore getInstance() {
