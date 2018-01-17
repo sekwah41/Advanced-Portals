@@ -7,16 +7,14 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
-    private static CoreConnector coreConnector;
     private static DataStorage dataStorage;
     private static InfoLogger infoLogger;
     private static Config config;
 
-    public AdvancedPortalsCore(CoreConnector coreConnector, DataStorage dataStorage, InfoLogger infoLogger) {
+    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
         this.instance = this;
-        this.coreConnector = coreConnector;
         this.onEnable();
     }
 
@@ -39,13 +37,5 @@ public class AdvancedPortalsCore {
 
     public static InfoLogger getInfoLogger() {
         return infoLogger;
-    }
-
-    public static CoreConnector getCoreConnector() {
-        return coreConnector;
-    }
-
-    public interface CoreConnector {
-        DataStorage getDataStorage();
     }
 }
