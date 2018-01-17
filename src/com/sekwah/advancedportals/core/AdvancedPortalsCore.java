@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core;
 
-import com.google.gson.Gson;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
