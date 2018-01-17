@@ -1,4 +1,15 @@
 package com.sekwah.advancedportals.spigot;
 
-public class AdvancedPortalsPlugin {
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class AdvancedPortalsPlugin extends JavaPlugin {
+
+    public void onEnable() {
+
+    }
+
+    public void onDisable() {
+
+    }
+
 }
