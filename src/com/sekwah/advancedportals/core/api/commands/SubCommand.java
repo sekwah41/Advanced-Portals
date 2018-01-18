@@ -5,7 +5,7 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 import java.util.List;
 
 /**
- * Subcommand that can be registered to parts.
+ * Subcommand that can be registered under e.g. /portal show or /portal edit
  *
  * @author sekwah41
  */
