@@ -13,6 +13,12 @@ public interface CommandTemplate {
 
     void onCommand(CommandHandler sender, String[] args);
 
+    /**
+     * Fired when someone asks for a tab complete action.
+     * @param sender
+     * @param args
+     * @return
+     */
     List<String> onTabComplete(CommandHandler sender, String[] args);
 
 }
