@@ -1,26 +1,34 @@
 package com.sekwah.advancedportals.core;
 
+import com.sekwah.advancedportals.core.commands.DestiCommand;
+import com.sekwah.advancedportals.core.commands.PortalCommand;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
 
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
-    private DataStorage dataStorage;
-    private InfoLogger infoLogger;
+    private final CommandRegister commandRegister;
+    private final DataStorage dataStorage;
+    private final InfoLogger infoLogger;
     private Config config;
 
-    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger) {
+    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
         this.instance = this;
+        this.commandRegister = commandRegister;
         this.onEnable();
     }
 
     private void onEnable() {
         this.loadPortalData();
         infoLogger.log("Advanced portals have been successfully enabled!");
+
+        this.commandRegister.registerCommand("portal", new PortalCommand());
+        this.commandRegister.registerCommand("destination", new DestiCommand());
     }
 
     /**
