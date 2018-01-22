@@ -57,6 +57,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         return;
                     }
                 }
+                commandExecuted = commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase();
                 sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header", commandExecuted, helpPage, pages));
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
                 int displayEnd = subCommandOffset + this.subCommandsPerPage;
