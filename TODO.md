@@ -6,6 +6,8 @@ Tag registration system (Mostly done, just needs to be tested and implemented)
 
 Portal loading system
 
+Portal trigger system
+
 Configs for language files to allow all messages to change
 
 Destination Command

@@ -37,10 +37,15 @@ public class CommandWithSubCommands implements CommandTemplate {
     public void onCommand(CommandSenderContainer sender, String commandExecuted, String[] args) {
         if(args.length > 0) {
             if(args[0].equalsIgnoreCase("help")) {
-                // TODO do help menu here sorted alphabetically
+                // TODO start making a help menu
             }
             else {
-
+                for(String subCommand : this.subCommandRegistry.getSubCommands()) {
+                    if(subCommand.equalsIgnoreCase(args[0])) {
+                        this.getSubCommand(subCommand).onCommand(sender, args);
+                        return;
+                    }
+                }
             }
         }
         else {
@@ -50,6 +55,13 @@ public class CommandWithSubCommands implements CommandTemplate {
 
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+        if(args.length > 0) {
+            for (String subCommand : this.subCommandRegistry.getSubCommands()) {
+                if (subCommand.equalsIgnoreCase(args[0])) {
+                    return this.getSubCommand(subCommand).onTabComplete(sender, args);
+                }
+            }
+        }
         return null;
     }
 }
