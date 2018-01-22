@@ -43,7 +43,7 @@ public class Lang {
         String translation = instance.translate(s);
         for (int i = 1; i <= args.length; i++) {
             System.out.printf("Replace %s with %s%n", "%" + i + "$s", args[i-1].toString());;
-            translation = translation.replaceAll("%" + i + "$s", args[i-1].toString());
+            translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
         }
         return translation;
     }
@@ -52,7 +52,7 @@ public class Lang {
         String translation = instance.translateColor(s);
         for (int i = 1; i <= args.length; i++) {
             System.out.printf("Replace %s with %s%n", "%" + i + "$s", args[i-1].toString());;
-            translation = translation.replaceAll("%" + i + "$s", args[i-1].toString());
+            translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
         }
         return translation;
     }
