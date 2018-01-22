@@ -4,9 +4,9 @@ version: 1.0.0
 author: sekwah41
 description: An advanced portals plugin for bukkit.
 commands:
-    advancedportals:
+    portal:
         description: The main command for the advanced portals
-        aliases: [portals, aportals, portal, ap]
+        aliases: [portals, aportals, advancedportals, ap]
         usage: /<command>
     destination:
         description: Can be used to access portal destinations.
