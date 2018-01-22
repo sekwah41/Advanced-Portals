@@ -28,6 +28,7 @@ public class AdvancedPortalsCore {
     }
 
     private void onEnable() {
+        this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
         Lang.loadLanguage("en_GB");
         this.loadPortalConfig();
 
