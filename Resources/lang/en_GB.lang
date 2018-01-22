@@ -19,4 +19,9 @@ logger.pluginenable=Advanced portals have been successfully enabled!
 logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
-command.noargs=%1$s Sorry but you need to specify a sub command, please use \u00Ae/%2$s help \u00Acif you would like a list of possible sub commands.
+command.noargs=Sorry but you need to specify a sub command, please use \u00Ae/%1$s help \u00Acif you would like a list of possible sub commands.
+
+command.help.header=\u00Ae--------- \u00Aa%1$s Help - Page %2$s of %3$s\u00Ae ---------------
+command.help.invalidnum=Sorry but \u00Ae%1$s\u00Ac is not a valid page number.
+
+command.subcommand.nopermission=Sorry but you don't have permission for that, please use \u00Ae/%1$s help \u00Acif you would like a list of possible sub commands.
