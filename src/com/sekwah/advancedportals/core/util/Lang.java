@@ -42,7 +42,7 @@ public class Lang {
     public static String translateInsertVariables(String s, Object... args) {
         String translation = instance.translate(s);
         for (int i = 1; i <= args.length; i++) {
-            translation = translation.replaceAll("%" + i + "$s", args[i].toString());
+            translation = translation.replaceAll("%" + i + "$s", args[i-1].toString());
         }
         return translation;
     }
@@ -50,7 +50,7 @@ public class Lang {
     public static String translateInsertVariablesColor(String s, Object... args) {
         String translation = instance.translateColor(s);
         for (int i = 1; i <= args.length; i++) {
-            translation = translation.replaceAll("%" + i + "$s", args[i].toString());
+            translation = translation.replaceAll("%" + i + "$s", args[i-1].toString());
         }
         return translation;
     }
