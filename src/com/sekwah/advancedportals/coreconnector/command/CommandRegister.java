@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.coreconnector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
-import com.sekwah.advancedportals.core.commands.PortalCommand;
 
 /**
  * Register the CommandTemplate files to the appropriate system

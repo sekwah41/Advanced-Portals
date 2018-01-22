@@ -33,7 +33,10 @@ public class DataStorage {
     }
 
     public <T> T loadJson(Class<T> dataHolder, String location) {
-        // TODO get json
+        return this.loadJson(dataHolder, location, false);
+    }
+    public <T> T loadJson(Class<T> dataHolder, String location, boolean loadDefaultIfMissing) {
+        // TODO get json and if file doesnt exist create default class if true
         return gson.fromJson("", dataHolder);
     }
 
