@@ -18,6 +18,8 @@ public interface SubCommand {
      */
     boolean onCommand(CommandSenderContainer sender, String[] args);
 
+    boolean hasPermission(CommandSenderContainer sender);
+
     /**
      *
      *
@@ -28,8 +30,13 @@ public interface SubCommand {
     List<String> onTabComplete(CommandSenderContainer sender, String[] args);
 
     /**
-     * @return the string to show on the above help menu. (describing the subcommand)
+     * @return the string to show next to the tag on the help menu.
      */
-    String getHelpText();
+    String getBasicHelpText();
+
+    /**
+     * @return the string to show if help then the tag is listed.
+     */
+    String getDetailedHelpText();
 
 }
