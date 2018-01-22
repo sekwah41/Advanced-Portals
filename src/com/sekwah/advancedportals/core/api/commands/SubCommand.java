@@ -18,6 +18,8 @@ public interface SubCommand {
      */
     boolean onCommand(CommandSenderContainer sender, String[] args);
 
+    boolean hasPermission(CommandSenderContainer sender);
+
     /**
      *
      *

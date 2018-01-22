@@ -12,6 +12,8 @@ public class CommandWithSubCommands implements CommandTemplate {
 
     private final SubCommandRegistry subCommandRegistry;
 
+    private final int subCommandsPerPage = 5;
+
     public CommandWithSubCommands() {
         this.subCommandRegistry = new SubCommandRegistry();
     }
@@ -37,30 +39,73 @@ public class CommandWithSubCommands implements CommandTemplate {
     public void onCommand(CommandSenderContainer sender, String commandExecuted, String[] args) {
         if(args.length > 0) {
             if(args[0].equalsIgnoreCase("help")) {
-                // TODO start making a help menu
+                int helpPage = 1;
+                String[] subCommands = this.subCommandRegistry.getSubCommands().toArray(new String[0]);
+                int pages = (int) Math.ceil(subCommands.length / (float) this.subCommandsPerPage);
+                if(args.length > 1) {
+                    try {
+                        helpPage = Integer.parseInt(args[1]);
+                        if(helpPage < 0) {
+                            helpPage = 1;
+                        }
+                        else if(helpPage > pages) {
+                            helpPage = pages;
+                        }
+                    }
+                    catch(NumberFormatException e) {
+                        sender.sendMessage(Lang.translateInsertVariablesColor("command.help.invalidnum", args[1]));
+                        return;
+                    }
+                }
+                sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header", commandExecuted, helpPage, pages));
+                int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
+                int displayEnd = subCommandOffset + this.subCommandsPerPage;
+                if(displayEnd > subCommands.length) {
+                    displayEnd = subCommands.length;
+                }
+                for(; subCommandOffset < displayEnd; subCommandOffset++) {
+                    sender.sendMessage("\u00A76/" + commandExecuted + " " + subCommands[subCommandOffset]
+                            + "\u00A7a - " + this.getSubCommand(subCommands[subCommandOffset]).getBasicHelpText());
+                }
             }
             else {
-                for(String subCommand : this.subCommandRegistry.getSubCommands()) {
-                    if(subCommand.equalsIgnoreCase(args[0])) {
-                        this.getSubCommand(subCommand).onCommand(sender, args);
+                for(String subCommandName : this.subCommandRegistry.getSubCommands()) {
+                    if(subCommandName.equalsIgnoreCase(args[0])) {
+                        SubCommand subCommand = this.getSubCommand(subCommandName);
+                        if(subCommand.hasPermission(sender)) {
+                            subCommand.onCommand(sender, args);
+                        }
+                        else {
+                            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.subcommand.nopermission",
+                                    commandExecuted));
+                        }
                         return;
                     }
                 }
             }
         }
         else {
-            sender.sendMessage(Lang.translateInsertVariablesColor(Lang.translate("command.noargs"), Lang.translate("messageprefix.negative"), commandExecuted));
+            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.noargs", commandExecuted));
         }
     }
 
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
         if(args.length > 0) {
-            for (String subCommand : this.subCommandRegistry.getSubCommands()) {
-                if (subCommand.equalsIgnoreCase(args[0])) {
-                    return this.getSubCommand(subCommand).onTabComplete(sender, args);
+            for (String subCommandName : this.subCommandRegistry.getSubCommands()) {
+                if (subCommandName.equalsIgnoreCase(args[0])) {
+                    SubCommand subCommand = this.getSubCommand(subCommandName);
+                    if(subCommand.hasPermission(sender)) {
+                        this.getSubCommand(subCommandName).onTabComplete(sender, args);
+                    }
+                    else {
+                        return null;
+                    }
                 }
             }
+        }
+        else {
+            return this.subCommandRegistry.getSubCommands();
         }
         return null;
     }
