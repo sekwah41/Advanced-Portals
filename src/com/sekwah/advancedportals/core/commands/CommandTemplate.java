@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.core.commands;
 
-import com.sun.corba.se.impl.activation.CommandHandler;
+import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface CommandTemplate {
 
-    void onCommand(CommandHandler sender, String[] args);
+    void onCommand(CommandSenderContainer sender, String commandExecuted, String[] args);
 
     /**
      * Fired when someone asks for a tab complete action.
@@ -19,6 +19,6 @@ public interface CommandTemplate {
      * @param args
      * @return
      */
-    List<String> onTabComplete(CommandHandler sender, String[] args);
+    List<String> onTabComplete(CommandSenderContainer sender, String[] args);
 
 }
