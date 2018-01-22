@@ -19,6 +19,8 @@ public class Config {
 
     private String selectionBlock = "STAINED_GLASS";
 
+    private String translationFile = "en_GB";
+
     private int blockSubID = 14;
 
     public boolean getUseOnlySpecialAxe() {

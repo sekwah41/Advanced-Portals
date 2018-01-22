@@ -17,37 +17,35 @@ import java.util.Map;
  */
 public class SubCommandRegistry {
 
-    private Map<String, SubCommand> subCommandMap = new HashMap<>();
-
-    private static final SubCommandRegistry instance = new SubCommandRegistry();
+    protected Map<String, SubCommand> subCommandMap = new HashMap<>();
 
     /**
      * List of subcommand names which should be in order alphabetically
      */
-    private ArrayList<String> subCommands = new ArrayList<>();
+    protected ArrayList<String> subCommands = new ArrayList<>();
 
     /**
      * @param arg argument needed to activate
      * @param subCommand
      * @return if the subcommand is registered or not
      */
-    public static boolean registerSubCommand(String arg, SubCommand subCommand) {
+    public boolean registerSubCommand(String arg, SubCommand subCommand) {
 
         if (subCommand == null) {
             AdvancedPortalsCore.getInfoLogger().logWarning("The subcommand '" + arg + "' cannot be null.");
             return false;
         }
 
-        if(!instance.subCommandMap.containsKey(arg)){
+        if(!this.subCommandMap.containsKey(arg)){
             AdvancedPortalsCore.getInfoLogger().logWarning("The subcommand '" + arg + "' already exists.");
             return false;
         }
 
-        instance.subCommandMap.put(arg.toLowerCase(), subCommand);
+        this.subCommandMap.put(arg.toLowerCase(), subCommand);
 
-        instance.subCommands.add(arg.toLowerCase());
+        this.subCommands.add(arg.toLowerCase());
 
-        Collections.sort(instance.subCommands);
+        Collections.sort(this.subCommands);
 
         return true;
     }
@@ -55,8 +53,8 @@ public class SubCommandRegistry {
     /**
      * @return a list of arguments of registered subcommands
      */
-    public static ArrayList<String> getSubCommands(){
-        return instance.subCommands;
+    public ArrayList<String> getSubCommands(){
+        return this.subCommands;
     }
 
     /**
@@ -66,8 +64,8 @@ public class SubCommandRegistry {
      * @param arg
      * @return if the argument is registered
      */
-    public static boolean isArgRegistered(String arg){
-        return instance.subCommandMap.containsKey(arg.toLowerCase());
+    public boolean isArgRegistered(String arg){
+        return this.subCommandMap.containsKey(arg.toLowerCase());
     }
 
     /**
@@ -75,9 +73,9 @@ public class SubCommandRegistry {
      * @param arg
      * @return the subcommand linked to the arg
      */
-    public static SubCommand getSubCommand(String arg){
-        if(instance.subCommandMap.containsKey(arg.toLowerCase())){
-            return instance.subCommandMap.get(arg.toLowerCase());
+    public SubCommand getSubCommand(String arg){
+        if(this.subCommandMap.containsKey(arg.toLowerCase())){
+            return this.subCommandMap.get(arg.toLowerCase());
         }
         return null;
     }
