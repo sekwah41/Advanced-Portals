@@ -5,7 +5,7 @@ package com.sekwah.advancedportals.core.util;
  */
 public class Config {
 
-    private boolean useOnlySpecialAxe = false;
+    private boolean useOnlySpecialAxe;
 
     private String axeMaterial = "IRON_AXE";
 
