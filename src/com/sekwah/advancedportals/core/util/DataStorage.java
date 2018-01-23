@@ -76,6 +76,10 @@ public class DataStorage {
         if (!outFile.exists() || overwrite) {
             try {
                 InputStream inputStream = DataStorage.class.getClassLoader().getResourceAsStream(fileLoc);
+                if(inputStream == null) {
+                    return false;
+                }
+
                 FileOutputStream outStream = new FileOutputStream(outFile);
 
                 byte[] buf = new byte[1024];
