@@ -30,4 +30,8 @@ public class Config {
     public void setUseOnlySpecialAxe(boolean useOnlyServerMadeAxe) {
         useOnlySpecialAxe = useOnlyServerMadeAxe;
     }
+
+    public String getTranslation() {
+        return translationFile;
+    }
 }

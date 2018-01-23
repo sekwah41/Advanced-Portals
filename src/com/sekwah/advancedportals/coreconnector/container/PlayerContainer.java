@@ -8,4 +8,11 @@ public class PlayerContainer {
     public String getUUID() {
         return "";
     }
+    
+    public void sendMessage(String message) {
+    }
+
+    public boolean isOp() {
+        return false;
+    }
 }

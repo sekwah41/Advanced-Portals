@@ -11,6 +11,8 @@
 #
 # Also note that some debug messages may not be listed here for translation.
 #
+translatedata.lastchange=1.0.0
+translatedata.translationsoutdated= Some of the translations from the current translation file \u00A7e%1$s\u00A7c are out of date.
 
 messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
 messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
@@ -19,9 +21,9 @@ logger.pluginenable=Advanced portals have been successfully enabled!
 logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
-command.noargs=Sorry but you need to specify a sub command, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
+command.noargs= Sorry but you need to specify a sub command, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
 
 command.help.header=\u00A7e--------- \u00A7a%1$s Help - Page %2$s of %3$s\u00A7e ---------------
-command.help.invalidnum=Sorry but \u00A7e%1$s\u00A7c is not a valid page number.
+command.help.invalidnum= Sorry but \u00A7e%1$s\u00A7c is not a valid page number.
 
-command.subcommand.nopermission=Sorry but you don't have permission for that, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
+command.subcommand.nopermission= Sorry but you don't have permission for that, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.

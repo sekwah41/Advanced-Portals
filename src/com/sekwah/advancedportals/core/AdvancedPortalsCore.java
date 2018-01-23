@@ -14,6 +14,8 @@ public class AdvancedPortalsCore {
     private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
 
+    private final CoreListeners coreListeners;
+
     private Config config;
 
     private CommandWithSubCommands portalCommand;
@@ -24,13 +26,15 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
         this.instance = this;
         this.commandRegister = commandRegister;
+        this.coreListeners = new CoreListeners();
         this.onEnable();
     }
 
     private void onEnable() {
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
-        Lang.loadLanguage("en_GB");
+
         this.loadPortalConfig();
+        Lang.loadLanguage(config.getTranslation());
 
         this.portalCommand = new CommandWithSubCommands();
         this.destiCommand = new CommandWithSubCommands();
@@ -45,7 +49,7 @@ public class AdvancedPortalsCore {
      * (basically if values are missing or whatever)
      */
     private void loadPortalConfig() {
-        this.config = this.dataStorage.loadJson(Config.class, "config.json", true);
+        this.config = this.dataStorage.loadJson(Config.class, "config.json");
         this.dataStorage.storeJson(this.config, "config.json");
     }
 
@@ -63,5 +67,9 @@ public class AdvancedPortalsCore {
 
     public static InfoLogger getInfoLogger() {
         return instance.infoLogger;
+    }
+
+    public CoreListeners getCoreListeners() {
+        return coreListeners;
     }
 }
