@@ -94,6 +94,6 @@ public class AdvancedPortalsCore {
     }
 
     public CoreListeners getCoreListeners() {
-        return coreListeners;
+        return this.coreListeners;
     }
 }
