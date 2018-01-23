@@ -50,8 +50,12 @@ public class DataStorage {
     }
 
     public void storeJson(Object dataHolder, String location) {
+        String json = gson.toJson(dataHolder);
         try {
-            gson.toJson(dataHolder, new FileWriter(new File(this.dataFolder, location)));
+            FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location));
+            System.out.println(json);
+            fileWriter.write(json);
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
