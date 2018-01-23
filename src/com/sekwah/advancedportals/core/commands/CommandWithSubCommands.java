@@ -110,7 +110,16 @@ public class CommandWithSubCommands implements CommandTemplate {
             }
         }
         else {
-            return this.subCommandRegistry.getSubCommands();
+            List<String> allowedCommands = new ArrayList<>();
+            for (String subCommandName : this.subCommandRegistry.getSubCommands()) {
+                if (subCommandName.equalsIgnoreCase(args[0])) {
+                    SubCommand subCommand = this.getSubCommand(subCommandName);
+                    if(subCommand.hasPermission(sender)) {
+                        allowedCommands.add(subCommandName);
+                    }
+                }
+            }
+            return allowedCommands;
         }
         return null;
     }
