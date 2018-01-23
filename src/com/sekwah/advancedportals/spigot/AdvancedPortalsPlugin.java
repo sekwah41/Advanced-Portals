@@ -12,10 +12,14 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     public void onEnable() {
         this.portalsCore = new AdvancedPortalsCore(new DataStorage(this.getDataFolder()),
                 new SpigotInfoLogger(this), new CommandRegister(this));
+        this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
     }
 
     public void onDisable() {
         this.portalsCore.onDisable();
     }
 
+    public AdvancedPortalsCore getPortalsCore() {
+        return portalsCore;
+    }
 }
