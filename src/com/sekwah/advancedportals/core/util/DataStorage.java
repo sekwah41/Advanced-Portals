@@ -54,7 +54,6 @@ public class DataStorage {
         String json = gson.toJson(dataHolder);
         try {
             FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location));
-            System.out.println(json);
             fileWriter.write(json);
             fileWriter.close();
         } catch (IOException e) {
