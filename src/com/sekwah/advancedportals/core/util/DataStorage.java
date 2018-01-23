@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.io.*;
@@ -13,7 +14,7 @@ public class DataStorage {
 
     public DataStorage(File dataFolder) {
         this.dataFolder = dataFolder;
-        gson = new Gson();
+        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     /**
@@ -75,6 +76,10 @@ public class DataStorage {
         if (!outFile.exists() || overwrite) {
             try {
                 InputStream inputStream = DataStorage.class.getClassLoader().getResourceAsStream(fileLoc);
+                if(inputStream == null) {
+                    return false;
+                }
+
                 FileOutputStream outStream = new FileOutputStream(outFile);
 
                 byte[] buf = new byte[1024];
