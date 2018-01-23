@@ -1,12 +1,14 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import java.util.UUID;
+
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
  */
 public class PlayerContainer {
 
-    public String getUUID() {
-        return "";
+    public UUID getUUID() {
+        return null;
     }
     
     public void sendMessage(String message) {
