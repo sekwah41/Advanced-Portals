@@ -12,7 +12,7 @@ public class CommandWithSubCommands implements CommandTemplate {
 
     private final SubCommandRegistry subCommandRegistry;
 
-    private final int subCommandsPerPage = 5;
+    private final int subCommandsPerPage = 7;
 
     public CommandWithSubCommands() {
         this.subCommandRegistry = new SubCommandRegistry();
@@ -57,16 +57,19 @@ public class CommandWithSubCommands implements CommandTemplate {
                         return;
                     }
                 }
-                commandExecuted = commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase();
-                sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header", commandExecuted, helpPage, pages));
+                sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header",
+                        commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), helpPage, pages));
+                sender.sendMessage("\u00A7a█ = Permission \u00A7c█ = No Permission");
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
                 int displayEnd = subCommandOffset + this.subCommandsPerPage;
                 if(displayEnd > subCommands.length) {
                     displayEnd = subCommands.length;
                 }
                 for(; subCommandOffset < displayEnd; subCommandOffset++) {
-                    sender.sendMessage("\u00A76/" + commandExecuted + " " + subCommands[subCommandOffset]
-                            + "\u00A7a - " + this.getSubCommand(subCommands[subCommandOffset]).getBasicHelpText());
+                    SubCommand subCommand = this.getSubCommand(subCommands[subCommandOffset]);
+                    String colorCode = "\u00A7" + (subCommand.hasPermission(sender) ? "a" : "c");
+                    sender.sendMessage("\u00A7e/" + commandExecuted + " " + subCommands[subCommandOffset]
+                            + colorCode + " - " + subCommand.getBasicHelpText());
                 }
             }
             else {
