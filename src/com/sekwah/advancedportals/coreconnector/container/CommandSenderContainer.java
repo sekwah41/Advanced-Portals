@@ -16,6 +16,6 @@ public class CommandSenderContainer {
     }
 
     public boolean isOp() {
-        return false;
+        return sender.isOp();
     }
 }
