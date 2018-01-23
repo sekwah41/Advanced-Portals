@@ -33,16 +33,28 @@ public class DataStorage {
     }
 
     public <T> T loadJson(Class<T> dataHolder, String location) {
-        return this.loadJson(dataHolder, location, false);
-    }
-    public <T> T loadJson(Class<T> dataHolder, String location, boolean loadDefaultIfMissing) {
         // TODO get json and if file doesnt exist create default class if true
-        return gson.fromJson("", dataHolder);
+        InputStream jsonResource = this.loadResource(location);
+        if(jsonResource == null) {
+            try {
+                return dataHolder.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
+        return gson.fromJson(bufReader, dataHolder);
     }
 
     public void storeJson(Object dataHolder, String location) {
-        // TODO do writing code
-        gson.toJson(dataHolder);
+        try {
+            gson.toJson(dataHolder, new FileWriter(new File(this.dataFolder, location)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -89,11 +101,10 @@ public class DataStorage {
      * <p>
      * TODO add loading from the plugin folder first rather than straight from the plugin.
      *
-     * @param lang
      * @param location
      * @return
      */
-    public InputStream loadResource(Lang lang, String location) {
+    public InputStream loadResource(String location) {
         File inFile = new File(dataFolder, location);
         if (inFile.exists() && !inFile.isDirectory()) {
             try {
@@ -105,7 +116,7 @@ public class DataStorage {
         } else {
             try {
                 copyDefaultFile(location, false);
-                return lang.getClass().getClassLoader().getResourceAsStream(location);
+                return this.getClass().getClassLoader().getResourceAsStream(location);
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 AdvancedPortalsCore.getInfoLogger().logWarning("Could not load " + location + ". The file does" +
