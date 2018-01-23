@@ -7,15 +7,16 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 
 import java.util.List;
 
-public class VersionSubCommand implements SubCommand {
+public class TransUpdateSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage(Lang.translateColor("messageprefix.positive") + " Advanced Portals v" + AdvancedPortalsCore.version);
+        AdvancedPortalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+        sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("translatedata.replaced"));
     }
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return sender.isOp();
     }
 
     @Override
@@ -25,11 +26,11 @@ public class VersionSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.version.help");
+        return "This is basic help text";
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.version.help");
+        return "This help text is a lot more detailed than the basic one";
     }
 }
