@@ -59,7 +59,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                 }
                 sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header",
                         commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), helpPage, pages));
-                sender.sendMessage("\u00A7a█ = Permission \u00A7c█ = No Permission");
+                sender.sendMessage("\u00A7a█\u00A77 = Permission \u00A7c█\u00A77 = No Permission");
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
                 int displayEnd = subCommandOffset + this.subCommandsPerPage;
                 if(displayEnd > subCommands.length) {
