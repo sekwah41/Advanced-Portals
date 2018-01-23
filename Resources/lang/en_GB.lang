@@ -22,6 +22,7 @@ logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
 command.noargs= Sorry but you need to specify a sub command, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
+command.subcommand.invalid= Sorry but that is not a valid sub command.
 
 command.help.header=\u00A7e--------- \u00A7a%1$s Help - Page %2$s of %3$s\u00A7e ---------------
 command.help.invalidnum= Sorry but \u00A7e%1$s\u00A7c is not a valid page number.
