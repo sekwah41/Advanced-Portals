@@ -2,6 +2,8 @@ package com.sekwah.advancedportals.core;
 
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.ReloadSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.TransUpdateSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.VersionSubCommand;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
@@ -35,6 +37,10 @@ public class AdvancedPortalsCore {
         this.onEnable();
     }
 
+    public static String getTranslationName() {
+        return instance.config.getTranslation();
+    }
+
     private void onEnable() {
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
@@ -44,13 +50,15 @@ public class AdvancedPortalsCore {
         this.registerPortalCommand();
         this.registerDestinationCommand();
 
-        infoLogger.log(Lang.translate("logger.pluginenable"));
+        this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
 
     private void registerPortalCommand() {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
+        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
+        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -78,7 +86,7 @@ public class AdvancedPortalsCore {
     }
 
     public void onDisable() {
-        infoLogger.log(Lang.translate("logger.plugindisable"));
+        this.infoLogger.log(Lang.translate("logger.plugindisable"));
     }
 
     private static AdvancedPortalsCore getInstance() {
