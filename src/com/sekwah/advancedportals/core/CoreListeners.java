@@ -10,8 +10,8 @@ public class CoreListeners {
             if(!Lang.translate("translatedata.lastchange").equals(AdvancedPortalsCore.lastTranslationUpdate)) {
                 player.sendMessage(Lang.translateColor("messageprefix.negative")
                         + Lang.translateInsertVariablesColor("translatedata.translationsoutdated", AdvancedPortalsCore.getTranslationName()));
-                player.sendMessage(Lang.translateColor("messageprefix.negative"
-                        + Lang.translateColor("translatedata.replacecommand")));
+                player.sendMessage(Lang.translateColor("messageprefix.negative")
+                        + Lang.translateColor("translatedata.replacecommand"));
             }
         }
     }
