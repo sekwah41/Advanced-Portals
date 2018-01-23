@@ -83,6 +83,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         return;
                     }
                 }
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.subcommand.invalid"));
             }
         }
         else {
