@@ -21,11 +21,11 @@ public class Lang {
 
     private static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
-    private final String DEFAULT_LANG = "en_GB";
+    //private final String DEFAULT_LANG = "en_GB";
 
-    public Lang() {
+    /*public Lang() {
         injectTranslations(this, DEFAULT_LANG);
-    }
+    }*/
 
     public static void loadLanguage(String fileName) {
         instance.injectTranslations(instance, fileName);
@@ -66,7 +66,7 @@ public class Lang {
             //URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
             //System.out.println(url);
             //Map<String, String> newLangMap = lang.parseLang(url.openStream());
-            InputStream stream = AdvancedPortalsCore.getDataStorage().loadResource(lang, "lang/" + fileName + ".lang");
+            InputStream stream = AdvancedPortalsCore.getDataStorage().loadResource("lang/" + fileName + ".lang");
             if (stream != null) {
                 Map<String, String> newLangMap = lang.parseLang(stream);
                 if (newLangMap != null) {
