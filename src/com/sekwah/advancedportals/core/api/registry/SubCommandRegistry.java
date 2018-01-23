@@ -36,7 +36,7 @@ public class SubCommandRegistry {
             return false;
         }
 
-        if(!this.subCommandMap.containsKey(arg)){
+        if(this.subCommandMap.containsKey(arg)){
             AdvancedPortalsCore.getInfoLogger().logWarning("The subcommand '" + arg + "' already exists.");
             return false;
         }
