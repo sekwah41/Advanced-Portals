@@ -45,11 +45,11 @@ public class CommandWithSubCommands implements CommandTemplate {
                 if(args.length > 1) {
                     try {
                         helpPage = Integer.parseInt(args[1]);
-                        if(helpPage < 0) {
-                            helpPage = 1;
-                        }
-                        else if(helpPage > pages) {
+                        if(helpPage > pages) {
                             helpPage = pages;
+                        }
+                        if(helpPage <= 0) {
+                            helpPage = 1;
                         }
                     }
                     catch(NumberFormatException e) {
