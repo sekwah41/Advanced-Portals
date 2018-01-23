@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.io.*;
@@ -13,7 +14,7 @@ public class DataStorage {
 
     public DataStorage(File dataFolder) {
         this.dataFolder = dataFolder;
-        gson = new Gson();
+        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     /**
