@@ -14,4 +14,8 @@ public class CommandSenderContainer {
     public void sendMessage(String message) {
         sender.sendMessage(message);
     }
+
+    public boolean isOp() {
+        return false;
+    }
 }
