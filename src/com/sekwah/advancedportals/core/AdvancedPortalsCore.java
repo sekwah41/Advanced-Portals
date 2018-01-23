@@ -1,6 +1,8 @@
 package com.sekwah.advancedportals.core;
 
+import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.VersionSubCommand;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
@@ -21,6 +23,9 @@ public class AdvancedPortalsCore {
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
 
+    public static final String version = "1.0.0";
+    public static final String lastTranslationUpdate = "1.0.0";
+
     public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
@@ -36,12 +41,31 @@ public class AdvancedPortalsCore {
         this.loadPortalConfig();
         Lang.loadLanguage(config.getTranslation());
 
-        this.portalCommand = new CommandWithSubCommands();
-        this.destiCommand = new CommandWithSubCommands();
-        this.commandRegister.registerCommand("portal", this.portalCommand);
-        this.commandRegister.registerCommand("destination", this.destiCommand);
+        this.registerPortalCommand();
+        this.registerDestinationCommand();
 
         infoLogger.log(Lang.translate("logger.pluginenable"));
+    }
+
+    private void registerPortalCommand() {
+        this.portalCommand = new CommandWithSubCommands();
+
+        this.portalCommand.registerSubCommand("version", new VersionSubCommand());
+
+        this.commandRegister.registerCommand("portal", this.portalCommand);
+    }
+
+    private void registerDestinationCommand() {
+        this.destiCommand = new CommandWithSubCommands();
+        this.commandRegister.registerCommand("destination", this.destiCommand);
+    }
+
+    public static boolean registerDestiSubCommand(String arg, SubCommand subCommand) {
+        return instance.destiCommand.registerSubCommand(arg, subCommand);
+    }
+
+    public static boolean registerPortalSubCommand(String arg, SubCommand subCommand) {
+        return instance.portalCommand.registerSubCommand(arg, subCommand);
     }
 
     /**

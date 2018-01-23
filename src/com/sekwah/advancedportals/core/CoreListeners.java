@@ -7,7 +7,7 @@ public class CoreListeners {
 
     public void playerJoin(PlayerContainer player) {
         if(player.isOp()) {
-            if(!Lang.translate("translatedata.lastchange").equals("1.0.0")) {
+            if(!Lang.translate("translatedata.lastchange").equals(AdvancedPortalsCore.lastTranslationUpdate)) {
                 player.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("translatedata.translationsoutdated"));
             }
         }
