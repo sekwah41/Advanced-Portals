@@ -53,7 +53,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         }
                     }
                     catch(NumberFormatException e) {
-                        sender.sendMessage(Lang.translateInsertVariablesColor("command.help.invalidnum", args[1]));
+                        sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidnum", args[1]));
                         return;
                     }
                 }
