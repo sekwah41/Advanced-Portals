@@ -10,7 +10,7 @@ import java.util.List;
 public class TransUpdateSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        AdvancedPortalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+        AdvancedPortalsCore.getInstance().getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("translatedata.replaced"));
     }
 

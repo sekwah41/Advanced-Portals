@@ -7,7 +7,7 @@ public class Config {
 
     private boolean useOnlySpecialAxe;
 
-    private String axeMaterial = "IRON_AXE";
+    private String selectorMaterial = "IRON_AXE";
 
     private boolean portalProtection = true;
 
