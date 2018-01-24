@@ -2,6 +2,8 @@ package com.sekwah.advancedportals.coreconnector.container;
 
 import org.bukkit.entity.Player;
 
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+
 import java.util.UUID;
 
 /**
@@ -25,5 +27,9 @@ public class PlayerContainer {
 
     public boolean isOp() {
         return player.isOp();
+    }
+
+    public PlayerLocation getLoc() {
+        return null;
     }
 }

@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.core.api.events;
 
-import com.sekwah.advancedportals.core.api.portal.Portal;
-
 /**
  * Trigered whenever a player activates the warp after the tags are handled.
  *

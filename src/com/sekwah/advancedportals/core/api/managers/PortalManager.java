@@ -1,9 +1,13 @@
 package com.sekwah.advancedportals.core.api.managers;
 
-import com.sekwah.advancedportals.core.api.portal.Portal;
+import com.google.gson.reflect.TypeToken;
+import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * When a player leaves the server any data stored on them is removed to free memory.
@@ -17,7 +21,10 @@ public class PortalManager {
      */
     private static final int COOLDOWN = 0;
 
-    private static PortalManager instance = new PortalManager();
+    private static PortalManager instance;
+
+    private final AdvancedPortalsCore portalsCore;
+
     /**
      * Store data of when the player last entered the portal
      */
@@ -25,10 +32,16 @@ public class PortalManager {
     /**
      * Tracks what portal a player has selected
      */
-    private HashMap<String, Portal> selectedPortal = new HashMap();
+    private HashMap<String, AdvancedPortal> selectedPortal = new HashMap();
 
-    public PortalManager() {
-        this.loadPortals();
+    /**
+     * Contains all the data for the portals
+     */
+    private HashMap<String, AdvancedPortal> portalHashMap;
+
+    public PortalManager(AdvancedPortalsCore portalsCore) {
+        this.instance = this;
+        this.portalsCore = portalsCore;
     }
 
     /**
@@ -36,15 +49,20 @@ public class PortalManager {
      *
      * @param player
      */
-    public static void playerLeave(PlayerContainer player) {
-        instance.lastAttempt.remove(player.getUUID());
-        instance.selectedPortal.remove(player.getUUID());
+    public void playerLeave(PlayerContainer player) {
+        this.lastAttempt.remove(player.getUUID());
+        this.selectedPortal.remove(player.getUUID());
     }
 
     /**
      * Load the default data into the portals.
      */
-    private void loadPortals() {
-
+    public void loadPortals() {
+        Type type = new TypeToken<Map<String, AdvancedPortal>>(){}.getType();
+        this.portalHashMap = this.portalsCore.getDataStorage().loadJson(type ,"portals.json");
+        if(this.portalHashMap == null) {
+            this.portalHashMap = new HashMap<>();
+        }
+        this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "config.json");
     }
 }
