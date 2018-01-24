@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.io.*;
+import java.lang.reflect.Type;
 
 public class DataStorage {
 
@@ -33,8 +34,16 @@ public class DataStorage {
         }
     }
 
+    public <T> T loadJson(Type dataHolder, String location) {
+        InputStream jsonResource = this.loadResource(location);
+        if(jsonResource == null) {
+            return null;
+        }
+        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
+        T object = gson.fromJson(bufReader, dataHolder);
+        return object;
+    }
     public <T> T loadJson(Class<T> dataHolder, String location) {
-        // TODO get json and if file doesnt exist create default class if true
         InputStream jsonResource = this.loadResource(location);
         if(jsonResource == null) {
             try {

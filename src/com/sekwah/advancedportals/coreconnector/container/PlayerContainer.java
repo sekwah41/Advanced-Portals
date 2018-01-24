@@ -26,4 +26,8 @@ public class PlayerContainer {
     public boolean isOp() {
         return player.isOp();
     }
+
+    public PlayerLocation getLoc() {
+        return null;
+    }
 }

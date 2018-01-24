@@ -31,6 +31,7 @@ command.help.invalidnum= Sorry but \u00A7e%1$s\u00A7c is not a valid page number
 
 command.reload.help=Reloads portal data
 command.reload.detailedhelp=Reloads all portal data from files in the data folder
+command.reload.reloaded= All Advanced Portals data reloaded
 
 command.version.help=Returns the current version of the plugin
 
