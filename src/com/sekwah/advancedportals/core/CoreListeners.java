@@ -1,9 +1,16 @@
 package com.sekwah.advancedportals.core;
 
+import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 public class CoreListeners {
+
+    private final AdvancedPortalsCore portalsCore;
+
+    public CoreListeners(AdvancedPortalsCore portalsCore) {
+        this.portalsCore = portalsCore;
+    }
 
     public void playerJoin(PlayerContainer player) {
         if(player.isOp()) {
@@ -14,6 +21,10 @@ public class CoreListeners {
                         + Lang.translateColor("translatedata.replacecommand"));
             }
         }
+    }
+
+    public void playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
+
     }
 
 }

@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.core.api.effect;
 
-import com.sekwah.advancedportals.core.api.portal.Portal;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
@@ -15,7 +15,7 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
  */
 public interface WarpEffect {
 
-    void onWarp(PlayerContainer player, PortalLocation loc, Action action, Portal portal);
+    void onWarp(PlayerContainer player, PortalLocation loc, Action action, AdvancedPortal portal);
 
     Type getType();
 

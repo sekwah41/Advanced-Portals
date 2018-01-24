@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+
 import java.util.UUID;
 
 /**
@@ -16,5 +18,9 @@ public class PlayerContainer {
 
     public boolean isOp() {
         return false;
+    }
+
+    public PlayerLocation getLoc() {
+        return null;
     }
 }
