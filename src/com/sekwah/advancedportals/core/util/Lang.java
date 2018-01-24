@@ -66,7 +66,7 @@ public class Lang {
             //URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
             //System.out.println(url);
             //Map<String, String> newLangMap = lang.parseLang(url.openStream());
-            InputStream stream = AdvancedPortalsCore.getDataStorage().loadResource("lang/" + fileName + ".lang");
+            InputStream stream = AdvancedPortalsCore.getInstance().getDataStorage().loadResource("lang/" + fileName + ".lang");
             if (stream != null) {
                 Map<String, String> newLangMap = lang.parseLang(stream);
                 if (newLangMap != null) {
