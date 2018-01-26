@@ -16,10 +16,6 @@ import java.util.Map;
  */
 public class TagRegistry {
 
-    // TODO the event can be used for general data detection and management, but use a TagHandler to make it so they can register
-    // the individual class to handle.
-    private static TagRegistry instance = new TagRegistry();
-
     /**
      * List of tag names which should be in order alphabetically
      */
@@ -39,9 +35,9 @@ public class TagRegistry {
      * @param tagHandler
      * @return if the tag was registered
      */
-    public static boolean registerTag(String tag, String desc, TagHandler tagHandler) {
+    public boolean registerTag(String tag, String desc, TagHandler tagHandler) {
         if (registerTag(tag, tagHandler)) {
-            instance.tagDesc.put(tag, desc);
+            this.tagDesc.put(tag, desc);
         }
         return false;
     }
@@ -54,19 +50,19 @@ public class TagRegistry {
      * @param tag
      * @return if the tag was registered
      */
-    public static boolean registerTag(String tag) {
+    public boolean registerTag(String tag) {
         if (tag.contains(" ")) {
             AdvancedPortalsCore.getInfoLogger().logWarning("The tag '"
                     + tag + "' is invalid as it contains spaces.");
             return false;
         }
-        if (instance.tags.contains(tag)) {
+        if (this.tags.contains(tag)) {
             AdvancedPortalsCore.getInfoLogger().logWarning("The tag "
                     + tag + " has already been registered.");
             return false;
         }
-        instance.tags.add(tag);
-        Collections.sort(instance.tags);
+        this.tags.add(tag);
+        Collections.sort(this.tags);
         return true;
     }
 
@@ -77,29 +73,29 @@ public class TagRegistry {
      * @param desc
      * @return if the tag was registered
      */
-    public static boolean registerTag(String tag, String desc) {
+    public boolean registerTag(String tag, String desc) {
         if (registerTag(tag)) {
-            instance.tagDesc.put(tag, desc);
+            this.tagDesc.put(tag, desc);
             return true;
         }
         return false;
     }
 
-    public static boolean isTagRegistered(String tag){
-        return instance.tagDesc.containsKey(tag);
+    public boolean isTagRegistered(String tag){
+        return this.tagDesc.containsKey(tag);
     }
 
     /**
      * @return if the tag has been registered or if it already exists.
      */
-    public static boolean registerTag(String tag, TagHandler tagHandler) {
+    public  boolean registerTag(String tag, TagHandler tagHandler) {
 
         if (tag == null) {
             AdvancedPortalsCore.getInfoLogger().logWarning("A tag cannot be null.");
             return false;
         }
 
-        if (!registerTag(tag)) {
+        if (!this.registerTag(tag)) {
             return false;
         }
 
@@ -107,13 +103,13 @@ public class TagRegistry {
                 !(tagHandler instanceof TagHandler.Creation)) {
             AdvancedPortalsCore.getInfoLogger().logWarning("Error with tag: " + tag + ". A tag handler must implement one of the handlers. Not just extend.");
             if (tagHandler instanceof TagHandler.Activation) {
-                instance.activationHandlers.put(tag, (TagHandler.Activation) tagHandler);
+                this.activationHandlers.put(tag, (TagHandler.Activation) tagHandler);
             }
             if (tagHandler instanceof TagHandler.TagStatus) {
-                instance.statusHandlers.put(tag, (TagHandler.TagStatus) tagHandler);
+                this.statusHandlers.put(tag, (TagHandler.TagStatus) tagHandler);
             }
             if (tagHandler instanceof TagHandler.Creation) {
-                instance.creationHandlers.put(tag, (TagHandler.Creation) tagHandler);
+                this.creationHandlers.put(tag, (TagHandler.Creation) tagHandler);
             }
         }
         return true;

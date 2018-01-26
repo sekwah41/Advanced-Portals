@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.core;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.managers.DestinationManager;
 import com.sekwah.advancedportals.core.api.managers.PortalManager;
+import com.sekwah.advancedportals.core.api.registry.TagRegistry;
+import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.ReloadSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.TransUpdateSubCommand;
@@ -20,7 +22,10 @@ public class AdvancedPortalsCore {
     private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
 
-    private final CoreListeners coreListeners;
+    private WarpEffectRegistry warpEffectRegistry;
+    private TagRegistry tagRegistry;
+
+    private CoreListeners coreListeners;
 
     private Config config;
 
@@ -38,9 +43,6 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
         this.instance = this;
         this.commandRegister = commandRegister;
-        this.coreListeners = new CoreListeners(this);
-        this.portalManager = new PortalManager(this);
-        this.destiManager = new DestinationManager(this);
         this.onEnable();
     }
 
@@ -49,6 +51,12 @@ public class AdvancedPortalsCore {
     }
 
     private void onEnable() {
+        this.coreListeners = new CoreListeners(this);
+        this.portalManager = new PortalManager(this);
+        this.destiManager = new DestinationManager(this);
+        this.warpEffectRegistry = new WarpEffectRegistry();
+        this.tagRegistry = new TagRegistry();
+
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
         this.loadPortalConfig();

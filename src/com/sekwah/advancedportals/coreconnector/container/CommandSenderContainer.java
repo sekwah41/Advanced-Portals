@@ -18,4 +18,8 @@ public class CommandSenderContainer {
     public boolean isOp() {
         return sender.isOp();
     }
+
+    public boolean hasPermission(String permission) {
+        return false;
+    }
 }
