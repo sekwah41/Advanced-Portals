@@ -23,4 +23,8 @@ public class PlayerContainer {
     public PlayerLocation getLoc() {
         return null;
     }
+
+    public boolean hasPermission(String permission) {
+        return false;
+    }
 }
