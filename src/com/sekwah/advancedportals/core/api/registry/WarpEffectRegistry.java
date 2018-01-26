@@ -16,8 +16,6 @@ public class WarpEffectRegistry {
 
     private Map<String, WarpEffect> soundEffects = new HashMap();
 
-    private static final WarpEffectRegistry instance = new WarpEffectRegistry();
-
     /**
      * Register a new warp effect.
      *
@@ -25,17 +23,17 @@ public class WarpEffectRegistry {
      * @param effect
      * @return if the effect was registered
      */
-    public static boolean registerEffect(String name, WarpEffect effect) {
+    public boolean registerEffect(String name, WarpEffect effect) {
         if(name == null){
             return false;
         }
         Map<String, WarpEffect> list = null;
         switch (effect.getType()){
             case SOUND:
-                list = instance.soundEffects;
+                list = this.soundEffects;
                 break;
             case VISUAL:
-                list = instance.visualEffects;
+                list = this.visualEffects;
                 break;
             default:
                 AdvancedPortalsCore.getInfoLogger().logWarning(effect.getType().toString()
@@ -49,14 +47,14 @@ public class WarpEffectRegistry {
         return true;
     }
 
-    public static WarpEffect getEffect(String name, WarpEffect.Type type){
+    public WarpEffect getEffect(String name, WarpEffect.Type type){
         Map<String, WarpEffect> list = null;
         switch (type){
             case SOUND:
-                list = instance.soundEffects;
+                list = this.soundEffects;
                 break;
             case VISUAL:
-                list = instance.visualEffects;
+                list = this.visualEffects;
                 break;
             default:
                 AdvancedPortalsCore.getInfoLogger().logWarning(type.toString()
