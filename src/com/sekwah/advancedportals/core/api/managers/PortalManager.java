@@ -39,6 +39,8 @@ public class PortalManager {
      */
     private HashMap<String, AdvancedPortal> portalHashMap;
 
+    private AdvancedPortal[] portals;
+
     public PortalManager(AdvancedPortalsCore portalsCore) {
         this.instance = this;
         this.portalsCore = portalsCore;

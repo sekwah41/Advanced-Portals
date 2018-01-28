@@ -132,4 +132,8 @@ public class AdvancedPortalsCore {
     public static DestinationManager getDestiManager() {
         return instance.destiManager;
     }
+
+    public static TagRegistry getTagRegistry() {
+        return instance.tagRegistry;
+    }
 }

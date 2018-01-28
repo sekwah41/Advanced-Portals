@@ -30,6 +30,33 @@ public class TagRegistry {
 
     /**
      *
+     * @param arg
+     * @return
+     */
+    public TagHandler.Activation getActivationHandler(String arg) {
+        return this.activationHandlers.get(arg);
+    }
+
+    /**
+     *
+     * @param arg
+     * @return
+     */
+    public TagHandler.Creation getCreationHandler(String arg) {
+        return this.creationHandlers.get(arg);
+    }
+
+    /**
+     *
+     * @param arg
+     * @return
+     */
+    public TagHandler.TagStatus getTagStatusHandler(String arg) {
+        return this.statusHandlers.get(arg);
+    }
+
+    /**
+     *
      * @param tag
      * @param desc
      * @param tagHandler

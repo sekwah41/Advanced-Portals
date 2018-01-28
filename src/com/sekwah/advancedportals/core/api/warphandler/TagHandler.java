@@ -14,6 +14,9 @@ public class TagHandler {
         DEFAULT;
     }
 
+    /**
+     * The events for portal creation and destroying
+     */
     public interface Creation {
 
         /**
