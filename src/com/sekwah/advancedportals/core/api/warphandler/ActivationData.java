@@ -6,9 +6,11 @@ public class ActivationData {
 
     private boolean warpAllowed = true;
 
-    private WarpedStatus warpStatus = WarpedStatus.INACTIVE;
+    private WarpedStatus warpStatus = WarpedStatus.NOTACTIVATED;
 
     private final Portal activePortal;
+
+    private PlayerLocation wantedLocation;
 
     /*public ActivationData(Portal portal){
         this.activePortal = portal;
@@ -52,7 +54,7 @@ public class ActivationData {
          */
         ACTIVATED,
         /**
-         * Nothing has activated on the portal.
+         * Nothing has activated on the portal (may need to come up with a new name)
          */
         INACTIVE
     }
