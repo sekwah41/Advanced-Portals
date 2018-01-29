@@ -21,7 +21,7 @@ public class Config {
 
     private String translationFile = "en_GB";
 
-    private int blockSubID = 14;
+    private int blockSubID_BELOW_1_13_ONLY = 14;
 
     public boolean getUseOnlySpecialAxe() {
         return useOnlySpecialAxe;
