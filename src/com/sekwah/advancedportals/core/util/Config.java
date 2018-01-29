@@ -17,7 +17,9 @@ public class Config {
 
     private boolean stopWaterFlow = true;
 
-    private String selectionBlock = "STAINED_GLASS";
+    private String selectionBlock_OLD_MATERIAL = "STAINED_GLASS";
+
+    private String selectionBlock = "RED_STAINED_GLASS";
 
     private String translationFile = "en_GB";
 
