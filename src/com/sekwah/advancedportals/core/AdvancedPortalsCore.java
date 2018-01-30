@@ -52,6 +52,7 @@ public class AdvancedPortalsCore {
         this.instance = this;
         this.commandRegister = commandRegister;
         this.mcMinorVer = this.checkMcVer(mcVer);
+
         this.onEnable();
 
     }
@@ -121,7 +122,7 @@ public class AdvancedPortalsCore {
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
         this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
-        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
+        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -155,8 +156,12 @@ public class AdvancedPortalsCore {
         this.infoLogger.log(Lang.translate("logger.plugindisable"));
     }
 
-    public static AdvancedPortalsCore getInstance() {
+    /*public static AdvancedPortalsCore getInstance() {
         return instance;
+    }*/
+
+    public Config getConfig() {
+        return this.config;
     }
 
     public DataStorage getDataStorage() {

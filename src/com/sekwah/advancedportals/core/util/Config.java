@@ -17,13 +17,15 @@ public class Config {
 
     private boolean stopWaterFlow = true;
 
-    private String selectionBlock_OLD_MATERIAL = "STAINED_GLASS";
+    private int portalCooldown = 5;
+
+    private String selectionBlock_BELOW_1_13 = "STAINED_GLASS";
 
     private String selectionBlock = "RED_STAINED_GLASS";
 
     private String translationFile = "en_GB";
 
-    private int blockSubID_BELOW_1_13_ONLY = 14;
+    private int selectionSubID_BELOW_1_13 = 14;
 
     public boolean getUseOnlySpecialAxe() {
         return useOnlySpecialAxe;
@@ -35,5 +37,9 @@ public class Config {
 
     public String getTranslation() {
         return translationFile;
+    }
+
+    public String getSelectorMaterial() {
+        return selectorMaterial;
     }
 }

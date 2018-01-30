@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.core.api.managers;
 import com.google.gson.reflect.TypeToken;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.lang.reflect.Type;
@@ -16,13 +18,6 @@ import java.util.Map;
  */
 public class PortalManager {
 
-    /**
-     * Cooldown time for players to try entering portals.
-     */
-    private static final int COOLDOWN = 0;
-
-    private static PortalManager instance;
-
     private final AdvancedPortalsCore portalsCore;
 
     /**
@@ -34,6 +29,9 @@ public class PortalManager {
      */
     private HashMap<String, AdvancedPortal> selectedPortal = new HashMap();
 
+    private HashMap<String, PortalLocation> portalSelectorLeftClick = new HashMap();
+    private HashMap<String, PortalLocation> portalSelectorRightClick = new HashMap();
+
     /**
      * Contains all the data for the portals
      */
@@ -42,7 +40,6 @@ public class PortalManager {
     private AdvancedPortal[] portals;
 
     public PortalManager(AdvancedPortalsCore portalsCore) {
-        this.instance = this;
         this.portalsCore = portalsCore;
     }
 
@@ -52,9 +49,13 @@ public class PortalManager {
      * @param player
      */
     public void playerLeave(PlayerContainer player) {
-        this.lastAttempt.remove(player.getUUID());
-        this.selectedPortal.remove(player.getUUID());
+        this.lastAttempt.remove(player.getUUID().toString());
+        this.selectedPortal.remove(player.getUUID().toString());
+        this.portalSelectorLeftClick.remove(player.getUUID().toString());
+        this.portalSelectorRightClick.remove(player.getUUID().toString());
     }
+
+
 
     /**
      * Load the default data into the portals.
@@ -66,5 +67,17 @@ public class PortalManager {
             this.portalHashMap = new HashMap<>();
         }
         this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "config.json");
+    }
+
+    public void playerJoin(PlayerContainer player) {
+        this.lastAttempt.put(player.getUUID().toString(), System.currentTimeMillis());
+    }
+
+    public void playerSelectorActivate(PlayerContainer player, PortalLocation blockLoc, boolean leftClick) {
+
+    }
+
+    public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
+        return false;
     }
 }
