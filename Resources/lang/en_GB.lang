@@ -26,12 +26,19 @@ logger.plugincrafterror=This version of craftbukkit is not yet supported or some
 command.noargs= Sorry but you need to specify a sub command, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
 command.subcommand.invalid= Sorry but that is not a valid sub command.
 
-command.help.header=\u00A7e--------- \u00A7a%1$s Help - Page %2$s of %3$s\u00A7e ---------------
-command.help.invalidnum= Sorry but \u00A7e%1$s\u00A7c is not a valid page number.
+command.help.header=\u00A7e--------------- \u00A7a%1$s Help - Page %2$s of %3$s\u00A7e ---------------
+command.help.subcommandheader=\u00A7e--------- \u00A7a%1$s Help - %2$s\u00A7e ---------
+command.help.invalidhelp= Sorry but \u00A7e%1$s\u00A7c is not a valid page number or sub command.
 
 command.reload.help=Reloads portal data
 command.reload.detailedhelp=Reloads all portal data from files in the data folder
 command.reload.reloaded= All Advanced Portals data reloaded
+
+command.create.help=Creates portals
+command.create.noargs= You need to actually list args for portal creation.
+command.create.noname= You need to at least give a name to the portal no matter how many other tags you give it.
+command.create.detailedhelp=List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
+
 
 command.version.help=Returns the current version of the plugin
 

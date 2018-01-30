@@ -53,7 +53,16 @@ public class CommandWithSubCommands implements CommandTemplate {
                         }
                     }
                     catch(NumberFormatException e) {
-                        sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidnum", args[1]));
+                        String subCommand = args[1].toLowerCase();
+                        if(this.subCommandRegistry.isArgRegistered(subCommand)) {
+                            sender.sendMessage(Lang.translateInsertVariablesColor("command.help.subcommandheader",
+                                    commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), subCommand));
+                            sender.sendMessage(Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));
+                            sender.sendMessage(this.getSubCommand(subCommand).getDetailedHelpText());
+                        }
+                        else {
+                            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));
+                        }
                         return;
                     }
                 }

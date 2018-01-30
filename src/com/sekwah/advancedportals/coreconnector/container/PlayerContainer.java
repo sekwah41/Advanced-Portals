@@ -13,8 +13,7 @@ public class PlayerContainer {
         return null;
     }
     
-    public void sendMessage(String message) {
-    }
+    public void sendMessage(String message) {}
 
     public boolean isOp() {
         return false;
@@ -24,7 +23,11 @@ public class PlayerContainer {
         return null;
     }
 
+    public void teleport(PlayerLocation location) {}
+
     public boolean hasPermission(String permission) {
         return false;
     }
+
+    public void giveItem(String material, String itemName, String... itemDescription) {}
 }
