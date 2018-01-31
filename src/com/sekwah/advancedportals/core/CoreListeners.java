@@ -36,6 +36,36 @@ public class CoreListeners {
 
     /**
      *
+     * @param fromPos
+     * @param toPos
+     * @return if movement is allowed
+     */
+    public boolean liquidFlow(PortalLocation fromPos, PortalLocation toPos) {
+        return true;
+    }
+
+    /**
+     * @player player causing the event (or null if not a player)
+     * @param blockPos
+     * @param blockMaterial
+     * @return if the block is allowed to break
+     */
+    public boolean blockBreak(PlayerContainer player, PortalLocation blockPos, String blockMaterial) {
+        return true;
+    }
+
+    /**
+     * If the block is allowed to be interacted with e.g. a lever
+     * @player player causing the event (or null if not a player)
+     * @param blockPos
+     * @return
+     */
+    public boolean blockInteract(PlayerContainer player, PortalLocation blockPos) {
+        return true;
+    }
+
+    /**
+     *
      * @param player
      * @param blockLoc
      * @param leftClick true = left click, false = right click

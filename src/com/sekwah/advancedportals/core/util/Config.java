@@ -19,6 +19,10 @@ public class Config {
 
     private int portalCooldown = 5;
 
+    private String warpParticles = "ENDER";
+
+    private String warpSound = "ENDER";
+
     private String selectionBlock_BELOW_1_13 = "STAINED_GLASS";
 
     private String selectionBlock = "RED_STAINED_GLASS";

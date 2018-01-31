@@ -8,15 +8,22 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 import java.util.List;
 
 public class TransUpdateSubCommand implements SubCommand {
+
+    private final AdvancedPortalsCore portalsCore;
+
+    public TransUpdateSubCommand(AdvancedPortalsCore portalsCore) {
+        this.portalsCore = portalsCore;
+    }
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        AdvancedPortalsCore.getInstance().getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+        this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("translatedata.replaced"));
     }
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp();
+        return sender.isOp() || sender.hasPermission("advancedportals.transupdate");
     }
 
     @Override
@@ -26,11 +33,11 @@ public class TransUpdateSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return "This is basic help text";
+        return Lang.translate("command.trans.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return "This help text is a lot more detailed than the basic one";
+        return Lang.translate("command.trans.help");
     }
 }
