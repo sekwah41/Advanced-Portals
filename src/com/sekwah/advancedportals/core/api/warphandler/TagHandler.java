@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.api.portal.PortalTagExeption;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
@@ -19,27 +21,30 @@ public class TagHandler {
         DEFAULT;
     }
 
+    /**
+     * The events for portal creation and destroying
+     */
     public interface Creation {
 
         /**
          * Example if the player does not have access to use a tag on the portal.
          *
          * @param player     if null the portal has been created by the server or a plugin
-         * @param activeData
          * @param argData
          * @return if the portal can be created.
+         * @throws PortalTagExeption message given is the reason the portal cant be made
          */
-        boolean portalCreated(PlayerContainer player, ActivationData activeData, String argData);
+        void portalCreated(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalTagExeption;
 
         /**
          * Example if the player does not have access to remove the portal.
          *
          * @param player     if null the portal has been destroyed by the server or a plugin
-         * @param activeData
          * @param argData
          * @return if the portal can be destroyed.
+         * @throws PortalTagExeption message given is the reason the portal cant be removed
          */
-        boolean portalDestroyed(PlayerContainer player, ActivationData activeData, String argData);
+        void portalDestroyed(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalTagExeption;
 
     }
 
@@ -52,7 +57,7 @@ public class TagHandler {
          * @param activeData
          * @param argData
          */
-        void portalPreActivated(PlayerContainer player, ActivationData activeData, String argData);
+        void portalPreActivated(AdvancedPortal portal, PlayerContainer player, ActivationData activeData, String argData);
 
         /**
          * Activates after portal activation
@@ -61,7 +66,7 @@ public class TagHandler {
          * @param activeData
          * @param argData
          */
-        void portalPostActivated(PlayerContainer player, ActivationData activeData, String argData);
+        void portalPostActivated(AdvancedPortal portal, PlayerContainer player, ActivationData activeData, String argData);
 
         /**
          * Activates if the portal is allowed from pre
@@ -70,31 +75,29 @@ public class TagHandler {
          * @param activeData
          * @param argData
          */
-        void portalActivated(PlayerContainer player, ActivationData activeData, String argData);
+        void portalActivated(AdvancedPortal portal, PlayerContainer player, ActivationData activeData, String argData);
 
     }
 
     public interface TagStatus {
 
         /**
-         * If the user has access to add the tag
+         * If the user has access to add the tag (this does not include being added on creation)
          *
          * @param player
-         * @param activeData
          * @param argData
          * @return if the tag will be added.
          */
-        boolean tagAdded(PlayerContainer player, ActivationData activeData, String argData);
+        boolean tagAdded(AdvancedPortal portal, PlayerContainer player, String argData);
 
         /**
-         * If the user has access to remove the tag
+         * If the user has access to remove the tag (this does not include being added on destruction)
          *
          * @param player
-         * @param activeData
          * @param argData
          * @return if the tag will be removed.
          */
-        boolean tagRemoved(PlayerContainer player, ActivationData activeData, String argData);
+        boolean tagRemoved(AdvancedPortal portal, PlayerContainer player, String argData);
 
     }
 

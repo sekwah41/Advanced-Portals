@@ -27,6 +27,9 @@ Advanced Portals <a href="https://travis-ci.org/sekwah41/Advanced-Portals/branch
     <li>Sponge Powered (planned)</li>
 </ul>
 
+<h1>API</h1>
+Still needs major work on the documentation however javadocs will be made available on my website on release.
+
 <h1>Usage Data</h1>
 
 <img src="http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png" alt="Global Plugin Stats" title="Global Plugin Stats">

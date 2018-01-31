@@ -32,4 +32,12 @@ public class PlayerContainer {
     public PlayerLocation getLoc() {
         return null;
     }
+
+    public void teleport(PlayerLocation location) {}
+
+    public boolean hasPermission(String permission) {
+        return false;
+    }
+
+    public void giveItem(String material, String itemName, String... itemDescription) {}
 }

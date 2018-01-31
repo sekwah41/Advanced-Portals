@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.core;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.managers.DestinationManager;
 import com.sekwah.advancedportals.core.api.managers.PortalManager;
+import com.sekwah.advancedportals.core.api.registry.TagRegistry;
+import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.ReloadSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.TransUpdateSubCommand;
@@ -19,8 +21,12 @@ public class AdvancedPortalsCore {
     private final CommandRegister commandRegister;
     private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
+    private final int mcMinorVer;
 
-    private final CoreListeners coreListeners;
+    private WarpEffectRegistry warpEffectRegistry;
+    private TagRegistry tagRegistry;
+
+    private CoreListeners coreListeners;
 
     private Config config;
 
@@ -33,22 +39,71 @@ public class AdvancedPortalsCore {
     public static final String version = "1.0.0";
     public static final String lastTranslationUpdate = "1.0.0";
 
-    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister) {
+    /**
+     *
+     * @param dataStorage
+     * @param infoLogger
+     * @param commandRegister
+     * @param mcVer Minecraft version e.g. 1.12.2
+     */
+    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister, int[] mcVer) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
         this.instance = this;
         this.commandRegister = commandRegister;
-        this.coreListeners = new CoreListeners(this);
-        this.portalManager = new PortalManager(this);
-        this.destiManager = new DestinationManager(this);
+        this.mcMinorVer = this.checkMcVer(mcVer);
+
         this.onEnable();
+
     }
+
+    private int checkMcVer(int[] mcVer) {
+        int maxSupportedVer = 12;
+        int minSupportedVer = 8;
+        if(mcVer.length == 2 || mcVer.length == 3) {
+            if(mcVer[0] == 1) {
+                if(mcVer[1] < minSupportedVer) {
+                    this.infoLogger.logWarning("Older version of mc detected than officially supported. This is very likely not to work.");
+                    return minSupportedVer;
+                }
+                else if (mcVer[1] > maxSupportedVer) {
+                    this.infoLogger.logWarning("Newer version of mc detected than currently supported by this version. The plugin may not work.");
+                    return maxSupportedVer;
+                }
+                else {
+                    return mcVer[1];
+                }
+            }
+            else {
+                this.infoLogger.logWarning("It seems you are using a very strange version of minecraft or something is " +
+                        "seriously wrong with the plugin for getting the version of minecraft.");
+                return maxSupportedVer;
+            }
+        }
+        else {
+            String version = String.valueOf(mcVer[0]);
+            for (int i = 0; i < mcVer.length; i++) {
+                version += "." + mcVer[i];
+            }
+            this.infoLogger.logWarning(version + " is definitely not a valid or currently supported mc version. " +
+                    "Advanced Portals will try to use the newest available logic and see if it works though results " +
+                    "may be unreliable. ");
+            return maxSupportedVer;
+        }
+    }
+
 
     public static String getTranslationName() {
         return instance.config.getTranslation();
     }
 
     private void onEnable() {
+        this.coreListeners = new CoreListeners(this);
+        this.portalManager = new PortalManager(this);
+        this.destiManager = new DestinationManager(this);
+        this.warpEffectRegistry = new WarpEffectRegistry();
+        this.tagRegistry = new TagRegistry();
+
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
         this.loadPortalConfig();
@@ -66,8 +121,8 @@ public class AdvancedPortalsCore {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
-        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
-        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
+        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
+        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -105,6 +160,10 @@ public class AdvancedPortalsCore {
         return instance;
     }
 
+    public Config getConfig() {
+        return this.config;
+    }
+
     public DataStorage getDataStorage() {
         return this.dataStorage;
     }
@@ -123,5 +182,9 @@ public class AdvancedPortalsCore {
 
     public static DestinationManager getDestiManager() {
         return instance.destiManager;
+    }
+
+    public static TagRegistry getTagRegistry() {
+        return instance.tagRegistry;
     }
 }

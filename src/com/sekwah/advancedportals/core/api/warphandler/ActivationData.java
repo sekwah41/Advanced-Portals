@@ -1,6 +1,8 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
 
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+
 /**
  * Created by on 30/07/2016.
  *
@@ -10,9 +12,11 @@ public class ActivationData {
 
     private boolean warpAllowed = true;
 
-    private WarpedStatus warpStatus = WarpedStatus.INACTIVE;
+    private WarpedStatus warpStatus = WarpedStatus.NOTACTIVATED;
 
     //private Portal activePortal;
+
+    private PlayerLocation wantedLocation;
 
     /*public ActivationData(Portal portal){
         this.activePortal = portal;
@@ -25,7 +29,7 @@ public class ActivationData {
     public void setWarpStatus(WarpedStatus warped) {
         if (this.warpStatus == WarpedStatus.WARPED) {
             return;
-        } else if (this.warpStatus == WarpedStatus.INACTIVE) {
+        } else if (this.warpStatus == WarpedStatus.NOTACTIVATED) {
             return;
         }
         this.warpStatus = warped;
@@ -58,9 +62,9 @@ public class ActivationData {
          */
         ACTIVATED,
         /**
-         * Nothing has activated on the portal.
+         * Nothing has activated on the portal (may need to come up with a new name)
          */
-        INACTIVE;
+        NOTACTIVATED;
     }
 
 }

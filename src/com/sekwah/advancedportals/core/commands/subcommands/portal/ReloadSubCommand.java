@@ -9,16 +9,23 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 import java.util.List;
 
 public class ReloadSubCommand implements SubCommand {
+
+    private final AdvancedPortalsCore portalsCore;
+
+    public ReloadSubCommand(AdvancedPortalsCore portalsCore) {
+        this.portalsCore = portalsCore;
+    }
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        AdvancedPortalsCore.getInstance().loadPortalConfig();
-        AdvancedPortalsCore.getPortalManager().loadPortals();
+        portalsCore.loadPortalConfig();
+        portalsCore.getPortalManager().loadPortals();
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.reload.reloaded"));
     }
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp();
+        return sender.isOp() || sender.hasPermission("advancedportals.reload");
     }
 
     @Override
