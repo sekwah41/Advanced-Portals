@@ -36,9 +36,18 @@ command.reload.reloaded= All Advanced Portals data reloaded
 
 command.create.help=Creates portals
 command.create.noargs= You need to actually list args for portal creation.
-command.create.noname= You need to at least give a name to the portal no matter how many other tags you give it.
+command.create.error= There was an error making the portal:
+command.create.console= You cannot create a portal using the console.
 command.create.detailedhelp=List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 
+command.remove.noname= You need to give the name of the portal you want to remove.
+command.remove.error= Removing the portal was blocked:
+
+portal.invalidselection=You must have both pos1 and pos2 selected to create a portal.
+portal.noname=No name for the portal has been given.
+portal.takenname=The name given for the portal is already taken.
+
+command.trans.help=Copy translation new default translation file
 
 command.version.help=Returns the current version of the plugin
 

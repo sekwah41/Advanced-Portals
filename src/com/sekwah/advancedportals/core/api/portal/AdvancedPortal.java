@@ -20,6 +20,8 @@ public class AdvancedPortal {
 
     private PortalLocation minLoc;
 
+    private String triggerBlock;
+
     private HashMap<String, String> args = new HashMap<>();
     private transient Set<String> argsCol;
 
@@ -64,16 +66,20 @@ public class AdvancedPortal {
         }
         for(PortalTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalPreActivated(player, data, this.getArg(portalTag.NAME));
+            activationHandler.portalPreActivated(this, player, data, this.getArg(portalTag.NAME));
         }
         for(PortalTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalActivated(player, data, this.getArg(portalTag.NAME));
+            activationHandler.portalActivated(this, player, data, this.getArg(portalTag.NAME));
         }
         for(PortalTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalPostActivated(player, data, this.getArg(portalTag.NAME));
+            activationHandler.portalPostActivated(this, player, data, this.getArg(portalTag.NAME));
         }
         return true;
+    }
+
+    public void setArg(PortalTag portalTag) {
+        this.setArg(portalTag.NAME, portalTag.VALUE);
     }
 }

@@ -108,6 +108,16 @@ public class TagRegistry {
         return false;
     }
 
+    /**
+     * Returns a non referenced copy of the array list.
+     * @return
+     */
+    public ArrayList<String> getTags() {
+        ArrayList<String> newArrayList = new ArrayList<>();
+        newArrayList.addAll(this.tags);
+        return newArrayList;
+    }
+
     public boolean isTagRegistered(String tag){
         return this.tagDesc.containsKey(tag);
     }
