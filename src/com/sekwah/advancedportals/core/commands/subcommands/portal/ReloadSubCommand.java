@@ -25,7 +25,7 @@ public class ReloadSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp();
+        return sender.isOp() || sender.hasPermission("advancedportals.reload");
     }
 
     @Override

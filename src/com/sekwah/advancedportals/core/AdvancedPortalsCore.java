@@ -121,7 +121,7 @@ public class AdvancedPortalsCore {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
-        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
+        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
@@ -156,9 +156,9 @@ public class AdvancedPortalsCore {
         this.infoLogger.log(Lang.translate("logger.plugindisable"));
     }
 
-    /*public static AdvancedPortalsCore getInstance() {
+    public static AdvancedPortalsCore getInstance() {
         return instance;
-    }*/
+    }
 
     public Config getConfig() {
         return this.config;
