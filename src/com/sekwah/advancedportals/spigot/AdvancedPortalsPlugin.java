@@ -10,8 +10,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private AdvancedPortalsCore portalsCore;
 
     public void onEnable() {
+        // TODO actually get the minecraft version
         this.portalsCore = new AdvancedPortalsCore(new DataStorage(this.getDataFolder()),
-                new SpigotInfoLogger(this), new CommandRegister(this));
+                new SpigotInfoLogger(this), new CommandRegister(this), new int[]{1,12,2});
         this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
     }
 
