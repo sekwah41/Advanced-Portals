@@ -50,6 +50,8 @@ portal.invalidselection=You must have both pos1 and pos2 selected to create a po
 portal.noname=No name for the portal has been given.
 portal.takenname=The name given for the portal is already taken.
 
+portal.selector.poschange=\u00A7eYou have selected pos%1$s X:%2$s Y:%3$s Z:%4$s
+
 command.trans.help=Copy translation new default translation file
 
 command.version.help=Returns the current version of the plugin
