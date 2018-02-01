@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.PortalTagExeption;
+import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
@@ -32,9 +32,9 @@ public class TagHandler {
          * @param player     if null the portal has been created by the server or a plugin
          * @param argData
          * @return if the portal can be created.
-         * @throws PortalTagExeption message given is the reason the portal cant be made
+         * @throws PortalException message given is the reason the portal cant be made
          */
-        void portalCreated(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalTagExeption;
+        void portalCreated(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalException;
 
         /**
          * Example if the player does not have access to remove the portal.
@@ -42,9 +42,9 @@ public class TagHandler {
          * @param player     if null the portal has been destroyed by the server or a plugin
          * @param argData
          * @return if the portal can be destroyed.
-         * @throws PortalTagExeption message given is the reason the portal cant be removed
+         * @throws PortalException message given is the reason the portal cant be removed
          */
-        void portalDestroyed(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalTagExeption;
+        void portalDestroyed(AdvancedPortal portal, PlayerContainer player, String argData) throws PortalException;
 
     }
 
