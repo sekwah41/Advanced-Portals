@@ -20,7 +20,7 @@ public class SelectorSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
         if(player == null) {
-            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.playeronly"));
+            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
             player.giveItem(this.portalsCore.getConfig().getSelectorMaterial(), "\u00A7ePortal Region Selector"
