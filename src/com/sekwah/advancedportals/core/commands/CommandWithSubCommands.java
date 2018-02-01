@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommandWithSubCommands implements CommandTemplate {
@@ -130,6 +131,10 @@ public class CommandWithSubCommands implements CommandTemplate {
                     }
                 }
             }
+            if(args.length == 0) {
+                allowedCommands.add("help");
+            }
+            Collections.sort(allowedCommands);
             return allowedCommands;
         }
         return null;
