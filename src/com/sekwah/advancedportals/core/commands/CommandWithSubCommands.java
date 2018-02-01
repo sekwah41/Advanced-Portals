@@ -61,7 +61,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
                             sender.sendMessage(Lang.translateInsertVariablesColor("command.help.subcommandheader",
                                     commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), subCommand));
-                            sender.sendMessage("\u00A7e" + this.getSubCommand(subCommand).getDetailedHelpText());
+                            sender.sendMessage("\u00A77" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
                         else {
                             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));
@@ -109,14 +109,21 @@ public class CommandWithSubCommands implements CommandTemplate {
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
-            for (String subCommandName : this.subCommandRegistry.getSubCommands()) {
-                if (subCommandName.equalsIgnoreCase(args[0])) {
-                    SubCommand subCommand = this.getSubCommand(subCommandName);
-                    if(subCommand.hasPermission(sender)) {
-                        this.getSubCommand(subCommandName).onTabComplete(sender, args);
-                    }
-                    else {
-                        return null;
+            if(args[0].equalsIgnoreCase("help")) {
+                List<String> allowedCommands = new ArrayList<>();
+                allowedCommands.addAll(this.subCommandRegistry.getSubCommands());
+                Collections.sort(allowedCommands);
+                return allowedCommands;
+            }
+            else {
+                for (String subCommandName : this.subCommandRegistry.getSubCommands()) {
+                    if (subCommandName.equalsIgnoreCase(args[0])) {
+                        SubCommand subCommand = this.getSubCommand(subCommandName);
+                        if (subCommand.hasPermission(sender)) {
+                            this.getSubCommand(subCommandName).onTabComplete(sender, args);
+                        } else {
+                            return null;
+                        }
                     }
                 }
             }
@@ -131,7 +138,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                     }
                 }
             }
-            if(args.length == 0) {
+            if(args.length == 1) {
                 allowedCommands.add("help");
             }
             Collections.sort(allowedCommands);
