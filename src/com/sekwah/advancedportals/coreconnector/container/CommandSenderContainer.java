@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.coreconnector.container;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandSenderContainer {
 
@@ -24,6 +25,9 @@ public class CommandSenderContainer {
      * @return null if there isnt a player e.g. the console
      */
     public PlayerContainer getPlayerContainer() {
+        if (sender instanceof Player) {
+            return new PlayerContainer((Player) sender);
+        }
         return null;
     }
 
