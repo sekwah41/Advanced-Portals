@@ -79,7 +79,15 @@ public class PortalManager {
     }
 
     public void playerSelectorActivate(PlayerContainer player, PortalLocation blockLoc, boolean leftClick) {
-
+        int side = leftClick ? 1 : 2;
+        if(leftClick) {
+            this.portalSelectorLeftClick.put(player.getUUID().toString(), blockLoc);
+        }
+        else {
+            this.portalSelectorRightClick.put(player.getUUID().toString(), blockLoc);
+        }
+        player.sendMessage(Lang.translateInsertVariablesColor("portal.selector.poschange", side, blockLoc.posX,
+                blockLoc.posY, blockLoc.posZ));
     }
 
     public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
