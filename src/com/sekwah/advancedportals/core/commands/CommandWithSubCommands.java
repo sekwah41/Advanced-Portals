@@ -18,7 +18,10 @@ public class CommandWithSubCommands implements CommandTemplate {
         this.subCommandRegistry = new SubCommandRegistry();
     }
 
-    public boolean registerSubCommand(String arg, SubCommand subCommand) {
+    public boolean registerSubCommand(String arg, SubCommand subCommand, String... additionalArgs) {
+        for(String additionalArg : additionalArgs) {
+            this.subCommandRegistry.registerSubCommand(additionalArg,subCommand);
+        }
         return this.subCommandRegistry.registerSubCommand(arg,subCommand);
     }
 
@@ -57,8 +60,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
                             sender.sendMessage(Lang.translateInsertVariablesColor("command.help.subcommandheader",
                                     commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), subCommand));
-                            sender.sendMessage(Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));
-                            sender.sendMessage(this.getSubCommand(subCommand).getDetailedHelpText());
+                            sender.sendMessage("\u00A7e" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
                         else {
                             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));

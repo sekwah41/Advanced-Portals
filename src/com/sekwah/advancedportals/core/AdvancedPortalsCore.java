@@ -6,9 +6,7 @@ import com.sekwah.advancedportals.core.api.managers.PortalManager;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
-import com.sekwah.advancedportals.core.commands.subcommands.portal.ReloadSubCommand;
-import com.sekwah.advancedportals.core.commands.subcommands.portal.TransUpdateSubCommand;
-import com.sekwah.advancedportals.core.commands.subcommands.portal.VersionSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
@@ -123,6 +121,7 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
         this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
+        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(this), "wand");
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
     }
