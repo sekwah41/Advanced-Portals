@@ -90,7 +90,8 @@ public class CoreListeners {
      */
     public void playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
                                         PortalLocation blockLoc, boolean leftClick) {
-        if(materialName.equalsIgnoreCase(this.portalsCore.getConfig().getSelectorMaterial())
+        if((player.isOp() || player.hasPermission("advancedportals.createportal")) &&
+                materialName.equalsIgnoreCase(this.portalsCore.getConfig().getSelectorMaterial())
                 && (!this.portalsCore.getConfig().getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
             AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
         }
