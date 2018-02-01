@@ -3,8 +3,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.PortalTag;
-import com.sekwah.advancedportals.core.api.portal.PortalTagExeption;
+import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
@@ -19,8 +18,12 @@ public class RemoveSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
-
-
+            try {
+                AdvancedPortalsCore.getPortalManager().removePortal(sender.getPlayerContainer(), args[1]);
+            } catch (PortalException portalTagExeption) {
+                sender.sendMessage(Lang.translateColor("messageprefix.negative")
+                        + Lang.translateColor("command.remove.error") + " " + portalTagExeption.getMessage());
+            }
         }
         else {
             PlayerContainer player = sender.getPlayerContainer();
@@ -30,7 +33,7 @@ public class RemoveSubCommand implements SubCommand {
             else {
                 try {
                     AdvancedPortalsCore.getPortalManager().removePlayerSelection(player);
-                } catch (PortalTagExeption portalTagExeption) {
+                } catch (PortalException portalTagExeption) {
                     sender.sendMessage(Lang.translateColor("messageprefix.negative")
                             + Lang.translateColor("command.remove.error") + " " + portalTagExeption.getMessage());
                 }

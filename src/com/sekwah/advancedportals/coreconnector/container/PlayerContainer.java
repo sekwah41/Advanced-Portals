@@ -31,10 +31,32 @@ public class PlayerContainer {
         return null;
     }
 
+    public double getEyeHeight() {
+        return 0;
+    }
+
     public void teleport(PlayerLocation location) {}
 
     public boolean hasPermission(String permission) {
         return false;
+    }
+
+    /**
+     * @param blockPos
+     * @param material
+     */
+    public void sendFakeBlock(PortalLocation blockPos, String material) {
+
+    }
+
+    /**
+     * Only 1.12 and below supported
+     * @param blockPos
+     * @param material
+     * @param data
+     */
+    public void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data) {
+
     }
 
     public void giveItem(String material, String itemName, String... itemDescription) {}
