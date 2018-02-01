@@ -15,7 +15,7 @@ public class CoreListeners {
     }
 
     public void playerJoin(PlayerContainer player) {
-        AdvancedPortalsCore.getPortalManager().playerJoin(player);
+        AdvancedPortalsCore.getPortalManager().activateCooldown(player);
         if(player.isOp()) {
             if(!Lang.translate("translatedata.lastchange").equals(AdvancedPortalsCore.lastTranslationUpdate)) {
                 player.sendMessage(Lang.translateColor("messageprefix.negative")
@@ -26,10 +26,28 @@ public class CoreListeners {
         }
     }
 
+    public void teleportEvent(PlayerContainer player) {
+        AdvancedPortalsCore.getPortalManager().activateCooldown(player);
+    }
+
     public void playerLeave(PlayerContainer player) {
         AdvancedPortalsCore.getPortalManager().playerLeave(player);
     }
 
+    /**
+     * @param loc where the entity spawns
+     * @return if the entity is allowed to spawn
+     */
+    public boolean mobSpawn(PlayerLocation loc) {
+        return !AdvancedPortalsCore.getPortalManager().inPortalRegion(loc);
+    }
+
+    /**
+     * @param player
+     * @param fromLoc
+     * @param toLoc
+     * @return if the player is allowed to move
+     */
     public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
         return AdvancedPortalsCore.getPortalManager().playerMove(player, fromLoc, toLoc);
     }
