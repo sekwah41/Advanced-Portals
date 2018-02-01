@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.portal.PortalTag;
-import com.sekwah.advancedportals.core.api.portal.PortalTagExeption;
+import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
@@ -27,10 +27,11 @@ public class PortalManager {
      * Store data of when the player last entered the portal
      */
     private HashMap<String, Long> lastAttempt = new HashMap();
+
     /**
-     * Tracks what portal a player has selected
+     * Tracks the name of portal a player has selected
      */
-    private HashMap<String, AdvancedPortal> selectedPortal = new HashMap();
+    private HashMap<String, String> selectedPortal = new HashMap();
 
     private HashMap<String, PortalLocation> portalSelectorLeftClick = new HashMap();
     private HashMap<String, PortalLocation> portalSelectorRightClick = new HashMap();
@@ -73,35 +74,33 @@ public class PortalManager {
         this.updatePortalArray();
     }
 
-    public boolean removePortal(String portalName) {
-        if (this.portalHashMap.containsKey(portalName)) {
-            this.portalHashMap.remove(portalName);
-            this.updatePortalArray();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void playerJoin(PlayerContainer player) {
+    public void activateCooldown(PlayerContainer player) {
         this.lastAttempt.put(player.getUUID().toString(), System.currentTimeMillis());
     }
 
     public void playerSelectorActivate(PlayerContainer player, PortalLocation blockLoc, boolean leftClick) {
-
+        int side = leftClick ? 1 : 2;
+        if(leftClick) {
+            this.portalSelectorLeftClick.put(player.getUUID().toString(), blockLoc);
+        }
+        else {
+            this.portalSelectorRightClick.put(player.getUUID().toString(), blockLoc);
+        }
+        player.sendMessage(Lang.translateInsertVariablesColor("portal.selector.poschange", side, blockLoc.posX,
+                blockLoc.posY, blockLoc.posZ));
     }
 
     public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
         return false;
     }
 
-    public void createPortal(PlayerContainer player, ArrayList<PortalTag> tags) throws PortalTagExeption {
+    public void createPortal(PlayerContainer player, ArrayList<PortalTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
             this.createPortal(player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
-            throw new PortalTagExeption(Lang.translate("portal.invalidselection"));
+            throw new PortalException(Lang.translate("portal.invalidselection"));
         }
     }
 
@@ -111,9 +110,9 @@ public class PortalManager {
      * @param loc2
      * @param tags
      * @return
-     * @throws PortalTagExeption
+     * @throws PortalException
      */
-    public boolean createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalTagExeption {
+    public boolean createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalException {
         return createPortal(null, loc1, loc2, tags);
     }
 
@@ -127,9 +126,9 @@ public class PortalManager {
      * @param loc2
      * @param tags
      * @return
-     * @throws PortalTagExeption
+     * @throws PortalException
      */
-    public boolean createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalTagExeption {
+    public boolean createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalException {
         int maxX = Math.max(loc1.posX, loc2.posX);
         int maxY = Math.max(loc1.posY, loc2.posY);
         int maxZ = Math.max(loc1.posZ, loc2.posZ);
@@ -150,10 +149,10 @@ public class PortalManager {
         }
         String portalName = portal.getArg("name");
         if(portalName == null || portalName.equals("")) {
-            throw new PortalTagExeption(Lang.translate("portal.noname"));
+            throw new PortalException(Lang.translate("portal.noname"));
         }
         else if(this.portalHashMap.containsKey(portalName)) {
-            throw new PortalTagExeption(Lang.translate("portal.takenname"));
+            throw new PortalException(Lang.translate("portal.takenname"));
         }
         portal.removeArg("name");
         this.portalHashMap.put(portalName, portal);
@@ -166,12 +165,40 @@ public class PortalManager {
         this.portals = portalValues.toArray(new AdvancedPortal[0]);
     }
 
-    public void removePlayerSelection(PlayerContainer player) throws PortalTagExeption {
+    public void removePlayerSelection(PlayerContainer player) throws PortalException {
+        String portal = this.selectedPortal.get(player.getUUID());
+        if(portal != null) {
+            try {
+                this.removePortal(player, portal);
+            }
+            catch(PortalException e) {
+                if(e.getMessage().equals(Lang.translate("command.remove.noname"))) {
+                    this.selectedPortal.remove(player.getUUID());
+                    throw new PortalException(Lang.translate("command.remove.invalidselection"));
+                }
+                else {
+                    throw e;
+                }
+            }
+        }
+        throw new PortalException(Lang.translate("command.remove.noselection"));
+    }
+
+    /**
+     * @param player null if a player didnt send it
+     * @param portalName
+     * @throws PortalException
+     */
+    public void removePortal(PlayerContainer player, String portalName) throws PortalException {
+        AdvancedPortal portal = this.getPortal(portalName);
+        if(portal == null) {
+            throw new PortalException(Lang.translate("command.remove.noname"));
+        }
 
     }
 
-    public void removePortal(PlayerContainer player, String portalName) throws PortalTagExeption {
-
+    private AdvancedPortal getPortal(String portalName) {
+        return this.portalHashMap.get(portalName);
     }
 
     /**
@@ -181,4 +208,13 @@ public class PortalManager {
     public Set<Map.Entry<String, AdvancedPortal>> getPortals() {
         return this.portalHashMap.entrySet();
     }
+
+    public boolean inPortalRegion(PlayerLocation loc) {
+        return this.inPortalRegion(loc, 0);
+    }
+
+    private boolean inPortalRegion(PlayerLocation loc, int additionalArea) {
+        return true;
+    }
+
 }
