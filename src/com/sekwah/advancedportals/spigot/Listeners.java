@@ -31,7 +31,7 @@ public class Listeners implements Listener {
             Location blockloc = event.getClickedBlock().getLocation();
             this.coreListeners.playerInteractWithBlock(new PlayerContainer(event.getPlayer()), event.getMaterial().toString(),
                     event.getItem().getItemMeta().getDisplayName(),
-                    new PortalLocation(blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()),
+                    new PortalLocation(blockloc.getWorld().getName(), blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()),
                     event.getAction() == Action.LEFT_CLICK_BLOCK);
         }
     }
