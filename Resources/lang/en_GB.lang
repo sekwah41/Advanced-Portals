@@ -50,7 +50,7 @@ command.remove.noselection=You don't have a portal selected
 
 command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector
-command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals. You can also use /portal
+command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
 portal.invalidselection=You must have both pos1 and pos2 selected to create a portal.
 portal.noname=No name for the portal has been given.
