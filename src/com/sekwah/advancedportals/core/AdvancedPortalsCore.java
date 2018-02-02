@@ -122,6 +122,8 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
         this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(this), "wand");
+        this.portalCommand.registerSubCommand("create", new CreateSubCommand());
+        this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
     }
