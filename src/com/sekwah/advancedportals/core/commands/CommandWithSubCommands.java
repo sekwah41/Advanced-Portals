@@ -38,7 +38,6 @@ public class CommandWithSubCommands implements CommandTemplate {
         return this.subCommandRegistry.getSubCommand(arg);
     }
 
-
     @Override
     public void onCommand(CommandSenderContainer sender, String commandExecuted, String[] args) {
         if(args.length > 0) {
@@ -113,14 +112,15 @@ public class CommandWithSubCommands implements CommandTemplate {
                 List<String> allowedCommands = new ArrayList<>();
                 allowedCommands.addAll(this.subCommandRegistry.getSubCommands());
                 Collections.sort(allowedCommands);
-                return allowedCommands;
+                return this.filterTabResults(allowedCommands, args[args.length - 1]);
             }
             else {
                 for (String subCommandName : this.subCommandRegistry.getSubCommands()) {
                     if (subCommandName.equalsIgnoreCase(args[0])) {
                         SubCommand subCommand = this.getSubCommand(subCommandName);
                         if (subCommand.hasPermission(sender)) {
-                            this.getSubCommand(subCommandName).onTabComplete(sender, args);
+                            return this.filterTabResults(this.getSubCommand(subCommandName).onTabComplete(sender, args),
+                                    args[args.length - 1]);
                         } else {
                             return null;
                         }
@@ -136,12 +136,19 @@ public class CommandWithSubCommands implements CommandTemplate {
                     allowedCommands.add(subCommandName);
                 }
             }
-            if(args.length == 1) {
-                allowedCommands.add("help");
-            }
+            allowedCommands.add("help");
             Collections.sort(allowedCommands);
-            return allowedCommands;
+            return this.filterTabResults(allowedCommands, args[0]);
         }
         return null;
+    }
+
+    public List<String> filterTabResults(List<String> tabList, String lastArg) {
+        for(String arg : tabList) {
+            if(!arg.startsWith(lastArg.toLowerCase())) {
+                tabList.remove(arg);
+            }
+        }
+        return tabList;
     }
 }
