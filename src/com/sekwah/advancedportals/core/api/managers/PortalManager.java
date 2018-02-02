@@ -136,8 +136,12 @@ public class PortalManager {
         int minY = Math.min(loc1.posY, loc2.posY);
         int minZ = Math.min(loc1.posZ, loc2.posZ);
 
-        PortalLocation maxLoc = new PortalLocation(maxX, maxY, maxZ);
-        PortalLocation minLoc = new PortalLocation(minX, minY, minZ);
+        if(!loc1.worldName.equalsIgnoreCase(loc2.worldName)) {
+            throw new PortalException(Lang.translate("portal.selection.differentworlds"));
+        }
+
+        PortalLocation maxLoc = new PortalLocation(loc1.worldName, maxX, maxY, maxZ);
+        PortalLocation minLoc = new PortalLocation(loc1.worldName, minX, minY, minZ);
 
         AdvancedPortal portal = new AdvancedPortal(maxLoc, minLoc);
         for(PortalTag portalTag : tags) {
