@@ -38,7 +38,7 @@ public class PlayerContainer {
 
     public PlayerLocation getLoc() {
         Location loc = this.player.getLocation();
-        return new PlayerLocation(loc.getX(), loc.getY(), loc.getZ());
+        return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ());
     }
 
     public double getEyeHeight() {
