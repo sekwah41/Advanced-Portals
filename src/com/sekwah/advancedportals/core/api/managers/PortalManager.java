@@ -64,7 +64,7 @@ public class PortalManager {
      * Load the default data into the portals.
      */
     public void loadPortals() {
-        Type type = new TypeToken<Map<String, AdvancedPortal>>() {
+        Type type = new TypeToken<HashMap<String, AdvancedPortal>>() {
         }.getType();
         this.portalHashMap = this.portalsCore.getDataStorage().loadJson(type, "portals.json");
         if (this.portalHashMap == null) {
