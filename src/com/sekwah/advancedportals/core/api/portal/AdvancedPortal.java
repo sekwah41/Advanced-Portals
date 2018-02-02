@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.api.portal;
 
+import com.google.gson.annotations.SerializedName;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.warphandler.ActivationData;
@@ -16,13 +17,18 @@ import java.util.Set;
  * @author sekwah41
  */
 public class AdvancedPortal {
+    @SerializedName("max")
     private PortalLocation maxLoc;
 
+    @SerializedName("min")
     private PortalLocation minLoc;
 
+    @SerializedName("t")
     private String triggerBlock;
 
+    @SerializedName("a")
     private HashMap<String, String> args = new HashMap<>();
+
     private transient Set<String> argsCol;
 
     public AdvancedPortal(PortalLocation maxLoc, PortalLocation minLoc) {
