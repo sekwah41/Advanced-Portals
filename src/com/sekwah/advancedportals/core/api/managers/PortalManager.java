@@ -70,7 +70,7 @@ public class PortalManager {
         if (this.portalHashMap == null) {
             this.portalHashMap = new HashMap<>();
         }
-        this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "config.json");
+        this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "portals.json");
         this.updatePortalArray();
     }
 
