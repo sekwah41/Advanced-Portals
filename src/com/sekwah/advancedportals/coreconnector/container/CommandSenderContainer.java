@@ -32,6 +32,6 @@ public class CommandSenderContainer {
     }
 
     public boolean hasPermission(String permission) {
-        return false;
+        return sender.hasPermission(permission);
     }
 }
