@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -25,21 +27,24 @@ public class PlayerContainer {
     }
 
     public boolean isOp() {
-        return player.isOp();
+        return this.player.isOp();
     }
 
     public PlayerLocation getLoc() {
-        return null;
+        Location loc = this.player.getLocation();
+        return new PlayerLocation(loc.getX(), loc.getY(), loc.getZ());
     }
 
     public double getEyeHeight() {
         return 0;
     }
 
-    public void teleport(PlayerLocation location) {}
+    public void teleport(PlayerLocation location) {
+        this.player.teleport(new Location(Bukkit.getWorld(location.worldName), location.posX, location.posY, location.posZ));
+    }
 
     public boolean hasPermission(String permission) {
-        return false;
+        return this.player.hasPermission(permission);
     }
 
     /**
