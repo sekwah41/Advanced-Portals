@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.core.api.managers;
 import com.google.gson.reflect.TypeToken;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.PortalTag;
+import com.sekwah.advancedportals.core.api.portal.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
@@ -94,7 +94,7 @@ public class PortalManager {
         return false;
     }
 
-    public void createPortal(PlayerContainer player, ArrayList<PortalTag> tags) throws PortalException {
+    public void createPortal(PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
             this.createPortal(player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
@@ -112,8 +112,8 @@ public class PortalManager {
      * @return
      * @throws PortalException
      */
-    public boolean createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalException {
-        return createPortal(null, loc1, loc2, tags);
+    public void createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
+        createPortal(null, loc1, loc2, tags);
     }
 
 
@@ -125,10 +125,13 @@ public class PortalManager {
      * @param loc1
      * @param loc2
      * @param tags
-     * @return
      * @throws PortalException
      */
-    public boolean createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<PortalTag> tags) throws PortalException {
+    public void createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
+        if(player == null) {
+            throw new PortalException(Lang.translate("error.notplayer"));
+        }
+
         int maxX = Math.max(loc1.posX, loc2.posX);
         int maxY = Math.max(loc1.posY, loc2.posY);
         int maxZ = Math.max(loc1.posZ, loc2.posZ);
@@ -137,31 +140,30 @@ public class PortalManager {
         int minZ = Math.min(loc1.posZ, loc2.posZ);
 
         if(!loc1.worldName.equalsIgnoreCase(loc2.worldName)) {
-            throw new PortalException(Lang.translate("portal.selection.differentworlds"));
+            throw new PortalException(Lang.translate("portal.error.selection.differentworlds"));
         }
 
         PortalLocation maxLoc = new PortalLocation(loc1.worldName, maxX, maxY, maxZ);
         PortalLocation minLoc = new PortalLocation(loc1.worldName, minX, minY, minZ);
 
         AdvancedPortal portal = new AdvancedPortal(maxLoc, minLoc);
-        for(PortalTag portalTag : tags) {
+        for(DataTag portalTag : tags) {
             portal.setArg(portalTag);
         }
-        for(PortalTag portalTag : tags) {
+        for(DataTag portalTag : tags) {
             TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
             creation.portalCreated(portal, player, portalTag.VALUE);
         }
         String portalName = portal.getArg("name");
         if(portalName == null || portalName.equals("")) {
-            throw new PortalException(Lang.translate("portal.noname"));
+            throw new PortalException(Lang.translate("portal.error.noname"));
         }
         else if(this.portalHashMap.containsKey(portalName)) {
-            throw new PortalException(Lang.translate("portal.takenname"));
+            throw new PortalException(Lang.translate("portal.error.takenname"));
         }
         portal.removeArg("name");
         this.portalHashMap.put(portalName, portal);
         this.updatePortalArray();
-        return true;
     }
 
     private void updatePortalArray() {
@@ -197,6 +199,11 @@ public class PortalManager {
         AdvancedPortal portal = this.getPortal(portalName);
         if(portal == null) {
             throw new PortalException(Lang.translate("command.remove.noname"));
+        }
+
+        for(DataTag portalTag : portal.getArgs()) {
+            TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
+            creation.portalCreated(portal, player, portalTag.VALUE);
         }
 
     }

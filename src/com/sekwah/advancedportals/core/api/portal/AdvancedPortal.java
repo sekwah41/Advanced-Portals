@@ -8,7 +8,7 @@ import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -65,27 +65,35 @@ public class AdvancedPortal {
     public boolean activatePortal(PlayerContainer player) {
         TagRegistry tagRegistry = AdvancedPortalsCore.getTagRegistry();
         ActivationData data = new ActivationData();
-        PortalTag[] portalTags = new PortalTag[argsCol.size()];
+        DataTag[] portalTags = new DataTag[argsCol.size()];
         String[] argNames = argsCol.toArray(new String[argsCol.size()]);
         for (int i = 0; i < argNames.length; i++) {
-            portalTags[i] = new PortalTag(argNames[i], this.getArg(argNames[i]));
+            portalTags[i] = new DataTag(argNames[i], this.getArg(argNames[i]));
         }
-        for(PortalTag portalTag : portalTags) {
+        for(DataTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalPreActivated(this, player, data, this.getArg(portalTag.NAME));
+            activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
         }
-        for(PortalTag portalTag : portalTags) {
+        for(DataTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalActivated(this, player, data, this.getArg(portalTag.NAME));
+            activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
         }
-        for(PortalTag portalTag : portalTags) {
+        for(DataTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.portalPostActivated(this, player, data, this.getArg(portalTag.NAME));
+            activationHandler.postActivated(this, player, data, this.getArg(portalTag.NAME));
         }
         return true;
     }
 
-    public void setArg(PortalTag portalTag) {
+    public void setArg(DataTag portalTag) {
         this.setArg(portalTag.NAME, portalTag.VALUE);
+    }
+
+    public ArrayList<DataTag> getArgs() {
+        ArrayList<DataTag> tagList = new ArrayList<>();
+        for(Map.Entry<String, String> entry : this.args.entrySet()){
+            tagList.add(new DataTag(entry.getKey(), entry.getValue()));
+        }
+        return tagList ;
     }
 }
