@@ -112,6 +112,8 @@ public class AdvancedPortalsCore {
 
         this.portalManager.loadPortals();
 
+        this.destiManager.loadDestinations();
+
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
 
