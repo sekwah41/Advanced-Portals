@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
-import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 
@@ -20,6 +19,7 @@ public class ReloadSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         portalsCore.loadPortalConfig();
         portalsCore.getPortalManager().loadPortals();
+        portalsCore.getDestiManager().loadDestinations();
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.reload.reloaded"));
     }
 

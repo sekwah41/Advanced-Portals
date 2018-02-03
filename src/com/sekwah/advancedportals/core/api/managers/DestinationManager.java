@@ -1,8 +1,16 @@
 package com.sekwah.advancedportals.core.api.managers;
 
+import com.google.gson.reflect.TypeToken;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.destination.Destination;
+import com.sekwah.advancedportals.core.api.portal.DataTag;
+import com.sekwah.advancedportals.core.api.portal.DestinationException;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,5 +26,23 @@ public class DestinationManager {
 
     public DestinationManager(AdvancedPortalsCore portalsCore) {
         this.portalsCore = portalsCore;
+    }
+
+    public void createDesti(PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> dataTags) throws DestinationException {
+        if(player == null) {
+            throw new DestinationException(Lang.translate("error.notplayer"));
+        }
+
+
+    }
+
+    public void loadDestinations() {
+        Type type = new TypeToken<HashMap<String, Destination>>() {
+        }.getType();
+        this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        if (this.destiHashMap == null) {
+            this.destiHashMap = new HashMap<>();
+        }
+        this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
     }
 }

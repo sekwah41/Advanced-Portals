@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
-import com.sekwah.advancedportals.core.api.portal.PortalTag;
+import com.sekwah.advancedportals.core.api.portal.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
@@ -21,7 +21,7 @@ public class CreateSubCommand implements SubCommand {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
                 return;
             }
-            ArrayList<PortalTag> portalTags = new ArrayList<>();
+            ArrayList<DataTag> portalTags = new ArrayList<>();
             boolean partingValueWithSpaces = false;
             String argBeingParsed = "";
             String currentParsedValue = "";
@@ -30,7 +30,7 @@ public class CreateSubCommand implements SubCommand {
                     if(args[i].charAt(args[i].length() - 1) == '"') {
                         args[i] = args[i].substring(0, args[i].length() - 1);
                         partingValueWithSpaces = false;
-                        portalTags.add(new PortalTag(argBeingParsed, currentParsedValue));
+                        portalTags.add(new DataTag(argBeingParsed, currentParsedValue));
                     }
                     else {
                         currentParsedValue += " " + args[i];
@@ -45,7 +45,7 @@ public class CreateSubCommand implements SubCommand {
                             currentParsedValue = arg;
                         }
                         else {
-                            portalTags.add(new PortalTag(detectedTag, arg));
+                            portalTags.add(new DataTag(detectedTag, arg));
                         }
                     }
                 }
