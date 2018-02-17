@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core;
 
-import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.core.util.Lang;
