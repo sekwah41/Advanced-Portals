@@ -15,7 +15,7 @@ public class CreateSubCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if(args.length > 1) {
+        if(args.length > 2) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
@@ -25,7 +25,7 @@ public class CreateSubCommand implements SubCommand {
             boolean partingValueWithSpaces = false;
             String argBeingParsed = "";
             String currentParsedValue = "";
-            for (int i = 1; i < args.length; i++) {
+            for (int i = 2; i < args.length; i++) {
                 if(partingValueWithSpaces) {
                     if(args[i].charAt(args[i].length() - 1) == '"') {
                         args[i] = args[i].substring(0, args[i].length() - 1);
@@ -51,14 +51,14 @@ public class CreateSubCommand implements SubCommand {
                 }
             }
             try {
-                AdvancedPortalsCore.getPortalManager().createPortal(player, portalTags);
+                AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
                         + portalTagExeption.getMessage());
             }
         }
         else {
-            sender.sendMessage(Lang.translate("command.create.noargs"));
+            sender.sendMessage(Lang.translate("command.error.noname"));
         }
     }
 
