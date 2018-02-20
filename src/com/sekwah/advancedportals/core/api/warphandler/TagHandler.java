@@ -14,7 +14,6 @@ public class TagHandler {
          *
          * @param player     if null the portal has been created by the server or a plugin
          * @param argData
-         * @return if the portal can be created.
          * @throws PortalException message given is the reason the portal cant be made
          */
         void portalCreated(T target, PlayerContainer player, String argData) throws PortalException;
@@ -24,7 +23,6 @@ public class TagHandler {
          *
          * @param player     if null the portal has been destroyed by the server or a plugin
          * @param argData
-         * @return if the portal can be destroyed.
          * @throws PortalException message given is the reason the portal cant be removed
          */
         void portalDestroyed(T target, PlayerContainer player, String argData) throws PortalException;
