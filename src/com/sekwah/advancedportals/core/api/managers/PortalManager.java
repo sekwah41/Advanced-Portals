@@ -94,10 +94,10 @@ public class PortalManager {
         return false;
     }
 
-    public void createPortal(PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
+    public void createPortal(String name, PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
-            this.createPortal(player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
+            this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
             throw new PortalException(Lang.translate("portal.invalidselection"));
@@ -112,8 +112,8 @@ public class PortalManager {
      * @return
      * @throws PortalException
      */
-    public void createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
-        createPortal(null, loc1, loc2, tags);
+    public void createPortal(String name, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
+        createPortal(name, null, loc1, loc2, tags);
     }
 
 
@@ -127,10 +127,7 @@ public class PortalManager {
      * @param tags
      * @throws PortalException
      */
-    public void createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
-        if(player == null) {
-            throw new PortalException(Lang.translate("error.notplayer"));
-        }
+    public void createPortal(String name, PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
 
         int maxX = Math.max(loc1.posX, loc2.posX);
         int maxY = Math.max(loc1.posY, loc2.posY);
@@ -154,15 +151,13 @@ public class PortalManager {
             TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
             creation.portalCreated(portal, player, portalTag.VALUE);
         }
-        String portalName = portal.getArg("name");
-        if(portalName == null || portalName.equals("")) {
+        if(name == null || name.equals("")) {
             throw new PortalException(Lang.translate("portal.error.noname"));
         }
-        else if(this.portalHashMap.containsKey(portalName)) {
+        else if(this.portalHashMap.containsKey(name)) {
             throw new PortalException(Lang.translate("portal.error.takenname"));
         }
-        portal.removeArg("name");
-        this.portalHashMap.put(portalName, portal);
+        this.portalHashMap.put(name, portal);
         this.updatePortalArray();
     }
 
