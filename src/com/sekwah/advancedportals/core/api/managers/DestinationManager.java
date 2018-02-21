@@ -29,7 +29,6 @@ public class DestinationManager {
     }
 
     public void createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
-        Destination destination = new Destination(playerLocation);
         if(name == null || name.equals("")) {
             throw new PortalException("desti.error.noname");
         }
