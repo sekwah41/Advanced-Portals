@@ -23,12 +23,12 @@ public class WarpEffectRegistry {
      * @param effect
      * @return if the effect was registered
      */
-    public boolean registerEffect(String name, WarpEffect effect) {
+    public boolean registerEffect(String name, WarpEffect effect, WarpEffect.Type type) {
         if(name == null){
             return false;
         }
         Map<String, WarpEffect> list = null;
-        switch (effect.getType()){
+        switch (type){
             case SOUND:
                 list = this.soundEffects;
                 break;
@@ -36,7 +36,7 @@ public class WarpEffectRegistry {
                 list = this.visualEffects;
                 break;
             default:
-                AdvancedPortalsCore.getInfoLogger().logWarning(effect.getType().toString()
+                AdvancedPortalsCore.getInfoLogger().logWarning(type.toString()
                         + " effect type not recognised");
                 return false;
         }

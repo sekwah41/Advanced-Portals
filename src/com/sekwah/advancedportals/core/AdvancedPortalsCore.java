@@ -1,8 +1,10 @@
 package com.sekwah.advancedportals.core;
 
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
+import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.api.managers.DestinationManager;
 import com.sekwah.advancedportals.core.api.managers.PortalManager;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
@@ -22,7 +24,8 @@ public class AdvancedPortalsCore {
     private final int mcMinorVer;
 
     private WarpEffectRegistry warpEffectRegistry;
-    private TagRegistry tagRegistry;
+    private TagRegistry<AdvancedPortal> portalTagRegistry;
+    private TagRegistry<Destination> destiTagRegistry;
 
     private CoreListeners coreListeners;
 
@@ -38,10 +41,9 @@ public class AdvancedPortalsCore {
     public static final String lastTranslationUpdate = "1.0.0";
 
     /**
-     *
-     * @param dataStorage
-     * @param infoLogger
-     * @param commandRegister
+     * @param dataStorage - The implementation of data storage for the specific platform
+     * @param infoLogger - The implementation of the logger for the specific platform
+     * @param commandRegister - Handles the command registry, different on each platform
      * @param mcVer Minecraft version e.g. 1.12.2
      */
     public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister, int[] mcVer) {
@@ -52,7 +54,6 @@ public class AdvancedPortalsCore {
         this.mcMinorVer = this.checkMcVer(mcVer);
 
         this.onEnable();
-
     }
 
     private int checkMcVer(int[] mcVer) {
@@ -100,7 +101,8 @@ public class AdvancedPortalsCore {
         this.portalManager = new PortalManager(this);
         this.destiManager = new DestinationManager(this);
         this.warpEffectRegistry = new WarpEffectRegistry();
-        this.tagRegistry = new TagRegistry();
+        this.portalTagRegistry = new TagRegistry<>();
+        this.destiTagRegistry = new TagRegistry<>();
 
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
@@ -183,11 +185,15 @@ public class AdvancedPortalsCore {
         return instance.portalManager;
     }
 
-    public static DestinationManager getDestiManager() {
+    public static DestinationManager getDestinationManager() {
         return instance.destiManager;
     }
 
-    public static TagRegistry getTagRegistry() {
-        return instance.tagRegistry;
+    public static TagRegistry<AdvancedPortal> getPortalTagRegistry() {
+        return instance.portalTagRegistry;
+    }
+
+    public static TagRegistry<Destination> getDestinationTagRegistry() {
+        return instance.destiTagRegistry;
     }
 }

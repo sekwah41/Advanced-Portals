@@ -30,6 +30,9 @@ Advanced Portals <a href="https://travis-ci.org/sekwah41/Advanced-Portals/branch
 <h1>API</h1>
 Still needs major work on the documentation however javadocs will be made available on my website on release.
 
+May be out of date but I will keep whatever javadocs there are updated every now and then here
+http://www.sekwah.com/javadocs/advancedportals/
+
 <h1>Usage Data</h1>
 
 <img src="http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png" alt="Global Plugin Stats" title="Global Plugin Stats">

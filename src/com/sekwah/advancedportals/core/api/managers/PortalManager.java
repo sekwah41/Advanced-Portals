@@ -94,13 +94,13 @@ public class PortalManager {
         return false;
     }
 
-    public void createPortal(PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
+    public void createPortal(String name, PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
-            this.createPortal(player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
+            this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
-            throw new PortalException(Lang.translate("portal.invalidselection"));
+            throw new PortalException("portal.invalidselection");
         }
     }
 
@@ -112,8 +112,8 @@ public class PortalManager {
      * @return
      * @throws PortalException
      */
-    public void createPortal(PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
-        createPortal(null, loc1, loc2, tags);
+    public void createPortal(String name, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
+        createPortal(name, null, loc1, loc2, tags);
     }
 
 
@@ -127,10 +127,7 @@ public class PortalManager {
      * @param tags
      * @throws PortalException
      */
-    public void createPortal(PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
-        if(player == null) {
-            throw new PortalException(Lang.translate("error.notplayer"));
-        }
+    public void createPortal(String name, PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
 
         int maxX = Math.max(loc1.posX, loc2.posX);
         int maxY = Math.max(loc1.posY, loc2.posY);
@@ -140,29 +137,35 @@ public class PortalManager {
         int minZ = Math.min(loc1.posZ, loc2.posZ);
 
         if(!loc1.worldName.equalsIgnoreCase(loc2.worldName)) {
-            throw new PortalException(Lang.translate("portal.error.selection.differentworlds"));
+            throw new PortalException("portal.error.selection.differentworlds");
         }
 
         PortalLocation maxLoc = new PortalLocation(loc1.worldName, maxX, maxY, maxZ);
         PortalLocation minLoc = new PortalLocation(loc1.worldName, minX, minY, minZ);
 
+        if(name == null || name.equals("")) {
+            throw new PortalException("portal.error.noname");
+        }
+        else if(this.portalHashMap.containsKey(name)) {
+            throw new PortalException("portal.error.takenname");
+        }
+
         AdvancedPortal portal = new AdvancedPortal(maxLoc, minLoc);
         for(DataTag portalTag : tags) {
-            portal.setArg(portalTag);
+            if(portalTag.NAME.equalsIgnoreCase("triggerblock")) {
+                portal.setTriggerBlocks(portalTag.VALUE.split(","));
+            }
+            else {
+                portal.setArg(portalTag);
+            }
         }
         for(DataTag portalTag : tags) {
-            TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.portalCreated(portal, player, portalTag.VALUE);
+            TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
+            if(creation != null) {
+                creation.created(portal, player, portalTag.VALUE);
+            }
         }
-        String portalName = portal.getArg("name");
-        if(portalName == null || portalName.equals("")) {
-            throw new PortalException(Lang.translate("portal.error.noname"));
-        }
-        else if(this.portalHashMap.containsKey(portalName)) {
-            throw new PortalException(Lang.translate("portal.error.takenname"));
-        }
-        portal.removeArg("name");
-        this.portalHashMap.put(portalName, portal);
+        this.portalHashMap.put(name, portal);
         this.updatePortalArray();
     }
 
@@ -172,38 +175,38 @@ public class PortalManager {
     }
 
     public void removePlayerSelection(PlayerContainer player) throws PortalException {
-        String portal = this.selectedPortal.get(player.getUUID());
+        String portal = this.selectedPortal.get(player.getUUID().toString());
         if(portal != null) {
             try {
-                this.removePortal(player, portal);
+                this.removePortal(portal, player);
             }
             catch(PortalException e) {
-                if(e.getMessage().equals(Lang.translate("command.remove.noname"))) {
-                    this.selectedPortal.remove(player.getUUID());
-                    throw new PortalException(Lang.translate("command.remove.invalidselection"));
+                if(e.getMessage().equals("command.remove.noname")) {
+                    this.selectedPortal.remove(player.getUUID().toString());
+                    throw new PortalException("command.remove.invalidselection");
                 }
                 else {
                     throw e;
                 }
             }
         }
-        throw new PortalException(Lang.translate("command.remove.noselection"));
+        throw new PortalException("command.remove.noselection");
     }
 
     /**
+     * @param portalName name of portal
      * @param player null if a player didnt send it
-     * @param portalName
      * @throws PortalException
      */
-    public void removePortal(PlayerContainer player, String portalName) throws PortalException {
+    public void removePortal(String portalName, PlayerContainer player) throws PortalException {
         AdvancedPortal portal = this.getPortal(portalName);
         if(portal == null) {
-            throw new PortalException(Lang.translate("command.remove.noname"));
+            throw new PortalException("command.remove.noname");
         }
 
         for(DataTag portalTag : portal.getArgs()) {
-            TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.portalCreated(portal, player, portalTag.VALUE);
+            TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
+            creation.created(portal, player, portalTag.VALUE);
         }
 
     }
