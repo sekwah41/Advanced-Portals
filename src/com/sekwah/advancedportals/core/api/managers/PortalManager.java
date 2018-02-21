@@ -148,8 +148,8 @@ public class PortalManager {
             portal.setArg(portalTag);
         }
         for(DataTag portalTag : tags) {
-            TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.portalCreated(portal, player, portalTag.VALUE);
+            TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
+            creation.created(portal, player, portalTag.VALUE);
         }
         if(name == null || name.equals("")) {
             throw new PortalException("portal.error.noname");
@@ -167,14 +167,14 @@ public class PortalManager {
     }
 
     public void removePlayerSelection(PlayerContainer player) throws PortalException {
-        String portal = this.selectedPortal.get(player.getUUID());
+        String portal = this.selectedPortal.get(player.getUUID().toString());
         if(portal != null) {
             try {
                 this.removePortal(player, portal);
             }
             catch(PortalException e) {
                 if(e.getMessage().equals("command.remove.noname")) {
-                    this.selectedPortal.remove(player.getUUID());
+                    this.selectedPortal.remove(player.getUUID().toString());
                     throw new PortalException("command.remove.invalidselection");
                 }
                 else {
@@ -187,7 +187,7 @@ public class PortalManager {
 
     /**
      * @param player null if a player didnt send it
-     * @param portalName
+     * @param portalName name of portal
      * @throws PortalException
      */
     public void removePortal(PlayerContainer player, String portalName) throws PortalException {
@@ -197,8 +197,8 @@ public class PortalManager {
         }
 
         for(DataTag portalTag : portal.getArgs()) {
-            TagHandler.Creation creation = AdvancedPortalsCore.getTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.portalCreated(portal, player, portalTag.VALUE);
+            TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
+            creation.created(portal, player, portalTag.VALUE);
         }
 
     }
