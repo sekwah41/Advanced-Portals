@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
+import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
@@ -126,7 +127,7 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
         this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(this), "wand");
-        this.portalCommand.registerSubCommand("create", new CreateSubCommand());
+        this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
 
         this.commandRegister.registerCommand("portal", this.portalCommand);
@@ -134,6 +135,9 @@ public class AdvancedPortalsCore {
 
     private void registerDestinationCommand() {
         this.destiCommand = new CommandWithSubCommands();
+
+        this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
+
         this.commandRegister.registerCommand("destination", this.destiCommand);
     }
 
