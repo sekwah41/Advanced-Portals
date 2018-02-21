@@ -22,7 +22,7 @@ public class RemoveSubCommand implements SubCommand {
                 AdvancedPortalsCore.getPortalManager().removePortal(sender.getPlayerContainer(), args[1]);
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative")
-                        + Lang.translateColor("command.remove.error") + " " + portalTagExeption.getMessage());
+                        + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
             }
         }
         else {
@@ -35,7 +35,7 @@ public class RemoveSubCommand implements SubCommand {
                     AdvancedPortalsCore.getPortalManager().removePlayerSelection(player);
                 } catch (PortalException portalTagExeption) {
                     sender.sendMessage(Lang.translateColor("messageprefix.negative")
-                            + Lang.translateColor("command.remove.error") + " " + portalTagExeption.getMessage());
+                            + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
                 }
             }
         }

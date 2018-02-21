@@ -29,10 +29,6 @@ public class DestinationManager {
     }
 
     public void createDesti(PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> dataTags) throws DestinationException {
-        if(player == null) {
-            throw new DestinationException(Lang.translate("error.notplayer"));
-        }
-
 
     }
 
