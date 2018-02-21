@@ -14,14 +14,8 @@ public class ActivationData {
 
     private WarpedStatus warpStatus = WarpedStatus.NOTACTIVATED;
 
-    //private Portal activePortal;
-
     private PlayerLocation wantedLocation;
 
-    /*public ActivationData(Portal portal){
-        this.activePortal = portal;
-    }
-*/
     public WarpedStatus getWarped() {
         return this.warpStatus;
     }

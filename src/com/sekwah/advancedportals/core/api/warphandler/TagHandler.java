@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
-import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
