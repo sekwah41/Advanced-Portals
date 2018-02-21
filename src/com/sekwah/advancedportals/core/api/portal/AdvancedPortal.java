@@ -17,6 +17,7 @@ import java.util.Set;
  * @author sekwah41
  */
 public class AdvancedPortal {
+
     @SerializedName("max")
     private PortalLocation maxLoc;
 

@@ -100,7 +100,7 @@ public class PortalManager {
             this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
-            throw new PortalException(Lang.translate("portal.invalidselection"));
+            throw new PortalException("portal.invalidselection");
         }
     }
 
@@ -137,7 +137,7 @@ public class PortalManager {
         int minZ = Math.min(loc1.posZ, loc2.posZ);
 
         if(!loc1.worldName.equalsIgnoreCase(loc2.worldName)) {
-            throw new PortalException(Lang.translate("portal.error.selection.differentworlds"));
+            throw new PortalException("portal.error.selection.differentworlds");
         }
 
         PortalLocation maxLoc = new PortalLocation(loc1.worldName, maxX, maxY, maxZ);
@@ -152,10 +152,10 @@ public class PortalManager {
             creation.portalCreated(portal, player, portalTag.VALUE);
         }
         if(name == null || name.equals("")) {
-            throw new PortalException(Lang.translate("portal.error.noname"));
+            throw new PortalException("portal.error.noname");
         }
         else if(this.portalHashMap.containsKey(name)) {
-            throw new PortalException(Lang.translate("portal.error.takenname"));
+            throw new PortalException("portal.error.takenname");
         }
         this.portalHashMap.put(name, portal);
         this.updatePortalArray();
@@ -173,16 +173,16 @@ public class PortalManager {
                 this.removePortal(player, portal);
             }
             catch(PortalException e) {
-                if(e.getMessage().equals(Lang.translate("command.remove.noname"))) {
+                if(e.getMessage().equals("command.remove.noname")) {
                     this.selectedPortal.remove(player.getUUID());
-                    throw new PortalException(Lang.translate("command.remove.invalidselection"));
+                    throw new PortalException("command.remove.invalidselection");
                 }
                 else {
                     throw e;
                 }
             }
         }
-        throw new PortalException(Lang.translate("command.remove.noselection"));
+        throw new PortalException("command.remove.noselection");
     }
 
     /**
@@ -193,7 +193,7 @@ public class PortalManager {
     public void removePortal(PlayerContainer player, String portalName) throws PortalException {
         AdvancedPortal portal = this.getPortal(portalName);
         if(portal == null) {
-            throw new PortalException(Lang.translate("command.remove.noname"));
+            throw new PortalException("command.remove.noname");
         }
 
         for(DataTag portalTag : portal.getArgs()) {
