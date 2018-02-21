@@ -109,4 +109,8 @@ public class AdvancedPortal {
         }
         return tagList;
     }
+
+    public void setTriggerBlocks(String[] triggerBlocks) {
+        this.triggerBlocks = triggerBlocks;
+    }
 }
