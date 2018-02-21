@@ -45,6 +45,10 @@ public class Destination {
         this.args.put(argName, argValue);
     }
 
+    public void setArg(DataTag portalTag) {
+        this.setArg(portalTag.NAME, portalTag.VALUE);
+    }
+
     public void removeArg(String arg) {
         this.args.remove(arg);
     }

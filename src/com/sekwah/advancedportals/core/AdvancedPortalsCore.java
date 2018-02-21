@@ -185,7 +185,7 @@ public class AdvancedPortalsCore {
         return instance.portalManager;
     }
 
-    public static DestinationManager getDestiManager() {
+    public static DestinationManager getDestinationManager() {
         return instance.destiManager;
     }
 

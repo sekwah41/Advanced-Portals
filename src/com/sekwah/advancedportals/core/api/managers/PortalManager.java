@@ -143,21 +143,27 @@ public class PortalManager {
         PortalLocation maxLoc = new PortalLocation(loc1.worldName, maxX, maxY, maxZ);
         PortalLocation minLoc = new PortalLocation(loc1.worldName, minX, minY, minZ);
 
+        if(name == null || name.equals("")) {
+            throw new PortalException("portal.error.noname");
+        }
+        else if(this.portalHashMap.containsKey(name)) {
+            throw new PortalException("portal.error.takenname");
+        }
+
         AdvancedPortal portal = new AdvancedPortal(maxLoc, minLoc);
         for(DataTag portalTag : tags) {
-            portal.setArg(portalTag);
+            if(portalTag.NAME.equalsIgnoreCase("triggerblock")) {
+                portal.setTriggerBlocks(portalTag.VALUE.split(","));
+            }
+            else {
+                portal.setArg(portalTag);
+            }
         }
         for(DataTag portalTag : tags) {
             TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
             if(creation != null) {
                 creation.created(portal, player, portalTag.VALUE);
             }
-        }
-        if(name == null || name.equals("")) {
-            throw new PortalException("portal.error.noname");
-        }
-        else if(this.portalHashMap.containsKey(name)) {
-            throw new PortalException("portal.error.takenname");
         }
         this.portalHashMap.put(name, portal);
         this.updatePortalArray();
@@ -172,7 +178,7 @@ public class PortalManager {
         String portal = this.selectedPortal.get(player.getUUID().toString());
         if(portal != null) {
             try {
-                this.removePortal(player, portal);
+                this.removePortal(portal, player);
             }
             catch(PortalException e) {
                 if(e.getMessage().equals("command.remove.noname")) {
@@ -188,11 +194,11 @@ public class PortalManager {
     }
 
     /**
-     * @param player null if a player didnt send it
      * @param portalName name of portal
+     * @param player null if a player didnt send it
      * @throws PortalException
      */
-    public void removePortal(PlayerContainer player, String portalName) throws PortalException {
+    public void removePortal(String portalName, PlayerContainer player) throws PortalException {
         AdvancedPortal portal = this.getPortal(portalName);
         if(portal == null) {
             throw new PortalException("command.remove.noname");

@@ -19,7 +19,7 @@ public class RemoveSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
             try {
-                AdvancedPortalsCore.getPortalManager().removePortal(sender.getPlayerContainer(), args[1]);
+                AdvancedPortalsCore.getPortalManager().removePortal(args[1], sender.getPlayerContainer());
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative")
                         + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
