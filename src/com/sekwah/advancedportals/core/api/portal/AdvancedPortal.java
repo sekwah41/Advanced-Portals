@@ -64,20 +64,25 @@ public class AdvancedPortal {
     }
 
     public boolean activatePortal(PlayerContainer player) {
-        TagRegistry tagRegistry = AdvancedPortalsCore.getTagRegistry();
+        TagRegistry tagRegistry = AdvancedPortalsCore.getPortalTagRegistry();
         ActivationData data = new ActivationData();
         DataTag[] portalTags = new DataTag[argsCol.size()];
         String[] argNames = argsCol.toArray(new String[argsCol.size()]);
         for (int i = 0; i < argNames.length; i++) {
             portalTags[i] = new DataTag(argNames[i], this.getArg(argNames[i]));
         }
-        for(DataTag portalTag : portalTags) {
-            TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
+        try {
+            for(DataTag portalTag : portalTags) {
+                TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+                activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
+            }
+            for(DataTag portalTag : portalTags) {
+                TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+                activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
+            }
         }
-        for(DataTag portalTag : portalTags) {
-            TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
+        catch(PortalException e) {
+            // TODO add portal error message
         }
         for(DataTag portalTag : portalTags) {
             TagHandler.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);

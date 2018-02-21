@@ -63,7 +63,7 @@ public class CreateSubCommand implements SubCommand {
     }
 
     private String getTag(String arg) {
-        ArrayList<String> tags = AdvancedPortalsCore.getTagRegistry().getTags();
+        ArrayList<String> tags = AdvancedPortalsCore.getPortalTagRegistry().getTags();
         for(String tag : tags) {
             if(arg.startsWith(tag + ":")) {
                 return tag;

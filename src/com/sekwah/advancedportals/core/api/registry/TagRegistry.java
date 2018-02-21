@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author sekwah41
  */
-public class TagRegistry {
+public class TagRegistry<T> {
 
     /**
      * List of tag names which should be in order alphabetically
@@ -24,16 +24,16 @@ public class TagRegistry {
      * Description of tags for help commands
      */
     private Map<String, String> tagDesc = new HashMap();
-    private Map<String, TagHandler.Activation> activationHandlers = new HashMap();
-    private Map<String, TagHandler.Creation> creationHandlers = new HashMap();
-    private Map<String, TagHandler.TagStatus> statusHandlers = new HashMap();
+    private Map<String, TagHandler.Activation<T>> activationHandlers = new HashMap();
+    private Map<String, TagHandler.Creation<T>> creationHandlers = new HashMap();
+    private Map<String, TagHandler.TagStatus<T>> statusHandlers = new HashMap();
 
     /**
      *
      * @param arg
      * @return
      */
-    public TagHandler.Activation getActivationHandler(String arg) {
+    public TagHandler.Activation<T> getActivationHandler(String arg) {
         return this.activationHandlers.get(arg);
     }
 
@@ -42,7 +42,7 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public TagHandler.Creation getCreationHandler(String arg) {
+    public TagHandler.Creation<T> getCreationHandler(String arg) {
         return this.creationHandlers.get(arg);
     }
 
@@ -51,7 +51,7 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public TagHandler.TagStatus getTagStatusHandler(String arg) {
+    public TagHandler.TagStatus<T> getTagStatusHandler(String arg) {
         return this.statusHandlers.get(arg);
     }
 
@@ -123,9 +123,10 @@ public class TagRegistry {
     }
 
     /**
+     * File must extend
      * @return if the tag has been registered or if it already exists.
      */
-    public  boolean registerTag(String tag, TagHandler tagHandler) {
+    public boolean registerTag(String tag, Object tagHandler) {
 
         if (tag == null) {
             AdvancedPortalsCore.getInfoLogger().logWarning("A tag cannot be null.");
@@ -136,18 +137,14 @@ public class TagRegistry {
             return false;
         }
 
-        if (tagHandler != null && !(tagHandler instanceof TagHandler.Activation) && !(tagHandler instanceof TagHandler.TagStatus) &&
-                !(tagHandler instanceof TagHandler.Creation)) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("Error with tag: " + tag + ". A tag handler must implement one of the handlers. Not just extend.");
-            if (tagHandler instanceof TagHandler.Activation) {
-                this.activationHandlers.put(tag, (TagHandler.Activation) tagHandler);
-            }
-            if (tagHandler instanceof TagHandler.TagStatus) {
-                this.statusHandlers.put(tag, (TagHandler.TagStatus) tagHandler);
-            }
-            if (tagHandler instanceof TagHandler.Creation) {
-                this.creationHandlers.put(tag, (TagHandler.Creation) tagHandler);
-            }
+        if (tagHandler instanceof TagHandler.Activation) {
+            this.activationHandlers.put(tag, (TagHandler.Activation<T>) tagHandler);
+        }
+        if (tagHandler instanceof TagHandler.TagStatus) {
+            this.statusHandlers.put(tag, (TagHandler.TagStatus<T>) tagHandler);
+        }
+        if (tagHandler instanceof TagHandler.Creation) {
+            this.creationHandlers.put(tag, (TagHandler.Creation<T>) tagHandler);
         }
         return true;
     }
