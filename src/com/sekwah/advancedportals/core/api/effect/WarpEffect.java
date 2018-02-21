@@ -13,18 +13,16 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
  *
  * @author sekwah41
  */
-public interface WarpEffect {
+public abstract class WarpEffect {
 
-    void onWarp(PlayerContainer player, PortalLocation loc, Action action, AdvancedPortal portal);
+    abstract void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal);
 
-    Type getType();
-
-    enum Action {
+    public enum Action {
         ENTER,
         EXIT;
     }
 
-    enum Type {
+    public enum Type {
         SOUND,
         VISUAL;
     }

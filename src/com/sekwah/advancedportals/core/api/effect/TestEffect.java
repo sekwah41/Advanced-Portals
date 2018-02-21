@@ -7,15 +7,9 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 /**
  * @author sekwah41
  */
-public class TestEffect implements WarpEffect {
-
+public class TestEffect extends WarpEffect {
     @Override
-    public void onWarp(PlayerContainer player, PortalLocation loc, Action action, AdvancedPortal portal) {
+    void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal) {
 
-    }
-
-    @Override
-    public Type getType() {
-        return null;
     }
 }

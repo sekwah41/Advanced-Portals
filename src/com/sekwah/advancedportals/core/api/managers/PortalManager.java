@@ -149,7 +149,9 @@ public class PortalManager {
         }
         for(DataTag portalTag : tags) {
             TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.created(portal, player, portalTag.VALUE);
+            if(creation != null) {
+                creation.created(portal, player, portalTag.VALUE);
+            }
         }
         if(name == null || name.equals("")) {
             throw new PortalException("portal.error.noname");

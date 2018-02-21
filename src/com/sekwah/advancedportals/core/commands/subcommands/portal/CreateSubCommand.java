@@ -30,7 +30,7 @@ public class CreateSubCommand implements SubCommand {
                     if(args[i].charAt(args[i].length() - 1) == '"') {
                         args[i] = args[i].substring(0, args[i].length() - 1);
                         partingValueWithSpaces = false;
-                        portalTags.add(new DataTag(argBeingParsed, currentParsedValue));
+                        portalTags.add(new DataTag(argBeingParsed.toLowerCase(), currentParsedValue));
                     }
                     else {
                         currentParsedValue += " " + args[i];
@@ -45,7 +45,7 @@ public class CreateSubCommand implements SubCommand {
                             currentParsedValue = arg;
                         }
                         else {
-                            portalTags.add(new DataTag(detectedTag, arg));
+                            portalTags.add(new DataTag(detectedTag.toLowerCase(), arg));
                         }
                     }
                 }

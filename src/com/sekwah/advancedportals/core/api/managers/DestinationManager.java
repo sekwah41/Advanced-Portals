@@ -6,7 +6,6 @@ import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.api.portal.DataTag;
 import com.sekwah.advancedportals.core.api.portal.DestinationException;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.lang.reflect.Type;
