@@ -12,10 +12,6 @@ public class ActivationData {
 
     private PlayerLocation wantedLocation;
 
-    /*public ActivationData(Portal portal){
-        this.activePortal = portal;
-    }
-*/
     public WarpedStatus getWarped() {
         return this.warpStatus;
     }

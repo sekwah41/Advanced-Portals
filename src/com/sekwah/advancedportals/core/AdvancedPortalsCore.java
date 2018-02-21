@@ -189,11 +189,11 @@ public class AdvancedPortalsCore {
         return instance.destiManager;
     }
 
-    public static TagRegistry getPortalTagRegistry() {
+    public static TagRegistry<AdvancedPortal> getPortalTagRegistry() {
         return instance.portalTagRegistry;
     }
 
-    public static TagRegistry getDestinationTagRegistry() {
+    public static TagRegistry<Destination> getDestinationTagRegistry() {
         return instance.destiTagRegistry;
     }
 }
