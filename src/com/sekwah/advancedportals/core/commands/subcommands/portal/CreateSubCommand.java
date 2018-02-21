@@ -54,7 +54,7 @@ public class CreateSubCommand implements SubCommand {
                 AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
-                        + portalTagExeption.getMessage());
+                        + Lang.translate(portalTagExeption.getMessage()));
             }
         }
         else {
