@@ -35,10 +35,18 @@ command.reload.detailedhelp=Reloads all portal data from files in the data folde
 command.reload.reloaded= All Advanced Portals data reloaded
 
 command.create.help=Creates portals
-command.create.noargs= You need to actually list args for portal creation.
 command.create.error= There was an error making the portal:
 command.create.console= You cannot create a portal using the console.
 command.create.detailedhelp=Format is /portal create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
+command.create.complete= The portal has been successfully created.
+
+command.createdesti.help=Creates destinations
+command.createdesti.error= There was an error making the destination:
+command.createdesti.console= You cannot create a destination using the console.
+command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
+command.createdesti.complete= The destination has been successfully created.
+
+command.create.tags=\u00A7aTags:
 
 command.playeronly= Sorry but that command can only be run by a player.
 
@@ -53,11 +61,11 @@ command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
 portal.error.invalidselection=You must have both pos1 and pos2 selected to create a portal.
-portal.error.noname=No name for the portal has been given.
 portal.error.takenname=The name given for the portal is already taken.
 portal.error.selection.differentworlds=Both the selected points need to be in the same world.
 
-desti.error.noname=No name for the portal has been given.
+command.error.noname= No name has been given.
+
 desti.error.takenname=The name given for the portal is already taken.
 
 error.notplayer=Only players can do that.

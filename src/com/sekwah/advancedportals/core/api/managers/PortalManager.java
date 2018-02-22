@@ -67,11 +67,15 @@ public class PortalManager {
         Type type = new TypeToken<HashMap<String, AdvancedPortal>>() {
         }.getType();
         this.portalHashMap = this.portalsCore.getDataStorage().loadJson(type, "portals.json");
+        this.savePortals();
+        this.updatePortalArray();
+    }
+
+    public void savePortals() {
         if (this.portalHashMap == null) {
             this.portalHashMap = new HashMap<>();
         }
         this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "portals.json");
-        this.updatePortalArray();
     }
 
     public void activateCooldown(PlayerContainer player) {
@@ -94,7 +98,7 @@ public class PortalManager {
         return false;
     }
 
-    public void createPortal(String name, PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
+    public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
             this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
@@ -102,6 +106,7 @@ public class PortalManager {
         } else {
             throw new PortalException("portal.invalidselection");
         }
+        return null;
     }
 
     /**
@@ -127,7 +132,7 @@ public class PortalManager {
      * @param tags
      * @throws PortalException
      */
-    public void createPortal(String name, PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
+    public AdvancedPortal createPortal(String name, PlayerContainer player, PortalLocation loc1, PortalLocation loc2, ArrayList<DataTag> tags) throws PortalException {
 
         int maxX = Math.max(loc1.posX, loc2.posX);
         int maxY = Math.max(loc1.posY, loc2.posY);
@@ -167,6 +172,7 @@ public class PortalManager {
         }
         this.portalHashMap.put(name, portal);
         this.updatePortalArray();
+        return portal;
     }
 
     private void updatePortalArray() {

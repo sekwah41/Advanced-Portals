@@ -28,7 +28,7 @@ public class DestinationManager {
         this.portalsCore = portalsCore;
     }
 
-    public void createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
+    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
         if(name == null || name.equals("")) {
             throw new PortalException("desti.error.noname");
         }
@@ -47,6 +47,7 @@ public class DestinationManager {
             }
         }
         this.destiHashMap.put(name, desti);
+        return desti;
     }
 
 
@@ -55,6 +56,10 @@ public class DestinationManager {
         Type type = new TypeToken<HashMap<String, Destination>>() {
         }.getType();
         this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        this.saveDestinations();
+    }
+
+    public void saveDestinations() {
         if (this.destiHashMap == null) {
             this.destiHashMap = new HashMap<>();
         }

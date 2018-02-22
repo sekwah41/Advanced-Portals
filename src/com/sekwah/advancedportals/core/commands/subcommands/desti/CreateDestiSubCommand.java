@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.desti;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
+import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.api.portal.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
@@ -16,22 +17,27 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if(args.length > 2) {
+        if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.createdesti.console"));
                 return;
             }
             ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
             try {
-                AdvancedPortalsCore.getDestinationManager().createDesti(args[1], player, player.getLoc(), destiTags);
+                Destination desti = AdvancedPortalsCore.getDestinationManager().createDesti(args[1], player, player.getLoc(), destiTags);
+                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
+                sender.sendMessage(Lang.translateColor("command.create.tags"));
+                for (DataTag tag: desti.getArgs()) {
+                    sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                }
             } catch (PortalException portalTagExeption) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.createdesti.error") + " "
                         + Lang.translate(portalTagExeption.getMessage()));
             }
         }
         else {
-            sender.sendMessage(Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
     }
 
@@ -57,11 +63,11 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.create.help");
+        return Lang.translate("command.createdesti.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.create.detailedhelp");
+        return Lang.translate("command.createdesti.detailedhelp");
     }
 }
