@@ -26,6 +26,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
             }
             ArrayList<DataTag> portalTags = this.getTagsFromArgs(args);
             try {
+                System.out.println(Arrays.toString(portalTags.toArray()));
                 AdvancedPortal portal = AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
                 if(portal != null) {
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
@@ -46,11 +47,9 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
     }
 
     protected String getTag(String arg) {
-        ArrayList<String> tags = AdvancedPortalsCore.getPortalTagRegistry().getTags();
-        for(String tag : tags) {
-            if(arg.startsWith(tag + ":")) {
-                return tag;
-            }
+        int splitLoc = arg.indexOf(":");
+        if(splitLoc != -1) {
+            return arg.substring(0,splitLoc + 1);
         }
         return null;
     }

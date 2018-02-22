@@ -157,7 +157,15 @@ public class PortalManager {
         AdvancedPortal portal = new AdvancedPortal(maxLoc, minLoc);
         for(DataTag portalTag : tags) {
             if(portalTag.NAME.equalsIgnoreCase("triggerblock")) {
-                portal.setTriggerBlocks(portalTag.VALUE.split(","));
+                ArrayList<String> triggers = new ArrayList<>();
+                for(String trigger : portalTag.VALUE.split(",")) {
+                    if(AdvancedPortalsCore.getDataCollector().materialExists(trigger)) {
+                        triggers.add(trigger.toLowerCase());
+                    }
+                }
+                if(triggers.size() != 0) {
+                    portal.setTriggerBlocks(triggers.toArray(new String[0]));
+                }
             }
             else {
                 portal.setArg(portalTag);
