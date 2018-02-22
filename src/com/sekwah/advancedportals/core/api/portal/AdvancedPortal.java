@@ -113,4 +113,8 @@ public class AdvancedPortal {
     public void setTriggerBlocks(String[] triggerBlocks) {
         this.triggerBlocks = triggerBlocks;
     }
+
+    public String[] getTriggerBlocks() {
+        return triggerBlocks;
+    }
 }
