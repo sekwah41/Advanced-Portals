@@ -14,7 +14,7 @@
 translatedata.lastchange=1.0.0
 translatedata.translationsoutdated= Some of the translations from the current translation file \u00A7e%1$s\u00A7c are out of date.
 translatedata.replacecommand= Use \u00A7e/portal transupdate\u00A7c to copy out a new default \u00A7een_GB\u00A7c file.
-translatedata.replaced= A new \u00A7een_GB\u00A7c file has been copied to the data folder.
+translatedata.replaced= A new \u00A7een_GB\u00A7a file has been copied to the data folder.
 
 messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
 messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
