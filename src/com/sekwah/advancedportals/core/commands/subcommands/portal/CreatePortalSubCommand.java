@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreatePortalSubCommand extends CreateSubCommand implements SubCommand {
@@ -29,6 +30,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
                 if(portal != null) {
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
                     sender.sendMessage(Lang.translateColor("command.create.tags"));
+                    sender.sendMessage("triggerBlock:" + Arrays.toString(portal.getTriggerBlocks()));
                     for (DataTag tag: portal.getArgs()) {
                         sender.sendMessage(tag.NAME + ":" + tag.VALUE);
                     }
