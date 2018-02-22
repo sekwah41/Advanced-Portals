@@ -23,7 +23,7 @@ public class EndPortalBlockSubCommand implements SubCommand {
             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
-            player.giveItem(this.portalsCore.getConfig().getSelectorMaterial(), "\u00A78End Portal Block Placer"
+            player.giveWool("BLACK", "\u00A78End Portal Block Placer"
                     , "\u00A7rThis wool is made of a magical substance",
                             "\u00A7rRight Click: Place portal block");
             sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.endportalblock"));

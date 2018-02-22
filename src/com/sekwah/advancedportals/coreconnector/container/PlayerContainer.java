@@ -47,6 +47,8 @@ public class PlayerContainer {
         return this.player.hasPermission(permission);
     }
 
+    public WorldContainer getWorld() {return null;}
+
     /**
      * @param blockPos
      * @param material
