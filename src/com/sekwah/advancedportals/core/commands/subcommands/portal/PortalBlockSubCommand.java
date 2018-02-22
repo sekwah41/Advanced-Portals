@@ -23,7 +23,7 @@ public class PortalBlockSubCommand implements SubCommand {
             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
-            player.giveItem(this.portalsCore.getConfig().getSelectorMaterial(), "\u00A75Portal Block Placer"
+            player.giveWool("PURPLE", "\u00A75Portal Block Placer"
                     , "\u00A7rThis wool is made of a magical substance",
                             "\u00A7rRight Click: Place portal block",
                             "\u00A7rLeft Click: Rotate portal block");
