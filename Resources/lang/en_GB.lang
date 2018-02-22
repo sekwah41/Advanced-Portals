@@ -55,11 +55,17 @@ command.remove.error= Removing the portal was blocked:
 command.remove.noname=No portal by that name was found
 command.remove.invalidselection=The portal selection you had is no longer valid
 command.remove.noselection=You don't have a portal selected
-command.create.complete= The portal has been successfully removed.
+command.remove.complete= The portal has been successfully removed.
 
 command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
+
+command.portalblock= You have been given a \u00A7ePortal Block\u00A7a!
+
+command.endportalblock= You have been given a \u00A78End Portal Block Placer\u00A7a!
+
+command.gatewayblock= You have been given a \u00A78Gateway Block Placer\u00A7a!
 
 portal.error.invalidselection=You must have both pos1 and pos2 selected to create a portal.
 portal.error.takenname=The name given for the portal is already taken.
