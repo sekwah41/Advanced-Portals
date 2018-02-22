@@ -115,13 +115,13 @@ public class CoreListeners {
      */
     public boolean playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
                                            PortalLocation blockLoc, boolean leftClick) {
-        if((player.isOp() || player.hasPermission("advancedportals.createportal")) &&
+        if(itemName != null && (player.isOp() || player.hasPermission("advancedportals.createportal")) &&
                 materialName.equalsIgnoreCase(this.portalsCore.getConfig().getSelectorMaterial())
                 && (!this.portalsCore.getConfig().getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
             AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
-        else if(leftClick && itemName.equals("\u00A75Portal Block Placer") && player.hasPermission("advancedportals.build")) {
+        else if(itemName != null && leftClick && itemName.equals("\u00A75Portal Block Placer") && player.hasPermission("advancedportals.build")) {
             WorldContainer world = player.getWorld();
             if(world.getBlockData(blockLoc) == 1) {
                 world.setBlockData(blockLoc, (byte) 2);
