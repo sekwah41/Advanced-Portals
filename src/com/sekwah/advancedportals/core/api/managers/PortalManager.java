@@ -101,12 +101,11 @@ public class PortalManager {
     public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> tags) throws PortalException {
         if (this.portalSelectorLeftClick.containsKey(player.getUUID().toString())
                 && this.portalSelectorRightClick.containsKey(player.getUUID().toString())) {
-            this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
+            return this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
             throw new PortalException("portal.invalidselection");
         }
-        return null;
     }
 
     /**
