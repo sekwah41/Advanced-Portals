@@ -31,7 +31,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
                 if(portal != null) {
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
                     sender.sendMessage(Lang.translateColor("command.create.tags"));
-                    sender.sendMessage("\u00A7e" + "triggerBlock:" + Arrays.toString(portal.getTriggerBlocks()));
+                    sender.sendMessage("\u00A7a" + "triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
                     for (DataTag tag: portal.getArgs()) {
                             sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUE);
                     }
