@@ -64,6 +64,8 @@ portal.error.invalidselection=You must have both pos1 and pos2 selected to creat
 portal.error.takenname=The name given for the portal is already taken.
 portal.error.selection.differentworlds=Both the selected points need to be in the same world.
 
+desti.info.noargs=\u00A7cNo tags were given
+
 command.error.noname= No name has been given.
 
 desti.error.takenname=The name given for the portal is already taken.

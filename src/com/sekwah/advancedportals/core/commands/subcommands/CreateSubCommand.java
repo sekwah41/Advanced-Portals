@@ -12,7 +12,7 @@ public abstract class CreateSubCommand {
         boolean partingValueWithSpaces = false;
         String argBeingParsed = "";
         String currentParsedValue = "";
-        for (int i = 2; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             if(partingValueWithSpaces) {
                 if(args[i].charAt(args[i].length() - 1) == '"') {
                     args[i] = args[i].substring(0, args[i].length() - 1);

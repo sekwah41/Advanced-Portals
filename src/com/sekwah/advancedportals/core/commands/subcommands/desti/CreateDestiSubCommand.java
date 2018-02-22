@@ -29,8 +29,14 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
                 if(desti != null) {
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
                     sender.sendMessage(Lang.translateColor("command.create.tags"));
-                    for (DataTag tag : desti.getArgs()) {
-                        sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                    ArrayList<DataTag> destiArgs = desti.getArgs();
+                    if(destiArgs.size() == 0) {
+                        sender.sendMessage(Lang.translateColor("desti.info.noargs"));
+                    }
+                    else {
+                        for (DataTag tag : destiArgs) {
+                            sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                        }
                     }
                 }
             } catch (PortalException portalTagExeption) {
