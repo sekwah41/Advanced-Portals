@@ -73,6 +73,31 @@ public class CoreListeners {
     }
 
     /**
+     * @player player causing the event (or null if not a player)
+     * @param blockPos
+     * @param blockMaterial
+     * @return if the block is allowed to be placed
+     */
+    public boolean blockPlace(PlayerContainer player, PortalLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
+        if(player != null && player.hasPermission("advancedportals.build")) {
+            WorldContainer world = player.getWorld();
+            if(itemInHandName.equals("\u00A75Portal Block Placer")) {
+                world.setBlock(blockPos, "PORTAL");
+                return false;
+            }
+            else if(itemInHandName.equals("\u00A78End Portal Block Placer")) {
+                world.setBlock(blockPos, "ENDER_PORTAL");
+                return false;
+            }
+            else if(itemInHandName.equals("\u00A78Gateway Block Placer")) {
+                world.setBlock(blockPos, "END_GATEWAY");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * If the block is allowed to be interacted with e.g. a lever
      * @player player causing the event (or null if not a player)
      * @param blockPos
@@ -96,7 +121,7 @@ public class CoreListeners {
             AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
-        else if(leftClick || itemName.equals("\u00A75Portal Block Placer")) {
+        else if(leftClick && itemName.equals("\u00A75Portal Block Placer") && player.hasPermission("advancedportals.build")) {
             WorldContainer world = player.getWorld();
             if(world.getBlockData(blockLoc) == 1) {
                 world.setBlockData(blockLoc, (byte) 2);
