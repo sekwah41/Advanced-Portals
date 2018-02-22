@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -47,7 +48,9 @@ public class PlayerContainer {
         return this.player.hasPermission(permission);
     }
 
-    public WorldContainer getWorld() {return null;}
+    public WorldContainer getWorld() {
+        return new WorldContainer(this.player.getWorld());
+    }
 
     /**
      * @param blockPos
