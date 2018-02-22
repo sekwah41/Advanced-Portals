@@ -19,14 +19,14 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
         if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.createdesti.console"));
                 return;
             }
             ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
             try {
                 AdvancedPortalsCore.getDestinationManager().createDesti(args[1], player, player.getLoc(), destiTags);
             } catch (PortalException portalTagExeption) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.createdesti.error") + " "
                         + Lang.translate(portalTagExeption.getMessage()));
             }
         }
@@ -57,11 +57,11 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.create.help");
+        return Lang.translate("command.createdesti.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.create.detailedhelp");
+        return Lang.translate("command.createdesti.detailedhelp");
     }
 }
