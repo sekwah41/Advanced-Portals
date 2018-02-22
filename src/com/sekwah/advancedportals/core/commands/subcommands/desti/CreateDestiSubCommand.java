@@ -35,7 +35,7 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
                     }
                     else {
                         for (DataTag tag : destiArgs) {
-                            sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                            sender.sendMessage("\u00A7a" + tag.NAME + ":" + tag.VALUE);
                         }
                     }
                 }
