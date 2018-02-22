@@ -28,7 +28,7 @@ public class DestinationManager {
         this.portalsCore = portalsCore;
     }
 
-    public void createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
+    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
         if(name == null || name.equals("")) {
             throw new PortalException("desti.error.noname");
         }
@@ -47,6 +47,7 @@ public class DestinationManager {
             }
         }
         this.destiHashMap.put(name, desti);
+        return desti;
     }
 
 

@@ -46,6 +46,8 @@ command.createdesti.console= You cannot create a destination using the console.
 command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 command.createdesti.complete= The destination has been successfully created.
 
+command.create.tags=\u00A7aTags:
+
 command.playeronly= Sorry but that command can only be run by a player.
 
 command.remove.noname= You need to give the name of the portal you want to remove.
