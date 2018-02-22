@@ -172,6 +172,7 @@ public class PortalManager {
         }
         this.portalHashMap.put(name, portal);
         this.updatePortalArray();
+        AdvancedPortalsCore.getPortalManager().savePortals();
         return portal;
     }
 
