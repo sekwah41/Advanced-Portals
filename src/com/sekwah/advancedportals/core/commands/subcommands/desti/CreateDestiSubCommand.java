@@ -26,10 +26,12 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
             ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
             try {
                 Destination desti = AdvancedPortalsCore.getDestinationManager().createDesti(args[1], player, player.getLoc(), destiTags);
-                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
-                sender.sendMessage(Lang.translateColor("command.create.tags"));
-                for (DataTag tag: desti.getArgs()) {
-                    sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                if(desti != null) {
+                    sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
+                    sender.sendMessage(Lang.translateColor("command.create.tags"));
+                    for (DataTag tag : desti.getArgs()) {
+                        sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                    }
                 }
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.createdesti.error") + " "
