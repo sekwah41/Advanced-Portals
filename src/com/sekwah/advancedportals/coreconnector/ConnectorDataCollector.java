@@ -1,11 +1,14 @@
 package com.sekwah.advancedportals.coreconnector;
 
+import org.bukkit.Material;
+
 /**
  * Gets info from the specific implementation
  */
 public class ConnectorDataCollector {
     public boolean materialExists(String materialName) {
-        return false;
+        String sameCase = materialName.toUpperCase();
+        return Material.getMaterial(sameCase) != null;
     }
 
 }

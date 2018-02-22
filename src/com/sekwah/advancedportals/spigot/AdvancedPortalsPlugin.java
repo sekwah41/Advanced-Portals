@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.DataStorage;
+import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,7 +13,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     public void onEnable() {
         // TODO actually get the minecraft version
         this.portalsCore = new AdvancedPortalsCore(new DataStorage(this.getDataFolder()),
-                new SpigotInfoLogger(this), new CommandRegister(this), new int[]{1,12,2});
+                new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), new int[]{1,12,2});
         this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
     }
 
