@@ -6,7 +6,7 @@ description: An advanced portals plugin for bukkit.
 commands:
     portal:
         description: The main command for the advanced portals
-        aliases: [portals, aportals, advancedportals, ap]
+        aliases: [portals, aportals, advancedportals]
         usage: /<command>
     destination:
         description: Can be used to access portal destinations.
