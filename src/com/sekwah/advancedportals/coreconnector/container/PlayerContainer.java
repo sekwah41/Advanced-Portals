@@ -1,12 +1,11 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.data.PortalLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.data.PortalLocation;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -53,6 +52,8 @@ public class PlayerContainer {
         return this.player.hasPermission(permission);
     }
 
+    public WorldContainer getWorld() {return null;}
+
     /**
      * @param blockPos
      * @param material
@@ -70,6 +71,8 @@ public class PlayerContainer {
     public void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data) {
 
     }
+
+    public void giveWool(String dyeColor, String itemName, String... itemDescription) {}
 
     public void giveItem(String material, String itemName, String... itemDescription) {
         ItemStack regionselector = new ItemStack(Material.getMaterial(material));
