@@ -26,10 +26,12 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
             ArrayList<DataTag> portalTags = this.getTagsFromArgs(args);
             try {
                 AdvancedPortal portal = AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
-                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
-                sender.sendMessage(Lang.translateColor("command.create.tags"));
-                for (DataTag tag: portal.getArgs()) {
-                    sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                if(portal != null) {
+                    sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
+                    sender.sendMessage(Lang.translateColor("command.create.tags"));
+                    for (DataTag tag: portal.getArgs()) {
+                        sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                    }
                 }
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
