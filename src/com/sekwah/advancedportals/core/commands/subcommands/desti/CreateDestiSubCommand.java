@@ -50,11 +50,9 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
     }
 
     protected String getTag(String arg) {
-        ArrayList<String> tags = AdvancedPortalsCore.getDestinationTagRegistry().getTags();
-        for(String tag : tags) {
-            if(arg.startsWith(tag + ":")) {
-                return tag;
-            }
+        int splitLoc = arg.indexOf(":");
+        if(splitLoc != -1) {
+            return arg.substring(0,splitLoc + 1);
         }
         return null;
     }

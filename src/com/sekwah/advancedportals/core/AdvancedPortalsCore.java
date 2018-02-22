@@ -14,6 +14,7 @@ import com.sekwah.advancedportals.core.util.Config;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
 
 public class AdvancedPortalsCore {
@@ -23,6 +24,7 @@ public class AdvancedPortalsCore {
     private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
     private final int mcMinorVer;
+    private final ConnectorDataCollector dataCollector;
 
     private WarpEffectRegistry warpEffectRegistry;
     private TagRegistry<AdvancedPortal> portalTagRegistry;
@@ -47,11 +49,13 @@ public class AdvancedPortalsCore {
      * @param commandRegister - Handles the command registry, different on each platform
      * @param mcVer Minecraft version e.g. 1.12.2
      */
-    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister, int[] mcVer) {
+    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister,
+            ConnectorDataCollector dataCollector, int[] mcVer) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
         this.instance = this;
         this.commandRegister = commandRegister;
+        this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
 
         this.onEnable();
@@ -179,6 +183,10 @@ public class AdvancedPortalsCore {
 
     public static InfoLogger getInfoLogger() {
         return instance.infoLogger;
+    }
+
+    public static ConnectorDataCollector getDataCollector() {
+        return instance.dataCollector;
     }
 
     public static CoreListeners getCoreListeners() {
