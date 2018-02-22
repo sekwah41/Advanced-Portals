@@ -27,12 +27,13 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onItemInteract(PlayerInteractEvent event) {
-        if ((event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null) {
+        if (!event.isCancelled() && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null) {
             Location blockloc = event.getClickedBlock().getLocation();
-            this.coreListeners.playerInteractWithBlock(new PlayerContainer(event.getPlayer()), event.getMaterial().toString(),
+            boolean allowEvent = this.coreListeners.playerInteractWithBlock(new PlayerContainer(event.getPlayer()), event.getMaterial().toString(),
                     event.getItem().getItemMeta().getDisplayName(),
                     new PortalLocation(blockloc.getWorld().getName(), blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()),
                     event.getAction() == Action.LEFT_CLICK_BLOCK);
+            event.setCancelled(!allowEvent);
         }
     }
 
