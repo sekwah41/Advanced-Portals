@@ -16,7 +16,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if(args.length > 2) {
+        if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
@@ -31,7 +31,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
             }
         }
         else {
-            sender.sendMessage(Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
     }
 
