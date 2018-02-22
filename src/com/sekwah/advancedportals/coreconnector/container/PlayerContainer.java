@@ -34,6 +34,8 @@ public class PlayerContainer {
         return false;
     }
 
+    public WorldContainer getWorld() {return null;}
+
     /**
      * @param blockPos
      * @param material
@@ -53,4 +55,6 @@ public class PlayerContainer {
     }
 
     public void giveItem(String material, String itemName, String... itemDescription) {}
+
+    public void giveWool(String dyeColor, String itemName, String... itemDescription) {}
 }
