@@ -47,6 +47,7 @@ public class DestinationManager {
             }
         }
         this.destiHashMap.put(name, desti);
+        AdvancedPortalsCore.getDestinationManager().saveDestinations();
         return desti;
     }
 
