@@ -55,6 +55,10 @@ public class DestinationManager {
         Type type = new TypeToken<HashMap<String, Destination>>() {
         }.getType();
         this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        this.saveDestinations();
+    }
+
+    public void saveDestinations() {
         if (this.destiHashMap == null) {
             this.destiHashMap = new HashMap<>();
         }

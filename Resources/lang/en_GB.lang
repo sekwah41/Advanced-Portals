@@ -53,11 +53,11 @@ command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
 portal.error.invalidselection=You must have both pos1 and pos2 selected to create a portal.
-portal.error.noname=No name for the portal has been given.
 portal.error.takenname=The name given for the portal is already taken.
 portal.error.selection.differentworlds=Both the selected points need to be in the same world.
 
-desti.error.noname=No name for the portal has been given.
+command.error.noname= No name has been given.
+
 desti.error.takenname=The name given for the portal is already taken.
 
 error.notplayer=Only players can do that.

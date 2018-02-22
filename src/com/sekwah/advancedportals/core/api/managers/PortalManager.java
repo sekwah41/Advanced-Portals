@@ -67,11 +67,15 @@ public class PortalManager {
         Type type = new TypeToken<HashMap<String, AdvancedPortal>>() {
         }.getType();
         this.portalHashMap = this.portalsCore.getDataStorage().loadJson(type, "portals.json");
+        this.savePortals();
+        this.updatePortalArray();
+    }
+
+    public void savePortals() {
         if (this.portalHashMap == null) {
             this.portalHashMap = new HashMap<>();
         }
         this.portalsCore.getDataStorage().storeJson(this.portalHashMap, "portals.json");
-        this.updatePortalArray();
     }
 
     public void activateCooldown(PlayerContainer player) {
