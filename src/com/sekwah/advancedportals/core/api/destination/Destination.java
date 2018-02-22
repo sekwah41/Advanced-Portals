@@ -10,6 +10,7 @@ import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -100,5 +101,13 @@ public class Destination {
                 activationHandler.postActivated(this, player, data, this.getArg(destiTag.NAME));
             }
         }
+    }
+
+    public ArrayList<DataTag> getArgs() {
+        ArrayList<DataTag> tagList = new ArrayList<>();
+        for(Map.Entry<String, String> entry : this.args.entrySet()){
+            tagList.add(new DataTag(entry.getKey(), entry.getValue()));
+        }
+        return tagList;
     }
 }

@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.portal.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
@@ -24,8 +25,12 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
             }
             ArrayList<DataTag> portalTags = this.getTagsFromArgs(args);
             try {
-                AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
-                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor(""));
+                AdvancedPortal portal = AdvancedPortalsCore.getPortalManager().createPortal(args[1], player, portalTags);
+                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
+                sender.sendMessage(Lang.translateColor("command.create.tags"));
+                for (DataTag tag: portal.getArgs()) {
+                    sender.sendMessage(tag.NAME + ":" + tag.VALUE);
+                }
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error") + " "
                         + Lang.translate(portalTagExeption.getMessage()));
