@@ -104,7 +104,7 @@ public class PortalManager {
             return this.createPortal(name, player, this.portalSelectorLeftClick.get(player.getUUID().toString()),
                     this.portalSelectorRightClick.get(player.getUUID().toString()), tags);
         } else {
-            throw new PortalException("portal.invalidselection");
+            throw new PortalException("portal.error.invalidselection");
         }
     }
 
@@ -220,9 +220,13 @@ public class PortalManager {
 
         for(DataTag portalTag : portal.getArgs()) {
             TagHandler.Creation<AdvancedPortal> creation = AdvancedPortalsCore.getPortalTagRegistry().getCreationHandler(portalTag.NAME);
-            creation.created(portal, player, portalTag.VALUE);
+            if(creation != null) {
+                creation.destroyed(portal, player, portalTag.VALUE);
+            }
         }
 
+        this.portalHashMap.remove(portalName);
+        AdvancedPortalsCore.getPortalManager().savePortals();
     }
 
     private AdvancedPortal getPortal(String portalName) {

@@ -26,7 +26,7 @@ public abstract class CreateSubCommand {
             else {
                 String detectedTag = this.getTag(args[i].toLowerCase());
                 if(detectedTag != null) {
-                    String arg = args[i].substring(detectedTag.length());
+                    String arg = args[i].substring(detectedTag.length() + 1);
                     if(arg.length() > 0 && arg.charAt(0) == '"') {
                         argBeingParsed = detectedTag;
                         currentParsedValue = arg;
