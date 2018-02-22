@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
 
 public class CoreListeners {
 
@@ -95,6 +96,16 @@ public class CoreListeners {
             AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
+        else if(leftClick || itemName.equals("\u00A75Portal Block Placer")) {
+            WorldContainer world = player.getWorld();
+            if(world.getBlockData(blockLoc) == 1) {
+                world.setBlockData(blockLoc, (byte) 2);
+            }
+            else {
+                world.setBlockData(blockLoc, (byte) 1);
+            }
+        }
+
         return true;
     }
 
