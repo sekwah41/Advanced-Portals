@@ -82,18 +82,20 @@ public class CoreListeners {
     }
 
     /**
-     *
-     * @param player
+     *  @param player
      * @param blockLoc
      * @param leftClick true = left click, false = right click
+     * @return if player is allowed to interact with block
      */
-    public void playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
-                                        PortalLocation blockLoc, boolean leftClick) {
+    public boolean playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
+                                           PortalLocation blockLoc, boolean leftClick) {
         if((player.isOp() || player.hasPermission("advancedportals.createportal")) &&
                 materialName.equalsIgnoreCase(this.portalsCore.getConfig().getSelectorMaterial())
                 && (!this.portalsCore.getConfig().getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
             AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
+            return false;
         }
+        return true;
     }
 
 }
