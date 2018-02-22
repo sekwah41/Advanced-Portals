@@ -3,11 +3,13 @@ package com.sekwah.advancedportals.coreconnector.container;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Wool;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -52,7 +54,9 @@ public class PlayerContainer {
         return this.player.hasPermission(permission);
     }
 
-    public WorldContainer getWorld() {return null;}
+    public WorldContainer getWorld() {
+        return new WorldContainer(this.player.getWorld());
+    }
 
     /**
      * @param blockPos
@@ -72,7 +76,14 @@ public class PlayerContainer {
 
     }
 
-    public void giveWool(String dyeColor, String itemName, String... itemDescription) {}
+    public void giveWool(String dyeColor, String itemName, String... itemDescription) {
+        ItemStack regionselector = new Wool(DyeColor.valueOf(dyeColor)).toItemStack(1);
+        ItemMeta selectorname = regionselector.getItemMeta();
+        selectorname.setDisplayName(itemName);
+        selectorname.setLore(Arrays.asList(itemDescription));
+        regionselector.setItemMeta(selectorname);
+        this.player.getInventory().addItem(regionselector);
+    }
 
     public void giveItem(String material, String itemName, String... itemDescription) {
         ItemStack regionselector = new ItemStack(Material.getMaterial(material));

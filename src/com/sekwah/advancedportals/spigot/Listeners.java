@@ -5,8 +5,10 @@ import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -23,6 +25,16 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
         coreListeners.playerJoin(new PlayerContainer(event.getPlayer()));
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if (!event.isCancelled()) {
+            Location blockloc = event.getBlock().getLocation();
+            this.coreListeners.blockPlace(new PlayerContainer(event.getPlayer()),
+                    new PortalLocation(blockloc.getWorld().getName(), blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()), event.getBlockPlaced().getType().toString(),
+                    event.getItemInHand().getType().toString(), event.getItemInHand().getItemMeta().getDisplayName());
+        }
     }
 
     @EventHandler
