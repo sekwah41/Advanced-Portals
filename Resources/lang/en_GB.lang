@@ -55,6 +55,7 @@ command.remove.error= Removing the portal was blocked:
 command.remove.noname=No portal by that name was found
 command.remove.invalidselection=The portal selection you had is no longer valid
 command.remove.noselection=You don't have a portal selected
+command.create.complete= The portal has been successfully removed.
 
 command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector

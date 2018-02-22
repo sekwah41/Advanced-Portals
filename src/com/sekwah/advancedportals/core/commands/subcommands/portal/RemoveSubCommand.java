@@ -20,6 +20,7 @@ public class RemoveSubCommand implements SubCommand {
         if(args.length > 1) {
             try {
                 AdvancedPortalsCore.getPortalManager().removePortal(args[1], sender.getPlayerContainer());
+                    sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.remove.complete"));
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative")
                         + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
