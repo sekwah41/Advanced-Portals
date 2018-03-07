@@ -101,10 +101,6 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String name) {
-        if (!(player.hasPermission("advancedportals.warp.*") || player.hasPermission("advancedportals.warp." + name))) {
-            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to warp to " + name + "!");
-            return false;
-        }
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (config.getConfig().getString(name + ".world") != null) {
             Location loc = player.getLocation();

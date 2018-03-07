@@ -90,6 +90,10 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("\u00A7e\u00A7m----------------------------");
                 break;
             case "warp":
+                if (!(sender.hasPermission("advancedportals.warp.*") || sender.hasPermission("advancedportals.warp." + args[1]))) {
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to warp to " + args[1] + "!");
+                    return false;
+                }
                 if(args.length >= 2){
                     Destination.warp((Player) sender, args[1]);
                 }
