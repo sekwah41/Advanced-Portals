@@ -31,10 +31,10 @@ public class PortalManager {
     /**
      * Tracks the name of portal a player has selected
      */
-    private HashMap<String, String> selectedPortal = new HashMap();
+    private HashMap<String, String> selectedPortal = new HashMap<>();
 
-    private HashMap<String, PortalLocation> portalSelectorLeftClick = new HashMap();
-    private HashMap<String, PortalLocation> portalSelectorRightClick = new HashMap();
+    private HashMap<String, PortalLocation> portalSelectorLeftClick = new HashMap<>();
+    private HashMap<String, PortalLocation> portalSelectorRightClick = new HashMap<>();
 
     /**
      * Contains all the data for the portals
