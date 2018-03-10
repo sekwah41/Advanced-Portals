@@ -83,7 +83,7 @@ public class DataStorage {
         }
         if (!outFile.exists() || overwrite) {
             try {
-                InputStream inputStream = DataStorage.class.getClassLoader().getResourceAsStream(fileLoc);
+                InputStream inputStream = DataStorage.class.getResourceAsStream(fileLoc);
                 if(inputStream == null) {
                     return false;
                 }
