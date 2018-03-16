@@ -1,0 +1,88 @@
+# Ugyanaz, mint az alapértelmezett minecraft lang fájlok, de kezelheti a megjegyzéseket, ha a # az első karakter
+# Bármi, amit a fordítások nem állítottak be, visszaáll az en_GB fájlra.
+# Az alapértelmezett en_GB mindig betöltődik bármely más fájl előtt, még akkor is, ha új en_GB-t készít,
+# hogy az új karakterláncoknak nincs üres értékei, amelyek esetleg új funkciókat használhatnak fel.
+#
+# A mellékelt karakterek formátuma %(argumentum száma)$s  (kezdődik 1 nem 0)
+# Tehát a változók sorrendje a stringbe nem egy sorrend. Csakúgy, mint a minecraft
+#
+# A színek használata \u00A7 vagy § (az alt megtartásával írható be, majd a számbillentyű lenyomásával 2 majd 1)
+# http://minecraft.gamepedia.com/Formatting_codes
+#
+# Vegye figyelembe, hogy néhány hibaelhárító üzenet itt nem szerepel a fordításban.
+#
+translatedata.lastchange=1.0.0
+translatedata.translationsoutdated= Néhány fordítás a jelenlegi fordítási fájlból \u00A7e%1$s\u00A7c elavultak.
+translatedata.replacecommand= Használat \u00A7e/portal transupdate\u00A7c hogy új alapértelmezést másoljon ki az \u00A7een_GB\u00A7c fájlból.
+translatedata.replaced= Az új \u00A7een_GB\u00A7a fájlt másolva az adatmappába.
+
+messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
+messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
+
+logger.pluginenable=Advanced portals sikeresen engedélyezve!
+logger.plugindisable=Advanced portals letiltva!
+logger.plugincrafterror=A craftbukkit ezen verziója még nem támogatott, vagy valami hibás, kérlek, írd be ezt az üzenetet a verziószámmal és a fenti stacktrace-szal a GitHub kiadásában v:%1$s
+
+command.noargs= Sajnálom, de meg kell adni egy al parancsot, kérlek, használd \u00A7e/%1$s help \u00A7cha a lehetséges al parancsok listáját szeretnéd látni.
+command.subcommand.invalid= Sajnáljuk, de ez nem érvényes al parancs.
+
+command.help.header=\u00A7e--------------- \u00A7a%1$s Segítség - Oldal %2$s %3$s\u00A7e-ból/-ből ---------------
+command.help.subcommandheader=\u00A7e--------- \u00A7a%1$s Segítség - %2$s\u00A7e ---------
+command.help.invalidhelp= Sajnálom, de \u00A7e%1$s\u00A7c nem érvényes oldalszám vagy al parancs.
+
+command.reload.help=Portál adat újratöltése
+command.reload.detailedhelp=Újratölt minden portáladatot az adatmappában található fájlokból
+command.reload.reloaded= Minden Advanced Portals adat újratöltve
+
+command.create.help=Portál létrehozása
+command.create.error= Hiba történt a portál létrehozásában:
+command.create.console= A konzol segítségével nem hozhat létre portált.
+command.create.detailedhelp=A formátum /portal create (név) [tag:tagvalue] Megadja a címkéket a létrehozás után a formátum tag:value, ha az értéknek szóközre van szüksége, használja a formátum tag:"érték a szóközökkel"
+command.create.complete= A portál sikeresen létrehozva.
+
+command.createdesti.help=Célállomások létrehozása
+command.createdesti.error= Hiba történt a célállomásnál:
+command.createdesti.console= Nem hozhatsz létre célállomást a konzol segítségével.
+command.createdesti.detailedhelp=A formátum /desti create (név) [tag:tagvalue] Megadja a címkéket a létrehozás után a formátum tag:calue, ha az értéknek szóközre van szüksége, használja a formátum tag:"érték a szóközökkel"
+command.createdesti.complete= A célállomás sikeresen létrehozva.
+
+command.create.tags=\u00A7aCímkék:
+
+command.playeronly= Sajnáljuk, de ezt a parancsot csak egy játékos futtathatja.
+
+command.remove.noname= Meg kell adnod az eltávolítani kívánt portál nevét.
+command.remove.error= A portál eltávolítása blokkolt:
+command.remove.noname=Nincs ilyen portál ezzel a névvel
+command.remove.invalidselection=Az általad választott portál már nem érvényes
+command.remove.noselection=Nincs kiválasztott portál
+command.remove.complete= A portál sikeresen törölve.
+
+command.selector= Kaptál egy portálválasztót.
+command.selector.help=Ad egy portál régió kiválasztót
+command.selector.detailedhelp=Portál választót ad a portálok létrehozásának régiói számára.
+
+command.portalblock= Kaptál egy \u00A7ePortál blokk\u00A7aot!
+
+command.endportalblock= Kaptál egy \u00A78Végzet portál blokk helyező\u00A7at!
+
+command.gatewayblock= Kaptál egy \u00A78Kapubejáró blokk helyező\u00A7at!
+
+portal.error.invalidselection=A portál létrehozásához mind a pos1, mind a pos2 szükséges.
+portal.error.takenname=A portálra megadott név már megtörtént.
+portal.error.selection.differentworlds=Mindkét kiválasztott pontnak ugyanabban a világban kell lennie.
+
+desti.info.noargs=\u00A7cNincsenek címkék megadva
+
+command.error.noname= Nincs név megadva.
+
+desti.error.takenname=A portálra megadott név már megtörtént.
+
+error.notplayer=Csak a játékosok tehetik ezt.
+
+portal.selector.poschange=\u00A7eKiválasztottad a pos%1$s X:%2$s Y:%3$s Z:%4$s
+
+command.trans.help=Fordítás másolása fordítás új alapértelmezett fordítási fájl
+
+command.version.help=Visszaadja a plugin jelenlegi verzióját
+
+command.subcommand.nopermission= Sajnálom, de erre nincs jogod, kérlek, használd \u00A7e/%1$s help \u00A7cha a lehetséges al parancsok listáját szeretnéd látni.
