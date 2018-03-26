@@ -1,13 +1,11 @@
 package com.sekwah.advancedportals;
 
+import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.listeners.Listeners;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,7 +43,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
-        System.out.printf("%s %s %s %s%n", sender, cmd, command, args   );
+        //System.out.printf("%s %s %s %s%n", sender, cmd, command, args   );
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
         if(!(sender instanceof Player)) {
@@ -58,6 +56,22 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("advancedportals.portal")) {
             if (args.length > 0) { switch (args[0].toLowerCase()) {
                 case "wand":
+                case "warp":
+                    if (args.length == 2 && player.hasPermission("advancedportals.portal.warp")){
+                        for (AdvancedPortal portal: Portal.portals){
+                            if (args[1].equalsIgnoreCase(portal.getName())){
+
+                                if (portal.inPortal.contains(player)) return true;
+                                WarpEvent warpEvent = new WarpEvent(player, portal);
+                                plugin.getServer().getPluginManager().callEvent(warpEvent);
+
+                                if (!warpEvent.isCancelled()) Portal.activate(player, portal);
+                                break;
+                            }
+                        }
+                    }
+                    sendMenu(player, "Help Menu: Warp", "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
+                    break;
                 case "selector":
                     String ItemID = config.getConfig().getString("AxeItemId");
 
@@ -508,6 +522,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     "\u00A76/" + command + " help <arg> \u00A7a- shows help for the specified arg",
                     "\u00A76/" + command + " remove \u00A7a- removes a portal",
                     "\u00A76/" + command + " list \u00A7a- lists all the current portals",
+                    "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name",
                     "\u00A76/" + command + " variables \u00A7a- lists all available tags");
         }
         else if(args.length > 1){
@@ -637,7 +652,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command", "selector"
-                        , "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage"));
+                        , "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename", "help", "bukkitpage", "helppage", "warp"));
             } else if (args[0].toLowerCase().equals("create")) {
 
                 boolean hasName = false;
@@ -699,6 +714,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (!hasCommand) {
                     autoComplete.add("command:");
+                }
+            }
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("warp")){
+            for (AdvancedPortal portal :Portal.portals){
+                String perm = portal.getArg("permission");
+                if (perm == null || sender.hasPermission(perm)){
+                    autoComplete.add(portal.getName());
                 }
             }
         }
