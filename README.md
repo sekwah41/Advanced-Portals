@@ -1,6 +1,10 @@
 Advanced Portals ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=portals-old)
 ================
+<h2>Build Instructions</h2>
+<p>(This part is mostly aimed for beginners in case they haven't seen a maven project)
+<p>You must have maven installed then run "mvn clean install". Once the build is complete you will have a useable jar file in the folder named "target" listed as Advanced-Portals-x.x.x-snapshot.jar</p>
 
+<h2>Plugin Info</h2>
 <p><b>NOTE:</b> This is the old version of Advanced Portals, look in the appropriate branch for the newer versions.</p>
 
 <p>An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.</p>
