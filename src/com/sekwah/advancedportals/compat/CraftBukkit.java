@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 public class CraftBukkit {
 
     private final AdvancedPortalsPlugin plugin;
+    private Constructor<?> reallyOldChatConstructor;
 
     private Method chatMessageTypeMethod;
 
@@ -39,9 +40,10 @@ public class CraftBukkit {
         this.plugin = plugin;
 
         try {
-            // CraftBukkit Ahoy!
             String craftBukkitPackage = "org.bukkit.craftbukkit." + bukkitImpl + ".";
             String minecraftPackage = "net.minecraft.server." + bukkitImpl + ".";
+
+            this.plugin.getLogger().info("Bukkit version detected " + bukkitImpl);
 
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
             Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
@@ -64,8 +66,14 @@ public class CraftBukkit {
                 this.serializeMessage = chatSerialClass.getMethod("a", String.class);
             }
             else{
-                plugin.getLogger().info("Even older version detected, changing chat method.");
-                this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
+                plugin.getLogger().info("Attempting support for 1.8");
+                try {
+                    this.reallyOldChatConstructor = Class.forName(minecraftPackage + "ChatMessage").getConstructor(String.class, Object[].class);
+                }
+                catch (ClassNotFoundException e) {
+                    plugin.getLogger().info("Fallback (I forget what version uses this but it was here for a reason)");
+                    this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
+                }
             }
 
             this.playerGetHandle = Class.forName(craftBukkitPackage + "entity.CraftPlayer").getMethod("getHandle");
@@ -97,9 +105,15 @@ public class CraftBukkit {
 
     public void sendMessage(String rawMessage, Player player, byte msgType) {
         try {
-            Object comp = this.serializeMessage.invoke(null,rawMessage); // convert string into bytes
+            Object comp;
+            if(this.reallyOldChatConstructor != null) {
+                comp = this.reallyOldChatConstructor.newInstance(rawMessage,new Object[]{});
+            }
+            else {
+                comp = this.serializeMessage.invoke(null,"{\"text\":\"" + rawMessage + "\"}");
+            }
             Object packet;
-            if(useEnumType){
+            if(this.useEnumType){
                 packet = this.chatPacketConstructor.newInstance(comp, this.chatMessageTypeMethod.invoke(null,msgType)); // convert bytes into packet
             }
             else{

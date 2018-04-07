@@ -138,7 +138,7 @@ public class Destination {
                     player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
                 } else if (PortalMessagesDisplay == 2) {
-                    plugin.compat.sendActionBarMessage("{\"text\":\"\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.\"}", player);
+                    plugin.compat.sendActionBarMessage("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.", player);
                     /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.portals[portalId].portalName + ".destination").replaceAll("_", " ")
                      + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
                 }
