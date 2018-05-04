@@ -259,7 +259,6 @@ public class Portal {
         if (pos1.getX() >= posX && pos1.getY() >= posX && pos1.getZ() >= posZ) {
             if ((pos2.getX()) <= posX && pos2.getY() <= posY && pos2.getZ() <= posZ) {
                 return true;
-
             }
         }
         return false;
