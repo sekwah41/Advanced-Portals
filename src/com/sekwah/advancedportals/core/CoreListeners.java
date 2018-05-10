@@ -79,7 +79,7 @@ public class CoreListeners {
      * @return if the block is allowed to be placed
      */
     public boolean blockPlace(PlayerContainer player, PortalLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        if(player != null && player.hasPermission("advancedportals.build")) {
+        if(itemInHandName != null && player != null && player.hasPermission("advancedportals.build")) {
             WorldContainer world = player.getWorld();
             if(itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "PORTAL");
