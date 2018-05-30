@@ -179,10 +179,10 @@ public class Portal {
         Location checkpos1 = new Location(pos1.getWorld(), HighX, HighY, HighZ);
         Location checkpos2 = new Location(pos2.getWorld(), LowX, LowY, LowZ);
 
-        if (checkPortalOverlap(checkpos1, checkpos2)) {
+        /*if (checkPortalOverlap(checkpos1, checkpos2)) {
             plugin.getLogger().log(Level.WARNING, "portals must not overlap!");
             return "\u00A7cPortal creation error, portals must not overlap!";
-        }
+        }*/
 
         portalData.getConfig().set(name + ".world", pos1.getWorld().getName());
 
