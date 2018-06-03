@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core;
 
-import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.entities.PlayerLocation;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
