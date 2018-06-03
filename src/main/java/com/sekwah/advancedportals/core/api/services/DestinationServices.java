@@ -11,7 +11,7 @@ import java.util.ArrayList; /**
  * https://github.com/sekwah41/Advanced-Portals/blob/24175610892152828e21f4ff824eb1589ccb0338/src/com/sekwah/advancedportals/core/api/managers/DestinationManager.java
  * Based off the old manager with the data storage and handling moved to {@link com.sekwah.advancedportals.core.repository.DestinationRepository}
  */
-public class DestinationServices {
+public final class DestinationServices {
 
     /**
      * @param portalsCore
