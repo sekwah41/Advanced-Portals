@@ -1,21 +1,30 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.inject.name.Named;
+import com.sekwah.advancedportals.core.api.services.PortalServices;
+import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
+import com.sekwah.advancedportals.core.repository.PortalRepository;
+import com.sekwah.advancedportals.core.repository.PortalTempDataRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
 
+import javax.inject.Inject;
+
 public class CoreListeners {
 
-    private final AdvancedPortalsCore portalsCore;
+    private PortalTempDataServices portalTempDataServices;
 
-    public CoreListeners(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
-    }
+    private PortalServices portalServices;
+
+    @Inject
+    @Named("portals-core")
+    private AdvancedPortalsCore portalsCore;
 
     public void playerJoin(PlayerContainer player) {
-        AdvancedPortalsCore.getPortalManager().activateCooldown(player);
+        this.portalTempDataServices.activateCooldown(player);
         if(player.isOp()) {
             if(!Lang.translate("translatedata.lastchange").equals(AdvancedPortalsCore.lastTranslationUpdate)) {
                 player.sendMessage(Lang.translateColor("messageprefix.negative")
@@ -27,11 +36,11 @@ public class CoreListeners {
     }
 
     public void teleportEvent(PlayerContainer player) {
-        AdvancedPortalsCore.getPortalManager().activateCooldown(player);
+        this.portalTempDataServices.activateCooldown(player);
     }
 
     public void playerLeave(PlayerContainer player) {
-        AdvancedPortalsCore.getPortalManager().playerLeave(player);
+        this.portalTempDataServices.playerLeave(player);
     }
 
     /**
@@ -39,7 +48,7 @@ public class CoreListeners {
      * @return if the entity is allowed to spawn
      */
     public boolean mobSpawn(PlayerLocation loc) {
-        return !AdvancedPortalsCore.getPortalManager().inPortalRegion(loc);
+        return !this.portalServices.inPortalRegion(loc);
     }
 
     /**
@@ -49,7 +58,7 @@ public class CoreListeners {
      * @return if the player is allowed to move
      */
     public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
-        return AdvancedPortalsCore.getPortalManager().playerMove(player, fromLoc, toLoc);
+        return this.portalServices.playerMove(player, fromLoc, toLoc);
     }
 
     /**
@@ -116,9 +125,9 @@ public class CoreListeners {
     public boolean playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
                                            PortalLocation blockLoc, boolean leftClick) {
         if(itemName != null && (player.isOp() || player.hasPermission("advancedportals.createportal")) &&
-                materialName.equalsIgnoreCase(this.portalsCore.getConfig().getSelectorMaterial())
-                && (!this.portalsCore.getConfig().getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
-            AdvancedPortalsCore.getPortalManager().playerSelectorActivate(player, blockLoc, leftClick);
+                materialName.equalsIgnoreCase(this.portalsCore.getConfigRepo().getSelectorMaterial())
+                && (!this.portalsCore.getConfigRepo().getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
+            this.portalTempDataServices.playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
         else if(itemName != null && leftClick && itemName.equals("\u00A75Portal Block Placer") && player.hasPermission("advancedportals.build")) {

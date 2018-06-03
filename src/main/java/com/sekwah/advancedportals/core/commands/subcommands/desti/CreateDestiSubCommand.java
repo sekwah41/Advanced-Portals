@@ -25,7 +25,7 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
             }
             ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
             try {
-                Destination desti = AdvancedPortalsCore.getDestinationManager().createDesti(args[1], player, player.getLoc(), destiTags);
+                Destination desti = AdvancedPortalsCore.getDestinationServices().createDesti(args[1], player, player.getLoc(), destiTags);
                 if(desti != null) {
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
                     sender.sendMessage(Lang.translateColor("command.create.tags"));
