@@ -1,6 +1,6 @@
 *.class
 .*
-/target/
+/build/
 
 # Package Files #
 *.jar
