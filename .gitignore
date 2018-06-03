@@ -8,3 +8,7 @@
 *.ear
 
 *.iml
+
+*.iws
+
+*.ipr
