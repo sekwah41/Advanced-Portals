@@ -5,7 +5,8 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
-import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.entities.DataTag;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.ArrayList;

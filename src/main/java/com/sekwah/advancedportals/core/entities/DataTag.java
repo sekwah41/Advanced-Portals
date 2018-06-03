@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.api.portal;
+package com.sekwah.advancedportals.core.entities;
 
 public class DataTag {
 

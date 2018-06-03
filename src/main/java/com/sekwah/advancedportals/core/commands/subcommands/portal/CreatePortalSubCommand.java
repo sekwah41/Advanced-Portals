@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.DataTag;
+import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
 import com.sekwah.advancedportals.core.util.Lang;

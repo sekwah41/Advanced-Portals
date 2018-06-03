@@ -2,8 +2,8 @@ package com.sekwah.advancedportals.core;
 
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.api.managers.DestinationManager;
-import com.sekwah.advancedportals.core.api.managers.PortalManager;
+import com.sekwah.advancedportals.core.repository.DestinationRepositoryImpl;
+import com.sekwah.advancedportals.core.repository.PortalRepositoryImpl;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
@@ -37,8 +37,8 @@ public class AdvancedPortalsCore {
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
 
-    private PortalManager portalManager;
-    private DestinationManager destiManager;
+    private PortalRepositoryImpl portalRepositoryImpl;
+    private DestinationRepositoryImpl destiManager;
 
     public static final String version = "1.0.0";
     public static final String lastTranslationUpdate = "1.0.0";
@@ -103,8 +103,8 @@ public class AdvancedPortalsCore {
 
     private void onEnable() {
         this.coreListeners = new CoreListeners(this);
-        this.portalManager = new PortalManager(this);
-        this.destiManager = new DestinationManager(this);
+        this.portalRepositoryImpl = new PortalRepositoryImpl(this);
+        this.destiManager = new DestinationRepositoryImpl(this);
         this.warpEffectRegistry = new WarpEffectRegistry();
         this.portalTagRegistry = new TagRegistry<>();
         this.destiTagRegistry = new TagRegistry<>();
@@ -117,7 +117,7 @@ public class AdvancedPortalsCore {
         this.registerPortalCommand();
         this.registerDestinationCommand();
 
-        this.portalManager.loadPortals();
+        this.portalRepositoryImpl.loadPortals();
 
         this.destiManager.loadDestinations();
 
@@ -196,11 +196,11 @@ public class AdvancedPortalsCore {
         return instance.coreListeners;
     }
 
-    public static PortalManager getPortalManager() {
-        return instance.portalManager;
+    public static PortalRepositoryImpl getPortalManager() {
+        return instance.portalRepositoryImpl;
     }
 
-    public static DestinationManager getDestinationManager() {
+    public static DestinationRepositoryImpl getDestinationManager() {
         return instance.destiManager;
     }
 

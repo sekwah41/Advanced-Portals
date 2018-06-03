@@ -2,12 +2,12 @@ package com.sekwah.advancedportals.core.api.destination;
 
 import com.google.gson.annotations.SerializedName;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.api.portal.DataTag;
+import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
-import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.ArrayList;
