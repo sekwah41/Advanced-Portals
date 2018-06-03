@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.util;
+package com.sekwah.advancedportals.core.config;
 
 /**
  * To store the data for config
