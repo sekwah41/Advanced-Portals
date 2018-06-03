@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * Excluding the temp data like selections
  */
-public class PortalServices {
+public final class PortalServices {
     public void loadPortals(AdvancedPortalsCore advancedPortalsCore) {
 
     }

@@ -4,7 +4,8 @@ import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
-public class PortalTempDataServices {
+public final class PortalTempDataServices {
+    
     public void activateCooldown(PlayerContainer player) {
 
     }
