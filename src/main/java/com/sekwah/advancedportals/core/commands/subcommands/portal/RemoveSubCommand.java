@@ -19,7 +19,7 @@ public class RemoveSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
             try {
-                AdvancedPortalsCore.getPortalManager().removePortal(args[1], sender.getPlayerContainer());
+                AdvancedPortalsCore.getPortalServices().removePortal(args[1], sender.getPlayerContainer());
                     sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.remove.complete"));
             } catch (PortalException portalTagExeption) {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative")
@@ -33,7 +33,7 @@ public class RemoveSubCommand implements SubCommand {
             }
             else {
                 try {
-                    AdvancedPortalsCore.getPortalManager().removePlayerSelection(player);
+                    AdvancedPortalsCore.getPortalTempDataServices().removePlayerSelection(player);
                 } catch (PortalException portalTagExeption) {
                     sender.sendMessage(Lang.translateColor("messageprefix.negative")
                             + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
@@ -50,7 +50,7 @@ public class RemoveSubCommand implements SubCommand {
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
         List<String> portalNames = new ArrayList<>();
-        for(Map.Entry<String, AdvancedPortal> portal : AdvancedPortalsCore.getPortalManager().getPortals()) {
+        for(Map.Entry<String, AdvancedPortal> portal : AdvancedPortalsCore.getPortalServices().getPortals()) {
             portalNames.add(portal.getKey());
         }
         Collections.sort(portalNames);

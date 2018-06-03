@@ -23,7 +23,7 @@ public class SelectorSubCommand implements SubCommand {
             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
-            player.giveItem(this.portalsCore.getConfig().getSelectorMaterial(), "\u00A7ePortal Region Selector"
+            player.giveItem(this.portalsCore.getConfigRepo().getSelectorMaterial(), "\u00A7ePortal Region Selector"
                     , "\u00A7rThis wand with has the power to help", "\u00A7r create portals bistowed upon it!");
             sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.selector"));
         }

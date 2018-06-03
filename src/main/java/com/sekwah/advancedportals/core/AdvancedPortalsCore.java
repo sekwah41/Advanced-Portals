@@ -1,7 +1,14 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
+import com.sekwah.advancedportals.core.api.services.DestinationServices;
+import com.sekwah.advancedportals.core.api.services.PortalServices;
+import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.config.RepositoryModule;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.DestinationRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.PortalRepositoryImpl;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
@@ -10,7 +17,6 @@ import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
-import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -30,15 +36,17 @@ public class AdvancedPortalsCore {
     private TagRegistry<AdvancedPortal> portalTagRegistry;
     private TagRegistry<Destination> destiTagRegistry;
 
-    private CoreListeners coreListeners;
+    private Injector injector = Guice.createInjector(new RepositoryModule(this));
 
-    private Config config;
+    private CoreListeners coreListeners = injector.getInstance(CoreListeners.class);
 
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
 
-    private PortalRepositoryImpl portalRepositoryImpl;
-    private DestinationRepositoryImpl destiManager;
+    private PortalServices portalServices = injector.getInstance(PortalServices.class);
+    private DestinationServices destiServices = injector.getInstance(DestinationServices.class);
+    private PortalTempDataServices portalTempDataServices = injector.getInstance(PortalTempDataServices.class);
+    private ConfigRepository configRepository = injector.getInstance(ConfigRepository.class);
 
     public static final String version = "1.0.0";
     public static final String lastTranslationUpdate = "1.0.0";
@@ -53,7 +61,7 @@ public class AdvancedPortalsCore {
             ConnectorDataCollector dataCollector, int[] mcVer) {
         this.dataStorage = dataStorage;
         this.infoLogger = infoLogger;
-        this.instance = this;
+        instance = this;
         this.commandRegister = commandRegister;
         this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
@@ -98,13 +106,10 @@ public class AdvancedPortalsCore {
 
 
     public static String getTranslationName() {
-        return instance.config.getTranslation();
+        return instance.configRepository.getTranslation();
     }
 
     private void onEnable() {
-        this.coreListeners = new CoreListeners(this);
-        this.portalRepositoryImpl = new PortalRepositoryImpl(this);
-        this.destiManager = new DestinationRepositoryImpl(this);
         this.warpEffectRegistry = new WarpEffectRegistry();
         this.portalTagRegistry = new TagRegistry<>();
         this.destiTagRegistry = new TagRegistry<>();
@@ -112,14 +117,14 @@ public class AdvancedPortalsCore {
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
         this.loadPortalConfig();
-        Lang.loadLanguage(config.getTranslation());
+        Lang.loadLanguage(configRepository.getTranslation());
 
         this.registerPortalCommand();
         this.registerDestinationCommand();
 
-        this.portalRepositoryImpl.loadPortals();
+        this.portalServices.loadPortals(this);
 
-        this.destiManager.loadDestinations();
+        this.destiServices.loadDestinations(this);
 
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
@@ -161,8 +166,8 @@ public class AdvancedPortalsCore {
      * (basically if values are missing or whatever)
      */
     public void loadPortalConfig() {
-        this.config = this.dataStorage.loadJson(Config.class, "config.json");
-        this.dataStorage.storeJson(this.config, "config.json");
+        this.configRepository.loadConfig(this.dataStorage);
+        this.dataStorage.storeJson(this.configRepository, "config.json");
     }
 
     /**
@@ -176,8 +181,8 @@ public class AdvancedPortalsCore {
         return instance;
     }
 
-    public Config getConfig() {
-        return this.config;
+    public ConfigRepository getConfigRepo() {
+        return this.configRepository;
     }
 
     public DataStorage getDataStorage() {
@@ -196,12 +201,16 @@ public class AdvancedPortalsCore {
         return instance.coreListeners;
     }
 
-    public static PortalRepositoryImpl getPortalManager() {
-        return instance.portalRepositoryImpl;
+    public static PortalServices getPortalServices() {
+        return instance.portalServices;
     }
 
-    public static DestinationRepositoryImpl getDestinationManager() {
-        return instance.destiManager;
+    public static DestinationServices getDestinationServices() {
+        return instance.destiServices;
+    }
+
+    public static PortalTempDataServices getPortalTempDataServices() {
+        return instance.portalTempDataServices;
     }
 
     public static TagRegistry<AdvancedPortal> getPortalTagRegistry() {

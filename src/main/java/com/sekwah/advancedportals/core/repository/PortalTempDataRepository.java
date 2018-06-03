@@ -7,7 +7,7 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.UUID;
 
-public interface TempPlayerDataRepository {
+public interface PortalTempDataRepository {
     void addSelectedPortal(UUID selectedPlayer, String portal);
 
     void removeSelectedPortal(UUID uuid);

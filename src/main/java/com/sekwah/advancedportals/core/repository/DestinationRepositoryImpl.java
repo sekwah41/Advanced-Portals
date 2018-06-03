@@ -35,6 +35,11 @@ public class DestinationRepositoryImpl implements DestinationRepository {
         return ImmutableMap.copyOf(destiHashMap);
     }
 
+    @Override
+    public void loadDestinations() {
+
+    }
+
 
     public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
         if(name == null || name.equals("")) {
@@ -55,23 +60,25 @@ public class DestinationRepositoryImpl implements DestinationRepository {
             }
         }
         this.destiHashMap.put(name, desti);
-        AdvancedPortalsCore.getDestinationManager().saveDestinations();
+        this.saveDestinations(AdvancedPortalsCore.getInstance());
         return desti;
     }
 
-
-
-    public void loadDestinations() {
+    /**
+     * TODO change these, may be good if the data storage was an inject as well as it would save time and clean up layout
+     * @param portalsCore
+     */
+    public void loadDestinations(AdvancedPortalsCore portalsCore) {
         Type type = new TypeToken<HashMap<String, Destination>>() {
         }.getType();
-        this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
-        this.saveDestinations();
+        this.destiHashMap = portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        this.saveDestinations(portalsCore);
     }
 
-    public void saveDestinations() {
+    public void saveDestinations(AdvancedPortalsCore portalsCore) {
         if (this.destiHashMap == null) {
             this.destiHashMap = new HashMap<>();
         }
-        this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
+        portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
     }
 }

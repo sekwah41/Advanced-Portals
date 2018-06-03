@@ -9,4 +9,6 @@ public interface DestinationRepository {
     void delete(String name);
 
     ImmutableMap<String, Destination> getDestinations();
+
+    void loadDestinations();
 }
