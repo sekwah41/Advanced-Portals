@@ -1,0 +1,14 @@
+config:
+  useOnlySpecialize: true
+  selectorMaterial: "IRON_AXE"
+  portalProtection: true
+  portalProtectionRadius: 5
+  defaultTriggerBlock: "PORTAL"
+  stopWaterFlow: true
+  portalCooldown: 5
+  warpParticles: "ENDER"
+  warpSound: "ENDER"
+  selectionBlock_BELOW_1_13: "STAINED_GLASS"
+  selectionBlock: "RED_STAINED_GLASS"
+  translationFile: "en_DB"
+selectionSubID_BELOW_1_13: 14;

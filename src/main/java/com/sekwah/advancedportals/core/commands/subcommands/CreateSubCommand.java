@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands;
 
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.api.portal.DataTag;
+import com.sekwah.advancedportals.core.entities.DataTag;
 
 import java.util.ArrayList;
 
