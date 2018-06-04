@@ -428,6 +428,5 @@ task runJar() << {
     javaexec {
         main="-jar"; args "${System.env.SPIGOT_LOC}\\${System.env.SPIGOT_JAR}.jar";
         workingDir = "${System.env.SPIGOT_LOC}";
-        //  classpath = "D:\\Servers\\Spigot 1.8\\"
     }
 }
