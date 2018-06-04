@@ -1,6 +1,6 @@
 *.class
 .*
-/target/
+/build/
 
 # Package Files #
 *.jar
@@ -8,3 +8,5 @@
 *.ear
 
 *.iml
+*.iws
+*.ipr
