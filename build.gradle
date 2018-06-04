@@ -426,8 +426,13 @@ jar {
     from configurations.includeLibs.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
+jar {
+    from configurations.includeLibs.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
 
 // Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
+// DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
 task runJar() << {
     javaexec {
         main "-jar"
