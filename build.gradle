@@ -421,3 +421,13 @@ publish.finalizedBy 'discordupload'
 if (!isCanary) {
     publish.finalizedBy 'curseforge'
 }
+
+
+// Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
+task runJar() << {
+    javaexec {
+        main="-jar"; args "${System.env.SPIGOT_LOC}\\${System.env.SPIGOT_JAR}.jar";
+        workingDir = "${System.env.SPIGOT_LOC}";
+        //  classpath = "D:\\Servers\\Spigot 1.8\\"
+    }
+}
