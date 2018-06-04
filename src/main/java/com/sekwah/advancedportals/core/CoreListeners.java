@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.api.services.PortalServices;
 import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
@@ -10,8 +11,6 @@ import com.sekwah.advancedportals.core.repository.PortalTempDataRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
-
-import javax.inject.Inject;
 
 public class CoreListeners {
 

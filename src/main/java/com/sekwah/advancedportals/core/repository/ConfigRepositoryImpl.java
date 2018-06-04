@@ -1,9 +1,8 @@
 package com.sekwah.advancedportals.core.repository;
 
+import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.data.DataStorage;
-
-import javax.inject.Singleton;
 
 @Singleton
 public class ConfigRepositoryImpl implements ConfigRepository {
