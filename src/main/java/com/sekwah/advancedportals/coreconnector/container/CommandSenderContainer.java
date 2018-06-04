@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
-import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.util.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
