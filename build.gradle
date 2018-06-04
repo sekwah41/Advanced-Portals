@@ -40,11 +40,12 @@ jar {
 
 
 // Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
+// DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
 task runJar() << {
     javaexec {
         main "-jar"
-        args "${System.env.SPIGOT_LOC}\\${System.env.SPIGOT_JAR}.jar"
+        args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
         jvmArgs "-DIReallyKnowWhatIAmDoingISwear=true"
-        workingDir "${System.env.SPIGOT_LOC}"
+        workingDir "${System.env.MC_SERVER_LOC}"
     }
 }
