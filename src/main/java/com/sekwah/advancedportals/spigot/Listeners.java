@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 public class Listeners implements Listener {
 
-    private CoreListeners coreListeners = AdvancedPortalsCore.getCoreListeners();
+    private CoreListeners coreListeners = AdvancedPortalsCore.getInstance().getCoreListeners();
 
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
