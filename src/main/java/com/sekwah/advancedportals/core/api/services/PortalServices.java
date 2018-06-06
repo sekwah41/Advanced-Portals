@@ -42,4 +42,8 @@ public final class PortalServices {
     public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) throws PortalException {
         return null;
     }
+
+    public void removePlayerSelection(PlayerContainer player) throws PortalException {
+
+    }
 }
