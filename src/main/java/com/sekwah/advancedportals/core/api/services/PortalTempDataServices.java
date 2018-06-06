@@ -8,11 +8,9 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 public final class PortalTempDataServices {
     
     public void activateCooldown(PlayerContainer player) {
-        AdvancedPortalsCore.getInfoLogger().log("PLAYER HAS JOINED TEST");
     }
 
     public void playerLeave(PlayerContainer player) {
-        AdvancedPortalsCore.getInfoLogger().log("PLAYER HAS LEFT TEST");
     }
 
     public void playerSelectorActivate(PlayerContainer player, PortalLocation blockLoc, boolean leftClick) {
