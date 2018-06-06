@@ -76,7 +76,7 @@ public class Lang {
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
-            AdvancedPortalsCore.getInfoLogger().logWarning("Could not load " + fileName + ".lang The file does" +
+            AdvancedPortalsCore.getInstance().getInfoLogger().logWarning("Could not load " + fileName + ".lang The file does" +
                     "not exist or there has been an error reading the file. Canceled loading language file.");
         }
     }
