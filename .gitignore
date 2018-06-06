@@ -10,3 +10,7 @@
 *.iml
 *.iws
 *.ipr
+
+logs/
+classes/
+run/
