@@ -2,20 +2,33 @@ package com.sekwah.advancedportals.core.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 
+import javax.inject.Inject;
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.Type;
 
 public class DataStorage {
 
-    private Gson gson;
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private File dataFolder;
 
-    public DataStorage(File dataFolder) {
-        this.dataFolder = dataFolder;
-        gson = new GsonBuilder().setPrettyPrinting().create();
+    @Inject
+    @Named("portals-core")
+    private AdvancedPortalsCore portalsCore;
+
+    /**
+     * Only lets it be set once
+     * @param location
+     */
+    public void setStorageLocation(File location) {
+        if(this.dataFolder == null) {
+            this.dataFolder = location;
+        }
     }
 
     /**
@@ -99,15 +112,15 @@ public class DataStorage {
                 outStream.close();
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                AdvancedPortalsCore.getInfoLogger().logWarning("Could not load " + fileLoc + ". The file does" +
+                this.portalsCore.getInfoLogger().logWarning("Could not load " + fileLoc + ". The file does" +
                         "not exist or there has been an error reading the file.");
                 return false;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                AdvancedPortalsCore.getInfoLogger().logWarning("Could not create " + fileLoc);
+                this.portalsCore.getInfoLogger().logWarning("Could not create " + fileLoc);
             } catch (IOException e) {
                 e.printStackTrace();
-                AdvancedPortalsCore.getInfoLogger().logWarning("File error reading " + fileLoc);
+                this.portalsCore.getInfoLogger().logWarning("File error reading " + fileLoc);
             }
         }
         return true;
@@ -139,7 +152,7 @@ public class DataStorage {
             } catch (NullPointerException e) {
                 System.out.println("OUTPUT 4");
                 e.printStackTrace();
-                AdvancedPortalsCore.getInfoLogger().logWarning("Could not load " + location + ". The file does" +
+                this.portalsCore.getInfoLogger().logWarning("Could not load " + location + ". The file does" +
                         "not exist or there has been an error reading the file.");
                 return null;
             }

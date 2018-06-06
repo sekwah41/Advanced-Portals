@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class TagRegistry<T> {
 
+    private final AdvancedPortalsCore portalsCore;
+
     /**
      * List of tag names which should be in order alphabetically
      */
@@ -27,6 +29,10 @@ public class TagRegistry<T> {
     private Map<String, TagHandler.Activation<T>> activationHandlers = new HashMap();
     private Map<String, TagHandler.Creation<T>> creationHandlers = new HashMap();
     private Map<String, TagHandler.TagStatus<T>> statusHandlers = new HashMap();
+
+    public TagRegistry(AdvancedPortalsCore portalsCore) {
+        this.portalsCore = portalsCore;
+    }
 
     /**
      *
@@ -79,12 +85,12 @@ public class TagRegistry<T> {
      */
     public boolean registerTag(String tag) {
         if (tag.contains(" ")) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("The tag '"
+            this.portalsCore.getInfoLogger().logWarning("The tag '"
                     + tag + "' is invalid as it contains spaces.");
             return false;
         }
         if (this.tags.contains(tag)) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("The tag "
+            this.portalsCore.getInfoLogger().logWarning("The tag "
                     + tag + " has already been registered.");
             return false;
         }
@@ -129,7 +135,7 @@ public class TagRegistry<T> {
     public boolean registerTag(String tag, Object tagHandler) {
 
         if (tag == null) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("A tag cannot be null.");
+            this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
             return false;
         }
 

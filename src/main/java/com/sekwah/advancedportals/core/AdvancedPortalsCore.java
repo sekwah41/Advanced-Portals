@@ -21,23 +21,26 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
 
+import java.io.File;
+
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
 
     private final CommandRegister commandRegister;
-    private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
     private final int mcMinorVer;
     private final ConnectorDataCollector dataCollector;
 
-    private WarpEffectRegistry warpEffectRegistry;
+    private Injector injector = Guice.createInjector(new RepositoryModule(this));
+
+    private WarpEffectRegistry warpEffectRegistry = injector.getInstance(WarpEffectRegistry.class);
     private TagRegistry<AdvancedPortal> portalTagRegistry;
     private TagRegistry<Destination> destiTagRegistry;
 
-    private Injector injector = Guice.createInjector(new RepositoryModule(this));
-
     private CoreListeners coreListeners = injector.getInstance(CoreListeners.class);
+
+    private final DataStorage dataStorage = injector.getInstance(DataStorage.class);
 
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
@@ -52,14 +55,14 @@ public class AdvancedPortalsCore {
     public static final String lastTranslationUpdate = "1.0.0";
 
     /**
-     * @param dataStorage - The implementation of data storage for the specific platform
+     * @param dataStorageLoc - Where the files will be located
      * @param infoLogger - The implementation of the logger for the specific platform
      * @param commandRegister - Handles the command registry, different on each platform
      * @param mcVer Minecraft version e.g. 1.12.2
      */
-    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister,
-            ConnectorDataCollector dataCollector, int[] mcVer) {
-        this.dataStorage = dataStorage;
+    public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger, CommandRegister commandRegister,
+                               ConnectorDataCollector dataCollector, int[] mcVer) {
+        this.dataStorage.setStorageLocation(dataStorageLoc);
         this.infoLogger = infoLogger;
         instance = this;
         this.commandRegister = commandRegister;
@@ -110,9 +113,8 @@ public class AdvancedPortalsCore {
     }
 
     private void onEnable() {
-        this.warpEffectRegistry = new WarpEffectRegistry();
-        this.portalTagRegistry = new TagRegistry<>();
-        this.destiTagRegistry = new TagRegistry<>();
+        this.portalTagRegistry = new TagRegistry<>(this);
+        this.destiTagRegistry = new TagRegistry<>(this);
 
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
