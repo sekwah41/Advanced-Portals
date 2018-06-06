@@ -2,6 +2,8 @@ package com.sekwah.advancedportals.core.api.registry;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,8 @@ public class SubCommandRegistry {
      */
     protected ArrayList<String> subCommands = new ArrayList<>();
 
+    private InfoLogger infoLogger = AdvancedPortalsCore.getInstance().getInfoLogger();
+
     /**
      * @param arg argument needed to activate
      * @param subCommand
@@ -32,12 +36,12 @@ public class SubCommandRegistry {
     public boolean registerSubCommand(String arg, SubCommand subCommand) {
 
         if (subCommand == null) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("The subcommand '" + arg + "' cannot be null.");
+            this.infoLogger.logWarning("The subcommand '" + arg + "' cannot be null.");
             return false;
         }
 
         if(this.subCommandMap.containsKey(arg)){
-            AdvancedPortalsCore.getInfoLogger().logWarning("The subcommand '" + arg + "' already exists.");
+            this.infoLogger.logWarning("The subcommand '" + arg + "' already exists.");
             return false;
         }
 
