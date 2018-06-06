@@ -3,7 +3,6 @@ buildscript {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
         maven { url "http://repo.maven.apache.org/maven2" }
-        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -20,6 +19,19 @@ version = '1.0.0'
 
 description = ""
 
+minecraft {
+    version = "1.12.2-14.23.2.2611"
+    runDir = "run"
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not allways work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20180606"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -30,6 +42,11 @@ tasks.withType(JavaCompile) {
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
+}
+
+repositories {
+    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
 }
 
 // includeLibs just says to include the library in the final jar
