@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
@@ -13,11 +25,6 @@ targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-}
-
-repositories {
-    maven { url "http://repo.maven.apache.org/maven2" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
 }
 
 configurations {
@@ -48,5 +55,25 @@ task runJar() {
             jvmArgs "-DIReallyKnowWhatIAmDoingISwear=true"
             workingDir "${System.env.MC_SERVER_LOC}"
         }
+    }
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
