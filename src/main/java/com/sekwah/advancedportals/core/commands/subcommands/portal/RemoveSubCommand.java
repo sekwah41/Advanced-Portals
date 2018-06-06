@@ -33,7 +33,7 @@ public class RemoveSubCommand implements SubCommand {
             }
             else {
                 try {
-                    AdvancedPortalsCore.getPortalTempDataServices().removePlayerSelection(player);
+                    AdvancedPortalsCore.getPortalServices().removePlayerSelection(player);
                 } catch (PortalException portalTagExeption) {
                     sender.sendMessage(Lang.translateColor("messageprefix.negative")
                             + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
