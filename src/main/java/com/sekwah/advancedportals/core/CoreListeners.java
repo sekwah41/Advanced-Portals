@@ -14,8 +14,10 @@ import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
 
 public class CoreListeners {
 
+    @Inject
     private PortalTempDataServices portalTempDataServices;
 
+    @Inject
     private PortalServices portalServices;
 
     @Inject
