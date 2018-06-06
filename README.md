@@ -7,11 +7,8 @@ An advanced portals plugin for bukkit made by sekwah41 designed to have a wide r
 Also please use the markdown and not html for updates to this file, references can be found [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 #Branch Layout
- * [master](https://github.com/sekwah41/Advanced-Portals/) (core code) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)
- * [core-dev](https://github.com/sekwah41/Advanced-Portals/tree/core-dev) (Core Dev Code) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=core-dev)
- * [spigot](https://github.com/sekwah41/Advanced-Portals/tree/spigot) (Spigot/Craftbukkit) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=spigot)
- * [spigot-dev](https://github.com/sekwah41/Advanced-Portals/tree/spigot-dev) (Spigot/Craftbukkit Dev Code) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=spigot-dev)
- * [sponge](https://github.com/sekwah41/Advanced-Portals/tree/sponge") (Sponge Powered) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=sponge)
+ * [master](https://github.com/sekwah41/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)
+ * [core-dev](https://github.com/sekwah41/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=dev)
 
 #Help
 
@@ -23,7 +20,7 @@ Also please use the markdown and not html for updates to this file, references c
 
 #Supported Platforms
  * Spigot/Craftbukkit (planned for release of recode)
- * Sponge Powered (planned)
+ * Forge (planned)
 
 #API
 Still needs major work on the documentation however javadocs will be made available on my website on release.
