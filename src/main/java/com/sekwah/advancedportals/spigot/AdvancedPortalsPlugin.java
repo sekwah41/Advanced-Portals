@@ -20,7 +20,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public void onEnable() {
         // TODO actually get the minecraft version
-        this.portalsCore = new AdvancedPortalsCore(new DataStorage(this.getDataFolder()),
+        this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
                 new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), new int[]{1,12,2});
         //injector = Guice.createInjector(new RepositoryModule(this.portalsCore));
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
