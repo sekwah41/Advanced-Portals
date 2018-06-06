@@ -9,8 +9,6 @@ import com.sekwah.advancedportals.core.api.services.PortalServices;
 import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.config.RepositoryModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
-import com.sekwah.advancedportals.core.repository.DestinationRepositoryImpl;
-import com.sekwah.advancedportals.core.repository.PortalRepositoryImpl;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
@@ -26,6 +24,7 @@ import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
+
     private final CommandRegister commandRegister;
     private final DataStorage dataStorage;
     private final InfoLogger infoLogger;
@@ -118,6 +117,7 @@ public class AdvancedPortalsCore {
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
         this.loadPortalConfig();
+
         Lang.loadLanguage(configRepository.getTranslation());
 
         this.registerPortalCommand();
@@ -190,16 +190,16 @@ public class AdvancedPortalsCore {
         return this.dataStorage;
     }
 
-    public static InfoLogger getInfoLogger() {
-        return instance.infoLogger;
+    public InfoLogger getInfoLogger() {
+        return this.infoLogger;
     }
 
-    public static ConnectorDataCollector getDataCollector() {
-        return instance.dataCollector;
+    public ConnectorDataCollector getDataCollector() {
+        return this.dataCollector;
     }
 
-    public static CoreListeners getCoreListeners() {
-        return instance.coreListeners;
+    public CoreListeners getCoreListeners() {
+        return this.coreListeners;
     }
 
     public static PortalServices getPortalServices() {
@@ -210,7 +210,7 @@ public class AdvancedPortalsCore {
         return instance.destiServices;
     }
 
-    public static PortalTempDataServices getPortalTempDataServices() {
+    public PortalTempDataServices getPortalTempDataServices() {
         return instance.portalTempDataServices;
     }
 
