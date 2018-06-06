@@ -46,6 +46,7 @@ public class AdvancedPortalsCore {
     private PortalServices portalServices = injector.getInstance(PortalServices.class);
     private DestinationServices destiServices = injector.getInstance(DestinationServices.class);
     private PortalTempDataServices portalTempDataServices = injector.getInstance(PortalTempDataServices.class);
+
     private ConfigRepository configRepository = injector.getInstance(ConfigRepository.class);
 
     public static final String version = "1.0.0";
