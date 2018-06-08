@@ -41,7 +41,7 @@ command.create.detailedhelp=A formátum /portal create (név) [tag:tagvalue] Meg
 command.create.complete= A portál sikeresen létrehozva.
 
 command.createdesti.help=Célállomások létrehozása
-command.createdesti.error= Hiba történt a célállomásnál:
+command.createdesti.error= Hiba történt a célállomásnál
 command.createdesti.console= Nem hozhatsz létre célállomást a konzol segítségével.
 command.createdesti.detailedhelp=A formátum /desti create (név) [tag:tagvalue] Megadja a címkéket a létrehozás után a formátum tag:calue, ha az értéknek szóközre van szüksége, használja a formátum tag:"érték a szóközökkel"
 command.createdesti.complete= A célállomás sikeresen létrehozva.

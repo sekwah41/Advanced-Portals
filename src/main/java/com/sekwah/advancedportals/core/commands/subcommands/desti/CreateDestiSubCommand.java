@@ -4,7 +4,6 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.entities.DataTag;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
@@ -24,24 +23,22 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
                 return;
             }
             ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
-            try {
-                Destination desti = AdvancedPortalsCore.getDestinationServices().createDesti(args[1], player, player.getLoc(), destiTags);
-                if(desti != null) {
-                    sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
-                    sender.sendMessage(Lang.translateColor("command.create.tags"));
-                    ArrayList<DataTag> destiArgs = desti.getArgs();
-                    if(destiArgs.size() == 0) {
-                        sender.sendMessage(Lang.translateColor("desti.info.noargs"));
-                    }
-                    else {
-                        for (DataTag tag : destiArgs) {
-                            sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUE);
-                        }
+            Destination desti = AdvancedPortalsCore.getDestinationServices().createDesti(args[1], player, player.getLoc(), destiTags);
+            if(desti != null) {
+                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
+                sender.sendMessage(Lang.translateColor("command.create.tags"));
+                ArrayList<DataTag> destiArgs = desti.getArgs();
+                if(destiArgs.size() == 0) {
+                    sender.sendMessage(Lang.translateColor("desti.info.noargs"));
+                }
+                else {
+                    for (DataTag tag : destiArgs) {
+                        sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUE);
                     }
                 }
-            } catch (PortalException portalTagExeption) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.createdesti.error") + " "
-                        + Lang.translate(portalTagExeption.getMessage()));
+            }
+            else {
+                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.createdesti.error"));
             }
         }
         else {

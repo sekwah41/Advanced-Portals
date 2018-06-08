@@ -72,23 +72,18 @@ public class AdvancedPortal {
         for(Map.Entry<String, String> entry : args.entrySet()) {
             portalTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
-        try {
-            for(DataTag portalTag : portalTags) {
-                TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-                if(activationHandler != null) {
-                    activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
-                }
-            }
-            for(DataTag portalTag : portalTags) {
-                TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-                if(activationHandler != null) {
-                    activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
-                }
+
+        for(DataTag portalTag : portalTags) {
+            TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+            if(activationHandler != null) {
+                activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
             }
         }
-        catch(PortalException e) {
-            // TODO add portal error message
-            e.printStackTrace();
+        for(DataTag portalTag : portalTags) {
+            TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+            if(activationHandler != null) {
+                activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
+            }
         }
         for(DataTag portalTag : portalTags) {
             TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);

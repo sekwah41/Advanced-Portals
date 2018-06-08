@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.api.services;
 
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.entities.PlayerTempData;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;

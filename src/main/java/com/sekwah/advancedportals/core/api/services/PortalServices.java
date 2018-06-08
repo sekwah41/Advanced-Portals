@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.api.services;
 import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
@@ -38,15 +37,15 @@ public final class PortalServices {
         return null;
     }
 
-    public void removePortal(String name, PlayerContainer player) throws PortalException {
-
+    public boolean removePortal(String name, PlayerContainer player) {
+        return false;
     }
 
-    public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) throws PortalException {
+    public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) {
         return null;
     }
 
-    public void removePlayerSelection(PlayerContainer player) throws PortalException {
-
+    public boolean removePlayerSelection(PlayerContainer player) {
+        return false;
     }
 }

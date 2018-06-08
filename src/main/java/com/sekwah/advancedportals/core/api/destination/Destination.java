@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.api.destination;
 import com.google.gson.annotations.SerializedName;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.entities.DataTag;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
@@ -56,17 +55,12 @@ public class Destination {
 
     public boolean activate(PlayerContainer player) {
         ActivationData data = new ActivationData();
-        try {
-            this.portalActivate(player, data);
-        } catch (PortalException e) {
-            // TODO add portal error message
-            e.printStackTrace();
-        }
+        this.portalActivate(player, data);
         this.postActivate(player, data);
         return true;
     }
 
-    public boolean portalActivate(PlayerContainer player, ActivationData data) throws PortalException {
+    public boolean portalActivate(PlayerContainer player, ActivationData data) {
         TagRegistry<Destination> tagRegistry = AdvancedPortalsCore.getDestinationTagRegistry();
         DataTag[] destiTags = new DataTag[args.size()];
         int i = 0;

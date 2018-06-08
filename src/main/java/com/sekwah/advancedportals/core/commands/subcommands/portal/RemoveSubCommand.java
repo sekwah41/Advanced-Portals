@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
@@ -18,12 +17,12 @@ public class RemoveSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
-            try {
-                AdvancedPortalsCore.getPortalServices().removePortal(args[1], sender.getPlayerContainer());
-                    sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.remove.complete"));
-            } catch (PortalException portalTagExeption) {
+            if(AdvancedPortalsCore.getPortalServices().removePortal(args[1], sender.getPlayerContainer())) {
+                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.remove.complete"));
+            }
+            else {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative")
-                        + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
+                        + Lang.translateColor("command.remove.error"));
             }
         }
         else {
@@ -32,12 +31,14 @@ public class RemoveSubCommand implements SubCommand {
                 sender.sendMessage(Lang.translate("command.remove.noname"));
             }
             else {
-                try {
-                    AdvancedPortalsCore.getPortalServices().removePlayerSelection(player);
-                } catch (PortalException portalTagExeption) {
-                    sender.sendMessage(Lang.translateColor("messageprefix.negative")
-                            + Lang.translateColor("command.remove.error") + " " + Lang.translate(portalTagExeption.getMessage()));
+                if(AdvancedPortalsCore.getPortalServices().removePlayerSelection(player)) {
+
                 }
+                else {
+                    sender.sendMessage(Lang.translateColor("messageprefix.negative")
+                            + Lang.translateColor("command.remove.error"));
+                }
+
             }
         }
     }
