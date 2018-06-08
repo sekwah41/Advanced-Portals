@@ -6,9 +6,9 @@ import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.entities.DataTag;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
+import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.lang.reflect.Type;
@@ -41,12 +41,15 @@ public class DestinationRepositoryImpl implements DestinationRepository {
     }
 
 
-    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) throws PortalException {
+    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
+        // TODO change to write messages
         if(name == null || name.equals("")) {
-            throw new PortalException("desti.error.noname");
+            player.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("desti.error.noname"));
+            return null;
         }
         else if(this.destiHashMap.containsKey(name)) {
-            throw new PortalException("desti.error.takenname");
+            player.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("desti.error.takenname"));
+            return null;
         }
 
         Destination desti = new Destination(playerLocation);
