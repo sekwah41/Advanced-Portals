@@ -24,17 +24,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         Metrics metrics = new Metrics(this);
 
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-        System.out.println(Bukkit.getVersion());
-
         // TODO actually get the minecraft version
         this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
                 new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), new int[]{1,12,2});
