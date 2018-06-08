@@ -10,7 +10,7 @@ Also please use the markdown and not html for updates to this file, references c
  * [master](https://github.com/sekwah41/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)
  * [core-dev](https://github.com/sekwah41/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=dev)
 
-#Help
+# Help
 
 [List Of Commands](https://github.com/sekwah41/Advanced-Portals/wiki/Commands)
 
