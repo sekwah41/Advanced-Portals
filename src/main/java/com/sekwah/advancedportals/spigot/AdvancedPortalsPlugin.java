@@ -10,6 +10,10 @@ import com.sekwah.advancedportals.metrics.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
     private AdvancedPortalsCore portalsCore;
@@ -24,9 +28,23 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         Metrics metrics = new Metrics(this);
 
+        Pattern p = Pattern.compile("\\(MC:\\s([0-9].[0-9]+.[0-9]+)\\)");
+        Matcher m = p.matcher(Bukkit.getVersion());
+        if(m.find()) {
+            String version = m.group(1);
+            String[] versionNums = version.split("\\.");
+            int[] versionInts = new int[versionNums.length];
+            for(int i=0;i <versionNums.length; i++) {
+                versionInts[i] = Integer.parseInt(versionNums[i]);
+            }
+            this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
+                new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), versionInts);
+        }
+        else {
+            this.getLogger().warning("Could not parse mc version from: " + Bukkit.getVersion());
+            this.setEnabled(false);
+        }
         // TODO actually get the minecraft version
-        this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
-                new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), new int[]{1,12,2});
         //injector = Guice.createInjector(new RepositoryModule(this.portalsCore));
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
     }
