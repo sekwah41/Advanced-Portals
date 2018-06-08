@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.api.services;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
@@ -25,9 +24,9 @@ public final class DestinationServices {
      * @param player
      * @param loc
      * @param destiTags
-     * @return
+     * @return null if not created
      */
-    public Destination createDesti(String name, PlayerContainer player, PlayerLocation loc, ArrayList<DataTag> destiTags) throws PortalException {
+    public Destination createDesti(String name, PlayerContainer player, PlayerLocation loc, ArrayList<DataTag> destiTags) {
         return null;
     }
 }
