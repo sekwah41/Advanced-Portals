@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.spigot;
 
-import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.data.PortalLocation;
@@ -14,8 +13,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import javax.inject.Inject;
 
 public class Listeners implements Listener {
 

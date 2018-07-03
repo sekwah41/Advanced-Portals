@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.api.services.PortalServices;
 import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
@@ -19,7 +18,6 @@ public class CoreListeners {
     private PortalServices portalServices;
 
     @Inject
-    @Named("portals-core")
     private AdvancedPortalsCore portalsCore;
 
     public void playerJoin(PlayerContainer player) {
