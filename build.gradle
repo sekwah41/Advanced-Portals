@@ -8,7 +8,7 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+////apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
@@ -19,7 +19,7 @@ version = '1.0.0'
 
 description = ""
 
-minecraft {
+/*minecraft {
     version = "1.12.2-14.23.2.2611"
     runDir = "run"
 
@@ -30,7 +30,7 @@ minecraft {
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20180607"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-}
+}*/
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -75,7 +75,7 @@ task runJar() {
     }
 }
 
-processResources
+/*processResources
 {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
@@ -93,4 +93,4 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
+}*/

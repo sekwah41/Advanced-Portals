@@ -2,12 +2,9 @@ package com.sekwah.advancedportals.core.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.inject.name.Named;
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 
-import javax.inject.Inject;
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.Type;
 
@@ -18,17 +15,10 @@ public class DataStorage {
     private File dataFolder;
 
     @Inject
-    @Named("portals-core")
     private AdvancedPortalsCore portalsCore;
 
-    /**
-     * Only lets it be set once
-     * @param location
-     */
-    public void setStorageLocation(File location) {
-        if(this.dataFolder == null) {
-            this.dataFolder = location;
-        }
+    public DataStorage(File dataStorageLoc) {
+        this.dataFolder = dataStorageLoc;
     }
 
     /**

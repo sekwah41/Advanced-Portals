@@ -1,11 +1,11 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.Directional;
 import org.bukkit.material.MaterialData;
-import com.sekwah.advancedportals.core.entities.PortalLocation;
 
 public class WorldContainer {
 

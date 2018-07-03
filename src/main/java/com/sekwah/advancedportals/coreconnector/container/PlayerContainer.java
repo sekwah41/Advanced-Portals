@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
+import com.sekwah.advancedportals.core.entities.PlayerLocation;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -8,10 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
-import java.util.Arrays;
-import com.sekwah.advancedportals.core.entities.PlayerLocation;
-import com.sekwah.advancedportals.core.entities.PortalLocation;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
