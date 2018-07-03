@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.spigot;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.DataStorage;
 import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
@@ -10,7 +8,6 @@ import com.sekwah.advancedportals.metrics.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

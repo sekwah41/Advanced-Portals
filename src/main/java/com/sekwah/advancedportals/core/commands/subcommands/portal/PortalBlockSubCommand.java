@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -10,11 +11,9 @@ import java.util.List;
 
 public class PortalBlockSubCommand implements SubCommand {
 
-    private final AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
-    public PortalBlockSubCommand(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
-    }
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

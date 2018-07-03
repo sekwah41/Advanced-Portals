@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.api.registry;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
-import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import java.util.ArrayList;

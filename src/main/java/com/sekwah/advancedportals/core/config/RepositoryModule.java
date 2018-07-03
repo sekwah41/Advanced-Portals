@@ -3,11 +3,8 @@ package com.sekwah.advancedportals.core.config;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
-import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.repository.*;
-
-import java.util.Properties;
 
 public class RepositoryModule extends AbstractModule {
 
@@ -26,7 +23,6 @@ public class RepositoryModule extends AbstractModule {
     }
 
     @Provides
-    @Named("portals-core")
     AdvancedPortalsCore providePortalsCore() {
         return this.portalsCore;
     }

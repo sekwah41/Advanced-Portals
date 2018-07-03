@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -9,10 +10,10 @@ import java.util.List;
 
 public class TransUpdateSubCommand implements SubCommand {
 
-    private final AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
-    public TransUpdateSubCommand(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
+    public TransUpdateSubCommand() {
     }
 
     @Override

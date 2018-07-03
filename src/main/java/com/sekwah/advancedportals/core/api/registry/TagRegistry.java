@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.api.registry;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 
@@ -16,7 +17,8 @@ import java.util.Map;
  */
 public class TagRegistry<T> {
 
-    private final AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     /**
      * List of tag names which should be in order alphabetically
@@ -29,10 +31,6 @@ public class TagRegistry<T> {
     private Map<String, TagHandler.Activation<T>> activationHandlers = new HashMap();
     private Map<String, TagHandler.Creation<T>> creationHandlers = new HashMap();
     private Map<String, TagHandler.TagStatus<T>> statusHandlers = new HashMap();
-
-    public TagRegistry(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
-    }
 
     /**
      *

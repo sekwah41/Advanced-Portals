@@ -4,18 +4,18 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.api.services.DestinationServices;
-import com.sekwah.advancedportals.core.api.services.PortalServices;
-import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
-import com.sekwah.advancedportals.core.config.RepositoryModule;
-import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.api.services.DestinationServices;
+import com.sekwah.advancedportals.core.api.services.PortalServices;
+import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
+import com.sekwah.advancedportals.core.config.RepositoryModule;
 import com.sekwah.advancedportals.core.data.DataStorage;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
@@ -40,7 +40,7 @@ public class AdvancedPortalsCore {
 
     private CoreListeners coreListeners = injector.getInstance(CoreListeners.class);
 
-    private final DataStorage dataStorage = injector.getInstance(DataStorage.class);
+    private final DataStorage dataStorage;
 
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
@@ -62,7 +62,7 @@ public class AdvancedPortalsCore {
      */
     public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger, CommandRegister commandRegister,
                                ConnectorDataCollector dataCollector, int[] mcVer) {
-        this.dataStorage.setStorageLocation(dataStorageLoc);
+        this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
         instance = this;
         this.commandRegister = commandRegister;
@@ -113,8 +113,8 @@ public class AdvancedPortalsCore {
     }
 
     private void onEnable() {
-        this.portalTagRegistry = new TagRegistry<>(this);
-        this.destiTagRegistry = new TagRegistry<>(this);
+        this.portalTagRegistry = new TagRegistry<>();
+        this.destiTagRegistry = new TagRegistry<>();
 
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
@@ -136,12 +136,12 @@ public class AdvancedPortalsCore {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
-        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
-        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
-        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(this), "wand");
-        this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand(this));
-        this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand(this));
-        this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand(this));
+        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
+        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
+        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(), "wand");
+        this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand());
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
 

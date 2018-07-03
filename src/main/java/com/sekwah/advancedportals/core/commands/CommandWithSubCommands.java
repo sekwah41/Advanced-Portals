@@ -144,6 +144,9 @@ public class CommandWithSubCommands implements CommandTemplate {
     }
 
     public List<String> filterTabResults(List<String> tabList, String lastArg) {
+        if(tabList == null) {
+            return null;
+        }
         for(String arg : tabList.toArray(new String[0])) {
             if(!arg.startsWith(lastArg.toLowerCase())) {
                 tabList.remove(arg);

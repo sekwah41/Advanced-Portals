@@ -2,11 +2,12 @@ package com.sekwah.advancedportals.core.repository;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
@@ -19,6 +20,9 @@ import java.util.Map;
 @Singleton
 public class DestinationRepositoryImpl implements DestinationRepository {
     private Map<String, Destination> destiHashMap = new HashMap<>();
+
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     @Override
     public void create(String name, Destination destination) {
@@ -33,11 +37,6 @@ public class DestinationRepositoryImpl implements DestinationRepository {
     @Override
     public ImmutableMap<String, Destination> getDestinations() {
         return ImmutableMap.copyOf(destiHashMap);
-    }
-
-    @Override
-    public void loadDestinations() {
-
     }
 
 
@@ -63,25 +62,21 @@ public class DestinationRepositoryImpl implements DestinationRepository {
             }
         }
         this.destiHashMap.put(name, desti);
-        this.saveDestinations(AdvancedPortalsCore.getInstance());
+        this.saveDestinations();
         return desti;
     }
 
-    /**
-     * TODO change these, may be good if the data storage was an inject as well as it would save time and clean up layout
-     * @param portalsCore
-     */
-    public void loadDestinations(AdvancedPortalsCore portalsCore) {
+    public void loadDestinations() {
         Type type = new TypeToken<HashMap<String, Destination>>() {
         }.getType();
-        this.destiHashMap = portalsCore.getDataStorage().loadJson(type, "destinations.json");
-        this.saveDestinations(portalsCore);
+        this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        this.saveDestinations();
     }
 
-    public void saveDestinations(AdvancedPortalsCore portalsCore) {
+    public void saveDestinations() {
         if (this.destiHashMap == null) {
             this.destiHashMap = new HashMap<>();
         }
-        portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
+        this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
     }
 }

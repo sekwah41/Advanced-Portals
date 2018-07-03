@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.api.registry;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.effect.WarpEffect;
 
@@ -19,7 +18,6 @@ public class WarpEffectRegistry {
     private Map<String, WarpEffect> soundEffects = new HashMap();
 
     @Inject
-    @Named("portals-core")
     private AdvancedPortalsCore portalsCore;
 
     /**
