@@ -25,7 +25,6 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
             }
             ArrayList<DataTag> portalTags = this.getTagsFromArgs(args);
 
-            System.out.println(Arrays.toString(portalTags.toArray()));
             AdvancedPortal portal = AdvancedPortalsCore.getPortalServices().createPortal(args[1], player, portalTags);
             if(portal != null) {
                 sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));

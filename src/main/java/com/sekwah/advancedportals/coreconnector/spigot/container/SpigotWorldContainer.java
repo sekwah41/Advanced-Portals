@@ -23,7 +23,6 @@ public class SpigotWorldContainer implements WorldContainer {
     public void setBlockData(PortalLocation location, byte data) {
         MaterialData matData = world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
         if(matData instanceof Directional) {
-            System.out.println("IS DIRECTIONAL");
             Directional dir = (Directional) world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
             dir.setFacingDirection(BlockFace.NORTH);
         }
