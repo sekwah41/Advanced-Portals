@@ -125,9 +125,9 @@ public class AdvancedPortalsCore {
         this.registerPortalCommand();
         this.registerDestinationCommand();
 
-        this.portalServices.loadPortals(this);
+        this.portalServices.loadPortals();
 
-        this.destiServices.loadDestinations(this);
+        this.destiServices.loadDestinations();
 
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }

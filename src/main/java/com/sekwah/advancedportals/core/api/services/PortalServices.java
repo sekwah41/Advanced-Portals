@@ -21,7 +21,7 @@ public final class PortalServices {
 
 
 
-    public void loadPortals(AdvancedPortalsCore advancedPortalsCore) {
+    public void loadPortals() {
 
     }
 
