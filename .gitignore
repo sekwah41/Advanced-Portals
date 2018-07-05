@@ -1,6 +1,7 @@
 *.class
 .*
 /build/
+/target/
 
 # Package Files #
 *.war
