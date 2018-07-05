@@ -69,9 +69,6 @@ public class AdvancedPortalsCore {
         this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
 
-
-        System.out.println("Core");
-
         this.onEnable();
     }
 
