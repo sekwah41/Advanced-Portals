@@ -26,7 +26,6 @@ public interface TagHandler {
          *
          * @param player if null then created by the server or a plugin
          * @param argData
-         * @throws PortalException message given is the reason the portal (or destination) cannot be made
          */
         void created(T target, PlayerContainer player, String argData);
 
@@ -35,7 +34,6 @@ public interface TagHandler {
          *
          * @param player if null then removed by the server or a plugin
          * @param argData
-         * @throws PortalException message given is the reason the portal cant be removed
          */
         void destroyed(T target, PlayerContainer player, String argData);
 

@@ -2,69 +2,35 @@ package com.sekwah.advancedportals.coreconnector.container;
 
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
  */
-public class PlayerContainer {
+public interface PlayerContainer {
 
-    private final Player player;
+    UUID getUUID();
 
-    public PlayerContainer(Player player) {
-        this.player = player;
-    }
+    public void sendMessage(String message);
 
-    public UUID getUUID() {
-        return player.getUniqueId();
-    }
-    
-    public void sendMessage(String message) {
-        player.sendMessage(message);
-    }
+    boolean isOp();
 
-    public boolean isOp() {
-        return this.player.isOp();
-    }
+    PlayerLocation getLoc();
 
-    public PlayerLocation getLoc() {
-        Location loc = this.player.getLocation();
-        return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ());
-    }
+    double getEyeHeight();
 
-    public double getEyeHeight() {
-        return 0;
-    }
+    void teleport(PlayerLocation location);
 
-    public void teleport(PlayerLocation location) {
-        this.player.teleport(new Location(Bukkit.getWorld(location.worldName), location.posX, location.posY, location.posZ));
-    }
+    boolean hasPermission(String permission);
 
-    public boolean hasPermission(String permission) {
-        return this.player.hasPermission(permission);
-    }
-
-    public WorldContainer getWorld() {
-        return new WorldContainer(this.player.getWorld());
-    }
+    WorldContainer getWorld();
 
     /**
      * @param blockPos
      * @param material
      */
-    public void sendFakeBlock(PortalLocation blockPos, String material) {
-
-    }
+    void sendFakeBlock(PortalLocation blockPos, String material);
 
     /**
      * Only 1.12 and below supported
@@ -72,25 +38,9 @@ public class PlayerContainer {
      * @param material
      * @param data
      */
-    public void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data) {
+    void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data);
 
-    }
+    void giveWool(String dyeColor, String itemName, String... itemDescription);
 
-    public void giveWool(String dyeColor, String itemName, String... itemDescription) {
-        ItemStack regionselector = new Wool(DyeColor.valueOf(dyeColor)).toItemStack(1);
-        ItemMeta selectorname = regionselector.getItemMeta();
-        selectorname.setDisplayName(itemName);
-        selectorname.setLore(Arrays.asList(itemDescription));
-        regionselector.setItemMeta(selectorname);
-        this.player.getInventory().addItem(regionselector);
-    }
-
-    public void giveItem(String material, String itemName, String... itemDescription) {
-        ItemStack regionselector = new ItemStack(Material.getMaterial(material));
-        ItemMeta selectorname = regionselector.getItemMeta();
-        selectorname.setDisplayName(itemName);
-        selectorname.setLore(Arrays.asList(itemDescription));
-        regionselector.setItemMeta(selectorname);
-        this.player.getInventory().addItem(regionselector);
-    }
+    void giveItem(String material, String itemName, String... itemDescription);
 }
