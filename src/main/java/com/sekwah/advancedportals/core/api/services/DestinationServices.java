@@ -13,9 +13,8 @@ import java.util.ArrayList; /**
 public final class DestinationServices {
 
     /**
-     * @param portalsCore
      */
-    public void loadDestinations(AdvancedPortalsCore portalsCore) {
+    public void loadDestinations() {
 
     }
 
