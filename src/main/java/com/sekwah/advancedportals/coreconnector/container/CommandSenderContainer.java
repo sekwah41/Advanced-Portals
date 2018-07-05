@@ -1,35 +1,16 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+public interface CommandSenderContainer {
 
-public class CommandSenderContainer {
+    void sendMessage(String message);
 
-    private final CommandSender sender;
-
-    public CommandSenderContainer(CommandSender commandSender) {
-        this.sender = commandSender;
-    }
-
-    public void sendMessage(String message) {
-        sender.sendMessage(message);
-    }
-
-    public boolean isOp() {
-        return sender.isOp();
-    }
+    boolean isOp();
 
     /**
      * @return null if there isnt a player e.g. the console
      */
-    public PlayerContainer getPlayerContainer() {
-        if (sender instanceof Player) {
-            return new PlayerContainer((Player) sender);
-        }
-        return null;
-    }
+    PlayerContainer getPlayerContainer();
 
-    public boolean hasPermission(String permission) {
-        return sender.hasPermission(permission);
-    }
+    boolean hasPermission(String permission);
+
 }

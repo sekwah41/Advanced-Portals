@@ -16,8 +16,8 @@ public class ReloadSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         portalsCore.loadPortalConfig();
-        portalsCore.getPortalServices().loadPortals(portalsCore);
-        portalsCore.getDestinationServices().loadDestinations(portalsCore);
+        portalsCore.getPortalServices().loadPortals();
+        portalsCore.getDestinationServices().loadDestinations();
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.reload.reloaded"));
     }
 

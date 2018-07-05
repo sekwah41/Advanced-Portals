@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.api.services;
 
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;

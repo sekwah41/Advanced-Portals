@@ -7,33 +7,13 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.material.Directional;
 import org.bukkit.material.MaterialData;
 
-public class WorldContainer {
+public interface WorldContainer {
 
-    private final World world;
+    void setBlock(PortalLocation location, String material);
 
-    public WorldContainer(World world) {
-        this.world = world;
-    }
+    void setBlockData(PortalLocation location, byte data);
 
-    public void setBlock(PortalLocation location, String material) {
-        this.world.getBlockAt(location.posX, location.posY, location.posZ).setType(Material.getMaterial(material));
-    }
+    String getBlock(PortalLocation location);
 
-    public void setBlockData(PortalLocation location, byte data) {
-        MaterialData matData = world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
-        if(matData instanceof Directional) {
-            System.out.println("IS DIRECTIONAL");
-            Directional dir = (Directional) world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
-            dir.setFacingDirection(BlockFace.NORTH);
-        }
-
-    }
-
-    public String getBlock(PortalLocation location) {
-        return this.world.getBlockAt(location.posX, location.posY, location.posZ).getType().toString();
-    }
-
-    public byte getBlockData(PortalLocation location) {
-        return 0;
-    }
+    byte getBlockData(PortalLocation location);
 }

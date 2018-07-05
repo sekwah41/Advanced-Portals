@@ -16,6 +16,7 @@ public class RepositoryModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        System.out.println("Configured");
         bind(PortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(DestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(PortalTempDataRepository.class).to(PortalTempDataRepositoryImpl.class).in(Scopes.SINGLETON);
@@ -24,6 +25,7 @@ public class RepositoryModule extends AbstractModule {
 
     @Provides
     AdvancedPortalsCore providePortalsCore() {
+        System.out.println("TEST");
         return this.portalsCore;
     }
 }

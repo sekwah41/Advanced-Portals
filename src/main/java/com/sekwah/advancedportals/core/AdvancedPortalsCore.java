@@ -18,8 +18,8 @@ import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
+import com.sekwah.advancedportals.coreconnector.info.DataCollector;
 
 import java.io.File;
 
@@ -30,7 +30,7 @@ public class AdvancedPortalsCore {
     private final CommandRegister commandRegister;
     private final InfoLogger infoLogger;
     private final int mcMinorVer;
-    private final ConnectorDataCollector dataCollector;
+    private final DataCollector dataCollector;
 
     private Injector injector = Guice.createInjector(new RepositoryModule(this));
 
@@ -61,13 +61,16 @@ public class AdvancedPortalsCore {
      * @param mcVer Minecraft version e.g. 1.12.2
      */
     public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger, CommandRegister commandRegister,
-                               ConnectorDataCollector dataCollector, int[] mcVer) {
+                               DataCollector dataCollector, int[] mcVer) {
         this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
         instance = this;
         this.commandRegister = commandRegister;
         this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
+
+
+        System.out.println("Core");
 
         this.onEnable();
     }
@@ -196,7 +199,7 @@ public class AdvancedPortalsCore {
         return this.infoLogger;
     }
 
-    public ConnectorDataCollector getDataCollector() {
+    public DataCollector getDataCollector() {
         return this.dataCollector;
     }
 

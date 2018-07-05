@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.api.services;
 
 import com.google.common.collect.ImmutableList;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.entities.DataTag;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;

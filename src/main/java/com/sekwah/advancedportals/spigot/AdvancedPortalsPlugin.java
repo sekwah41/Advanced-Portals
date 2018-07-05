@@ -35,7 +35,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 versionInts[i] = Integer.parseInt(versionNums[i]);
             }
             this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
-                new SpigotInfoLogger(this), new CommandRegister(this), new ConnectorDataCollector(), versionInts);
+                new SpigotInfoLogger(this), new SpigotCommandRegister(this), new SpigotDataCollector(), versionInts);
         }
         else {
             this.getLogger().warning("Could not parse mc version from: " + Bukkit.getVersion());
