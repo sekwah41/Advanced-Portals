@@ -1,14 +1,12 @@
-package com.sekwah.advancedportals.coreconnector;
+package com.sekwah.advancedportals.coreconnector.spigot.info;
 
+import com.sekwah.advancedportals.coreconnector.info.DataCollector;
 import org.bukkit.Material;
 
-/**
- * Gets info from the specific implementation
- */
-public class ConnectorDataCollector {
+public class SpigotDataCollector implements DataCollector {
+
     public boolean materialExists(String materialName) {
         String sameCase = materialName.toUpperCase();
         return Material.getMaterial(sameCase) != null;
     }
-
 }
