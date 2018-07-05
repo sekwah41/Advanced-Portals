@@ -302,7 +302,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         if (args.length > 1) {
                             if (Portal.portalExists(args[1])) {
                                 player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, args[1]));
-                                player.sendMessage(PluginMessages.customPrefix + " You have selected\u00A7e" + args[1] + "\u00A7a.");
+                                player.sendMessage(PluginMessages.customPrefix + " You have selected\u00A7e " + args[1] + "\u00A7a.");
                             } else {
                                 player.sendMessage(PluginMessages.customPrefixFail + " No portal by the name \u00A7e" + args[1] + "\u00A7c exists (maybe you got the caps wrong)\n Try typing \u00A7e/portal select\u00A7c and hit inside the apropriate portals area!");
                             }
