@@ -27,7 +27,6 @@ public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
 
-    private final CommandRegister commandRegister;
     private final InfoLogger infoLogger;
     private final int mcMinorVer;
     private final DataCollector dataCollector;
@@ -57,15 +56,13 @@ public class AdvancedPortalsCore {
     /**
      * @param dataStorageLoc - Where the files will be located
      * @param infoLogger - The implementation of the logger for the specific platform
-     * @param commandRegister - Handles the command registry, different on each platform
      * @param mcVer Minecraft version e.g. 1.12.2
      */
-    public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger, CommandRegister commandRegister,
+    public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger,
                                DataCollector dataCollector, int[] mcVer) {
         this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
         instance = this;
-        this.commandRegister = commandRegister;
         this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
 
@@ -122,9 +119,6 @@ public class AdvancedPortalsCore {
 
         Lang.loadLanguage(configRepository.getTranslation());
 
-        this.registerPortalCommand();
-        this.registerDestinationCommand();
-
         this.portalServices.loadPortals();
 
         this.destiServices.loadDestinations();
@@ -132,7 +126,16 @@ public class AdvancedPortalsCore {
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
 
-    private void registerPortalCommand() {
+    /**
+     *
+     * @param commandRegister - Handles the command registry, different on each platform
+     */
+    public void registerCommands(CommandRegister commandRegister) {
+        this.registerPortalCommand(commandRegister);
+        this.registerDestinationCommand(commandRegister);
+    }
+
+    private void registerPortalCommand(CommandRegister commandRegister) {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
@@ -145,15 +148,15 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
 
-        this.commandRegister.registerCommand("portal", this.portalCommand);
+        commandRegister.registerCommand("portal", this.portalCommand);
     }
 
-    private void registerDestinationCommand() {
+    private void registerDestinationCommand(CommandRegister commandRegister) {
         this.destiCommand = new CommandWithSubCommands();
 
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
 
-        this.commandRegister.registerCommand("destination", this.destiCommand);
+        commandRegister.registerCommand("destination", this.destiCommand);
     }
 
     public static boolean registerDestiSubCommand(String arg, SubCommand subCommand) {
