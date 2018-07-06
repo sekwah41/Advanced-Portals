@@ -1,0 +1,16 @@
+[
+{
+  "modid": "advancedportals",
+  "name": "Advanced Portals",
+  "description": "A server side mod for portals",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://www.spigotmc.org/resources/advanced-portals.14356/",
+  "updateUrl": "",
+  "authorList": ["sekwah41"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.spigot.info;
+package com.sekwah.advancedportals.spigot.coreconnector.info;
 
 import com.sekwah.advancedportals.coreconnector.info.DataCollector;
 import org.bukkit.Material;

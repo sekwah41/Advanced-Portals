@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.spigot.container;
+package com.sekwah.advancedportals.spigot.coreconnector.container;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;

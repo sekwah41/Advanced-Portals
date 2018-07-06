@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.spigot.container;
+package com.sekwah.advancedportals.spigot.coreconnector.container;
 
 import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;

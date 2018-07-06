@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.spigot.container;
+package com.sekwah.advancedportals.spigot.coreconnector.container;
 
 import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
 import org.bukkit.command.CommandSender;
