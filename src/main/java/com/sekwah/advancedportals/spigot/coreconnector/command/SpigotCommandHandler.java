@@ -1,8 +1,8 @@
-package com.sekwah.advancedportals.coreconnector.spigot.command;
+package com.sekwah.advancedportals.spigot.coreconnector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.coreconnector.command.CommandHandler;
-import com.sekwah.advancedportals.coreconnector.spigot.container.SpigotCommandSenderContainer;
+import com.sekwah.advancedportals.spigot.coreconnector.container.SpigotCommandSenderContainer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,10 +10,12 @@ import org.bukkit.command.TabCompleter;
 
 import java.util.List;
 
-public class SpigotCommandHandler extends CommandHandler implements CommandExecutor, TabCompleter {
+public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
+
+    private final CommandTemplate commandExecutor;
 
     public SpigotCommandHandler(CommandTemplate commandExecutor) {
-        super(commandExecutor);
+        this.commandExecutor = commandExecutor;
     }
 
     @Override

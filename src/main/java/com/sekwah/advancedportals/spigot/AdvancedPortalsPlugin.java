@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.coreconnector.spigot.command.SpigotCommandRegister;
-import com.sekwah.advancedportals.coreconnector.spigot.info.SpigotDataCollector;
+import com.sekwah.advancedportals.spigot.coreconnector.command.SpigotCommandRegister;
+import com.sekwah.advancedportals.spigot.coreconnector.info.SpigotDataCollector;
 import com.sekwah.advancedportals.metrics.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +34,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 versionInts[i] = Integer.parseInt(versionNums[i]);
             }
             this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(),
-                new SpigotInfoLogger(this), new SpigotCommandRegister(this), new SpigotDataCollector(), versionInts);
+                new SpigotInfoLogger(this), new SpigotDataCollector(), versionInts);
+            this.portalsCore.registerCommands(new SpigotCommandRegister(this));
         }
         else {
             this.getLogger().warning("Could not parse mc version from: " + Bukkit.getVersion());

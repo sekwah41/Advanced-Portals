@@ -22,6 +22,5 @@ public final class PortalTempDataServices {
     }
 
     public void playerSelectorActivate(PlayerContainer player, PortalLocation blockLoc, boolean leftClick) {
-
     }
 }

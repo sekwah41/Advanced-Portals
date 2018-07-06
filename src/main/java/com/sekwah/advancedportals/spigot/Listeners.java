@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.spigot;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.spigot.container.SpigotPlayerContainer;
+import com.sekwah.advancedportals.spigot.coreconnector.container.SpigotPlayerContainer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

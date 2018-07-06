@@ -1,18 +1,18 @@
-package com.sekwah.advancedportals.coreconnector.spigot.command;
+package com.sekwah.advancedportals.forge.coreconnector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 /**
  * Register the CommandTemplate files to the appropriate system
  */
-public class SpigotCommandRegister implements CommandRegister {
+public class ForgeCommandRegister implements CommandRegister {
 
-    private final AdvancedPortalsPlugin plugin;
+    private final FMLServerStartingEvent event;
 
-    public SpigotCommandRegister(AdvancedPortalsPlugin plugin) {
-        this.plugin = plugin;
+    public ForgeCommandRegister(FMLServerStartingEvent event) {
+        this.event = event;
     }
 
     /**
@@ -21,6 +21,6 @@ public class SpigotCommandRegister implements CommandRegister {
      * @param commandExecutor
      */
     public void registerCommand(String commandName, CommandTemplate commandExecutor) {
-        this.plugin.getCommand(commandName).setExecutor(new SpigotCommandHandler(commandExecutor));
+        event.registerServerCommand(new ForgeCommandHandler(commandName, commandExecutor));
     }
 }
