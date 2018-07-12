@@ -61,7 +61,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         for (AdvancedPortal portal: Portal.portals){
                             if (args[1].equalsIgnoreCase(portal.getName())){
 
-                                if (portal.inPortal.contains(player)) return true;
+                                if (portal.inPortal.contains(player.getUniqueId())) return true;
                                 WarpEvent warpEvent = new WarpEvent(player, portal);
                                 plugin.getServer().getPluginManager().callEvent(warpEvent);
 

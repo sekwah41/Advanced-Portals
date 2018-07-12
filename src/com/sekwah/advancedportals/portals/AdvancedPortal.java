@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 public class AdvancedPortal {
 
@@ -28,7 +29,7 @@ public class AdvancedPortal {
 
     private PortalArg[] portalArgs = null;
 
-    public HashSet<Player> inPortal = new HashSet<Player>();
+    public HashSet<UUID> inPortal = new HashSet<UUID>();
 
     // TODO think of relaying out the data input to a more logical format.
     public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, PortalArg... portalArgs) {

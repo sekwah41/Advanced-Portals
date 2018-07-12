@@ -23,6 +23,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.UUID;
+
 public class Listeners implements Listener {
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
@@ -95,6 +97,11 @@ public class Listeners implements Listener {
     @EventHandler
     public void onLeaveEvent(PlayerQuitEvent event) {
         Portal.cooldown.remove(event.getPlayer().getName());
+
+        UUID uuid = event.getPlayer().getUniqueId();
+        for (AdvancedPortal portal : Portal.portals) {
+            portal.inPortal.remove(uuid);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -119,14 +126,14 @@ public class Listeners implements Listener {
                     player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                 }
-                if (portal.inPortal.contains(player)) return;
+                if (portal.inPortal.contains(player.getUniqueId())) return;
                 WarpEvent warpEvent = new WarpEvent(player, portal);
                 plugin.getServer().getPluginManager().callEvent(warpEvent);
 
                 if (!warpEvent.isCancelled()) Portal.activate(player, portal);
 
-                portal.inPortal.add(player);
-            } else portal.inPortal.remove(player);
+                portal.inPortal.add(player.getUniqueId());
+            } else portal.inPortal.remove(player.getUniqueId());
         }
 
     }
