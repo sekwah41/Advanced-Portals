@@ -119,8 +119,6 @@ public class DataStorage {
     /**
      * A method to try to grab the files from the plugin and if its in the plugin folder load from there instead.
      * <p>
-     * TODO add loading from the plugin folder first rather than straight from the plugin.
-     *
      * @param location
      * @return
      */
