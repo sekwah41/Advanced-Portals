@@ -41,7 +41,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             this.getLogger().warning("Could not parse mc version from: " + Bukkit.getVersion());
             this.setEnabled(false);
         }
-        // TODO actually get the minecraft version
         //injector = Guice.createInjector(new RepositoryModule(this.portalsCore));
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
     }
