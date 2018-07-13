@@ -12,9 +12,9 @@ public interface PortalTempDataRepository {
 
     void removeSelectedPortal(UUID uuid);
 
-    void addSelectedHand(UUID uuid, EnumHandSelection enumHandSelection, PortalLocation portalLocation);
+    void addSelectedPosition(UUID uuid, boolean isPos1, PortalLocation portalLocation);
 
-    void removeSelectedHand(UUID uuid, EnumHandSelection enumHandSelection);
+    void removeSelectedPosition(UUID uuid, boolean isPos1);
 
     void removeAllSelectedHand(UUID uuid);
 
