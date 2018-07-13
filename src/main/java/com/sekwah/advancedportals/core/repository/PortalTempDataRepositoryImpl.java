@@ -20,7 +20,7 @@ public class PortalTempDataRepositoryImpl implements PortalTempDataRepository {
             .expireAfterAccess(30, TimeUnit.DAYS)
             .build();
 
-    Table<UUID, EnumHandSelection, PortalLocation> selectedHand = HashBasedTable.create();
+    Table<UUID, Boolean, PortalLocation> selectedPositions = HashBasedTable.create();
 
     @Override
     public void addSelectedPortal(UUID selectedPlayer, String portal) {
@@ -33,19 +33,19 @@ public class PortalTempDataRepositoryImpl implements PortalTempDataRepository {
     }
 
     @Override
-    public void addSelectedHand(UUID uuid, EnumHandSelection enumHandSelection, PortalLocation portalLocation) {
-        selectedHand.put(uuid, enumHandSelection, portalLocation);
+    public void addSelectedPosition(UUID uuid, boolean isPos1, PortalLocation portalLocation) {
+        selectedPositions.put(uuid, isPos1, portalLocation);
     }
 
     @Override
-    public void removeSelectedHand(UUID uuid, EnumHandSelection enumHandSelection) {
-        selectedHand.remove(uuid, enumHandSelection);
+    public void removeSelectedPosition(UUID uuid, boolean isPos1) {
+        selectedPositions.remove(uuid, isPos1);
     }
 
     @Override
     public void removeAllSelectedHand(UUID uuid) {
-        selectedHand.remove(uuid, EnumHandSelection.LEFTHAND);
-        selectedHand.remove(uuid, EnumHandSelection.RIGHTHAND);
+        selectedPositions.remove(uuid, EnumHandSelection.LEFTHAND);
+        selectedPositions.remove(uuid, EnumHandSelection.RIGHTHAND);
     }
 
     @Override
