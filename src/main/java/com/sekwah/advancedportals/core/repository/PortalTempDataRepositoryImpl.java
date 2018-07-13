@@ -7,7 +7,6 @@ import com.google.common.collect.Table;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
-import com.sekwah.advancedportals.core.enums.EnumHandSelection;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.UUID;
@@ -44,8 +43,8 @@ public class PortalTempDataRepositoryImpl implements PortalTempDataRepository {
 
     @Override
     public void removeAllSelectedHand(UUID uuid) {
-        selectedPositions.remove(uuid, EnumHandSelection.LEFTHAND);
-        selectedPositions.remove(uuid, EnumHandSelection.RIGHTHAND);
+        selectedPositions.remove(uuid, true);
+        selectedPositions.remove(uuid, false);
     }
 
     @Override
