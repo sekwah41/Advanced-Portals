@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.repository;
 
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.entities.PortalLocation;
-import com.sekwah.advancedportals.core.enums.EnumHandSelection;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 import java.util.UUID;
