@@ -5,13 +5,18 @@ import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.management.UserListOpsEntry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.UUID;
 
 public class ForgePlayerContainer implements PlayerContainer {
 
+    private EntityPlayer sender;
+
     public ForgePlayerContainer(EntityPlayer sender) {
 
+        this.sender = sender;
     }
 
     @Override
@@ -26,7 +31,13 @@ public class ForgePlayerContainer implements PlayerContainer {
 
     @Override
     public boolean isOp() {
-        return false;
+        UserListOpsEntry userlistopsentry = FMLCommonHandler.instance().getMinecraftServerInstance()
+                .getPlayerList().getOppedPlayers().getEntry(this.sender.getGameProfile());
+        if (userlistopsentry != null) {
+            return userlistopsentry.getPermissionLevel() >= 2;
+        } else {
+            return FMLCommonHandler.instance().getMinecraftServerInstance().getOpPermissionLevel() >= 2;
+        }
     }
 
     @Override

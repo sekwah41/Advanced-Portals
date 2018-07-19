@@ -24,6 +24,16 @@ public class ForgeCommandHandler extends CommandBase
     }
 
     @Override
+    public int getRequiredPermissionLevel() {
+        return 0;
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer p_checkPermission_1_, ICommandSender p_checkPermission_2_) {
+        return true;
+    }
+
+    @Override
     public String getName() {
         return commandName;
     }
