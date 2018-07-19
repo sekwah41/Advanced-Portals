@@ -4,7 +4,9 @@ import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ForgeCommandSenderContainer implements CommandSenderContainer {
     private final ICommandSender sender;
@@ -20,7 +22,26 @@ public class ForgeCommandSenderContainer implements CommandSenderContainer {
 
     @Override
     public boolean isOp() {
-        return false;
+        if(this.sender.getCommandSenderEntity() instanceof EntityPlayer) {
+
+        if(!FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(((EntityPlayer) this.sender).getGameProfile())) {
+            return false;
+        }
+        else {
+            UserListOpsEntry userlistopsentry = FMLCommonHandler.instance().getMinecraftServerInstance()
+                    .getPlayerList().getOppedPlayers().getEntry(((EntityPlayer) this.sender).getGameProfile());
+            if (userlistopsentry != null) {
+                return userlistopsentry.getPermissionLevel() >= 2;
+            } else {
+                return FMLCommonHandler.instance().getMinecraftServerInstance().getOpPermissionLevel()
+                        >= 2;
+            }
+        }
+
+        }
+        else {
+            return false;
+        }
     }
 
     @Override

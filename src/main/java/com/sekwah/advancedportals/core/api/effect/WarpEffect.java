@@ -15,7 +15,7 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
  */
 public abstract class WarpEffect {
 
-    abstract void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal);
+    protected abstract void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal);
 
     public enum Action {
         ENTER,
