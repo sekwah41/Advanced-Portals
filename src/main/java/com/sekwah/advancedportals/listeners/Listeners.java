@@ -10,7 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -46,11 +48,7 @@ public class Listeners implements Listener {
             WandMaterial = Material.IRON_AXE;
         }
         else{
-            try {
-                WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
-            } catch (Exception e) {
-                WandMaterial = Material.getMaterial(ItemID);
-            }
+            WandMaterial = Material.getMaterial(ItemID);
         }
 
 
@@ -65,11 +63,7 @@ public class Listeners implements Listener {
 
         String ItemID = config.getConfig().getString("AxeItemId");
 
-        try {
-            WandMaterial = Material.getMaterial(Integer.parseInt(ItemID));
-        } catch (Exception e) {
-            WandMaterial = Material.getMaterial(ItemID);
-        }
+        WandMaterial = Material.getMaterial(ItemID);
     }
 
     @EventHandler
@@ -117,7 +111,7 @@ public class Listeners implements Listener {
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
         for (AdvancedPortal portal : Portal.portals) {
             if (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc)) {
-                if (portal.getTrigger().equals(Material.PORTAL)) {
+                if (portal.getTrigger().equals(Material.NETHER_PORTAL)) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
                         player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
@@ -263,12 +257,15 @@ public class Listeners implements Listener {
                 }
 
             } else if (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
-                    event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.PORTAL) {
-                Block block = event.getClickedBlock();
-                if (block.getData() == 1) {
-                    block.setData((byte) 2);
-                } else {
-                    block.setData((byte) 1);
+                    event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.NETHER_PORTAL) {
+                BlockData block = event.getClickedBlock().getBlockData();
+                if(block instanceof Rotatable) {
+                    Rotatable rotatable = (Rotatable) block;
+                    if (rotatable.getRotation() == BlockFace.NORTH) {
+                        rotatable.setRotation(BlockFace.EAST);
+                    } else {
+                        rotatable.setRotation(BlockFace.NORTH);
+                    }
                 }
                 event.setCancelled(true);
             }

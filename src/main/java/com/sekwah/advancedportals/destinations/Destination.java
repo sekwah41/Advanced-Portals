@@ -17,15 +17,15 @@ public class Destination {
 
     private static AdvancedPortalsPlugin plugin;
 
-    private static boolean TeleportRiding = false;
-    public static int PortalMessagesDisplay = 0;
+    private static boolean TELEPORT_RIDING = false;
+    public static int PORTAL_MESSAGE_DISPLAY = 0;
 
     public Destination(AdvancedPortalsPlugin plugin) {
         Destination.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        TeleportRiding = config.getConfig().getBoolean("WarpRiddenEntity");
-        PortalMessagesDisplay = config.getConfig().getInt("WarpMessageDisplay");
+        TELEPORT_RIDING = config.getConfig().getBoolean("WarpRiddenEntity");
+        PORTAL_MESSAGE_DISPLAY = config.getConfig().getInt("WarpMessageDisplay");
     }
 
     // TODO add permissions for destinations.
@@ -120,7 +120,7 @@ public class Destination {
                 Entity riding = player.getVehicle();
                 if (!c.isLoaded()) c.load();
 
-                if (player.getVehicle() != null && TeleportRiding) {
+                if (player.getVehicle() != null && TELEPORT_RIDING) {
 
                     riding.eject();
                     riding.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
@@ -133,11 +133,11 @@ public class Destination {
                 WarpEffects.activateParticles(player);
                 WarpEffects.activateSound(player);
 
-                if (PortalMessagesDisplay == 1) {
+                if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
                     player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
-                } else if (PortalMessagesDisplay == 2) {
+                } else if (PORTAL_MESSAGE_DISPLAY == 2) {
                     plugin.compat.sendActionBarMessage("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.", player);
                     /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.portals[portalId].portalName + ".destination").replaceAll("_", " ")
                      + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/

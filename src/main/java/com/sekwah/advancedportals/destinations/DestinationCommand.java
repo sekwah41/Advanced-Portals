@@ -73,7 +73,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
                 List<Object> destiObj = Arrays.asList(config.getConfig().getKeys(false).toArray());
                 LinkedList<String> destis = new LinkedList<>();
-                for (Object object : destiObj.toArray()) {
+                for (Object object : destiObj) {
                     destis.add(object.toString());
                 }
                 Collections.sort(destis);
@@ -122,13 +122,12 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                     autoComplete.add(string);
             }
         }
-        if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("advancedportals.createportal")) {
-            if (args.length == 1) {
+        if (args.length == 1) {
+            if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("advancedportals.createportal")) {
                 autoComplete.addAll(Arrays.asList("create", "remove", "help"));
-            } else if (args[0].toLowerCase().equals("create")) {
             }
+            autoComplete.add("warp");
         }
-        autoComplete.add("warp");
         Collections.sort(autoComplete);
         for (Object result : autoComplete.toArray()) {
             if (!result.toString().startsWith(args[args.length - 1])) {
