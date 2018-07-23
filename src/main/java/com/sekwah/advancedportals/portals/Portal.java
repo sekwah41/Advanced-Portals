@@ -186,7 +186,7 @@ public class Portal {
 
         portalData.getConfig().set(name + ".world", pos1.getWorld().getName());
 
-        portalData.getConfig().set(name + ".triggerblock", checkMaterial(triggerBlock));
+        portalData.getConfig().set(name + ".triggerblock", triggerBlock.toString());
 
         portalData.getConfig().set(name + ".destination", destination);
 
@@ -262,15 +262,6 @@ public class Portal {
             }
         }
         return false;
-    }
-
-    private static String checkMaterial(Material triggerBlock) {
-        if (triggerBlock.equals(Material.WATER)) {
-            return "STATIONARY_WATER";
-        } else if (triggerBlock.equals(Material.LAVA)) {
-            return "STATIONARY_LAVA";
-        }
-        return triggerBlock.toString();
     }
 
     @SuppressWarnings("deprecation")
@@ -535,9 +526,7 @@ public class Portal {
     }
 
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
-        if (portal.getTrigger().equals(loc.getBlock().getType()))
-            return locationInPortal(portal, loc, 0);
-        return false;
+        return portal.getTrigger().equals(loc.getBlock().getType()) && locationInPortal(portal, loc, 0);
     }
 
     public static boolean inPortalRegion(Location loc, int additionalArea) {

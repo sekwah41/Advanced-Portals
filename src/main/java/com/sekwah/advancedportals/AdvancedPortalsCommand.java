@@ -317,7 +317,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "unselect":
-                    if(player.hasMetadata("selectedPortal")){
+                    if(player.getMetadata("selectedPortal").size() != 0){
                         player.sendMessage(PluginMessages.customPrefix + " You have unselected\u00A7e" + player.getMetadata("selectedPortal").get(0).asString()
                                 + "\u00A7a.");
                     }
@@ -347,7 +347,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             sender.sendMessage(PluginMessages.customPrefixFail + " No portal by the name \u00A7e" + args[1] + "\u00A7c exists!");
                         }
                     } else {
-                        if (player.hasMetadata("selectedPortal")) {
+                        if (player.getMetadata("selectedPortal").size() != 0) {
                             String portalName = player.getMetadata("selectedPortal").get(0).asString();
                             String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
                             if (posX != null) {
@@ -365,7 +365,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                     // not finished yet /
                     if (args.length > 1) {
-                        if (player.hasMetadata("selectedPortal")) {
+                        if (player.getMetadata("selectedPortal").size() != 0) {
                             String portalName = player.getMetadata("selectedPortal").get(0).asString();
                             if (portalName.toLowerCase() != args[1].toLowerCase()) {
                                 String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
@@ -392,7 +392,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "command":
-                    if (player.hasMetadata("selectedPortal")) {
+                    if (player.getMetadata("selectedPortal").size() != 0) {
                         String portalName = player.getMetadata("selectedPortal").get(0).asString();
                         if (args.length > 1) {
                             // TODO add the command autocompletes, add, remove and show
@@ -435,7 +435,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
                         }
                     } else {
-                        if (player.hasMetadata("selectedPortal")) {
+                        if (player.getMetadata("selectedPortal").size() != 0) {
                             String portalName = player.getMetadata("selectedPortal").get(0).asString();
                             String posX = portalConfig.getConfig().getString(portalName + ".pos1.X");
                             if (posX != null) {
@@ -462,7 +462,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
                         }
                     } else {
-                        if (player.hasMetadata("selectedPortal")) {
+                        if (player.getMetadata("selectedPortal").size() != 0) {
                             player.sendMessage(PluginMessages.customPrefix + " Your currently selected portal has been shown, it will dissapear shortly!");
                             Selection.show(player, this.plugin, player.getMetadata("selectedPortal").get(0).asString());
                         } else if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {

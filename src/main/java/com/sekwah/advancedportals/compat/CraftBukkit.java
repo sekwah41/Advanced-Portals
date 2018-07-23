@@ -30,8 +30,6 @@ public class CraftBukkit {
     private Field playerConnection;
     private Method sendPacket;
 
-    private boolean useEnumType = false;
-
 
     // Classes so it doesnt keep fetching them.
 
@@ -48,33 +46,14 @@ public class CraftBukkit {
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
             Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
 
-            try{
-                Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
+            Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
 
-                this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
+            this.chatMessageTypeMethod = chatMessageTypeClass.getMethod("a", byte.class);
 
-                this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
+            this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, chatMessageTypeClass);
 
-                useEnumType = true;
-            }
-            catch(ClassNotFoundException e) {
-                plugin.getLogger().info("Old version detected, changing chat method");
-                this.chatPacketConstructor = Class.forName(minecraftPackage + "PacketPlayOutChat").getConstructor(chatBaseComponent, byte.class);
-            }
 
-            if(chatSerialClass != null){
-                this.serializeMessage = chatSerialClass.getMethod("a", String.class);
-            }
-            else{
-                plugin.getLogger().info("Attempting support for 1.8");
-                try {
-                    this.reallyOldChatConstructor = Class.forName(minecraftPackage + "ChatMessage").getConstructor(String.class, Object[].class);
-                }
-                catch (ClassNotFoundException e) {
-                    plugin.getLogger().info("Fallback (I forget what version uses this but it was here for a reason)");
-                    this.serializeMessage = chatBaseComponent.getMethod("a", String.class);
-                }
-            }
+            this.serializeMessage = chatSerialClass.getMethod("a", String.class);
 
             this.playerGetHandle = Class.forName(craftBukkitPackage + "entity.CraftPlayer").getMethod("getHandle");
             this.playerConnection = Class.forName(minecraftPackage + "EntityPlayer").getField("playerConnection"); // get player connection
@@ -100,25 +79,13 @@ public class CraftBukkit {
     }
 
     public void sendActionBarMessage(String rawMessage, Player player) {
-        this.sendMessage(rawMessage,player, (byte) 2);
+        this.sendMessage("{\"text\":\"" + rawMessage + "\"}",player, (byte) 2);
     }
 
     public void sendMessage(String rawMessage, Player player, byte msgType) {
         try {
-            Object comp;
-            if(this.reallyOldChatConstructor != null) {
-                comp = this.reallyOldChatConstructor.newInstance(rawMessage,new Object[]{});
-            }
-            else {
-                comp = this.serializeMessage.invoke(null,"{\"text\":\"" + rawMessage + "\"}");
-            }
-            Object packet;
-            if(this.useEnumType){
-                packet = this.chatPacketConstructor.newInstance(comp, this.chatMessageTypeMethod.invoke(null,msgType)); // convert bytes into packet
-            }
-            else{
-                packet = this.chatPacketConstructor.newInstance(comp, msgType); // convert bytes into packet
-            }
+            Object comp = this.serializeMessage.invoke(null, rawMessage);
+            Object packet = this.chatPacketConstructor.newInstance(comp, this.chatMessageTypeMethod.invoke(null,msgType)); // convert bytes into packet
 
             Object handle = this.playerGetHandle.invoke(player);
             Object playerConnection = this.playerConnection.get(handle); // get players connection
@@ -127,11 +94,6 @@ public class CraftBukkit {
             this.plugin.getLogger().warning("Error creating raw message, something must be wrong with reflection");
             e.printStackTrace();
         }
-
-        /*IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(rawMessage);
-        // "json message", position(0: chat (chat box), 1: system message (chat box), 2: above action bar)
-        PacketPlayOutChat packet = new PacketPlayOutChat(comp, (byte) 1);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);*/
     }
 
 
