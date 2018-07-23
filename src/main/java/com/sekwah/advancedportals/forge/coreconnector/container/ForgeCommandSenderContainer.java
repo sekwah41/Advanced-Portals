@@ -24,19 +24,19 @@ public class ForgeCommandSenderContainer implements CommandSenderContainer {
     public boolean isOp() {
         if(this.sender.getCommandSenderEntity() instanceof EntityPlayer) {
 
-        if(!FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(((EntityPlayer) this.sender).getGameProfile())) {
-            return false;
-        }
-        else {
-            UserListOpsEntry userlistopsentry = FMLCommonHandler.instance().getMinecraftServerInstance()
-                    .getPlayerList().getOppedPlayers().getEntry(((EntityPlayer) this.sender).getGameProfile());
-            if (userlistopsentry != null) {
-                return userlistopsentry.getPermissionLevel() >= 2;
-            } else {
-                return FMLCommonHandler.instance().getMinecraftServerInstance().getOpPermissionLevel()
-                        >= 2;
+            if(!FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(((EntityPlayer) this.sender).getGameProfile())) {
+                return false;
             }
-        }
+            else {
+                UserListOpsEntry userlistopsentry = FMLCommonHandler.instance().getMinecraftServerInstance()
+                        .getPlayerList().getOppedPlayers().getEntry(((EntityPlayer) this.sender).getGameProfile());
+                // Intellij may say this will always be true but it isn't
+                if (userlistopsentry != null) {
+                    return userlistopsentry.getPermissionLevel() >= 2;
+                } else {
+                    return FMLCommonHandler.instance().getMinecraftServerInstance().getOpPermissionLevel() >= 2;
+                }
+            }
 
         }
         else {
