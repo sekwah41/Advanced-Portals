@@ -27,7 +27,7 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    compile "org.bukkit:bukkit:1.12.1-R0.1-SNAPSHOT"
+    compile "org.bukkit:bukkit:1.13-R0.1-SNAPSHOT"
 }
 
 

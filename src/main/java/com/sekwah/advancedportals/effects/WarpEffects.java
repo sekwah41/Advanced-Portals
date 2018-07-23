@@ -21,10 +21,10 @@ public class WarpEffects {
 
 		plugin = pluginTemp;
 
-		sounds[0] = findSound(plugin, "ENTITY_ENDERMEN_TELEPORT", "ENDERMAN_TELEPORT");
+		//sounds[0] = findSound(plugin, "ENTITY_ENDERMEN_TELEPORT", "ENDERMAN_TELEPORT");
+		sounds[0] = Sound.ENTITY_ENDERMAN_TELEPORT;
 
-		// SPIGOT STOP CHANGING THE BLOODY NAMES! we already knew what an explosion was...
-		sounds[1] = findSound(plugin, "ENTITY_GENERIC_EXPLODE", "EXPLODE");
+		sounds[1] = Sound.ENTITY_GENERIC_EXPLODE;
 
 	}
 
@@ -49,7 +49,7 @@ public class WarpEffects {
 		Location loc = player.getLocation();
 		World world = player.getWorld();
 		switch (plugin.getSettings().getCurrentWarpParticles()){
-			case 1: 
+			case 1:
 				for(int i = 0; i < 10; i++){
 					world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
 				}
@@ -59,7 +59,7 @@ public class WarpEffects {
 				}
 			default: break;
 		}
-		
+
 	}
 
 	public static void activateSound(Player player) {

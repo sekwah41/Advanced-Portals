@@ -3,13 +3,13 @@ package com.sekwah.advancedportals;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 public class Selection {
 
-    private static Material blockType = Material.STAINED_GLASS;
+    private static Material blockType = Material.RED_STAINED_GLASS;
     private static int timeout = 10;
-    private static byte metadata = 14;
 
     @SuppressWarnings("deprecation")
     public static void loadData(AdvancedPortalsPlugin plugin) {
@@ -18,17 +18,13 @@ public class Selection {
         timeout = config.getConfig().getInt("ShowSelectionShowDuration");
 
         String BlockID = config.getConfig().getString("ShowSelectionBlockID");
-        try {
-            blockType = Material.getMaterial(Integer.parseInt(BlockID));
-        } catch (Exception e) {
-            blockType = Material.getMaterial(BlockID);
-        }
+
+        blockType = Material.getMaterial(BlockID);
 
         if (blockType == null) {
-            blockType = Material.STAINED_GLASS;
+            plugin.getLogger().warning("Material may be from old name format");
+            blockType = Material.RED_STAINED_GLASS;
         }
-
-        metadata = (byte) config.getConfig().getInt("ShowSelectionBlockData");
     }
 
     @SuppressWarnings("deprecation")
@@ -79,6 +75,8 @@ public class Selection {
         final Location pos1 = new Location(player.getWorld(), LowX, LowY, LowZ);
         final Location pos2 = new Location(player.getWorld(), HighX, HighY, HighZ);
 
+        BlockData blockData = blockType.createBlockData();
+
 		/*
 		 * There are alot of for loops at the moment, when i find an easier way to do these other that a load of if statements
 		 * then i will change it, but for now its the best way i can think of for doing this. 
@@ -86,51 +84,51 @@ public class Selection {
 
         for (int x = LowX; x <= HighX; x++) {
             Location loc = new Location(player.getWorld(), x, LowY, LowZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int x = LowX; x <= HighX; x++) {
             Location loc = new Location(player.getWorld(), x, LowY, HighZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int z = LowZ; z <= HighZ; z++) {
             Location loc = new Location(player.getWorld(), LowX, LowY, z);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int z = LowZ; z <= HighZ; z++) {
             Location loc = new Location(player.getWorld(), HighX, LowY, z);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int y = LowY; y <= HighY; y++) {
             Location loc = new Location(player.getWorld(), LowX, y, LowZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int y = LowY; y <= HighY; y++) {
             Location loc = new Location(player.getWorld(), LowX, y, HighZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int y = LowY; y <= HighY; y++) {
             Location loc = new Location(player.getWorld(), HighX, y, LowZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int y = LowY; y <= HighY; y++) {
             Location loc = new Location(player.getWorld(), HighX, y, HighZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int x = LowX; x <= HighX; x++) {
             Location loc = new Location(player.getWorld(), x, HighY, HighZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int x = LowX; x <= HighX; x++) {
             Location loc = new Location(player.getWorld(), x, HighY, LowZ);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int z = LowZ; z <= HighZ; z++) {
             Location loc = new Location(player.getWorld(), LowX, HighY, z);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
         for (int z = LowZ; z <= HighZ; z++) {
             Location loc = new Location(player.getWorld(), HighX, HighY, z);
-            player.sendBlockChange(loc, blockType, metadata);
+            player.sendBlockChange(loc, blockData);
         }
 
 

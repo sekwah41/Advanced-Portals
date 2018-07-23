@@ -74,7 +74,7 @@ public class Portal {
 
                 ConfigurationSection portalConfigSection = portalData.getConfig().getConfigurationSection(portal.toString());
 
-                Material blockType = Material.PORTAL;
+                Material blockType = Material.NETHER_PORTAL;
                 String BlockID = portalConfigSection.getString("triggerblock");
 
                 try {
@@ -85,7 +85,7 @@ public class Portal {
                 }
 
                 if (blockType == null) {
-                    blockType = Material.PORTAL;
+                    blockType = Material.NETHER_PORTAL;
                 }
 
                 ConfigurationSection portalArgsConf = portalConfigSection.getConfigurationSection("portalArgs");
@@ -279,21 +279,13 @@ public class Portal {
 
         Material triggerBlockType;
         String BlockID = config.getConfig().getString("DefaultPortalTriggerBlock");
-        try {
-            triggerBlockType = Material.getMaterial(Integer.parseInt(BlockID));
-        } catch (Exception e) {
-            triggerBlockType = Material.getMaterial(BlockID);
-        }
+        triggerBlockType = Material.getMaterial(BlockID);
 
         if (triggerBlockType == null) {
-            triggerBlockType = Material.PORTAL;
+            triggerBlockType = Material.NETHER_PORTAL;
         }
 
-        // TODO add a for loop which scans through the addArgs and adds them to the portalData so that the application can use them
-
-        String result = create(pos1, pos2, name, destination, triggerBlockType, serverName, extraData);
-
-        return result;
+        return create(pos1, pos2, name, destination, triggerBlockType, serverName, extraData);
     }
 
     public static void redefine(Location pos1, Location pos2, String name) {
@@ -389,7 +381,7 @@ public class Portal {
         }
 
         String permission = portal.getArg("permission");
-		/*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
+        /*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
         // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
         if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
             player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
@@ -488,7 +480,7 @@ public class Portal {
     }
 
     private static void failSound(Player player, AdvancedPortal portal) {
-        if(!(portal.getTrigger() == Material.PORTAL && player.getGameMode() == GameMode.CREATIVE)){
+        if(!(portal.getTrigger() == Material.NETHER_PORTAL && player.getGameMode() == GameMode.CREATIVE)){
             player.playSound(player.getLocation(), portalSound, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
         }
     }

@@ -700,7 +700,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (!hasTriggerBlock) {
                     autoComplete.add("triggerblock:");
-                    autoComplete.addAll(this.blockMaterialList);
                 }
                 if (!hasDestination) {
                     autoComplete.add("destination:");
@@ -723,6 +722,17 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 if (perm == null || sender.hasPermission(perm)){
                     autoComplete.add(portal.getName());
                 }
+            }
+        }
+        if(args[args.length-1].startsWith("triggerblock:")) {
+            autoComplete.addAll(this.blockMaterialList);
+        }
+        if(args[args.length-1].startsWith("desti:") || args[args.length-1].startsWith("destination:")) {
+            String tagStart = args[args.length-1].startsWith("desti:") ? "desti:" : "destination:";
+            ConfigAccessor destiConfig = new ConfigAccessor(plugin, "destinations.yml");
+            List<Object> destiObj = Arrays.asList(destiConfig.getConfig().getKeys(false).toArray());
+            for (Object object : destiObj) {
+                autoComplete.add(tagStart + object.toString());
             }
         }
         Collections.sort(autoComplete);

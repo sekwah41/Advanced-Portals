@@ -40,10 +40,10 @@ public class PortalPlacer implements Listener {
             if(name == null) return;
 
             if (name.equals("\u00A75Portal Block Placer")){
-                event.getBlockPlaced().setType(Material.PORTAL);
+                event.getBlockPlaced().setType(Material.NETHER_PORTAL);
             }
             else if (name.equals("\u00A78End Portal Block Placer")){
-                event.getBlockPlaced().setType(Material.ENDER_PORTAL);
+                event.getBlockPlaced().setType(Material.NETHER_PORTAL);
             }
             else if (name.equals("\u00A78Gateway Block Placer")){
                 event.getBlockPlaced().setType(Material.END_GATEWAY);
@@ -56,7 +56,7 @@ public class PortalPlacer implements Listener {
     public void onBlockPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
         Material material = block.getType();
-        if (material == Material.PORTAL && Portal.inPortalRegion(block.getLocation(), Portal.getPortalProtectionRadius()))
+        if (material == Material.NETHER_PORTAL && Portal.inPortalRegion(block.getLocation(), Portal.getPortalProtectionRadius()))
             event.setCancelled(true);
     }
 }
