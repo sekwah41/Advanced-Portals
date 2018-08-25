@@ -8,7 +8,7 @@ Also please use the markdown and not html for updates to this file, references c
 
 # Branch Layout
  * [master](https://github.com/Plugineers/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/Plugineers/Advanced-Portals.svg?branch=master)
- * [core-dev](https://github.com/Plugineers/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/Plugineers/Advanced-Portals.svg?branch=dev)
+ * [dev](https://github.com/Plugineers/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/Plugineers/Advanced-Portals.svg?branch=dev)
 
 # Help
 
