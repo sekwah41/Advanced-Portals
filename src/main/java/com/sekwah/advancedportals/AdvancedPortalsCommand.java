@@ -55,7 +55,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
         if (sender.hasPermission("advancedportals.portal")) {
             if (args.length > 0) { switch (args[0].toLowerCase()) {
-                case "wand":
                 case "warp":
                     if (args.length == 2 && player.hasPermission("advancedportals.portal.warp")){
                         for (AdvancedPortal portal: Portal.portals){
@@ -72,6 +71,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     sendMenu(player, "Help Menu: Warp", "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
                     break;
+                case "wand":
                 case "selector":
                     String ItemID = config.getConfig().getString("AxeItemId");
 
@@ -171,15 +171,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     } else if (args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13) {
                                         hasTriggerBlock = true;
                                         triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
-                                    } else if (args[i].toLowerCase().startsWith("bungee:") && args[i].length() > 7) { // not completely implemented
+                                    } else if (this.startsWithPortalArg("bungee:", args[i])) {
                                         isBungeePortal = true;
-                                        serverName = args[i].toLowerCase().replaceFirst("bungee:", "");
-                                        //extraData.add(new PortalArgs("bungee", serverName));
-                                    } else if (args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11) { // not completely implemented
+                                        serverName = args[i].substring("bungee:".length());
+                                    } else if (args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11) {
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
                                         extraData.add(new PortalArg("permission", permission));
-                                    } else if (args[i].toLowerCase().startsWith("command:") && args[i].length() > 8) { // not completely implemented
+                                    } else if (args[i].toLowerCase().startsWith("command:") && args[i].length() > 8) {
                                         executesCommand = true;
                                         portalCommand = parseArgVariable(args, i, "command:");
                                         i += this.portalArgsStringLength - 1;
@@ -504,6 +503,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         }
 
         return true;
+    }
+
+    private boolean startsWithPortalArg(String portalArg, String arg) {
+        return arg.toLowerCase().startsWith(portalArg) && arg.length() > portalArg.length();
     }
 
     private void helpCommand(CommandSender sender, String command, String[] args) {
