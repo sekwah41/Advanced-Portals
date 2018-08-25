@@ -6,12 +6,11 @@ import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -259,12 +258,12 @@ public class Listeners implements Listener {
             } else if (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
                     event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.NETHER_PORTAL) {
                 BlockData block = event.getClickedBlock().getBlockData();
-                if(block instanceof Rotatable) {
-                    Rotatable rotatable = (Rotatable) block;
-                    if (rotatable.getRotation() == BlockFace.NORTH) {
-                        rotatable.setRotation(BlockFace.EAST);
+                if(block instanceof Orientable) {
+                    Orientable rotatable = (Orientable) block;
+                    if (rotatable.getAxis() == Axis.X) {
+                        rotatable.setAxis(Axis.Z);
                     } else {
-                        rotatable.setRotation(BlockFace.NORTH);
+                        rotatable.setAxis(Axis.X);
                     }
                 }
                 event.setCancelled(true);
