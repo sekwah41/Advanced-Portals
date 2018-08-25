@@ -55,7 +55,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
         if (sender.hasPermission("advancedportals.portal")) {
             if (args.length > 0) { switch (args[0].toLowerCase()) {
-                case "wand":
                 case "warp":
                     if (args.length == 2 && player.hasPermission("advancedportals.portal.warp")){
                         for (AdvancedPortal portal: Portal.portals){
@@ -72,6 +71,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     sendMenu(player, "Help Menu: Warp", "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
                     break;
+                case "wand":
                 case "selector":
                     String ItemID = config.getConfig().getString("AxeItemId");
 
