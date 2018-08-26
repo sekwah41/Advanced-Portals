@@ -43,7 +43,7 @@ public class PortalPlacer implements Listener {
                 event.getBlockPlaced().setType(Material.NETHER_PORTAL);
             }
             else if (name.equals("\u00A78End Portal Block Placer")){
-                event.getBlockPlaced().setType(Material.NETHER_PORTAL);
+                event.getBlockPlaced().setType(Material.END_PORTAL);
             }
             else if (name.equals("\u00A78Gateway Block Placer")){
                 event.getBlockPlaced().setType(Material.END_GATEWAY);
