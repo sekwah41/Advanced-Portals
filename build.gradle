@@ -1,14 +1,12 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
         maven { url "http://repo.maven.apache.org/maven2" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
@@ -18,19 +16,6 @@ group = 'com.sekwah.advancedportals'
 version = '1.0.0'
 
 description = ""
-
-minecraft {
-    version = "1.12.2-14.23.2.2611"
-    runDir = "run"
-
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not allways work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20180607"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -55,7 +40,7 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
     includeLibs group: 'com.google.inject', name: 'guice', version:'4.0'
     compile group: 'com.google.inject', name: 'guice', version:'4.0'
-    compile "org.bukkit:bukkit:1.12.1-R0.1-SNAPSHOT"
+    compile "org.bukkit:bukkit:1.13-R0.1-SNAPSHOT"
 }
 
 jar {
@@ -69,28 +54,9 @@ task runJar() {
         javaexec {
             main "-jar"
             args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
-            jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -DIReallyKnowWhatIAmDoingISwear=true"
+            jvmArgs "-DIReallyKnowWhatIAmDoingISwear=true -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
             workingDir "${System.env.MC_SERVER_LOC}"
         }
     }
 }
 
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
