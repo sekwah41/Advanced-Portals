@@ -2,7 +2,7 @@ Advanced Portals ![Build Status](https://travis-ci.org/Plugineers/Advanced-Porta
 ================
 <h2>Build Instructions</h2>
 <p>(This part is mostly aimed for beginners in case they haven't seen a maven project)
-<p>You must have maven installed then run "mvn clean install". Once the build is complete you will have a useable jar file in the folder named "target" listed as Advanced-Portals-x.x.x-snapshot.jar</p>
+<p>You must have maven installed then run "gradle build". Once the build is complete you will have a useable jar file in the folder named "build/lib" listed as Advanced-Portals-x.x.x-snapshot.jar</p>
 
 <h2>Plugin Info</h2>
 <p><b>NOTE:</b> This is the old version of Advanced Portals, look in the appropriate branch for the newer versions.</p>
