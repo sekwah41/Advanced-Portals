@@ -19,7 +19,7 @@ translatedata.replaced= A new \u00A7een_GB\u00A7a file has been copied to the da
 messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
 messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
 
-logger.pluginenable=Advanced portals have been successfully enabled!
+logger.pluginenable=Advanced portals have been enabled!
 logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
