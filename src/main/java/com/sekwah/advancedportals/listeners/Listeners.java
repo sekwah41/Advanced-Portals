@@ -258,13 +258,17 @@ public class Listeners implements Listener {
             } else if (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
                     event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.NETHER_PORTAL) {
                 BlockData block = event.getClickedBlock().getBlockData();
+
+
                 if(block instanceof Orientable) {
                     Orientable rotatable = (Orientable) block;
+                    System.out.println(rotatable.getAxis());
                     if (rotatable.getAxis() == Axis.X) {
                         rotatable.setAxis(Axis.Z);
                     } else {
                         rotatable.setAxis(Axis.X);
                     }
+                    event.getClickedBlock().setBlockData(rotatable);
                 }
                 event.setCancelled(true);
             }
