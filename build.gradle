@@ -54,7 +54,7 @@ task runJar() {
         javaexec {
             main "-jar"
             args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
-            jvmArgs "-DIReallyKnowWhatIAmDoingISwear=true -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+            jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
             workingDir "${System.env.MC_SERVER_LOC}"
         }
     }

@@ -24,7 +24,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         Metrics metrics = new Metrics(this);
 
-        Pattern p = Pattern.compile("\\(MC:\\s([0-9].[0-9]+.[0-9]+)\\)");
+        Pattern p = Pattern.compile("\\(MC:\\s([0-9].[0-9]+.?[0-9]+)\\)");
         Matcher m = p.matcher(Bukkit.getVersion());
         if(m.find()) {
             String version = m.group(1);
