@@ -70,8 +70,8 @@ public class AdvancedPortalsCore {
     }
 
     private int checkMcVer(int[] mcVer) {
-        int maxSupportedVer = 12;
-        int minSupportedVer = 8;
+        int maxSupportedVer = 13;
+        int minSupportedVer = 13;
         if(mcVer.length == 2 || mcVer.length == 3) {
             if(mcVer[0] == 1) {
                 if(mcVer[1] < minSupportedVer) {
@@ -87,8 +87,8 @@ public class AdvancedPortalsCore {
                 }
             }
             else {
-                this.infoLogger.logWarning("It seems you are using a very strange version of minecraft or something is " +
-                        "seriously wrong with the plugin for getting the version of minecraft.");
+                this.infoLogger.logWarning("It seems you are using a very strange version of Minecraft or something is " +
+                        "seriously wrong with the plugin for getting the version of Minecraft.");
                 return maxSupportedVer;
             }
         }
