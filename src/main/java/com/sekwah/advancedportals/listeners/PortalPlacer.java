@@ -26,7 +26,7 @@ public class PortalPlacer implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         boolean portalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
 
-        this.DISABLE_GATEWAY_BEAM = config.getConfig().getBoolean("DisableGatewayBeam");
+        this.DISABLE_GATEWAY_BEAM = config.getConfig().getBoolean("DisableGatewayBeam", true);
 
 
         if (portalPlace) {
