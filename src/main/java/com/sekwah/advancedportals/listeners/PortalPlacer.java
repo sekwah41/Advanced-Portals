@@ -3,30 +3,33 @@ package com.sekwah.advancedportals.listeners;
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 
 public class PortalPlacer implements Listener {
 
     @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
-
-    // The needed config values will be stored so they are easier to access later
-    // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
-    private boolean PortalPlace = true;
+    private final boolean DISABLE_GATEWAY_BEAM;
 
     public PortalPlacer(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        this.PortalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
+        boolean portalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
 
-        if (PortalPlace) {
+        this.DISABLE_GATEWAY_BEAM = config.getConfig().getBoolean("DisableGatewayBeam");
+
+
+        if (portalPlace) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
         }
     }
@@ -47,9 +50,27 @@ public class PortalPlacer implements Listener {
             }
             else if (name.equals("\u00A78Gateway Block Placer")){
                 event.getBlockPlaced().setType(Material.END_GATEWAY);
+                if(this.DISABLE_GATEWAY_BEAM) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        this.plugin.compat.setGatewayAgeHigh(event.getBlock());
+                    }, 1);
+                }
+
             }
         }
 
+    }
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+        if(!this.DISABLE_GATEWAY_BEAM) {
+            return;
+        }
+        BlockState[] tileEntities = event.getChunk().getTileEntities();
+        for(BlockState block : tileEntities) {
+            this.plugin.compat.setGatewayAgeHigh(block.getBlock());
+        }
+        //event.getHandlers();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
