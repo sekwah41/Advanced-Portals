@@ -472,7 +472,7 @@ public class Portal {
 
     private static void failSound(Player player, AdvancedPortal portal) {
         if(!(portal.getTrigger() == Material.NETHER_PORTAL && player.getGameMode() == GameMode.CREATIVE)){
-            player.playSound(player.getLocation(), portalSound, 0.5f, new Random().nextFloat() * 0.4F + 0.8F);
+            player.playSound(player.getLocation(), portalSound, 0.2f, new Random().nextFloat() * 0.4F + 0.8F);
         }
     }
 

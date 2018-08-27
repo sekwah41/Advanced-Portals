@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.compat;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -19,8 +20,8 @@ import java.lang.reflect.Method;
 public class CraftBukkit {
 
     private final AdvancedPortalsPlugin plugin;
-    private Constructor<?> reallyOldChatConstructor;
 
+    // Data for chat bar and json message
     private Method chatMessageTypeMethod;
 
     private Method serializeMessage;
@@ -31,7 +32,13 @@ public class CraftBukkit {
     private Method sendPacket;
 
 
-    // Classes so it doesnt keep fetching them.
+    // Data for beacon
+    private Class<?> endGatewayClass;
+    private Class<?> tileEntityEndGatewayClass;
+    private Constructor<?> blockPositionConstructor;
+    private Method getWorldHandleMethod;
+    private Method getTileEntityMethod;
+
 
     public CraftBukkit(AdvancedPortalsPlugin plugin, String bukkitImpl) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException {
 
@@ -59,6 +66,21 @@ public class CraftBukkit {
             this.playerConnection = Class.forName(minecraftPackage + "EntityPlayer").getField("playerConnection"); // get player connection
             Class<?> packet = Class.forName(minecraftPackage + "Packet");
             this.sendPacket = playerConnection.getType().getMethod("sendPacket", packet);
+
+            // Data for beacon
+            this.endGatewayClass = Class.forName(craftBukkitPackage + "block.CraftEndGateway");
+            this.tileEntityEndGatewayClass = Class.forName(minecraftPackage + "TileEntityEndGateway");
+
+            Class<?> blockPos = Class.forName(minecraftPackage + "BlockPosition");
+
+            this.blockPositionConstructor = blockPos.getConstructor(int.class, int.class, int.class);
+
+            getWorldHandleMethod = Class.forName(craftBukkitPackage + "CraftWorld").getMethod("getHandle");
+
+            getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             plugin.getLogger().warning("Attempting to use backup porekit locations");
@@ -107,4 +129,24 @@ public class CraftBukkit {
     }
 
 
+    /**
+     * Blocks the beacon from showing
+     * @param block
+     */
+    public void setGatewayAgeHigh(Block block) {
+        if(block.getState().getClass().isAssignableFrom(this.endGatewayClass)) {
+            try {
+                Object tileEntity = this.getTileEntityMethod.invoke(this.getWorldHandleMethod.invoke(block.getWorld()),
+                        this.blockPositionConstructor.newInstance(block.getX(), block.getY(), block.getZ()));
+                if(tileEntity.getClass().isAssignableFrom(this.tileEntityEndGatewayClass)) {
+                    Field f = tileEntity.getClass().getDeclaredField("f");
+                    f.setAccessible(true);
+                    f.set(tileEntity, Integer.MAX_VALUE);
+                }
+            } catch (IllegalAccessException| InvocationTargetException | InstantiationException | NoSuchFieldException e) {
+                this.plugin.getLogger().warning("Error setting gateway time");
+                e.printStackTrace();
+            }
+        }
+    }
 }

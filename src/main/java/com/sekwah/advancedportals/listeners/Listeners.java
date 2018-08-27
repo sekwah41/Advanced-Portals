@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Orientable;
@@ -262,7 +263,6 @@ public class Listeners implements Listener {
 
                 if(block instanceof Orientable) {
                     Orientable rotatable = (Orientable) block;
-                    System.out.println(rotatable.getAxis());
                     if (rotatable.getAxis() == Axis.X) {
                         rotatable.setAxis(Axis.Z);
                     } else {
