@@ -38,6 +38,7 @@ public class CraftBukkit {
     private Constructor<?> blockPositionConstructor;
     private Method getWorldHandleMethod;
     private Method getTileEntityMethod;
+    private Field getEntityTimeoutField;
 
 
     public CraftBukkit(AdvancedPortalsPlugin plugin, String bukkitImpl) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException {
@@ -79,7 +80,15 @@ public class CraftBukkit {
 
             getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
 
+            Field[] endGatewayFields = Class.forName(minecraftPackage + "TileEntityEndGateway").getDeclaredFields();
 
+            for(Field field : endGatewayFields) {
+                if(field.getType() == int.class && !field.isAccessible()) {
+                    field.setAccessible(true);
+                    getEntityTimeoutField = field;
+                    return;
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,11 +148,9 @@ public class CraftBukkit {
                 Object tileEntity = this.getTileEntityMethod.invoke(this.getWorldHandleMethod.invoke(block.getWorld()),
                         this.blockPositionConstructor.newInstance(block.getX(), block.getY(), block.getZ()));
                 if(tileEntity.getClass().isAssignableFrom(this.tileEntityEndGatewayClass)) {
-                    Field f = tileEntity.getClass().getDeclaredField("f");
-                    f.setAccessible(true);
-                    f.set(tileEntity, Integer.MAX_VALUE);
+                    getEntityTimeoutField.set(tileEntity, Integer.MAX_VALUE);
                 }
-            } catch (IllegalAccessException| InvocationTargetException | InstantiationException | NoSuchFieldException e) {
+            } catch (IllegalAccessException| InvocationTargetException | InstantiationException e) {
                 this.plugin.getLogger().warning("Error setting gateway time");
                 e.printStackTrace();
             }

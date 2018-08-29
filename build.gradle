@@ -4,7 +4,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group = 'com.sekwah.advancedportals'
-version = '0.0.46-snapshot'
+version = '0.0.47-snapshot'
 
 description = ""
 
