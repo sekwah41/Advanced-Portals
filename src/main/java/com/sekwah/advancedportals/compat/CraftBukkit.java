@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.compat;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -144,7 +145,8 @@ public class CraftBukkit {
      * @param block
      */
     public void setGatewayAgeHigh(Block block) {
-        if(this.endGatewayClass.isAssignableFrom(block.getState().getClass())) {
+        if(block.getWorld().getEnvironment() != World.Environment.THE_END &&
+                this.endGatewayClass.isAssignableFrom(block.getState().getClass())) {
             try {
                 Object tileEntity = this.getTileEntityMethod.invoke(this.getWorldHandleMethod.invoke(block.getWorld()),
                         this.blockPositionConstructor.newInstance(block.getX(), block.getY(), block.getZ()));
