@@ -86,6 +86,7 @@ public class CraftBukkit {
                 if(field.getType() == int.class && !field.isAccessible()) {
                     field.setAccessible(true);
                     getEntityTimeoutField = field;
+                    this.plugin.getLogger().info("Got field " +  field.getName() + " from TileEntityEndGateway");
                     return;
                 }
             }
@@ -143,11 +144,11 @@ public class CraftBukkit {
      * @param block
      */
     public void setGatewayAgeHigh(Block block) {
-        if(block.getState().getClass().isAssignableFrom(this.endGatewayClass)) {
+        if(this.endGatewayClass.isAssignableFrom(block.getState().getClass())) {
             try {
                 Object tileEntity = this.getTileEntityMethod.invoke(this.getWorldHandleMethod.invoke(block.getWorld()),
                         this.blockPositionConstructor.newInstance(block.getX(), block.getY(), block.getZ()));
-                if(tileEntity.getClass().isAssignableFrom(this.tileEntityEndGatewayClass)) {
+                if(this.tileEntityEndGatewayClass.isAssignableFrom(tileEntity.getClass())) {
                     getEntityTimeoutField.set(tileEntity, Integer.MAX_VALUE);
                 }
             } catch (IllegalAccessException| InvocationTargetException | InstantiationException e) {
