@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.compat.CraftBukkit;
 import com.sekwah.advancedportals.destinations.Destination;
 import com.sekwah.advancedportals.destinations.DestinationCommand;
 import com.sekwah.advancedportals.effects.WarpEffects;
+import com.sekwah.advancedportals.injector.PacketInjector;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
@@ -36,52 +37,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
             this.compat = new CraftBukkit(this, version);
 
+            ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
-            // This is a fix for my stupidity with the last version
-            File dataFolder = this.getDataFolder();
-            File configFile = new File(dataFolder, "portals.yml");
-
-            InputStreamReader inr = null;
-            try {
-                inr = new InputStreamReader(new FileInputStream(configFile), "ASCII");
-                BufferedReader br = new BufferedReader(inr);
-                StringBuffer sb = new StringBuffer();
-                while (true) {
-                    String line = br.readLine();
-                    if (line == null)
-                        break;
-                    sb.append(line);
-                    sb.append("\n");
-                }
-                br.close();
-                inr.close();
-
-                String fileContents = sb.toString();
-
-                fileContents = fileContents.replaceAll("  getPos1\\(\\):", "  pos1:");
-                fileContents = fileContents.replaceAll("  getPos2\\(\\):", "  pos2:");
-                fileContents = fileContents.replaceAll("  getBungee\\(\\):", "  bungee:");
-
-                try {
-                    FileWriter fileWriter = new FileWriter(configFile);
-
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                    bufferedWriter.write(fileContents);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    fileWriter.close();
-                }
-                catch(IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (UnsupportedEncodingException e) {
-                this.getLogger().warning("Invalid Encoding");
-            } catch (FileNotFoundException e) {
-                this.getLogger().info("File not found");
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
+                new PacketInjector(this, version);
             }
-
 
             ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
             portalConfig.saveDefaultConfig();

@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.compat;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.reflection.ReflectionHelper;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -81,15 +82,9 @@ public class CraftBukkit {
 
             getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
 
-            Field[] endGatewayFields = Class.forName(minecraftPackage + "TileEntityEndGateway").getDeclaredFields();
-
-            for(Field field : endGatewayFields) {
-                if(field.getType() == int.class && !field.isAccessible()) {
-                    field.setAccessible(true);
-                    getEntityTimeoutField = field;
-                    this.plugin.getLogger().info("Got field " +  field.getName() + " from TileEntityEndGateway");
-                    return;
-                }
+            getEntityTimeoutField = ReflectionHelper.getFieldByType(Class.forName(minecraftPackage + "TileEntityEndGateway"), int.class, false);
+            if(getEntityTimeoutField != null) {
+                this.plugin.getLogger().info("Got field " +  getEntityTimeoutField.getName() + " from TileEntityEndGateway");
             }
 
         } catch (Exception e) {
