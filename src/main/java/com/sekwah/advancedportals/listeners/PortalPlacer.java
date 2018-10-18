@@ -18,7 +18,7 @@ public class PortalPlacer implements Listener {
 
     @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
-    private final boolean DISABLE_GATEWAY_BEAM;
+    //private final boolean DISABLE_GATEWAY_BEAM;
 
     public PortalPlacer(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -26,7 +26,7 @@ public class PortalPlacer implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         boolean portalPlace = config.getConfig().getBoolean("CanBuildPortalBlock");
 
-        this.DISABLE_GATEWAY_BEAM = config.getConfig().getBoolean("DisableGatewayBeam", true);
+        //this.DISABLE_GATEWAY_BEAM = config.getConfig().getBoolean("DisableGatewayBeam", true);
 
 
         if (portalPlace) {
@@ -50,18 +50,18 @@ public class PortalPlacer implements Listener {
             }
             else if (name.equals("\u00A78Gateway Block Placer")){
                 event.getBlockPlaced().setType(Material.END_GATEWAY);
-                if(this.DISABLE_GATEWAY_BEAM) {
+                /*if(this.DISABLE_GATEWAY_BEAM) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
                         this.plugin.compat.setGatewayAgeHigh(event.getBlock());
                     }, 1);
-                }
+                }*/
 
             }
         }
 
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         if(!this.DISABLE_GATEWAY_BEAM) {
             return;
@@ -71,7 +71,7 @@ public class PortalPlacer implements Listener {
             this.plugin.compat.setGatewayAgeHigh(block.getBlock());
         }
         //event.getHandlers();
-    }
+    }*/
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPhysics(BlockPhysicsEvent event) {
