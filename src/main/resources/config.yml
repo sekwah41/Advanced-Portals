@@ -69,7 +69,9 @@ BlockSpectatorMode: false
 PortalCooldown: 5 # How long after trying to enter a portal until the player can try to enter another. 0 or lower to deactivate.
 ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwback
 
-DisableGatewayBeam: true
+# Experimental, works but not all the time (Entities don't seem to be provided in the event sometimes or something is wrong)
+# We have no plans to further this but if anyone has any tips feel free to contact us here https://discord.gg/25QZVVn
+DisableGatewayBeam: false
 
 # Letters are flags. Include them to activate. n always disables everything, remove if you want it to work.
 # Lettering may not make too much sense but meh its useful. Examples are "ocpk" or "cop" (doesnt matter order)
