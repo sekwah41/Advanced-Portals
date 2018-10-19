@@ -54,7 +54,7 @@ public class CraftBukkit {
             this.plugin.getLogger().info("Bukkit version detected " + bukkitImpl);
 
             Class<?> chatBaseComponent = Class.forName(minecraftPackage + "IChatBaseComponent"); // string to packet methods
-            Class<?> chatSerialClass = this.findClass(chatBaseComponent, "ChatSerializer");
+            Class<?> chatSerialClass = ReflectionHelper.findClass(chatBaseComponent, "ChatSerializer");
 
             Class<?> chatMessageTypeClass = Class.forName(minecraftPackage + "ChatMessageType");
 
@@ -92,7 +92,7 @@ public class CraftBukkit {
             plugin.getLogger().warning("Attempting to use backup porekit locations");
             // Fall back on your Porekit
             Class<?> textBaseComponent = Class.forName("net.minecraft.util.text.ITextComponent"); // string to packet methods
-            this.serializeMessage = this.findClass(textBaseComponent, "Serializer").getMethod("func_150699_a", String.class); // md: jsonToComponent
+            this.serializeMessage = ReflectionHelper.findClass(textBaseComponent, "Serializer").getMethod("func_150699_a", String.class); // md: jsonToComponent
             this.chatPacketConstructor = Class.forName("net.minecraft.network.play.server.SPacketChat").getConstructor(textBaseComponent, byte.class);
 
             this.playerGetHandle = Class.forName("blue.lapis.pore.impl.entity.PorePlayer").getMethod("getHandle");
@@ -122,16 +122,6 @@ public class CraftBukkit {
             this.plugin.getLogger().warning("Error creating raw message, something must be wrong with reflection");
             e.printStackTrace();
         }
-    }
-
-
-    public Class<?> findClass(Class<?> classObj, String className){
-        for(Class<?> classes : classObj.getDeclaredClasses()){
-            if(classes.getSimpleName().equals(className)){
-                return classes;
-            }
-        }
-        return null;
     }
 
 

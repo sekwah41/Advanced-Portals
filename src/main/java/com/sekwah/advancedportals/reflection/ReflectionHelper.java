@@ -14,4 +14,13 @@ public class ReflectionHelper {
         }
         return null;
     }
+
+    public static Class<?> findClass(Class<?> classObj, String className){
+        for(Class<?> classes : classObj.getDeclaredClasses()){
+            if(classes.getSimpleName().equals(className)){
+                return classes;
+            }
+        }
+        return null;
+    }
 }
