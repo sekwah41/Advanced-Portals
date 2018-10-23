@@ -14,14 +14,14 @@
 translatedata.lastchange=1.0.0
 translatedata.translationsoutdated=Certaines des traductions du fichier de traduction actuel \u00A7e%1$s\u00A7c sont dépassées.
 translatedata.replacecommand= Utilisez \u00A7e/portal transupdate\u00A7c pour copier un nouveau fichier par défaut de traduction \u00A7een_GB\u00A7c.
-translatedata.replaced= A new \u00A7een_GB\u00A7a file has been copied to the data folder.
+translatedata.replaced= Un nouveau fichier \u00A7een_GB\u00A7a a bien été enregistré.
 
 messageprefix.positive=\u00A7c[\u00A77AdvancedPortals\u00A7c]
 messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
 
 logger.pluginenable=Advanced portals a bien été activé !
 logger.plugindisable=Advanced portals a bien été désactivé !
-logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
+logger.plugincrafterror=Cette version craftbukkit n'est pas supportée, veuillez poster ce message avec le numéro de version et la pile ci-dessus dans un numéro sur GitHub: v:%1$s
 
 command.noargs= Vous devez spécifier une sous commande, utilisez \u00A7e/%1$s help \u00A7cpour avoir la liste des commandes possibles.
 command.subcommand.invalid= Ce n'est pas une sous commande.
