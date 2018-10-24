@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.api.effect;
 
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
@@ -9,7 +9,7 @@ import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
  */
 public class TestEffect extends WarpEffect {
     @Override
-    void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal) {
+    protected void onWarp(PlayerContainer player, PortalLocation loc, Action action, Type type, AdvancedPortal portal) {
 
     }
 }

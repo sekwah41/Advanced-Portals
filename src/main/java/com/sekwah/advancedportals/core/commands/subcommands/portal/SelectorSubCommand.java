@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -10,11 +11,8 @@ import java.util.List;
 
 public class SelectorSubCommand implements SubCommand {
 
-    private final AdvancedPortalsCore portalsCore;
-
-    public SelectorSubCommand(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
-    }
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -23,7 +21,7 @@ public class SelectorSubCommand implements SubCommand {
             sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
-            player.giveItem(this.portalsCore.getConfig().getSelectorMaterial(), "\u00A7ePortal Region Selector"
+            player.giveItem(this.portalsCore.getConfigRepo().getSelectorMaterial(), "\u00A7ePortal Region Selector"
                     , "\u00A7rThis wand with has the power to help", "\u00A7r create portals bistowed upon it!");
             sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.selector"));
         }

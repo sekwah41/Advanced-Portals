@@ -1,21 +1,16 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
-public class CommandSenderContainer {
-    public void sendMessage(String message) {
-    }
+public interface CommandSenderContainer {
 
-    public boolean isOp() {
-        return false;
-    }
+    void sendMessage(String message);
+
+    boolean isOp();
 
     /**
      * @return null if there isnt a player e.g. the console
      */
-    public PlayerContainer getPlayerContainer() {
-        return null;
-    }
+    PlayerContainer getPlayerContainer();
 
-    public boolean hasPermission(String permission) {
-        return false;
-    }
+    boolean hasPermission(String permission);
+
 }

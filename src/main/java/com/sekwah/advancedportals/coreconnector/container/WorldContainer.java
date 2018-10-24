@@ -1,20 +1,14 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
-import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 
-public class WorldContainer {
+public interface WorldContainer {
 
-    public void setBlock(PortalLocation location, String material) {
-    }
+    void setBlock(PortalLocation location, String material);
 
-    public void setBlockData(PortalLocation location, byte data) {
-    }
+    void setBlockData(PortalLocation location, byte data);
 
-    public String getBlock(PortalLocation location) {
-        return "";
-    }
+    String getBlock(PortalLocation location);
 
-    public byte getBlockData(PortalLocation location) {
-        return 0;
-    }
+    byte getBlockData(PortalLocation location);
 }

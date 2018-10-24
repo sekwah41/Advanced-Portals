@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -9,17 +10,14 @@ import java.util.List;
 
 public class ReloadSubCommand implements SubCommand {
 
-    private final AdvancedPortalsCore portalsCore;
-
-    public ReloadSubCommand(AdvancedPortalsCore portalsCore) {
-        this.portalsCore = portalsCore;
-    }
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         portalsCore.loadPortalConfig();
-        portalsCore.getPortalManager().loadPortals();
-        portalsCore.getDestinationManager().loadDestinations();
+        portalsCore.getPortalServices().loadPortals();
+        portalsCore.getDestinationServices().loadDestinations();
         sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.reload.reloaded"));
     }
 

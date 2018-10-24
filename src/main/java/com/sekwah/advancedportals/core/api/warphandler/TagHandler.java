@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
-import com.sekwah.advancedportals.core.api.portal.PortalException;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 
 /**
@@ -27,18 +26,16 @@ public interface TagHandler {
          *
          * @param player if null then created by the server or a plugin
          * @param argData
-         * @throws PortalException message given is the reason the portal (or destination) cannot be made
          */
-        void created(T target, PlayerContainer player, String argData) throws PortalException;
+        void created(T target, PlayerContainer player, String argData);
 
         /**
          * Example if the player does not have access to remove the portal or destination.
          *
          * @param player if null then removed by the server or a plugin
          * @param argData
-         * @throws PortalException message given is the reason the portal cant be removed
          */
-        void destroyed(T target, PlayerContainer player, String argData) throws PortalException;
+        void destroyed(T target, PlayerContainer player, String argData);
 
     }
 
@@ -68,11 +65,13 @@ public interface TagHandler {
          * @param player
          * @param activeData
          * @param argData
+         *
+         * @return If the tag has allowed the warp
          */
-        void preActivated(T target, PlayerContainer player, ActivationData activeData, String argData) throws PortalException;
+        boolean preActivated(T target, PlayerContainer player, ActivationData activeData, String argData);
 
         /**
-         * Activates after activation
+         * Activates after activation, should be used for actions such as removing money for a teleport.
          *
          * Any actions to do with player location should be done in activate
          *
@@ -88,11 +87,15 @@ public interface TagHandler {
          * You should do some second checks if it can be dependent on the preActivate, the destination tags will also be
          * triggered here if a desti is listed.
          *
+         * (You can still cancel here but it is advised to check properly in preActive)
+         *
          * @param player
          * @param activeData
          * @param argData
+         *
+         * @return If the tag has allowed the warp
          */
-        void activated(T target, PlayerContainer player, ActivationData activeData, String argData) throws PortalException;
+        boolean activated(T target, PlayerContainer player, ActivationData activeData, String argData);
 
     }
 
@@ -105,7 +108,7 @@ public interface TagHandler {
          * @param argData
          * @return if the tag will be added.
          */
-        boolean tagAdded(T target, PlayerContainer player, String argData) throws PortalException;
+        boolean tagAdded(T target, PlayerContainer player, String argData);
 
         /**
          * If the user has access to remove the tag (this does not include being added on destruction)
@@ -114,7 +117,7 @@ public interface TagHandler {
          * @param argData
          * @return if the tag will be removed.
          */
-        boolean tagRemoved(T target, PlayerContainer player, String argData) throws PortalException;
+        boolean tagRemoved(T target, PlayerContainer player, String argData);
 
     }
 

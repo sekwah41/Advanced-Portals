@@ -1,14 +1,16 @@
 *.class
 .*
 /build/
+/target/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
 *.iml
-
 *.iws
-
 *.ipr
+
+logs/
+classes/
+run/

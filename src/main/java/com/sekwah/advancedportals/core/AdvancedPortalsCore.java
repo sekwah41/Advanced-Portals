@@ -1,60 +1,68 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.api.managers.DestinationManager;
-import com.sekwah.advancedportals.core.api.managers.PortalManager;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.api.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.api.services.DestinationServices;
+import com.sekwah.advancedportals.core.api.services.PortalServices;
+import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
-import com.sekwah.advancedportals.core.config.Config;
+import com.sekwah.advancedportals.core.config.RepositoryModule;
 import com.sekwah.advancedportals.core.data.DataStorage;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.ConnectorDataCollector;
 import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
+import com.sekwah.advancedportals.coreconnector.info.DataCollector;
+
+import java.io.File;
 
 public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
-    private final CommandRegister commandRegister;
-    private final DataStorage dataStorage;
+
     private final InfoLogger infoLogger;
     private final int mcMinorVer;
-    private final ConnectorDataCollector dataCollector;
+    private final DataCollector dataCollector;
 
-    private WarpEffectRegistry warpEffectRegistry;
+    private Injector injector = Guice.createInjector(new RepositoryModule(this));
+
+    private WarpEffectRegistry warpEffectRegistry = injector.getInstance(WarpEffectRegistry.class);
     private TagRegistry<AdvancedPortal> portalTagRegistry;
     private TagRegistry<Destination> destiTagRegistry;
 
-    private CoreListeners coreListeners;
+    private CoreListeners coreListeners = injector.getInstance(CoreListeners.class);
 
-    private Config config;
+    private final DataStorage dataStorage;
 
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
 
-    private PortalManager portalManager;
-    private DestinationManager destiManager;
+    private PortalServices portalServices = injector.getInstance(PortalServices.class);
+    private DestinationServices destiServices = injector.getInstance(DestinationServices.class);
+    private PortalTempDataServices portalTempDataServices = injector.getInstance(PortalTempDataServices.class);
+
+    private ConfigRepository configRepository = injector.getInstance(ConfigRepository.class);
 
     public static final String version = "1.0.0";
     public static final String lastTranslationUpdate = "1.0.0";
 
     /**
-     * @param dataStorage - The implementation of data storage for the specific platform
+     * @param dataStorageLoc - Where the files will be located
      * @param infoLogger - The implementation of the logger for the specific platform
-     * @param commandRegister - Handles the command registry, different on each platform
      * @param mcVer Minecraft version e.g. 1.12.2
      */
-    public AdvancedPortalsCore(DataStorage dataStorage, InfoLogger infoLogger, CommandRegister commandRegister,
-            ConnectorDataCollector dataCollector, int[] mcVer) {
-        this.dataStorage = dataStorage;
+    public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger,
+                               DataCollector dataCollector, int[] mcVer) {
+        this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
-        this.instance = this;
-        this.commandRegister = commandRegister;
+        instance = this;
         this.dataCollector = dataCollector;
         this.mcMinorVer = this.checkMcVer(mcVer);
 
@@ -62,8 +70,8 @@ public class AdvancedPortalsCore {
     }
 
     private int checkMcVer(int[] mcVer) {
-        int maxSupportedVer = 12;
-        int minSupportedVer = 8;
+        int maxSupportedVer = 13;
+        int minSupportedVer = 13;
         if(mcVer.length == 2 || mcVer.length == 3) {
             if(mcVer[0] == 1) {
                 if(mcVer[1] < minSupportedVer) {
@@ -79,8 +87,8 @@ public class AdvancedPortalsCore {
                 }
             }
             else {
-                this.infoLogger.logWarning("It seems you are using a very strange version of minecraft or something is " +
-                        "seriously wrong with the plugin for getting the version of minecraft.");
+                this.infoLogger.logWarning("It seems you are using a very strange version of Minecraft or something is " +
+                        "seriously wrong with the plugin for getting the version of Minecraft.");
                 return maxSupportedVer;
             }
         }
@@ -98,54 +106,57 @@ public class AdvancedPortalsCore {
 
 
     public static String getTranslationName() {
-        return instance.config.getTranslation();
+        return instance.configRepository.getTranslation();
     }
 
     private void onEnable() {
-        this.coreListeners = new CoreListeners(this);
-        this.portalManager = new PortalManager(this);
-        this.destiManager = new DestinationManager(this);
-        this.warpEffectRegistry = new WarpEffectRegistry();
         this.portalTagRegistry = new TagRegistry<>();
         this.destiTagRegistry = new TagRegistry<>();
 
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
 
         this.loadPortalConfig();
-        Lang.loadLanguage(config.getTranslation());
 
-        this.registerPortalCommand();
-        this.registerDestinationCommand();
+        Lang.loadLanguage(configRepository.getTranslation());
 
-        this.portalManager.loadPortals();
+        this.portalServices.loadPortals();
 
-        this.destiManager.loadDestinations();
+        this.destiServices.loadDestinations();
 
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
 
-    private void registerPortalCommand() {
+    /**
+     *
+     * @param commandRegister - Handles the command registry, different on each platform
+     */
+    public void registerCommands(CommandRegister commandRegister) {
+        this.registerPortalCommand(commandRegister);
+        this.registerDestinationCommand(commandRegister);
+    }
+
+    private void registerPortalCommand(CommandRegister commandRegister) {
         this.portalCommand = new CommandWithSubCommands();
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
-        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand(this));
-        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand(this));
-        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(this), "wand");
-        this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand(this));
-        this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand(this));
-        this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand(this));
+        this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
+        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
+        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(), "wand");
+        this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand());
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
 
-        this.commandRegister.registerCommand("portal", this.portalCommand);
+        commandRegister.registerCommand("portal", this.portalCommand);
     }
 
-    private void registerDestinationCommand() {
+    private void registerDestinationCommand(CommandRegister commandRegister) {
         this.destiCommand = new CommandWithSubCommands();
 
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
 
-        this.commandRegister.registerCommand("destination", this.destiCommand);
+        commandRegister.registerCommand("destination", this.destiCommand);
     }
 
     public static boolean registerDestiSubCommand(String arg, SubCommand subCommand) {
@@ -161,8 +172,8 @@ public class AdvancedPortalsCore {
      * (basically if values are missing or whatever)
      */
     public void loadPortalConfig() {
-        this.config = this.dataStorage.loadJson(Config.class, "config.json");
-        this.dataStorage.storeJson(this.config, "config.json");
+        this.configRepository.loadConfig(this.dataStorage);
+        this.dataStorage.storeJson(this.configRepository, "config.json");
     }
 
     /**
@@ -176,32 +187,36 @@ public class AdvancedPortalsCore {
         return instance;
     }
 
-    public Config getConfig() {
-        return this.config;
+    public ConfigRepository getConfigRepo() {
+        return this.configRepository;
     }
 
     public DataStorage getDataStorage() {
         return this.dataStorage;
     }
 
-    public static InfoLogger getInfoLogger() {
-        return instance.infoLogger;
+    public InfoLogger getInfoLogger() {
+        return this.infoLogger;
     }
 
-    public static ConnectorDataCollector getDataCollector() {
-        return instance.dataCollector;
+    public DataCollector getDataCollector() {
+        return this.dataCollector;
     }
 
-    public static CoreListeners getCoreListeners() {
-        return instance.coreListeners;
+    public CoreListeners getCoreListeners() {
+        return this.coreListeners;
     }
 
-    public static PortalManager getPortalManager() {
-        return instance.portalManager;
+    public static PortalServices getPortalServices() {
+        return instance.portalServices;
     }
 
-    public static DestinationManager getDestinationManager() {
-        return instance.destiManager;
+    public static DestinationServices getDestinationServices() {
+        return instance.destiServices;
+    }
+
+    public PortalTempDataServices getPortalTempDataServices() {
+        return instance.portalTempDataServices;
     }
 
     public static TagRegistry<AdvancedPortal> getPortalTagRegistry() {

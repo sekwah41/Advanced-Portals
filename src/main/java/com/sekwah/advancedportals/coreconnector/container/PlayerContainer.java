@@ -1,48 +1,36 @@
 package com.sekwah.advancedportals.coreconnector.container;
 
-import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.entities.PlayerLocation;
+import com.sekwah.advancedportals.core.entities.PortalLocation;
 
 import java.util.UUID;
 
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
  */
-public class PlayerContainer {
+public interface PlayerContainer {
 
-    public UUID getUUID() {
-        return null;
-    }
-    
-    public void sendMessage(String message) {}
+    UUID getUUID();
 
-    public boolean isOp() {
-        return false;
-    }
+    public void sendMessage(String message);
 
-    public PlayerLocation getLoc() {
-        return null;
-    }
+    boolean isOp();
 
-    public double getEyeHeight() {
-        return 0;
-    }
+    PlayerLocation getLoc();
 
-    public void teleport(PlayerLocation location) {}
+    double getEyeHeight();
 
-    public boolean hasPermission(String permission) {
-        return false;
-    }
+    void teleport(PlayerLocation location);
 
-    public WorldContainer getWorld() {return null;}
+    boolean hasPermission(String permission);
+
+    WorldContainer getWorld();
 
     /**
      * @param blockPos
      * @param material
      */
-    public void sendFakeBlock(PortalLocation blockPos, String material) {
-
-    }
+    void sendFakeBlock(PortalLocation blockPos, String material);
 
     /**
      * Only 1.12 and below supported
@@ -50,11 +38,9 @@ public class PlayerContainer {
      * @param material
      * @param data
      */
-    public void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data) {
+    void sendFakeBlockWithData(PortalLocation blockPos, String material, byte data);
 
-    }
+    void giveWool(String dyeColor, String itemName, String... itemDescription);
 
-    public void giveItem(String material, String itemName, String... itemDescription) {}
-
-    public void giveWool(String dyeColor, String itemName, String... itemDescription) {}
+    void giveItem(String material, String itemName, String... itemDescription);
 }

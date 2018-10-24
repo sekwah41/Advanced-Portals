@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.api.registry;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 
@@ -15,6 +16,9 @@ import java.util.Map;
  * @author sekwah41
  */
 public class TagRegistry<T> {
+
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     /**
      * List of tag names which should be in order alphabetically
@@ -79,12 +83,12 @@ public class TagRegistry<T> {
      */
     public boolean registerTag(String tag) {
         if (tag.contains(" ")) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("The tag '"
+            this.portalsCore.getInfoLogger().logWarning("The tag '"
                     + tag + "' is invalid as it contains spaces.");
             return false;
         }
         if (this.tags.contains(tag)) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("The tag "
+            this.portalsCore.getInfoLogger().logWarning("The tag "
                     + tag + " has already been registered.");
             return false;
         }
@@ -129,7 +133,7 @@ public class TagRegistry<T> {
     public boolean registerTag(String tag, Object tagHandler) {
 
         if (tag == null) {
-            AdvancedPortalsCore.getInfoLogger().logWarning("A tag cannot be null.");
+            this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
             return false;
         }
 
