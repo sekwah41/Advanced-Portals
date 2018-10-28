@@ -24,7 +24,7 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void OnPlayerQuitEvent(PlayerQuitEvent event) {
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
         coreListeners.playerLeave(new SpigotPlayerContainer(event.getPlayer()));
     }
 
