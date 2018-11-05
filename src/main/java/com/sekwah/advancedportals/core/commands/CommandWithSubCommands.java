@@ -19,11 +19,12 @@ public class CommandWithSubCommands implements CommandTemplate {
         this.subCommandRegistry = new SubCommandRegistry();
     }
 
-    public boolean registerSubCommand(String arg, SubCommand subCommand, String... additionalArgs) {
-        for(String additionalArg : additionalArgs) {
-            this.subCommandRegistry.registerSubCommand(additionalArg,subCommand);
+    public boolean registerSubCommand(String arg, SubCommand subCommand, String... aliasArgs) {
+        boolean hasRegistered = false;
+        for(String additionalArg : aliasArgs) {
+            hasRegistered = hasRegistered || this.subCommandRegistry.registerSubCommand(additionalArg,subCommand);
         }
-        return this.subCommandRegistry.registerSubCommand(arg,subCommand);
+        return hasRegistered || this.subCommandRegistry.registerSubCommand(arg,subCommand);
     }
 
     public ArrayList<String> getSubCommands(){
