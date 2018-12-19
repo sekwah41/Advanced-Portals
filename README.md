@@ -2,7 +2,7 @@ Advanced Portals [![Build Status](https://travis-ci.org/Plugineers/Advanced-Port
 ================
 An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.
 
-**NOTE:** This is the rewrite that is in progress to also allow multiple platforms of server mods, if you are looking for the old version or this version isn't finished check the branch [portals-old](https://github.com/sekwah41/Advanced-Portals/tree/portals-old)
+**NOTE:** This is the rewrite that is in progress to also allow multiple platforms of server mods, if you are looking for the old version or this version isn't finished check the branch [portals-old](https://github.com/Plugineers/Advanced-Portals/tree/portals-old)
 
 Also please use the markdown and not html for updates to this file, references can be found [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
@@ -12,7 +12,7 @@ Also please use the markdown and not html for updates to this file, references c
 
 # Help
 
-[List Of Commands](https://github.com/sekwah41/Advanced-Portals/wiki/Commands)
+[List Of Commands](https://github.com/Plugineers/Advanced-Portals/wiki/Commands)
 
 [Spigot Page](https://www.spigotmc.org/resources/advanced-portals.14356/)
 
