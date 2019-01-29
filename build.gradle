@@ -51,6 +51,7 @@ if (branch != null) {
 }
 def isCanary = version.toString().contains('canary')
 
+archivesBaseName = "advancedportals"
 group = 'com.sekwah.advancedportals'
 
 description = ""
@@ -87,6 +88,9 @@ repositories {
     maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
     maven { url 'https://papermc.io/repo/repository/maven-public/' }
     maven { url 'https://maven.enginehub.org/repo/' } // WorldEdit
+}
+
+minecraft {
 }
 
 // includeLibs just says to include the library in the final jar
