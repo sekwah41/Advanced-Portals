@@ -1,10 +1,5 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url "http://repo.maven.apache.org/maven2" }
-    }
-    dependencies {
-    }
+plugins {
+    id 'fabric-loom' version '0.2.0-SNAPSHOT'
 }
 
 apply plugin: 'java'
@@ -12,6 +7,7 @@ apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
+archivesBaseName = "advancedportals"
 group = 'com.sekwah.advancedportals'
 version = '1.0.0'
 
@@ -34,6 +30,9 @@ repositories {
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
 }
 
+minecraft {
+}
+
 // includeLibs just says to include the library in the final jar
 dependencies {
     includeLibs group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
@@ -41,6 +40,13 @@ dependencies {
     includeLibs group: 'com.google.inject', name: 'guice', version:'4.0'
     compile group: 'com.google.inject', name: 'guice', version:'4.0'
     compile "org.bukkit:bukkit:1.13-R0.1-SNAPSHOT"
+
+    minecraft "com.mojang:minecraft:19w03c"
+    mappings "net.fabricmc:yarn:19w03c.6"
+    modCompile "net.fabricmc:fabric-loader:0.3.3.101"
+
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modCompile "net.fabricmc:fabric:0.1.4.78"
 }
 
 jar {
@@ -60,3 +66,11 @@ task runJar() {
     }
 }
 
+
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}

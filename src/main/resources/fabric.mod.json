@@ -1,0 +1,16 @@
+{
+  "id": "advancedportals",
+  "name": "Advanced Portals",
+  "description": "A portal mod for minecraft",
+  "version": "1.0.0",
+  "side": "universal",
+  "initializers": [
+    "com.sekwah.advancedportals.fabric.AdvancedPortalsMod"
+  ],
+  "requires": {
+    "fabric": "*"
+  },
+  "mixins": {
+    "common": "modid.common.json"
+  }
+}
