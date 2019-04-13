@@ -80,12 +80,12 @@ public class CraftBukkit {
 
             getWorldHandleMethod = Class.forName(craftBukkitPackage + "CraftWorld").getMethod("getHandle");
 
-            getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
+            //getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
 
-            getEntityTimeoutField = ReflectionHelper.getFieldByType(Class.forName(minecraftPackage + "TileEntityEndGateway"), int.class, false);
+            /*getEntityTimeoutField = ReflectionHelper.getFieldByType(Class.forName(minecraftPackage + "TileEntityEndGateway"), int.class, false);
             if(getEntityTimeoutField != null) {
                 this.plugin.getLogger().info("Got field " +  getEntityTimeoutField.getName() + " from TileEntityEndGateway");
-            }
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +129,7 @@ public class CraftBukkit {
      * Blocks the beacon from showing
      * @param block
      */
-    public void setGatewayAgeHigh(Block block) {
+    /*public void setGatewayAgeHigh(Block block) {
         if(block.getWorld().getEnvironment() != World.Environment.THE_END &&
                 this.endGatewayClass.isAssignableFrom(block.getState().getClass())) {
             try {
@@ -143,5 +143,5 @@ public class CraftBukkit {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 }
