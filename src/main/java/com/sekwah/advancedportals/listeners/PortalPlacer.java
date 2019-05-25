@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 
 public class PortalPlacer implements Listener {
 
@@ -60,18 +59,6 @@ public class PortalPlacer implements Listener {
         }
 
     }
-
-    /*@EventHandler
-    public void onChunkLoad(ChunkLoadEvent event) {
-        if(!this.DISABLE_GATEWAY_BEAM) {
-            return;
-        }
-        BlockState[] tileEntities = event.getChunk().getTileEntities();
-        for(BlockState block : tileEntities) {
-            this.plugin.compat.setGatewayAgeHigh(block.getBlock());
-        }
-        //event.getHandlers();
-    }*/
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPhysics(BlockPhysicsEvent event) {
