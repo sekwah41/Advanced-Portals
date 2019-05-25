@@ -39,9 +39,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
             ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
-            if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
+            // TODO reenable and finish but probably focus on the recode first
+            /*if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
                 new PacketInjector(this, version);
-            }
+            }*/
 
             ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
             portalConfig.saveDefaultConfig();
