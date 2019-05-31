@@ -4,7 +4,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group = 'com.sekwah.advancedportals'
-version = '0.0.50-snapshot'
+version = getPluginData("version") + '-snapshot'
 
 description = ""
 
@@ -13,6 +13,19 @@ targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+String getPluginData(String tag) {
+    File file = new File("src/main/resources/plugin.yml")
+    String version = "notfound"
+    file.readLines("UTF-8").each {String line ->
+        line = line.trim()
+        if(line.startsWith(tag)) {
+            version = line.substring(tag.length() + 2, line.length())
+        }
+    }
+    System.out.println("Advanced Portals v" + version)
+    return version
 }
 
 configurations {
