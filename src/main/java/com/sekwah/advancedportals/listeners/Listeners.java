@@ -7,12 +7,8 @@ import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.*;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Orientable;
-import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,8 +24,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.UUID;
 
 public class Listeners implements Listener {
-    // The needed config values will be stored so they are easier to access later
-    // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("\u00A7eP...
+
     private static boolean UseOnlyServerAxe = false;
     private static Material WandMaterial;
 
@@ -106,35 +101,45 @@ public class Listeners implements Listener {
         }
 
         Player player = event.getPlayer();
-        //Location fromloc = event.getFrom();
+
         Location loc = event.getTo();
         Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
+
+        checkTriggerLocations(player, false, loc, eyeLoc);
+
+    }
+
+    public void checkTriggerLocations(Player player, boolean useDelayed, Location... locations) {
         for (AdvancedPortal portal : Portal.portals) {
-            if (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc)) {
-                if (portal.getTrigger().equals(Material.NETHER_PORTAL)) {
-                    if (player.getGameMode().equals(GameMode.CREATIVE)) {
-                        player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
-                    }
-                } else if (portal.getTrigger().equals(Material.LAVA)) {
-                    player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+            boolean delayed = portal.hasArg("delayed") && portal.getArg("delayed").equalsIgnoreCase("true");
+            for (Location loc : locations) {
+                if (delayed == useDelayed) {
+                    if (delayed ? Portal.locationInPortal(portal, loc, 1) : Portal.locationInPortalTrigger(portal, loc)) {
+                        if (portal.getTrigger().equals(Material.NETHER_PORTAL)) {
+                            if (player.getGameMode().equals(GameMode.CREATIVE)) {
+                                player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
+                            }
+                        } else if (portal.getTrigger().equals(Material.LAVA)) {
+                            player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                        }
+                        if (portal.inPortal.contains(player.getUniqueId())) return;
+                        WarpEvent warpEvent = new WarpEvent(player, portal);
+                        plugin.getServer().getPluginManager().callEvent(warpEvent);
+
+                        if (!warpEvent.isCancelled()) Portal.activate(player, portal);
+
+                        if (!delayed) portal.inPortal.add(player.getUniqueId());
+                        return;
+                    } else if (!delayed) portal.inPortal.remove(player.getUniqueId());
                 }
-                if (portal.inPortal.contains(player.getUniqueId())) return;
-                WarpEvent warpEvent = new WarpEvent(player, portal);
-                plugin.getServer().getPluginManager().callEvent(warpEvent);
-
-                if (!warpEvent.isCancelled()) Portal.activate(player, portal);
-
-                portal.inPortal.add(player.getUniqueId());
-            } else portal.inPortal.remove(player.getUniqueId());
+            }
         }
-
     }
 
     // These are here because java 7 can only take finals straight into a runnable
     class RemoveLavaData implements Runnable{
-
 
         private Player player;
 
@@ -164,7 +169,7 @@ public class Listeners implements Listener {
                 player.removeMetadata("hasWarped", plugin);
             }
         }
-    };
+    }
 
     @EventHandler
     public void onCombustEntityEvent(EntityCombustEvent event) {
@@ -183,7 +188,18 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPortalEvent(PlayerPortalEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         Player player = event.getPlayer();
+
+        if (!player.hasMetadata("hasWarped")) {
+            Location loc = event.getFrom();
+            Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
+
+            checkTriggerLocations(player, true, loc, eyeLoc);
+        }
+
         if (player.hasMetadata("hasWarped") | Portal.inPortalRegion(event.getFrom(),1))
             event.setCancelled(true);
     }
@@ -212,16 +228,6 @@ public class Listeners implements Listener {
 
         if (player.hasPermission("advancedportals.createportal")) {
 
-            // UseOnlyServerMadeAxe being set to true makes is so only the axe generated by the server can be used so other iron axes can be used normally,
-            //  by default its false but it is a nice feature in case the user wants to use the axe normally too, such as a admin playing survival or it being used
-            //  as a weapon.
-            // Null pointer exeption detected here on some servers(try decompiling the jar file to double check)
-            /*try {
-				// Use this to surround the code if needed
-			}
-			catch(NullPointerException e){
-
-			}*/
             if (event.getItem() != null && event.getItem().getType() == WandMaterial // was type id
                     && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
