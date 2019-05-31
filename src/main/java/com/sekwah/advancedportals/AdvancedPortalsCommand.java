@@ -142,6 +142,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 boolean hasDestination = false;
                                 boolean isBungeePortal = false;
                                 boolean needsPermission = false;
+                                boolean delayed = false;
                                 boolean executesCommand = false;
                                 String destination = null;
                                 String portalName = null;
@@ -152,6 +153,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                                 ArrayList<PortalArg> extraData = new ArrayList<>();
 
+                                // Is completely changed in the recode but for now im leaving it as this horrible mess...
                                 for (int i = 1; i < args.length; i++) {
                                     if (args[i].toLowerCase().startsWith("name:") && args[i].length() > 5) {
                                         hasName = true;
@@ -178,6 +180,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
                                         extraData.add(new PortalArg("permission", permission));
+                                    } else if (args[i].toLowerCase().startsWith("delayed:") && args[i].length() > 8) {
+                                        delayed = Boolean.parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
+                                            extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
                                     } else if (args[i].toLowerCase().startsWith("command:") && args[i].length() > 8) {
                                         executesCommand = true;
                                         portalCommand = parseArgVariable(args, i, "command:");
@@ -242,6 +247,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     } else {
                                         player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
                                     }
+
+                                    player.sendMessage("\u00A7adelayed: \u00A7e" + delayed);
 
                                     if (executesCommand) {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
@@ -661,6 +668,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 boolean hasName = false;
                 boolean hasTriggerBlock = false;
                 boolean hasDestination = false;
+                boolean hasDelay = false;
                 boolean isBungeePortal = false;
                 boolean needsPermission = false;
                 boolean hasCommand = false;
@@ -690,6 +698,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             case "permission":
                                 needsPermission = true;
                                 break;
+                            case "delayed":
+                                hasDelay = true;
+                                break;
                             case "command":
                                 hasCommand = true;
                                 break;
@@ -714,6 +725,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 if (!needsPermission) {
                     autoComplete.add("permission:");
                 }
+                if (!hasDelay) {
+                    autoComplete.add("delayed:");
+                }
                 if (!hasCommand) {
                     autoComplete.add("command:");
                 }
@@ -729,6 +743,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         }
         if(args[args.length-1].startsWith("triggerblock:")) {
             autoComplete.addAll(this.blockMaterialList);
+        }
+        if(args[args.length-1].startsWith("delayed:")) {
+            autoComplete.addAll(Arrays.asList("delayed:true", "delayed:false"));
         }
         if(args[args.length-1].startsWith("desti:") || args[args.length-1].startsWith("destination:")) {
             String tagStart = args[args.length-1].startsWith("desti:") ? "desti:" : "destination:";

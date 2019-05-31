@@ -359,22 +359,14 @@ public class Portal {
 
     public static boolean activate(Player player, AdvancedPortal portal) {
 
-        // add other variables or filter code here, or somehow have a way to register them
-
-        // TODO on load and unload recode the permissions to try to register themselves
-        // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/plugin/PluginManager.html#addPermission(org.bukkit.permissions.Permission)
-        // check they havent been registered before too and store a list of ones made by this plugin to remove when portals are unloaded.
-        // When a portal is added or removed it reloads all portals(i think) so add code for unloading too.
-
         if(blockSpectatorMode && player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You cannot enter a portal in spectator mode!");
             return false;
         }
 
         String permission = portal.getArg("permission");
-        /*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
-        // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
-        if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
+
+        if (!(permission == null || player.hasPermission(permission) || player.isOp())) {
             player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
             failSound(player, portal);
             throwPlayerBack(player);
@@ -424,6 +416,7 @@ public class Portal {
         }
 
         if (portal.hasArg("command.1")) {
+            warped = true;
             int commandLine = 1;
             String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.getName()+ ".portalArgs.command." + commandLine);
             do {
@@ -525,8 +518,12 @@ public class Portal {
         return false;
     }
 
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc, int additionalArea) {
+        return portal.getTrigger().equals(loc.getBlock().getType()) && locationInPortal(portal, loc, additionalArea);
+    }
+
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
-        return portal.getTrigger().equals(loc.getBlock().getType()) && locationInPortal(portal, loc, 0);
+        return locationInPortalTrigger(portal, loc, 0);
     }
 
     public static boolean inPortalRegion(Location loc, int additionalArea) {
@@ -541,6 +538,10 @@ public class Portal {
             if (Portal.locationInPortal(portal, loc, additionalArea))
                 return true;
         return false;
+    }
+
+    public static boolean locationInPortal(AdvancedPortal portal, Location loc) {
+        return locationInPortal(portal, loc);
     }
 
     public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
