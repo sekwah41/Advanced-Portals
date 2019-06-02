@@ -4,7 +4,6 @@ import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.ConfigAccessor;
 import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
