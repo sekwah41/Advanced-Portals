@@ -18,10 +18,11 @@ import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
-    private final ArrayList<String> blockMaterialList = new ArrayList<>();
+    private final List<String> blockMaterialList;
     private AdvancedPortalsPlugin plugin;
 
     private int portalArgsStringLength = 0;
@@ -33,10 +34,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     public AdvancedPortalsCommand(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
+        this.blockMaterialList = Arrays.stream(Material.values()).filter(Material::isBlock).map(Enum::name)
+                .collect(Collectors.toList());
 
-        for(Material material : Material.values()) {
-            this.blockMaterialList.add("triggerblock:" + material.name());
-        }
         plugin.getCommand("advancedportals").setExecutor(this);
     }
 
@@ -86,7 +86,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     ItemMeta selectorname = regionselector.getItemMeta();
                     selectorname.setDisplayName("\u00A7ePortal Region Selector");
                     selectorname.setLore(Arrays.asList("\u00A7rThis wand with has the power to help"
-                            , "\u00A7r create portals bistowed upon it!"));
+                            , "\u00A7r create portals bestowed upon it!"));
                     regionselector.setItemMeta(selectorname);
 
                     inventory.addItem(regionselector);
@@ -142,6 +142,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 boolean hasDestination = false;
                                 boolean isBungeePortal = false;
                                 boolean needsPermission = false;
+                                boolean delayed = false;
                                 boolean executesCommand = false;
                                 String destination = null;
                                 String portalName = null;
@@ -152,6 +153,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                                 ArrayList<PortalArg> extraData = new ArrayList<>();
 
+                                // Is completely changed in the recode but for now im leaving it as this horrible mess...
                                 for (int i = 1; i < args.length; i++) {
                                     if (args[i].toLowerCase().startsWith("name:") && args[i].length() > 5) {
                                         hasName = true;
@@ -178,6 +180,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
                                         extraData.add(new PortalArg("permission", permission));
+                                    } else if (args[i].toLowerCase().startsWith("delayed:") && args[i].length() > 8) {
+                                        delayed = Boolean.parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
+                                            extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
                                     } else if (args[i].toLowerCase().startsWith("command:") && args[i].length() > 8) {
                                         executesCommand = true;
                                         portalCommand = parseArgVariable(args, i, "command:");
@@ -243,24 +248,24 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
                                     }
 
+                                    player.sendMessage("\u00A7adelayed: \u00A7e" + delayed);
+
                                     if (executesCommand) {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
                                     }
 
-                                    Material triggerBlockMat;
                                     if (hasTriggerBlock) {
-                                        triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
-                                        if (triggerBlockMat != null) {
+                                        Set<Material> materialSet = Portal.getMaterialSet(triggerBlock.toUpperCase().split(","));
+                                        if (materialSet.size() != 0) {
                                             player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
-                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, portalArgs));
+                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, materialSet, serverName, portalArgs));
                                         } else {
-                                            hasTriggerBlock = false;
                                             ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
                                             player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
-                                            player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
+                                            player.sendMessage("\u00A7c" + triggerBlock.toUpperCase() + " no valid blocks were listed so the default has been set.");
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
                                             player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
@@ -661,6 +666,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 boolean hasName = false;
                 boolean hasTriggerBlock = false;
                 boolean hasDestination = false;
+                boolean hasDelay = false;
                 boolean isBungeePortal = false;
                 boolean needsPermission = false;
                 boolean hasCommand = false;
@@ -690,6 +696,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             case "permission":
                                 needsPermission = true;
                                 break;
+                            case "delayed":
+                                hasDelay = true;
+                                break;
                             case "command":
                                 hasCommand = true;
                                 break;
@@ -714,6 +723,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 if (!needsPermission) {
                     autoComplete.add("permission:");
                 }
+                if (!hasDelay) {
+                    autoComplete.add("delayed:");
+                }
                 if (!hasCommand) {
                     autoComplete.add("command:");
                 }
@@ -727,8 +739,21 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        if(args[args.length-1].startsWith("triggerblock:")) {
-            autoComplete.addAll(this.blockMaterialList);
+        String triggerBlock = "triggerblock:";
+        if(args[args.length-1].toLowerCase().startsWith(triggerBlock)) {
+            String currentArg = args[args.length-1];
+            int length = currentArg.lastIndexOf(',');
+            String startString;
+            if(triggerBlock.length() > length) {
+                startString = triggerBlock;
+            }
+            else {
+                startString = currentArg.substring(0, length+1);
+            }
+            autoComplete.addAll(blockMaterialList.stream().map(value -> startString + value).collect(Collectors.toList()));
+        }
+        if(args[args.length-1].startsWith("delayed:")) {
+            autoComplete.addAll(Arrays.asList("delayed:true", "delayed:false"));
         }
         if(args[args.length-1].startsWith("desti:") || args[args.length-1].startsWith("destination:")) {
             String tagStart = args[args.length-1].startsWith("desti:") ? "desti:" : "destination:";

@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.injector.PacketInjector;
 import com.sekwah.advancedportals.listeners.*;
 import com.sekwah.advancedportals.metrics.Metrics;
 import com.sekwah.advancedportals.portals.Portal;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -39,9 +40,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
             ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
-            if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
+            // TODO reenable and finish but probably focus on the recode first
+            /*if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
                 new PacketInjector(this, version);
-            }
+            }*/
 
             ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
             portalConfig.saveDefaultConfig();
@@ -80,6 +82,12 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             this.getLogger().warning("Something went wrong, please notify sekwah and tell him about this version v:" + version);
             this.getLogger().warning("Along with the above stacktrace");
             this.setEnabled(false);
+        }
+
+        for (Player player:
+             this.getServer().getOnlinePlayers()) {
+            player.removeMetadata("hasWarped", this);
+            player.removeMetadata("lavaWarped", this);
         }
 
         // thanks to the new config accessor code the config.saveDefaultConfig(); will now

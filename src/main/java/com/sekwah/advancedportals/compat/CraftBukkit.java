@@ -34,15 +34,6 @@ public class CraftBukkit {
     private Method sendPacket;
 
 
-    // Data for beacon
-    private Class<?> endGatewayClass;
-    private Class<?> tileEntityEndGatewayClass;
-    private Constructor<?> blockPositionConstructor;
-    private Method getWorldHandleMethod;
-    private Method getTileEntityMethod;
-    private Field getEntityTimeoutField;
-
-
     public CraftBukkit(AdvancedPortalsPlugin plugin, String bukkitImpl) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException {
 
         this.plugin = plugin;
@@ -69,23 +60,6 @@ public class CraftBukkit {
             this.playerConnection = Class.forName(minecraftPackage + "EntityPlayer").getField("playerConnection"); // get player connection
             Class<?> packet = Class.forName(minecraftPackage + "Packet");
             this.sendPacket = playerConnection.getType().getMethod("sendPacket", packet);
-
-            // Data for beacon
-            this.endGatewayClass = Class.forName(craftBukkitPackage + "block.CraftEndGateway");
-            this.tileEntityEndGatewayClass = Class.forName(minecraftPackage + "TileEntityEndGateway");
-
-            Class<?> blockPos = Class.forName(minecraftPackage + "BlockPosition");
-
-            this.blockPositionConstructor = blockPos.getConstructor(int.class, int.class, int.class);
-
-            getWorldHandleMethod = Class.forName(craftBukkitPackage + "CraftWorld").getMethod("getHandle");
-
-            //getTileEntityMethod = Class.forName(minecraftPackage + "WorldServer").getMethod("getTileEntity", blockPos);
-
-            /*getEntityTimeoutField = ReflectionHelper.getFieldByType(Class.forName(minecraftPackage + "TileEntityEndGateway"), int.class, false);
-            if(getEntityTimeoutField != null) {
-                this.plugin.getLogger().info("Got field " +  getEntityTimeoutField.getName() + " from TileEntityEndGateway");
-            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
