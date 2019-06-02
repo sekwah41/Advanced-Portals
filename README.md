@@ -1,5 +1,7 @@
-Advanced Portals ![Build Status](https://travis-ci.org/Plugineers/Advanced-Portals.svg?branch=portals-old)
-================
+![Advanced Portals](https://i.imgur.com/UIF6cQR.png)
+
+Advanced Portals ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=portals-old)
+==============
 <h2>Build Instructions</h2>
 <p>(This part is mostly aimed for beginners in case they haven't seen a maven project)
 <p>You must have maven installed then run "gradle build". Once the build is complete you will have a useable jar file in the folder named "build/lib" listed as Advanced-Portals-x.x.x-snapshot.jar</p>
