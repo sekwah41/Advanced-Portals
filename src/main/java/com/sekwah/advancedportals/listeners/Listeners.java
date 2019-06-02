@@ -115,12 +115,13 @@ public class Listeners implements Listener {
             for (Location loc : locations) {
                 if (delayed == useDelayed) {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1) : Portal.locationInPortalTrigger(portal, loc)) {
-                        if (portal.getTrigger().equals(Material.NETHER_PORTAL)) {
+                        if (portal.getTriggers().contains(Material.NETHER_PORTAL)) {
                             if (player.getGameMode().equals(GameMode.CREATIVE)) {
                                 player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
                             }
-                        } else if (portal.getTrigger().equals(Material.LAVA)) {
+                        }
+                        if (portal.getTriggers().contains(Material.LAVA)) {
                             player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                         }

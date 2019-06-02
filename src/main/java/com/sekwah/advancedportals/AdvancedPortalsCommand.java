@@ -18,10 +18,11 @@ import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
-    private final ArrayList<String> blockMaterialList = new ArrayList<>();
+    private final List<String> blockMaterialList;
     private AdvancedPortalsPlugin plugin;
 
     private int portalArgsStringLength = 0;
@@ -33,10 +34,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     public AdvancedPortalsCommand(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
+        this.blockMaterialList = Arrays.stream(Material.values()).filter(Material::isBlock).map(Enum::name)
+                .collect(Collectors.toList());
 
-        for(Material material : Material.values()) {
-            this.blockMaterialList.add("triggerblock:" + material.name());
-        }
         plugin.getCommand("advancedportals").setExecutor(this);
     }
 
@@ -86,7 +86,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     ItemMeta selectorname = regionselector.getItemMeta();
                     selectorname.setDisplayName("\u00A7ePortal Region Selector");
                     selectorname.setLore(Arrays.asList("\u00A7rThis wand with has the power to help"
-                            , "\u00A7r create portals bistowed upon it!"));
+                            , "\u00A7r create portals bestowed upon it!"));
                     regionselector.setItemMeta(selectorname);
 
                     inventory.addItem(regionselector);
@@ -254,20 +254,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
                                     }
 
-                                    Material triggerBlockMat;
                                     if (hasTriggerBlock) {
-                                        triggerBlockMat = Material.getMaterial(triggerBlock.toUpperCase());
-                                        if (triggerBlockMat != null) {
+                                        Set<Material> materialSet = Portal.getMaterialSet(triggerBlock.toUpperCase().split(","));
+                                        if (materialSet.size() != 0) {
                                             player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
-                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, triggerBlockMat, serverName, portalArgs));
+                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, materialSet, serverName, portalArgs));
                                         } else {
-                                            hasTriggerBlock = false;
                                             ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
                                             player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
 
-                                            player.sendMessage("\u00A7cThe block " + triggerBlock.toUpperCase() + " is not a valid block name in minecraft so the trigger block has been set to the default!");
+                                            player.sendMessage("\u00A7c" + triggerBlock.toUpperCase() + " no valid blocks were listed so the default has been set.");
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
                                             player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
@@ -741,8 +739,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        if(args[args.length-1].startsWith("triggerblock:")) {
-            autoComplete.addAll(this.blockMaterialList);
+        String triggerBlock = "triggerblock:";
+        if(args[args.length-1].toLowerCase().startsWith(triggerBlock)) {
+            String currentArg = args[args.length-1];
+            int length = currentArg.lastIndexOf(',');
+            String startString;
+            if(triggerBlock.length() > length) {
+                startString = triggerBlock;
+            }
+            else {
+                startString = currentArg.substring(0, length+1);
+            }
+            autoComplete.addAll(blockMaterialList.stream().map(value -> startString + value).collect(Collectors.toList()));
         }
         if(args[args.length-1].startsWith("delayed:")) {
             autoComplete.addAll(Arrays.asList("delayed:true", "delayed:false"));
