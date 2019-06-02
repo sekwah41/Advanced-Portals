@@ -20,11 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class Portal {
 
@@ -40,6 +38,8 @@ public class Portal {
     private static Sound portalSound;
     private static int portalProtectionRadius;
     private static boolean blockSpectatorMode;
+
+    private static Random random = new Random();
 
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
@@ -80,18 +80,12 @@ public class Portal {
 
                 ConfigurationSection portalConfigSection = portalData.getConfig().getConfigurationSection(portal.toString());
 
-                Material blockType = Material.NETHER_PORTAL;
-                String BlockID = portalConfigSection.getString("triggerblock");
+                String[] blockTypesString = portalConfigSection.getString("triggerblock").split(",");
 
-                try {
-                    Integer.parseInt(BlockID);
-                    plugin.getLogger().info("Block names must be given not IDs");
-                } catch (NumberFormatException e) {
-                    blockType = Material.getMaterial(BlockID);
-                }
+                HashSet<Material> blockTypes = getMaterialSet(blockTypesString);
 
-                if (blockType == null) {
-                    blockType = Material.NETHER_PORTAL;
+                if(blockTypes.size() == 0) {
+                    blockTypes.add(Material.NETHER_PORTAL);
                 }
 
                 ConfigurationSection portalArgsConf = portalConfigSection.getConfigurationSection("portalArgs");
@@ -118,7 +112,7 @@ public class Portal {
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     extraData.toArray(portalArgs);
 
-                    portals[portalId] = new AdvancedPortal(portal.toString(), blockType, pos1, pos2, worldName, portalArgs);
+                    portals[portalId] = new AdvancedPortal(portal.toString(), blockTypes, pos1, pos2, worldName, portalArgs);
 
                     portals[portalId].setBungee(portalConfigSection.getString("bungee"));
 
@@ -141,11 +135,23 @@ public class Portal {
         }
     }
 
-    public static String create(Location pos1, Location pos2, String name, String destination, Material triggerBlock, PortalArg... extraData) {
-        return create(pos1, pos2, name, destination, triggerBlock, null, extraData);
+    public static HashSet<Material> getMaterialSet(String[] blockTypesString) {
+        HashSet<Material> blockTypes = new HashSet<>();
+
+        for(String blockType : blockTypesString) {
+            Material material = Material.getMaterial(blockType);
+            if(material != null) {
+                blockTypes.add(material);
+            }
+        }
+        return blockTypes;
     }
 
-    public static String create(Location pos1, Location pos2, String name, String destination, Material triggerBlock, String serverName, PortalArg... portalArgs) {
+    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, PortalArg... extraData) {
+        return create(pos1, pos2, name, destination, triggerBlocks, null, extraData);
+    }
+
+    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
 
         if (!pos1.getWorld().equals(pos2.getWorld())) {
             plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -192,7 +198,8 @@ public class Portal {
 
         portalData.getConfig().set(name + ".world", pos1.getWorld().getName());
 
-        portalData.getConfig().set(name + ".triggerblock", triggerBlock.toString());
+        String store = triggerBlocks.stream().map(Enum::name).collect(Collectors.joining(","));
+        portalData.getConfig().set(name + ".triggerblock", store);
 
         portalData.getConfig().set(name + ".destination", destination);
 
@@ -270,7 +277,6 @@ public class Portal {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     public static String create(Location pos1, Location pos2, String name, String destination, String serverName, PortalArg... extraData) { // add stuff for destination names or coordinates
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
@@ -282,7 +288,7 @@ public class Portal {
             triggerBlockType = Material.NETHER_PORTAL;
         }
 
-        return create(pos1, pos2, name, destination, triggerBlockType, serverName, extraData);
+        return create(pos1, pos2, name, destination, new HashSet<>(Collections.singletonList(triggerBlockType)), serverName, extraData);
     }
 
     public static void redefine(Location pos1, Location pos2, String name) {
@@ -365,22 +371,14 @@ public class Portal {
 
     public static boolean activate(Player player, AdvancedPortal portal) {
 
-        // add other variables or filter code here, or somehow have a way to register them
-
-        // TODO on load and unload recode the permissions to try to register themselves
-        // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/plugin/PluginManager.html#addPermission(org.bukkit.permissions.Permission)
-        // check they havent been registered before too and store a list of ones made by this plugin to remove when portals are unloaded.
-        // When a portal is added or removed it reloads all portals(i think) so add code for unloading too.
-
         if(blockSpectatorMode && player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You cannot enter a portal in spectator mode!");
             return false;
         }
 
         String permission = portal.getArg("permission");
-        /*if((permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())){*/
-        // 3 checks, 1st is if it doesnt need perms. 2nd is if it does do they have it. And third is are they op.
-        if (!(permission == null || (permission != null && player.hasPermission(permission)) || player.isOp())) {
+
+        if (!(permission == null || player.hasPermission(permission) || player.isOp())) {
             player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
             failSound(player, portal);
             throwPlayerBack(player);
@@ -402,12 +400,15 @@ public class Portal {
         //plugin.getLogger().info(portal.getName() + ":" + portal.getDestiation());
         boolean warped = false;
         if (portal.getBungee() != null) {
+            String[] bungeeServers = portal.getBungee().split(",");
+            String bungeeServer = bungeeServers[random.nextInt(bungeeServers.length)];
             if (showBungeeMessage) {
-                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + portal.getBungee() + "\u00A7a.");
+                player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + bungeeServer + "\u00A7a.");
             }
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
-            out.writeUTF(portal.getBungee());
+            out.writeUTF(bungeeServer);
+            portal.inPortal.add(player.getUniqueId());
             player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             // Down to bungee to sort out the teleporting but yea theoretically they should warp.
         }
@@ -430,6 +431,7 @@ public class Portal {
         }
 
         if (portal.hasArg("command.1")) {
+            warped = true;
             int commandLine = 1;
             String command = portal.getArg("command." + commandLine);//portalData.getConfig().getString(portal.getName()+ ".portalArgs.command." + commandLine);
             do {
@@ -477,7 +479,7 @@ public class Portal {
     }
 
     private static void failSound(Player player, AdvancedPortal portal) {
-        if(!(portal.getTrigger() == Material.NETHER_PORTAL && player.getGameMode() == GameMode.CREATIVE)){
+        if(!(portal.getTriggers().contains(Material.NETHER_PORTAL) && player.getGameMode() == GameMode.CREATIVE)){
             player.playSound(player.getLocation(), portalSound, 0.2f, new Random().nextFloat() * 0.4F + 0.8F);
         }
     }
@@ -531,8 +533,12 @@ public class Portal {
         return false;
     }
 
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc, int additionalArea) {
+        return portal.getTriggers().contains(loc.getBlock().getType()) && locationInPortal(portal, loc, additionalArea);
+    }
+
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
-        return portal.getTrigger().equals(loc.getBlock().getType()) && locationInPortal(portal, loc, 0);
+        return locationInPortalTrigger(portal, loc, 0);
     }
 
     public static boolean inPortalRegion(Location loc, int additionalArea) {
@@ -547,6 +553,10 @@ public class Portal {
             if (Portal.locationInPortal(portal, loc, additionalArea))
                 return true;
         return false;
+    }
+
+    public static boolean locationInPortal(AdvancedPortal portal, Location loc) {
+        return locationInPortal(portal, loc);
     }
 
     public static boolean locationInPortal(AdvancedPortal portal, Location loc, int additionalArea) {
