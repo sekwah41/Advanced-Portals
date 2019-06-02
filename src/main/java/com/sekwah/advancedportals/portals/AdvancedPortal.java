@@ -3,14 +3,12 @@ package com.sekwah.advancedportals.portals;
 import com.sekwah.advancedportals.api.portaldata.PortalArg;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public class AdvancedPortal {
 
-    private Material trigger = null;
+    private Set<Material> triggers = null;
 
     private String worldName = null;
 
@@ -47,8 +45,12 @@ public class AdvancedPortal {
     }
 
     public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
+        this(portalName, new HashSet<>(Collections.singletonList(trigger)), pos1, pos2, worldName, portalArgs);
+    }
+
+    public AdvancedPortal(String portalName, Set<Material> triggers, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
         this.portalName = portalName;
-        this.trigger = trigger;
+        this.triggers = triggers;
         this.pos1 = pos1;
         this.pos2 = pos2;
         this.worldName = worldName;
@@ -72,8 +74,8 @@ public class AdvancedPortal {
         return this.getArg(arg) != null;
     }
 
-    public Material getTrigger() {
-        return this.trigger;
+    public Set<Material> getTriggers() {
+        return this.triggers;
     }
 
     public String getWorldName() {
