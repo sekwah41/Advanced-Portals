@@ -1,6 +1,6 @@
 ![Advanced portals](https://i.imgur.com/UIF6cQR.png)
 
-Advanced Portals [![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)](https://travis-ci.org/sekwah41/Advanced-Portals/branches)
+Advanced Portals [![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=recode)](https://travis-ci.org/sekwah41/Advanced-Portals/branches)
 ================
 An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.
 
@@ -9,8 +9,10 @@ An advanced portals plugin for bukkit made by sekwah41 designed to have a wide r
 Also please use the markdown and not html for updates to this file, references can be found [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 # Branch Layout
- * [master](https://github.com/sekwah41/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)
- * [dev](https://github.com/sekwah41/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=dev)
+ * [master](https://github.com/sekwah41/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)  
+ * [dev](https://github.com/sekwah41/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=dev)  
+ * [recode](https://github.com/sekwah41/Advanced-Portals/tree/recode) (Recode) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=recode)  
+Once the recode is done the master branch will be releases and the dev branch will be where work is done.
 
 # Help
 
