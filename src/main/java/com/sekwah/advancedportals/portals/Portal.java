@@ -391,6 +391,8 @@ public class Portal {
         cooldown.put(player.getName(), System.currentTimeMillis());
         boolean showFailMessage = !portal.hasArg("command.1");
 
+        boolean hasMessage = portal.getArg("message") != null;
+
         //plugin.getLogger().info(portal.getName() + ":" + portal.getDestiation());
         boolean warped = false;
         if (portal.getBungee() != null) {
@@ -409,7 +411,7 @@ public class Portal {
         else if (portal.getDestiation() != null) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
             if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
-                warped = Destination.warp(player, portal.getDestiation());
+                warped = Destination.warp(player, portal.getDestiation(), hasMessage);
                 if(!warped){
                     throwPlayerBack(player);
                 }
@@ -467,6 +469,12 @@ public class Portal {
                 }
                 command = portal.getArg("command." + ++commandLine);
             } while (command != null);
+        }
+
+        if(warped) {
+            if(hasMessage) {
+                plugin.compat.sendActionBarMessage(portal.getArg("message").replaceAll("&(?=[0-9a-fk-or])", "\u00A7"), player);
+            }
         }
 
         return warped;
