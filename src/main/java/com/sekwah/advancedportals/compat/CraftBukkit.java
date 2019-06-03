@@ -2,8 +2,6 @@ package com.sekwah.advancedportals.compat;
 
 import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.reflection.ReflectionHelper;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -11,14 +9,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by on 02/08/2016.
- *
- * I don't think there will be any others supported other than bukkit but if there are its not just the compat that will
- * need to change unless it has a different package for the minecraft server parts
- *
- * @author sekwah41 maxqia
- */
 public class CraftBukkit {
 
     private final AdvancedPortalsPlugin plugin;

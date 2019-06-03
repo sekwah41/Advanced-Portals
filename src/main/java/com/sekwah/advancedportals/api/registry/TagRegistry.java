@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by on 25/07/2016.
- *
- * @author sekwah41
- */
 public class TagRegistry {
 
     private final AdvancedPortalsPlugin plugin;
