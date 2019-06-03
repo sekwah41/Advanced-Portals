@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by on 29/03/2016.
- * <p>
- * TODO add all the normal tags then add the extradata tags
- *
- * @author sekwah41
- */
 public class PortalTags {
 
     // TODO create a list or hashmap of tags to check for.

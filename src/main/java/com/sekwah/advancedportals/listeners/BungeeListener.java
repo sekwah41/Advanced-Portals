@@ -6,11 +6,6 @@ import com.sekwah.advancedportals.AdvancedPortalsPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-/**
- * Created by on 29/03/2016.
- *
- * @author sekwah41
- */
 public class BungeeListener implements PluginMessageListener {
 
     private AdvancedPortalsPlugin plugin;

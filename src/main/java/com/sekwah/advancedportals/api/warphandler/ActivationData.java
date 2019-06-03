@@ -2,11 +2,6 @@ package com.sekwah.advancedportals.api.warphandler;
 
 import com.sekwah.advancedportals.portals.Portal;
 
-/**
- * Created by on 30/07/2016.
- *
- * @author sekwah41
- */
 public class ActivationData {
 
     private boolean warpAllowed = true;
