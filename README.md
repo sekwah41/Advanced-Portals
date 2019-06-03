@@ -22,7 +22,9 @@ You must have gradle installed then run "gradle build". Once the build is comple
 [Bukkit Page](http://dev.bukkit.org/bukkit-plugins/advanced-portals/)
 
 # Usage Data
-![Global Plugin Stats](http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png)
+Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
+
+Were available here http://mcstats.org/plugin/AdvancedPortals but mcstats is no longer working.
 
 The api isn't implemented in this version, sorry for any inconvenience. Check the recode tree for possibly a working recode at some point.
 
