@@ -10,8 +10,6 @@ import com.sekwah.advancedportals.portals.Portal;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
-
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public CraftBukkit compat = null;
