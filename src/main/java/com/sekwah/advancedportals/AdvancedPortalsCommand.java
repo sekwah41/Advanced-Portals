@@ -27,6 +27,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
     private int portalArgsStringLength = 0;
 
+    private HashSet<String> ignoreExtras = new HashSet<>(Arrays.asList("command.1", "permission"));
+
     // TODO recode the portal args to be put into a hashmap and use a string array
     // to store all possible portal arguments. Makes code shorter and possibly more efficient.
     //private HashMap<String, String> portalArgs = new HashMap<>();
@@ -142,7 +144,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 boolean hasDestination = false;
                                 boolean isBungeePortal = false;
                                 boolean needsPermission = false;
-                                boolean delayed = false;
                                 boolean executesCommand = false;
                                 String destination = null;
                                 String portalName = null;
@@ -155,37 +156,50 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
                                 // Is completely changed in the recode but for now im leaving it as this horrible mess...
                                 for (int i = 1; i < args.length; i++) {
-                                    if (args[i].toLowerCase().startsWith("name:") && args[i].length() > 5) {
+                                    if (startsWithPortalArg("name:", args[i])) {
+                                        portalName = args[i].replaceFirst("name:", "");
+                                        if(portalName.equals("")) {
+                                            player.sendMessage(PluginMessages.customPrefixFail + " You must include a name for the portal that isnt nothing!");
+                                            return true;
+                                        }
                                         hasName = true;
                                         portalName = args[i].replaceFirst("name:", "");
-                                    } else if (args[i].toLowerCase().startsWith("name:")) {
-                                        player.sendMessage(PluginMessages.customPrefixFail + " You must include a name for the portal that isnt nothing!");
-                                        return true;
-                                    } else if (args[i].toLowerCase().startsWith("destination:") && args[i].length() > 12) {
+                                    } else if (startsWithPortalArg("destination:", args[i])) {
                                         hasDestination = true;
                                         destination = args[i].toLowerCase().replaceFirst("destination:", "");
-                                    } else if (args[i].toLowerCase().startsWith("desti:") && args[i].length() > 6) {
+                                    } else if (startsWithPortalArg("desti:", args[i])) {
                                         hasDestination = true;
                                         destination = args[i].toLowerCase().replaceFirst("desti:", "");
-                                    } else if (args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13) {
+                                    } else if (startsWithPortalArg("triggerblock:", args[i])) {
                                         hasTriggerBlock = true;
                                         triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
-                                    } else if (args[i].toLowerCase().startsWith("triggerblock:") && args[i].length() > 13) {
+                                    } else if (startsWithPortalArg("triggerblock:", args[i])) {
                                         hasTriggerBlock = true;
                                         triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
                                     } else if (this.startsWithPortalArg("bungee:", args[i])) {
                                         isBungeePortal = true;
                                         serverName = args[i].substring("bungee:".length());
-                                    } else if (args[i].toLowerCase().startsWith("permission:") && args[i].length() > 11) {
+                                    } else if (startsWithPortalArg("permission:", args[i])) {
                                         needsPermission = true;
                                         permission = args[i].toLowerCase().replaceFirst("permission:", "");
                                         extraData.add(new PortalArg("permission", permission));
-                                    } else if (args[i].toLowerCase().startsWith("delayed:") && args[i].length() > 8) {
-                                        delayed = Boolean.parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
-                                            extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
-                                    } else if (args[i].toLowerCase().startsWith("command:") && args[i].length() > 8) {
+                                    } else if (startsWithPortalArg("delayed:", args[i])) {
+                                        boolean delayed = Boolean.parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
+                                        extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
+                                    } else if(startsWithPortalArg("message:", args[i])) {
+                                        String message = parseArgVariable(args, i, "message:");
+                                        if(message == null) {
+                                            player.sendMessage(PluginMessages.customPrefixFail + " Message quotes not closed!");
+                                            return true;
+                                        }
+                                        extraData.add(new PortalArg("message", message ));
+                                    } else if (startsWithPortalArg("command:", args[i])) {
                                         executesCommand = true;
                                         portalCommand = parseArgVariable(args, i, "command:");
+                                        if(portalCommand == null) {
+                                            player.sendMessage(PluginMessages.customPrefixFail + " Command quotes not closed!");
+                                            return true;
+                                        }
                                         i += this.portalArgsStringLength - 1;
                                         if(portalCommand.startsWith("#") && !(this.plugin.getSettings().hasCommandLevel("c")
                                                 && (sender.hasPermission("advancedportals.createportal.commandlevel.console"))
@@ -248,7 +262,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
                                     }
 
-                                    player.sendMessage("\u00A7adelayed: \u00A7e" + delayed);
+                                    for(PortalArg portalArg : extraData) {
+                                        if(!ignoreExtras.contains(portalArg.argName)) {
+                                            player.sendMessage("\u00A7a" + portalArg.argName + ": \u00A7e" + portalArg.value);
+                                        }
+                                    }
 
                                     if (executesCommand) {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
@@ -577,10 +595,13 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         String variableString = args[currentArg].replaceFirst(argStarter, "");
         this.portalArgsStringLength = 1;
         if (variableString.charAt(0) == '"') {
-            variableString = variableString.substring(1, variableString.length());
-            if (variableString.charAt(variableString.length() - 1) != '"') {
+            variableString = variableString.substring(1);
+            if (variableString.length() == 0 || variableString.charAt(variableString.length() - 1) != '"') {
                 currentArg++;
-                for (; currentArg < args.length; currentArg++) {
+                for (; currentArg <= args.length; currentArg++) {
+                    if(currentArg == args.length) {
+                        return null;
+                    }
                     variableString += " " + args[currentArg];
                     this.portalArgsStringLength += 1;
                     if (variableString.charAt(variableString.length() - 1) == '"') {

@@ -101,6 +101,10 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String name) {
+        return warp(player, name, false);
+    }
+
+    public static boolean warp(Player player, String name, boolean hideActionbar) {
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (config.getConfig().getString(name + ".world") != null) {
             Location loc = player.getLocation();
@@ -137,10 +141,8 @@ public class Destination {
                     player.sendMessage("");
                     player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
-                } else if (PORTAL_MESSAGE_DISPLAY == 2) {
+                } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
                     plugin.compat.sendActionBarMessage("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.", player);
-                    /**plugin.nmsAccess.sendActionBarMessage("[{text:\"You have warped to \",color:green},{text:\"" + config.getConfig().getString(Portal.portals[portalId].portalName + ".destination").replaceAll("_", " ")
-                     + "\",color:yellow},{\"text\":\".\",color:green}]", player);*/
                 }
 
                 return true;
