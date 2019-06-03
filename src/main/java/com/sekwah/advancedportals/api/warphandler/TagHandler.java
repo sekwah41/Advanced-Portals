@@ -2,11 +2,6 @@ package com.sekwah.advancedportals.api.warphandler;
 
 import org.bukkit.entity.Player;
 
-/**
- * Created by on 30/07/2016.
- *
- * @author sekwah41
- */
 public class TagHandler {
 
     public interface Creation{
