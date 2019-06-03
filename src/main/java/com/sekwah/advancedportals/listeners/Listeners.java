@@ -6,7 +6,11 @@ import com.sekwah.advancedportals.PluginMessages;
 import com.sekwah.advancedportals.api.events.WarpEvent;
 import com.sekwah.advancedportals.portals.AdvancedPortal;
 import com.sekwah.advancedportals.portals.Portal;
-import org.bukkit.*;
+import org.bukkit.Axis;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.entity.Player;
@@ -71,19 +75,19 @@ public class Listeners implements Listener {
         Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onTeleportEvent(PlayerTeleportEvent event) {
         Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void spawnMobEvent(CreatureSpawnEvent event) {
         if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && Portal.inPortalRegion(event.getLocation(), Portal.getPortalProtectionRadius())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onLeaveEvent(PlayerQuitEvent event) {
         Portal.cooldown.remove(event.getPlayer().getName());
 
@@ -93,7 +97,7 @@ public class Listeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMoveEvent(PlayerMoveEvent event) {
         // will check if the player is in the portal or not.
         if (!Portal.portalsActive || event.isCancelled()) {
@@ -172,22 +176,22 @@ public class Listeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onCombustEntityEvent(EntityCombustEvent event) {
-        if (Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
+        if (event.getEntity() instanceof Player && Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
             event.setCancelled(true);
     }
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDamEvent(EntityDamageEvent event) {
-        if (event.getCause() == EntityDamageEvent.DamageCause.LAVA || event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
+        if (event.getEntity() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.LAVA || event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
             if (event.getEntity().hasMetadata("lavaWarped") | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
                 event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPortalEvent(PlayerPortalEvent event) {
         if (event.isCancelled()) {
             return;
@@ -205,7 +209,7 @@ public class Listeners implements Listener {
             event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onItemInteract(PlayerInteractEvent event) {
 
         // will detect if the player is using an axe so the points of a portal can be set
