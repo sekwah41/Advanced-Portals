@@ -382,7 +382,7 @@ public class Portal {
         if (cooldown.get(player.getName()) != null) {
             int diff = (int) ((System.currentTimeMillis() - cooldown.get(player.getName())) / 1000);
             if (diff < cooldelay) {
-                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " seconds until attempting to teleport again.");
+                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + (cooldelay - diff) + ChatColor.RED + " second(s) until attempting to enter this portal again.");
                 failSound(player, portal);
                 throwPlayerBack(player);
                 return false;
