@@ -16,7 +16,7 @@ tasks.withType(JavaCompile) {
 }
 
 String getPluginData(String tag) {
-    File file = new File("src/main/resources/plugin.yml")
+    File file = file("src/main/resources/plugin.yml")
     String version = "notfound"
     file.readLines("UTF-8").each {String line ->
         line = line.trim()
