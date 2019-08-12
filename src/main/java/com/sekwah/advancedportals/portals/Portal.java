@@ -74,11 +74,13 @@ public class Portal {
 
                 ConfigurationSection portalConfigSection = portalData.getConfig().getConfigurationSection(portal.toString());
 
-                String[] blockTypesString = portalConfigSection.getString("triggerblock").split(",");
+                String blockTypesRaw = portalConfigSection.getString("triggerblock");
+
+                String[] blockTypesString = blockTypesRaw != null ? blockTypesRaw.split(",") : null;
 
                 HashSet<Material> blockTypes = getMaterialSet(blockTypesString);
 
-                if(blockTypes.size() == 0) {
+                if(blockTypes.isEmpty()) {
                     blockTypes.add(Material.NETHER_PORTAL);
                 }
 
@@ -132,12 +134,15 @@ public class Portal {
     public static HashSet<Material> getMaterialSet(String[] blockTypesString) {
         HashSet<Material> blockTypes = new HashSet<>();
 
-        for(String blockType : blockTypesString) {
-            Material material = Material.getMaterial(blockType);
-            if(material != null) {
-                blockTypes.add(material);
+        if (blockTypesString != null) {
+            for(String blockType : blockTypesString) {
+                Material material = Material.getMaterial(blockType);
+                if(material != null) {
+                    blockTypes.add(material);
+                }
             }
         }
+
         return blockTypes;
     }
 
