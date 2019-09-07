@@ -6,7 +6,7 @@
 [![](https://img.shields.io/github/issues-pr/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/pulls)
 [![](https://img.shields.io/github/forks/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/network/members)
 [![](https://img.shields.io/github/stars/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/stargazers)
-[![](https://img.shields.io/github/license/sekwah41/Advanced-Portals.svg?logo=github&style=for-the-badge)](https://github.com/sekwah41/Advanced-Portals/blob/master/LICENSE)
+[![](https://img.shields.io/github/license/sekwah41/Advanced-Portals.svg?logo=github&style=for-the-badge)](https://github.com/sekwah41/Advanced-Portals/blob/master/LICENSE.md)
 
 Advanced Portals [![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)](https://travis-ci.org/sekwah41/Advanced-Portals/branches)
 ==============
