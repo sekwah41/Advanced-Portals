@@ -33,6 +33,8 @@ public class PortalProtect implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalProtect = config.getConfig().getBoolean("PortalProtection");
 
+        this.PortalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius", 5);
+
         if (PortalProtect) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
         }
