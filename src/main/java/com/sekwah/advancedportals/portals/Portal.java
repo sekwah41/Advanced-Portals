@@ -388,7 +388,7 @@ public class Portal {
             int diff = (int) ((System.currentTimeMillis() - cooldown.get(player.getName())) / 1000);
             if (diff < cooldelay) {
                 int time = (cooldelay - diff);
-                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? "second" : "seconds") + " until attempting to enter this portal again.");
+                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? " second" : " seconds") + " until attempting to enter this portal again.");
                 failSound(player, portal);
                 throwPlayerBack(player);
                 return false;
