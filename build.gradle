@@ -40,7 +40,7 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    compile "org.bukkit:bukkit:1.14.1-R0.1-SNAPSHOT"
+    compile "org.bukkit:bukkit:1.15.1-R0.1-SNAPSHOT"
     compile "io.netty:netty-all:4.0.4.Final"
 }
 
@@ -57,7 +57,7 @@ task copyPlugin {
                     include "*.jar"
                 }
             }
-            catch(UnableToDeleteFileException e) {
+            catch(RuntimeException e) {
                 println e.getLocalizedMessage()
             }
             from file("$buildDir/libs/Advanced-Portals-${version}.jar")
@@ -71,7 +71,7 @@ task copyPlugin {
 task runJar() {
     doLast {
         if(System.env.MC_SERVER_LOC == null || System.env.MC_SERVER_JAR == null) {
-            throw new GradleException('You must set the server location and jar to use')
+            throw new GradleException('You must set the server location and jar to use MC_SERVER_LOC and MC_SERVER_JAR')
         }
         javaexec {
             main "-jar"
