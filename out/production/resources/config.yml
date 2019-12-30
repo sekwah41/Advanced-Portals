@@ -18,7 +18,7 @@ CanBuildPortalBlock: true
 PortalProtection: true
 
 # How many blocks around the portals will be protected from griefing or destruction
-PortalProtectionRadius: 5
+PortalProtectionArea: 5
 
 # What the default trigger block is for portals if nothing is defined.
 DefaultPortalTriggerBlock: PORTAL

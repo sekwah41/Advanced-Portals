@@ -25,7 +25,7 @@ public class PortalProtect implements Listener {
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
     private boolean PortalProtect = true;
 
-    private int PortalProtectionRadius = 5;
+    private int PortalProtectionArea = 5;
 
     public PortalProtect(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -33,7 +33,7 @@ public class PortalProtect implements Listener {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.PortalProtect = config.getConfig().getBoolean("PortalProtection");
 
-        this.PortalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius", 5);
+        this.PortalProtectionArea = config.getConfig().getInt("PortalProtectionArea", 5);
 
         if (PortalProtect) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -44,7 +44,7 @@ public class PortalProtect implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPermission("advancedportals.build")
-                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius)) {
+                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
             event.setCancelled(true);
             player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
         }
@@ -54,7 +54,7 @@ public class PortalProtect implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPermission("advancedportals.build")
-                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionRadius)) {
+                && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
             event.setCancelled(true);
             player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
         }
@@ -66,7 +66,7 @@ public class PortalProtect implements Listener {
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {
             Block block = blockList.get(i);
-            if (Portal.inPortalRegion(block.getLocation(), PortalProtectionRadius)) {
+            if (Portal.inPortalRegion(block.getLocation(), PortalProtectionArea)) {
                 blockList.remove(i);
                 i--;
             }
