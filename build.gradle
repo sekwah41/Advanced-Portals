@@ -34,13 +34,16 @@ configurations {
 }
 
 repositories {
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 // includeLibs just says to include the library in the final jar
 dependencies {
     implementation "org.bukkit:bukkit:1.15.1-R0.1-SNAPSHOT"
+    implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
+
     implementation "io.netty:netty-all:4.0.4.Final"
 }
 

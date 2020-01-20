@@ -1,4 +1,4 @@
-main: com.sekwah.advancedportals.AdvancedPortalsPlugin
+main: com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin
 name: AdvancedPortals
 version: 0.2.1
 author: sekwah41
