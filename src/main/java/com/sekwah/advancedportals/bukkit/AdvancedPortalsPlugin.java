@@ -18,7 +18,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     public CraftBukkit compat = null;
     private Settings settings;
 
-    public HashMap<OfflinePlayer, String> PlayerDestiMap = new HashMap<>();
+    public String channelName = "mc:advancedportals";
+
+    // public HashMap<OfflinePlayer, String> PlayerDestiMap = new HashMap<>();
 
     public void onEnable() {
 
@@ -110,6 +112,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private void setupBungee() {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, channelName);
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, channelName, new PluginMessageReceiver(this));
     }
 
 

@@ -3,27 +3,49 @@ package com.sekwah.advancedportals.bukkit.listeners;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.UUID;
 
-public class BungeeListener implements PluginMessageListener {
+public class PluginMessageReceiver implements PluginMessageListener {
 
     private AdvancedPortalsPlugin plugin;
 
-    public BungeeListener(AdvancedPortalsPlugin plugin) {
+    public PluginMessageReceiver(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (!channel.equals("BungeeCord")) {
+        // plugin.getLogger().info(""+channel.equals(plugin.channelName));
+
+        if (!channel.equals(plugin.channelName)) {
             return;
         }
 
-        // some codes
+        ByteArrayDataInput in = ByteStreams.newDataInput(message);
+        String subchannel = in.readUTF();
+
+        // plugin.getLogger().info("bukkit plugin received: " + subchannel);
+
+        if (subchannel.equals("BungeePortal")) {
+            String targetPlayerUUID = in.readUTF();
+            String targetDestination = in.readUTF();
+
+            OfflinePlayer msgPlayer = plugin.getServer().getOfflinePlayer(UUID.fromString(targetPlayerUUID));
+
+            Destination.warp(msgPlayer.getPlayer(), targetDestination);
+
+            /* plugin.PlayerDestiMap.put(msgPlayer, targetDestination);
+
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
+                plugin.PlayerDestiMap.remove(msgPlayer),
+                20L*10
+            ); */
+        }
     }
 
     /**
