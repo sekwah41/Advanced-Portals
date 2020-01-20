@@ -66,11 +66,11 @@ public class Listeners implements Listener {
     public void onJoinEvent(PlayerJoinEvent event) {
         Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
 
-        if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) {
+        /* if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) {
             String desti = plugin.PlayerDestiMap.get(event.getPlayer());
 
             Destination.warp(event.getPlayer(), desti);
-        }
+        } */
     }
 
     @EventHandler

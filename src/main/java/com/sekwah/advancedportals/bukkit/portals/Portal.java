@@ -414,7 +414,7 @@ public class Portal {
             outForList.writeUTF(player.getUniqueId().toString());
             outForList.writeUTF(portal.getDestiation());
 
-            player.sendPluginMessage(plugin, "AdvancedPortals", outForList.toByteArray());
+            player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
 
             ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
             outForSend.writeUTF("Connect");
