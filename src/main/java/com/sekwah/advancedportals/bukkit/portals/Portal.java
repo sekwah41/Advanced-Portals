@@ -408,13 +408,15 @@ public class Portal {
                 player.sendMessage(PluginMessages.customPrefix + "\u00A7a Attempting to warp to \u00A7e" + bungeeServer + "\u00A7a.");
             }
 
-            ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
-            outForList.writeUTF("PortalEnter");
-            outForList.writeUTF(bungeeServer);
-            outForList.writeUTF(player.getUniqueId().toString());
-            outForList.writeUTF(portal.getDestiation());
+            if (portal.getDestiation() != null) {
+                ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
+                outForList.writeUTF("PortalEnter");
+                outForList.writeUTF(bungeeServer);
+                outForList.writeUTF(player.getUniqueId().toString());
+                outForList.writeUTF(portal.getDestiation());
 
-            player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+            }
 
             ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
             outForSend.writeUTF("Connect");
