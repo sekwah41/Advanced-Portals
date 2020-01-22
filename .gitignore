@@ -11,6 +11,7 @@
 *.iws
 *.ipr
 
+out/
 logs/
 classes/
 run/
