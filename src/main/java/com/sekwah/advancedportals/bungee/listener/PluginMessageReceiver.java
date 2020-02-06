@@ -20,14 +20,10 @@ public class PluginMessageReceiver implements Listener {
         ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
         String subChannel = in.readUTF();
 
-        plugin.getProxy().getLogger().info("bungee plugin received: " + subChannel);
-
         if (subChannel.equalsIgnoreCase("PortalEnter")) {
             String targetServer = in.readUTF();
             String targetPlayerUUID = in.readUTF();
             String targetDestination = in.readUTF();
-
-           //  plugin.getProxy().getLogger().info(targetServer + " " + targetPlayerUUID + " " + targetDestination);
 
             plugin.PlayerDestiMap.put(targetPlayerUUID, new String[]{targetServer, targetDestination});
 
