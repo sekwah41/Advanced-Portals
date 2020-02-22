@@ -20,7 +20,6 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        // plugin.getLogger().info(""+channel.equals(plugin.channelName));
 
         if (!channel.equals(plugin.channelName)) {
             return;
@@ -29,22 +28,18 @@ public class PluginMessageReceiver implements PluginMessageListener {
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
 
-        // plugin.getLogger().info("bukkit plugin received: " + subchannel);
-
         if (subchannel.equals("BungeePortal")) {
             String targetPlayerUUID = in.readUTF();
             String targetDestination = in.readUTF();
 
-            OfflinePlayer msgPlayer = plugin.getServer().getOfflinePlayer(UUID.fromString(targetPlayerUUID));
+            Player msgPlayer = plugin.getServer().getPlayer(UUID.fromString(targetPlayerUUID));
 
-            Destination.warp(msgPlayer.getPlayer(), targetDestination);
-
-            /* plugin.PlayerDestiMap.put(msgPlayer, targetDestination);
-
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                plugin.PlayerDestiMap.remove(msgPlayer),
-                20L*10
-            ); */
+            if (msgPlayer != null) {
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
+                        () -> Destination.warp(msgPlayer, targetDestination),
+                        20L
+                );
+            }
         }
     }
 
