@@ -20,14 +20,13 @@ import java.util.stream.Collectors;
 
 public class Portal {
 
-    public static HashMap<String, Long> cooldown = new HashMap<String, Long>();
+    public static HashMap<String, HashMap<String, Long>> cooldown = new HashMap<String, HashMap<String, Long>>();
     // Config values
     public static boolean portalsActive = false;
     public static AdvancedPortal[] portals = new AdvancedPortal[0];
     private static AdvancedPortalsPlugin plugin;
     public static ConfigAccessor portalData = new ConfigAccessor(plugin, "portals.yml");
     private static boolean showBungeeMessage;
-    private static int cooldelay;
     private static double throwback;
     private static Sound portalSound;
     private static int portalProtectionRadius;
@@ -38,7 +37,6 @@ public class Portal {
     public Portal(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage", false);
-        this.cooldelay = config.getConfig().getInt("PortalCooldown", 5);
 
         this.portalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
 
@@ -104,11 +102,12 @@ public class Portal {
                     World world = Bukkit.getWorld(worldName);
                     Location pos1 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos1.X"), portalData.getConfig().getInt(portal.toString() + ".pos1.Y"), portalData.getConfig().getInt(portal.toString() + ".pos1.Z"));
                     Location pos2 = new Location(world, portalData.getConfig().getInt(portal.toString() + ".pos2.X"), portalData.getConfig().getInt(portal.toString() + ".pos2.Y"), portalData.getConfig().getInt(portal.toString() + ".pos2.Z"));
+                    int cooldown = portalData.getConfig().getInt(portal.toString() + ".cooldowndelay");
 
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     extraData.toArray(portalArgs);
 
-                    portals[portalId] = new AdvancedPortal(portal.toString(), blockTypes, pos1, pos2, worldName, portalArgs);
+                    portals[portalId] = new AdvancedPortal(portal.toString(), blockTypes, pos1, pos2, worldName, cooldown, portalArgs);
 
                     portals[portalId].setBungee(portalConfigSection.getString("bungee"));
 
@@ -146,11 +145,11 @@ public class Portal {
         return blockTypes;
     }
 
-    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, PortalArg... extraData) {
-        return create(pos1, pos2, name, destination, triggerBlocks, null, extraData);
+    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, int cooldown, PortalArg... extraData) {
+        return create(pos1, pos2, name, destination, triggerBlocks, null, cooldown, extraData);
     }
 
-    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
+    public static String create(Location pos1, Location pos2, String name, String destination, Set<Material> triggerBlocks, String serverName, int cooldown, PortalArg... portalArgs) {
 
         if (!pos1.getWorld().equals(pos2.getWorld())) {
             plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -201,6 +200,8 @@ public class Portal {
         portalData.getConfig().set(name + ".triggerblock", store);
 
         portalData.getConfig().set(name + ".destination", destination);
+
+        portalData.getConfig().set(name + ".cooldowndelay", cooldown);
 
         portalData.getConfig().set(name + ".bungee", serverName);
 
@@ -276,7 +277,7 @@ public class Portal {
         return false;
     }
 
-    public static String create(Location pos1, Location pos2, String name, String destination, String serverName, PortalArg... extraData) { // add stuff for destination names or coordinates
+    public static String create(Location pos1, Location pos2, String name, String destination, String serverName, int cooldown, PortalArg... extraData) { // add stuff for destination names or coordinates
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
         Material triggerBlockType;
@@ -287,7 +288,7 @@ public class Portal {
             triggerBlockType = Material.NETHER_PORTAL;
         }
 
-        return create(pos1, pos2, name, destination, new HashSet<>(Collections.singletonList(triggerBlockType)), serverName, extraData);
+        return create(pos1, pos2, name, destination, new HashSet<>(Collections.singletonList(triggerBlockType)), serverName, cooldown, extraData);
     }
 
     public static void redefine(Location pos1, Location pos2, String name) {
@@ -384,17 +385,26 @@ public class Portal {
             return false;
         }
 
-        if (cooldown.get(player.getName()) != null) {
-            int diff = (int) ((System.currentTimeMillis() - cooldown.get(player.getName())) / 1000);
-            if (diff < cooldelay) {
-                int time = (cooldelay - diff);
-                player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? " second" : " seconds") + " until attempting to enter this portal again.");
-                failSound(player, portal);
-                throwPlayerBack(player);
-                return false;
+        HashMap<String, Long> cds = cooldown.get(player.getName());
+        if (cds != null) {
+            if (cds.get(portal.getName()) != null) {
+                long cd = cds.get(portal.getName());
+                int diff = (int) ((System.currentTimeMillis() - cd) / 1000);
+                if (diff < portal.getCooldownDelay()) {
+                    int time = (portal.getCooldownDelay() - diff);
+                    player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? " second" : " seconds") + " until attempting to enter this portal again.");
+                    failSound(player, portal);
+                    throwPlayerBack(player);
+                    return false;
+                }
             }
         }
-        cooldown.put(player.getName(), System.currentTimeMillis());
+        if(cds == null) {
+            cds = new HashMap<String, Long>();
+            player.sendMessage("cds is set");
+        }
+        cds.put(portal.getName(), System.currentTimeMillis());
+        cooldown.put(player.getName(), cds);
         boolean showFailMessage = !portal.hasArg("command.1");
 
         boolean hasMessage = portal.getArg("message") != null;

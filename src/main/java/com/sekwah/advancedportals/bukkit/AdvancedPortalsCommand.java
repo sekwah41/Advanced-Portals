@@ -148,12 +148,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 boolean isBungeePortal = false;
                                 boolean needsPermission = false;
                                 boolean executesCommand = false;
+                                boolean hasCooldownDelay = false;
                                 String destination = null;
                                 String portalName = null;
                                 String triggerBlock = null;
                                 String serverName = null;
                                 String permission = null;
                                 String portalCommand = null;
+                                String cooldownDelay = null;
 
                                 ArrayList<PortalArg> extraData = new ArrayList<>();
 
@@ -223,6 +225,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                             return true;
                                         }
                                         extraData.add(new PortalArg("command.1", portalCommand));
+                                    } else if (startsWithPortalArg("cooldowndelay:", args[i])) {
+                                        hasCooldownDelay = true;
+                                        cooldownDelay = args[i].toLowerCase().replaceFirst("cooldowndelay:", "");
                                     }
                                 }
                                 if (!hasName) {
@@ -275,13 +280,22 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
                                     }
 
+                                    int cooldown = 5;
+                                    if(hasCooldownDelay) {
+                                        try {
+                                            cooldown = Integer.parseInt(cooldownDelay);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                    player.sendMessage("\u00A7acooldowndelay: \u00A7e" + cooldown);
+
                                     if (hasTriggerBlock) {
                                         Set<Material> materialSet = Portal.getMaterialSet(triggerBlock.toUpperCase().split(","));
                                         if (materialSet.size() != 0) {
                                             player.sendMessage("\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
-                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, materialSet, serverName, portalArgs));
+                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, materialSet, serverName, cooldown, portalArgs));
                                         } else {
                                             ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
                                             player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
@@ -289,14 +303,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                             player.sendMessage("\u00A7c" + triggerBlock.toUpperCase() + " no valid blocks were listed so the default has been set.");
                                             PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                             portalArgs = extraData.toArray(portalArgs);
-                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
+                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, cooldown, portalArgs));
                                         }
                                     } else {
                                         ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
                                         player.sendMessage("\u00A7atriggerBlock: \u00A7edefault(" + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
                                         PortalArg[] portalArgs = new PortalArg[extraData.size()];
                                         portalArgs = extraData.toArray(portalArgs);
-                                        player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, portalArgs));
+                                        player.sendMessage(Portal.create(pos1, pos2, portalName, destination, serverName, cooldown, portalArgs));
                                     }
                                 } else {
                                     sender.sendMessage(PluginMessages.customPrefixFail + " A portal by that name already exists!");
@@ -317,7 +331,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "variables" :
-                    sender.sendMessage(PluginMessages.customPrefix + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, desti, destination, bungee, permission, command");
+                    sender.sendMessage(PluginMessages.customPrefix + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, desti, destination, bungee, permission, command, cooldowndelay");
                     sender.sendMessage("");
                     sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
                     break;
@@ -694,6 +708,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 boolean isBungeePortal = false;
                 boolean needsPermission = false;
                 boolean hasCommand = false;
+                boolean hasCooldownDelay = false;
 
 
                 // TODO change auto complete when quotes are opened and closed. Such as autocomplete @Player and stuff when specifying commands
@@ -726,6 +741,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             case "command":
                                 hasCommand = true;
                                 break;
+                            case "cooldowndelay":
+                                hasCooldownDelay = true;
+                                break;
                         }
                     }
 
@@ -752,6 +770,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (!hasCommand) {
                     autoComplete.add("command:");
+                }
+                if (!hasCooldownDelay) {
+                    autoComplete.add("cooldowndelay:");
                 }
             }
         }

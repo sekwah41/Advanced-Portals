@@ -64,7 +64,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
-        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+        // TODO: make relability
+        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
 
         /* if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) {
             String desti = plugin.PlayerDestiMap.get(event.getPlayer());
@@ -75,12 +76,14 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
-        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+        // TODO: make relability
+        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onTeleportEvent(PlayerTeleportEvent event) {
-        Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+        // TODO: make relability
+        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
     }
 
     @EventHandler(ignoreCancelled = true)
