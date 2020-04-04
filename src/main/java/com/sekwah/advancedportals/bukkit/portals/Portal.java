@@ -401,7 +401,6 @@ public class Portal {
         }
         if(cds == null) {
             cds = new HashMap<String, Long>();
-            player.sendMessage("cds is set");
         }
         cds.put(portal.getName(), System.currentTimeMillis());
         cooldown.put(player.getName(), cds);
