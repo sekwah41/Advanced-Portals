@@ -280,7 +280,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
                                     }
 
-                                    int cooldown = 5;
+                                    int cooldown = 0;
                                     if(hasCooldownDelay) {
                                         try {
                                             cooldown = Integer.parseInt(cooldownDelay);
