@@ -21,8 +21,6 @@ public class AdvancedPortal {
 
     private String portalName = null;
 
-    private int cooldownDelay = 0;
-
     // TODO store destinations also as variables like portals
     private String destiation = null; // Could possibly store the destination name to stop the server having to read the config file
 
@@ -35,32 +33,31 @@ public class AdvancedPortal {
     public HashSet<UUID> inPortal = new HashSet<UUID>();
 
     // TODO think of relaying out the data input to a more logical format.
-    public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, int cooldown, PortalArg... portalArgs) {
-        this(portalName, trigger, pos1, pos2, pos2.getWorld().getName(), cooldown, portalArgs);
+    public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, PortalArg... portalArgs) {
+        this(portalName, trigger, pos1, pos2, pos2.getWorld().getName(), portalArgs);
         this.destiation = destination;
     }
 
-    public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, int cooldown, PortalArg... portalArgs) {
-        this(portalName, trigger, pos1, pos2, pos2.getWorld().getName(), cooldown, portalArgs);
+    public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, PortalArg... portalArgs) {
+        this(portalName, trigger, pos1, pos2, pos2.getWorld().getName(), portalArgs);
     }
 
-    public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, String worldName, int cooldown, PortalArg... portalArgs) {
-        this(portalName, trigger, pos1, pos2, worldName, cooldown, portalArgs);
+    public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
+        this(portalName, trigger, pos1, pos2, worldName, portalArgs);
         this.destiation = destination;
     }
 
-    public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, String worldName, int cooldown, PortalArg... portalArgs) {
-        this(portalName, new HashSet<>(Collections.singletonList(trigger)), pos1, pos2, worldName, cooldown, portalArgs);
+    public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
+        this(portalName, new HashSet<>(Collections.singletonList(trigger)), pos1, pos2, worldName, portalArgs);
     }
 
-    public AdvancedPortal(String portalName, Set<Material> triggers, Location pos1, Location pos2, String worldName, int cooldown, PortalArg... portalArgs) {
+    public AdvancedPortal(String portalName, Set<Material> triggers, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
         this.portalName = portalName;
         this.triggers = triggers;
         this.pos1 = pos1;
         this.pos2 = pos2;
         this.worldName = worldName;
         this.portalArgs = portalArgs;
-        this.cooldownDelay = cooldown;
     }
 
     public String getArg(String arg) {
@@ -98,14 +95,6 @@ public class AdvancedPortal {
 
     public String getName() {
         return this.portalName;
-    }
-
-    public int getCooldownDelay() {
-        return this.cooldownDelay;
-    }
-
-    public void setCooldownDelay(int cooldownDelay) {
-        this.cooldownDelay = cooldownDelay;
     }
 
     public String getDestiation() {
