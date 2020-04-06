@@ -22,6 +22,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Listeners implements Listener {
@@ -40,13 +41,11 @@ public class Listeners implements Listener {
 
         String ItemID = config.getConfig().getString("AxeItemId");
 
-        if(ItemID == null){
+        if (ItemID == null) {
             WandMaterial = Material.IRON_AXE;
-        }
-        else{
+        } else {
             WandMaterial = Material.getMaterial(ItemID);
         }
-
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -62,45 +61,29 @@ public class Listeners implements Listener {
         WandMaterial = Material.getMaterial(ItemID);
     }
 
-    @EventHandler
-    public void onJoinEvent(PlayerJoinEvent event) {
-        // TODO: make relability
-        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
-
-        /* if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) {
-            String desti = plugin.PlayerDestiMap.get(event.getPlayer());
-
-            Destination.warp(event.getPlayer(), desti);
-        } */
-    }
-
-    @EventHandler
-    public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
-        // TODO: make relability
-        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onTeleportEvent(PlayerTeleportEvent event) {
-        // TODO: make relability
-        // Portal.cooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void spawnMobEvent(CreatureSpawnEvent event) {
-        if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && Portal.inPortalRegion(event.getLocation(), Portal.getPortalProtectionRadius())) {
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL
+                && Portal.inPortalRegion(event.getLocation(), Portal.getPortalProtectionRadius())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onLeaveEvent(PlayerQuitEvent event) {
-        Portal.cooldown.remove(event.getPlayer().getName());
+    @EventHandler
+    public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
+        Portal.joinCooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+    }
 
-        UUID uuid = event.getPlayer().getUniqueId();
-        for (AdvancedPortal portal : Portal.portals) {
-            portal.inPortal.remove(uuid);
-        }
+    @EventHandler
+    public void onJoinEvent(PlayerJoinEvent event) {
+        Portal.joinCooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+
+        /*
+         * if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) { String desti =
+         * plugin.PlayerDestiMap.get(event.getPlayer());
+         *
+         * Destination.warp(event.getPlayer(), desti); }
+         */
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -124,7 +107,8 @@ public class Listeners implements Listener {
             boolean delayed = portal.hasArg("delayed") && portal.getArg("delayed").equalsIgnoreCase("true");
             for (Location loc : locations) {
                 if (delayed == useDelayed) {
-                    if (delayed ? Portal.locationInPortal(portal, loc, 1) : Portal.locationInPortalTrigger(portal, loc)) {
+                    if (delayed ? Portal.locationInPortal(portal, loc, 1)
+                            : Portal.locationInPortalTrigger(portal, loc)) {
                         if (portal.getTriggers().contains(Material.NETHER_PORTAL)) {
                             if (player.getGameMode().equals(GameMode.CREATIVE)) {
                                 player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
@@ -135,26 +119,30 @@ public class Listeners implements Listener {
                             player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
                             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                         }
-                        if (portal.inPortal.contains(player.getUniqueId())) return;
+                        if (portal.inPortal.contains(player.getUniqueId()))
+                            return;
                         WarpEvent warpEvent = new WarpEvent(player, portal);
                         plugin.getServer().getPluginManager().callEvent(warpEvent);
 
-                        if (!warpEvent.isCancelled()) Portal.activate(player, portal);
+                        if (!warpEvent.isCancelled())
+                            Portal.activate(player, portal);
 
-                        if (!delayed) portal.inPortal.add(player.getUniqueId());
+                        if (!delayed)
+                            portal.inPortal.add(player.getUniqueId());
                         return;
-                    } else if (!delayed) portal.inPortal.remove(player.getUniqueId());
+                    } else if (!delayed)
+                        portal.inPortal.remove(player.getUniqueId());
                 }
             }
         }
     }
 
     // These are here because java 7 can only take finals straight into a runnable
-    class RemoveLavaData implements Runnable{
+    class RemoveLavaData implements Runnable {
 
         private Player player;
 
-        public RemoveLavaData(Player player){
+        public RemoveLavaData(Player player) {
             this.player = player;
         }
 
@@ -165,12 +153,11 @@ public class Listeners implements Listener {
         }
     };
 
-    class RemoveWarpData implements Runnable{
-
+    class RemoveWarpData implements Runnable {
 
         private Player player;
 
-        public RemoveWarpData(Player player){
+        public RemoveWarpData(Player player) {
             this.player = player;
         }
 
@@ -188,11 +175,13 @@ public class Listeners implements Listener {
             event.setCancelled(true);
     }
 
-
     @EventHandler(ignoreCancelled = true)
     public void onDamEvent(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.LAVA || event.getCause() == EntityDamageEvent.DamageCause.FIRE || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
-            if (event.getEntity().hasMetadata("lavaWarped") | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
+        if (event.getEntity() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
+                || event.getCause() == EntityDamageEvent.DamageCause.FIRE
+                || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
+            if (event.getEntity().hasMetadata("lavaWarped")
+                    | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
                 event.setCancelled(true);
         }
     }
@@ -211,28 +200,37 @@ public class Listeners implements Listener {
             checkTriggerLocations(player, true, loc, eyeLoc);
         }
 
-        if (player.hasMetadata("hasWarped") | Portal.inPortalRegion(event.getFrom(),1))
+        if (player.hasMetadata("hasWarped") | Portal.inPortalRegion(event.getFrom(), 1))
             event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onItemInteract(PlayerInteractEvent event) {
 
-        // will detect if the player is using an axe so the points of a portal can be set
+        // will detect if the player is using an axe so the points of a portal can be
+        // set
         // also any other detections such as sign interaction or basic block protection
         Player player = event.getPlayer();
 
-        if (player.hasMetadata("selectingPortal") && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+        if (player.hasMetadata("selectingPortal")
+                && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             for (AdvancedPortal portal : Portal.portals) {
                 if (Portal.locationInPortal(portal, event.getClickedBlock().getLocation(), 0)) {
-                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have selected: \u00A7e" + portal.getName());
-                    player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.getName())); // adds the name to the metadata of the character
+                    player.sendMessage(
+                            PluginMessages.customPrefix + "\u00A7a You have selected: \u00A7e" + portal.getName());
+                    player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.getName())); // adds the
+                                                                                                            // name to
+                                                                                                            // the
+                                                                                                            // metadata
+                                                                                                            // of the
+                                                                                                            // character
                     event.setCancelled(true);
                     player.removeMetadata("selectingPortal", plugin);
                     return;
                 }
             }
-            player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
+            player.sendMessage(PluginMessages.customPrefixFail
+                    + "\u00A7c No portal was selected. If you would like to stop selecting please type \u00A7e/portal select \u00A7cagain!");
             event.setCancelled(true);
             return;
         }
@@ -240,45 +238,54 @@ public class Listeners implements Listener {
         if (player.hasPermission("advancedportals.createportal")) {
 
             if (event.getItem() != null && event.getItem().getType() == WandMaterial // was type id
-                    && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A7ePortal Region Selector")))) {
+                    && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta()
+                            .getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
-                // This checks if the action was a left or right click and if it was directly effecting a block.
+                // This checks if the action was a left or right click and if it was directly
+                // effecting a block.
                 if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                     Location blockloc = event.getClickedBlock().getLocation();
-                    // stores the selection as metadata on the character so then it isn't saved anywhere, if the player logs out it will
-                    //  have to be selected again if the player joins, also it does not affect any other players.
+                    // stores the selection as metadata on the character so then it isn't saved
+                    // anywhere, if the player logs out it will
+                    // have to be selected again if the player joins, also it does not affect any
+                    // other players.
                     player.setMetadata("Pos1X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
                     player.setMetadata("Pos1Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
                     player.setMetadata("Pos1Z", new FixedMetadataValue(plugin, blockloc.getBlockZ()));
                     player.setMetadata("Pos1World", new FixedMetadataValue(plugin, blockloc.getWorld().getName()));
-                    player.sendMessage("\u00A7eYou have selected pos1! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY()
-                            + " Z:" + blockloc.getBlockZ() + " World: " + blockloc.getWorld().getName());
+                    player.sendMessage(
+                            "\u00A7eYou have selected pos1! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY()
+                                    + " Z:" + blockloc.getBlockZ() + " World: " + blockloc.getWorld().getName());
 
                     // Stops the event so the block is not damaged
                     event.setCancelled(true);
 
-                    // Returns the event so no more code is executed(stops unnecessary code being executed)
+                    // Returns the event so no more code is executed(stops unnecessary code being
+                    // executed)
                 } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     Location blockloc = event.getClickedBlock().getLocation();
                     player.setMetadata("Pos2X", new FixedMetadataValue(plugin, blockloc.getBlockX()));
                     player.setMetadata("Pos2Y", new FixedMetadataValue(plugin, blockloc.getBlockY()));
                     player.setMetadata("Pos2Z", new FixedMetadataValue(plugin, blockloc.getBlockZ()));
                     player.setMetadata("Pos2World", new FixedMetadataValue(plugin, blockloc.getWorld().getName()));
-                    player.sendMessage("\u00A7eYou have selected pos2! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY()
-                            + " Z:" + blockloc.getBlockZ() + " World: " + blockloc.getWorld().getName());
+                    player.sendMessage(
+                            "\u00A7eYou have selected pos2! X:" + blockloc.getBlockX() + " Y:" + blockloc.getBlockY()
+                                    + " Z:" + blockloc.getBlockZ() + " World: " + blockloc.getWorld().getName());
 
                     // Stops the event so the block is not interacted with
                     event.setCancelled(true);
 
-                    // Returns the event so no more code is executed(stops unnecessary code being executed)
+                    // Returns the event so no more code is executed(stops unnecessary code being
+                    // executed)
                 }
 
-            } else if (checkItemForName(event.getItem()) && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer") &&
-                    event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.NETHER_PORTAL) {
+            } else if (checkItemForName(event.getItem())
+                    && event.getItem().getItemMeta().getDisplayName().equals("\u00A75Portal Block Placer")
+                    && event.getAction() == Action.LEFT_CLICK_BLOCK
+                    && event.getClickedBlock().getType() == Material.NETHER_PORTAL) {
                 BlockData block = event.getClickedBlock().getBlockData();
 
-
-                if(block instanceof Orientable) {
+                if (block instanceof Orientable) {
                     Orientable rotatable = (Orientable) block;
                     if (rotatable.getAxis() == Axis.X) {
                         rotatable.setAxis(Axis.Z);
@@ -293,9 +300,8 @@ public class Listeners implements Listener {
 
     }
 
-    private boolean checkItemForName(ItemStack item){
+    private boolean checkItemForName(ItemStack item) {
         return item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName();
     }
-
 
 }
