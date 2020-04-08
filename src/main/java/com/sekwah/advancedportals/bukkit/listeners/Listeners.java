@@ -81,14 +81,17 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
+    public void onLeaveEvent(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if(player.hasMetadata("leaveDesti")) {
+            Destination.warp(player, player.getMetadata("leaveDesti").get(0).asString(),
+                    false, true);
+        }
+    }
+
+    @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
         Portal.joinCooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
-        /*
-         * if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) { String desti =
-         * plugin.PlayerDestiMap.get(event.getPlayer());
-         *
-         * Destination.warp(event.getPlayer(), desti); }
-         */
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

@@ -36,7 +36,7 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
             if (msgPlayer != null) {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-                        () -> Destination.warp(msgPlayer, targetDestination),
+                        () -> Destination.warp(msgPlayer, targetDestination, false, true),
                         20L
                 );
             }
