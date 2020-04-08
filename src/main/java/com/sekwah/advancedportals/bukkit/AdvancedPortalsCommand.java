@@ -257,6 +257,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     } else if (startsWithPortalArg("cooldowndelay:", args[i])) {
                                         String cooldownDelay = parseArgVariable(args, i, "cooldowndelay:");
                                         extraData.add(new PortalArg("cooldowndelay", cooldownDelay));
+                                    } else if (startsWithPortalArg("leavedesti:", args[i])) {
+                                        String leaveDesti = parseArgVariable(args, i, "leavedesti:");
+                                        extraData.add(new PortalArg("leavedesti", leaveDesti));
                                     }
                                 }
                                 if (!hasName) {
@@ -373,7 +376,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     break;
                 case "variables":
                     sender.sendMessage(PluginMessages.customPrefix
-                            + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, desti, destination, bungee, permission, command, cooldowndelay");
+                            + " \u00A77Variables \u00A7c: \u00A7aname, triggerBlock, desti, destination, bungee, permission, command, cooldowndelay, leavedesti");
                     sender.sendMessage("");
                     sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
                     break;
@@ -782,6 +785,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 boolean needsPermission = false;
                 boolean hasCommand = false;
                 boolean hasCooldownDelay = false;
+                boolean hasLeaveDesti = false;
 
                 // TODO change auto complete when quotes are opened and closed. Such as
                 // autocomplete @Player and stuff when specifying commands
@@ -846,6 +850,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 if (!hasCooldownDelay) {
                     autoComplete.add("cooldowndelay:");
+                }
+                if (!hasLeaveDesti) {
+                    autoComplete.add("leavedesti:");
                 }
             }
         }

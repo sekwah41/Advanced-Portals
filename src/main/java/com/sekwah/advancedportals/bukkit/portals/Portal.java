@@ -8,9 +8,11 @@ import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.util.Vector;
 
@@ -441,7 +443,7 @@ public class Portal {
                 int portalCooldown = 0; // default cooldowndelay when cooldowndelay is not specified
                 try {
                     portalCooldown = Integer.parseInt(portal.getArg("cooldowndelay"));
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 if (diff < portalCooldown) {
                     int time = (portalCooldown - diff);
@@ -473,6 +475,13 @@ public class Portal {
                         + "\u00A7a.");
             }
 
+            if(portal.hasArg("leavedesti")) {
+                player.setMetadata("leaveDesti", new FixedMetadataValue(plugin, portal.getArg("leavedesti")));
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                    player.removeMetadata("leaveDesti", plugin);
+                }, 20 * 10);
+            }
+
             if (portal.getDestiation() != null) {
                 ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                 outForList.writeUTF("PortalEnter");
@@ -486,6 +495,8 @@ public class Portal {
             ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
             outForSend.writeUTF("Connect");
             outForSend.writeUTF(bungeeServer);
+
+
 
             portal.inPortal.add(player.getUniqueId());
             player.sendPluginMessage(plugin, "BungeeCord", outForSend.toByteArray());

@@ -104,7 +104,11 @@ public class Destination {
         return warp(player, name, false);
     }
 
-    public static boolean warp(Player player, String name, boolean hideActionbar) {
+    public static boolean warp(Player player, String name, boolean hideActionBar) {
+        return warp(player, name, false, false);
+    }
+
+    public static boolean warp(Player player, String name, boolean hideActionbar, boolean noEffects) {
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (config.getConfig().getString(name + ".world") != null) {
             Location loc = player.getLocation();
@@ -118,8 +122,10 @@ public class Destination {
                 loc.setPitch((float) config.getConfig().getDouble(name + ".pos.pitch"));
                 loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
 
-                WarpEffects.activateParticles(player);
-                WarpEffects.activateSound(player);
+                if(!noEffects) {
+                    WarpEffects.activateParticles(player);
+                    WarpEffects.activateSound(player);
+                }
                 Chunk c = loc.getChunk();
                 Entity riding = player.getVehicle();
                 if (!c.isLoaded()) c.load();
@@ -134,8 +140,10 @@ public class Destination {
                 } else {
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }
-                WarpEffects.activateParticles(player);
-                WarpEffects.activateSound(player);
+                if(!noEffects) {
+                    WarpEffects.activateParticles(player);
+                    WarpEffects.activateSound(player);
+                }
 
                 if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
