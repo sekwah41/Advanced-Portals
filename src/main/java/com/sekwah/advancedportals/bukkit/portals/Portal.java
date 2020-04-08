@@ -377,6 +377,15 @@ public class Portal {
         loadPortals();
     }
 
+    public static AdvancedPortal getPortal(String portalName) {
+        for (AdvancedPortal portalElement : Portal.portals) {
+            if (portalElement.getName().equals(portalName)) {
+                return portalElement;
+            }
+        }
+        return null;
+    }
+
     public static boolean portalExists(String portalName) {
 
         String posX = portalData.getConfig().getString(portalName + ".pos1.X");

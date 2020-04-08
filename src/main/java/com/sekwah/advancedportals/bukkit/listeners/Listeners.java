@@ -22,7 +22,9 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Listeners implements Listener {
@@ -48,6 +50,10 @@ public class Listeners implements Listener {
         }
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        int cleanPeriod = config.getConfig().getInt("CleanUpPeriod", 120);
+        int period = 20 * 60 * cleanPeriod;
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new CooldownDataRemovalTask(), period, period);
     }
 
     @SuppressWarnings("deprecation")
@@ -77,7 +83,6 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
         Portal.joinCooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
-
         /*
          * if (plugin.PlayerDestiMap.containsKey(event.getPlayer())) { String desti =
          * plugin.PlayerDestiMap.get(event.getPlayer());
@@ -134,6 +139,65 @@ public class Listeners implements Listener {
                         portal.inPortal.remove(player.getUniqueId());
                 }
             }
+        }
+    }
+
+    class CooldownDataRemovalTask implements Runnable {
+
+        private int removed;
+
+        @Override
+        public void run() {
+            boolean canRemove = true;
+            while (canRemove) {
+                canRemove = Portal.cooldown.entrySet().removeIf(e -> {
+                    HashMap<String, Long> cds = e.getValue();
+                    if (cds == null) {
+                        removed++;
+                        return true;
+                    } else {
+                        cds.entrySet().removeIf(entry -> shouldRemovePortalCooldown(entry));
+                        if (cds.isEmpty()) {
+                            removed++;
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            }
+
+            // Make sure maps are never too big than they need to be
+            if (removed > 16) {
+                resizeMaps();
+                removed = 0;
+            }
+        }
+
+        private boolean shouldRemovePortalCooldown(Map.Entry<String, Long> entry) {
+            String portalName = entry.getKey();
+            AdvancedPortal portal = Portal.getPortal(portalName);
+            if (portal != null) {
+                long portalCD = entry.getValue();
+                int diff = (int) ((System.currentTimeMillis() - portalCD) / 1000);
+                int portalCooldown = -1;
+                try {
+                    portalCooldown = Integer.parseInt(portal.getArg("cooldowndelay"));
+                    return diff >= portalCooldown; // cooldown expired
+                } catch (Exception exc) {
+                    return true;
+                }
+            }
+            return true;
+        }
+
+        private void resizeMaps() {
+            HashMap<String, HashMap<String, Long>> newCooldowns = new HashMap<String, HashMap<String, Long>>(Math.max(Portal.cooldown.size() * 2, 10));
+            newCooldowns.putAll(Portal.cooldown);
+            Portal.cooldown = newCooldowns;
+
+            HashMap<String, Long> newJoinCooldowns = new HashMap<String, Long>(Math.max(Portal.joinCooldown.size() * 2, 10));
+            newJoinCooldowns.putAll(Portal.joinCooldown);
+            Portal.joinCooldown = newJoinCooldowns;
         }
     }
 
