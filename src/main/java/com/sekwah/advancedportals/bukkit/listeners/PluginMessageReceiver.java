@@ -29,14 +29,11 @@ public class PluginMessageReceiver implements PluginMessageListener {
         String subchannel = in.readUTF();
 
         if (subchannel.equals("BungeePortal")) {
-            String targetPlayerUUID = in.readUTF();
             String targetDestination = in.readUTF();
 
-            Player msgPlayer = plugin.getServer().getPlayer(UUID.fromString(targetPlayerUUID));
-
-            if (msgPlayer != null) {
+            if (player != null) {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-                        () -> Destination.warp(msgPlayer, targetDestination, false, true),
+                        () -> Destination.warp(player, targetDestination, false, true),
                         20L
                 );
             }

@@ -7,6 +7,8 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.UUID;
+
 public class EventListener implements Listener {
     private AdvancedPortalsPlugin plugin;
 
@@ -14,10 +16,11 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerSwitchServer(ServerSwitchEvent event) {
-        String uuid = event.getPlayer().getUniqueId().toString();
+        UUID uuid = event.getPlayer().getUniqueId();
 
         if (plugin.PlayerDestiMap.containsKey(uuid)) {
             String[] val = plugin.PlayerDestiMap.get(uuid);
+
             // key: UUID (string)
             // value: [0] targetServer, [1] targetDestination
 
@@ -26,7 +29,6 @@ public class EventListener implements Listener {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
 
                 out.writeUTF("BungeePortal");
-                out.writeUTF(uuid);
                 out.writeUTF(val[1]);
 
                 event.getPlayer().getServer().getInfo().sendData(plugin.channelName, out.toByteArray());

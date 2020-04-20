@@ -5,12 +5,13 @@ import com.sekwah.advancedportals.bungee.listener.PluginMessageReceiver;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class AdvancedPortalsPlugin extends Plugin {
 
     public String channelName = "mc:advancedportals";
 
-    public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
+    public HashMap<UUID, String[]> PlayerDestiMap = new HashMap<>();
     // key: UUID (string)
     // value: [0] targetServer, [1] targetDestination
 
