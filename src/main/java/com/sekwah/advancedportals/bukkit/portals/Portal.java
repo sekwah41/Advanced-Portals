@@ -8,7 +8,6 @@ import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
-import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -486,7 +485,6 @@ public class Portal {
                 ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                 outForList.writeUTF("PortalEnter");
                 outForList.writeUTF(bungeeServer);
-                outForList.writeUTF(player.getUniqueId().toString());
                 outForList.writeUTF(portal.getDestiation());
 
                 player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
@@ -530,7 +528,7 @@ public class Portal {
                 // (?i) makes the search case insensitive
                 command = command.replaceAll("@player", player.getName());
                 plugin.getLogger().log(Level.INFO, "Portal command: " + command);
-                if (command.startsWith("#") && plugin.getSettings().hasCommandLevel("c")) {
+                if (command.startsWith("#") && plugin.getSettings().enabledCommandLevel("c")) {
                     command = command.substring(1);
                     plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                     try {
@@ -538,7 +536,7 @@ public class Portal {
                     } catch (Exception e) {
                         plugin.getLogger().warning("Error while executing: " + command);
                     }
-                } else if (command.startsWith("!") && plugin.getSettings().hasCommandLevel("o")) {
+                } else if (command.startsWith("!") && plugin.getSettings().enabledCommandLevel("o")) {
                     command = command.substring(1);
                     boolean wasOp = player.isOp();
                     try {
@@ -548,7 +546,7 @@ public class Portal {
                     } finally {
                         player.setOp(wasOp);
                     }
-                } else if (command.startsWith("^")) {
+                } else if (command.startsWith("^") && plugin.getSettings().enabledCommandLevel("p")) {
                     command = command.substring(1);
                     PermissionAttachment permissionAttachment = null;
                     try {
@@ -558,9 +556,16 @@ public class Portal {
                     } finally {
                         player.removeAttachment(permissionAttachment);
                     }
+                } else if (command.startsWith("%") && plugin.getSettings().enabledCommandLevel("b")) {
+                    command = command.substring(1);
+                    ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
+                    outForList.writeUTF("BungeeCommand");
+                    outForList.writeUTF(player.getUniqueId().toString());
+                    outForList.writeUTF(command);
+                    player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
                 } else {
-                    player.chat("/" + command);
-                    // player.performCommand(command);
+                        player.chat("/" + command);
+                        // player.performCommand(command);
                 }
                 command = portal.getArg("command." + ++commandLine);
             } while (command != null);
