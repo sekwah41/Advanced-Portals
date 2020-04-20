@@ -77,9 +77,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     break;
                                 }
                             }
+                        } else if (args.length == 1 && player.hasPermission("advancedportals.portal.warp") {
+                            sendMenu(player, "Help Menu: Warp",
+                                    "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
                         }
-                        sendMenu(player, "Help Menu: Warp",
-                                "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
                         break;
                     case "wand":
                     case "selector":
