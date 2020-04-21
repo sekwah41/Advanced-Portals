@@ -31,7 +31,7 @@ public class EventListener implements Listener {
                 out.writeUTF("BungeePortal");
                 out.writeUTF(val[1]);
 
-                event.getPlayer().getServer().getInfo().sendData(plugin.channelName, out.toByteArray());
+                event.getPlayer().sendData(plugin.channelName, out.toByteArray());
             }
         }
     }
