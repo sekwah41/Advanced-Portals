@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.bukkit;
+package com.sekwah.advancedportals.bukkit.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

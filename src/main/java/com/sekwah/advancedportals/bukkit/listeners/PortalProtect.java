@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.bukkit.listeners;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import org.bukkit.block.Block;
@@ -42,6 +42,8 @@ public class PortalProtect implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
+        if(!this.PortalProtect) return;
+
         Player player = event.getPlayer();
         if (!player.hasPermission("advancedportals.build")
                 && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
@@ -52,8 +54,10 @@ public class PortalProtect implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
+        if(!this.PortalProtect) return;
+
         Player player = event.getPlayer();
-        if (!player.hasPermission("advancedportals.build")
+        if (PortalProtect && !player.hasPermission("advancedportals.build")
                 && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
             event.setCancelled(true);
             player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
@@ -62,6 +66,7 @@ public class PortalProtect implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event) {
+        if(!this.PortalProtect) return;
 
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {

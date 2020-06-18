@@ -4,4 +4,4 @@ REM Use this file for testing cases for different versions, just drag the versio
 java -Xmx4096M -DIReallyKnowWhatIAmDoingISwear=true -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar %1
 REM Could add a 32 bit test part but noone uses 32 bit anymore
 GOTO A
-PAUSE.
+PAUSE

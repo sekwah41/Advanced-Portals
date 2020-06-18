@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.bukkit;
 
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import org.bukkit.command.CommandSender;
 
 public class PluginMessages {

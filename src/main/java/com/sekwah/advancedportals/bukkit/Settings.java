@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.bukkit;
 
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
+
 import static com.sekwah.advancedportals.bukkit.Settings.PortalConfigOption.*;
 
 /**

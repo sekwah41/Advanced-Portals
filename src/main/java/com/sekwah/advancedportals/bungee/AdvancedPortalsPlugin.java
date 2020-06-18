@@ -11,7 +11,7 @@ public class AdvancedPortalsPlugin extends Plugin {
 
     public String channelName = "mc:advancedportals";
 
-    public HashMap<UUID, String[]> PlayerDestiMap = new HashMap<>();
+    public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
     // key: UUID (string)
     // value: [0] targetServer, [1] targetDestination
 
