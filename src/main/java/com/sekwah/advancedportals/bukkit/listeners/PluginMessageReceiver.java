@@ -4,6 +4,9 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
+import com.sekwah.advancedportals.bungee.BungeeMessages;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -28,12 +31,23 @@ public class PluginMessageReceiver implements PluginMessageListener {
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
 
-        if (subchannel.equals("BungeePortal")) {
+        if (subchannel.equals(BungeeMessages.SERVER_DESTI)) {
             String targetDestination = in.readUTF();
+            UUID bungeeUUID = UUID.fromString(in.readUTF());
+            UUID offlineUUID = UUID.fromString(in.readUTF());
 
-            if (player != null) {
+            Player targetPlayer = this.plugin.getServer().getPlayer(bungeeUUID);
+
+            if(targetPlayer == null) {
+                targetPlayer = this.plugin.getServer().getPlayer(offlineUUID);
+                this.plugin.getServer().getConsoleSender().sendMessage(ChatColor.RED + BungeeMessages.WARNING_MESSAGE
+                        + "\n\nThis server is the offending server.");
+            }
+
+            if (targetPlayer != null) {
+                Player finalTargetPlayer = targetPlayer;
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-                        () -> Destination.warp(player, targetDestination, false, true),
+                        () -> Destination.warp(finalTargetPlayer, targetDestination, false, true),
                         20L
                 );
             }

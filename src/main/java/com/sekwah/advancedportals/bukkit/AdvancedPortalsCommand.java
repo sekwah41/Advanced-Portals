@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.bukkit;
 
 import com.sekwah.advancedportals.bukkit.api.events.WarpEvent;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;

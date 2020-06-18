@@ -3,11 +3,12 @@ package com.sekwah.advancedportals.bukkit.portals;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -40,7 +41,8 @@ public class Portal {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage", false);
 
-        this.portalProtectionRadius = config.getConfig().getInt("PortalProtectionRadius");
+        this.portalProtectionRadius = config.getConfig().getBoolean("PortalProtection") ?
+                config.getConfig().getInt("PortalProtectionArea") : 0;
 
         this.throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
@@ -483,9 +485,11 @@ public class Portal {
 
             if (portal.getDestiation() != null) {
                 ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
-                outForList.writeUTF("PortalEnter");
+                outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
                 outForList.writeUTF(bungeeServer);
                 outForList.writeUTF(portal.getDestiation());
+                outForList.writeUTF(player.getUniqueId().toString());
+                outForList.writeUTF(player.getName());
 
                 player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
             }
@@ -559,8 +563,7 @@ public class Portal {
                 } else if (command.startsWith("%") && plugin.getSettings().enabledCommandLevel("b")) {
                     command = command.substring(1);
                     ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
-                    outForList.writeUTF("BungeeCommand");
-                    outForList.writeUTF(player.getUniqueId().toString());
+                    outForList.writeUTF(BungeeMessages.BUNGEE_COMMAND);
                     outForList.writeUTF(command);
                     player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
                 } else {

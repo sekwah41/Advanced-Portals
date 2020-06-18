@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.bukkit.destinations;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import org.bukkit.Bukkit;

@@ -1,17 +1,16 @@
 package com.sekwah.advancedportals.bukkit;
 
 import com.sekwah.advancedportals.bukkit.compat.CraftBukkit;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.destinations.DestinationCommand;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -37,6 +36,12 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             this.compat = new CraftBukkit(this, version);
 
             ConfigAccessor config = new ConfigAccessor(this, "config.yml");
+
+            ConfigHelper configHelper = new ConfigHelper(config.getConfig());
+
+            configHelper.update();
+
+            config.saveConfig();
 
             // TODO reenable and finish but probably focus on the recode first
             /*if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
