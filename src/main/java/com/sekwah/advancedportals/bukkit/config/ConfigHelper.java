@@ -13,11 +13,14 @@ public class ConfigHelper {
         this.config = config;
     }
 
+    /**
+     * Recursively for each time there is a future update
+     */
     public void update() {
         String configVersion = config.getString("ConfigVersion");
-        // Added in 0.5.3 so update to 0.5.3
-        if(configVersion == null) {
-            config.set(ConfigHelper.CONFIG_VERSION, "0.5.3");
+        // Added in 0.5.4
+        if(configVersion == null || configVersion.equals("0.5.3")) {
+            config.set(ConfigHelper.CONFIG_VERSION, "0.5.4");
         }
     }
 }
