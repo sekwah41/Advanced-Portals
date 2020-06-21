@@ -87,25 +87,4 @@ public class CraftBukkit {
             e.printStackTrace();
         }
     }
-
-
-    /**
-     * Blocks the beacon from showing
-     * @param block
-     */
-    /*public void setGatewayAgeHigh(Block block) {
-        if(block.getWorld().getEnvironment() != World.Environment.THE_END &&
-                this.endGatewayClass.isAssignableFrom(block.getState().getClass())) {
-            try {
-                Object tileEntity = this.getTileEntityMethod.invoke(this.getWorldHandleMethod.invoke(block.getWorld()),
-                        this.blockPositionConstructor.newInstance(block.getX(), block.getY(), block.getZ()));
-                if(this.tileEntityEndGatewayClass.isAssignableFrom(tileEntity.getClass())) {
-                    getEntityTimeoutField.set(tileEntity, Integer.MAX_VALUE);
-                }
-            } catch (IllegalAccessException| InvocationTargetException | InstantiationException e) {
-                this.plugin.getLogger().warning("Error setting gateway time");
-                e.printStackTrace();
-            }
-        }
-    }*/
 }

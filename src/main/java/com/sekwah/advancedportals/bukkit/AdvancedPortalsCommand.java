@@ -10,6 +10,8 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.EndGateway;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,23 +66,62 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
             if (args.length > 0) {
                 switch (args[0].toLowerCase()) {
                     case "warp":
-                        if (args.length == 2 && player.hasPermission("advancedportals.portal.warp")) {
-                            for (AdvancedPortal portal : Portal.portals) {
-                                if (args[1].equalsIgnoreCase(portal.getName())) {
+                        if (args.length == 2 && (player.hasPermission("advancedportals.warp.*") || player.hasPermission("advancedportals.warp." + args[1]))) {
+                            AdvancedPortal portal = Portal.getPortal(args[1]);
 
-                                    if (portal.inPortal.contains(player.getUniqueId()))
-                                        return true;
-                                    WarpEvent warpEvent = new WarpEvent(player, portal);
-                                    plugin.getServer().getPluginManager().callEvent(warpEvent);
+                            if(portal == null) {
+                                sender.sendMessage(PluginMessages.customPrefixFail
+                                        + " Could not find a portal with that name");
+                            }
+                            else {
+                                if (portal.inPortal.contains(player.getUniqueId()))
+                                    return true;
+                                WarpEvent warpEvent = new WarpEvent(player, portal);
+                                plugin.getServer().getPluginManager().callEvent(warpEvent);
 
-                                    if (!warpEvent.isCancelled())
-                                        Portal.activate(player, portal);
-                                    break;
+                                if (!warpEvent.isCancelled()) {
+                                    Portal.activate(player, portal);
                                 }
                             }
                         } else if (args.length == 1 && player.hasPermission("advancedportals.portal.warp")) {
                             sendMenu(player, "Help Menu: Warp",
                                     "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
+                        }
+                        else {
+                            sender.sendMessage(PluginMessages.customPrefixFail
+                                    + " You do not have permission");
+                        }
+                        break;
+                    case "disablebeacon":
+                        boolean DISABLE_BEACON = config.getConfig().getBoolean("DisableGatewayBeam", true);
+                        if (player.hasPermission("advancedportals.build") && DISABLE_BEACON) {
+                            if(args.length == 1) {
+                                sender.sendMessage(PluginMessages.customPrefixFail
+                                        + " You need to specify a portal to replace the blocks.");
+                            }
+                            else {
+                                AdvancedPortal portal = Portal.getPortal(args[1]);
+
+                                if(portal == null) {
+                                    sender.sendMessage(PluginMessages.customPrefixFail
+                                            + " Could not find a portal with that name");
+                                }
+                                else {
+                                    sender.sendMessage(PluginMessages.customPrefix
+                                            + " Replacing any found beacon blocks.");
+                                    disableBeacons(portal);
+                                }
+                            }
+                        }
+                        else {
+                            if(DISABLE_BEACON) {
+
+                            }
+                            else {
+
+                            }
+                            sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission " +
+                                    "to do that." + " Needed: \u00A7eadvancedportals.build");
                         }
                         break;
                     case "wand":
@@ -338,6 +379,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                                 portalArgs = extraData.toArray(portalArgs);
                                                 player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
                                                         materialSet, serverName, portalArgs));
+                                                if(materialSet.contains(Material.END_GATEWAY)) {
+                                                    AdvancedPortal portal = Portal.getPortal(portalName);
+                                                    if(portal != null) {
+                                                        disableBeacons(portal);
+                                                    }
+                                                }
                                             } else {
                                                 ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
                                                 player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault("
@@ -629,6 +676,29 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    private void disableBeacons(AdvancedPortal portal) {
+        Location loc1 = portal.getPos1();
+        Location loc2 =  portal.getPos2();
+
+        Location scanner = loc1.clone();
+
+        for (int x = loc2.getBlockX(); x <= loc1.getBlockX(); x++) {
+            scanner.setZ(x);
+            for (int y = loc2.getBlockY(); y <= loc1.getBlockY(); y++) {
+                scanner.setZ(y);
+                for (int z = loc2.getBlockZ(); z <= loc1.getBlockZ(); z++) {
+                    scanner.setZ(z);
+                    Block block = scanner.getBlock();
+                    if(block.getType() == Material.END_GATEWAY) {
+                        EndGateway tileState = (EndGateway) block.getState();
+                        tileState.setAge(Long.MIN_VALUE);
+                        tileState.update();
+                    }
+                }
+            }
+        }
+    }
+
     private boolean startsWithPortalArg(String portalArg, String arg) {
         return arg.toLowerCase().startsWith(portalArg) && arg.length() > portalArg.length();
     }
@@ -780,7 +850,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command",
-                        "selector", "show", "gatewayblock", "endportalblock", "variables", "wand", "remove", "rename",
+                        "selector", "show", "gatewayblock", "endportalblock", "variables", "wand", "disablebeacon", "remove", "rename",
                         "help", "bukkitpage", "helppage", "warp"));
             } else if (args[0].toLowerCase().equals("create")) {
 
@@ -863,12 +933,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        if (args.length == 2 && args[0].equalsIgnoreCase("warp")) {
+        if (args.length == 2 && (args[0].equalsIgnoreCase("warp"))) {
             for (AdvancedPortal portal : Portal.portals) {
                 String perm = portal.getArg("permission");
                 if (perm == null || sender.hasPermission(perm)) {
                     autoComplete.add(portal.getName());
                 }
+            }
+        }
+        else if (args.length == 2 && (args[0].equalsIgnoreCase("remove")
+                || args[0].equalsIgnoreCase("disablebeacon"))) {
+            for (AdvancedPortal portal : Portal.portals) {
+                autoComplete.add(portal.getName());
             }
         }
         String triggerBlock = "triggerblock:";

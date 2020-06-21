@@ -55,5 +55,5 @@ permissions:
      description: Gives access to all desti commands
      default: op
    advancedportals.warp.*:
-     description: Access to all warps (not really used tbh)
+     description: Access to all warps
      default: op
