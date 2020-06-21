@@ -62,39 +62,45 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         Player player = (Player) sender;
         PlayerInventory inventory = player.getInventory();
 
+        if(args.length > 0) {
+            if(args[0].equalsIgnoreCase("warp") && player.hasPermission("advancedportals.warp")) {
+                if (args.length == 2 && (player.hasPermission("advancedportals.warp.*")
+                        || player.hasPermission("advancedportals.warp." + args[1]))) {
+                    AdvancedPortal portal = Portal.getPortal(args[1]);
+
+                    if(portal == null) {
+                        sender.sendMessage(PluginMessages.customPrefixFail
+                                + " Could not find a portal with that name");
+                    }
+                    else {
+                        if (portal.inPortal.contains(player.getUniqueId()))
+                            return true;
+                        WarpEvent warpEvent = new WarpEvent(player, portal);
+                        plugin.getServer().getPluginManager().callEvent(warpEvent);
+
+                        if (!warpEvent.isCancelled()) {
+                            Portal.activate(player, portal, false);
+                            return true;
+                        }
+                    }
+                } else if (args.length == 1 && player.hasPermission("advancedportals.warp")) {
+                    sendMenu(player, "Help Menu: Warp",
+                            "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
+                }
+                else {
+                    sender.sendMessage(PluginMessages.customPrefixFail
+                            + " You do not have permission to perform that command");
+                }
+                return true;
+            }
+
+        }
+
         if (sender.hasPermission("advancedportals.portal")) {
             if (args.length > 0) {
                 switch (args[0].toLowerCase()) {
-                    case "warp":
-                        if (args.length == 2 && (player.hasPermission("advancedportals.warp.*") || player.hasPermission("advancedportals.warp." + args[1]))) {
-                            AdvancedPortal portal = Portal.getPortal(args[1]);
-
-                            if(portal == null) {
-                                sender.sendMessage(PluginMessages.customPrefixFail
-                                        + " Could not find a portal with that name");
-                            }
-                            else {
-                                if (portal.inPortal.contains(player.getUniqueId()))
-                                    return true;
-                                WarpEvent warpEvent = new WarpEvent(player, portal);
-                                plugin.getServer().getPluginManager().callEvent(warpEvent);
-
-                                if (!warpEvent.isCancelled()) {
-                                    Portal.activate(player, portal);
-                                }
-                            }
-                        } else if (args.length == 1 && player.hasPermission("advancedportals.portal.warp")) {
-                            sendMenu(player, "Help Menu: Warp",
-                                    "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name");
-                        }
-                        else {
-                            sender.sendMessage(PluginMessages.customPrefixFail
-                                    + " You do not have permission");
-                        }
-                        break;
                     case "disablebeacon":
-                        boolean DISABLE_BEACON = config.getConfig().getBoolean("DisableGatewayBeam", true);
-                        if (player.hasPermission("advancedportals.build") && DISABLE_BEACON) {
+                        if (player.hasPermission("advancedportals.build")) {
                             if(args.length == 1) {
                                 sender.sendMessage(PluginMessages.customPrefixFail
                                         + " You need to specify a portal to replace the blocks.");
@@ -112,16 +118,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     disableBeacons(portal);
                                 }
                             }
-                        }
-                        else {
-                            if(DISABLE_BEACON) {
-
-                            }
-                            else {
-
-                            }
-                            sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission " +
-                                    "to do that." + " Needed: \u00A7eadvancedportals.build");
                         }
                         break;
                     case "wand":
@@ -847,11 +843,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
         LinkedList<String> autoComplete = new LinkedList<String>();
+        if(args.length == 1 && (sender.hasPermission("advancedportals.warp")))  {
+            autoComplete.add("warp");
+        }
         if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command",
                         "selector", "show", "gatewayblock", "endportalblock", "variables", "wand", "disablebeacon", "remove", "rename",
-                        "help", "bukkitpage", "helppage", "warp"));
+                        "help", "bukkitpage", "helppage"));
             } else if (args[0].toLowerCase().equals("create")) {
 
                 boolean hasName = false;
@@ -936,7 +935,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (args.length == 2 && (args[0].equalsIgnoreCase("warp"))) {
             for (AdvancedPortal portal : Portal.portals) {
                 String perm = portal.getArg("permission");
-                if (perm == null || sender.hasPermission(perm)) {
+                if ((perm == null || sender.hasPermission(perm))
+                        && (sender.hasPermission("advancedportals.warp.*")
+                        || sender.hasPermission("advancedportals.warp." + portal.getName()))) {
                     autoComplete.add(portal.getName());
                 }
             }

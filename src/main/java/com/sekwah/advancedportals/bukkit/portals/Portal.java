@@ -405,7 +405,7 @@ public class Portal {
         return false;
     }
 
-    public static boolean activate(Player player, AdvancedPortal portal) {
+    public static boolean activate(Player player, AdvancedPortal portal, boolean doKnockback) {
 
         if (blockSpectatorMode && player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(
@@ -419,7 +419,8 @@ public class Portal {
             player.sendMessage(
                     PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
             failSound(player, portal);
-            throwPlayerBack(player);
+            if(doKnockback)
+                throwPlayerBack(player);
             return false;
         }
 
@@ -430,7 +431,8 @@ public class Portal {
                 int time = (joinCooldownDelay - diff);
                 player.sendMessage(ChatColor.RED + "There is " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? " second" : " seconds") + " join cooldown protection left.");
                 failSound(player, portal);
-                throwPlayerBack(player);
+                if(doKnockback)
+                    throwPlayerBack(player);
                 return false;
             }
             joinCooldown.remove(player.getName());
@@ -451,7 +453,8 @@ public class Portal {
                     player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED
                             + (time == 1 ? " second" : " seconds") + " until attempting to enter this portal again.");
                     failSound(player, portal);
-                    throwPlayerBack(player);
+                    if(doKnockback)
+                        throwPlayerBack(player);
                     return false;
                 }
             }
@@ -509,7 +512,8 @@ public class Portal {
             if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
                 warped = Destination.warp(player, portal.getDestiation(), hasMessage);
                 if (!warped) {
-                    throwPlayerBack(player);
+                    if(doKnockback)
+                        throwPlayerBack(player);
                 }
             }
         } else {
@@ -518,7 +522,8 @@ public class Portal {
                         + "\u00A7c The portal you are trying to use doesn't have a destination!");
                 plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.getName() + "' has just had a warp "
                         + "attempt and either the data is corrupt or portal doesn't exist!");
-                throwPlayerBack(player);
+                if(doKnockback)
+                    throwPlayerBack(player);
                 failSound(player, portal);
             }
         }
@@ -691,5 +696,9 @@ public class Portal {
 
     public static int getPortalProtectionRadius() {
         return portalProtectionRadius;
+    }
+
+    public static boolean activate(Player player, AdvancedPortal portal) {
+        return activate(player, portal, true);
     }
 }
