@@ -6,10 +6,11 @@ public class ConfigHelper {
 
     public static String CONFIG_VERSION = "ConfigVersion";
 
+    public static String DISABLE_GATEWAY_BEAM = "DisableGatewayBeam";
+
     private FileConfiguration config;
 
     public ConfigHelper(FileConfiguration config) {
-
         this.config = config;
     }
 
@@ -21,6 +22,8 @@ public class ConfigHelper {
         // Added in 0.5.4
         if(configVersion == null || configVersion.equals("0.5.3")) {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.4");
+
+            config.set(ConfigHelper.CONFIG_VERSION, true);
         }
     }
 }
