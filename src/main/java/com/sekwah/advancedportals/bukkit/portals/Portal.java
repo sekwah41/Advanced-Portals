@@ -9,6 +9,8 @@ import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -581,8 +583,8 @@ public class Portal {
 
         if (warped) {
             if (hasMessage) {
-                plugin.compat.sendActionBarMessage(portal.getArg("message").replaceAll("&(?=[0-9a-fk-or])", "\u00A7"),
-                        player);
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                        TextComponent.fromLegacyText(portal.getArg("message").replaceAll("&(?=[0-9a-fk-or])", "\u00A7")));
             }
         }
 

@@ -4,6 +4,8 @@ import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -150,7 +152,7 @@ public class Destination {
                     player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
                 } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
-                    plugin.compat.sendActionBarMessage("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.", player);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a."));
                 }
 
                 return true;
