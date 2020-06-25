@@ -41,7 +41,8 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    implementation "org.bukkit:bukkit:1.15.1-R0.1-SNAPSHOT"
+    //implementation "org.bukkit:bukkit:1.16.1-R0.1-SNAPSHOT"
+    implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
     implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
 
     implementation "io.netty:netty-all:4.0.4.Final"

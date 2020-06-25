@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.bukkit;
 
-import com.sekwah.advancedportals.bukkit.compat.CraftBukkit;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
@@ -14,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
-    public CraftBukkit compat = null;
+    //public CraftBukkit compat = null;
     private Settings settings;
 
     public String channelName = "mc:advancedportals";
@@ -29,65 +28,52 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         saveDefaultConfig();
 
-        Metrics metrics = new Metrics(this);
+        /*Metrics metrics = */
+        new Metrics(this);
 
-        try {
 
-            this.compat = new CraftBukkit(this, version);
+        //this.compat = new CraftBukkit(this, version);
 
-            ConfigAccessor config = new ConfigAccessor(this, "config.yml");
+        ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
-            ConfigHelper configHelper = new ConfigHelper(config.getConfig());
+        ConfigHelper configHelper = new ConfigHelper(config.getConfig());
 
-            configHelper.update();
+        configHelper.update();
 
-            config.saveConfig();
+        config.saveConfig();
 
-            // TODO reenable and finish but probably focus on the recode first
+        // TODO reenable and finish but probably focus on the recode first
             /*if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
                 new PacketInjector(this, version);
             }*/
 
-            ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
-            portalConfig.saveDefaultConfig();
+        ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
+        portalConfig.saveDefaultConfig();
 
 
-            ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
-            destinationConfig.saveDefaultConfig();
+        ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
+        destinationConfig.saveDefaultConfig();
 
-            this.settings = new Settings(this);
+        this.settings = new Settings(this);
 
-            // Loads the portal and destination editors
-            new Portal(this);
-            new Destination(this);
+        // Loads the portal and destination editors
+        new Portal(this);
+        new Destination(this);
 
 
-            this.registerCommands();
+        this.registerCommands();
 
-            new WarpEffects(this);
+        new WarpEffects(this);
 
-            this.addListeners();
-            this.setupDataCollector();
+        this.addListeners();
+        this.setupDataCollector();
 
-            this.setupBungee();
+        this.setupBungee();
 
-            this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            this.getLogger().warning("This version of craftbukkit is not yet supported, please notify sekwah and tell him about this version v:" + version);
-            this.getLogger().warning("Along with the above stacktrace");
-            this.setEnabled(false);
-        } catch (IllegalArgumentException |
-                NoSuchFieldException | SecurityException | NoSuchMethodException e) {
-            e.printStackTrace();
-            this.getLogger().warning("Something went wrong, please notify sekwah and tell him about this version v:" + version);
-            this.getLogger().warning("Along with the above stacktrace");
-            this.setEnabled(false);
-        }
+        this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
 
         for (Player player:
-             this.getServer().getOnlinePlayers()) {
+                this.getServer().getOnlinePlayers()) {
             player.removeMetadata("hasWarped", this);
             player.removeMetadata("lavaWarped", this);
         }

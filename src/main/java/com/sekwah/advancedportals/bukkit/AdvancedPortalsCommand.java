@@ -6,6 +6,9 @@ import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import javax.xml.soap.Text;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -462,21 +466,31 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             player.sendMessage(PluginMessages.customPrefixFail + " You had no portal selected!");
                         }
                     case "gui":
+                        // /portal gui remove testarg
                         if (args.length > 1) {
                             if (args[1].toLowerCase().equals("remove") && args.length > 2) {
                                 sender.sendMessage("");
                                 sender.sendMessage(PluginMessages.customPrefixFail
                                         + " Are you sure you would like to remove the portal \u00A7e" + args[2]
                                         + "\u00A7c?");
+
+                                TextComponent removeMessage = new TextComponent();
+                                TextComponent yes = new TextComponent("[Yes]");
+                                yes.setColor(ChatColor.YELLOW);
+                                yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal remove " + args[2]));
+                                yes.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Confirm removing this portal").create()));
+                                TextComponent no = new TextComponent("[No]");
+                                no.setColor(ChatColor.YELLOW);
+                                no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal edit " + args[2]));
+                                no.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Cancel removing this portal").create()));
+
+                                removeMessage.addExtra("    ");
+                                removeMessage.addExtra(yes);
+                                removeMessage.addExtra("     ");
+                                removeMessage.addExtra(no);
+
                                 sender.sendMessage("");
-                                plugin.compat.sendRawMessage(
-                                        "{\"text\":\"    \",\"extra\":[{\"text\":\"\u00A7e[Yes]\",\"hoverEvent\":{\"action\":\"show_text\","
-                                                + "\"value\":\"Confirm removing this portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal remove "
-                                                + args[2] + "\"}}, "
-                                                + "{\"text\":\"     \"},{\"text\":\"\u00A7e[No]\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Cancel removing this portal\"}"
-                                                + ",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal edit "
-                                                + args[2] + "\"}}]}",
-                                        player);
+                                sender.spigot().sendMessage(removeMessage);
                                 sender.sendMessage("");
                             }
                         }
@@ -551,11 +565,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 // TODO add the command autocompletes, add, remove and show
                                 if (args[1].toLowerCase().equals("add")) {
                                     if (args.length > 2) {
-                                        String portalCommand = args[2];
+                                        StringBuilder portalCommand = new StringBuilder(args[2]);
                                         for (int i = 3; i < args.length; i++) {
-                                            portalCommand += args[i];
+                                            portalCommand.append(args[i]);
                                         }
-                                        if (Portal.addCommand(portalName, portalCommand)) {
+                                        if (Portal.addCommand(portalName, portalCommand.toString())) {
                                             sender.sendMessage(
                                                     PluginMessages.customPrefixFail + " Command added to portal!");
                                         } else {
@@ -826,15 +840,65 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("");
 
         Player player = (Player) sender;
+        /*TextComponent editMessage = new TextComponent();
+        editMessage.setColor(ChatColor.GREEN);*/
+/*        TextComponent yes = new TextComponent("Functions");
+        yes.setColor(ChatColor.YELLOW);
+        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal remove " + args[2]));
+        yes.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Confirm removing this portal").create()));
+        TextComponent no = new TextComponent("[No]");
+        no.setColor(ChatColor.YELLOW);
+        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal edit " + args[2]));
+        no.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Cancel removing this portal").create()));
 
-        plugin.compat.sendRawMessage("{\"text\":\"\u00A7aFunctions\u00A7e: \","
+        removeMessage.addExtra("    ");
+        removeMessage.addExtra(no);
+        removeMessage.addExtra("     ");
+        removeMessage.addExtra(yes);*/
+
+        TextComponent removeButton = new TextComponent("Remove");
+        removeButton.setColor(ChatColor.YELLOW);
+        removeButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("Remove the selected portal").create()));
+        removeButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                "/portal gui remove " + portalName));
+
+        TextComponent showButton = new TextComponent("Show");
+        showButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("Show the selected portal").create()));
+        showButton.setColor(ChatColor.YELLOW);
+        showButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal show " + portalName));
+
+        TextComponent renameButton = new TextComponent("Rename");
+        renameButton.setColor(ChatColor.YELLOW);
+        renameButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("Change the name of the portal").create()));
+        renameButton.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/portal rename "));
+
+        TextComponent activateButton = new TextComponent("Activate");
+        activateButton.setColor(ChatColor.YELLOW);
+        activateButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("Trigger it as if you've just walked into it (Minus failing knockback)").create()));
+        activateButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal warp " + portalName));
+
+        BaseComponent[] editMessage = new ComponentBuilder("Functions").color(ChatColor.GREEN)
+                .append(": ").color(ChatColor.YELLOW)
+                .append(removeButton).append("  ")
+                .append(showButton).append("  ")
+                .append(renameButton).append("  ")
+                .append(activateButton).append("  ")
+                .create();
+
+        sender.spigot().sendMessage(editMessage);
+
+        /*player.spigot().sendMessage(TextComponent.fromLegacyText("{\"text\":\"\u00A7aFunctions\u00A7e: \","
                 + "\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal gui remove "
                 + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eShow\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Show the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal show "
                 + portalName + "\"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eRename\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Change the name of the portal\"},\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/portal rename \"}}"
                 + ",{\"text\":\"  \"},{\"text\":\"\u00A7eTeleport\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(If there is one)\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/desti warp "
-                + destination + "\"}}]}", player);
+                + destination + "\"}}]}"));*/
 
         sender.sendMessage("");
 
