@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.bukkit.destinations;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

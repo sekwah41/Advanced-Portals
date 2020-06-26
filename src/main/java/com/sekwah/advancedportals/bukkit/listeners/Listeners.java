@@ -1,9 +1,9 @@
 package com.sekwah.advancedportals.bukkit.listeners;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.api.events.WarpEvent;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;

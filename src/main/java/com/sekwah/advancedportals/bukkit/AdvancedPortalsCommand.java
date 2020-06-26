@@ -7,7 +7,6 @@ import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import javax.xml.soap.Text;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -890,15 +888,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 .create();
 
         sender.spigot().sendMessage(editMessage);
-
-        /*player.spigot().sendMessage(TextComponent.fromLegacyText("{\"text\":\"\u00A7aFunctions\u00A7e: \","
-                + "\"extra\":[{\"text\":\"\u00A7eRemove\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Remove the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal gui remove "
-                + portalName + "\"}}"
-                + ",{\"text\":\"  \"},{\"text\":\"\u00A7eShow\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Show the selected portal\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/portal show "
-                + portalName + "\"}}"
-                + ",{\"text\":\"  \"},{\"text\":\"\u00A7eRename\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Change the name of the portal\"},\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/portal rename \"}}"
-                + ",{\"text\":\"  \"},{\"text\":\"\u00A7eTeleport\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Teleport to the set destination\n(If there is one)\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/desti warp "
-                + destination + "\"}}]}"));*/
 
         sender.sendMessage("");
 

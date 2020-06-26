@@ -1,13 +1,8 @@
 package com.sekwah.advancedportals.bukkit.listeners;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-
-import java.util.UUID;
 
 public class BungeeListener implements PluginMessageListener {
 

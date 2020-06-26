@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.bukkit.destinations;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

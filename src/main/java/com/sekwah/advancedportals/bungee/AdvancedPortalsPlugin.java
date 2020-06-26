@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.bungee.listener.PluginMessageReceiver;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class AdvancedPortalsPlugin extends Plugin {
 
