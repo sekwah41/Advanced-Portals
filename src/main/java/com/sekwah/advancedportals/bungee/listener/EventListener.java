@@ -8,8 +8,6 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import java.util.UUID;
-
 public class EventListener implements Listener {
     private AdvancedPortalsPlugin plugin;
 

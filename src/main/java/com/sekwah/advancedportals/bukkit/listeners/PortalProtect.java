@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.bukkit.listeners;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
