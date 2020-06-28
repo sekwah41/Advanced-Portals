@@ -837,23 +837,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         }
         sender.sendMessage("");
 
-        Player player = (Player) sender;
-        /*TextComponent editMessage = new TextComponent();
-        editMessage.setColor(ChatColor.GREEN);*/
-/*        TextComponent yes = new TextComponent("Functions");
-        yes.setColor(ChatColor.YELLOW);
-        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal remove " + args[2]));
-        yes.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Confirm removing this portal").create()));
-        TextComponent no = new TextComponent("[No]");
-        no.setColor(ChatColor.YELLOW);
-        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/portal edit " + args[2]));
-        no.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Cancel removing this portal").create()));
-
-        removeMessage.addExtra("    ");
-        removeMessage.addExtra(no);
-        removeMessage.addExtra("     ");
-        removeMessage.addExtra(yes);*/
-
         TextComponent removeButton = new TextComponent("Remove");
         removeButton.setColor(ChatColor.YELLOW);
         removeButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
