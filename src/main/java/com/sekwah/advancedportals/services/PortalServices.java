@@ -1,9 +1,9 @@
 package com.sekwah.advancedportals.services;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.PlayerLocation;
-import com.sekwah.advancedportals.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 import com.sekwah.advancedportals.repository.PortalRepository;
 
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.spigot.coreconnector.info;
 
-import com.sekwah.advancedportals.coreconnector.info.DataCollector;
+import com.sekwah.advancedportals.core.connector.info.DataCollector;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

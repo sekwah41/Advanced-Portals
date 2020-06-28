@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.spigot.convertolddata;
 
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
+import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 
 import java.util.List;
 
