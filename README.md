@@ -23,24 +23,13 @@ Once the recode is done the master branch will be releases and the dev branch wi
 [Bukkit Page](http://dev.bukkit.org/bukkit-plugins/advanced-portals/)
 
 # Supported Platforms
+
  * Spigot/Craftbukkit (planned for release of recode)
- * Forge (planned)
+ * Forge (possibly, tho not priority)
 
 # API
-Still needs major work on the documentation however javadocs will be made available on my website on release.
+I need to finish documenting the api though also 
 
 May be out of date but I will keep whatever javadocs there are updated every now and then here
 http://www.sekwah.com/javadocs/advancedportals/
 
-# Usage Data
-
-![Global Plugin Stats](http://i.mcstats.org/AdvancedPortals/Global+Statistics.borderless.png)
-
-The api isn't implemented in this version, sorry for any inconvenience. Check the recode tree for possibly a working recode at some point.
-
-To get the needed bukkit versions download the spigot buildtools and run the appropriate commands for the versions listed in the pom file.
-e.g. "java -jar BuildTools.jar --rev 1.10.2" (Enter this into git bash)
-
-Use the versions to test code before you turn it into reflection or suggest it to be turned into reflection.
-
-You should never use direct craftbukkit references in public builds as it would only work in one spigot version
