@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.api.effect;
 
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 
 /**
  * Effects to be registered to the list.

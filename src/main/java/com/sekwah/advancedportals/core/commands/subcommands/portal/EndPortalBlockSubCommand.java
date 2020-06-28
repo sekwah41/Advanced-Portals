@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
+import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.container;
+package com.sekwah.advancedportals.core.connector.container;
 
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import org.bukkit.Material;

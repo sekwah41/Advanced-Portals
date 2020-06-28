@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.container;
+package com.sekwah.advancedportals.core.connector.container;
 
 import com.sekwah.advancedportals.core.entities.PlayerLocation;
 import com.sekwah.advancedportals.core.entities.PortalLocation;

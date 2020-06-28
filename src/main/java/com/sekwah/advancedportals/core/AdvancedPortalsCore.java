@@ -13,13 +13,13 @@ import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
-import com.sekwah.advancedportals.config.RepositoryModule;
-import com.sekwah.advancedportals.data.DataStorage;
+import com.sekwah.advancedportals.core.config.RepositoryModule;
+import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.ConfigRepository;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.command.CommandRegister;
-import com.sekwah.advancedportals.coreconnector.info.DataCollector;
+import com.sekwah.advancedportals.core.connector.command.CommandRegister;
+import com.sekwah.advancedportals.core.connector.info.DataCollector;
 
 import java.io.File;
 

@@ -3,13 +3,13 @@ package com.sekwah.advancedportals.services;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
-import com.sekwah.advancedportals.DataTag;
-import com.sekwah.advancedportals.PlayerLocation;
+import com.sekwah.advancedportals.core.data.DataTag;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 import com.sekwah.advancedportals.repository.DestinationRepositoryImpl;
 
 import javax.inject.Inject;

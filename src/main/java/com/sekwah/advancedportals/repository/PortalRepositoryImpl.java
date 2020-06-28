@@ -2,11 +2,8 @@ package com.sekwah.advancedportals.repository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.PlayerLocation;
-import com.sekwah.advancedportals.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.data.PortalLocation;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;

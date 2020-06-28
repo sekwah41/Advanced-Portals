@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.command;
+package com.sekwah.advancedportals.core.connector.command;
 
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;

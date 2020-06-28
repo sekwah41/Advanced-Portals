@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals;
 
-import com.sekwah.advancedportals.data.DataStorage;
+import com.sekwah.advancedportals.core.data.DataStorage;
 
 public interface ConfigRepository {
 
