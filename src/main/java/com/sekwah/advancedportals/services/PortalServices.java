@@ -22,20 +22,20 @@ public class PortalServices {
     }
 
     public void removeSelectedPortal(UUID uuid) {
-        selectedPortal.invalidate(uuid);
+        //selectedPortal.invalidate(uuid);
     }
 
     public void addSelectedPosition(UUID uuid, boolean isPos1, PortalLocation portalLocation) {
-        selectedPositions.put(uuid, isPos1, portalLocation);
+        //selectedPositions.put(uuid, isPos1, portalLocation);
     }
 
     public void removeSelectedPosition(UUID uuid, boolean isPos1) {
-        selectedPositions.remove(uuid, isPos1);
+        //selectedPositions.remove(uuid, isPos1);
     }
 
     public void removeAllSelectedHand(UUID uuid) {
-        selectedPositions.remove(uuid, true);
-        selectedPositions.remove(uuid, false);
+        //selectedPositions.remove(uuid, true);
+        //selectedPositions.remove(uuid, false);
     }
 
     public void activateCooldown(PlayerContainer player) {

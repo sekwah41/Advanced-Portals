@@ -5,13 +5,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
 import com.sekwah.advancedportals.DataTag;
 import com.sekwah.advancedportals.PlayerLocation;
-import com.sekwah.advancedportals.api.destination.Destination;
-import com.sekwah.advancedportals.api.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.api.destination.Destination;
+import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
 import com.sekwah.advancedportals.repository.DestinationRepositoryImpl;
-import org.apache.log4j.Logger;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -26,12 +25,10 @@ import java.util.HashMap;
 public class DestinationServices {
 
     DestinationRepositoryImpl destinationRepository;
-    Logger logger;
 
     @Inject
-    private DestinationServices(DestinationRepositoryImpl destinationRepository, Logger logger) {
+    private DestinationServices(DestinationRepositoryImpl destinationRepository) {
         this.destinationRepository = destinationRepository;
-        this.logger = logger;
     }
 
     public Response create(String name, Destination destination) {
@@ -74,7 +71,6 @@ public class DestinationServices {
         Destination desti = new Destination(playerLocation);
         for(DataTag portalTag : tags) {
             desti.setArg(portalTag);
-            logger.warn("Derp A Derp");
         }
         for(DataTag destiTag : tags) {
             TagHandler.Creation<Destination> creation = AdvancedPortalsCore.getDestinationTagRegistry().getCreationHandler(destiTag.NAME);
@@ -96,14 +92,14 @@ public class DestinationServices {
     public void loadDestinations() {
         Type type = new TypeToken<HashMap<String, Destination>>() {
         }.getType();
-        this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
+        //this.destiHashMap = this.portalsCore.getDataStorage().loadJson(type, "destinations.json");
         this.saveDestinations();
     }
 
     public void saveDestinations() {
-        if (this.destiHashMap == null) {
+        /*if (this.destiHashMap == null) {
             this.destiHashMap = new HashMap<>();
         }
-        this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");
+        this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");*/
     }
 }

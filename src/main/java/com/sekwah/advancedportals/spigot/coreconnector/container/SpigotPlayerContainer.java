@@ -54,7 +54,7 @@ public class SpigotPlayerContainer implements PlayerContainer {
     }
 
     public void teleport(PlayerLocation location) {
-        this.player.teleport(new Location(Bukkit.getWorld(location.worldName), location.posX, location.posY, location.posZ));
+        this.player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
     }
 
     public boolean hasPermission(String permission) {
