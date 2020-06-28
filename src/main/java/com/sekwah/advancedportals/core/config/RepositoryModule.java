@@ -1,9 +1,8 @@
-package com.sekwah.advancedportals.config;
+package com.sekwah.advancedportals.core.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
-import com.google.inject.matcher.Matchers;
 import com.sekwah.advancedportals.*;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.repository.*;

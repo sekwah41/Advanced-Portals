@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals;
 
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.config.Config;
-import com.sekwah.advancedportals.data.DataStorage;
+import com.sekwah.advancedportals.core.config.Config;
+import com.sekwah.advancedportals.core.data.DataStorage;
 
 import java.util.HashMap;
 

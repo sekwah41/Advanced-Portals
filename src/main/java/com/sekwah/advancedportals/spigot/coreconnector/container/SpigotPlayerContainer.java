@@ -2,10 +2,10 @@ package com.sekwah.advancedportals.spigot.coreconnector.container;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.PlayerLocation;
-import com.sekwah.advancedportals.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
-import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.data.PortalLocation;
+import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.container.WorldContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;

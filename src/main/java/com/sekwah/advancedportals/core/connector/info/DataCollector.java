@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.coreconnector.info;
+package com.sekwah.advancedportals.core.connector.info;
 
 import java.util.List;
 

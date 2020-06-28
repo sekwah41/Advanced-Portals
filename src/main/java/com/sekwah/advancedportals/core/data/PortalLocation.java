@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals;
+package com.sekwah.advancedportals.core.data;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,10 +6,13 @@ public class PortalLocation {
 
     @SerializedName("x")
     public final int posX;
+
     @SerializedName("y")
     public final int posY;
+
     @SerializedName("z")
     public final int posZ;
+
     @SerializedName("w")
     public final String worldName;
 

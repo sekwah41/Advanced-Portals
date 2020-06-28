@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.metrics;
+package com.sekwah.advancedportals.spigot.metrics;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
