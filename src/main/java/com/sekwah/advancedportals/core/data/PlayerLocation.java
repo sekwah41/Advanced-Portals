@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals;
+package com.sekwah.advancedportals.core.data;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,14 +7,19 @@ public class PlayerLocation {
 
     @SerializedName("x")
     private final double posX;
+
     @SerializedName("y")
     private final double posY;
+
     @SerializedName("z")
     private final double posZ;
+
     @SerializedName("w")
     private final String worldName;
+
     @SerializedName("yaw")
     private final float yaw;
+
     @SerializedName("p")
     private final float pitch;
 

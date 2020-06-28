@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.core.commands;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.registry.SubCommandRegistry;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.coreconnector.container.CommandSenderContainer;
+import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 
 import java.util.ArrayList;
 import java.util.Collections;

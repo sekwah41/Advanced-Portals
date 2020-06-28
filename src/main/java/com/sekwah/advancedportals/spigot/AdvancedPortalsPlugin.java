@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.spigot;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.spigot.coreconnector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.coreconnector.info.SpigotDataCollector;
-import com.sekwah.advancedportals.metrics.Metrics;
+import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

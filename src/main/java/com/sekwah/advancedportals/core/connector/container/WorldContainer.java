@@ -1,6 +1,6 @@
-package com.sekwah.advancedportals.coreconnector.container;
+package com.sekwah.advancedportals.core.connector.container;
 
-import com.sekwah.advancedportals.PortalLocation;
+import com.sekwah.advancedportals.core.data.PortalLocation;
 
 public interface WorldContainer {
 

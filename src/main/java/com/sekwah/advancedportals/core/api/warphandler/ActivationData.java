@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.api.warphandler;
 
 
-import com.sekwah.advancedportals.PlayerLocation;
+import com.sekwah.advancedportals.core.data.PlayerLocation;
 
 /**
  * Created by on 30/07/2016.
