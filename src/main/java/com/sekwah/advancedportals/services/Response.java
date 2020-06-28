@@ -1,7 +1,10 @@
 package com.sekwah.advancedportals.services;
 
-public enum Response {
-    SUCCESS,
-    NAME_IN_USE,
+public class Response {
+
+    public enum Creation {
+        SUCCESS,
+        NAME_IN_USE,
+    }
 
 }

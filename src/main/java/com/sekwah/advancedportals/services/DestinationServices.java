@@ -31,12 +31,12 @@ public class DestinationServices {
         this.destinationRepository = destinationRepository;
     }
 
-    public Response create(String name, Destination destination) {
+    public Response.Creation create(String name, Destination destination) {
         if (!destinationRepository.containsKey(name)) {
             destinationRepository.save(name, destination);
-            return Response.SUCCESS;
+            return Response.Creation.SUCCESS;
         }
-        return Response.NAME_IN_USE;
+        return Response.Creation.NAME_IN_USE;
     }
 
     public Boolean delete(String name) {
