@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.spigot.coreconnector.container;
 
-import com.sekwah.advancedportals.core.entities.PortalLocation;
+import com.sekwah.advancedportals.PortalLocation;
 import com.sekwah.advancedportals.coreconnector.container.WorldContainer;
 import org.bukkit.Material;
 import org.bukkit.World;
