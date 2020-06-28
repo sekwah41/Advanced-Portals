@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.repository;
 
 import com.google.common.collect.ImmutableMap;
-import com.sekwah.advancedportals.api.destination.Destination;
+import com.sekwah.advancedportals.core.api.destination.Destination;
 
 @Deprecated
 public interface DestinationRepositoryOld {

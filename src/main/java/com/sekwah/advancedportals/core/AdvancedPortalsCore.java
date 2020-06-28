@@ -2,17 +2,17 @@ package com.sekwah.advancedportals.core;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sekwah.advancedportals.api.commands.SubCommand;
-import com.sekwah.advancedportals.api.destination.Destination;
-import com.sekwah.advancedportals.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.api.registry.TagRegistry;
-import com.sekwah.advancedportals.api.registry.WarpEffectRegistry;
-import com.sekwah.advancedportals.api.services.DestinationServices;
-import com.sekwah.advancedportals.api.services.PortalServices;
-import com.sekwah.advancedportals.api.services.PortalTempDataServices;
-import com.sekwah.advancedportals.commands.CommandWithSubCommands;
-import com.sekwah.advancedportals.commands.subcommands.desti.CreateDestiSubCommand;
-import com.sekwah.advancedportals.commands.subcommands.portal.*;
+import com.sekwah.advancedportals.core.api.commands.SubCommand;
+import com.sekwah.advancedportals.core.api.destination.Destination;
+import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.api.registry.TagRegistry;
+import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.api.services.DestinationServices;
+import com.sekwah.advancedportals.core.api.services.PortalServices;
+import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
+import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.config.RepositoryModule;
 import com.sekwah.advancedportals.data.DataStorage;
 import com.sekwah.advancedportals.ConfigRepository;
@@ -133,11 +133,14 @@ public class AdvancedPortalsCore {
     public void registerCommands(CommandRegister commandRegister) {
         this.registerPortalCommand(commandRegister);
         this.registerDestinationCommand(commandRegister);
+
+        // TODO run annotation grabbing shit
     }
 
     private void registerPortalCommand(CommandRegister commandRegister) {
         this.portalCommand = new CommandWithSubCommands();
 
+        // TODO remove once annotations are done
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
         this.portalCommand.registerSubCommand("transupdate", new TransUpdateSubCommand());
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
@@ -154,6 +157,7 @@ public class AdvancedPortalsCore {
     private void registerDestinationCommand(CommandRegister commandRegister) {
         this.destiCommand = new CommandWithSubCommands();
 
+        // TODO remove once annotations are done
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);

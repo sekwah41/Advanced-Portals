@@ -21,6 +21,17 @@ public class PortalRepositoryImpl implements PortalRepository {
     public String getSelectedPortal(UUID uuid) {
         return selectedPortal.getIfPresent(uuid);
     }
+
+    @Override
+    public boolean save(String name, PortalLocation portalLocation) {
+        return false;
+    }
+
+    @Override
+    public boolean containsKey(String name) {
+        return false;
+    }
+
     @Override
     public boolean delete(String name) {
         return false;

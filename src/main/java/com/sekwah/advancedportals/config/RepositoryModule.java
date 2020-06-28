@@ -22,7 +22,7 @@ public class RepositoryModule extends AbstractModule {
         bind(DestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(PortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
-        bindListener(Matchers.Any(), new Log4JTypeListenr());
+        //bindListener(Matchers.Any(), new Log4JTypeListenr());
     }
 
     @Provides
