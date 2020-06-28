@@ -1,11 +1,7 @@
 package com.sekwah.advancedportals.repository;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
-import com.sekwah.advancedportals.api.destination.Destination;
-import it.unimi.dsi.fastutil.Hash;
+import com.sekwah.advancedportals.core.api.destination.Destination;
 
 import javax.inject.Singleton;
 import java.io.FileWriter;
@@ -14,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class DestinationRepositoryImpl implements DestinationRepository<Destination>{
@@ -56,5 +51,6 @@ public class DestinationRepositoryImpl implements DestinationRepository<Destinat
     }
 
     public ImmutableMap<String, Destination> get(String s) {
+        return null;
     }
 }
