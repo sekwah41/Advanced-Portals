@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.api.services;
 
 import com.google.common.collect.ImmutableList;
-import com.sekwah.advancedportals.repository.PortalRepository;
+import com.sekwah.advancedportals.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * https://github.com/sekwah41/Advanced-Portals/blob/24175610892152828e21f4ff824eb1589ccb0338/src/com/sekwah/advancedportals/core/api/managers/PortalManager.java
  *
- * Based off the old manager with the data storage and handling moved to {@link PortalRepository}
+ * Based off the old manager with the data storage and handling moved to {@link IPortalRepository}
  *
  * Excluding the temp data like selections
  */
