@@ -17,9 +17,9 @@ public class RepositoryModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(PortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
-        bind(DestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
-        bind(PortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
+        bind(IPortalRepository.class).to(PortalRepository.class).in(Scopes.SINGLETON);
+        bind(IDestinationRepository.class).to(DestinationRepository.class).in(Scopes.SINGLETON);
+        bind(IPortalRepository.class).to(PortalRepository.class).in(Scopes.SINGLETON);
         bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
         //bindListener(Matchers.Any(), new Log4JTypeListenr());
     }

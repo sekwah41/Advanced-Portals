@@ -10,7 +10,7 @@ import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
-import com.sekwah.advancedportals.repository.DestinationRepositoryImpl;
+import com.sekwah.advancedportals.repository.DestinationRepository;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -24,10 +24,10 @@ import java.util.HashMap;
  */
 public class DestinationServices {
 
-    DestinationRepositoryImpl destinationRepository;
+    DestinationRepository destinationRepository;
 
     @Inject
-    private DestinationServices(DestinationRepositoryImpl destinationRepository) {
+    private DestinationServices(DestinationRepository destinationRepository) {
         this.destinationRepository = destinationRepository;
     }
 
