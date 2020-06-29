@@ -4,16 +4,16 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
-import com.sekwah.advancedportals.repository.PortalRepository;
+import com.sekwah.advancedportals.repository.IPortalRepository;
 
 import java.util.UUID;
 
 public class PortalServices {
 
-    private final PortalRepository portalRepository;
+    private final IPortalRepository portalRepository;
 
     @Inject
-    public PortalServices(PortalRepository portalRepository) {
+    public PortalServices(IPortalRepository portalRepository) {
         this.portalRepository = portalRepository;
     }
 
