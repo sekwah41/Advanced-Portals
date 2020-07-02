@@ -32,15 +32,8 @@ public class PluginMessageReceiver implements PluginMessageListener {
         if (subchannel.equals(BungeeMessages.SERVER_DESTI)) {
             String targetDestination = in.readUTF();
             UUID bungeeUUID = UUID.fromString(in.readUTF());
-            UUID offlineUUID = UUID.fromString(in.readUTF());
 
             Player targetPlayer = this.plugin.getServer().getPlayer(bungeeUUID);
-
-            if(targetPlayer == null) {
-                targetPlayer = this.plugin.getServer().getPlayer(offlineUUID);
-                this.plugin.getServer().getConsoleSender().sendMessage(ChatColor.RED + BungeeMessages.WARNING_MESSAGE
-                        + "\n\nThis server is the offending server.");
-            }
 
             if (targetPlayer != null) {
                 Player finalTargetPlayer = targetPlayer;
@@ -48,6 +41,9 @@ public class PluginMessageReceiver implements PluginMessageListener {
                         () -> Destination.warp(finalTargetPlayer, targetDestination, false, true),
                         20L
                 );
+            }
+            else {
+                plugin.getLogger().warning("Could not find player to teleport to destination");
             }
         }
     }

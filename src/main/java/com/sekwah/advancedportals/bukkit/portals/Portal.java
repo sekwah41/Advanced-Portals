@@ -489,14 +489,19 @@ public class Portal {
             }
 
             if (portal.getDestiation() != null) {
-                ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
-                outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
-                outForList.writeUTF(bungeeServer);
-                outForList.writeUTF(portal.getDestiation());
-                outForList.writeUTF(player.getUniqueId().toString());
-                outForList.writeUTF(player.getName());
+                if(plugin.registeredBungeeChannels) {
+                    ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
+                    outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
+                    outForList.writeUTF(bungeeServer);
+                    outForList.writeUTF(portal.getDestiation());
+                    outForList.writeUTF(player.getUniqueId().toString());
 
-                player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                    player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                }
+                else {
+                    plugin.getLogger().log(Level.WARNING, "You do not have bungee setup correctly. Cross server destinations won't work.");
+                }
+
             }
 
             ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
@@ -568,11 +573,17 @@ public class Portal {
                         player.removeAttachment(permissionAttachment);
                     }
                 } else if (command.startsWith("%") && plugin.getSettings().enabledCommandLevel("b")) {
-                    command = command.substring(1);
-                    ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
-                    outForList.writeUTF(BungeeMessages.BUNGEE_COMMAND);
-                    outForList.writeUTF(command);
-                    player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                    if(plugin.registeredBungeeChannels) {
+                        command = command.substring(1);
+                        ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
+                        outForList.writeUTF(BungeeMessages.BUNGEE_COMMAND);
+                        outForList.writeUTF(command);
+                        player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                    }
+                    else {
+                        plugin.getLogger().log(Level.WARNING, "You do not have bungee setup correctly. For security advanced bungee features won't work.");
+                    }
+
                 } else {
                         player.chat("/" + command);
                         // player.performCommand(command);

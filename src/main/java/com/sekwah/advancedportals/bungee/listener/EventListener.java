@@ -21,7 +21,7 @@ public class EventListener implements Listener {
             String[] val = plugin.PlayerDestiMap.get(uuid);
 
             // key: UUID (string)
-            // value: [0] targetServer, [1] targetDestination, [2] onlineUUID, [3] offlineUUID
+            // value: [0] targetServer, [1] targetDestination, [2] onlineUUID
 
             if (event.getPlayer().getServer().getInfo().getName().equalsIgnoreCase(val[0])) {
 
@@ -30,7 +30,6 @@ public class EventListener implements Listener {
                 out.writeUTF(BungeeMessages.SERVER_DESTI);
                 out.writeUTF(val[1]);
                 out.writeUTF(val[2]);
-                out.writeUTF(val[3]);
 
                 event.getPlayer().getServer().sendData(plugin.channelName, out.toByteArray());
             }
