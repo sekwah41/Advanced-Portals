@@ -21,7 +21,7 @@ public class PluginMessageReceiver implements Listener {
 
     @EventHandler
     public void onMessageReceived(PluginMessageEvent event) {
-        if(!event.getTag().equalsIgnoreCase(plugin.channelName)) return;
+        if(!event.getTag().equalsIgnoreCase(plugin.channelName) || !(event.getSender() instanceof Server)) return;
 
         ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
         String subChannel = in.readUTF();
@@ -30,33 +30,11 @@ public class PluginMessageReceiver implements Listener {
             String targetServer = in.readUTF();
             String targetDestination = in.readUTF();
             String targetUUID = in.readUTF();
-            String targetName = in.readUTF();
 
-            String bungeeUUID; // If the bungee is offline mode it will be an offline uuid
+            plugin.PlayerDestiMap.put(targetUUID, new String[]{targetServer, targetDestination, targetUUID});
 
-            String offlineUUID = UUID.nameUUIDFromBytes(("OfflinePlayer:" + targetName).getBytes(Charsets.UTF_8)).toString();
-
-            if ( event.getReceiver() instanceof ProxiedPlayer )
-            {
-                ProxiedPlayer receiver = (ProxiedPlayer) event.getReceiver();
-                bungeeUUID = receiver.getUniqueId().toString();
-                if(!targetUUID.equals(bungeeUUID)) {
-                    Server connection = (Server) event.getSender();
-                    plugin.getLogger().warning(BungeeMessages.WARNING_MESSAGE
-                            + "\n\nThe server the player was sent from is the offending server.\n" +
-                            "Server Name: " + connection.getInfo().getName());
-                }
-                targetUUID = bungeeUUID;
-            }
-            else {
-                plugin.getLogger().warning("There has been an issue getting the player for the teleport request.");
-                return;
-            }
-            plugin.PlayerDestiMap.put(targetUUID, new String[]{targetServer, targetDestination, targetUUID, offlineUUID});
-
-            String finalTargetUUID = targetUUID;
             plugin.getProxy().getScheduler().schedule(plugin, () -> {
-                plugin.PlayerDestiMap.remove(finalTargetUUID);
+                plugin.PlayerDestiMap.remove(targetUUID);
             }, 20, TimeUnit.SECONDS);
         }
         else if (subChannel.equalsIgnoreCase(BungeeMessages.BUNGEE_COMMAND)) {

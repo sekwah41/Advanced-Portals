@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +18,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private Settings settings;
 
     public String channelName = "mc:advancedportals";
+
+    public boolean registeredBungeeChannels = false;
 
     // public HashMap<OfflinePlayer, String> PlayerDestiMap = new HashMap<>();
 
@@ -101,11 +104,42 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     }
 
     private void setupBungee() {
+        // Enables very basic bungee support if not setup right
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
+        if(this.checkIfBungee()) {
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, channelName);
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, channelName, new PluginMessageReceiver(this));
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, channelName);
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, channelName, new PluginMessageReceiver(this));
+            registeredBungeeChannels = true;
+        }
+        else {
+            registeredBungeeChannels = false;
+        }
+    }
+
+    private boolean checkIfBungee()
+    {
+        // we check if the server is Spigot/Paper (because of the spigot.yml file)
+        if ( !getServer().getVersion().contains( "Spigot" ) && !getServer().getVersion().contains( "Paper" ) )
+        {
+            this.getServer().getConsoleSender().sendMessage( "\u00A7ePossibly unsupported version for bungee messages detected, channels won't be enabled." );
+            getLogger().info("If you believe this shouldn't be the case please contact us on discord https://discord.gg/fAJ3xJg");
+            return false;
+        }
+        if ( !getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean( "bungeecord" ) )
+        {
+            this.getServer().getConsoleSender().sendMessage( "\n\n\u00A7eThis server does not have BungeeCord enabled.\n" +
+                    "If the server is already hooked to BungeeCord, please enable it into your spigot.yml as well.\n" +
+                    "Yes this can all work without but there is a massive security vulnerability if not enabled.\n" +
+                    "You cannot bypass this if you want bungee features enabled.\n" +
+                    "If you don't want bungee features \u00A7rignore this message\u00A7e, it only shows on start.\n" );
+
+            getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
+            return false;
+        }
+        return true;
     }
 
 
