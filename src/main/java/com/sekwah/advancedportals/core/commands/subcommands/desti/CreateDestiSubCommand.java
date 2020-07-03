@@ -3,16 +3,16 @@ package com.sekwah.advancedportals.core.commands.subcommands.desti;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
-import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateDestiSubCommand extends CreateSubCommand implements SubCommand {
+public class CreateDestiSubCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -22,7 +22,7 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.createdesti.console"));
                 return;
             }
-            ArrayList<DataTag> destiTags = this.getTagsFromArgs(args);
+            ArrayList<DataTag> destiTags = TagReader.getTagsFromArgs(args);
             Destination desti = AdvancedPortalsCore.getDestinationServices().createDesti(args[1], player, player.getLoc(), destiTags);
             if(desti != null) {
                 sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
@@ -44,14 +44,6 @@ public class CreateDestiSubCommand extends CreateSubCommand implements SubComman
         else {
             sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
-    }
-
-    protected String getTag(String arg) {
-        int splitLoc = arg.indexOf(":");
-        if(splitLoc != -1) {
-            return arg.substring(0,splitLoc);
-        }
-        return null;
     }
 
     @Override
