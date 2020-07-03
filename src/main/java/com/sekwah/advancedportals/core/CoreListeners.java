@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.api.services.PortalServices;
-import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.core.util.Lang;
