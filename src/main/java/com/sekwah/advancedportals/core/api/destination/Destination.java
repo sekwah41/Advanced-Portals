@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.core.api.destination;
 
 import com.google.gson.annotations.SerializedName;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.api.registry.TagRegistry;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.api.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.DataTag;

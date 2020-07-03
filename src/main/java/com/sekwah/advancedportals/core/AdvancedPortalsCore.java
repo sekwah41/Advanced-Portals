@@ -5,17 +5,19 @@ import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.destination.Destination;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.api.registry.TagRegistry;
-import com.sekwah.advancedportals.core.api.registry.WarpEffectRegistry;
-import com.sekwah.advancedportals.core.api.services.DestinationServices;
-import com.sekwah.advancedportals.core.api.services.PortalServices;
-import com.sekwah.advancedportals.core.api.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.services.DestinationServices;
+import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.config.RepositoryModule;
 import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.ConfigRepository;
+import com.sekwah.advancedportals.core.registry.RegisterBuilder;
+import com.sekwah.advancedportals.core.registry.Registrar;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.command.CommandRegister;
@@ -67,6 +69,12 @@ public class AdvancedPortalsCore {
         this.mcMinorVer = this.checkMcVer(mcVer);
 
         this.onEnable();
+    }
+
+    public void test() {
+        Registrar registrar = RegisterBuilder.newBuilder()
+                .inheritPermissions(true)
+                .build();
     }
 
     private int checkMcVer(int[] mcVer) {
