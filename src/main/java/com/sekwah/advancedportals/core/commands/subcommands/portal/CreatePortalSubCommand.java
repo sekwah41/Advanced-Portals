@@ -3,17 +3,17 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.api.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.commands.subcommands.CreateSubCommand;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreatePortalSubCommand extends CreateSubCommand implements SubCommand {
+public class CreatePortalSubCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -23,7 +23,7 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
                 return;
             }
-            ArrayList<DataTag> portalTags = this.getTagsFromArgs(args);
+            ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
             AdvancedPortal portal = AdvancedPortalsCore.getPortalServices().createPortal(args[1], player, portalTags);
             if(portal != null) {
@@ -39,14 +39,6 @@ public class CreatePortalSubCommand extends CreateSubCommand implements SubComma
         else {
             sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
-    }
-
-    protected String getTag(String arg) {
-        int splitLoc = arg.indexOf(":");
-        if(splitLoc != -1) {
-            return arg.substring(0,splitLoc);
-        }
-        return null;
     }
 
     @Override
