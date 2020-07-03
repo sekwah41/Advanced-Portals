@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.api.services;
+package com.sekwah.advancedportals.core.services;
 
 import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.repository.IPortalRepository;

@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.api.registry;
+package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
