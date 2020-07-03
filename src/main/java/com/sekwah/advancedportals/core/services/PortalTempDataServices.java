@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.api.services;
+package com.sekwah.advancedportals.core.services;
 
 import com.sekwah.advancedportals.core.data.PlayerTempData;
 import com.sekwah.advancedportals.core.data.PortalLocation;
