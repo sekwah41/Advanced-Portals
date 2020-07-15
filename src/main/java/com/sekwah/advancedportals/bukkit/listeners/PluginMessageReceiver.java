@@ -33,18 +33,19 @@ public class PluginMessageReceiver implements PluginMessageListener {
             String targetDestination = in.readUTF();
             UUID bungeeUUID = UUID.fromString(in.readUTF());
 
-            Player targetPlayer = this.plugin.getServer().getPlayer(bungeeUUID);
-
-            if (targetPlayer != null) {
-                Player finalTargetPlayer = targetPlayer;
-                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-                        () -> Destination.warp(finalTargetPlayer, targetDestination, false, true),
-                        20L
-                );
-            }
-            else {
-                plugin.getLogger().warning("Could not find player to teleport to destination");
-            }
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            	Player targetPlayer = this.plugin.getServer().getPlayer(bungeeUUID);
+                
+            	if (targetPlayer != null) {
+                    Player finalTargetPlayer = targetPlayer;
+                    Destination.warp(finalTargetPlayer, targetDestination, false, true);
+                }
+                else {
+                    plugin.getLogger().warning("Could not find player to teleport to destination");
+                }
+                
+                
+            }, 20);
         }
     }
 
