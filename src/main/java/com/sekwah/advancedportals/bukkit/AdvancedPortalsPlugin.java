@@ -21,7 +21,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public boolean registeredBungeeChannels = false;
 
-    // public HashMap<OfflinePlayer, String> PlayerDestiMap = new HashMap<>();
+    public HashMap<String, String> PlayerDestiMap = new HashMap<>();
 
     public void onEnable() {
 
