@@ -31,20 +31,24 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
         if (subchannel.equals(BungeeMessages.SERVER_DESTI)) {
             String targetDestination = in.readUTF();
-            UUID bungeeUUID = UUID.fromString(in.readUTF());
-
-            Player targetPlayer = this.plugin.getServer().getPlayer(bungeeUUID);
+            String bungeeUUID = in.readUTF();
+            
+            Player targetPlayer = this.plugin.getServer().getPlayer(UUID.fromString(bungeeUUID));
 
             if (targetPlayer != null) {
                 Player finalTargetPlayer = targetPlayer;
-                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-                        () -> Destination.warp(finalTargetPlayer, targetDestination, false, true),
-                        20L
-                );
+                Destination.warp(finalTargetPlayer, targetDestination, false, true);
+
             }
             else {
-                plugin.getLogger().warning("Could not find player to teleport to destination");
+                plugin.PlayerDestiMap.put(bungeeUUID, targetDestination);
+                
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
+                	plugin.PlayerDestiMap.remove(bungeeUUID),
+                	20L*10
+                );
             }
+            
         }
     }
 

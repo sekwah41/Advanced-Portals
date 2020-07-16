@@ -12,6 +12,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
     //public CraftBukkit compat = null;
@@ -21,7 +23,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public boolean registeredBungeeChannels = false;
 
-    // public HashMap<OfflinePlayer, String> PlayerDestiMap = new HashMap<>();
+    public HashMap<String, String> PlayerDestiMap = new HashMap<>();
 
     public void onEnable() {
 
