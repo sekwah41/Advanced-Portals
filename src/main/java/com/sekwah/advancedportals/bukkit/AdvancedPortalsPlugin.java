@@ -109,7 +109,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         // Enables very basic bungee support if not setup right
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         if(this.checkIfBungee()) {
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, channelName);
@@ -124,12 +123,14 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private boolean checkIfBungee()
     {
         // we check if the server is Spigot/Paper (because of the spigot.yml file)
-        if ( !getServer().getVersion().contains( "Spigot" ) && !getServer().getVersion().contains( "Paper" ) )
-        {
+        try {
+            Class.forName("org.spigotmc.SpigotConfig");
+        } catch (ClassNotFoundException e) {
             this.getServer().getConsoleSender().sendMessage( "\u00A7ePossibly unsupported version for bungee messages detected, channels won't be enabled." );
             getLogger().info("If you believe this shouldn't be the case please contact us on discord https://discord.gg/fAJ3xJg");
             return false;
         }
+
         if ( !getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean( "bungeecord" ) )
         {
             this.getServer().getConsoleSender().sendMessage( "\n\n\u00A7eThis server does not have BungeeCord enabled.\n" +
@@ -141,6 +142,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
             return false;
         }
+
         return true;
     }
 
