@@ -8,7 +8,6 @@ import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
