@@ -133,12 +133,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         if ( !getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean( "bungeecord" ) )
         {
-            this.getServer().getConsoleSender().sendMessage( "\n\n\u00A7eThis server does not have BungeeCord enabled.\n" +
-                    "If the server is already hooked to BungeeCord, please enable it into your spigot.yml as well.\n" +
-                    "Yes this can all work without but there is a massive security vulnerability if not enabled.\n" +
-                    "You cannot bypass this if you want bungee features enabled.\n" +
-                    "If you don't want bungee features \u00A7rignore this message\u00A7e, it only shows on start.\n" );
-
             getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
             return false;
         }
