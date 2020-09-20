@@ -4,7 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bungee.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -14,7 +14,7 @@ public class EventListener implements Listener {
     public EventListener(AdvancedPortalsPlugin plugin) { this.plugin = plugin; }
 
     @EventHandler
-    public void onPlayerSwitchServer(ServerSwitchEvent event) {
+    public void onServerConnected(ServerConnectedEvent event) {
         String uuid = event.getPlayer().getUniqueId().toString();
 
         if (plugin.PlayerDestiMap.containsKey(uuid)) {
