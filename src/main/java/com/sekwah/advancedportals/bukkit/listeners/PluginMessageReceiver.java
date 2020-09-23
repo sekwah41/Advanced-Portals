@@ -35,23 +35,18 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
             Player targetPlayer = this.plugin.getServer().getPlayer(UUID.fromString(bungeeUUID));
 
-
-            Player finalTargetPlayer = targetPlayer;
-            Destination.warp(finalTargetPlayer, targetDestination, false, true);
-
-            /*if (targetPlayer != null) {
-                Player finalTargetPlayer = targetPlayer;
-                Destination.warp(finalTargetPlayer, targetDestination, false, true);
+            if (targetPlayer != null) {
+                Destination.warp(targetPlayer, targetDestination, false, true);
 
             }
             else {
                 plugin.PlayerDestiMap.put(bungeeUUID, targetDestination);
 
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                	plugin.PlayerDestiMap.remove(bungeeUUID),
-                	20L*10
+                                plugin.PlayerDestiMap.remove(bungeeUUID),
+                        20L * 10
                 );
-            }*/
+            }
 
         }
     }
