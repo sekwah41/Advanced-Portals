@@ -90,19 +90,19 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
     	Player player = event.getPlayer();
-		
+
     	Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
-	
+
     	String uuid = player.getUniqueId().toString();
-    	
-    	if (plugin.PlayerDestiMap.containsKey(uuid)) {
+
+    	/*if (plugin.PlayerDestiMap.containsKey(uuid)) {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 				Destination.warp(player, plugin.PlayerDestiMap.get(uuid), false, true);
 				plugin.PlayerDestiMap.remove(uuid);
-				
+
 			}, 1L);
-			
-    	}
+
+    	}*/
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
