@@ -95,14 +95,10 @@ public class Listeners implements Listener {
 
     	String uuid = player.getUniqueId().toString();
 
-    	/*if (plugin.PlayerDestiMap.containsKey(uuid)) {
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-				Destination.warp(player, plugin.PlayerDestiMap.get(uuid), false, true);
-				plugin.PlayerDestiMap.remove(uuid);
-
-			}, 1L);
-
-    	}*/
+    	if (plugin.PlayerDestiMap.containsKey(uuid)) {
+            Destination.warp(player, plugin.PlayerDestiMap.get(uuid), false, true);
+            plugin.PlayerDestiMap.remove(uuid);
+    	}
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

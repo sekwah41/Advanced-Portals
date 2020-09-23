@@ -54,7 +54,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
-        // System.out.printf("%s %s %s %s%n", sender, cmd, command, args );
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
         if (!(sender instanceof Player)) {
