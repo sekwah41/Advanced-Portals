@@ -32,7 +32,9 @@ public class PluginMessageReceiver implements Listener {
             String targetUUID = in.readUTF();
 
             plugin.PlayerDestiMap.put(targetUUID, new String[]{targetServer, targetDestination, targetUUID});
-            plugin.PlayerDestiMap.remove(targetUUID);
+
+            plugin.getProxy().getScheduler().schedule(plugin, () -> plugin.PlayerDestiMap.remove(targetUUID),
+                    10, TimeUnit.SECONDS);
         }
         else if (subChannel.equalsIgnoreCase(BungeeMessages.BUNGEE_COMMAND)) {
             String command = in.readUTF();

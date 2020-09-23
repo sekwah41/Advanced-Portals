@@ -8,6 +8,9 @@ import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.Map;
+import java.util.Set;
+
 public class EventListener implements Listener {
     private AdvancedPortalsPlugin plugin;
 
@@ -17,13 +20,14 @@ public class EventListener implements Listener {
     public void onServerConnected(ServerConnectedEvent event) {
         String uuid = event.getPlayer().getUniqueId().toString();
 
-        if (plugin.PlayerDestiMap.containsKey(uuid)) {
-            String[] val = plugin.PlayerDestiMap.get(uuid);
+        String[] val = plugin.PlayerDestiMap.get(uuid);
+
+        if (val != null) {
 
             // key: UUID (string)
             // value: [0] targetServer, [1] targetDestination, [2] onlineUUID
 
-            if (event.getPlayer().getServer().getInfo().getName().equalsIgnoreCase(val[0])) {
+            if (event.getServer().getInfo().getName().equalsIgnoreCase(val[0])) {
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
 
@@ -31,7 +35,7 @@ public class EventListener implements Listener {
                 out.writeUTF(val[1]);
                 out.writeUTF(val[2]);
 
-                event.getPlayer().getServer().sendData(plugin.channelName, out.toByteArray());
+                event.getServer().sendData(plugin.channelName, out.toByteArray());
             }
         }
     }
