@@ -417,12 +417,19 @@ public class Portal {
 
         String permission = portal.getArg("permission");
 
+        boolean noMessage = permission != null && permission.startsWith("nomsg.");
+        if(noMessage) {
+            permission.substring(6);
+        }
+
         if (!(permission == null || player.hasPermission(permission) || player.isOp())) {
-            player.sendMessage(
-                    PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
-            failSound(player, portal);
-            if(doKnockback)
-                throwPlayerBack(player);
+            if(!noMessage) {
+                player.sendMessage(
+                        PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
+                failSound(player, portal);
+                if(doKnockback)
+                    throwPlayerBack(player);
+            }
             return false;
         }
 

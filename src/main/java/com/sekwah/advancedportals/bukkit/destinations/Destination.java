@@ -4,6 +4,8 @@ import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
+import com.sekwah.advancedportals.bukkit.portals.Portal;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -13,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class Destination {
@@ -153,6 +156,16 @@ public class Destination {
                     player.sendMessage("");
                 } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a."));
+                }
+
+                Location newLoc = player.getLocation();
+                Location newEyeLoc = player.getEyeLocation();
+                UUID uuid = player.getUniqueId();
+                for (AdvancedPortal portal : Portal.portals) {
+                    if (!portal.inPortal.contains(uuid) && !portal.isDelayed()
+                            && (Portal.locationInPortalTrigger(portal, newLoc) || Portal.locationInPortalTrigger(portal, newEyeLoc))) {
+                        portal.inPortal.add(uuid);
+                    }
                 }
 
                 return true;

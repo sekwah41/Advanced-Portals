@@ -564,7 +564,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     if (args.length > 2) {
                                         StringBuilder portalCommand = new StringBuilder(args[2]);
                                         for (int i = 3; i < args.length; i++) {
-                                            portalCommand.append(args[i]);
+                                            portalCommand.append(" ").append(args[i]);
                                         }
                                         if (Portal.addCommand(portalName, portalCommand.toString())) {
                                             sender.sendMessage(
