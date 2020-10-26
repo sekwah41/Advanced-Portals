@@ -18,6 +18,8 @@ public class AdvancedPortalsPlugin extends Plugin {
     public void onEnable() {
         getProxy().registerChannel(channelName);
 
+        if(channelName != null)
+
         getProxy().getPluginManager().registerListener(this, new PluginMessageReceiver(this));
         getProxy().getPluginManager().registerListener(this, new EventListener(this));
 

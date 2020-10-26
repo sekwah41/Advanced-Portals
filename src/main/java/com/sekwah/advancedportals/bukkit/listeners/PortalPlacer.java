@@ -83,6 +83,7 @@ public class PortalPlacer implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
+        Block newBlock = block.getWorld().getBlockAt(block.getLocation());
         Material material = block.getType();
         if (material == Material.NETHER_PORTAL && Portal.inPortalRegion(block.getLocation(), Portal.getPortalProtectionRadius()))
             event.setCancelled(true);

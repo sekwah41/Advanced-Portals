@@ -23,7 +23,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 public class Listeners implements Listener {
 
@@ -93,11 +95,19 @@ public class Listeners implements Listener {
 
     	Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
 
-    	String uuid = player.getUniqueId().toString();
+        Location loc = player.getLocation();
+        Location eyeLoc = player.getEyeLocation();
+        UUID uuid = player.getUniqueId();
+    	for (AdvancedPortal portal : Portal.portals) {
+    	    if (!portal.inPortal.contains(uuid)
+                    && (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc))) {
+    	        portal.inPortal.add(uuid);
+            }
+        }
 
-    	if (plugin.PlayerDestiMap.containsKey(uuid)) {
-            Destination.warp(player, plugin.PlayerDestiMap.get(uuid), false, true);
-            plugin.PlayerDestiMap.remove(uuid);
+    	if (plugin.PlayerDestiMap.containsKey(uuid.toString())) {
+            Destination.warp(player, plugin.PlayerDestiMap.get(uuid.toString()), false, true);
+            plugin.PlayerDestiMap.remove(uuid.toString());
     	}
     }
 
@@ -110,20 +120,19 @@ public class Listeners implements Listener {
 
         Player player = event.getPlayer();
 
-        Location loc = event.getTo();
-        Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
-
-        checkTriggerLocations(player, false, loc, eyeLoc);
+        checkTriggerLocations(player, false, event.getTo(), player.getEyeLocation());
 
     }
 
     public void checkTriggerLocations(Player player, boolean useDelayed, Location... locations) {
         for (AdvancedPortal portal : Portal.portals) {
-            boolean delayed = portal.hasArg("delayed") && portal.getArg("delayed").equalsIgnoreCase("true");
+            boolean removeInPortal = true;
+            boolean delayed = portal.isDelayed();
             for (Location loc : locations) {
                 if (delayed == useDelayed) {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1)
                             : Portal.locationInPortalTrigger(portal, loc)) {
+                        removeInPortal = false;
                         if (portal.getTriggers().contains(Material.NETHER_PORTAL)) {
                             if (player.getGameMode().equals(GameMode.CREATIVE)) {
                                 player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
@@ -145,9 +154,11 @@ public class Listeners implements Listener {
                         if (!delayed)
                             portal.inPortal.add(player.getUniqueId());
                         return;
-                    } else if (!delayed)
-                        portal.inPortal.remove(player.getUniqueId());
+                    }
                 }
+            }
+            if(removeInPortal) {
+                portal.inPortal.remove(player.getUniqueId());
             }
         }
     }

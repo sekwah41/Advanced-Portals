@@ -112,4 +112,8 @@ public class AdvancedPortal {
     public void setBungee(String bungee) {
         this.bungee = bungee;
     }
+
+    public boolean isDelayed() {
+        return this.hasArg("delayed") && this.getArg("delayed").equalsIgnoreCase("true");
+    }
 }
