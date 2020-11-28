@@ -20,6 +20,7 @@ An advanced portals plugin for bukkit made by sekwah41 designed to have a wide r
 Once the recode is done the master branch will be releases and the dev branch will be where work is done.
 
 # Help
+[Command Documentation & Guides](https://www.guilded.gg/Sekwah/groups/MDqAZyrD/channels/72ffdaa3-9273-4722-bf47-b75408b371af/docs/1807463914)
 [List Of Commands](https://github.com/sekwah41/Advanced-Portals/wiki/Commands)
 
 [Spigot Page](https://www.spigotmc.org/resources/advanced-portals.14356/)
