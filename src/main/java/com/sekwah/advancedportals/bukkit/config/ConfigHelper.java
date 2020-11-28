@@ -6,6 +6,8 @@ public class ConfigHelper {
 
     public static String CONFIG_VERSION = "ConfigVersion";
 
+    public static String COMMAND_LOGS = "CommandLogs";
+
     public static String DISABLE_GATEWAY_BEAM = "DisableGatewayBeam";
 
     private FileConfiguration config;
@@ -20,10 +22,14 @@ public class ConfigHelper {
     public void update() {
         String configVersion = config.getString("ConfigVersion");
         // Added in 0.5.4
-        if(configVersion == null || configVersion.equals("0.5.3")) {
+        if(configVersion == null || configVersion.equals("true") || configVersion.equals("0.5.3")) {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.4");
 
-            config.set(ConfigHelper.CONFIG_VERSION, true);
+            config.set(ConfigHelper.DISABLE_GATEWAY_BEAM, true);
+            update();
+        } else if(configVersion.equals("0.5.4")) {
+            config.set(ConfigHelper.CONFIG_VERSION, "0.5.11");
+            config.set(ConfigHelper.COMMAND_LOGS, true);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
@@ -37,6 +38,7 @@ public class Portal {
     private static int portalProtectionRadius;
     private static boolean blockSpectatorMode;
     private static int joinCooldownDelay;
+    private static boolean commandLog;
     private static Random random = new Random();
 
     public Portal(AdvancedPortalsPlugin plugin) {
@@ -52,6 +54,8 @@ public class Portal {
         this.blockSpectatorMode = config.getConfig().getBoolean("BlockSpectatorMode", false);
 
         this.joinCooldownDelay = config.getConfig().getInt("PortalCooldown", 5);
+
+        this.commandLog = config.getConfig().getBoolean(ConfigHelper.COMMAND_LOGS, true);
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -550,10 +554,9 @@ public class Portal {
             do {
                 // (?i) makes the search case insensitive
                 command = command.replaceAll("@player", player.getName());
-                plugin.getLogger().log(Level.INFO, "Portal command: " + command);
+                if(commandLog) plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                 if (command.startsWith("#") && plugin.getSettings().enabledCommandLevel("c")) {
                     command = command.substring(1);
-                    plugin.getLogger().log(Level.INFO, "Portal command: " + command);
                     try {
                         plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
                     } catch (Exception e) {

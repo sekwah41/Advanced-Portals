@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -83,7 +82,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onLeaveEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if(player.hasMetadata("leaveDesti")) {
+        if (player.hasMetadata("leaveDesti")) {
             Destination.warp(player, player.getMetadata("leaveDesti").get(0).asString(),
                     false, true);
         }
@@ -91,24 +90,24 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent event) {
-    	Player player = event.getPlayer();
+        Player player = event.getPlayer();
 
-    	Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
+        Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
 
         Location loc = player.getLocation();
         Location eyeLoc = player.getEyeLocation();
         UUID uuid = player.getUniqueId();
-    	for (AdvancedPortal portal : Portal.portals) {
-    	    if (!portal.inPortal.contains(uuid)
+        for (AdvancedPortal portal : Portal.portals) {
+            if (!portal.inPortal.contains(uuid)
                     && (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc))) {
-    	        portal.inPortal.add(uuid);
+                portal.inPortal.add(uuid);
             }
         }
 
-    	if (plugin.PlayerDestiMap.containsKey(uuid.toString())) {
+        if (plugin.PlayerDestiMap.containsKey(uuid.toString())) {
             Destination.warp(player, plugin.PlayerDestiMap.get(uuid.toString()), false, true);
             plugin.PlayerDestiMap.remove(uuid.toString());
-    	}
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -126,13 +125,11 @@ public class Listeners implements Listener {
 
     public void checkTriggerLocations(Player player, boolean useDelayed, Location... locations) {
         for (AdvancedPortal portal : Portal.portals) {
-            boolean removeInPortal = true;
             boolean delayed = portal.isDelayed();
-            for (Location loc : locations) {
-                if (delayed == useDelayed) {
+            if (delayed == useDelayed) {
+                for (Location loc : locations) {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1)
                             : Portal.locationInPortalTrigger(portal, loc)) {
-                        removeInPortal = false;
                         if (portal.getTriggers().contains(Material.NETHER_PORTAL)) {
                             if (player.getGameMode().equals(GameMode.CREATIVE)) {
                                 player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
@@ -156,8 +153,6 @@ public class Listeners implements Listener {
                         return;
                     }
                 }
-            }
-            if(removeInPortal) {
                 portal.inPortal.remove(player.getUniqueId());
             }
         }
@@ -236,7 +231,9 @@ public class Listeners implements Listener {
             player.removeMetadata("lavaWarped", plugin);
             player.setFireTicks(0);
         }
-    };
+    }
+
+    ;
 
     class RemoveWarpData implements Runnable {
 
@@ -304,11 +301,11 @@ public class Listeners implements Listener {
                     player.sendMessage(
                             PluginMessages.customPrefix + "\u00A7a You have selected: \u00A7e" + portal.getName());
                     player.setMetadata("selectedPortal", new FixedMetadataValue(plugin, portal.getName())); // adds the
-                                                                                                            // name to
-                                                                                                            // the
-                                                                                                            // metadata
-                                                                                                            // of the
-                                                                                                            // character
+                    // name to
+                    // the
+                    // metadata
+                    // of the
+                    // character
                     event.setCancelled(true);
                     player.removeMetadata("selectingPortal", plugin);
                     return;
@@ -324,7 +321,7 @@ public class Listeners implements Listener {
 
             if (event.getItem() != null && event.getItem().getType() == WandMaterial // was type id
                     && (!UseOnlyServerAxe || (checkItemForName(event.getItem()) && event.getItem().getItemMeta()
-                            .getDisplayName().equals("\u00A7ePortal Region Selector")))) {
+                    .getDisplayName().equals("\u00A7ePortal Region Selector")))) {
 
                 // This checks if the action was a left or right click and if it was directly
                 // effecting a block.
