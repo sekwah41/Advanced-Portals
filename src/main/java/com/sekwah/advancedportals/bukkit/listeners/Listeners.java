@@ -18,6 +18,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -284,6 +285,16 @@ public class Listeners implements Listener {
 
         if (player.hasMetadata("hasWarped") | Portal.inPortalRegion(event.getFrom(), 1))
             event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityPortalEvent(EntityPortalEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        if(Portal.locationInPortal(event.getFrom(), 2)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
