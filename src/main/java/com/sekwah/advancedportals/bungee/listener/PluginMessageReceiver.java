@@ -42,5 +42,7 @@ public class PluginMessageReceiver implements Listener {
                 plugin.getProxy().getPluginManager().dispatchCommand(player, command);
             }
         }
+
+        event.setCancelled(true);
     }
 }
