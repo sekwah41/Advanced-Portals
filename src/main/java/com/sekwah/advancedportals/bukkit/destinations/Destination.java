@@ -152,7 +152,7 @@ public class Destination {
 
                 if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
-                    player.sendMessage(PluginMessages.customPrefixFail + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
+                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
                 } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a."));

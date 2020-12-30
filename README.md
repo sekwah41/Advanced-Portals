@@ -31,7 +31,13 @@ Once the recode is done the master branch will be releases and the dev branch wi
 # Usage Data
 Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
 
-Were available here http://mcstats.org/plugin/AdvancedPortals but mcstats is no longer working.
+# Velocity Support
+We add basic Velocity support though it isn't really a priority.
+
+By default, the bungee: tag works without there being a plugin on velocity however for desti: to work
+for now ensure that on spigot you have the bungeecord setting enabled to register the necessary packet channels.
+
+We will look into adding better support for proxies (Especially Velocity as it looks better)
 
 # API
 

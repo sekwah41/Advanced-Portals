@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,8 +18,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     //public CraftBukkit compat = null;
     private Settings settings;
-
-    public String channelName = "mc:advancedportals";
 
     public boolean registeredBungeeChannels = false;
 
@@ -110,8 +109,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         if(this.checkIfBungee()) {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, channelName);
-            this.getServer().getMessenger().registerIncomingPluginChannel(this, channelName, new PluginMessageReceiver(this));
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, BungeeMessages.CHANNEL_NAME);
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, BungeeMessages.CHANNEL_NAME, new PluginMessageReceiver(this));
             registeredBungeeChannels = true;
         }
         else {

@@ -8,9 +8,6 @@ import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import java.util.Map;
-import java.util.Set;
-
 public class EventListener implements Listener {
     private AdvancedPortalsPlugin plugin;
 
@@ -35,7 +32,7 @@ public class EventListener implements Listener {
                 out.writeUTF(val[1]);
                 out.writeUTF(val[2]);
 
-                event.getServer().sendData(plugin.channelName, out.toByteArray());
+                event.getServer().sendData(BungeeMessages.CHANNEL_NAME, out.toByteArray());
             }
         }
     }

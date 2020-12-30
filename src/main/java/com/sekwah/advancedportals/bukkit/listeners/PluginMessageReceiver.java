@@ -22,7 +22,7 @@ public class PluginMessageReceiver implements PluginMessageListener {
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
 
-        if (!channel.equals(plugin.channelName)) {
+        if (!channel.equals(BungeeMessages.CHANNEL_NAME)) {
             return;
         }
 
