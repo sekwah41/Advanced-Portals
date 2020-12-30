@@ -17,6 +17,8 @@ public class BungeeMessages {
      */
     public static String ENTER_PORTAL = "PortalEnter";
 
+    public static String CHANNEL_NAME = "advancedportals:warp";
+
 
     public static String SERVER_DESTI = "BungeePortal";
 

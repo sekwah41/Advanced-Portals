@@ -8,17 +8,15 @@ import java.util.HashMap;
 
 public class AdvancedPortalsPlugin extends Plugin {
 
-    public String channelName = "mc:advancedportals";
-
     public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
     // key: UUID (string)
     // value: [0] targetServer, [1] targetDestination
 
     @Override
     public void onEnable() {
-        getProxy().registerChannel(channelName);
+        getProxy().registerChannel(BungeeMessages.CHANNEL_NAME);
 
-        if(channelName != null)
+        if(BungeeMessages.CHANNEL_NAME != null)
 
         getProxy().getPluginManager().registerListener(this, new PluginMessageReceiver(this));
         getProxy().getPluginManager().registerListener(this, new EventListener(this));

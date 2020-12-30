@@ -163,12 +163,12 @@ public class Portal {
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination,
-            Set<Material> triggerBlocks, PortalArg... extraData) {
+                                Set<Material> triggerBlocks, PortalArg... extraData) {
         return create(pos1, pos2, name, destination, triggerBlocks, null, extraData);
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination,
-            Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
+                                Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
 
         if (!pos1.getWorld().equals(pos2.getWorld())) {
             plugin.getLogger().log(Level.WARNING, "pos1 and pos2 must be in the same world!");
@@ -247,11 +247,11 @@ public class Portal {
         if (portalsActive) {
             int portalId = 0;
             for (@SuppressWarnings("unused")
-            Object portal : Portal.portals) {
+                    Object portal : Portal.portals) {
                 if (portals[portalId].getWorldName().equals(pos2.getWorld().getName())) { // checks that the cubes arnt
-                                                                                          // overlapping by seeing if
-                                                                                          // all 4 corners are not in
-                                                                                          // side another
+                    // overlapping by seeing if
+                    // all 4 corners are not in
+                    // side another
                     if (checkOverLapPortal(pos1, pos2, portals[portalId].getPos1().getBlockX(),
                             portals[portalId].getPos1().getBlockY(), portals[portalId].getPos1().getBlockZ())) {
                         return true;
@@ -308,7 +308,7 @@ public class Portal {
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination, String serverName,
-            PortalArg... extraData) { // add stuff for destination names or coordinates
+                                PortalArg... extraData) { // add stuff for destination names or coordinates
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
         Material triggerBlockType;
@@ -421,12 +421,20 @@ public class Portal {
 
         String permission = portal.getArg("permission");
 
+        boolean invertPermission = false;
+        if(permission != null) {
+            invertPermission = permission.startsWith("!");
+            if (invertPermission) {
+                permission.substring(1);
+            }
+        }
+
         boolean noMessage = permission != null && permission.startsWith("nomsg.");
         if(noMessage) {
             permission.substring(6);
         }
 
-        if (!(permission == null || player.hasPermission(permission) || player.isOp())) {
+        if (!(permission == null || ((!invertPermission && player.hasPermission(permission)) || (invertPermission && !player.hasPermission(permission))) || player.isOp())) {
             if(!noMessage) {
                 player.sendMessage(
                         PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
@@ -507,7 +515,7 @@ public class Portal {
                     outForList.writeUTF(portal.getDestiation());
                     outForList.writeUTF(player.getUniqueId().toString());
 
-                    player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                    player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForList.toByteArray());
                 }
                 else {
                     plugin.getLogger().log(Level.WARNING, "You do not have bungee setup correctly. Cross server destinations won't work.");
@@ -534,23 +542,21 @@ public class Portal {
                         throwPlayerBack(player);
                 }
             }
-        } else {
-            if (showFailMessage) {
-                player.sendMessage(PluginMessages.customPrefixFail
-                        + "\u00A7c The portal you are trying to use doesn't have a destination!");
-                plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.getName() + "' has just had a warp "
-                        + "attempt and either the data is corrupt or portal doesn't exist!");
-                if(doKnockback)
-                    throwPlayerBack(player);
-                failSound(player, portal);
-            }
+        } else if (showFailMessage) {
+            player.sendMessage(PluginMessages.customPrefixFail
+                    + "\u00A7c The portal you are trying to use doesn't have a destination!");
+            plugin.getLogger().log(Level.SEVERE, "The portal '" + portal.getName() + "' has just had a warp "
+                    + "attempt and either the data is corrupt or portal doesn't exist!");
+            if(doKnockback)
+                throwPlayerBack(player);
+            failSound(player, portal);
         }
 
         if (portal.hasArg("command.1")) {
             warped = true;
             int commandLine = 1;
             String command = portal.getArg("command." + commandLine);// portalData.getConfig().getString(portal.getName()+
-                                                                     // ".portalArgs.command." + commandLine);
+            // ".portalArgs.command." + commandLine);
             do {
                 // (?i) makes the search case insensitive
                 command = command.replaceAll("@player", player.getName());
@@ -588,15 +594,15 @@ public class Portal {
                         ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                         outForList.writeUTF(BungeeMessages.BUNGEE_COMMAND);
                         outForList.writeUTF(command);
-                        player.sendPluginMessage(plugin, plugin.channelName, outForList.toByteArray());
+                        player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForList.toByteArray());
                     }
                     else {
                         plugin.getLogger().log(Level.WARNING, "You do not have bungee setup correctly. For security advanced bungee features won't work.");
                     }
 
                 } else {
-                        player.chat("/" + command);
-                        // player.performCommand(command);
+                    player.chat("/" + command);
+                    // player.performCommand(command);
                 }
                 command = portal.getArg("command." + ++commandLine);
             } while (command != null);
