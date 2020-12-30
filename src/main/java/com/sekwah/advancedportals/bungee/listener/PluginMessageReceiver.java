@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.bungee.listener;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bungee.AdvancedPortalsPlugin;
