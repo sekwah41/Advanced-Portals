@@ -8,7 +8,7 @@ public class ActivationData {
 
     private WarpedStatus warpStatus = WarpedStatus.INACTIVE;
 
-    private Portal activePortal;
+    private final Portal activePortal;
 
     public ActivationData(Portal portal){
         this.activePortal = portal;
@@ -56,7 +56,7 @@ public class ActivationData {
         /**
          * Nothing has activated on the portal.
          */
-        INACTIVE;
+        INACTIVE
     }
 
 }

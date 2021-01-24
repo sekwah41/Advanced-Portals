@@ -12,7 +12,7 @@ import net.md_5.bungee.event.EventHandler;
 import java.util.concurrent.TimeUnit;
 
 public class PluginMessageReceiver implements Listener {
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     public PluginMessageReceiver(AdvancedPortalsPlugin plugin) { this.plugin = plugin; }
 

@@ -31,11 +31,11 @@ import java.util.stream.Collectors;
 public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
 
     private final List<String> blockMaterialList;
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     private int portalArgsStringLength = 0;
 
-    private HashSet<String> ignoreExtras = new HashSet<>(Arrays.asList("command.1", "permission"));
+    private final HashSet<String> ignoreExtras = new HashSet<>(Arrays.asList("command.1", "permission"));
 
     // TODO recode the portal args to be put into a hashmap and use a string array
     // to store all possible portal arguments. Makes code shorter and possibly more
@@ -465,7 +465,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     case "gui":
                         // /portal gui remove testarg
                         if (args.length > 1) {
-                            if (args[1].toLowerCase().equals("remove") && args.length > 2) {
+                            if (args[1].equalsIgnoreCase("remove") && args.length > 2) {
                                 sender.sendMessage("");
                                 sender.sendMessage(PluginMessages.customPrefixFail
                                         + " Are you sure you would like to remove the portal \u00A7e" + args[2]
@@ -560,7 +560,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             String portalName = player.getMetadata("selectedPortal").get(0).asString();
                             if (args.length > 1) {
                                 // TODO add the command autocompletes, add, remove and show
-                                if (args[1].toLowerCase().equals("add")) {
+                                if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length > 2) {
                                         StringBuilder portalCommand = new StringBuilder(args[2]);
                                         for (int i = 3; i < args.length; i++) {
@@ -579,9 +579,9 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                                 + " You must actually specify a command to execute!");
                                     }
 
-                                } else if (args[1].toLowerCase().equals("remove")) {
+                                } else if (args[1].equalsIgnoreCase("remove")) {
                                     // Specify what line to remove
-                                } else if (args[1].toLowerCase().equals("show")) {
+                                } else if (args[1].equalsIgnoreCase("show")) {
                                 } else {
                                     sender.sendMessage(PluginMessages.customPrefixFail
                                             + " You must specify to \u00A7eadd\u00A7c or \u00A7eremove a command!");
@@ -728,18 +728,18 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     "\u00A76/" + command + " warp <name> \u00A7a- teleport to warp name",
                     "\u00A76/" + command + " variables \u00A7a- lists all available tags");
         } else if (args.length > 1) {
-            if (args[1].toLowerCase().equals("help")) {
+            if (args[1].equalsIgnoreCase("help")) {
                 sendMenu(sender, "Help Command",
                         "Shows the help section. You can also use a single argument after it to show the "
                                 + "help section for the corresponding command.");
-            } else if (args[1].toLowerCase().equals("portalblock")) {
+            } else if (args[1].equalsIgnoreCase("portalblock")) {
                 sendMenu(sender, "Help Command", "Gives you a special wool block to place portal blocks.", "",
                         "\u00A7eLeft Click: \u00A76Rotates the hit portal block",
                         "\u00A7eRight Click: \u00A76Placed a portal block");
-            } else if (args[1].toLowerCase().equals("endportalblock")) {
+            } else if (args[1].equalsIgnoreCase("endportalblock")) {
                 sendMenu(sender, "Help Command", "Gives you a special wool block to place end portal blocks.", "",
                         "\u00A7eRight Click: \u00A76Placed a end portal block");
-            } else if (args[1].toLowerCase().equals("gatewayblock")) {
+            } else if (args[1].equalsIgnoreCase("gatewayblock")) {
                 sendMenu(sender, "Help Command", "Gives you a special wool block to place gateway blocks.", "",
                         "\u00A7eRight Click: \u00A76Placed a gateway block");
             } else {
@@ -882,11 +882,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
             autoComplete.add("warp");
         }
         if (sender.hasPermission("advancedportals.createportal")) {
-            if (args.length == 1 || (args.length == 2 && args[0].toLowerCase().equals("help"))) {
+            if (args.length == 1 || (args.length == 2 && args[0].equalsIgnoreCase("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command",
                         "selector", "show", "gatewayblock", "endportalblock", "variables", "wand", "disablebeacon", "remove", "rename",
                         "help", "bukkitpage", "helppage"));
-            } else if (args[0].toLowerCase().equals("create")) {
+            } else if (args[0].equalsIgnoreCase("create")) {
 
                 boolean hasName = false;
                 boolean hasTriggerBlock = false;
@@ -1002,7 +1002,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (args[args.length - 1].startsWith("desti:") || args[args.length - 1].startsWith("destination:")) {
             String tagStart = args[args.length - 1].startsWith("desti:") ? "desti:" : "destination:";
             ConfigAccessor destiConfig = new ConfigAccessor(plugin, "destinations.yml");
-            List<Object> destiObj = Arrays.asList(destiConfig.getConfig().getKeys(false).toArray());
+            Object[] destiObj = destiConfig.getConfig().getKeys(false).toArray();
             for (Object object : destiObj) {
                 autoComplete.add(tagStart + object.toString());
             }

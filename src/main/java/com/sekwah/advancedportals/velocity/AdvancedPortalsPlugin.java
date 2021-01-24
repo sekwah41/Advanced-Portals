@@ -29,7 +29,7 @@ public class AdvancedPortalsPlugin {
     public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
 
     private final Logger logger;
-    private ProxyServer proxy;
+    private final ProxyServer proxy;
     private LegacyChannelIdentifier AP_CHANNEL;
 
     @Inject

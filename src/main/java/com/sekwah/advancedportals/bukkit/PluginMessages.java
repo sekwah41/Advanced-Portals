@@ -4,7 +4,7 @@ import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import org.bukkit.command.CommandSender;
 
 public class PluginMessages {
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
     public boolean useCustomPrefix = false;
     public static String customPrefix = "\u00A7a[\u00A7eAdvancedPortals\u00A7a]";
     public static String customPrefixFail = "\u00A7c[\u00A77AdvancedPortals\u00A7c]";

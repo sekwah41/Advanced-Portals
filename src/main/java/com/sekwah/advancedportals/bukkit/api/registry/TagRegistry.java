@@ -11,13 +11,13 @@ public class TagRegistry {
 
     private final AdvancedPortalsPlugin plugin;
 
-    private ArrayList<String> tags = new ArrayList<String>();
+    private final ArrayList<String> tags = new ArrayList<String>();
 
-    private Map<String, TagHandler.Activation> tagActivation = new HashMap<String, TagHandler.Activation>();
+    private final Map<String, TagHandler.Activation> tagActivation = new HashMap<String, TagHandler.Activation>();
 
-    private Map<String, TagHandler.Creation> tagCreation = new HashMap<String, TagHandler.Creation>();
+    private final Map<String, TagHandler.Creation> tagCreation = new HashMap<String, TagHandler.Creation>();
 
-    private Map<String, TagHandler.TagStatus> tagStatus = new HashMap<String, TagHandler.TagStatus>();
+    private final Map<String, TagHandler.TagStatus> tagStatus = new HashMap<String, TagHandler.TagStatus>();
 
     // TODO the event can be used for general data detection and management, but use a TagHandler to make it so they can register
     // the individual class to handle.

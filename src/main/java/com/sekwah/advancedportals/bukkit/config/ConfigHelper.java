@@ -12,7 +12,7 @@ public class ConfigHelper {
 
     public static String DISABLE_GATEWAY_BEAM = "DisableGatewayBeam";
 
-    private FileConfiguration config;
+    private final FileConfiguration config;
 
     public ConfigHelper(FileConfiguration config) {
         this.config = config;

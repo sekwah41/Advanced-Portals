@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 public class EventListener implements Listener {
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     public EventListener(AdvancedPortalsPlugin plugin) { this.plugin = plugin; }
 
