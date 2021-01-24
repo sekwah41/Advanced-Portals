@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class PluginMessageReceiver implements PluginMessageListener {
 
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     public PluginMessageReceiver(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;

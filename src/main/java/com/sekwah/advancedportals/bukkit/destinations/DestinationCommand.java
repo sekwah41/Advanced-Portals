@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DestinationCommand implements CommandExecutor, TabCompleter {
 
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     public DestinationCommand(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -71,7 +71,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 break;
             case "list":
                 String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
-                List<Object> destiObj = Arrays.asList(config.getConfig().getKeys(false).toArray());
+                Object[] destiObj = config.getConfig().getKeys(false).toArray();
                 LinkedList<String> destis = new LinkedList<>();
                 for (Object object : destiObj) {
                     destis.add(object.toString());

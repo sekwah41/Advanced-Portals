@@ -223,7 +223,7 @@ public class Listeners implements Listener {
     // These are here because java 7 can only take finals straight into a runnable
     class RemoveLavaData implements Runnable {
 
-        private Player player;
+        private final Player player;
 
         public RemoveLavaData(Player player) {
             this.player = player;
@@ -236,11 +236,9 @@ public class Listeners implements Listener {
         }
     }
 
-    ;
-
     class RemoveWarpData implements Runnable {
 
-        private Player player;
+        private final Player player;
 
         public RemoveWarpData(Player player) {
             this.player = player;

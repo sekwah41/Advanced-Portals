@@ -6,7 +6,7 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class BungeeListener implements PluginMessageListener {
 
-    private AdvancedPortalsPlugin plugin;
+    private final AdvancedPortalsPlugin plugin;
 
     public BungeeListener(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;

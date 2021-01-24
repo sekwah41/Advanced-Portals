@@ -39,7 +39,7 @@ public class Portal {
     private static boolean blockSpectatorMode;
     private static int joinCooldownDelay;
     private static boolean commandLog;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static void init(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
@@ -300,9 +300,7 @@ public class Portal {
 
     private static boolean checkOverLapPortal(Location pos1, Location pos2, int posX, int posY, int posZ) {
         if (pos1.getX() >= posX && pos1.getY() >= posX && pos1.getZ() >= posZ) {
-            if ((pos2.getX()) <= posX && pos2.getY() <= posY && pos2.getZ() <= posZ) {
-                return true;
-            }
+            return (pos2.getX()) <= posX && pos2.getY() <= posY && pos2.getZ() <= posZ;
         }
         return false;
     }
@@ -707,10 +705,9 @@ public class Portal {
             if ((portal.getPos1().getX() + 1 + additionalArea) >= loc.getX()
                     && (portal.getPos1().getY() + 1 + additionalArea) > loc.getY()
                     && (portal.getPos1().getZ() + 1 + additionalArea) >= loc.getZ())
-                if (portal.getPos2().getX() - additionalArea <= loc.getX()
+                return portal.getPos2().getX() - additionalArea <= loc.getX()
                         && portal.getPos2().getY() - additionalArea <= loc.getY()
-                        && portal.getPos2().getZ() - additionalArea <= loc.getZ())
-                    return true;
+                        && portal.getPos2().getZ() - additionalArea <= loc.getZ();
         return false;
     }
 

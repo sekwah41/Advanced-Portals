@@ -16,10 +16,10 @@ public final class WarpEvent extends Event implements Cancellable {
 
     private boolean cancelled = false;
 
-    private Player player;
+    private final Player player;
 
     @SuppressWarnings("unused")
-    private AdvancedPortal portalData;
+    private final AdvancedPortal portalData;
 
     private boolean hasWarped = false;
 
