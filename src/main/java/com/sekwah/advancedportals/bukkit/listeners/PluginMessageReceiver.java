@@ -5,7 +5,6 @@ import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -40,10 +39,10 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
             }
             else {
-                plugin.PlayerDestiMap.put(bungeeUUID, targetDestination);
+                plugin.getPlayerDestiMap().put(bungeeUUID, targetDestination);
 
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                                plugin.PlayerDestiMap.remove(bungeeUUID),
+                                plugin.getPlayerDestiMap().remove(bungeeUUID),
                         20L * 10
                 );
             }

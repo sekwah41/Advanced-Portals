@@ -9,33 +9,31 @@ import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
-    //public CraftBukkit compat = null;
     private Settings settings;
 
-    public boolean registeredBungeeChannels = false;
+    protected boolean isProxyPluginEnabled = false;
 
-    public HashMap<String, String> PlayerDestiMap = new HashMap<>();
+    protected boolean forceRegisterProxyChannels = false;
 
+    protected static final Map<String, String> PLAYER_DESTI_MAP = new HashMap<>();
+
+    @Override
     public void onEnable() {
-
-        String packageName = getServer().getClass().getPackage().getName();
-        String[] packageSplit = packageName.split("\\.");
-        String version = packageSplit[packageSplit.length - 1];
 
         saveDefaultConfig();
 
         /*Metrics metrics = */
         new Metrics(this);
-
-
-        //this.compat = new CraftBukkit(this, version);
 
         ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
@@ -45,10 +43,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         config.saveConfig();
 
-        // TODO reenable and finish but probably focus on the recode first
-            /*if(config.getConfig().getBoolean("DisableGatewayBeam", true)) {
-                new PacketInjector(this, version);
-            }*/
+        FileConfiguration pluginConfig = config.getConfig();
+        forceRegisterProxyChannels = pluginConfig.getBoolean(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
 
         ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
         portalConfig.saveDefaultConfig();
@@ -60,8 +56,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.settings = new Settings(this);
 
         // Loads the portal and destination editors
-        new Portal(this);
-        new Destination(this);
+        Portal.init(this);
+        Destination.init(this);
 
 
         this.registerCommands();
@@ -106,16 +102,24 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private void setupBungee() {
         // Enables very basic bungee support if not setup right
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        if(this.checkIfBungee()) {
+        if(forceRegisterProxyChannels || this.checkIfBungee()) {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, BungeeMessages.CHANNEL_NAME);
             this.getServer().getMessenger().registerIncomingPluginChannel(this, BungeeMessages.CHANNEL_NAME, new PluginMessageReceiver(this));
-            registeredBungeeChannels = true;
+            isProxyPluginEnabled = true;
         }
         else {
-            registeredBungeeChannels = false;
+            isProxyPluginEnabled = false;
         }
+    }
+
+    public Map<String, String> getPlayerDestiMap() {
+        return PLAYER_DESTI_MAP;
+    }
+
+    public boolean isProxyPluginEnabled() {
+        return isProxyPluginEnabled;
     }
 
     private boolean checkIfBungee()
@@ -125,13 +129,17 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             Class.forName("org.spigotmc.SpigotConfig");
         } catch (ClassNotFoundException e) {
             this.getServer().getConsoleSender().sendMessage( "\u00A7ePossibly unsupported version for bungee messages detected, channels won't be enabled." );
-            getLogger().info("If you believe this shouldn't be the case please contact us on discord https://discord.gg/fAJ3xJg");
+            getLogger().info("If you believe this shouldn't be the case please contact us on discord https://discord.sekwah.com/");
             return false;
         }
 
-        if ( !getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean( "bungeecord" ) )
-        {
-            getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
+        try {
+            ConfigurationSection configSelection = getServer().spigot().getConfig().getConfigurationSection("settings");
+            if (configSelection == null || !configSelection.getBoolean("bungeecord") ) {
+                getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
+                return false;
+            }
+        } catch(NullPointerException e) {
             return false;
         }
 
@@ -139,6 +147,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     }
 
 
+    @Override
     public void onDisable() {
         this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
     }

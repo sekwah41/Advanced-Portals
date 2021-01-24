@@ -25,7 +25,7 @@ public class Destination {
     private static boolean TELEPORT_RIDING = false;
     public static int PORTAL_MESSAGE_DISPLAY = 0;
 
-    public Destination(AdvancedPortalsPlugin plugin) {
+    public static void init(AdvancedPortalsPlugin plugin) {
         Destination.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
