@@ -9,6 +9,7 @@ import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+
 import java.util.concurrent.TimeUnit;
 
 public class PluginMessageReceiver implements Listener {
