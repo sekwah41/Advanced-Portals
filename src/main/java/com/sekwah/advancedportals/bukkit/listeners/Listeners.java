@@ -105,9 +105,11 @@ public class Listeners implements Listener {
             }
         }
 
-        if (plugin.PlayerDestiMap.containsKey(uuid.toString())) {
-            Destination.warp(player, plugin.PlayerDestiMap.get(uuid.toString()), false, true);
-            plugin.PlayerDestiMap.remove(uuid.toString());
+        Map<String, String> playerMap = plugin.getPlayerDestiMap();
+
+        if (playerMap.containsKey(uuid.toString())) {
+            Destination.warp(player, playerMap.get(uuid.toString()), false, true);
+            playerMap.remove(uuid.toString());
         }
     }
 

@@ -41,21 +41,21 @@ public class Portal {
     private static boolean commandLog;
     private static Random random = new Random();
 
-    public Portal(AdvancedPortalsPlugin plugin) {
+    public static void init(AdvancedPortalsPlugin plugin) {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        this.showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage", false);
+        showBungeeMessage = config.getConfig().getBoolean("ShowBungeeWarpMessage", false);
 
-        this.portalProtectionRadius = config.getConfig().getBoolean("PortalProtection") ?
+        portalProtectionRadius = config.getConfig().getBoolean("PortalProtection") ?
                 config.getConfig().getInt("PortalProtectionArea") : 0;
 
-        this.throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
+        throwback = config.getConfig().getDouble("ThrowbackAmount", 0.7);
 
-        this.portalSound = WarpEffects.findSound(plugin, "BLOCK_PORTAL_TRAVEL", "PORTAL_TRAVEL");
-        this.blockSpectatorMode = config.getConfig().getBoolean("BlockSpectatorMode", false);
+        portalSound = WarpEffects.findSound(plugin, "BLOCK_PORTAL_TRAVEL", "PORTAL_TRAVEL");
+        blockSpectatorMode = config.getConfig().getBoolean("BlockSpectatorMode", false);
 
-        this.joinCooldownDelay = config.getConfig().getInt("PortalCooldown", 5);
+        joinCooldownDelay = config.getConfig().getInt("PortalCooldown", 5);
 
-        this.commandLog = config.getConfig().getBoolean(ConfigHelper.COMMAND_LOGS, true);
+        commandLog = config.getConfig().getBoolean(ConfigHelper.COMMAND_LOGS, true);
 
         Portal.plugin = plugin;
         Portal.loadPortals();
@@ -508,7 +508,7 @@ public class Portal {
             }
 
             if (portal.getDestiation() != null) {
-                if(plugin.registeredBungeeChannels) {
+                if(plugin.isProxyPluginEnabled()) {
                     ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                     outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
                     outForList.writeUTF(bungeeServer);
@@ -589,7 +589,7 @@ public class Portal {
                         player.removeAttachment(permissionAttachment);
                     }
                 } else if (command.startsWith("%") && plugin.getSettings().enabledCommandLevel("b")) {
-                    if(plugin.registeredBungeeChannels) {
+                    if(plugin.isProxyPluginEnabled()) {
                         command = command.substring(1);
                         ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                         outForList.writeUTF(BungeeMessages.BUNGEE_COMMAND);

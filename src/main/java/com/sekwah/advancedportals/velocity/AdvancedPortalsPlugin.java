@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Plugin(id = "advancedportals", name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
-        version = "0.5.12")
+        version = "0.5.13")
 public class AdvancedPortalsPlugin {
 
     public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
@@ -60,7 +60,6 @@ public class AdvancedPortalsPlugin {
 
                 String subChannel = in.readUTF();
 
-                System.out.printf("SubChannel: %s%n", subChannel);
                 if (subChannel.equalsIgnoreCase(BungeeMessages.ENTER_PORTAL)) {
                     String targetServer = in.readUTF();
                     String targetDestination = in.readUTF();
@@ -91,15 +90,11 @@ public class AdvancedPortalsPlugin {
 
         String[] val = PlayerDestiMap.get(uuid);
 
-        System.out.println("POSTJOIN");
-        System.out.println(event);
-
         if (val != null) {
             // key: UUID (string)
             // value: [0] targetServer, [1] targetDestination, [2] onlineUUID
 
             event.getPlayer().getCurrentServer().ifPresent(serverConnection -> {
-                System.out.println("EXIST");
 
                 if (serverConnection.getServerInfo().getName().equalsIgnoreCase(val[0])) {
 
@@ -108,8 +103,6 @@ public class AdvancedPortalsPlugin {
                     out.writeUTF(BungeeMessages.SERVER_DESTI);
                     out.writeUTF(val[1]);
                     out.writeUTF(val[2]);
-
-                    System.out.println(serverConnection.sendPluginMessage(AP_CHANNEL, out.toByteArray()));
 
                 }
             });

@@ -8,6 +8,8 @@ public class ConfigHelper {
 
     public static String COMMAND_LOGS = "CommandLogs";
 
+    public static String FORCE_ENABLE_PROXY_SUPPORT = "ForceEnableProxySupport";
+
     public static String DISABLE_GATEWAY_BEAM = "DisableGatewayBeam";
 
     private FileConfiguration config;
@@ -30,6 +32,9 @@ public class ConfigHelper {
         } else if(configVersion.equals("0.5.4")) {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.11");
             config.set(ConfigHelper.COMMAND_LOGS, true);
+        } else if(configVersion.equals("0.5.10") || configVersion.equals("0.5.11")) {
+            config.set(ConfigHelper.CONFIG_VERSION, "0.5.13");
+            config.set(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
         }
     }
 }
