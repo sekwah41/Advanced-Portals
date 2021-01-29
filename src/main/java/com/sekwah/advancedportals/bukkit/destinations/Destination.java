@@ -110,7 +110,7 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String name, boolean hideActionBar) {
-        return warp(player, name, false, false);
+        return warp(player, name, null, hideActionBar, false);
     }
 
     public static boolean warp(Player player, String name, boolean hideActionbar, boolean noEffects) {
