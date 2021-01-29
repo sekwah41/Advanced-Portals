@@ -1,7 +1,11 @@
 package com.sekwah.advancedportals.bukkit.effects;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
+import com.sekwah.advancedportals.bukkit.portals.Portal;
+import jdk.tools.jlink.plugin.Plugin;
 import org.bukkit.Effect;
+import org.bukkit.Particle;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -45,7 +49,7 @@ public class WarpEffects {
 		return soundFound;
 	}
 
-	public static void activateParticles(Player player) {
+	public static void activateEffect(Player player) {
 		Location loc = player.getLocation();
 		World world = player.getWorld();
 		switch (plugin.getSettings().getCurrentWarpParticles()){
@@ -59,6 +63,21 @@ public class WarpEffects {
 				}
 			default: break;
 		}
+
+	}
+
+	public static void activateParticle(Player player, String particle_name) {
+		Particle particle = Portal.getParticle(particle_name);
+		if(particle == null) {
+			plugin.getLogger().warning("wrong particle name: " + particle_name);
+			return;
+		}
+
+		Location loc_from = player.getLocation();
+
+		World world = player.getWorld();
+
+		world.spawnParticle(particle, loc_from, 100, 1, 1, 1);
 
 	}
 

@@ -162,6 +162,14 @@ public class Portal {
         return blockTypes;
     }
 
+    public static Particle getParticle(String name) {
+        try {
+            return Particle.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     public static String create(Location pos1, Location pos2, String name, String destination,
                                 Set<Material> triggerBlocks, PortalArg... extraData) {
         return create(pos1, pos2, name, destination, triggerBlocks, null, extraData);
@@ -534,7 +542,7 @@ public class Portal {
         } else if (portal.getDestiation() != null) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
             if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
-                warped = Destination.warp(player, portal.getDestiation(), hasMessage);
+                warped = Destination.warp(player, portal.getDestiation(), portal, hasMessage, false);
                 if (!warped) {
                     if(doKnockback)
                         throwPlayerBack(player);
