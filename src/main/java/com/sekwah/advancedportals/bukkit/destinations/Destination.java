@@ -110,25 +110,33 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String name, boolean hideActionBar) {
-        return warp(player, name, false, false);
+        return warp(player, name, null, hideActionBar, false);
     }
 
-    public static boolean warp(Player player, String name, boolean hideActionbar, boolean noEffects) {
+    public static boolean warp(Player player, String name, boolean hideActionBar, boolean noEffects) {
+        return warp(player, name, null, hideActionBar, noEffects);
+    }
+
+    public static boolean warp(Player player, String dest, AdvancedPortal disp, boolean hideActionbar, boolean noEffects) {
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
-        if (config.getConfig().getString(name + ".world") != null) {
+        if (config.getConfig().getString(dest + ".world") != null) {
             Location loc = player.getLocation();
-            if (Bukkit.getWorld(config.getConfig().getString(name + ".world")) != null) {
-                loc.setWorld(Bukkit.getWorld(config.getConfig().getString(name + ".world")));
+            if (Bukkit.getWorld(config.getConfig().getString(dest + ".world")) != null) {
+                loc.setWorld(Bukkit.getWorld(config.getConfig().getString(dest + ".world")));
 
-                loc.setX(config.getConfig().getDouble(name + ".pos.X"));
-                loc.setY(config.getConfig().getDouble(name + ".pos.Y"));
-                loc.setZ(config.getConfig().getDouble(name + ".pos.Z"));
+                loc.setX(config.getConfig().getDouble(dest + ".pos.X"));
+                loc.setY(config.getConfig().getDouble(dest + ".pos.Y"));
+                loc.setZ(config.getConfig().getDouble(dest + ".pos.Z"));
 
-                loc.setPitch((float) config.getConfig().getDouble(name + ".pos.pitch"));
-                loc.setYaw((float) config.getConfig().getDouble(name + ".pos.yaw"));
+                loc.setPitch((float) config.getConfig().getDouble(dest + ".pos.pitch"));
+                loc.setYaw((float) config.getConfig().getDouble(dest + ".pos.yaw"));
+
+                if (disp != null && disp.getArg("particledisp") != null) {
+                    WarpEffects.activateParticle(player, disp.getArg("particledisp"));
+                }
 
                 if(!noEffects) {
-                    WarpEffects.activateParticles(player);
+                    WarpEffects.activateEffect(player);
                     WarpEffects.activateSound(player);
                 }
                 Chunk c = loc.getChunk();
@@ -145,17 +153,21 @@ public class Destination {
                 } else {
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }
+
+                if (disp != null && disp.getArg("particledest") != null) {
+                    WarpEffects.activateParticle(player, disp.getArg("particledest"));
+                }
                 if(!noEffects) {
-                    WarpEffects.activateParticles(player);
+                    WarpEffects.activateEffect(player);
                     WarpEffects.activateSound(player);
                 }
 
                 if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
-                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have been warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a.");
+                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have been warped to \u00A7e" + dest.replaceAll("_", " ") + "\u00A7a.");
                     player.sendMessage("");
                 } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + name.replaceAll("_", " ") + "\u00A7a."));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + dest.replaceAll("_", " ") + "\u00A7a."));
                 }
 
                 Location newLoc = player.getLocation();
@@ -171,12 +183,12 @@ public class Destination {
                 return true;
             } else {
                 player.sendMessage(PluginMessages.customPrefixFail + "\u00A7c The destination you are trying to warp to seems to be linked to a world that doesn't exist!");
-                plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' is linked to the world "
-                        + config.getConfig().getString(name + ".world") + " which doesnt seem to exist any more!");
+                plugin.getLogger().log(Level.SEVERE, "The destination '" + dest + "' is linked to the world "
+                        + config.getConfig().getString(dest + ".world") + " which doesnt seem to exist any more!");
             }
         } else {
             player.sendMessage(PluginMessages.customPrefix + "\u00A7c The destination you are currently attempting to warp to doesnt exist!");
-            plugin.getLogger().log(Level.SEVERE, "The destination '" + name + "' has just had a warp "
+            plugin.getLogger().log(Level.SEVERE, "The destination '" + dest + "' has just had a warp "
                     + "attempt and either the data is corrupt or that destination doesn't exist!");
         }
         return false;
