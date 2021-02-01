@@ -207,8 +207,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                     String serverName = null;
                                     String permission = null;
                                     String portalCommand = null;
-                                    String particleDisp = null;
-                                    String particleDest = null;
 
                                     ArrayList<PortalArg> extraData = new ArrayList<>();
 
@@ -230,9 +228,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         } else if (startsWithPortalArg("desti:", args[i])) {
                                             hasDestination = true;
                                             destination = args[i].toLowerCase().replaceFirst("desti:", "");
-                                        } else if (startsWithPortalArg("triggerblock:", args[i])) {
-                                            hasTriggerBlock = true;
-                                            triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
                                         } else if (startsWithPortalArg("triggerblock:", args[i])) {
                                             hasTriggerBlock = true;
                                             triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
@@ -304,12 +299,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         } else if (startsWithPortalArg("leavedesti:", args[i])) {
                                             String leaveDesti = parseArgVariable(args, i, "leavedesti:");
                                             extraData.add(new PortalArg("leavedesti", leaveDesti));
-                                        } else if (startsWithPortalArg("particledisp:", args[i])) {
-                                            String value = parseArgVariable(args, i, "particledisp:");
-                                            extraData.add(new PortalArg("particledisp", value));
-                                        } else if (startsWithPortalArg("particledest:", args[i])) {
-                                            String value = parseArgVariable(args, i, "particledest:");
-                                            extraData.add(new PortalArg("particledest", value));
+                                        } else if (startsWithPortalArg("particlein:", args[i])) {
+                                            String value = parseArgVariable(args, i, "particlein:");
+                                            extraData.add(new PortalArg("particlein", value));
+                                        } else if (startsWithPortalArg("particleout:", args[i])) {
+                                            String value = parseArgVariable(args, i, "particleout:");
+                                            extraData.add(new PortalArg("particleout", value));
                                         }
                                     }
                                     if (!hasName) {
@@ -436,7 +431,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                         " \u00A77Variables \u00A7c: " +
                                         "\u00A7aname, triggerBlock, desti, destination, " +
                                         "bungee, permission, command, cooldowndelay, leavedesti" +
-                                        "particledisp, particledest"
+                                        "particlein, particleout"
                         );
                         sender.sendMessage("");
                         sender.sendMessage("\u00A7aExample command: \u00A7e/portal create name:test triggerId:portal");
@@ -944,10 +939,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             case "cooldowndelay":
                                 hasCooldownDelay = true;
                                 break;
-                            case "particledisp":
+                            case "particlein":
                                 hasDispParticle = true;
                                 break;
-                            case "particledest":
+                            case "particleout":
                                 hasDestParticle = true;
                                 break;
                         }
@@ -984,10 +979,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     autoComplete.add("leavedesti:");
                 }
                 if (!hasDispParticle) {
-                    autoComplete.add("particledisp:");
+                    autoComplete.add("particlein:");
                 }
                 if (!hasDestParticle) {
-                    autoComplete.add("particledest:");
+                    autoComplete.add("particleout:");
                 }
             }
         }
@@ -1031,8 +1026,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 autoComplete.add(tagStart + object.toString());
             }
         }
-        if (args[args.length - 1].startsWith("particledisp:") || args[args.length - 1].startsWith("particledest:")) {
-            String tagStart = args[args.length - 1].startsWith("particledisp:") ? "particledisp:" : "particledest:";
+        if (args[args.length - 1].startsWith("particlein:") || args[args.length - 1].startsWith("particleout:")) {
+            String tagStart = args[args.length - 1].startsWith("particlein:") ? "particlein:" : "particleout:";
             for (Particle particle : Particle.values()) {
                 if(particle.getDataType() != Void.class)
                     continue;
