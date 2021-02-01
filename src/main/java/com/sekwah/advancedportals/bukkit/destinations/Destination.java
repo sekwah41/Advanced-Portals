@@ -131,8 +131,8 @@ public class Destination {
                 loc.setPitch((float) config.getConfig().getDouble(dest + ".pos.pitch"));
                 loc.setYaw((float) config.getConfig().getDouble(dest + ".pos.yaw"));
 
-                if (disp != null && disp.getArg("particledisp") != null) {
-                    WarpEffects.activateParticle(player, disp.getArg("particledisp"));
+                if (disp != null && disp.getArg("particlein") != null) {
+                    WarpEffects.activateParticle(player, disp.getArg("particlein"));
                 }
 
                 if(!noEffects) {
@@ -154,8 +154,8 @@ public class Destination {
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }
 
-                if (disp != null && disp.getArg("particledest") != null) {
-                    WarpEffects.activateParticle(player, disp.getArg("particledest"));
+                if (disp != null && disp.getArg("particleout") != null) {
+                    WarpEffects.activateParticle(player, disp.getArg("particleout"));
                 }
                 if(!noEffects) {
                     WarpEffects.activateEffect(player);
