@@ -9,10 +9,12 @@ commands:
     description: The main command for the advanced portals
     aliases: [portals, aportals, portal, ap]
     usage: /<command>
+    permission: advancedportals.portal
   destination:
     description: Can be used to access portal destinations.
     aliases: [desti]
     usage: /<command>
+    permission: advancedportals.desti
 permissions:
   advancedportals.*:
     description: Gives access to all commands
