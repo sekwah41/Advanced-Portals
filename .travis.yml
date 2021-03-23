@@ -1,6 +1,0 @@
-language: java
-before_install:
- - chmod +x gradlew
-cache:
-  directories:
-    - $HOME/.m2
