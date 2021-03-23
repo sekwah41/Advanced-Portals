@@ -1,8 +1,8 @@
 *.class
-.*
 /build/
 /target/
-
+.gradle/
+.idea/
 # Package Files #
 *.war
 *.ear
