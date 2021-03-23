@@ -1,9 +1,7 @@
 package com.sekwah.advancedportals.bukkit.effects;
 
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
-import jdk.tools.jlink.plugin.Plugin;
 import org.bukkit.Effect;
 import org.bukkit.Particle;
 import org.bukkit.Location;
