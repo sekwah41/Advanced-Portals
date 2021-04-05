@@ -1,3 +1,26 @@
+import org.apache.http.HttpEntity
+import org.apache.http.client.methods.CloseableHttpResponse
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.mime.MultipartEntityBuilder
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClients
+
+buildscript {
+    repositories {
+        maven {url "https://plugins.gradle.org/m2/"}
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+    }
+}
+
+plugins {
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
@@ -5,6 +28,10 @@ apply plugin: 'eclipse'
 
 group = 'com.sekwah.advancedportals'
 version = getPluginData("version") + '-snapshot'
+
+def branch = System.getenv("GITHUB_REF");
+def sha = System.getenv("GITHUB_SHA");
+def isDevBranch = !(branch && branch.startsWith("refs/heads/release/"));
 
 description = ""
 
@@ -52,6 +79,69 @@ dependencies {
     implementation "io.netty:netty-all:4.0.4.Final"
 
     //compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+/** For pre-releases and testers to be able to try the latest commits if they want.
+ * If the builds start exceeding 8MB then we may want to upload to s3 instead and periodically clear.
+ * TODO possibly add a task that announces when builds are made?
+ * Though add a note that it may take a while for Curse to approve the files.
+ */
+task discordupload {
+    dependsOn(jar)
+    doLast {
+        String discordWebhook = System.getenv("DISCORD_WEBHOOK")
+
+        if(discordWebhook != null) {
+            println("Logging Into Discord")
+
+            CloseableHttpClient httpClient = HttpClients.createDefault()
+            HttpPost uploadFile = new HttpPost(discordWebhook)
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+            builder.addTextBody("content", "New automated dev build\n\n" +
+                    "Current Features: <${project.github}/blob/${sha}/CHANGELOG.md>")
+
+            builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+
+            HttpEntity multipart = builder.build()
+
+            uploadFile.setEntity(multipart)
+            CloseableHttpResponse response = httpClient.execute(uploadFile)
+            response.getEntity()
+
+            println("Posted build")
+
+        } else {
+            println("Discord webhook unspecified")
+        }
+    }
+}
+
+tasks.curseforge.enabled = System.getenv("CURSE_API") != null
+
+curseforge {
+    logger.info("Curse api: " + System.getenv("CURSE_API"))
+    if (System.getenv("CURSE_API") != null) {
+        apiKey = System.getenv("CURSE_API")
+    }
+    project {
+        id = project.curse_project_id
+        // TODO add code to reference this but also cut the latest change logs in for the files
+        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
+        changelogType = 'markdown'
+        releaseType = 'beta'
+        addGameVersion '1.16'
+        addGameVersion '1.15'
+        addGameVersion '1.14'
+        addGameVersion '1.13'
+
+        mainArtifact(jar){
+
+        }
+        //addArtifact sourcesJar
+        //addArtifact deobfJar
+        //addArtifact javadocJar
+    }
 }
 
 task copyPlugin {

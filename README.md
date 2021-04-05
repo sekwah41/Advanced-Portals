@@ -8,7 +8,7 @@
 [![](https://img.shields.io/github/stars/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/stargazers)
 [![](https://img.shields.io/github/license/sekwah41/Advanced-Portals.svg?logo=github&style=for-the-badge)](https://github.com/sekwah41/Advanced-Portals/blob/master/LICENSE.md)
 
-Advanced Portals ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sekwah41/Advanced-Portals/Java%20CI/master)
+Advanced Portals ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sekwah41/Advanced-Portals/Build%20Project/master)
 ==============
 An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.
 
