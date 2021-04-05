@@ -26,8 +26,8 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: ./gradlew discordupload
-      - name: Publish to Curseforge (If release branch)
-        if: startsWith(github.ref, 'refs/heads/release/')
+      - name: Publish to Curseforge (If tagged)
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           CURSE_API: ${{ secrets.CURSE_API }}
         run: ./gradlew curseforge
