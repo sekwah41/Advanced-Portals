@@ -31,7 +31,7 @@ version = getPluginData("version") + '-snapshot'
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = !(branch && branch.startsWith("refs/heads/release/"));
+def isDevBranch = !(branch && (branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")));
 
 description = ""
 
