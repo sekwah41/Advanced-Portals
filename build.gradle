@@ -31,7 +31,7 @@ def sha = System.getenv("GITHUB_SHA");
 def isDevBranch = !(branch && (branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")));
 
 group = 'com.sekwah.advancedportals'
-version = getPluginData("version") + '-snapshot' + isDevBranch ? '-dev' : ''
+version = getPluginData("version") + '-snapshot' + (isDevBranch ? '-dev' : '')
 
 description = ""
 
