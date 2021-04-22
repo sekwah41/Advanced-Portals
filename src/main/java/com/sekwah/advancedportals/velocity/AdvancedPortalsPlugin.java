@@ -12,6 +12,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import org.slf4j.Logger;
 
@@ -103,6 +104,8 @@ public class AdvancedPortalsPlugin {
                     out.writeUTF(BungeeMessages.SERVER_DESTI);
                     out.writeUTF(val[1]);
                     out.writeUTF(val[2]);
+
+                    serverConnection.sendPluginMessage(AP_CHANNEL, out.toByteArray());
 
                 }
             });
