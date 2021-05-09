@@ -135,15 +135,27 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         try {
             ConfigurationSection configSelection = getServer().spigot().getConfig().getConfigurationSection("settings");
-            if (configSelection == null || !configSelection.getBoolean("bungeecord") ) {
-                getLogger().warning( "Advanced bungee features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)" );
-                return false;
+            if (configSelection != null && configSelection.getBoolean("bungeecord") ) {
+                getLogger().info( "Bungee detected. Enabling proxy features." );
+                return true;
             }
         } catch(NullPointerException e) {
-            return false;
         }
 
-        return true;
+        // Will be valid if paperspigot is being used. Otherwise catch.
+        try {
+            ConfigurationSection configSelection = getServer().spigot().getPaperConfig().getConfigurationSection("settings");
+            ConfigurationSection velocity = configSelection != null ? configSelection.getConfigurationSection("velocity-support") : null;
+            if (velocity != null && velocity.getBoolean("enabled") ) {
+                getLogger().info( "Modern forwarding detected. Enabling proxy features." );
+                return true;
+            }
+        } catch(NullPointerException e) {
+        }
+
+        getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml) " +
+                "or if you are using Paper settings.velocity-support.enabled may not be enabled (paper.yml)" );
+        return false;
     }
 
 
