@@ -1,3 +1,6 @@
+### 0.5.13
+* Added improved support for Velocity, including a ForceEnableProxySupport config option in case any are  not detected
+* Modern forwarding will be automatically detected. You will no longer need to manually set ForceEnableProxySupport
 ### 0.5.12
 * Added support for Velocity.
 * Also fixed some issues with entity teleporting.
