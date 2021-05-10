@@ -26,12 +26,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'com.sekwah.advancedportals'
-version = getPluginData("version") + '-snapshot'
-
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = !(branch && (branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")));
+def isDevBranch = branch == null || (!(branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")))
+
+group = 'com.sekwah.advancedportals'
+version = getPluginData("version") + (isDevBranch ? '-SNAPSHOT' : '')
 
 description = ""
 
@@ -65,6 +65,7 @@ repositories {
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
+    maven { url 'https://papermc.io/repo/repository/maven-public/' }
 }
 
 // includeLibs just says to include the library in the final jar
@@ -77,6 +78,7 @@ dependencies {
     annotationProcessor "com.velocitypowered:velocity-api:1.1.0-SNAPSHOT"
 
     implementation "io.netty:netty-all:4.0.4.Final"
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 
     //compile fileTree(dir: 'libs', include: ['*.jar'])
 }
@@ -129,7 +131,7 @@ curseforge {
         // TODO add code to reference this but also cut the latest change logs in for the files
         changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
         changelogType = 'markdown'
-        releaseType = 'beta'
+        releaseType = 'release'
         addGameVersion '1.16'
         addGameVersion '1.15'
         addGameVersion '1.14'
