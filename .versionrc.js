@@ -12,17 +12,6 @@ const ymlUpdater = {
     }
   }
 }
-const plugin = {
-  filename: 'src/main/resources/plugin.yml',
-  updater: {
-    'readVersion': (contents) => {
-      return versionRegex.exec(contents)[2];
-    },
-    'writeVersion': (contents, version) => {
-      return contents.replace(versionRegex, `$1${version}`);
-    }
-  }
-}
 
 const bungee = {
   filename: 'src/main/resources/bungee.yml',
