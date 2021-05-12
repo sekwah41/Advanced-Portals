@@ -28,7 +28,7 @@ apply plugin: 'eclipse'
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = branch == null || (!(branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")))
+def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && branch.contains("-"))
 
 group = 'com.sekwah.advancedportals'
 version = getPluginData("version") + (isDevBranch ? '-SNAPSHOT' : '')
