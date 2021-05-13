@@ -1,10 +1,17 @@
+import org.apache.commons.codec.Charsets
 import org.apache.http.HttpEntity
+import org.apache.http.HttpResponse
+import org.apache.http.client.HttpClient
+import org.apache.http.client.config.CookieSpecs
+import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
+import org.apache.http.client.methods.HttpGet
 
 buildscript {
     repositories {
@@ -14,11 +21,8 @@ buildscript {
     }
     dependencies {
         classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "com.google.code.gson:gson:2.6.2"
     }
-}
-
-plugins {
-    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'java'
@@ -70,6 +74,11 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
+    // to stop IntelliJ complaining about this build script
+    testCompile "org.apache.httpcomponents:httpmime:4.5.13"
+    testCompile "org.apache.httpcomponents:httpclient:4.5.13"
+    testCompile "com.google.code.gson:gson:2.6.2"
+
     //implementation "org.bukkit:bukkit:1.16.1-R0.1-SNAPSHOT"
     implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
     implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
@@ -119,31 +128,79 @@ task discordupload {
     }
 }
 
-tasks.curseforge.enabled = System.getenv("CURSE_API") != null
 
-curseforge {
-    logger.info("Curse api: " + System.getenv("CURSE_API"))
-    if (System.getenv("CURSE_API") != null) {
-        apiKey = System.getenv("CURSE_API")
-    }
-    project {
-        id = project.curse_project_id
-        // TODO add code to reference this but also cut the latest change logs in for the files
-        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
-        changelogType = 'markdown'
-        releaseType = 'release'
-        addGameVersion '1.16'
-        addGameVersion '1.15'
-        addGameVersion '1.14'
-        addGameVersion '1.13'
+String getValueFromCurseAPI(apiKey, endpoint) {
+    String API_BASE_URL = 'https://minecraft.curseforge.com'
 
-        mainArtifact(jar){
+    HttpClient client = HttpClientBuilder.create()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.IGNORE_COOKIES).build()).build()
 
+    HttpGet get = new HttpGet(API_BASE_URL + endpoint)
+    get.setHeader('X-Api-Token', apiKey)
+
+    HttpResponse response = client.execute(get)
+
+    int statusCode = response.statusLine.statusCode
+
+    if (statusCode == 200) {
+        byte[] data = response.entity.content.bytes
+        return new String(data, Charsets.UTF_8)
+    } else {
+        if (response.getFirstHeader('content-type').value.contains('json')) {
+            InputStreamReader reader = new InputStreamReader(response.entity.content)
+            reader.close()
+            throw new RuntimeException("[CurseForge] Error")
+        } else {
+            throw new RuntimeException("[CurseForge] HTTP Error Code $response.statusLine.statusCode: $response.statusLine.reasonPhrase")
         }
-        //addArtifact sourcesJar
-        //addArtifact deobfJar
-        //addArtifact javadocJar
     }
+    return ""
+}
+
+class VersionInfo {
+    int id
+    String name
+    String slug
+}
+
+class GameVersion {
+    int id
+    int gameVersionTypeID
+    String name
+    String slug
+}
+
+
+// Based on https://github.com/matthewprenger/CurseGradle as it didnt support Bukkit uploads at the time.
+task curseforge {
+    dependsOn(jar)
+    doLast {
+        String apiKey = null
+
+        if (System.getenv("CURSE_API") != null) {
+            apiKey = System.getenv("CURSE_API")
+        }
+
+        if(apiKey != null) {
+            String VERSION_TYPES_URL = "/api/game/version-types"
+            String VERSION_URL = "/api/game/versions"
+            String UPLOAD_URL = "/api/projects/%s/upload-file"
+            println("Uploading to CurseForge")
+
+            println(getValueFromCurseAPI(apiKey, VERSION_TYPES_URL))
+
+            println("Published build")
+
+        } else {
+            println("Discord webhook unspecified")
+        }
+    }
+//        id = project.curse_project_id
+//        // TODO add code to reference this but also cut the latest change logs in for the files
+//        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
+//        changelogType = 'markdown'
+//        releaseType = 'release'
 }
 
 task copyPlugin {
