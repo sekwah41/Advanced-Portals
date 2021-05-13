@@ -28,7 +28,7 @@ apply plugin: 'eclipse'
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = branch == null || (!(branch.startsWith("refs/heads/release/") || branch.startsWith("refs/tags/")))
+def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && !branch.contains("-"))
 
 group = 'com.sekwah.advancedportals'
 version = getPluginData("version") + (isDevBranch ? '-SNAPSHOT' : '')
@@ -181,5 +181,19 @@ task runJar() {
             jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
             workingDir "${System.env.MC_SERVER_LOC}"
         }
+    }
+}
+
+task updateChangelog(type: Exec) {
+    commandLine 'cmd', '/c', 'npx standard-version'
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+task updateChangelogPreRelease(type: Exec) {
+    commandLine 'cmd', '/c', 'npx standard-version --prerelease'
+    ext.output = {
+        return standardOutput.toString()
     }
 }
