@@ -17,6 +17,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Support for auto detecting modern forwarding added.
+ */
+
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
     private Settings settings;
