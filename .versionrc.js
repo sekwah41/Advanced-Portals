@@ -39,5 +39,11 @@ const files = [plugin, velocity_plugin, bungee];
 
 module.exports = {
   bumpFiles: files,
-  packageFiles: files
+  packageFiles: files,
+  header:"# Changelog\n" +
+      "\n" +
+      "All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.\n" +
+      "\n" +
+      "For release changelogs see [CHANGELOG.md](CHANGELOG.md)  \n" +
+      "For snapshot changelogs see [SNAPSHOT_CHANGELOG.md](SNAPSHOT_CHANGELOG.md)\n",
 }
