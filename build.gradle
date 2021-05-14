@@ -248,7 +248,13 @@ task runJar() {
 task updateChangelog {
     doLast{
         exec {
-            commandLine 'cmd', '/c', 'npx standard-version -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag --skip.bump --skip.commit'
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.tag'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+        exec {
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.commit --skip.tag --skip.bump'
             ext.output = {
                 return standardOutput.toString()
             }
@@ -266,7 +272,7 @@ task updateChangelog {
             }
         }
         exec {
-            commandLine 'cmd', '/c', 'npx standard-version --skip.changelog'
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.bump'
             ext.output = {
                 return standardOutput.toString()
             }
@@ -275,7 +281,7 @@ task updateChangelog {
 }
 
 task updateChangelogPreRelease(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version --prerelease -i docs/SNAPSHOT_CHANGELOG.md'
+    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md'
     ext.output = {
         return standardOutput.toString()
     }
