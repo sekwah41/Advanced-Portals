@@ -241,10 +241,36 @@ task runJar() {
     }
 }
 
-task updateChangelog(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version'
-    ext.output = {
-        return standardOutput.toString()
+/**
+ * These are needed as standard-version doesnt allow for the ability to skip tag versions for the changelog.
+ * Well it does but not on purpose and it breaks things.
+ */
+task updateChangelog {
+    doLast{
+        exec {
+            commandLine 'cmd', '/c', 'npx standard-version -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag --skip.bump --skip.commit'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+        exec {
+            commandLine 'cmd', '/c', 'git add CHANGELOG.md'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+        exec {
+            commandLine 'cmd', '/c', 'git commit -m "chore(changelog): Update CHANGELOG.md with full release notes.'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+        exec {
+            commandLine 'cmd', '/c', 'npx standard-version --skip.changelog'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
     }
 }
 
