@@ -248,25 +248,7 @@ task runJar() {
 task updateChangelog {
     doLast{
         exec {
-            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.tag'
-            ext.output = {
-                return standardOutput.toString()
-            }
-        }
-        exec {
-            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.commit --skip.tag --skip.bump'
-            ext.output = {
-                return standardOutput.toString()
-            }
-        }
-        exec {
-            commandLine 'cmd', '/c', 'git add docs/CHANGELOG.md'
-            ext.output = {
-                return standardOutput.toString()
-            }
-        }
-        exec {
-            commandLine 'cmd', '/c', 'git commit -m "chore(changelog): Update CHANGELOG.md with full release notes.'
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag'
             ext.output = {
                 return standardOutput.toString()
             }
