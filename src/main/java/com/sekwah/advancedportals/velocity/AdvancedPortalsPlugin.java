@@ -19,6 +19,10 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Velocity support was added here (this is just a comment to properly fix changelogs)
+ */
+
+/**
  * While there may be a better way to do this for now we are keeping the behavior so it also works with Bungee's horrible API.
  */
 @Plugin(id = "advancedportals", name = "Advanced Portals",
