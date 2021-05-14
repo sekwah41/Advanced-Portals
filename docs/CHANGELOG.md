@@ -12,12 +12,10 @@ All notable changes to this project will be documented in this file. See [standa
 ### 0.5.13-0 (2021-05-12)
 
  * Build Tool Change: Updated versioning and changelog tooling and standards.
-
-### 0.5.13
-
  * Added improved support for Velocity (You can now add it directly to Velocity as a plugin)
  * Added a ForceEnableProxySupport config option in case any are not detected
  * Modern forwarding will be automatically detected. You will no longer need to manually set ForceEnableProxySupport
+
 
 ### 0.5.12
 

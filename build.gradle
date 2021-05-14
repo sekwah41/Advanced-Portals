@@ -110,7 +110,7 @@ task discordupload {
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
             builder.addTextBody("content", "New automated dev build\n\n" +
-                    "Current Features: <${project.github}/blob/${sha}/CHANGELOG.md>")
+                    "Current Features: <${project.github}/blob/${sha}/docs/CHANGELOG.md>")
 
             builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
 
@@ -248,13 +248,13 @@ task runJar() {
 task updateChangelog {
     doLast{
         exec {
-            commandLine 'cmd', '/c', 'npx standard-version -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag --skip.bump --skip.commit'
+            commandLine 'cmd', '/c', 'npx standard-version -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag --skip.bump --skip.commit'
             ext.output = {
                 return standardOutput.toString()
             }
         }
         exec {
-            commandLine 'cmd', '/c', 'git add CHANGELOG.md'
+            commandLine 'cmd', '/c', 'git add docs/CHANGELOG.md'
             ext.output = {
                 return standardOutput.toString()
             }
@@ -275,7 +275,7 @@ task updateChangelog {
 }
 
 task updateChangelogPreRelease(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version --prerelease'
+    commandLine 'cmd', '/c', 'npx standard-version --prerelease -i docs/SNAPSHOT_CHANGELOG.md'
     ext.output = {
         return standardOutput.toString()
     }
