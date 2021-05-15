@@ -40,6 +40,7 @@ const files = [plugin, velocity_plugin, bungee];
 module.exports = {
   bumpFiles: files,
   packageFiles: files,
+  //releaseAs: '0.16.0',
   header:"# Changelog\n" +
       "\n" +
       "All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.\n" +
