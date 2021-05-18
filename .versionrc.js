@@ -40,6 +40,7 @@ const files = [plugin, velocity_plugin, bungee];
 module.exports = {
   bumpFiles: files,
   packageFiles: files,
+  // In case you need to force a version change (mostly due to change of scope of the update e.g. major now instead of patch)
   //releaseAs: '0.16.0',
   header:"# Changelog\n" +
       "\n" +
