@@ -3,8 +3,7 @@ name: Build Project
 on:
   push:
     branches:
-      - '*/*'
-      - '!release/*'
+      - '**'
     tags:
       - '*'
   pull_request:
@@ -28,13 +27,13 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Upload to Discord (If dev branch)
-        if: startsWith(github.ref, 'refs/heads/dev/')
+      - name: Upload to Discord (If pre-release tag)
+        if: "startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: ./gradlew discordupload
-      - name: Publish to Curseforge (If tagged)
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Publish to Curseforge (If release tag)
+        if: "startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')"
         env:
           CURSE_API: ${{ secrets.CURSE_API }}
         run: ./gradlew curseforge
