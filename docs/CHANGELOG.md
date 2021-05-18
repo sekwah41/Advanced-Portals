@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file. See [standa
 For the release changelogs see [CHANGELOG.md](CHANGELOG.md)  
 For the snapshot changelogs see [SNAPSHOT_CHANGELOG.md](SNAPSHOT_CHANGELOG.md)
 
+## 0.16.0 (2021-05-18)
+
+
+### Features
+
+* **proxy:** Added a ForceEnableProxySupport config option ([99c810e](https://github.com/sekwah41/Advanced-Portals/commit/99c810e1beeee743734ec451ffe5df312eec8726))
+* **proxy:** Added Velocity support ([b243b4d](https://github.com/sekwah41/Advanced-Portals/commit/b243b4d889b8039cb800d981d44d85da06ff62d5))
+* **proxy:** Modern forwarding will be automatically detected. ([f3c8f73](https://github.com/sekwah41/Advanced-Portals/commit/f3c8f73975857a4e5d31a6a21111eee8b7888bdd))
+* Added configurable proxy teleport delay ([a1121ad](https://github.com/sekwah41/Advanced-Portals/commit/a1121adc10addfcce515d1358d1274232109fdfd))
+
 ### 0.5.12
 
  * Added support for Velocity.

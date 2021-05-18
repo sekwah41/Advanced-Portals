@@ -318,6 +318,8 @@ task runJar() {
 /**
  * These are needed as standard-version doesnt allow for the ability to skip tag versions for the changelog.
  * Well it does but not on purpose and it breaks things.
+ *
+ * Tagging is skipped so that the release can be merged and confirmed (A little long winded but just to stop mistakes)
  */
 task updateChangelog {
     doLast{
@@ -328,7 +330,7 @@ task updateChangelog {
             }
         }
         exec {
-            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.bump'
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.bump --skip.tag'
             ext.output = {
                 return standardOutput.toString()
             }
