@@ -91,3 +91,7 @@ CommandLogs: true
 
 # If you want to use bungee or velocity and it is not automatically detected (make sure you have advanced portals on the proxy, especially with velocity)
 ForceEnableProxySupport: false
+
+# How many seconds after the proxy event fires should the player be teleported (should help with on spawn plugins and such)
+# 0 is disabled and anything higher causes a delay.
+ProxyTeleportDelay: 0
