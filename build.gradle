@@ -12,23 +12,26 @@ import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.client.methods.HttpGet
+import com.google.gson.Gson
+
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
 
 buildscript {
     repositories {
         maven {url "https://plugins.gradle.org/m2/"}
         mavenCentral()
         mavenLocal()
+        jcenter()
     }
     dependencies {
         classpath "org.apache.httpcomponents:httpmime:4.5.13"
-        classpath "com.google.code.gson:gson:2.6.2"
+        classpath "com.google.code.gson:gson:2.8.6"
+        classpath "org.apache.httpcomponents:httpclient:4.5.13"
     }
 }
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
@@ -74,10 +77,6 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    // to stop IntelliJ complaining about this build script
-    testCompile "org.apache.httpcomponents:httpmime:4.5.13"
-    testCompile "org.apache.httpcomponents:httpclient:4.5.13"
-    testCompile "com.google.code.gson:gson:2.6.2"
 
     //implementation "org.bukkit:bukkit:1.16.1-R0.1-SNAPSHOT"
     implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
@@ -132,6 +131,8 @@ task discordupload {
 String getValueFromCurseAPI(apiKey, endpoint) {
     String API_BASE_URL = 'https://minecraft.curseforge.com'
 
+    Gson gson = new Gson()
+
     HttpClient client = HttpClientBuilder.create()
             .setDefaultRequestConfig(RequestConfig.custom()
                     .setCookieSpec(CookieSpecs.IGNORE_COOKIES).build()).build()
@@ -158,10 +159,40 @@ String getValueFromCurseAPI(apiKey, endpoint) {
     return ""
 }
 
-class VersionInfo {
-    int id
-    String name
-    String slug
+/**
+ * Upload a single file (in case you also want to upload the other files like source n stuff)
+ * @param json
+ * @param file
+ * @return
+ * @throws IOException
+ * @throws URISyntaxException
+ */
+UploadResponse uploadFile(Metadata metadata, File file, String apiKey, Gson gson) throws IOException, URISyntaxException {
+    String API_BASE_URL = 'https://minecraft.curseforge.com'
+    String UPLOAD_URL = "/api/projects/%s/upload-file"
+    // Upload
+    // Important info
+    String uploadUrl = String.format(API_BASE_URL + UPLOAD_URL, project.curse_project_id)
+
+    HttpClient client = HttpClientBuilder.create()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.IGNORE_COOKIES).build()).build()
+
+    HttpPost post = new HttpPost(uploadUrl)
+    post.setHeader('X-Api-Token', apiKey)
+
+
+    // https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-api
+    post.setEntity(MultipartEntityBuilder.create()
+            .addTextBody('metadata', gson.toJson(metadata), ContentType.APPLICATION_JSON)
+            .addBinaryBody('file', file)
+            .build())
+
+    HttpResponse response = client.execute(post)
+    InputStreamReader reader = new InputStreamReader(response.entity.content)
+    UploadResponse uploadResponse = gson.fromJson(reader, UploadResponse)
+    reader.close()
+    return uploadResponse
 }
 
 class GameVersion {
@@ -169,6 +200,20 @@ class GameVersion {
     int gameVersionTypeID
     String name
     String slug
+}
+
+/**
+ * As described here https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-api
+  */
+class Metadata {
+    String changelog
+    String changelogType
+    int[] gameVersions
+    String releaseType
+}
+
+class UploadResponse {
+    int id;
 }
 
 
@@ -183,12 +228,41 @@ task curseforge {
         }
 
         if(apiKey != null) {
-            String VERSION_TYPES_URL = "/api/game/version-types"
+
+            Gson gson =  new Gson()
+
+            //String VERSION_TYPES_URL = "/api/game/version-types"
+            int gameVersionTypeID = 1
             String VERSION_URL = "/api/game/versions"
-            String UPLOAD_URL = "/api/projects/%s/upload-file"
             println("Uploading to CurseForge")
 
-            println(getValueFromCurseAPI(apiKey, VERSION_TYPES_URL))
+            // Get game versions
+            String gameVersionsString = getValueFromCurseAPI(apiKey, VERSION_URL)
+            GameVersion[] gameVersions = gson.fromJson(gameVersionsString, GameVersion[].class)
+            def versions = gameVersions.findAll {it.gameVersionTypeID == gameVersionTypeID}
+
+            String[] supportedVersions = [
+                "1.16",
+                "1.15",
+                "1.14",
+                "1.13"
+            ]
+
+            def supportedGameVersions = versions.findAll {supportedVersions.contains(it.name)}
+            int[] supportedGameVersionIds = supportedGameVersions.collect {it.id}.toArray()
+
+            println("Supported Version Id's ${supportedGameVersionIds}")
+
+            Metadata uploadMetadata = new Metadata();
+
+            uploadMetadata.changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
+            uploadMetadata.changelogType = "markdown"
+            uploadMetadata.releaseType = isDevBranch ? "beta" : "release"
+            uploadMetadata.gameVersions = supportedGameVersionIds
+
+            def uploadId = uploadFile(uploadMetadata, file(jar.archiveFile), apiKey, gson)
+
+            println("Uploaded with ID: ${uploadId.id}")
 
             println("Published build")
 
