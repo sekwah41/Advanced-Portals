@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.bukkit.listeners;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.entity.Player;
@@ -13,9 +15,12 @@ import java.util.UUID;
 public class PluginMessageReceiver implements PluginMessageListener {
 
     private final AdvancedPortalsPlugin plugin;
+    private final int teleportDelay;
 
     public PluginMessageReceiver(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
+        ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
+        teleportDelay = config.getConfig().getInt(ConfigHelper.PROXY_TELEPORT_DELAY, 0);
     }
 
     @Override
@@ -34,19 +39,30 @@ public class PluginMessageReceiver implements PluginMessageListener {
 
             Player targetPlayer = this.plugin.getServer().getPlayer(UUID.fromString(bungeeUUID));
 
-            if (targetPlayer != null) {
-                Destination.warp(targetPlayer, targetDestination, false, true);
-
-            }
-            else {
-                plugin.getPlayerDestiMap().put(bungeeUUID, targetDestination);
-
+            if(teleportDelay <= 0) {
+                teleportPlayerToDesti(targetPlayer, targetDestination, bungeeUUID);
+            } else {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                                plugin.getPlayerDestiMap().remove(bungeeUUID),
-                        20L * 10
+                                teleportPlayerToDesti(targetPlayer, targetDestination, bungeeUUID),
+                        20L * teleportDelay
                 );
             }
 
+        }
+    }
+
+    public void teleportPlayerToDesti(Player player, String desti, String bungeeUUID) {
+        if (player != null) {
+            Destination.warp(player, desti, false, true);
+
+        }
+        else {
+            plugin.getPlayerDestiMap().put(bungeeUUID, desti);
+
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
+                            plugin.getPlayerDestiMap().remove(bungeeUUID),
+                    20L * 10
+            );
         }
     }
 
