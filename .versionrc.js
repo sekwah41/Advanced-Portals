@@ -1,5 +1,5 @@
 let versionRegex = /(\nversion:\s)([0-9.-]+)/;
-let velocityVersionRegex = /(\sversion\s=\s")([0-9.-]+)("\))/;
+let velocityVersionRegex = /(\sversion\s=\s")([0-9.-]+)(",)/;
 
 
 const ymlUpdater = {
