@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. See [standa
 For the release changelogs see [CHANGELOG.md](CHANGELOG.md)  
 For the snapshot changelogs see [SNAPSHOT_CHANGELOG.md](SNAPSHOT_CHANGELOG.md)
 
-## 0.16.0 (2021-05-18)
+## 0.6.0 (2021-05-19)
 
 
 ### Features
