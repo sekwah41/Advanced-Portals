@@ -255,7 +255,7 @@ task curseforge {
 
             Metadata uploadMetadata = new Metadata();
 
-            uploadMetadata.changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
+            uploadMetadata.changelog = "${project.github}/blob/${sha}/docs/CHANGELOG.md"
             uploadMetadata.changelogType = "markdown"
             uploadMetadata.releaseType = isDevBranch ? "beta" : "release"
             uploadMetadata.gameVersions = supportedGameVersionIds
