@@ -339,7 +339,17 @@ task updateChangelog {
 }
 
 task updateChangelogPreRelease(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md'
+    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.tag'
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+/**
+ * Just to stop having to manually tagging. Probably could do this easier but meh stops typos or other issues.
+ */
+task tagRelease(type: Exec) {
+    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.changelog --skip.bump'
     ext.output = {
         return standardOutput.toString()
     }
