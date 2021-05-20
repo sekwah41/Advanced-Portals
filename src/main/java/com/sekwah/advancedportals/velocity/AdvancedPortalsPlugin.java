@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Plugin(id = "advancedportals", name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
-        version = "0.6.0",
+        version = "0.7.0-0",
         description = "Customisable portal plugin",
         dependencies = {
         @Dependency(id = "velocity", version = "2.x.x")
