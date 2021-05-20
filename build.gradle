@@ -109,7 +109,7 @@ task discordupload {
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
             builder.addTextBody("content", "New automated dev build\n\n" +
-                    "Current Features: <${project.github}/blob/${sha}/docs/CHANGELOG.md>")
+                    "Current Features: <${project.github}/blob/${sha}/docs/SNAPSHOT_CHANGELOG.md>")
 
             builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
 
