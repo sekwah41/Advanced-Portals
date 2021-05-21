@@ -1,24 +1,30 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
-import com.sekwah.advancedportals.core.registry.SubCmd;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 
 import java.util.List;
 
-@SubCmd(name="version", parent=SubCmd.TYPE.PORTAL, minArgs=5, permissions= {"Test"})
-public class VersionSubCommand implements SubCommand {
+public class LangUpdateSubCommand implements SubCommand {
+
+    @Inject
+    private AdvancedPortalsCore portalsCore;
+
+    public LangUpdateSubCommand() {
+    }
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage(Lang.translateColor("messageprefix.positive") + " Advanced Portals v" + AdvancedPortalsCore.version);
+        this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+        sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("translatedata.replaced"));
     }
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return sender.isOp() || sender.hasPermission("advancedportals.transupdate");
     }
 
     @Override
@@ -28,11 +34,11 @@ public class VersionSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.version.help");
+        return Lang.translate("command.trans.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.version.help");
+        return Lang.translate("command.trans.help");
     }
 }
