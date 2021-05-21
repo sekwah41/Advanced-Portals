@@ -1,0 +1,5 @@
+rootProject.name = "advanced-portals"
+include 'spigot'
+include 'velocity'
+include 'bungee'
+include 'core'

@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+configurations {
+    // configuration that holds jars to copy into lib
+    includeLibs
+}
+
+repositories {
+    maven { url "https://repo.maven.apache.org/maven2" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+// includeLibs just says to include the library in the final jar
+dependencies {
+    includeLibs group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
+    includeLibs group: 'com.google.inject', name: 'guice', version:'4.0'
+    compile group: 'com.google.inject', name: 'guice', version:'4.0'
+    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+}
+
+jar {
+    from configurations.includeLibs.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+}
+
+// Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
+// DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
+task runJar() {
+    doLast {
+        javaexec {
+            main "-jar"
+            args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
+            jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+            workingDir "${System.env.MC_SERVER_LOC}"
+        }
+    }
+}

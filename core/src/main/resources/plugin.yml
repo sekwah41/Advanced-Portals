@@ -1,0 +1,52 @@
+main: com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin
+name: AdvancedPortals
+version: 1.0.0
+author: sekwah41
+description: An advanced portals plugin for bukkit.
+api-version: 1.13
+commands:
+    portal:
+        description: The main command for the advanced portals
+        aliases: [portals, aportals, advancedportals]
+        usage: /<command>
+    destination:
+        description: Can be used to access portal destinations.
+        aliases: [desti]
+        usage: /<command>
+permissions:
+   advancedportals.*:
+     description: Gives access to all commands
+     default: op
+     children:
+       advancedportals.createportal: true
+       advancedportals.portal: true
+       advancedportals.build: true
+       advancedportals.desti: true
+   advancedportals.createportal:
+     description: Allows you to create portals
+     default: op
+   advancedportals.createportal.commandlevel.*:
+     description: Gives access to all level raisers
+     default: false
+     children:
+       advancedportals.createportal.commandlevel.op: true
+       advancedportals.createportal.commandlevel.perms: true
+       advancedportals.createportal.commandlevel.console: true
+   advancedportals.createportal.commandlevel.op:
+        description: Allows you to increase the users level temporaily to op
+        default: false
+   advancedportals.createportal.commandlevel.perms:
+        description: Allows you to increase the users level temporaily to have all perms
+        default: false
+   advancedportals.createportal.commandlevel.console:
+        description: Executes command in the console
+        default: false
+   advancedportals.portal:
+     description: Allows use of portal commands
+     default: op
+   advancedportals.build:
+     description: Allows you to build in the portal regions
+     default: op
+   advancedportals.desti:
+     description: Gives access to all desti commands
+     default: op

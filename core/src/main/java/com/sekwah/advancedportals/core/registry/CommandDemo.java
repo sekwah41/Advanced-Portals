@@ -12,7 +12,7 @@ public class CommandDemo implements CommandHandler {
     }
 
     @Override
-    public void onCommandFailure(String[] command, CommandSenderContainer sender, CommandException exception) {
+    public void onCommandFailure(String[] command, CommandSenderContainer sender, CommandException exception, ImmutableList<String> args) {
 
     }
 }
