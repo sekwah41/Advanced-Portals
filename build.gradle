@@ -51,13 +51,38 @@ if (branch != null) {
 }
 def isCanary = version.toString().contains('canary')
 
-archivesBaseName = "advancedportals"
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        maven {url "https://plugins.gradle.org/m2/"}
+        mavenCentral()
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "com.google.code.gson:gson:2.8.6"
+        classpath "org.apache.httpcomponents:httpclient:4.5.13"
+    }
+}
+
+archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 
 description = ""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+allprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+def branch = System.getenv("GITHUB_REF");
+def sha = System.getenv("GITHUB_SHA");
+def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && !branch.contains("-"))
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -78,7 +103,7 @@ String getPluginData(String tag) {
 
 configurations {
     // configuration that holds jars to copy into lib
-    includeLibs
+    compile.extendsFrom(includeLibs)
 }
 
 repositories {
