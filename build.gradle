@@ -1,16 +1,52 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
+import org.apache.commons.codec.Charsets
+import org.apache.http.HttpEntity
+import org.apache.http.HttpResponse
+import org.apache.http.client.HttpClient
+import org.apache.http.client.config.CookieSpecs
+import org.apache.http.client.config.RequestConfig
+import org.apache.http.client.methods.CloseableHttpResponse
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.mime.MultipartEntityBuilder
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClientBuilder
+import org.apache.http.impl.client.HttpClients
+import org.apache.http.client.methods.HttpGet
+import com.google.gson.Gson
 
-archivesBaseName = "advancedportals"
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        maven {url "https://plugins.gradle.org/m2/"}
+        mavenCentral()
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "com.google.code.gson:gson:2.8.6"
+        classpath "org.apache.httpcomponents:httpclient:4.5.13"
+    }
+}
+
+archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 version = '1.0.0'
 
 description = ""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+allprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+def branch = System.getenv("GITHUB_REF");
+def sha = System.getenv("GITHUB_SHA");
+def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && !branch.contains("-"))
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -18,7 +54,7 @@ tasks.withType(JavaCompile) {
 
 configurations {
     // configuration that holds jars to copy into lib
-    includeLibs
+    compile.extendsFrom(includeLibs)
 }
 
 repositories {
@@ -29,28 +65,237 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    includeLibs group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
-    compile group: 'com.google.code.gson', name: 'gson', version:'2.8.2'
-    includeLibs group: 'com.google.inject', name: 'guice', version:'4.0'
-    compile group: 'com.google.inject', name: 'guice', version:'4.0'
-    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
-
-
-    // For spigot api
-    implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
-
-    // For bukkit api
-    implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
+    includeLibs project(':core')
+    //implementation project(':bungee')
+    //implementation project(':spigot')
+    //implementation project(':velocity')
 }
 
+
 jar {
-    from configurations.includeLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("\\build\\libs\\")
+    } .collect {
+        println("Including: ${it.name}")
+        it.isDirectory() ? it : zipTree(it)
+    }
+}
+
+/** For pre-releases and testers to be able to try the latest commits if they want.
+ * If the builds start exceeding 8MB then we may want to upload to s3 instead and periodically clear.
+ * TODO possibly add a task that announces when builds are made?
+ * Though add a note that it may take a while for Curse to approve the files.
+ */
+task discordupload {
+    dependsOn(jar)
+    doLast {
+        String discordWebhook = System.getenv("DISCORD_WEBHOOK")
+
+        if(discordWebhook != null) {
+            println("Logging Into Discord")
+
+            CloseableHttpClient httpClient = HttpClients.createDefault()
+            HttpPost uploadFile = new HttpPost(discordWebhook)
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+            builder.addTextBody("content", "New automated dev build\n\n" +
+                    "Current Features: <${project.github}/blob/${sha}/docs/changelogs/SNAPSHOT_CHANGELOG.md>")
+
+            builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+
+            HttpEntity multipart = builder.build()
+
+            uploadFile.setEntity(multipart)
+            CloseableHttpResponse response = httpClient.execute(uploadFile)
+            response.getEntity()
+
+            println("Posted build")
+
+        } else {
+            println("Discord webhook unspecified")
+        }
+    }
+}
+
+
+static String getValueFromCurseAPI(apiKey, endpoint) {
+    String API_BASE_URL = 'https://minecraft.curseforge.com'
+
+    Gson gson = new Gson()
+
+    HttpClient client = HttpClientBuilder.create()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.IGNORE_COOKIES).build()).build()
+
+    HttpGet get = new HttpGet(API_BASE_URL + endpoint)
+    get.setHeader('X-Api-Token', apiKey)
+
+    HttpResponse response = client.execute(get)
+
+    int statusCode = response.statusLine.statusCode
+
+    if (statusCode == 200) {
+        byte[] data = response.entity.content.bytes
+        return new String(data, Charsets.UTF_8)
+    } else {
+        if (response.getFirstHeader('content-type').value.contains('json')) {
+            InputStreamReader reader = new InputStreamReader(response.entity.content)
+            reader.close()
+            throw new RuntimeException("[CurseForge] Error")
+        } else {
+            throw new RuntimeException("[CurseForge] HTTP Error Code $response.statusLine.statusCode: $response.statusLine.reasonPhrase")
+        }
+    }
+}
+
+/**
+ * Upload a single file (in case you also want to upload the other files like source n stuff)
+ * @param json
+ * @param file
+ * @return
+ * @throws IOException
+ * @throws URISyntaxException
+ */
+UploadResponse uploadFile(Metadata metadata, File file, String apiKey, Gson gson) throws IOException, URISyntaxException {
+    String API_BASE_URL = 'https://minecraft.curseforge.com'
+    String UPLOAD_URL = "/api/projects/%s/upload-file"
+    // Upload
+    // Important info
+    String uploadUrl = String.format(API_BASE_URL + UPLOAD_URL, project.curse_project_id)
+
+    HttpClient client = HttpClientBuilder.create()
+            .setDefaultRequestConfig(RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.IGNORE_COOKIES).build()).build()
+
+    HttpPost post = new HttpPost(uploadUrl)
+    post.setHeader('X-Api-Token', apiKey)
+
+
+    // https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-api
+    post.setEntity(MultipartEntityBuilder.create()
+            .addTextBody('metadata', gson.toJson(metadata), ContentType.APPLICATION_JSON)
+            .addBinaryBody('file', file)
+            .build())
+
+    HttpResponse response = client.execute(post)
+    InputStreamReader reader = new InputStreamReader(response.entity.content)
+    UploadResponse uploadResponse = gson.fromJson(reader, UploadResponse)
+    reader.close()
+    return uploadResponse
+}
+
+class GameVersion {
+    int id
+    int gameVersionTypeID
+    String name
+    String slug
+}
+
+/**
+ * As described here https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-api
+ */
+class Metadata {
+    String changelog
+    String changelogType
+    int[] gameVersions
+    String releaseType
+}
+
+class UploadResponse {
+    int id;
+}
+
+
+// Based on https://github.com/matthewprenger/CurseGradle as it didnt support Bukkit uploads at the time.
+task curseforge {
+    dependsOn(jar)
+    doLast {
+        String apiKey = null
+
+        if (System.getenv("CURSE_API") != null) {
+            apiKey = System.getenv("CURSE_API")
+        }
+
+        if(apiKey != null) {
+
+            Gson gson =  new Gson()
+
+            //String VERSION_TYPES_URL = "/api/game/version-types"
+            int gameVersionTypeID = 1
+            String VERSION_URL = "/api/game/versions"
+            println("Uploading to CurseForge")
+
+            // Get game versions
+            String gameVersionsString = getValueFromCurseAPI(apiKey, VERSION_URL)
+            GameVersion[] gameVersions = gson.fromJson(gameVersionsString, GameVersion[].class)
+            def versions = gameVersions.findAll {it.gameVersionTypeID == gameVersionTypeID}
+
+            String[] supportedVersions = [
+                    "1.16",
+                    "1.15",
+                    "1.14",
+                    "1.13"
+            ]
+
+            def supportedGameVersions = versions.findAll {supportedVersions.contains(it.name)}
+            int[] supportedGameVersionIds = supportedGameVersions.collect {it.id}.toArray()
+
+            println("Supported Version Id's ${supportedGameVersionIds}")
+
+            Metadata uploadMetadata = new Metadata();
+
+            uploadMetadata.changelog = "${project.github}/blob/${sha}/docs/changelogs/CHANGELOG.md"
+            uploadMetadata.changelogType = "markdown"
+            uploadMetadata.releaseType = isDevBranch ? "beta" : "release"
+            uploadMetadata.gameVersions = supportedGameVersionIds
+
+            def uploadId = uploadFile(uploadMetadata, file(jar.archiveFile), apiKey, gson)
+
+            println("Uploaded with ID: ${uploadId.id}")
+
+            println("Published build")
+
+        } else {
+            println("Discord webhook unspecified")
+        }
+    }
+//        id = project.curse_project_id
+//        // TODO add code to reference this but also cut the latest change logs in for the files
+//        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
+//        changelogType = 'markdown'
+//        releaseType = 'release'
+}
+
+task copyPlugin {
+    doLast {
+        copy {
+            if(System.env.MC_SERVER_LOC == null) {
+                throw new Exception('You must set the server location and jar to use')
+            }
+            println "$buildDir/libs/Advanced-Portals-${version}.jar"
+            println "${System.env.MC_SERVER_LOC}/plugins/Advanced-Portals-${version}.jar"
+            try {
+                delete fileTree("${System.env.MC_SERVER_LOC}/plugins/") {
+                    include "*.jar"
+                }
+            }
+            catch(RuntimeException e) {
+                println e.getLocalizedMessage()
+            }
+            from file("$buildDir/libs/Advanced-Portals-${version}.jar")
+            into file("${System.env.MC_SERVER_LOC}/plugins/")
+        }
+    }
 }
 
 // Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
 // DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
 task runJar() {
     doLast {
+        if(System.env.MC_SERVER_LOC == null || System.env.MC_SERVER_JAR == null) {
+            throw new Exception('You must set the server location and jar to use MC_SERVER_LOC and MC_SERVER_JAR')
+        }
         javaexec {
             main "-jar"
             args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
@@ -60,11 +305,42 @@ task runJar() {
     }
 }
 
+/**
+ * These are needed as standard-version doesnt allow for the ability to skip tag versions for the changelog.
+ * Well it does but not on purpose and it breaks things.
+ *
+ * Tagging is skipped so that the release can be merged and confirmed (A little long winded but just to stop mistakes)
+ */
+task updateChangelog {
+    doLast{
+        exec {
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+        exec {
+            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.bump --skip.tag'
+            ext.output = {
+                return standardOutput.toString()
+            }
+        }
+    }
+}
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+task updateChangelogPreRelease(type: Exec) {
+    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.tag'
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+/**
+ * Just to stop having to manually tagging. Probably could do this easier but meh stops typos or other issues.
+ */
+task tagRelease(type: Exec) {
+    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.changelog --skip.bump'
+    ext.output = {
+        return standardOutput.toString()
+    }
 }
