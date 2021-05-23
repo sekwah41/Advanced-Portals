@@ -6,18 +6,22 @@ An advanced portals plugin for bukkit made by sekwah41 designed to have a wide r
 
 **NOTE:** This is the rewrite that is in progress to also allow multiple platforms of server mods, if you are looking for the old version or this version isn't finished check the branch [portals-old](https://github.com/sekwah41/Advanced-Portals/tree/portals-old)
 
-Also please use the markdown and not html for updates to this file, references can be found [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-
 # Module Layout
-* **api**: All code for adding tags using addons.
+Each implementation will contain the proxy code to allow re-use of the same jar files.
+Though due to incompatibilities and keeping the files smaller, we will be making the spigot/paper versions available [here](https://dev.bukkit.org/projects/advanced-portals/files).
+## Common
+* **api**: All code for adding tags and creating addons.
+* **core**: Functional code with an abstraction layer to create consistent behavior between platforms.
 
-# Branch Layout
- * [master](https://github.com/sekwah41/Advanced-Portals/) (Release Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=master)  
- * [dev](https://github.com/sekwah41/Advanced-Portals/tree/dev) (Dev Build) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=dev)  
- * [recode](https://github.com/sekwah41/Advanced-Portals/tree/recode) (Recode) ![Build Status](https://travis-ci.org/sekwah41/Advanced-Portals.svg?branch=recode)  
-Once the recode is done the master branch will be releases and the dev branch will be where work is done.
+## Implementations
+* **spigot**: All functionality for spigot to connect the abstraction layer.
+
+## Proxy's
+* **bungee**: Bungee plugin to allow secure connections between severs.
+* **velocity**: Velocity proxy plugin,
 
 # Help
+[Command Documentation & Guides](https://www.guilded.gg/Sekwah/groups/MDqAZyrD/channels/72ffdaa3-9273-4722-bf47-b75408b371af/docs/1807463914)
 
 [List Of Commands](https://github.com/sekwah41/Advanced-Portals/wiki/Commands)
 
@@ -25,14 +29,39 @@ Once the recode is done the master branch will be releases and the dev branch wi
 
 [Bukkit Page](http://dev.bukkit.org/bukkit-plugins/advanced-portals/)
 
+# Usage Data
+Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
+
 # Supported Platforms
 
  * Spigot/Craftbukkit (planned for release of recode)
  * Forge (possibly, tho not priority)
 
 # API
-I need to finish documenting the api though also 
+Once the API is fully sorted we will look into adding auto deploying of the API with updates.
 
-May be out of date but I will keep whatever javadocs there are updated every now and then here
-http://www.sekwah.com/javadocs/advancedportals/
+# Contributing
+Please ensure that your commits are in the following style for PR's
 
+https://www.conventionalcommits.org/en/v1.0.0/
+
+Accepted tags mostly follow the Angular style and are meant to only loosely be followed.
+When commits close an issue refer in the commit description in the following style (Refs #1, #2, #3)
+## Types available
+* **build**: Changes that affect the build system or external dependencies
+* **ci**: Changes to our CI configuration files and scripts
+* **docs**: Documentation only changes
+* **feat**: A new feature
+* **fix**: A bug fix
+* **perf**: A code change that improves performance
+* **refactor**: A code change that neither fixes a bug nor adds a feature
+* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+<!---
+We don't currently do tests. But in case.
+ * **test**: Adding missing tests or correcting existing tests
+-->
+
+## Scopes available
+Scopes are only needed if relating to specific features just to make them easier to find.
+_I'll expand the list as I work more on the project._
+* **proxy** (Proxy specific features and issues)
