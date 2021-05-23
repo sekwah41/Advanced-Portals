@@ -51,10 +51,18 @@ if (branch != null) {
 }
 def isCanary = version.toString().contains('canary')
 
-
-apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+// A little messier/not advised but
+allprojects {
+    apply plugin: 'java'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 buildscript {
     repositories {
@@ -74,11 +82,6 @@ archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 
 description = ""
-
-allprojects {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");
