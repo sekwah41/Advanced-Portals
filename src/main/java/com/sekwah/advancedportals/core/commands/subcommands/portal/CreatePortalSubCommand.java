@@ -23,7 +23,7 @@ public class CreatePortalSubCommand implements SubCommand {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
                 return;
             }
-            ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
+            List<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
             AdvancedPortal portal = AdvancedPortalsCore.getPortalServices().createPortal(args[1], player, portalTags);
             if(portal != null) {

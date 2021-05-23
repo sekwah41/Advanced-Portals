@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +42,7 @@ public final class PortalServices {
         return false;
     }
 
-    public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) {
+    public AdvancedPortal createPortal(String name, PlayerContainer player, List<DataTag> portalTags) {
         return null;
     }
 

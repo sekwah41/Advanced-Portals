@@ -3,11 +3,12 @@ package com.sekwah.advancedportals.core.util;
 import com.sekwah.advancedportals.core.data.DataTag;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TagReader {
 
-    public static ArrayList<DataTag> getTagsFromArgs(String[] args) {
-        ArrayList<DataTag> tags = new ArrayList<>();
+    public static List<DataTag> getTagsFromArgs(String[] args) {
+        List<DataTag> tags = new ArrayList<>();
         boolean partingValueWithSpaces = false;
         String argBeingParsed = "";
         String currentParsedValue = "";

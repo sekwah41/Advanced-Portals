@@ -5,29 +5,16 @@ import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.data.DataStorage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class ConfigRepositoryImpl implements ConfigRepository {
 
-    private HashMap<String, Config> configs;
+    private Map<String, Config> configs;
     private Config config;
 
     public ConfigRepositoryImpl() {
-        configs = new HashMap<String,Config>();
-    }
-
-    public <T> T getValue(String output) {
-
-        try {
-            return (T) configs.get(output);
-        } catch (ClassCastException ignored) {
-
-        }
-        return null;
-    }
-
-    private void test() {
-        this.<String>getValue("");
+        configs = new HashMap<>();
     }
 
     public boolean getUseOnlySpecialAxe() {

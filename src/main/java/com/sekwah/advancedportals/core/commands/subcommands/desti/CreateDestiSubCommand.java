@@ -22,12 +22,12 @@ public class CreateDestiSubCommand implements SubCommand {
                 sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.createdesti.console"));
                 return;
             }
-            ArrayList<DataTag> destiTags = TagReader.getTagsFromArgs(args);
+            List<DataTag> destiTags = TagReader.getTagsFromArgs(args);
             Destination desti = AdvancedPortalsCore.getDestinationServices().createDesti(args[1], player, player.getLoc(), destiTags);
             if(desti != null) {
                 sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.createdesti.complete"));
                 sender.sendMessage(Lang.translateColor("command.create.tags"));
-                ArrayList<DataTag> destiArgs = desti.getArgs();
+                List<DataTag> destiArgs = desti.getArgs();
                 if(destiArgs.size() == 0) {
                     sender.sendMessage(Lang.translateColor("desti.info.noargs"));
                 }

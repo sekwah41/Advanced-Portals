@@ -19,7 +19,7 @@ public class DestinationRepository implements IDestinationRepository<Destination
     private final String fileLocation = "";
 
 
-    private Map<String, Destination> destinationCache = new HashMap<String, Destination>();
+    private Map<String, Destination> destinationCache = new HashMap<>();
 
     /*Is there any reason to load it into the array if it's not been used or connected?  Q for Sekwah*/
     public void AddDestination(String name, Destination destination) throws IOException {
@@ -35,6 +35,7 @@ public class DestinationRepository implements IDestinationRepository<Destination
         return false;
     }
 
+    @Override
     public boolean containsKey(String name) {
         return Files.exists(Paths.get(fileLocation + "\\" + name + ".json"));
     }

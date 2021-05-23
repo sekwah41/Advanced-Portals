@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class Lang {
 
     private static final Lang instance = new Lang();
-    private final HashMap<String, String> languageMap = new HashMap<>();
+    private final Map<String, String> languageMap = new HashMap<>();
     //private final String DEFAULT_LANG = "en_GB";
 
     /*public Lang() {
@@ -84,8 +84,9 @@ public class Lang {
     private Map<String, String> parseLang(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream, "UTF-8");
         String line = getNextLine(scanner);
-        HashMap<String, String> newMap = new HashMap<>();
-        while (scanner != null && line != null) {
+        Map<String, String> newMap = new HashMap<>();
+        
+        while (line != null) {
             //System.out.println(line);
             if (!line.startsWith("#") && line.indexOf('=') > -1) {
                 int split = line.indexOf('=');

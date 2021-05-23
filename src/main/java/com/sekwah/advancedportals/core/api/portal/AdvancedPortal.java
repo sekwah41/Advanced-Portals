@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -98,8 +99,8 @@ public class AdvancedPortal {
         this.setArg(portalTag.NAME, portalTag.VALUE);
     }
 
-    public ArrayList<DataTag> getArgs() {
-        ArrayList<DataTag> tagList = new ArrayList<>();
+    public List<DataTag> getArgs() {
+        List<DataTag> tagList = new ArrayList<>();
         for(Map.Entry<String, String> entry : this.args.entrySet()){
             tagList.add(new DataTag(entry.getKey(), entry.getValue()));
         }

@@ -8,7 +8,6 @@ import com.sekwah.advancedportals.core.connector.container.CommandSenderContaine
 
 import java.util.List;
 
-@SubCmd(name="version", parent=SubCmd.TYPE.PORTAL, minArgs=5, permissions= {"Test"})
 public class VersionSubCommand implements SubCommand {
 
     @Override
