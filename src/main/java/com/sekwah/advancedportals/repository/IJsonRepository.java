@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 
 public interface IJsonRepository<T> {
     Gson gson = new Gson();
-    public  boolean save(String name, T t);
+    boolean save(String name, T t);
 
-    public boolean containsKey(String name);
+    boolean containsKey(String name);
 
-    public  boolean delete(String name);
+    boolean delete(String name);
 
-    public boolean update(String name, T t);
+    boolean update(String name, T t);
 }
