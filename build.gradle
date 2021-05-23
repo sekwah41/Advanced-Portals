@@ -14,10 +14,18 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.client.methods.HttpGet
 import com.google.gson.Gson
 
-
-apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+// A little messier/not advised but
+allprojects {
+    apply plugin: 'java'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 buildscript {
     repositories {
@@ -38,11 +46,6 @@ group = 'com.sekwah.advancedportals'
 version = '1.0.0'
 
 description = ""
-
-allprojects {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
 
 def branch = System.getenv("GITHUB_REF");
 def sha = System.getenv("GITHUB_SHA");

@@ -1,5 +1,11 @@
 rootProject.name = "advanced-portals"
+// Core modules
+include 'core'
+include 'api'
+
+// Implementations
 include 'spigot'
+
+// Proxies
 include 'velocity'
 include 'bungee'
-include 'core'
