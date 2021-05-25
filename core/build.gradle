@@ -1,3 +1,6 @@
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

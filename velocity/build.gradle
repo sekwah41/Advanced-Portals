@@ -7,15 +7,15 @@ configurations {
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 
 // includeLibs just says to include the library in the final jar
 dependencies {
     implementation project(":core")
 
-    // For spigot api
-    implementation "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    implementation "com.velocitypowered:velocity-api:1.1.0-SNAPSHOT"
+    annotationProcessor "com.velocitypowered:velocity-api:1.1.0-SNAPSHOT"
 }
 
 jar {
