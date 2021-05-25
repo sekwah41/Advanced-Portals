@@ -18,10 +18,24 @@ const bungee = {
   ...ymlUpdater,
 }
 
-const plugin = {
-  filename: 'src/main/resources/plugin.yml',
+const spigotPlugin = {
+  filename: 'spigot/src/main/resources/plugin.yml',
   ...ymlUpdater,
 }
+
+
+const gradleTracker = {
+  filename: 'gradle.properties',
+  updater: {
+    'readVersion': (contents) => {
+      return versionRegex.exec(contents)[2];
+    },
+    'writeVersion': (contents, version) => {
+      return contents.replace(versionRegex, `$1${version}`);
+    }
+  }
+}
+
 
 const velocity_plugin = {
   filename: 'src/main/java/com/sekwah/advancedportals/velocity/AdvancedPortalsPlugin.java',
@@ -35,7 +49,7 @@ const velocity_plugin = {
   }
 }
 
-const files = [plugin, velocity_plugin, bungee];
+const files = [gradleTracker] // spigotPlugin, velocity_plugin, bungee
 
 module.exports = {
   bumpFiles: files,
