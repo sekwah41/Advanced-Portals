@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.connector.container.CommandSenderContaine
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class CommandWithSubCommands implements CommandTemplate {
@@ -27,7 +28,7 @@ public class CommandWithSubCommands implements CommandTemplate {
         return hasRegistered || this.subCommandRegistry.registerSubCommand(arg,subCommand);
     }
 
-    public ArrayList<String> getSubCommands(){
+    public List<String> getSubCommands(){
         return this.subCommandRegistry.getSubCommands();
     }
 
@@ -147,11 +148,21 @@ public class CommandWithSubCommands implements CommandTemplate {
         if(tabList == null) {
             return null;
         }
-        for(String arg : tabList.toArray(new String[0])) {
+        
+        Iterator<String> iter = tabList.iterator();
+        while(iter.hasNext()) {
+            String arg = iter.next();
             if(!arg.startsWith(lastArg.toLowerCase())) {
-                tabList.remove(arg);
+                iter.remove();
             }
         }
+        
+//        for(String arg : tabList.toArray(new String[0])) {
+//            if(!arg.startsWith(lastArg.toLowerCase())) {
+//                tabList.remove(arg);
+//            }
+//        }
+        
         return tabList;
     }
 }

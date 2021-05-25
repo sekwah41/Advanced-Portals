@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.*;
 
@@ -59,11 +60,8 @@ public class Destination {
 
     public boolean portalActivate(PlayerContainer player, ActivationData data) {
         TagRegistry<Destination> tagRegistry = AdvancedPortalsCore.getDestinationTagRegistry();
-        DataTag[] destiTags = new DataTag[args.size()];
-        int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
-            destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
-        }
+        List<DataTag> destiTags = getArgs();
+        
         for(DataTag destiTag : destiTags) {
             TagHandler.Activation<Destination> activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
             if(activationHandler != null) {
@@ -81,11 +79,8 @@ public class Destination {
 
     public void postActivate(PlayerContainer player, ActivationData data) {
         TagRegistry<Destination> tagRegistry = AdvancedPortalsCore.getDestinationTagRegistry();
-        DataTag[] destiTags = new DataTag[args.size()];
-        int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
-            destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
-        }
+        List<DataTag> destiTags = getArgs();
+        
         for(DataTag destiTag : destiTags) {
             TagHandler.Activation<Destination> activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
             if(activationHandler != null) {
@@ -95,10 +90,6 @@ public class Destination {
     }
 
     public List<DataTag> getArgs() {
-        List<DataTag> tagList = new ArrayList<>();
-        for(Map.Entry<String, String> entry : this.args.entrySet()){
-            tagList.add(new DataTag(entry.getKey(), entry.getValue()));
-        }
-        return tagList;
+        return TagReader.getTagsFromArgsMap(args);
     }
 }

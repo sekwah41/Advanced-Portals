@@ -4,10 +4,7 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Do not register to here. Register to the sprcific subcommand registry classes.
@@ -23,7 +20,7 @@ public class SubCommandRegistry {
     /**
      * List of subcommand names which should be in order alphabetically
      */
-    protected ArrayList<String> subCommands = new ArrayList<>();
+    protected List<String> subCommands = new ArrayList<>();
 
     private InfoLogger infoLogger = AdvancedPortalsCore.getInstance().getInfoLogger();
 
@@ -56,7 +53,7 @@ public class SubCommandRegistry {
     /**
      * @return a list of arguments of registered subcommands
      */
-    public ArrayList<String> getSubCommands(){
+    public List<String> getSubCommands(){
         return this.subCommands;
     }
 

@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.data.DataTag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TagReader {
 
@@ -38,6 +39,14 @@ public class TagReader {
             }
         }
         return tags;
+    }
+    
+    public static List<DataTag> getTagsFromArgsMap(Map<String, String> args) {
+        List<DataTag> tagList = new ArrayList<>();
+        for(Map.Entry<String, String> entry : args.entrySet()) {
+            tagList.add(new DataTag(entry.getKey(), entry.getValue()));
+        }
+        return tagList;
     }
 
 

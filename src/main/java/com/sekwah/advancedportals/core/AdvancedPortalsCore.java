@@ -16,8 +16,6 @@ import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.config.RepositoryModule;
 import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.ConfigRepository;
-import com.sekwah.advancedportals.core.registry.RegisterBuilder;
-import com.sekwah.advancedportals.core.registry.Registrar;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.command.CommandRegister;
@@ -69,12 +67,6 @@ public class AdvancedPortalsCore {
         this.mcMinorVer = this.checkMcVer(mcVer);
 
         this.onEnable();
-    }
-
-    public void test() {
-        Registrar registrar = RegisterBuilder.newBuilder()
-                .inheritPermissions(true)
-                .build();
     }
 
     private int checkMcVer(int[] mcVer) {

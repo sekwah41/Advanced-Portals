@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Allows a portal to register a tag and add a handler. If a plugin wants to add functionality
@@ -116,8 +113,8 @@ public class TagRegistry<T> {
      * Returns a non referenced copy of the array list.
      * @return
      */
-    public ArrayList<String> getTags() {
-        ArrayList<String> newArrayList = new ArrayList<>();
+    public List<String> getTags() {
+        List<String> newArrayList = new ArrayList<>();
         newArrayList.addAll(this.tags);
         return newArrayList;
     }

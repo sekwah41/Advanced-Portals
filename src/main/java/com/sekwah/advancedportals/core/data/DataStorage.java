@@ -7,6 +7,9 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class DataStorage {
 
@@ -46,6 +49,7 @@ public class DataStorage {
         T object = gson.fromJson(bufReader, dataHolder);
         return object;
     }
+    
     public <T> T loadJson(Class<T> dataHolder, String location) {
         InputStream jsonResource = this.loadResource(location);
         if(jsonResource == null) {
@@ -64,10 +68,8 @@ public class DataStorage {
 
     public void storeJson(Object dataHolder, String location) {
         String json = gson.toJson(dataHolder);
-        try {
-            FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location));
+        try(FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location))) {
             fileWriter.write(json);
-            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,16 +92,19 @@ public class DataStorage {
                 if(inputStream == null) {
                     return false;
                 }
-
-                FileOutputStream outStream = new FileOutputStream(outFile);
-
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = inputStream.read(buf)) > 0) {
-                    outStream.write(buf, 0, len);
-                }
+                
+                Files.copy(inputStream, Paths.get(outFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
                 inputStream.close();
-                outStream.close();
+                
+//                FileOutputStream outStream = new FileOutputStream(outFile);
+//
+//                byte[] buf = new byte[1024];
+//                int len;
+//                while ((len = inputStream.read(buf)) > 0) {
+//                    outStream.write(buf, 0, len);
+//                }
+//                inputStream.close();
+//                outStream.close();
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 this.portalsCore.getInfoLogger().logWarning("Could not load " + fileLoc + ". The file does" +

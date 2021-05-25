@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Handles logic for all destination, this is a transient layer so it should
@@ -57,7 +58,7 @@ public class DestinationServices {
 
 
 
-    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
+    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, List<DataTag> tags) {
         // TODO change to write messages
         if(name == null || name.equals("")) {
             player.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("desti.error.noname"));

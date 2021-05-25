@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.api.warphandler.TagHandler;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.data.PortalLocation;
 import com.sekwah.advancedportals.core.connector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,12 +69,8 @@ public class AdvancedPortal {
     public boolean activate(PlayerContainer player) {
         TagRegistry<AdvancedPortal> tagRegistry = AdvancedPortalsCore.getPortalTagRegistry();
         ActivationData data = new ActivationData();
-        DataTag[] portalTags = new DataTag[args.size()];
-        int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
-            portalTags[i++] = new DataTag(entry.getKey(), entry.getValue());
-        }
-
+        List<DataTag> portalTags = getArgs();
+        
         for(DataTag portalTag : portalTags) {
             TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
@@ -100,11 +97,7 @@ public class AdvancedPortal {
     }
 
     public List<DataTag> getArgs() {
-        List<DataTag> tagList = new ArrayList<>();
-        for(Map.Entry<String, String> entry : this.args.entrySet()){
-            tagList.add(new DataTag(entry.getKey(), entry.getValue()));
-        }
-        return tagList;
+        return TagReader.getTagsFromArgsMap(args);
     }
 
     public void setTriggerBlocks(String[] triggerBlocks) {

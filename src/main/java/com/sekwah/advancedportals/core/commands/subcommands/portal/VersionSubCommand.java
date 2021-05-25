@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.api.commands.SubCommand;
-import com.sekwah.advancedportals.core.registry.SubCmd;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.connector.container.CommandSenderContainer;
 
