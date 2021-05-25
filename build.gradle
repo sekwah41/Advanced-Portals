@@ -51,14 +51,13 @@ if (branch != null) {
 }
 def isCanary = version.toString().contains('canary')
 
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
-// A little messier/not advised but
 allprojects {
     apply plugin: 'java'
 
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

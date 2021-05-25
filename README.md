@@ -89,6 +89,4 @@ We don't currently do tests. But in case.
 -->
 
 ## Scopes available
-Scopes are only needed if relating to specific features just to make them easier to find.
-_I'll expand the list as I work more on the project._
-* **proxy** (Proxy specific features and issues)
+The scopes available should be the specific modules being worked on. E.g. core, spigot, docs
