@@ -12,9 +12,12 @@ Though due to incompatibilities and keeping the files smaller, we will be making
 ## Common
 * **api**: All code for adding tags and creating addons.
 * **core**: Functional code with an abstraction layer to create consistent behavior between platforms.
+* **lang**: Translations of the plugin available by default.
 
 ## Implementations
 * **spigot**: All functionality for spigot to connect the abstraction layer.
+
+More will be coming once we have finished the recode.
 
 ## Proxy's
 * **bungee**: Bungee plugin to allow secure connections between severs.
@@ -62,6 +65,4 @@ We don't currently do tests. But in case.
 -->
 
 ## Scopes available
-Scopes are only needed if relating to specific features just to make them easier to find.
-_I'll expand the list as I work more on the project._
-* **proxy** (Proxy specific features and issues)
+The scopes available should be the specific modules being worked on. E.g. core, spigot, docs

@@ -14,14 +14,13 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.client.methods.HttpGet
 import com.google.gson.Gson
 
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
-// A little messier/not advised but
 allprojects {
     apply plugin: 'java'
 
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -68,10 +67,12 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
+    includeLibs project(':api')
+    includeLibs project(':lang')
     includeLibs project(':core')
-    //implementation project(':bungee')
-    //implementation project(':spigot')
-    //implementation project(':velocity')
+    includeLibs project(':bungee')
+    includeLibs project(':spigot')
+    includeLibs project(':velocity')
 }
 
 
