@@ -63,6 +63,7 @@ repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 
 // includeLibs just says to include the library in the final jar

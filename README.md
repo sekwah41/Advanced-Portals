@@ -7,11 +7,11 @@ An advanced portals plugin for bukkit made by sekwah41 designed to have a wide r
 **NOTE:** This is the rewrite that is in progress to also allow multiple platforms of server mods, if you are looking for the old version or this version isn't finished check the branch [portals-old](https://github.com/sekwah41/Advanced-Portals/tree/portals-old)
 
 # Module Layout
-Each implementation will contain the proxy code to allow re-use of the same jar files.
-Though due to incompatibilities and keeping the files smaller, we will be making the spigot/paper versions available [here](https://dev.bukkit.org/projects/advanced-portals/files).
+We are still planning on how to distribute the files though are planning to make one jar at least run spigot and the proxies.
+Originally the API was also supposed to be a separate module though due to possible forge versions and other reasons decided
+it would probably be best to not separate it out.
 ## Common
-* **api**: All code for adding tags and creating addons.
-* **core**: Functional code with an abstraction layer to create consistent behavior between platforms.
+* **core**: Functional code with an abstraction layer to create consistent behavior between platforms as well as making addons.
 * **lang**: Translations of the plugin available by default.
 
 ## Implementations

@@ -1,7 +1,6 @@
 rootProject.name = "advanced-portals"
 // Core modules
 include 'core'
-include 'api'
 include 'lang'
 
 // Implementations
