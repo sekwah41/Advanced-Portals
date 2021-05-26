@@ -68,7 +68,6 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
-    includeLibs project(':api')
     includeLibs project(':lang')
     includeLibs project(':core')
     includeLibs project(':bungee')
