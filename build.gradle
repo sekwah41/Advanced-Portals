@@ -1,3 +1,4 @@
+import com.google.gson.Gson
 import org.apache.commons.codec.Charsets
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
@@ -5,23 +6,20 @@ import org.apache.http.client.HttpClient
 import org.apache.http.client.config.CookieSpecs
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.CloseableHttpResponse
+import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
-import org.apache.http.client.methods.HttpGet
-import com.google.gson.Gson
 
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 buildscript {
     repositories {
-        maven {url "https://plugins.gradle.org/m2/"}
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
         mavenLocal()
         jcenter()
@@ -33,12 +31,20 @@ buildscript {
     }
 }
 
+plugins {
+    id 'net.researchgate.release' version '2.8.1'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
 def branch = System.getenv("GITHUB_REF");
-def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && !branch.contains("-"))
+if (branch != null) {
+    branch = branch.replace('refs/heads/', '')
+}
+def isCanary = version.toString().contains('canary')
 
 group = 'com.sekwah.advancedportals'
-version = getPluginData("version") + (isDevBranch ? '-SNAPSHOT' : '')
 
 description = ""
 
@@ -52,9 +58,9 @@ tasks.withType(JavaCompile) {
 String getPluginData(String tag) {
     File file = file("src/main/resources/plugin.yml")
     String version = "notfound"
-    file.readLines("UTF-8").each {String line ->
+    file.readLines("UTF-8").each { String line ->
         line = line.trim()
-        if(line.startsWith(tag)) {
+        if (line.startsWith(tag)) {
             version = line.substring(tag.length() + 2, line.length())
         }
     }
@@ -101,15 +107,20 @@ task discordupload {
     doLast {
         String discordWebhook = System.getenv("DISCORD_WEBHOOK")
 
-        if(discordWebhook != null) {
+        if (discordWebhook != null) {
             println("Logging Into Discord")
 
             CloseableHttpClient httpClient = HttpClients.createDefault()
             HttpPost uploadFile = new HttpPost(discordWebhook)
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-            builder.addTextBody("content", "New automated dev build\n\n" +
-                    "Current Features: <${project.github}/blob/${sha}/docs/SNAPSHOT_CHANGELOG.md>")
+
+            if (isCanary) {
+                builder.addTextBody("content", "New canary Build")
+            } else {
+                builder.addTextBody("content", "New release build\n\n" +
+                        "Current Features: <${project.github}/blob/${branch}/CHANGELOG.md>")
+            }
 
             builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
 
@@ -204,7 +215,7 @@ class GameVersion {
 
 /**
  * As described here https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-api
-  */
+ */
 class Metadata {
     String changelog
     String changelogType
@@ -227,9 +238,9 @@ task curseforge {
             apiKey = System.getenv("CURSE_API")
         }
 
-        if(apiKey != null) {
+        if (apiKey != null) {
 
-            Gson gson =  new Gson()
+            Gson gson = new Gson()
 
             //String VERSION_TYPES_URL = "/api/game/version-types"
             int gameVersionTypeID = 1
@@ -239,17 +250,17 @@ task curseforge {
             // Get game versions
             String gameVersionsString = getValueFromCurseAPI(apiKey, VERSION_URL)
             GameVersion[] gameVersions = gson.fromJson(gameVersionsString, GameVersion[].class)
-            def versions = gameVersions.findAll {it.gameVersionTypeID == gameVersionTypeID}
+            def versions = gameVersions.findAll { it.gameVersionTypeID == gameVersionTypeID }
 
             String[] supportedVersions = [
-                "1.16",
-                "1.15",
-                "1.14",
-                "1.13"
+                    "1.16",
+                    "1.15",
+                    "1.14",
+                    "1.13"
             ]
 
-            def supportedGameVersions = versions.findAll {supportedVersions.contains(it.name)}
-            int[] supportedGameVersionIds = supportedGameVersions.collect {it.id}.toArray()
+            def supportedGameVersions = versions.findAll { supportedVersions.contains(it.name) }
+            int[] supportedGameVersionIds = supportedGameVersions.collect { it.id }.toArray()
 
             println("Supported Version Id's ${supportedGameVersionIds}")
 
@@ -280,7 +291,7 @@ task curseforge {
 task copyPlugin {
     doLast {
         copy {
-            if(System.env.MC_SERVER_LOC == null) {
+            if (System.env.MC_SERVER_LOC == null) {
                 throw new Exception('You must set the server location and jar to use')
             }
             println "$buildDir/libs/Advanced-Portals-${version}.jar"
@@ -290,7 +301,7 @@ task copyPlugin {
                     include "*.jar"
                 }
             }
-            catch(RuntimeException e) {
+            catch (RuntimeException e) {
                 println e.getLocalizedMessage()
             }
             from file("$buildDir/libs/Advanced-Portals-${version}.jar")
@@ -303,7 +314,7 @@ task copyPlugin {
 // DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
 task runJar() {
     doLast {
-        if(System.env.MC_SERVER_LOC == null || System.env.MC_SERVER_JAR == null) {
+        if (System.env.MC_SERVER_LOC == null || System.env.MC_SERVER_JAR == null) {
             throw new Exception('You must set the server location and jar to use MC_SERVER_LOC and MC_SERVER_JAR')
         }
         javaexec {
@@ -315,42 +326,76 @@ task runJar() {
     }
 }
 
-/**
- * These are needed as standard-version doesnt allow for the ability to skip tag versions for the changelog.
- * Well it does but not on purpose and it breaks things.
- *
- * Tagging is skipped so that the release can be merged and confirmed (A little long winded but just to stop mistakes)
- */
-task updateChangelog {
-    doLast{
-        exec {
-            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 -i docs/CHANGELOG.md -t (v)[0-9]+.[0-0]+.[0-0]+(?!-) --skip.tag'
-            ext.output = {
-                return standardOutput.toString()
-            }
-        }
-        exec {
-            commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --skip.changelog --skip.bump --skip.tag'
-            ext.output = {
-                return standardOutput.toString()
-            }
-        }
+task publish {
+    doLast {
+        println "This is a dummy task to run others for version: ${version}"
     }
 }
 
-task updateChangelogPreRelease(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.tag'
-    ext.output = {
-        return standardOutput.toString()
+// https://github.com/researchgate/gradle-release
+// Only other plugin I can find using auto & gradle https://github.com/intuit/hooks
+release {
+    failOnPublishNeeded = false
+    failOnSnapshotDependencies = false
+    git {
+        requireBranch = ''
+    }
+
+
+    // Disable tasks because something we have is causing -x to be ignored
+    createReleaseTag.enabled = false
+    preTagCommit.enabled = false
+    commitNewVersion.enabled = false
+}
+
+task cleanbuildfolder {
+    doFirst {
+        println "Cleaning up previous builds (to stop publishing old ones by mistake)"
+        project.delete(files("${buildDir}/libs"))
     }
 }
 
-/**
- * Just to stop having to manually tagging. Probably could do this easier but meh stops typos or other issues.
- */
-task tagRelease(type: Exec) {
-    commandLine 'cmd', '/c', 'npx standard-version@9.3.0 --prerelease -i docs/SNAPSHOT_CHANGELOG.md --skip.changelog --skip.bump'
-    ext.output = {
-        return standardOutput.toString()
+void updateFileVersion(String fileLoc, Pattern pattern, Closure<String> stringClosure) {
+    File file = new File(projectDir, fileLoc)
+    Matcher m = pattern.matcher(file.text)
+    if (m.find()) {
+        def newVersion = stringClosure.call(m)
+        println "Replacing ${pattern.toString()} in ${fileLoc} with '${newVersion}'"
+        file.text = file.text.replaceAll(pattern, newVersion)
     }
+}
+
+// Just to keep all numbers the same (as they are dotted all over the place)
+task updateVersionNumbers {
+    doFirst {
+        def versionRegex = ~/(\nversion:\s)([0-9.-]+)/
+        def velocityVersionRegex = ~/(\sversion\s=\s")([0-9.-]+)("\))/
+
+        updateFileVersion("src/main/resources/bungee.yml", versionRegex,
+                { Matcher m ->
+                    return "${m.group(1)}${getVersion()}"
+                })
+
+        updateFileVersion("src/main/resources/plugin.yml", versionRegex,
+                { Matcher m ->
+                    return "${m.group(1)}${getVersion()}"
+                })
+
+        updateFileVersion("src/main/java/com/sekwah/advancedportals/velocity/AdvancedPortalsPlugin.java",
+                velocityVersionRegex,
+                { Matcher m ->
+                    return "${m.group(1)}${getVersion()}${m.group(3)}"
+                })
+    }
+}
+
+compileJava.dependsOn 'cleanbuildfolder'
+compileJava.dependsOn 'updateVersionNumbers'
+
+// Publish rules
+// Current behavior seems to be canary or release. Though pre-releases may break this pattern.
+publish.dependsOn 'build'
+publish.finalizedBy 'discordupload'
+if (!isCanary) {
+    publish.finalizedBy 'curseforge'
 }

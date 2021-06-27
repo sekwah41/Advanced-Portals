@@ -1,12 +1,6 @@
-name: Build Project
+name: Release
 
-on:
-  push:
-    branches:
-      - '**'
-    tags:
-      - '*'
-  pull_request:
+on: [push]
 
 jobs:
   build:
@@ -15,26 +9,39 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 8
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '8.0'
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Cache Node packages
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          restore-keys: ${{ runner.os }}-node
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 8
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - name: Prepare repository
+        run: |
+          git fetch --unshallow --tags
+          yarn install --frozen-lockfile
+          echo $(yarn bin) >> $GITHUB_PATH
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Upload to Discord (If pre-release tag)
-        if: "startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')"
+      - name: Create Release
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: ./gradlew discordupload
-      - name: Publish to Curseforge (If release tag)
-        if: "startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')"
-        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSE_API: ${{ secrets.CURSE_API }}
-        run: ./gradlew curseforge
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          npx auto shipit -v
+

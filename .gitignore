@@ -7,10 +7,11 @@
 *.war
 *.ear
 
+node_modules/
 *.iml
 *.iws
 *.ipr
-
+.env
 out/
 logs/
 classes/
