@@ -266,7 +266,7 @@ task curseforge {
 
             Metadata uploadMetadata = new Metadata();
 
-            uploadMetadata.changelog = "${project.github}/blob/${sha}/docs/CHANGELOG.md"
+            uploadMetadata.changelog = "${project.github}/blob/${branch}/CHANGELOG.md"
             uploadMetadata.changelogType = "markdown"
             uploadMetadata.releaseType = isDevBranch ? "beta" : "release"
             uploadMetadata.gameVersions = supportedGameVersionIds
@@ -283,7 +283,6 @@ task curseforge {
     }
 //        id = project.curse_project_id
 //        // TODO add code to reference this but also cut the latest change logs in for the files
-//        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
 //        changelogType = 'markdown'
 //        releaseType = 'release'
 }
