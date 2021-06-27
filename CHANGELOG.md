@@ -1,3 +1,24 @@
+# v0.7.0 (Sun Jun 27 2021)
+
+#### 🚀 Enhancement
+
+- feat: Added missing commands from tab complete [#270](https://github.com/sekwah41/Advanced-Portals/pull/270) ([@sekwah41](https://github.com/sekwah41))
+
+#### 🐛 Bug Fix
+
+- chore(deps): update dependency net.md-5:bungeecord-api to v1.16-r0.4 [#269](https://github.com/sekwah41/Advanced-Portals/pull/269) ([@renovate-bot](https://github.com/renovate-bot))
+- chore(ci): removed verbose mode for release ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): update dependency com.google.code.gson:gson to v2.8.7 [#262](https://github.com/sekwah41/Advanced-Portals/pull/262) ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): update dependency gradle to v6.9 [#267](https://github.com/sekwah41/Advanced-Portals/pull/267) ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): update dependency com.velocitypowered:velocity-api to v1.1.8 [#266](https://github.com/sekwah41/Advanced-Portals/pull/266) ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.6.1 (Sun Jun 27 2021)
 
 #### 🐛 Bug Fix
