@@ -43,5 +43,5 @@ jobs:
           CURSE_API: ${{ secrets.CURSE_API }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          npx auto shipit -v
+          auto shipit
 
