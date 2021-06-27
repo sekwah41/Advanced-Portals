@@ -139,7 +139,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 getLogger().info( "Bungee detected. Enabling proxy features." );
                 return true;
             }
-        } catch(NullPointerException e) {
+        } catch(NoSuchMethodError | NullPointerException e) {
+            getLogger().info("BungeeCord config not detected, ignoring settings");
         }
 
         // Will be valid if paperspigot is being used. Otherwise catch.
@@ -150,7 +151,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 getLogger().info( "Modern forwarding detected. Enabling proxy features." );
                 return true;
             }
-        } catch(NullPointerException e) {
+        } catch(NoSuchMethodError | NullPointerException e) {
+            getLogger().info("Paper config not detected, ignoring paper settings");
         }
 
         getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml) " +
