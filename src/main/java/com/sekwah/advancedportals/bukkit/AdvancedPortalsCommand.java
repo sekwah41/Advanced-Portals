@@ -631,6 +631,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     case "help":
                         helpCommand(sender, command, args);
                         break;
+                    case "bukkitpage":
+                        sender.sendMessage(
+                                PluginMessages.customPrefix + " Bukkit Page: http://dev.bukkit.org/bukkit-plugins/advanced-portals/");
+                        break;
+                    case "helppage":
+                        sender.sendMessage(
+                                PluginMessages.customPrefix + " Help Page: https://www.guilded.gg/Sekwah/groups/MDqAZyrD/channels/72ffdaa3-9273-4722-bf47-b75408b371af/docs/1090356006");
+                        break;
                     case "show":
                         if (args.length > 1) {
                             String posX = portalConfig.getConfig().getString(args[1] + ".pos1.X");
