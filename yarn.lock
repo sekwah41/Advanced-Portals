@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@auto-it/bot-list/-/bot-list-10.29.3.tgz#cd4e1fa003a0f07496ea0b944d6b0ade75248e1b"
   integrity sha512-A0sFwq0teyW+mkYiu8RQLR1DMiTdDsj9+Q8jQsKa+IiWjgOKcr/A1Qqwce6p60u1zGG/JGrlCHpqxu52U7cgMw==
 
-"@auto-it/conventional-commits@^10.29.3":
+"@auto-it/conventional-commits@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/conventional-commits/-/conventional-commits-10.29.3.tgz#c1361ddb1cbca8d096104660f84bb3595086fbb9"
   integrity sha512-QD40uyJUA4XS02s1KwLot/vdYBMSTwJvU0COFClufdmquH9hEOJeSBjskG9hRP+3v+ZwDppwhTyshE3HrTHUIQ==
@@ -67,7 +67,7 @@
     typescript-memoize "^1.0.0-alpha.3"
     url-join "^4.0.0"
 
-"@auto-it/exec@^10.29.3":
+"@auto-it/exec@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/exec/-/exec-10.29.3.tgz#b5777c1f4fa7eca13ab5c97ec02351fe1f4c2333"
   integrity sha512-1qdEnlKi7xtRNdCgusVEtGi+l3MSghtbPejpSVve8yxxu4DVdNSp3psEBcWlYloaJyTzsu+husT8RgzZR1eMsA==
@@ -79,7 +79,7 @@
     io-ts "^2.1.2"
     tslib "2.1.0"
 
-"@auto-it/first-time-contributor@^10.29.3":
+"@auto-it/first-time-contributor@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/first-time-contributor/-/first-time-contributor-10.29.3.tgz#7dc6a038b3f5bacc315d113d87aeffa7c8187cf9"
   integrity sha512-wWfV4iuJBJoqwqZEePVd+A0+OnbLAEP+636CvyeoSVsNNpscVV/ep8YdUgnKkLrELR3OWrB5FKq3orktTZJ0Zg==
@@ -91,7 +91,7 @@
     tslib "2.1.0"
     url-join "^4.0.0"
 
-"@auto-it/gradle@^10.29.3":
+"@auto-it/gradle@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/gradle/-/gradle-10.29.3.tgz#2a53425b4fbd51d658888a2d0affa40a31a643db"
   integrity sha512-WPTfNlqCPV8IFlGvNLAOqlCSvvpO3zSZP4BuV51o6Cg9vYmWi8c95oYozOTygmeoqqypcTwyjaeXnBGIBRiLGA==
@@ -130,7 +130,7 @@
     parse-author "^2.0.0"
     parse-github-url "1.0.2"
 
-"@auto-it/released@10.29.3", "@auto-it/released@^10.29.3":
+"@auto-it/released@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/released/-/released-10.29.3.tgz#fc72bf2825740e2565f09cfa0eb88cbb844d5a96"
   integrity sha512-ULHWSZn0okTc5OBZz9l185DHKlXHVEJbW+CIQx+bhQYcFSFsf1b1Z6IF3rsfuNK3HnGMnlfyyipMV4Dm9jMw9Q==
@@ -142,7 +142,7 @@
     io-ts "^2.1.2"
     tslib "2.1.0"
 
-"@auto-it/upload-assets@^10.29.3":
+"@auto-it/upload-assets@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/upload-assets/-/upload-assets-10.29.3.tgz#ac600217fe164c1dc93cb1db1a69d70f73bf606a"
   integrity sha512-cohIhSuhzAcMY4Dnbllx6w+lofwTiHcEXMpOtw1d/72ezst6uB8VkLyAxNavGBvWASV+ZjptNo6tiIWnk0om4A==
@@ -484,7 +484,7 @@ author-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
   integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
 
-auto@^10.29.3:
+auto@10.29.3:
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/auto/-/auto-10.29.3.tgz#ee6729b65e1e80321ca2cd925a36b6e6e80675be"
   integrity sha512-l8gbIsAnEL8SLuAiMCx8Zo7HMN6PprXz7k9hFJ6kOOJ23/jqiCzDmjtXaijlTVdrB5dFkHKYqs+4XjgxQM/gQQ==
