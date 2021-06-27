@@ -268,7 +268,7 @@ task curseforge {
 
             uploadMetadata.changelog = "${project.github}/blob/${branch}/CHANGELOG.md"
             uploadMetadata.changelogType = "markdown"
-            uploadMetadata.releaseType = isDevBranch ? "beta" : "release"
+            uploadMetadata.releaseType = "release"
             uploadMetadata.gameVersions = supportedGameVersionIds
 
             def uploadId = uploadFile(uploadMetadata, file(jar.archiveFile), apiKey, gson)
