@@ -33,6 +33,10 @@ Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
 The api isn't implemented in this version, sorry for any inconvenience. Check the recode tree for possibly a working recode at some point.
 
 # Contributing
+
+Don't worry about updating the file numbers in `bungee.yml`, `plugin.yml` and `AdvancedPortalsPlugin.java`.
+They will be updated automatically before builds.
+
 Please ensure that your commits are in the following style for PR's
 
 https://www.conventionalcommits.org/en/v1.0.0/
