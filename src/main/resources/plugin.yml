@@ -1,6 +1,6 @@
 main: com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin
 name: AdvancedPortals
-version: 0.6.0
+version: 0.6.1
 author: sekwah41
 description: An advanced portals plugin for bukkit.
 api-version: 1.13
