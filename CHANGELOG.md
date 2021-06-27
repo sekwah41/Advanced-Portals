@@ -1,3 +1,24 @@
+# v0.6.1 (Sun Jun 27 2021)
+
+#### 🐛 Bug Fix
+
+- chore(ci): Remove isDevBranch remains [#265](https://github.com/sekwah41/Advanced-Portals/pull/265) ([@sekwah41](https://github.com/sekwah41))
+- chore(ci): Fix forgotten sha in build gradle [#264](https://github.com/sekwah41/Advanced-Portals/pull/264) ([@sekwah41](https://github.com/sekwah41))
+- chore(ci): Update version-bumping task order [#263](https://github.com/sekwah41/Advanced-Portals/pull/263) ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): pin dependencies [#261](https://github.com/sekwah41/Advanced-Portals/pull/261) ([@renovate-bot](https://github.com/renovate-bot))
+- fix: Spigot 1.17 error message [#260](https://github.com/sekwah41/Advanced-Portals/pull/260) ([@sekwah41](https://github.com/sekwah41))
+- chore(ci): Swapping build pipeline ([@sekwah41](https://github.com/sekwah41))
+- ci: Fixed java version ([@sekwah41](https://github.com/sekwah41))
+- ci: Fix changelog reference ([@sekwah41](https://github.com/sekwah41))
+- ci: Updated build pipelines to newer module ([@sekwah41](https://github.com/sekwah41))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
