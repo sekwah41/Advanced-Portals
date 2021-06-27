@@ -389,8 +389,9 @@ task updateVersionNumbers {
     }
 }
 
+updateVersion.finalizedBy 'updateVersionNumbers'
+
 compileJava.dependsOn 'cleanbuildfolder'
-compileJava.dependsOn 'updateVersionNumbers'
 
 // Publish rules
 // Current behavior seems to be canary or release. Though pre-releases may break this pattern.
