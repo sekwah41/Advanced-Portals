@@ -9,7 +9,7 @@ commands:
     description: The main command for the advanced portals
     aliases: [portals, aportals, portal, ap]
     usage: /<command>
-    permission: advancedportals.portal
+    permission: advancedportals.portalcommand
   destination:
     description: Can be used to access portal destinations.
     aliases: [desti]
@@ -50,6 +50,9 @@ permissions:
   advancedportals.portal:
     description: Allows use of portal commands
     default: op
+  advancedportals.portalcommand:
+    description: Access to the portal command. This is seperate to allow access to portal warps without the rest.
+    default: true
   advancedportals.build:
     description: Allows you to build in the portal regions
     default: op
