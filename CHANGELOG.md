@@ -1,3 +1,17 @@
+# v0.7.1 (Wed Jun 30 2021)
+
+#### 🐛 Bug Fix
+
+- fix: Access to portal warp command locked behind wrong perm [#275](https://github.com/sekwah41/Advanced-Portals/pull/275) ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): update dependency gradle to v7 [#271](https://github.com/sekwah41/Advanced-Portals/pull/271) ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.7.0 (Sun Jun 27 2021)
 
 #### 🚀 Enhancement
