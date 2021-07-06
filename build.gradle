@@ -88,7 +88,7 @@ dependencies {
     implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
     implementation "net.md-5:bungeecord-api:1.16-R0.4"
 
-    implementation "com.velocitypowered:velocity-api:1.1.8"
+    implementation "com.velocitypowered:velocity-api:3.0.0"
     annotationProcessor "com.velocitypowered:velocity-api:1.1.0-SNAPSHOT"
 
     implementation "io.netty:netty-all:4.0.4.Final"
