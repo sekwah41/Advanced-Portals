@@ -34,6 +34,9 @@ public class Listeners implements Listener {
 
     private final AdvancedPortalsPlugin plugin;
 
+    public static String HAS_WARPED = "hasWarped";
+    public static String LAVA_WARPED = "lavaWarped";
+
     @SuppressWarnings("deprecation")
     public Listeners(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
@@ -133,14 +136,11 @@ public class Listeners implements Listener {
                 for (Location loc : locations) {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1)
                             : Portal.locationInPortalTrigger(portal, loc)) {
-                        if (portal.getTriggers().contains(Material.NETHER_PORTAL)) {
-                            if (player.getGameMode().equals(GameMode.CREATIVE)) {
-                                player.setMetadata("hasWarped", new FixedMetadataValue(plugin, true));
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
-                            }
-                        }
+
+                        player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, true));
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
                         if (portal.getTriggers().contains(Material.LAVA)) {
-                            player.setMetadata("lavaWarped", new FixedMetadataValue(plugin, true));
+                            player.setMetadata(LAVA_WARPED, new FixedMetadataValue(plugin, true));
                             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
                         }
                         if (portal.inPortal.contains(player.getUniqueId()))
@@ -231,7 +231,7 @@ public class Listeners implements Listener {
 
         @Override
         public void run() {
-            player.removeMetadata("lavaWarped", plugin);
+            player.removeMetadata(LAVA_WARPED, plugin);
             player.setFireTicks(0);
         }
     }
@@ -247,7 +247,7 @@ public class Listeners implements Listener {
         @Override
         public void run() {
             if (player != null && player.isOnline()) {
-                player.removeMetadata("hasWarped", plugin);
+                player.removeMetadata(HAS_WARPED, plugin);
             }
         }
     }
@@ -263,7 +263,7 @@ public class Listeners implements Listener {
         if (event.getEntity() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
                 || event.getCause() == EntityDamageEvent.DamageCause.FIRE
                 || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
-            if (event.getEntity().hasMetadata("lavaWarped")
+            if (event.getEntity().hasMetadata(LAVA_WARPED)
                     | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
                 event.setCancelled(true);
         }
@@ -276,14 +276,14 @@ public class Listeners implements Listener {
         }
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata("hasWarped")) {
+        if (!player.hasMetadata(HAS_WARPED)) {
             Location loc = event.getFrom();
             Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
 
             checkTriggerLocations(player, true, loc, eyeLoc);
         }
 
-        if (player.hasMetadata("hasWarped") | Portal.inPortalRegion(event.getFrom(), 1))
+        if (player.hasMetadata(HAS_WARPED) | Portal.inPortalRegion(event.getFrom(), 1))
             event.setCancelled(true);
     }
 
