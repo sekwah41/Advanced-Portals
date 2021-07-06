@@ -73,8 +73,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         for (Player player:
                 this.getServer().getOnlinePlayers()) {
-            player.removeMetadata("hasWarped", this);
-            player.removeMetadata("lavaWarped", this);
+            player.removeMetadata(Listeners.HAS_WARPED, this);
+            player.removeMetadata(Listeners.LAVA_WARPED, this);
         }
 
         // thanks to the new config accessor code the config.saveDefaultConfig(); will now
