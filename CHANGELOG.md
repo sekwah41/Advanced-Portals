@@ -1,3 +1,18 @@
+# v0.7.2 (Wed Jul 14 2021)
+
+#### 🐛 Bug Fix
+
+- fix: Issue where portal events activate too early in survival [#280](https://github.com/sekwah41/Advanced-Portals/pull/280) ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): update dependency com.velocitypowered:velocity-api to v1.1.9 [#278](https://github.com/sekwah41/Advanced-Portals/pull/278) ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): update dependency gradle to v7.1.1 [#277](https://github.com/sekwah41/Advanced-Portals/pull/277) ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.7.1 (Wed Jun 30 2021)
 
 #### 🐛 Bug Fix
