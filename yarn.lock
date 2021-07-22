@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@auto-it/bot-list/-/bot-list-10.29.3.tgz#cd4e1fa003a0f07496ea0b944d6b0ade75248e1b"
   integrity sha512-A0sFwq0teyW+mkYiu8RQLR1DMiTdDsj9+Q8jQsKa+IiWjgOKcr/A1Qqwce6p60u1zGG/JGrlCHpqxu52U7cgMw==
 
+"@auto-it/bot-list@10.30.0":
+  version "10.30.0"
+  resolved "https://registry.yarnpkg.com/@auto-it/bot-list/-/bot-list-10.30.0.tgz#3b639873155722ef707624149bb28c6c89a5ceef"
+  integrity sha512-ZOWmFpIPid7bRA065e1YwA5iaJITZH5HoINvUz258kSG9+LFd+9EzDeUl4+Lygqy7MRwPC0TpHv2siv25Sw7Hg==
+
 "@auto-it/conventional-commits@10.29.3":
   version "10.29.3"
   resolved "https://registry.yarnpkg.com/@auto-it/conventional-commits/-/conventional-commits-10.29.3.tgz#c1361ddb1cbca8d096104660f84bb3595086fbb9"
@@ -28,6 +33,51 @@
   integrity sha512-4sl0nKJrc2j0wT/9sWVWCHXm8wmxde777ankESsI2TC08eNqwad/wcDXQPE6LGs4E6V0m7V51xfhU40qZHU3Rw==
   dependencies:
     "@auto-it/bot-list" "10.29.3"
+    "@endemolshinegroup/cosmiconfig-typescript-loader" "^3.0.2"
+    "@octokit/plugin-enterprise-compatibility" "^1.2.2"
+    "@octokit/plugin-retry" "^3.0.1"
+    "@octokit/plugin-throttling" "^3.2.0"
+    "@octokit/rest" "^18.0.0"
+    await-to-js "^3.0.0"
+    chalk "^4.0.0"
+    cosmiconfig "7.0.0"
+    deepmerge "^4.0.0"
+    dotenv "^8.0.0"
+    endent "^2.0.1"
+    enquirer "^2.3.4"
+    env-ci "^5.0.1"
+    fast-glob "^3.1.1"
+    fp-ts "^2.5.3"
+    fromentries "^1.2.0"
+    gitlog "^4.0.3"
+    https-proxy-agent "^5.0.0"
+    import-cwd "^3.0.0"
+    import-from "^3.0.0"
+    io-ts "^2.1.2"
+    lodash.chunk "^4.2.0"
+    log-symbols "^4.0.0"
+    node-fetch "2.6.1"
+    parse-author "^2.0.0"
+    parse-github-url "1.0.2"
+    pretty-ms "^7.0.0"
+    requireg "^0.2.2"
+    semver "^7.0.0"
+    signale "^1.4.0"
+    tapable "^2.2.0"
+    terminal-link "^2.1.1"
+    tinycolor2 "^1.4.1"
+    ts-node "^9.1.1"
+    tslib "2.1.0"
+    type-fest "^0.21.1"
+    typescript-memoize "^1.0.0-alpha.3"
+    url-join "^4.0.0"
+
+"@auto-it/core@10.30.0":
+  version "10.30.0"
+  resolved "https://registry.yarnpkg.com/@auto-it/core/-/core-10.30.0.tgz#77a208eeb06ebd898e728486151b3e598fe91f52"
+  integrity sha512-taU0zn1cDa/0XRo53zRbr3f9QyaMO0ZftJoTQmje5OuIpmyn2CcbeYNkwxT92NvLRcZ4FNx0LzbDPRBmVo3c3g==
+  dependencies:
+    "@auto-it/bot-list" "10.30.0"
     "@endemolshinegroup/cosmiconfig-typescript-loader" "^3.0.2"
     "@octokit/plugin-enterprise-compatibility" "^1.2.2"
     "@octokit/plugin-retry" "^3.0.1"
@@ -91,12 +141,12 @@
     tslib "2.1.0"
     url-join "^4.0.0"
 
-"@auto-it/gradle@10.29.3":
-  version "10.29.3"
-  resolved "https://registry.yarnpkg.com/@auto-it/gradle/-/gradle-10.29.3.tgz#2a53425b4fbd51d658888a2d0affa40a31a643db"
-  integrity sha512-WPTfNlqCPV8IFlGvNLAOqlCSvvpO3zSZP4BuV51o6Cg9vYmWi8c95oYozOTygmeoqqypcTwyjaeXnBGIBRiLGA==
+"@auto-it/gradle@10.30.0":
+  version "10.30.0"
+  resolved "https://registry.yarnpkg.com/@auto-it/gradle/-/gradle-10.30.0.tgz#b66b9c1f0d5daf6901d7d3c3c7137954e61b0341"
+  integrity sha512-PdHab2ASkfMRthCyyxlDeabUmmj04RR3liZea98lLvcPQJxurU9iEp6vJBN7oVt3e0jY3uSzDMZUkkRhmh+XHg==
   dependencies:
-    "@auto-it/core" "10.29.3"
+    "@auto-it/core" "10.30.0"
     fp-ts "^2.5.3"
     io-ts "^2.1.2"
     semver "^7.0.0"
