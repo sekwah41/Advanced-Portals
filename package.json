@@ -7,6 +7,6 @@
     "@auto-it/gradle": "10.29.3",
     "@auto-it/released": "10.29.3",
     "@auto-it/upload-assets": "10.29.3",
-    "auto": "10.29.3"
+    "auto": "10.30.0"
   }
 }
