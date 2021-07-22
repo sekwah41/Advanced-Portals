@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "conventional-changelog-angular": "5.0.12",
-    "@auto-it/conventional-commits": "10.29.3",
+    "@auto-it/conventional-commits": "10.30.0",
     "@auto-it/exec": "10.29.3",
     "@auto-it/first-time-contributor": "10.29.3",
     "@auto-it/gradle": "10.29.3",
