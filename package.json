@@ -5,7 +5,7 @@
     "@auto-it/exec": "10.29.3",
     "@auto-it/first-time-contributor": "10.29.3",
     "@auto-it/gradle": "10.29.3",
-    "@auto-it/released": "10.29.3",
+    "@auto-it/released": "10.30.0",
     "@auto-it/upload-assets": "10.29.3",
     "auto": "10.29.3"
   }
