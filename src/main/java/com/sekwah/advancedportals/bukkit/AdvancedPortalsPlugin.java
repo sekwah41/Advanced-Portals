@@ -24,6 +24,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     protected boolean isProxyPluginEnabled = false;
 
     protected boolean forceRegisterProxyChannels = false;
+    protected boolean disableProxyWarning = false;
 
     protected static final Map<String, String> PLAYER_DESTI_MAP = new HashMap<>();
 
@@ -45,6 +46,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         FileConfiguration pluginConfig = config.getConfig();
         forceRegisterProxyChannels = pluginConfig.getBoolean(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
+        disableProxyWarning = pluginConfig.getBoolean(ConfigHelper.DISABLE_PROXY_WARNING, false);
 
         ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
         portalConfig.saveDefaultConfig();
@@ -140,7 +142,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 return true;
             }
         } catch(NoSuchMethodError | NullPointerException e) {
-            getLogger().info("BungeeCord config not detected, ignoring settings");
+            if(!disableProxyWarning) getLogger().info("BungeeCord config not detected, ignoring settings");
         }
 
         // Will be valid if paperspigot is being used. Otherwise catch.
@@ -152,10 +154,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 return true;
             }
         } catch(NoSuchMethodError | NullPointerException e) {
-            getLogger().info("Paper config not detected, ignoring paper settings");
+            if(!disableProxyWarning) getLogger().info("Paper config not detected, ignoring paper settings");
         }
 
-        getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml) " +
+        if(!disableProxyWarning) getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml) " +
                 "or if you are using Paper settings.velocity-support.enabled may not be enabled (paper.yml)" );
         return false;
     }
