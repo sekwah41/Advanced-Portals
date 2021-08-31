@@ -9,6 +9,7 @@ public class ConfigHelper {
     public static final String COMMAND_LOGS = "CommandLogs";
 
     public static final String FORCE_ENABLE_PROXY_SUPPORT = "ForceEnableProxySupport";
+    public static final String DISABLE_PROXY_WARNING = "DisableProxyWarning";
 
     public static final String PROXY_TELEPORT_DELAY = "ProxyTeleportDelay";
 
