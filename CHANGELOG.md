@@ -1,3 +1,21 @@
+# v0.8.0 (Wed Sep 01 2021)
+
+#### 🚀 Enhancement
+
+- feat: Allow the ability to disable the proxy warning message [#292](https://github.com/sekwah41/Advanced-Portals/pull/292) ([@sekwah41](https://github.com/sekwah41))
+
+#### 🐛 Bug Fix
+
+- chore(deps): Update Deps ([@renovate-bot](https://github.com/renovate-bot))
+- chore(ci): Update rennovate config ([@sekwah41](https://github.com/sekwah41))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.7.2 (Wed Jul 14 2021)
 
 #### 🐛 Bug Fix
