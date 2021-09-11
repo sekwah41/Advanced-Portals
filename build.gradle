@@ -91,7 +91,7 @@ dependencies {
     implementation "com.velocitypowered:velocity-api:1.1.9"
     annotationProcessor "com.velocitypowered:velocity-api:1.1.9"
 
-    implementation "io.netty:netty-all:4.1.67.Final"
+    implementation "io.netty:netty-all:4.1.68.Final"
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 
     //compile fileTree(dir: 'libs', include: ['*.jar'])
