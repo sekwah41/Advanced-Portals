@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "conventional-changelog-angular": "5.0.12",
+    "conventional-changelog-angular": "5.0.13",
     "@auto-it/conventional-commits": "10.31.0",
     "@auto-it/exec": "10.31.0",
     "@auto-it/first-time-contributor": "10.31.0",
