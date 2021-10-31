@@ -253,6 +253,7 @@ task curseforge {
             def versions = gameVersions.findAll { it.gameVersionTypeID == gameVersionTypeID }
 
             String[] supportedVersions = [
+                    "1.17",
                     "1.16",
                     "1.15",
                     "1.14",
