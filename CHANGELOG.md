@@ -2,7 +2,7 @@
 
 #### 🚀 Enhancement
 
-- feat: Allow the ability to disable the proxy warning message [#292](https://github.com/sekwah41/Advanced-Portals/pull/292) ([@sekwah41](https://github.com/sekwah41))
+- feat: Allow the ability to disable the proxy warning message [#292](https://github.com/sekwah41/Advanced-Portals/pull/292) ([@maldahleh](https://github.com/maldahleh))
 
 #### 🐛 Bug Fix
 
@@ -11,7 +11,7 @@
 
 #### Authors: 2
 
-- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- Mohammed Al-Dahleh ([@maldahleh](https://github.com/maldahleh))
 - WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
 
 ---
