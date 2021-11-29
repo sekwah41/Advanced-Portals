@@ -164,10 +164,10 @@ public class Destination {
 
                 if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
-                    player.sendMessage(PluginMessages.customPrefix + "\u00A7a You have been warped to \u00A7e" + dest.replaceAll("_", " ") + "\u00A7a.");
+                    player.sendMessage(PluginMessages.customPrefix + PluginMessages.getWarpMessage(dest));
                     player.sendMessage("");
                 } else if (PORTAL_MESSAGE_DISPLAY == 2 && !hideActionbar) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("\u00A7aYou have warped to \u00A7e" + dest.replaceAll("_", " ") + "\u00A7a."));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PluginMessages.getWarpMessage(dest)));
                 }
 
                 Location newLoc = player.getLocation();
