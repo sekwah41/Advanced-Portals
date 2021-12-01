@@ -15,12 +15,12 @@ import java.util.UUID;
 public class PluginMessageReceiver implements PluginMessageListener {
 
     private final AdvancedPortalsPlugin plugin;
-    private final int teleportDelay;
+    private final double teleportDelay;
 
     public PluginMessageReceiver(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        teleportDelay = config.getConfig().getInt(ConfigHelper.PROXY_TELEPORT_DELAY, 0);
+        teleportDelay = config.getConfig().getDouble(ConfigHelper.PROXY_TELEPORT_DELAY, 0);
     }
 
     @Override
@@ -37,14 +37,12 @@ public class PluginMessageReceiver implements PluginMessageListener {
             String targetDestination = in.readUTF();
             String bungeeUUID = in.readUTF();
 
-            Player targetPlayer = this.plugin.getServer().getPlayer(UUID.fromString(bungeeUUID));
-
             if(teleportDelay <= 0) {
-                teleportPlayerToDesti(targetPlayer, targetDestination, bungeeUUID);
+                teleportPlayerToDesti(player, targetDestination, bungeeUUID);
             } else {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                                teleportPlayerToDesti(targetPlayer, targetDestination, bungeeUUID),
-                        20L * teleportDelay
+                                teleportPlayerToDesti(player, targetDestination, bungeeUUID),
+                        (long)(20.0 * teleportDelay)
                 );
             }
 
