@@ -8,7 +8,7 @@ const FeatureList = [
     Svg: require('../../static/img/easy-to-use.svg').default,
     description: (
       <>
-          Advanced Portals was designed from the ground up to be easily set up. Check the tutorial on how to get started.
+          Advanced Portals was designed from the ground up to be easily set up yet still allow for explicit customization.
       </>
     ),
   },
