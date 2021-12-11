@@ -6,15 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Advanced Portals',
+  tagline: 'An advanced portals plugin for bukkit',
+  url: 'https://www.sekwah.com/advanced-portals/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'sekwah41', // Usually your GitHub org/user name.
+  projectName: 'advanced-portals', // Usually your repo name.
 
   presets: [
     [
@@ -43,10 +43,10 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'Advanced Portals',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Advanced Portals Logo',
+          src: 'img/advancedportals.png',
         },
         items: [
           {
@@ -57,7 +57,7 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/sekwah41/Advanced-Portals',
             label: 'GitHub',
             position: 'right',
           },
@@ -67,11 +67,15 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Downloads',
             items: [
-              {
+              /*{
                 label: 'Tutorial',
                 to: '/docs/intro',
+              },*/
+              {
+                label: 'Bukkit.org',
+                href: 'https://dev.bukkit.org/projects/advanced-portals',
               },
             ],
           },
@@ -79,16 +83,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://discord.sekwah.com/',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/sekwah',
               },
             ],
           },
@@ -96,12 +96,12 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'Changelog',
+                href: 'https://github.com/sekwah41/Advanced-Portals/blob/spigot-1.13-1.16/CHANGELOG.md',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/sekwah41/Advanced-Portals',
               },
             ],
           },
