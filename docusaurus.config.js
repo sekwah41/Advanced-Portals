@@ -9,7 +9,7 @@ const config = {
   title: 'Advanced Portals',
   tagline: 'An advanced portals plugin for bukkit',
   url: 'https://www.sekwah.com/advanced-portals/',
-  baseUrl: '/Advanced-Portals/',
+  baseUrl: '/advanced-portals/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
