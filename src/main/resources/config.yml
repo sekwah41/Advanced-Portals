@@ -101,3 +101,7 @@ ProxyTeleportDelay: 0
 
 # Just in case you are not using the proxy and dont want the warning message
 DisableProxyWarning: false
+
+# Whether the integration with worldedit should be enabled.
+# This will force AdvancedPortals to use WorldEdit selections.
+WorldEditIntegration: false

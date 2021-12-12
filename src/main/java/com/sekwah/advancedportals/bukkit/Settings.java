@@ -15,10 +15,13 @@ public class Settings {
 
     private String commandLevels = "n";
 
+    private boolean worldEditEnabled = false;
+
     public enum PortalConfigOption {
         COMMAND_LEVELS("CommandLevels"),
         WARP_PARTICLES("WarpParticles"),
-        WARP_SOUND("WarpSound");
+        WARP_SOUND("WarpSound"),
+        WORLDEDIT_INTEGRATION("WorldEditIntegration");
 
         private final String target;
 
@@ -37,6 +40,8 @@ public class Settings {
         currentWarpSound = config.getConfig().getInt(WARP_SOUND.value());
 
         commandLevels = config.getConfig().getString(COMMAND_LEVELS.value(), "opcb");
+
+        worldEditEnabled = config.getConfig().getBoolean(WORLDEDIT_INTEGRATION.value(), false);
 
         assert commandLevels != null;
         if(commandLevels.equals("opchek")) {
@@ -62,5 +67,9 @@ public class Settings {
 
     public int getCurrentWarpParticles() {
         return currentWarpParticles;
+    }
+
+    public boolean enabledWorldEditIntegration() {
+        return worldEditEnabled;
     }
 }

@@ -35,6 +35,7 @@ public class ConfigHelper {
         } else if(configVersion.equals("0.5.4")) {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.11");
             config.set(ConfigHelper.COMMAND_LOGS, true);
+            update();
         } else if(configVersion.equals("0.5.10") || configVersion.equals("0.5.11")) {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.13");
             config.set(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
