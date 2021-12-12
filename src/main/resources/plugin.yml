@@ -4,6 +4,10 @@ version: 0.8.0
 author: sekwah41
 description: An advanced portals plugin for bukkit.
 api-version: 1.13
+
+softdepend:
+  - WorldEdit
+
 commands:
   advancedportals:
     description: The main command for the advanced portals
