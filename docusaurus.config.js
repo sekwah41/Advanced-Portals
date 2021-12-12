@@ -24,7 +24,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/sekwah41/advanced-portals-docs/edit/main/website/',
+          editUrl: 'https://github.com/sekwah41/Advanced-Portals/edit/website/',
         },
         blog: false,
         theme: {
@@ -65,13 +65,13 @@ const config = {
           {
             title: 'Downloads',
             items: [
-              /*{
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },*/
               {
                 label: 'Bukkit.org',
                 href: 'https://dev.bukkit.org/projects/advanced-portals',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/sekwah41/Advanced-Portals/releases',
               },
             ],
           },
@@ -96,13 +96,13 @@ const config = {
                 href: 'https://github.com/sekwah41/Advanced-Portals/blob/spigot-1.13-1.16/CHANGELOG.md',
               },
               {
-                label: 'GitHub',
+                label: 'Source Code',
                 href: 'https://github.com/sekwah41/Advanced-Portals',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Sekwah, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Sekwah.`,
       },
       prism: {
         theme: lightCodeTheme,
