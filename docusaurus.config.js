@@ -9,12 +9,12 @@ const config = {
   title: 'Advanced Portals',
   tagline: 'An advanced portals plugin for bukkit',
   url: 'https://www.sekwah.com/advanced-portals/',
-  baseUrl: '/',
+  baseUrl: '/Advanced-Portals/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'sekwah41', // Usually your GitHub org/user name.
-  projectName: 'advanced-portals', // Usually your repo name.
+  projectName: 'Advanced-Portals', // Usually your repo name.
 
   presets: [
     [
