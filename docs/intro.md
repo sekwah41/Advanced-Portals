@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: Quick introduction to Advanced Portals.
 ---
 
 # Tutorial Intro

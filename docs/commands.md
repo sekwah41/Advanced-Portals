@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: Information on all commands included in Advanced Portals, including usage and permissions.
 ---
 
 # Commands

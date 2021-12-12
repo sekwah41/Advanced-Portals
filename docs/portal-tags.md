@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: Information on all portal tags included in Advanced Portals.
 ---
 
 # Portal Tags
