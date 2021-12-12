@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +26,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     protected boolean forceRegisterProxyChannels = false;
     protected boolean disableProxyWarning = false;
+
+    private boolean worldEditActive = false;
 
     protected static final Map<String, String> PLAYER_DESTI_MAP = new HashMap<>();
 
@@ -77,6 +80,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                 this.getServer().getOnlinePlayers()) {
             player.removeMetadata(Listeners.HAS_WARPED, this);
             player.removeMetadata(Listeners.LAVA_WARPED, this);
+        }
+
+        if (settings.enabledWorldEditIntegration() && Bukkit.getPluginManager().isPluginEnabled("WorldEdit")) {
+            worldEditActive = true;
         }
 
         // thanks to the new config accessor code the config.saveDefaultConfig(); will now
@@ -171,5 +178,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
+    }
+
+    public boolean isWorldEditActive() {
+        return worldEditActive;
     }
 }

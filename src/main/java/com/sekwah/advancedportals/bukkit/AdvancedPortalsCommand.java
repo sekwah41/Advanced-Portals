@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bukkit.util.WorldEditIntegration;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.*;
@@ -120,6 +121,11 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         break;
                     case "wand":
                     case "selector":
+                        if (plugin.isWorldEditActive()) {
+                            sender.sendMessage(PluginMessages.customPrefix
+                                    + " Use the WorldEdit wand to select stuff. Checkout //wand.");
+                            return true;
+                        }
                         String ItemID = config.getConfig().getString("AxeItemId");
 
                         Material WandMaterial = Material.getMaterial(ItemID);
@@ -187,244 +193,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                                 PluginMessages.customPrefix + " You have been given a \u00A7ePortal Block\u00A7a!");
                         break;
                     case "create":
-                        if (player.hasMetadata("Pos1World") && player.hasMetadata("Pos2World")) {
-                            if (player.getMetadata("Pos1World").get(0).asString()
-                                    .equals(player.getMetadata("Pos2World").get(0).asString())
-                                    && player.getMetadata("Pos1World").get(0).asString()
-                                    .equals(player.getLocation().getWorld().getName())) {
-                                if (args.length >= 2) { // may make this next piece of code more efficient, maybe check
-                                    // against a list of available variables or something
-                                    // TODO change system to use arrays and hashmaps
-                                    boolean hasName = false;
-                                    boolean hasTriggerBlock = false;
-                                    boolean hasDestination = false;
-                                    boolean isBungeePortal = false;
-                                    boolean needsPermission = false;
-                                    boolean executesCommand = false;
-                                    String destination = null;
-                                    String portalName = null;
-                                    String triggerBlock = null;
-                                    String serverName = null;
-                                    String permission = null;
-                                    String portalCommand = null;
-
-                                    ArrayList<PortalArg> extraData = new ArrayList<>();
-
-                                    // Is completely changed in the recode but for now im leaving it as this
-                                    // horrible mess...
-                                    for (int i = 1; i < args.length; i++) {
-                                        if (startsWithPortalArg("name:", args[i])) {
-                                            portalName = args[i].replaceFirst("name:", "");
-                                            if (portalName.equals("")) {
-                                                player.sendMessage(PluginMessages.customPrefixFail
-                                                        + " You must include a name for the portal that isnt nothing!");
-                                                return true;
-                                            }
-                                            hasName = true;
-                                            portalName = args[i].replaceFirst("name:", "");
-                                        } else if (startsWithPortalArg("destination:", args[i])) {
-                                            hasDestination = true;
-                                            destination = args[i].toLowerCase().replaceFirst("destination:", "");
-                                        } else if (startsWithPortalArg("desti:", args[i])) {
-                                            hasDestination = true;
-                                            destination = args[i].toLowerCase().replaceFirst("desti:", "");
-                                        } else if (startsWithPortalArg("triggerblock:", args[i])) {
-                                            hasTriggerBlock = true;
-                                            triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
-                                        } else if (this.startsWithPortalArg("bungee:", args[i])) {
-                                            isBungeePortal = true;
-                                            serverName = args[i].substring("bungee:".length());
-                                        } else if (startsWithPortalArg("permission:", args[i])) {
-                                            needsPermission = true;
-                                            permission = args[i].toLowerCase().replaceFirst("permission:", "");
-                                            extraData.add(new PortalArg("permission", permission));
-                                        } else if (startsWithPortalArg("delayed:", args[i])) {
-                                            boolean delayed = Boolean
-                                                    .parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
-                                            extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
-                                        } else if (startsWithPortalArg("message:", args[i])) {
-                                            String message = parseArgVariable(args, i, "message:");
-                                            if (message == null) {
-                                                player.sendMessage(
-                                                        PluginMessages.customPrefixFail + " Message quotes not closed!");
-                                                return true;
-                                            }
-                                            extraData.add(new PortalArg("message", message));
-                                        } else if (startsWithPortalArg("command:", args[i])) {
-                                            executesCommand = true;
-                                            portalCommand = parseArgVariable(args, i, "command:");
-                                            if (portalCommand == null) {
-                                                player.sendMessage(
-                                                        PluginMessages.customPrefixFail + " Command quotes not closed!");
-                                                return true;
-                                            }
-                                            i += this.portalArgsStringLength - 1;
-                                            if (portalCommand.startsWith("#")
-                                                    && !(this.plugin.getSettings().enabledCommandLevel("c")
-                                                    && (sender.hasPermission(
-                                                    "advancedportals.createportal.commandlevel.console")
-                                                    || sender.isOp()))) {
-                                                player.sendMessage(PluginMessages.customPrefixFail
-                                                        + " You need permission to make a console command portal!");
-                                                return true;
-                                            } else if (portalCommand.startsWith("!")
-                                                    && !(this.plugin.getSettings().enabledCommandLevel("o")
-                                                    && (sender.hasPermission(
-                                                    "advancedportals.createportal.commandlevel.op")
-                                                    || sender.isOp()))) {
-                                                player.sendMessage(PluginMessages.customPrefixFail
-                                                        + " You need permission to make a op command portal!");
-                                                return true;
-                                            } else if (portalCommand.startsWith("%")
-                                                    && !(this.plugin.getSettings().enabledCommandLevel("b")
-                                                    && (sender.hasPermission(
-                                                    "advancedportals.createportal.commandlevel.bungee")
-                                                    || sender.isOp()))) {
-                                                player.sendMessage(PluginMessages.customPrefixFail
-                                                        + " You need permission to make a bungee command portal!");
-                                                return true;
-                                            } else if (portalCommand.startsWith("^")
-                                                    && !(this.plugin.getSettings().enabledCommandLevel("p")
-                                                    && (sender.hasPermission(
-                                                    "advancedportals.createportal.commandlevel.perms")
-                                                    || sender.isOp()))) {
-                                                player.sendMessage(PluginMessages.customPrefixFail
-                                                        + " You need permission to make a all perms command portal!");
-                                                return true;
-                                            }
-                                            extraData.add(new PortalArg("command.1", portalCommand));
-                                        } else if (startsWithPortalArg("cooldowndelay:", args[i])) {
-                                            String cooldownDelay = parseArgVariable(args, i, "cooldowndelay:");
-                                            extraData.add(new PortalArg("cooldowndelay", cooldownDelay));
-                                        } else if (startsWithPortalArg("leavedesti:", args[i])) {
-                                            String leaveDesti = parseArgVariable(args, i, "leavedesti:");
-                                            extraData.add(new PortalArg("leavedesti", leaveDesti));
-                                        } else if (startsWithPortalArg("particlein:", args[i])) {
-                                            String value = parseArgVariable(args, i, "particlein:");
-                                            extraData.add(new PortalArg("particlein", value));
-                                        } else if (startsWithPortalArg("particleout:", args[i])) {
-                                            String value = parseArgVariable(args, i, "particleout:");
-                                            extraData.add(new PortalArg("particleout", value));
-                                        }
-                                    }
-                                    if (!hasName) {
-                                        player.sendMessage(PluginMessages.customPrefixFail
-                                                + " You must include a name for the portal that you are creating in the variables!");
-                                        return true;
-                                    }
-
-                                    World world = org.bukkit.Bukkit
-                                            .getWorld(player.getMetadata("Pos1World").get(0).asString());
-                                    Location pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(),
-                                            player.getMetadata("Pos1Y").get(0).asInt(),
-                                            player.getMetadata("Pos1Z").get(0).asInt());
-                                    Location pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(),
-                                            player.getMetadata("Pos2Y").get(0).asInt(),
-                                            player.getMetadata("Pos2Z").get(0).asInt());
-
-                                    ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
-                                    String destiPosX = desticonfig.getConfig().getString(destination + ".pos.X");
-
-                                    if (!Portal.portalExists(portalName)) {
-
-                                        player.sendMessage("");
-                                        player.sendMessage(PluginMessages.customPrefix
-                                                + "\u00A7e You have created a new portal with the following details:");
-                                        player.sendMessage("\u00A7aname: \u00A7e" + portalName);
-                                        if (hasDestination) {
-                                            if (!isBungeePortal && destiPosX == null) {
-                                                player.sendMessage("\u00A7cdestination: \u00A7e" + destination
-                                                        + " (destination does not exist)");
-                                                return true;
-                                            } else {
-                                                player.sendMessage("\u00A7adestination: \u00A7e" + destination);
-                                            }
-
-                                        } else {
-                                            player.sendMessage(
-                                                    "\u00A7cdestination: \u00A7eN/A (will not teleport to a location)");
-                                        }
-
-                                        if (isBungeePortal) {
-                                            player.sendMessage("\u00A7abungee: \u00A7e" + serverName);
-                                        }
-
-                                        if (needsPermission) {
-                                            player.sendMessage("\u00A7apermission: \u00A7e" + permission);
-                                        } else {
-                                            player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
-                                        }
-
-                                        for (PortalArg portalArg : extraData) {
-                                            if (!ignoreExtras.contains(portalArg.argName)) {
-                                                player.sendMessage(
-                                                        "\u00A7a" + portalArg.argName + ": \u00A7e" + portalArg.value);
-                                            }
-                                        }
-
-                                        if (executesCommand) {
-                                            player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
-                                        }
-
-                                        if (hasTriggerBlock) {
-                                            Set<Material> materialSet = Portal
-                                                    .getMaterialSet(triggerBlock.toUpperCase().split(","));
-                                            if (materialSet.size() != 0) {
-                                                player.sendMessage(
-                                                        "\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
-                                                PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                                portalArgs = extraData.toArray(portalArgs);
-                                                player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
-                                                        materialSet, serverName, portalArgs));
-                                                if(materialSet.contains(Material.END_GATEWAY)) {
-                                                    AdvancedPortal portal = Portal.getPortal(portalName);
-                                                    if(portal != null) {
-                                                        disableBeacons(portal);
-                                                    }
-                                                }
-                                            } else {
-                                                ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
-                                                player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault("
-                                                        + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-
-                                                player.sendMessage("\u00A7c" + triggerBlock.toUpperCase()
-                                                        + " no valid blocks were listed so the default has been set.");
-                                                PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                                portalArgs = extraData.toArray(portalArgs);
-                                                player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
-                                                        serverName, portalArgs));
-                                            }
-                                        } else {
-                                            ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
-                                            player.sendMessage("\u00A7atriggerBlock: \u00A7edefault("
-                                                    + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
-                                            PortalArg[] portalArgs = new PortalArg[extraData.size()];
-                                            portalArgs = extraData.toArray(portalArgs);
-                                            player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
-                                                    serverName, portalArgs));
-                                        }
-                                    } else {
-                                        sender.sendMessage(
-                                                PluginMessages.customPrefixFail + " A portal by that name already exists!");
-                                    }
-
-                                    // add code to save the portal to the portal config and reload the portals
-
-                                    player.sendMessage("");
-                                } else {
-                                    player.sendMessage(PluginMessages.customPrefixFail
-                                            + " You need to at least add the name of the portal as a variable, \u00A7cType \u00A7e/portal variables\u00A7c"
-                                            + " for a full list of currently available variables and an example command!");
-                                }
-                            } else {
-                                player.sendMessage(PluginMessages.customPrefixFail
-                                        + " The points you have selected need to be in the same world!");
-                            }
-                        } else {
-                            player.sendMessage(PluginMessages.customPrefixFail
-                                    + " You need to have two points selected to make a portal!");
-                        }
-                        break;
+                        return createPortalRequest(player, args);
                     case "variables":
                         sender.sendMessage(
                                 PluginMessages.customPrefix +
@@ -666,6 +435,24 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             }
                         }
                         break;
+                    case "we-selection":
+                        if (!Bukkit.getPluginManager().isPluginEnabled("WorldEdit")) {
+                            player.sendMessage(PluginMessages.customPrefixFail + " WorldEdit is not enabled.");
+                            return true;
+                        }
+                        if (args.length <= 1) {
+                            player.sendMessage(PluginMessages.customPrefixFail + " Specify a portal name!");
+                            return true;
+                        }
+                        AdvancedPortal wePortal = Portal.getPortal(args[1]);
+                        if (wePortal == null) {
+                            sender.sendMessage(PluginMessages.customPrefixFail + " No portal by that name exists!");
+                            return true;
+                        }
+                        WorldEditIntegration.explainRegion(player, wePortal.getPos1(), wePortal.getPos2());
+                        player.sendMessage(PluginMessages.customPrefix
+                                + " The portal has been selected with worldedit!");
+                        break;
                     case "reload":
                         sender.sendMessage(PluginMessages.customPrefix + " Reloaded values!");
                         Listeners.reloadValues(plugin);
@@ -719,6 +506,272 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private boolean checkValidSelection(Player player) {
+        if (plugin.isWorldEditActive()) {
+            if (!WorldEditIntegration.validateSelection(player)) {
+                player.sendMessage(PluginMessages.customPrefixFail
+                        + " Your WorldEdit selection is invalid!");
+                return false;
+            }
+        } else {
+            if (!player.hasMetadata("Pos1World") || !player.hasMetadata("Pos2World")) {
+                player.sendMessage(PluginMessages.customPrefixFail
+                        + " You need to have two points selected to make a portal!");
+                return false;
+            }
+            if (player.getMetadata("Pos1World").get(0).asString()
+                    .equals(player.getMetadata("Pos2World").get(0).asString())
+                    && player.getMetadata("Pos1World").get(0).asString()
+                    .equals(player.getLocation().getWorld().getName())) {
+                player.sendMessage(PluginMessages.customPrefixFail
+                        + " The points you have selected need to be in the same world!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean createPortalRequest(Player player, String[] args) {
+        if (!checkValidSelection(player)) {
+            return true;
+        }
+
+        if (args.length < 2) {
+            player.sendMessage(PluginMessages.customPrefixFail
+                + " You need to at least add the name of the portal as a variable, \u00A7cType \u00A7e/portal variables\u00A7c"
+                + " for a full list of currently available variables and an example command!");
+            return true;
+        }
+
+        // may make this next piece of code more efficient, maybe check
+        // against a list of available variables or something
+        // TODO change system to use arrays and hashmaps
+        boolean hasName = false;
+        boolean hasTriggerBlock = false;
+        boolean hasDestination = false;
+        boolean isBungeePortal = false;
+        boolean needsPermission = false;
+        boolean executesCommand = false;
+        String destination = null;
+        String portalName = null;
+        String triggerBlock = null;
+        String serverName = null;
+        String permission = null;
+        String portalCommand = null;
+
+        ArrayList<PortalArg> extraData = new ArrayList<>();
+
+        // Is completely changed in the recode but for now im leaving it as this
+        // horrible mess...
+        for (int i = 1; i < args.length; i++) {
+            if (startsWithPortalArg("name:", args[i])) {
+                portalName = args[i].replaceFirst("name:", "");
+                if (portalName.equals("")) {
+                    player.sendMessage(PluginMessages.customPrefixFail
+                            + " You must include a name for the portal that isnt nothing!");
+                    return true;
+                }
+                hasName = true;
+                portalName = args[i].replaceFirst("name:", "");
+            } else if (startsWithPortalArg("destination:", args[i])) {
+                hasDestination = true;
+                destination = args[i].toLowerCase().replaceFirst("destination:", "");
+            } else if (startsWithPortalArg("desti:", args[i])) {
+                hasDestination = true;
+                destination = args[i].toLowerCase().replaceFirst("desti:", "");
+            } else if (startsWithPortalArg("triggerblock:", args[i])) {
+                hasTriggerBlock = true;
+                triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
+            } else if (this.startsWithPortalArg("bungee:", args[i])) {
+                isBungeePortal = true;
+                serverName = args[i].substring("bungee:".length());
+            } else if (startsWithPortalArg("permission:", args[i])) {
+                needsPermission = true;
+                permission = args[i].toLowerCase().replaceFirst("permission:", "");
+                extraData.add(new PortalArg("permission", permission));
+            } else if (startsWithPortalArg("delayed:", args[i])) {
+                boolean delayed = Boolean
+                        .parseBoolean(args[i].toLowerCase().replaceFirst("delayed:", ""));
+                extraData.add(new PortalArg("delayed", Boolean.toString(delayed)));
+            } else if (startsWithPortalArg("message:", args[i])) {
+                String message = parseArgVariable(args, i, "message:");
+                if (message == null) {
+                    player.sendMessage(
+                            PluginMessages.customPrefixFail + " Message quotes not closed!");
+                    return true;
+                }
+                extraData.add(new PortalArg("message", message));
+            } else if (startsWithPortalArg("command:", args[i])) {
+                executesCommand = true;
+                portalCommand = parseArgVariable(args, i, "command:");
+                if (portalCommand == null) {
+                    player.sendMessage(
+                            PluginMessages.customPrefixFail + " Command quotes not closed!");
+                    return true;
+                }
+                i += this.portalArgsStringLength - 1;
+                if (portalCommand.startsWith("#")
+                        && !(this.plugin.getSettings().enabledCommandLevel("c")
+                        && (player.hasPermission(
+                        "advancedportals.createportal.commandlevel.console")
+                        || player.isOp()))) {
+                    player.sendMessage(PluginMessages.customPrefixFail
+                            + " You need permission to make a console command portal!");
+                    return true;
+                } else if (portalCommand.startsWith("!")
+                        && !(this.plugin.getSettings().enabledCommandLevel("o")
+                        && (player.hasPermission(
+                        "advancedportals.createportal.commandlevel.op")
+                        || player.isOp()))) {
+                    player.sendMessage(PluginMessages.customPrefixFail
+                            + " You need permission to make a op command portal!");
+                    return true;
+                } else if (portalCommand.startsWith("%")
+                        && !(this.plugin.getSettings().enabledCommandLevel("b")
+                        && (player.hasPermission(
+                        "advancedportals.createportal.commandlevel.bungee")
+                        || player.isOp()))) {
+                    player.sendMessage(PluginMessages.customPrefixFail
+                            + " You need permission to make a bungee command portal!");
+                    return true;
+                } else if (portalCommand.startsWith("^")
+                        && !(this.plugin.getSettings().enabledCommandLevel("p")
+                        && (player.hasPermission(
+                        "advancedportals.createportal.commandlevel.perms")
+                        || player.isOp()))) {
+                    player.sendMessage(PluginMessages.customPrefixFail
+                            + " You need permission to make a all perms command portal!");
+                    return true;
+                }
+                extraData.add(new PortalArg("command.1", portalCommand));
+            } else if (startsWithPortalArg("cooldowndelay:", args[i])) {
+                String cooldownDelay = parseArgVariable(args, i, "cooldowndelay:");
+                extraData.add(new PortalArg("cooldowndelay", cooldownDelay));
+            } else if (startsWithPortalArg("leavedesti:", args[i])) {
+                String leaveDesti = parseArgVariable(args, i, "leavedesti:");
+                extraData.add(new PortalArg("leavedesti", leaveDesti));
+            } else if (startsWithPortalArg("particlein:", args[i])) {
+                String value = parseArgVariable(args, i, "particlein:");
+                extraData.add(new PortalArg("particlein", value));
+            } else if (startsWithPortalArg("particleout:", args[i])) {
+                String value = parseArgVariable(args, i, "particleout:");
+                extraData.add(new PortalArg("particleout", value));
+            }
+        }
+        if (!hasName) {
+            player.sendMessage(PluginMessages.customPrefixFail
+                    + " You must include a name for the portal that you are creating in the variables!");
+            return true;
+        }
+
+        Location pos1, pos2;
+        if (plugin.isWorldEditActive()) {
+            pos1 = WorldEditIntegration.getPos1(player);
+            pos2 = WorldEditIntegration.getPos2(player);
+        } else {
+            World world = Bukkit
+                .getWorld(player.getMetadata("Pos1World").get(0).asString());
+            pos1 = new Location(world, player.getMetadata("Pos1X").get(0).asInt(),
+                player.getMetadata("Pos1Y").get(0).asInt(),
+                player.getMetadata("Pos1Z").get(0).asInt());
+            pos2 = new Location(world, player.getMetadata("Pos2X").get(0).asInt(),
+                player.getMetadata("Pos2Y").get(0).asInt(),
+                player.getMetadata("Pos2Z").get(0).asInt());
+        }
+
+        ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
+        String destiPosX = desticonfig.getConfig().getString(destination + ".pos.X");
+
+        if (!Portal.portalExists(portalName)) {
+
+            player.sendMessage("");
+            player.sendMessage(PluginMessages.customPrefix
+                    + "\u00A7e You have created a new portal with the following details:");
+            player.sendMessage("\u00A7aname: \u00A7e" + portalName);
+            if (hasDestination) {
+                if (!isBungeePortal && destiPosX == null) {
+                    player.sendMessage("\u00A7cdestination: \u00A7e" + destination
+                            + " (destination does not exist)");
+                    return true;
+                } else {
+                    player.sendMessage("\u00A7adestination: \u00A7e" + destination);
+                }
+
+            } else {
+                player.sendMessage(
+                        "\u00A7cdestination: \u00A7eN/A (will not teleport to a location)");
+            }
+
+            if (isBungeePortal) {
+                player.sendMessage("\u00A7abungee: \u00A7e" + serverName);
+            }
+
+            if (needsPermission) {
+                player.sendMessage("\u00A7apermission: \u00A7e" + permission);
+            } else {
+                player.sendMessage("\u00A7apermission: \u00A7e(none needed)");
+            }
+
+            for (PortalArg portalArg : extraData) {
+                if (!ignoreExtras.contains(portalArg.argName)) {
+                    player.sendMessage(
+                            "\u00A7a" + portalArg.argName + ": \u00A7e" + portalArg.value);
+                }
+            }
+
+            if (executesCommand) {
+                player.sendMessage("\u00A7acommand: \u00A7e" + portalCommand);
+            }
+
+            if (hasTriggerBlock) {
+                Set<Material> materialSet = Portal
+                        .getMaterialSet(triggerBlock.toUpperCase().split(","));
+                if (materialSet.size() != 0) {
+                    player.sendMessage(
+                            "\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
+                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                    portalArgs = extraData.toArray(portalArgs);
+                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                            materialSet, serverName, portalArgs));
+                    if(materialSet.contains(Material.END_GATEWAY)) {
+                        AdvancedPortal portal = Portal.getPortal(portalName);
+                        if(portal != null) {
+                            disableBeacons(portal);
+                        }
+                    }
+                } else {
+                    ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
+                    player.sendMessage("\u00A7ctriggerBlock: \u00A7edefault("
+                            + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+
+                    player.sendMessage("\u00A7c" + triggerBlock.toUpperCase()
+                            + " no valid blocks were listed so the default has been set.");
+                    PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                    portalArgs = extraData.toArray(portalArgs);
+                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                            serverName, portalArgs));
+                }
+            } else {
+                ConfigAccessor Config = new ConfigAccessor(plugin, "config.yml");
+                player.sendMessage("\u00A7atriggerBlock: \u00A7edefault("
+                        + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
+                PortalArg[] portalArgs = new PortalArg[extraData.size()];
+                portalArgs = extraData.toArray(portalArgs);
+                player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                        serverName, portalArgs));
+            }
+        } else {
+            player.sendMessage(
+                    PluginMessages.customPrefixFail + " A portal by that name already exists!");
+        }
+
+        // add code to save the portal to the portal config and reload the portals
+
+        player.sendMessage("");
+        return true;
+    }
+
+
     private boolean startsWithPortalArg(String portalArg, String arg) {
         return arg.toLowerCase().startsWith(portalArg) && arg.length() > portalArg.length();
     }
@@ -726,7 +779,8 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
     private void helpCommand(CommandSender sender, String command, String[] args) {
         // Add pages if there starts to become too many
         if (args.length == 1) {
-            sendMenu(sender, "Help Menu", "\u00A76/" + command + " selector \u00A7a- gives you a region selector",
+            sendMenu(sender, "Help Menu",
+                    "\u00A76/" + command + " selector \u00A7a- gives you a region selector",
                     "\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ",
                     "\u00A76/" + command + " portalblock \u00A7a- gives you a portal block",
                     "\u00A76/" + command + " endportalblock \u00A7a- gives you an end portal block",
@@ -897,8 +951,14 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission("advancedportals.createportal")) {
             if (args.length == 1 || (args.length == 2 && args[0].equalsIgnoreCase("help"))) {
                 autoComplete.addAll(Arrays.asList("create", "list", "portalblock", "select", "unselect", "command",
-                        "selector", "show", "gatewayblock", "endportalblock", "variables", "wand", "disablebeacon", "remove", "rename",
+                        "show", "gatewayblock", "endportalblock", "variables", "disablebeacon", "remove", "rename",
                         "help", "bukkitpage", "helppage"));
+                if (Bukkit.getPluginManager().isPluginEnabled("WorldEdit")) {
+                    autoComplete.add("we-selection");
+                }
+                if (!plugin.isWorldEditActive()) {
+                    autoComplete.addAll(Arrays.asList("selector", "wand"));
+                }
             } else if (args[0].equalsIgnoreCase("create")) {
 
                 boolean hasName = false;
@@ -1004,8 +1064,10 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        else if (args.length == 2 && (args[0].equalsIgnoreCase("remove")
-                || args[0].equalsIgnoreCase("disablebeacon"))) {
+        else if (args.length == 2 &&
+                (args[0].equalsIgnoreCase("remove")
+                || args[0].equalsIgnoreCase("disablebeacon")
+                || args[0].equalsIgnoreCase("we-selection"))) {
             for (AdvancedPortal portal : Portal.portals) {
                 autoComplete.add(portal.getName());
             }
