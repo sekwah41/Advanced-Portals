@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Advanced Portals',
   tagline: 'An advanced portals plugin for bukkit',
-  url: 'https://www.sekwah.com/advanced-portals/',
-  baseUrl: '/advanced-portals/',
+  url: 'https://advancedportals.sekwah.com/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
