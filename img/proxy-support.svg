@@ -40,7 +40,7 @@
        width="560.44305"
        height="560.44305"
        preserveAspectRatio="none"
-       xlink:href=".\svgembed\velocity.png"
+       xlink:href="/img/svgembed/velocity.png"
        id="velocity"
        x="919.44904"
        y="256.53247" />
@@ -56,7 +56,7 @@
        width="638.66602"
        height="331.27069"
        preserveAspectRatio="none"
-       xlink:href=".\svgembed\bungeecord.png"
+       xlink:href="/img/svgembed/bungeecord.png"
        id="bungeecord"
        x="348.7157"
        y="380.45093" />
