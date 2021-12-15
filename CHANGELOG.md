@@ -1,3 +1,36 @@
+# v0.9.0 (Wed Dec 15 2021)
+
+#### 🚀 Enhancement
+
+- feat: WorldEdit Integration, fix logic error [#307](https://github.com/sekwah41/Advanced-Portals/pull/307) ([@JOO200](https://github.com/JOO200))
+- feat: Added WorldEdit Integration [#307](https://github.com/sekwah41/Advanced-Portals/pull/307) ([@JOO200](https://github.com/JOO200))
+- feat: Adds ability to configure warp message [#302](https://github.com/sekwah41/Advanced-Portals/pull/302) ([@maldahleh](https://github.com/maldahleh))
+
+#### 🐛 Bug Fix
+
+- chore(deps): Update Velocity to 3.1.0 [#307](https://github.com/sekwah41/Advanced-Portals/pull/307) ([@JOO200](https://github.com/JOO200))
+- chore(deps): Update Deps ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency gradle to v7.3.1 ([@renovate-bot](https://github.com/renovate-bot))
+- docs: Update changelog ([@sekwah41](https://github.com/sekwah41))
+- chore(ci): Allow manual triggering ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): Update Deps to v10.32.3 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency gradle to v7.3 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.70.Final ([@renovate-bot](https://github.com/renovate-bot))
+- chore(ci): Update to list 1.17 as supported automatically ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.69.Final ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.32.1 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.32.0 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency com.velocitypowered:velocity-api to v1.1.9 ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 4
+
+- [@JOO200](https://github.com/JOO200)
+- Mohammed Al-Dahleh ([@maldahleh](https://github.com/maldahleh))
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.8.0 (Wed Sep 01 2021)
 
 #### 🚀 Enhancement
