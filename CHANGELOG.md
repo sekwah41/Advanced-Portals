@@ -1,3 +1,16 @@
+# v0.9.1 (Fri Dec 17 2021)
+
+#### 🐛 Bug Fix
+
+- fix: Error in position checks for portal creation [#310](https://github.com/sekwah41/Advanced-Portals/pull/310) ([@sekwah41](https://github.com/sekwah41))
+- chore(ci): Update release support flags ([@sekwah41](https://github.com/sekwah41))
+
+#### Authors: 1
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+
+---
+
 # v0.9.0 (Wed Dec 15 2021)
 
 #### 🚀 Enhancement
