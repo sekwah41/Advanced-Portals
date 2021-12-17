@@ -519,12 +519,12 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         + " You need to have two points selected to make a portal!");
                 return false;
             }
-            if (player.getMetadata("Pos1World").get(0).asString()
+            if (!player.getMetadata("Pos1World").get(0).asString()
                     .equals(player.getMetadata("Pos2World").get(0).asString())
-                    && player.getMetadata("Pos1World").get(0).asString()
+                    || !player.getMetadata("Pos1World").get(0).asString()
                     .equals(player.getLocation().getWorld().getName())) {
                 player.sendMessage(PluginMessages.customPrefixFail
-                        + " The points you have selected need to be in the same world!");
+                        + " The points you have selected need to be in the same world as each other and yourself!");
                 return false;
             }
         }
