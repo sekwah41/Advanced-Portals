@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Plugin(id = "advancedportals", name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
-        version = "0.9.0")
+        version = "0.9.1")
 public class AdvancedPortalsPlugin {
 
     public HashMap<String, String[]> PlayerDestiMap = new HashMap<>();
