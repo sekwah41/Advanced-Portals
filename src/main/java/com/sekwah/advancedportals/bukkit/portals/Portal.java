@@ -577,12 +577,15 @@ public class Portal {
                 } else if (command.startsWith("!") && plugin.getSettings().enabledCommandLevel("o")) {
                     command = command.substring(1);
                     boolean wasOp = player.isOp();
-                    try {
-                        player.setOp(true);
+                    if(!wasOp) {
+                        try {
+                            player.setOp(true);
+                            player.chat("/" + command);
+                        } finally {
+                            player.setOp(false);
+                        }
+                    } else {
                         player.chat("/" + command);
-                        // player.performCommand(command);
-                    } finally {
-                        player.setOp(wasOp);
                     }
                 } else if (command.startsWith("^") && plugin.getSettings().enabledCommandLevel("p")) {
                     command = command.substring(1);
