@@ -58,6 +58,10 @@ You can also use `@player` to place the teleporting user's name into the command
 
 Example: `command:"#say @player has triggered a console command portal"`
 
+A common request is info about how to rtp players.
+We recommend using [BetterRTP](https://www.spigotmc.org/resources/betterrtp-random-wild-teleport.36081/) and using the `rtp player` command.
+This can be specified using the tag `command:"#rtp player @player (worldname)"`. This will automatically insert the player name and run the command in the console.
+
 ### Command Tag Flags
 
 You can only use one of these at the start of a command tag.
