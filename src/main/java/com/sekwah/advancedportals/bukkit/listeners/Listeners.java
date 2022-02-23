@@ -118,13 +118,14 @@ public class Listeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMoveEvent(PlayerMoveEvent event) {
+
         // will check if the player is in the portal or not.
-        if (!Portal.portalsActive || event.isCancelled()) {
-            return;
-        }
+        if (!Portal.portalsActive || event.isCancelled()) return;
+
+        //Optimizes the plugin by executing the code only when the event is called because the player changes blocks, not when he moves his head. - vSKAH
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
 
         Player player = event.getPlayer();
-
         checkTriggerLocations(player, false, event.getTo(), player.getEyeLocation());
 
     }
