@@ -1,3 +1,20 @@
+# v0.9.2 (Thu Feb 24 2022)
+
+#### 🐛 Bug Fix
+
+- fix: Removes the false positive warning from McAntiMalware [#318](https://github.com/sekwah41/Advanced-Portals/pull/318) ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): Update Deps ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency com.sk89q.worldedit:worldedit-bukkit to v7.2.9 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps [#316](https://github.com/sekwah41/Advanced-Portals/pull/316) ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency gradle to v7.3.3 ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 2
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+- WhiteSource Renovate ([@renovate-bot](https://github.com/renovate-bot))
+
+---
+
 # v0.9.1 (Fri Dec 17 2021)
 
 #### 🐛 Bug Fix
