@@ -1,5 +1,8 @@
-// Check the root build.gradle under allprojects for common settings
+plugins {
+    id("xyz.jpenilla.run-paper") version "1.0.6"
+}
 
+// Check the root build.gradle under allprojects for common settings
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
@@ -8,6 +11,7 @@ configurations {
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url 'https://papermc.io/repo/repository/maven-public/' }
 }
 
 // includeLibs just says to include the library in the final jar
@@ -15,7 +19,9 @@ dependencies {
     implementation project(":core")
 
     // For spigot api
-    implementation "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
+    implementation "net.md-5:bungeecord-api:1.16-R0.4"
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 }
 
 jar {
@@ -23,3 +29,13 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+tasks {
+    runServer {
+        // Configure the Minecraft version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        minecraftVersion("1.18.2")
+    }
+}
+
