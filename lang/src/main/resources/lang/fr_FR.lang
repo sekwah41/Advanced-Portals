@@ -43,7 +43,7 @@ command.create.complete= Le portail a bien été créé.
 command.createdesti.help=Crée une destination
 command.createdesti.error= Une erreur est survenue en créant la destination:
 command.createdesti.console= Vous ne pouvez pas créer une destination en utilisant la console.
-command.createdesti.detailedhelp=Le format est /desti create (name) [tag:tagvalue] 
+command.createdesti.detailedhelp=Le format est /desti create (name) [tag:tagvalue]
 command.createdesti.complete= La destination a bien été créée.
 
 command.create.tags=\u00A7aTags:
