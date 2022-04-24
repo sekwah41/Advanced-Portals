@@ -83,14 +83,12 @@ buildscript {
     }
 }
 
+apply from: 'env-variables.gradle'
+
 archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 
 description = ""
-
-def branch = System.getenv("GITHUB_REF");
-def sha = System.getenv("GITHUB_SHA");
-def isDevBranch = branch == null || !(branch.startsWith("refs/tags/") && !branch.contains("-"))
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
