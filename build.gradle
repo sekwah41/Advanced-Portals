@@ -75,7 +75,6 @@ buildscript {
         maven {url "https://plugins.gradle.org/m2/"}
         mavenCentral()
         mavenLocal()
-        jcenter()
     }
     dependencies {
         classpath "org.apache.httpcomponents:httpmime:4.5.13"
@@ -112,7 +111,7 @@ String getPluginData(String tag) {
 
 configurations {
     // configuration that holds jars to copy into lib
-    compile.extendsFrom(includeLibs)
+    implementation.extendsFrom(includeLibs)
 }
 
 repositories {
