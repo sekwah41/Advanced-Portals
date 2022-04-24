@@ -1,0 +1,16 @@
+
+def branch = System.getenv("GITHUB_REF")
+if(branch != null) {
+    branch = branch.replace('refs/heads/', '')
+}
+def isRelease = System.getenv("IS_RELEASE") == "true"
+
+def snapshotName = (branch == null || branch.startsWith("release-please")) ? "SNAPSHOT" : branch
+def githubSha = System.getenv("GITHUB_SHA")
+def shaRef = githubSha != null ? "-${githubSha.substring(0, 8)}" : ""
+
+ext.branch = branch
+ext.snapshotName = snapshotName
+ext.githubSha = githubSha
+ext.shaRef = shaRef
+ext.isRelease = isRelease
