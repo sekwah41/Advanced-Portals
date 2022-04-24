@@ -63,7 +63,7 @@ allprojects {
         task buildSubmodules doLast {
             task -> println "Building $task.project.name"
         }
-        buildSubmodule.finalizedBy build
+        buildSubmodules.finalizedBy build
     }
 
     sourceCompatibility = 1.8
