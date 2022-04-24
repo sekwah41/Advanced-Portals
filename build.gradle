@@ -59,6 +59,13 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 
+    if (project.name != "advanced-portals") {
+        task buildSubmodules doLast {
+            task -> println "Building $task.project.name"
+        }
+        buildSubmodule.finalizedBy build
+    }
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
