@@ -1,6 +1,8 @@
 package com.sekwah.advancedportals.util;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.sekwah.advancedportals.core.data.DataStorage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +24,16 @@ public class Lang {
 
     private static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
+
+    @Inject
+    private AdvancedPortalsCore portalsCore;
+
+    @Inject
+    private DataStorage dataStorage;
+
+    @Inject
+    private InfoLogger infoLogger;
+
     //private final String DEFAULT_LANG = "en_GB";
 
     /*public Lang() {
@@ -67,7 +79,7 @@ public class Lang {
             //URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
             //System.out.println(url);
             //Map<String, String> newLangMap = lang.parseLang(url.openStream());
-            InputStream stream = AdvancedPortalsCore.getInstance().getDataStorage().loadResource("lang/" + fileName + ".lang");
+            InputStream stream = this.dataStorage.loadResource("lang/" + fileName + ".lang");
             if (stream != null) {
                 Map<String, String> newLangMap = lang.parseLang(stream);
                 if (newLangMap != null) {
@@ -76,7 +88,7 @@ public class Lang {
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
-            AdvancedPortalsCore.getInstance().getInfoLogger().logWarning("Could not load " + fileName + ".lang The file does" +
+            this.infoLogger.logWarning("Could not load " + fileName + ".lang The file does" +
                     "not exist or there has been an error reading the file. Canceled loading language file.");
         }
     }

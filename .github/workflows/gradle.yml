@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew buildSubmodules build
       - name: Upload to Discord (If pre-release tag)
         if: "startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')"
         env:
