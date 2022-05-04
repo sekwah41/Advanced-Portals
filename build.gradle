@@ -1,4 +1,22 @@
 
+buildscript {
+    repositories {
+        maven {url "https://plugins.gradle.org/m2/"}
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "com.google.code.gson:gson:2.8.6"
+        classpath "org.apache.httpcomponents:httpclient:4.5.13"
+    }
+}
+
+
+plugins {
+    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+}
+
 allprojects {
     apply plugin: 'java'
 
@@ -15,19 +33,6 @@ allprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-}
-
-buildscript {
-    repositories {
-        maven {url "https://plugins.gradle.org/m2/"}
-        mavenCentral()
-        mavenLocal()
-    }
-    dependencies {
-        classpath "org.apache.httpcomponents:httpmime:4.5.13"
-        classpath "com.google.code.gson:gson:2.8.6"
-        classpath "org.apache.httpcomponents:httpclient:4.5.13"
-    }
 }
 
 apply from: 'env-variables.gradle'
@@ -77,5 +82,30 @@ jar {
     } .collect {
         println("Will Include: ${it.name}")
         it.isDirectory() ? it : zipTree(it)
+    }
+
+}
+minecraftServerConfig {
+    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.18.2.jar')
+    jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+}
+
+
+task copyPlugin() {
+    doLast {
+        copy {
+            println "$buildDir/libs/Advanced-Portals-${getVersion()}.jar"
+            println "$buildDir/MinecraftServer/plugins/Advanced-Portals-${getVersion()}.jar"
+            try {
+                delete fileTree("$buildDir/MinecraftServer/plugins/") {
+                    include "*.jar"
+                }
+            }
+            catch (RuntimeException e) {
+                println e.getLocalizedMessage()
+            }
+            from file("$buildDir/libs/Advanced-Portals-${getVersion()}.jar")
+            into file("$buildDir/MinecraftServer/plugins")
+        }
     }
 }
