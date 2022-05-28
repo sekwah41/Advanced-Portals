@@ -1,12 +1,12 @@
 {
   "devDependencies": {
     "conventional-changelog-angular": "5.0.13",
-    "@auto-it/conventional-commits": "10.37.0",
-    "@auto-it/exec": "10.37.0",
-    "@auto-it/first-time-contributor": "10.37.0",
-    "@auto-it/gradle": "10.37.0",
-    "@auto-it/released": "10.37.0",
-    "@auto-it/upload-assets": "10.37.0",
-    "auto": "10.37.0"
+    "@auto-it/conventional-commits": "10.37.1",
+    "@auto-it/exec": "10.37.1",
+    "@auto-it/first-time-contributor": "10.37.1",
+    "@auto-it/gradle": "10.37.1",
+    "@auto-it/released": "10.37.1",
+    "@auto-it/upload-assets": "10.37.1",
+    "auto": "10.37.1"
   }
 }
