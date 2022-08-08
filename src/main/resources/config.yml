@@ -5,11 +5,11 @@
 # Will update whenever there is a config update from an older version so may not be the latest plugin version
 ConfigVersion: 0.5.13
 
-# Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
-# It can be usefull if people with permission want to use an iron axe on a survival server
+# Set to true if you want the normal axes to work normally but the ones given with /portals selector or wand will still work though
+# It can be useful if people with permission want to use an iron axe on a survival server
 UseOnlyServerMadeAxe: false
 
-# Preferably an item and not a block but it shouldnt matter
+# Preferably an item and not a block but it shouldn't matter
 AxeItemId: IRON_AXE
 
 # Will be implemented so you can give yourself the portal block and build manually with it so its easier to make portals with the portal block.
@@ -24,7 +24,7 @@ PortalProtectionArea: 5
 # What the default trigger block is for portals if nothing is defined.
 DefaultPortalTriggerBlock: PORTAL
 
-# This stops all water flowing inside a portal area(can be disabled if something like world edit is handelling the water flow or you dont want it active)
+# This stops all water flowing inside a portal area(can be disabled if something like WorldEdit is handling the water flow or you don't want it active)
 #    you want to
 StopWaterFlow: true
 
@@ -46,7 +46,7 @@ WarpSound: 1
 # In case you want to show the bungee attempting warp message
 ShowBungeeWarpMessage: false
 
-# This changes how long the show seletion lasts in seconds
+# This changes how long the show selection lasts in seconds
 
 ShowSelectionShowDuration: 10
 
@@ -76,7 +76,7 @@ ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwb
 # Only disables the gateway block places with "/portal gatewayblock" for now
 # If you want to replace already made portals just use "/portal disablebeacon" and it will run through all the blocks in the area
 # Reloading the world or chunks that portals are in will also trigger the beacons to be disabled (this is for efficiency reasons)
-# However these wont trigger in the spawn chunks as they are loaded before any pluigns are.
+# However these wont trigger in the spawn chunks as they are loaded before any plugins are.
 DisableGatewayBeam: true
 
 # Enable or disable special command portals
@@ -99,9 +99,9 @@ ForceEnableProxySupport: false
 # 0 is disabled and anything higher causes a delay.
 ProxyTeleportDelay: 0
 
-# Just in case you are not using the proxy and dont want the warning message
+# Just in case you are not using the proxy and don't want the warning message
 DisableProxyWarning: false
 
-# Whether the integration with worldedit should be enabled.
+# Whether the integration with WorldEdit should be enabled.
 # This will force AdvancedPortals to use WorldEdit selections.
 WorldEditIntegration: false
