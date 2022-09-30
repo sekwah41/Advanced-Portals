@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import com.sekwah.advancedportals.bukkit.listeners.Listeners;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
 import net.md_5.bungee.api.ChatMessageType;
@@ -118,6 +119,12 @@ public class Destination {
     }
 
     public static boolean warp(Player player, String dest, AdvancedPortal disp, boolean hideActionbar, boolean noEffects) {
+        // Removal of metadata when appearing on the server after the actual warp
+        // Fixes https://github.com/sekwah41/Advanced-Portals/issues/329
+        if (player.hasMetadata(Listeners.HAS_WARPED)) {
+            player.removeMetadata(Listeners.HAS_WARPED, plugin);
+        }
+
         ConfigAccessor config = new ConfigAccessor(plugin, "destinations.yml");
         if (config.getConfig().getString(dest + ".world") != null) {
             Location loc = player.getLocation();
