@@ -25,9 +25,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "org.apache.httpcomponents:httpmime:4.5.14"
         classpath "com.google.code.gson:gson:2.10"
-        classpath "org.apache.httpcomponents:httpclient:4.5.13"
+        classpath "org.apache.httpcomponents:httpclient:4.5.14"
     }
 }
 
