@@ -55,6 +55,15 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
         ConfigAccessor portalConfig = new ConfigAccessor(plugin, "portals.yml");
         if (!(sender instanceof Player)) {
+            if(args.length == 1) {
+                if(args[0].equalsIgnoreCase("reload")) {
+                    Listeners.reloadValues(plugin);
+                    Portal.loadPortals();
+                    sender.sendMessage("portal reloaded.");
+
+                    return true;
+                }
+            }
             sender.sendMessage(PluginMessages.customPrefixFail + " You cannot use commands with the console.");
             return true;
         }
