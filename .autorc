@@ -1,5 +1,5 @@
 {
-  "baseBranch": "spigot-1.13-1.16",
+  "baseBranch": "spigot",
   "plugins": [
     [
       "gradle",
