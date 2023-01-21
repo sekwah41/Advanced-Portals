@@ -1,3 +1,37 @@
+# v0.9.3 (Sat Jan 21 2023)
+
+#### 🐛 Bug Fix
+
+- chore: small readme change to force an update [#344](https://github.com/sekwah41/Advanced-Portals/pull/344) ([@sekwah41](https://github.com/sekwah41))
+- chore: switch base branch ([@sekwah41](https://github.com/sekwah41))
+- fix: detect new velocity setting location [#343](https://github.com/sekwah41/Advanced-Portals/pull/343) ([@sekwah41](https://github.com/sekwah41))
+- chore: add mc task for easier running [#343](https://github.com/sekwah41/Advanced-Portals/pull/343) ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.80.Final ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency com.sk89q.worldedit:worldedit-bukkit to v7.2.12 ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency com.sk89q.worldedit:worldedit-bukkit to v7.2.11 ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps to v10.37.4 ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.78.Final ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps to v10.37.1 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.37.0 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.77.Final ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.76.Final ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update dependency gradle to v7.4.2 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.36.5 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.34.1 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.34.0 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): Update Deps to v10.33.1 ([@renovate-bot](https://github.com/renovate-bot))
+- chore(deps): update actions/setup-java action to v3 [#322](https://github.com/sekwah41/Advanced-Portals/pull/322) ([@renovate-bot](https://github.com/renovate-bot))
+
+#### Authors: 3
+
+- [@renovate[bot]](https://github.com/renovate[bot])
+- Mend Renovate ([@renovate-bot](https://github.com/renovate-bot))
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+
+---
+
 # v0.9.2 (Thu Feb 24 2022)
 
 #### 🐛 Bug Fix
