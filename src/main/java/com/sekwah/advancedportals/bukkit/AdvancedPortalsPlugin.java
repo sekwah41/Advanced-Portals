@@ -12,11 +12,14 @@ import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -154,9 +157,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         // Will be valid if paperspigot is being used. Otherwise catch.
         try {
-            ConfigurationSection configSelection = getServer().spigot().getPaperConfig().getConfigurationSection("settings");
-            ConfigurationSection velocity = configSelection != null ? configSelection.getConfigurationSection("velocity-support") : null;
-            if (velocity != null && velocity.getBoolean("enabled") ) {
+            YamlConfiguration config = getServer().spigot().getPaperConfig();
+            if(Objects.equals(config.get("velocity-support.enabled"),true)
+                    || Objects.equals(config.get("proxies.velocity.enabled"),true)) {
                 getLogger().info( "Modern forwarding detected. Enabling proxy features." );
                 return true;
             }
@@ -164,8 +167,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             if(!disableProxyWarning) getLogger().info("Paper config not detected, ignoring paper settings");
         }
 
-        if(!disableProxyWarning) getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml) " +
-                "or if you are using Paper settings.velocity-support.enabled may not be enabled (paper.yml)" );
+        if(!disableProxyWarning) getLogger().warning( "Proxy features disabled for Advanced Portals as bungee isn't enabled on the server (spigot.yml)." +
+                "If you are using Paper proxies.velocity.enabled (config/paper-global.yml) or settings.velocity-support.enabled (paper.yml) may not be enabled " );
         return false;
     }
 
