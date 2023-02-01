@@ -25,9 +25,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.apache.httpcomponents:httpmime:4.5.13"
-        classpath "com.google.code.gson:gson:2.9.1"
-        classpath "org.apache.httpcomponents:httpclient:4.5.13"
+        classpath "org.apache.httpcomponents:httpmime:4.5.14"
+        classpath "com.google.code.gson:gson:2.10.1"
+        classpath "org.apache.httpcomponents:httpclient:4.5.14"
     }
 }
 
@@ -92,10 +92,10 @@ dependencies {
     implementation "com.velocitypowered:velocity-api:3.1.1"
     annotationProcessor "com.velocitypowered:velocity-api:3.1.1"
 
-    implementation "io.netty:netty-all:4.1.82.Final"
+    implementation "io.netty:netty-all:4.1.87.Final"
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 
-    implementation "com.sk89q.worldedit:worldedit-bukkit:7.2.12"
+    implementation "com.sk89q.worldedit:worldedit-bukkit:7.2.13"
     //compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
