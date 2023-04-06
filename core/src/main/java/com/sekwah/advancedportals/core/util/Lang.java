@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.util;
+package com.sekwah.advancedportals.core.util;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
@@ -22,7 +22,7 @@ import java.util.Scanner;
  */
 public class Lang {
 
-    private static final Lang instance = new Lang();
+    public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
 
     @Inject
