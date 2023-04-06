@@ -23,6 +23,8 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
         this.module = new AdvancedPortalsModule(this);
         this.configRepository = module.getInjector().getInstance(ConfigRepository.class);
+
+        // Force values to get injected, either because the initial ones were created too early or to ensure they are not null.
         module.getInjector().injectMembers(Lang.instance);
     }
 
