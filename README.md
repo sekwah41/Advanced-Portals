@@ -4,6 +4,9 @@ Need to write a new readme for this.
 
 Also I will set up release please to work with the below types for pretty changelogs.
 
+The re-code is based off a mix of the original version, and the original re-code that was abandoned [see here](https://github.com/sekwah41/Advanced-Portals/tree/recode/src/main/java/com/sekwah/advancedportals).
+
+There were no issues with this approach, though for a number of reasons outside of the codebase progress was not made fast enough.
 # Contributing
 Please ensure that your commits are in the following style for PR's
 
