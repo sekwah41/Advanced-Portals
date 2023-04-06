@@ -49,8 +49,6 @@ Please ensure that your commits are in the following style for PR's
 
 https://www.conventionalcommits.org/en/v1.0.0/
 
-Accepted tags mostly follow the Angular style and are meant to only loosely be followed.
-When commits close an issue refer in the commit description in the following style (Refs #1, #2, #3)
 ## Types available
  * **build**: Changes that affect the build system or external dependencies
  * **ci**: Changes to our CI configuration files and scripts
@@ -90,3 +88,8 @@ We don't currently do tests. But in case.
 
 ## Scopes available
 The scopes available should be the specific modules being worked on. E.g. core, spigot, docs
+
+## Documentation
+That is handled on the [website](https://github.com/sekwah41/Advanced-Portals/tree/website) branch.
+
+At some point I may merge this onto this branch to try to push for documentation changes with new features, though for now this works.
