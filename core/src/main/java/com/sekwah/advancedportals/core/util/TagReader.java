@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.util;
+package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.data.DataTag;
 
