@@ -11,19 +11,17 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        this.portalsCore = new AdvancedPortalsCore();
+        this.portalsCore = new AdvancedPortalsCore(this.getDataFolder(), new SpigotInfoLogger(this));
 
         this.portalsCore.onEnable();
 
         new Metrics(this);
-
-        this.getServer().getConsoleSender().sendMessage("\u00A7aAdvanced portals have been successfully enabled!");
     }
 
 
     @Override
     public void onDisable() {
-        this.getServer().getConsoleSender().sendMessage("\u00A7cAdvanced portals are being disabled!");
+        this.portalsCore.onDisable();
     }
 
 }

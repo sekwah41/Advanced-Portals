@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.util.InfoLogger;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
