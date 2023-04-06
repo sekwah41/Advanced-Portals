@@ -192,6 +192,9 @@ minecraftServerConfig {
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
 }
 
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
 
 task copyPlugin() {
     doLast {
