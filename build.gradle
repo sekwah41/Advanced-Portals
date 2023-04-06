@@ -86,7 +86,7 @@ jar {
 
 }
 minecraftServerConfig {
-    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.18.2.jar')
+    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.19.4.jar')
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
 }
 
