@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.util;
+package com.sekwah.advancedportals.core.util;
 
 public abstract class InfoLogger {
 
