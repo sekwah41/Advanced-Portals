@@ -40,6 +40,9 @@ Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
 
 The api isn't implemented in this version, sorry for any inconvenience. Check the recode tree for possibly a working recode at some point.
 
+The re-code is based off a mix of the original version, and the original re-code that was abandoned [see here](https://github.com/sekwah41/Advanced-Portals/tree/recode/src/main/java/com/sekwah/advancedportals).
+
+There were no issues with this approach, though for a number of reasons outside of the codebase progress was not made fast enough.
 # Contributing
 
 Don't worry about updating the file numbers in `bungee.yml`, `plugin.yml` and `AdvancedPortalsPlugin.java`.
