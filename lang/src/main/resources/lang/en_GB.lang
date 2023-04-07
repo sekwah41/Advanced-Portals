@@ -13,8 +13,9 @@
 #
 translatedata.lastchange=1.0.0
 translatedata.translationsoutdated= Some of the translations from the current translation file \u00A7e%1$s\u00A7c are out of date.
-translatedata.replacecommand= Use \u00A7e/portal transupdate\u00A7c to copy out a new default \u00A7een_GB\u00A7c file.
+translatedata.replacecommand= Use \u00A7e/portal langupdate\u00A7c to copy out a new default \u00A7een_GB\u00A7c file.
 translatedata.replaced= A new \u00A7een_GB\u00A7a file has been copied to the data folder.
+translatedata.overwrite= Please use "\u00A7elangupdate overwrite\u00A7a" to replace the original file.
 
 messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
 messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
@@ -86,3 +87,4 @@ command.trans.help=Copy translation new default translation file
 command.version.help=Returns the current version of the plugin
 
 command.subcommand.nopermission= Sorry but you don't have permission for that, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
+
