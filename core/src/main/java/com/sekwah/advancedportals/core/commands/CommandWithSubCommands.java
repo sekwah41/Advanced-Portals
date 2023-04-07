@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.commands;
 
+import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.registry.SubCommandRegistry;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -13,12 +14,15 @@ public class CommandWithSubCommands implements CommandTemplate {
     private final SubCommandRegistry subCommandRegistry;
 
     private final int subCommandsPerPage = 7;
+    private final AdvancedPortalsCore pluginCore;
 
-    public CommandWithSubCommands() {
+    public CommandWithSubCommands(AdvancedPortalsCore advancedPortalsCore) {
         this.subCommandRegistry = new SubCommandRegistry();
+        this.pluginCore = advancedPortalsCore;
     }
 
     public boolean registerSubCommand(String arg, SubCommand subCommand, String... aliasArgs) {
+        pluginCore.getModule().getInjector().injectMembers(subCommand);
         boolean hasRegistered = false;
         for(String additionalArg : aliasArgs) {
             hasRegistered = hasRegistered || this.subCommandRegistry.registerSubCommand(additionalArg,subCommand);

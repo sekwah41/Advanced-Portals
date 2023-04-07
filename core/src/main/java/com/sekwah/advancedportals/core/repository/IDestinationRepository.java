@@ -1,4 +1,9 @@
 package com.sekwah.advancedportals.core.repository;
 
-public interface IDestinationRepository<T> extends IJsonRepository<T> {
+import com.sekwah.advancedportals.core.destination.Destination;
+
+import java.io.IOException;
+
+public interface IDestinationRepository extends IJsonRepository<Destination> {
+    void addDestination(String name, Destination desti) throws IOException;
 }
