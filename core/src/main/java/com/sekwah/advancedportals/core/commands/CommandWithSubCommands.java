@@ -25,9 +25,9 @@ public class CommandWithSubCommands implements CommandTemplate {
         pluginCore.getModule().getInjector().injectMembers(subCommand);
         boolean hasRegistered = false;
         for(String additionalArg : aliasArgs) {
-            hasRegistered = hasRegistered || this.subCommandRegistry.registerSubCommand(additionalArg,subCommand);
+            hasRegistered = this.subCommandRegistry.registerSubCommand(additionalArg,subCommand) || hasRegistered;
         }
-        return hasRegistered || this.subCommandRegistry.registerSubCommand(arg,subCommand);
+        return this.subCommandRegistry.registerSubCommand(arg,subCommand) || hasRegistered;
     }
 
     public ArrayList<String> getSubCommands(){
@@ -49,6 +49,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                 int helpPage = 1;
                 String[] subCommands = this.subCommandRegistry.getSubCommands().toArray(new String[0]);
                 int pages = (int) Math.ceil(subCommands.length / (float) this.subCommandsPerPage);
+                String command = commandExecuted.substring(0, 1).toUpperCase() + commandExecuted.substring(1).toLowerCase();
                 if(args.length > 1) {
                     try {
                         helpPage = Integer.parseInt(args[1]);
@@ -62,8 +63,9 @@ public class CommandWithSubCommands implements CommandTemplate {
                     catch(NumberFormatException e) {
                         String subCommand = args[1].toLowerCase();
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
+                            sender.sendMessage("");
                             sender.sendMessage(Lang.translateInsertVariables("command.help.subcommandheader",
-                                    commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), subCommand));
+                                    command, subCommand));
                             sender.sendMessage("\u00A77" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
                         else {
@@ -72,8 +74,9 @@ public class CommandWithSubCommands implements CommandTemplate {
                         return;
                     }
                 }
+                sender.sendMessage("");
                 sender.sendMessage(Lang.translateInsertVariables("command.help.header",
-                        commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), helpPage, pages));
+                        command, helpPage, pages));
                 sender.sendMessage("\u00A7a█\u00A77 = Permission \u00A7c█\u00A77 = No Permission");
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
                 int displayEnd = subCommandOffset + this.subCommandsPerPage;
