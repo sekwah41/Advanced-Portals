@@ -62,17 +62,17 @@ public class CommandWithSubCommands implements CommandTemplate {
                     catch(NumberFormatException e) {
                         String subCommand = args[1].toLowerCase();
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
-                            sender.sendMessage(Lang.translateInsertVariablesColor("command.help.subcommandheader",
+                            sender.sendMessage(Lang.translateInsertVariables("command.help.subcommandheader",
                                     commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), subCommand));
                             sender.sendMessage("\u00A77" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
                         else {
-                            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.help.invalidhelp", args[1]));
+                            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.help.invalidhelp", args[1]));
                         }
                         return;
                     }
                 }
-                sender.sendMessage(Lang.translateInsertVariablesColor("command.help.header",
+                sender.sendMessage(Lang.translateInsertVariables("command.help.header",
                         commandExecuted.substring(0,1).toUpperCase() + commandExecuted.substring(1).toLowerCase(), helpPage, pages));
                 sender.sendMessage("\u00A7a█\u00A77 = Permission \u00A7c█\u00A77 = No Permission");
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
@@ -95,17 +95,17 @@ public class CommandWithSubCommands implements CommandTemplate {
                             subCommand.onCommand(sender, args);
                         }
                         else {
-                            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.subcommand.nopermission",
+                            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.subcommand.nopermission",
                                     commandExecuted));
                         }
                         return;
                     }
                 }
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.subcommand.invalid"));
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.subcommand.invalid"));
             }
         }
         else {
-            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateInsertVariablesColor("command.noargs", commandExecuted));
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.noargs", commandExecuted));
         }
     }
 

@@ -4,14 +4,12 @@ package com.sekwah.advancedportals.core.services;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.warphandler.TagHandler;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -61,11 +59,11 @@ public class DestinationServices {
     public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
         // TODO change to write messages
         if(name == null || name.equals("")) {
-            player.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("desti.error.noname"));
+            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.noname"));
             return null;
         }
         else if(this.destinationRepository.containsKey(name)) {
-            player.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("desti.error.takenname"));
+            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.takenname"));
             return null;
         }
 

@@ -19,14 +19,14 @@ public class PortalBlockSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
         if(player == null) {
-            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
             player.giveWool("PURPLE", "\u00A75Portal Block Placer"
                     , "\u00A7rThis wool is made of a magical substance",
                             "\u00A7rRight Click: Place portal block",
                             "\u00A7rLeft Click: Rotate portal block");
-            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.portalblock"));
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.portalblock"));
         }
 
     }
