@@ -74,7 +74,7 @@ public class AdvancedPortalsCore {
     }
 
     private void registerPortalCommand(CommandRegister commandRegister) {
-        this.portalCommand = new CommandWithSubCommands();
+        this.portalCommand = new CommandWithSubCommands(this);
 
         // TODO remove once annotations are done
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
@@ -91,7 +91,7 @@ public class AdvancedPortalsCore {
     }
 
     private void registerDestinationCommand(CommandRegister commandRegister) {
-        this.destiCommand = new CommandWithSubCommands();
+        this.destiCommand = new CommandWithSubCommands(this);
 
         // TODO remove once annotations are done
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());

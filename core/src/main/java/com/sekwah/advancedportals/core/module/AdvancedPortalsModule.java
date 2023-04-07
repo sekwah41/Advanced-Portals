@@ -6,7 +6,7 @@ import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.config.ConfigProvider;
 import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
-import com.sekwah.advancedportals.core.repository.ConfigRepositoryImpl;
+import com.sekwah.advancedportals.core.repository.impl.ConfigRepositoryImpl;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.annotation.Nonnull;

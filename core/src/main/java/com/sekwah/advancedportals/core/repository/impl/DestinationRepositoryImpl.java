@@ -1,7 +1,8 @@
-package com.sekwah.advancedportals.core.repository;
+package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 
 import javax.inject.Singleton;
 import java.io.FileWriter;
@@ -12,19 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class DestinationRepository implements IDestinationRepository<Destination> {
+public class DestinationRepositoryImpl implements IDestinationRepository {
     private final String fileLocation = "";
 
 
     private Map<String, Destination> destinationCache = new HashMap<String, Destination>();
 
-    /*Is there any reason to load it into the array if it's not been used or connected?  Q for Sekwah*/
-    public void AddDestination(String name, Destination destination) throws IOException {
+    public void addDestination(String name, Destination destination) throws IOException {
         gson.toJson(destination, new FileWriter(fileLocation + name + ".json"));
-    }
-
-    private void test() {
-        destinationCache.get("");
     }
 
     @Override
@@ -51,7 +47,11 @@ public class DestinationRepository implements IDestinationRepository<Destination
         return false;
     }
 
-    public ImmutableMap<String, Destination> get(String s) {
+    public Destination get(String s) {
+        return null;
+    }
+
+    public ImmutableMap<String, Destination> getAll() {
         return null;
     }
 }
