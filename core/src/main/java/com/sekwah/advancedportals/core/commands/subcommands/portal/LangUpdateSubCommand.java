@@ -18,13 +18,19 @@ public class LangUpdateSubCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
-        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("translatedata.replaced"));
+        //this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+        if(args.length > 1 && args[1].equalsIgnoreCase("overwrite")) {
+            this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("translatedata.replaced"));
+        } else {
+            this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", "lang/en_GB-new.lang", true);
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("translatedata.replaced") + Lang.translate("translatedata.overwrite"));
+        }
     }
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || sender.hasPermission("advancedportals.transupdate");
+        return sender.isOp() || sender.hasPermission("advancedportals.langupdate");
     }
 
     @Override
@@ -34,11 +40,11 @@ public class LangUpdateSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.trans.help");
+        return Lang.translate("command.lang.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.trans.help");
+        return Lang.translate("command.lang.help");
     }
 }
