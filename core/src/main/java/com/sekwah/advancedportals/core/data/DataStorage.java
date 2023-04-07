@@ -83,13 +83,24 @@ public class DataStorage {
      * @return if the file is copied, will be false if override is false and the file already existed.
      */
     public boolean copyDefaultFile(String fileLoc, boolean overwrite) {
+        return this.copyDefaultFile(fileLoc, fileLoc, overwrite);
+    }
+
+    /**
+     * Copies the specified file out of the plugin and into the plugins folder.
+     *
+     * @param sourceLoc - location of the file in the jar
+     * @param fileLoc - location to save the file
+     * @return if the file is copied, will be false if override is false and the file already existed.
+     */
+    public boolean copyDefaultFile(String sourceLoc, String fileLoc, boolean overwrite) {
         File outFile = new File(this.dataFolder, fileLoc);
         if (!outFile.exists()) {
             outFile.getParentFile().mkdirs();
         }
         if (!outFile.exists() || overwrite) {
             try {
-                InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+                InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(sourceLoc);
                 if(inputStream == null) {
                     return false;
                 }
@@ -105,15 +116,15 @@ public class DataStorage {
                 outStream.close();
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("Could not load " + fileLoc + ". The file does" +
+                this.infoLogger.logWarning("Could not load " + sourceLoc + ". The file does" +
                         "not exist or there has been an error reading the file.");
                 return false;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("Could not create " + fileLoc);
+                this.infoLogger.logWarning("Could not create " + sourceLoc);
             } catch (IOException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("File error reading " + fileLoc);
+                this.infoLogger.logWarning("File error reading " + sourceLoc);
             }
         }
         return true;
