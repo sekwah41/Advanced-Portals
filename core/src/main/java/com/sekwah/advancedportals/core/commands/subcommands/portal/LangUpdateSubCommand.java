@@ -19,7 +19,7 @@ public class LangUpdateSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", true);
-        sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("translatedata.replaced"));
+        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("translatedata.replaced"));
     }
 
     @Override

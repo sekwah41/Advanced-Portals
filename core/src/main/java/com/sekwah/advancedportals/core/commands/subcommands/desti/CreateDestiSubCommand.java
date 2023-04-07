@@ -1,11 +1,9 @@
 package com.sekwah.advancedportals.core.commands.subcommands.desti;
 
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.data.DataTag;
-import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 
@@ -19,7 +17,7 @@ public class CreateDestiSubCommand implements SubCommand {
         if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.createdesti.console"));
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.createdesti.console"));
                 return;
             }
             ArrayList<DataTag> destiTags = TagReader.getTagsFromArgs(args);
@@ -43,7 +41,7 @@ public class CreateDestiSubCommand implements SubCommand {
             }*/
         }
         else {
-            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
     }
 
