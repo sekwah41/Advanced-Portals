@@ -22,12 +22,12 @@ public class SelectorSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
         if(player == null) {
-            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.playeronly"));
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.playeronly"));
         }
         else {
             player.giveItem(configRepo.getSelectorMaterial(), "\u00A7ePortal Region Selector"
                     , "\u00A7rThis wand with has the power to help", "\u00A7r create portals bistowed upon it!");
-            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.selector"));
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.selector"));
         }
 
     }

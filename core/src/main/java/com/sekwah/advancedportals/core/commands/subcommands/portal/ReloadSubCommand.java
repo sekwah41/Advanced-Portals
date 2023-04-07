@@ -19,7 +19,7 @@ public class ReloadSubCommand implements SubCommand {
         // TODO re-add or figure out a replacement.
         //portalsCore.getPortalServices().loadPortals();
         //portalsCore.getDestinationServices().loadDestinations();
-        sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.reload.reloaded"));
+        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.reload.reloaded"));
     }
 
     @Override

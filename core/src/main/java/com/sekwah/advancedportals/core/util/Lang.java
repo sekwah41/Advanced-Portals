@@ -46,7 +46,9 @@ public class Lang {
 
     public static String translate(String s) {
         if (instance.languageMap.containsKey(s)) {
-            return instance.languageMap.get(s);
+            String translation = instance.languageMap.get(s);
+            translation = translation.replaceAll("\\\\u00A7", "\u00A7");
+            return translation;
         } else {
             return s;
         }
@@ -57,20 +59,6 @@ public class Lang {
         for (int i = 1; i <= args.length; i++) {
             translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
         }
-        return translation;
-    }
-
-    public static String translateInsertVariablesColor(String s, Object... args) {
-        String translation = instance.translateColor(s);
-        for (int i = 1; i <= args.length; i++) {
-            translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
-        }
-        return translation;
-    }
-
-    public static String translateColor(String s) {
-        String translation = instance.translate(s);
-        translation = translation.replaceAll("\\\\u00A7", "\u00A7");
         return translation;
     }
 
