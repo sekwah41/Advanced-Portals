@@ -1,16 +1,13 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.data.DataTag;
-import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CreatePortalSubCommand implements SubCommand {
@@ -20,7 +17,7 @@ public class CreatePortalSubCommand implements SubCommand {
         if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translate("command.create.console"));
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.console"));
                 return;
             }
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
@@ -35,10 +32,10 @@ public class CreatePortalSubCommand implements SubCommand {
                     sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUE);
                 }
             }*/
-            sender.sendMessage(Lang.translateColor("messageprefix.negative") + Lang.translateColor("command.create.error"));
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }
         else {
-            sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.error.noname"));
         }
     }
 
