@@ -9,11 +9,22 @@ package com.sekwah.advancedportals.core.data;
  */
 public class PlayerTempData {
 
+    /**
+     * Portal selection position 1
+     */
     private BlockLocation pos1;
 
+    /**
+     * Portal selection position 2
+     */
     private BlockLocation pos2;
 
-    private long lastAttempt;
+    /**
+     * Used for things like join cooldowns
+     * TODO either store a hashmap of cool-downs on a portal, or a hashmap of cool-downs for portals on a player
+     *          Can be switched at a later date
+     */
+    private long globalCooldown;
 
     private String selectedPortal;
 
