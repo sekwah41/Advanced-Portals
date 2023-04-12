@@ -6,8 +6,11 @@ import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.config.ConfigProvider;
 import com.sekwah.advancedportals.core.data.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.repository.IDestinationRepository;
+import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.repository.impl.ConfigRepositoryImpl;
-import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.repository.impl.DestinationRepositoryImpl;
+import com.sekwah.advancedportals.core.repository.impl.PortalRepositoryImpl;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.annotation.Nonnull;
@@ -31,11 +34,14 @@ public class AdvancedPortalsModule extends AbstractModule {
      */
     @Override
     protected void configure() {
+        bind(IPortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
+        bind(IDestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
+        bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
+
         // Instances
         bind(AdvancedPortalsCore.class).toInstance(advancedPortalsCore);
         bind(InfoLogger.class).toInstance(advancedPortalsCore.getInfoLogger());
         bind(DataStorage.class).toInstance(advancedPortalsCore.getDataStorage());
-        bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
 
         // Providers
         bind(Config.class).toProvider(ConfigProvider.class);
