@@ -125,10 +125,16 @@ public class CommandWithSubCommands implements CommandTemplate {
                     if (subCommandName.equalsIgnoreCase(args[0])) {
                         SubCommand subCommand = this.getSubCommand(subCommandName);
                         if (subCommand.hasPermission(sender)) {
-                            return this.filterTabResults(this.getSubCommand(subCommandName).onTabComplete(sender, args),
+                            List<String> tabComplete = this.filterTabResults(this.getSubCommand(subCommandName).onTabComplete(sender, args),
                                     args[args.length - 1]);
+                            if(tabComplete != null) {
+                                return tabComplete;
+                            }
+                            else {
+                                return Collections.emptyList();
+                            }
                         } else {
-                            return null;
+                            return Collections.emptyList();
                         }
                     }
                 }
