@@ -40,7 +40,5 @@ public interface PlayerContainer {
      */
     void sendFakeBlockWithData(BlockLocation blockPos, String material, byte data);
 
-    void giveWool(String dyeColor, String itemName, String... itemDescription);
-
     void giveItem(String material, String itemName, String... itemDescription);
 }

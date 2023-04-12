@@ -23,7 +23,6 @@ public class RemoveSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
-            // TODO sort portal services
             if(portalServices.removePortal(args[1], sender.getPlayerContainer())) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.remove.complete"));
             }

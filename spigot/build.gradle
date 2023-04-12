@@ -19,7 +19,8 @@ dependencies {
     implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
     implementation "net.md-5:bungeecord-api:1.16-R0.4"
     implementation group: 'com.google.inject', name: 'guice', version:'5.0.1'
-    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    // Be careful to only use what you need to from paper, otherwise it will become incompatible with spigot.
+    //compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 }
 
 jar {
