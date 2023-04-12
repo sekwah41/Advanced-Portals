@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.HashMap;
  * Handles logic for all destination, this is a transient layer so it should
  * not store any information.
  */
+@Singleton
 public class DestinationServices {
 
 
