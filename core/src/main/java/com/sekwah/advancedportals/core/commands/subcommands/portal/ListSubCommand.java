@@ -7,6 +7,8 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ListSubCommand implements SubCommand {
 
@@ -15,7 +17,8 @@ public class ListSubCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.list"));
+        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.list")
+                + " " + portalServices.getPortals().asList().stream().map(Map.Entry::getKey).sorted().collect(Collectors.joining(", ")));
     }
 
     @Override

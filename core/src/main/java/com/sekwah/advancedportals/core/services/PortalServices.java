@@ -8,6 +8,8 @@ import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 @Singleton
@@ -25,7 +27,7 @@ public class PortalServices {
     }
 
     public ImmutableList<? extends Map.Entry<String, AdvancedPortal>> getPortals() {
-        return null;
+        return ImmutableList.copyOf(Collections.emptyList());
     }
 
     public boolean removePortal(String name, PlayerContainer player) {

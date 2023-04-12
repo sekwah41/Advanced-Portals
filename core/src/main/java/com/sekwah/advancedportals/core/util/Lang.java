@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.data.DataStorage;
 
 import java.io.IOException;
@@ -17,18 +16,13 @@ import java.util.Scanner;
  *         <p>
  *         The language translation file for the game. Will always load english first
  *         so that if the translations are missing any then they are still readable and can then be translated.
- *         (Its better than a raw translate string)
+ *         (It's better than a raw translate string)
  *         <p>
- *         TODO add a loaddefault where it only loads from the plugins version of the data rather than paying attention to any
- *         possible changed versions in the lang folder.
  */
 public class Lang {
 
     public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
-
-    @Inject
-    private AdvancedPortalsCore portalsCore;
 
     @Inject
     private DataStorage dataStorage;
@@ -40,14 +34,15 @@ public class Lang {
 
     public static void loadLanguage(String fileName) {
         if(!DEFAULT_LANG.equals(fileName)) {
-            instance.injectTranslations(instance, DEFAULT_LANG);
+            instance.injectTranslations(DEFAULT_LANG);
         }
-        instance.injectTranslations(instance, fileName);
+        instance.injectTranslations(fileName);
     }
 
     public static String translate(String s) {
         if (instance.languageMap.containsKey(s)) {
             String translation = instance.languageMap.get(s);
+            // noinspection ALL (not sure what the specific warning is for escaped unicode)
             translation = translation.replaceAll("&([0-9a-frk-o])", "\u00A7$1");
             return translation;
         } else {
@@ -56,7 +51,7 @@ public class Lang {
     }
 
     public static String translateInsertVariables(String s, Object... args) {
-        String translation = instance.translate(s);
+        String translation = translate(s);
         for (int i = 1; i <= args.length; i++) {
             translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
         }
@@ -79,12 +74,12 @@ public class Lang {
         return Collections.emptyMap();
     }
 
-    private void injectTranslations(Lang lang, String fileName) {
+    private void injectTranslations(String fileName) {
         try {
-            URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
+            URL url = Lang.instance.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
             if (url != null) {
                 Map<String, String> initialMap = Lang.parseLang(url.openStream());
-                lang.languageMap.putAll(initialMap);
+                Lang.instance.languageMap.putAll(initialMap);
             } else {
                 this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals as it doesn't exist.");
             }
@@ -93,8 +88,8 @@ public class Lang {
             this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals.");
         }
 
-        Map<String, String> newLangMap = this.getLanguageMap("lang/" + fileName + ".lang");
-        lang.languageMap.putAll(newLangMap);
+        Map<String, String> newLangMap = this.getLanguageMap(fileName );
+        Lang.instance.languageMap.putAll(newLangMap);
     }
 
     public static Map<String, String> parseLang(InputStream inputStream) {
