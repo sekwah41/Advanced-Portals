@@ -83,15 +83,6 @@ public class SpigotPlayerContainer implements PlayerContainer {
 
     }
 
-    public void giveWool(String dyeColor, String itemName, String... itemDescription) {
-        ItemStack regionselector = new Wool(DyeColor.valueOf(dyeColor)).toItemStack(1);
-        ItemMeta selectorname = regionselector.getItemMeta();
-        selectorname.setDisplayName(itemName);
-        selectorname.setLore(Arrays.asList(itemDescription));
-        regionselector.setItemMeta(selectorname);
-        this.player.getInventory().addItem(regionselector);
-    }
-
     public void giveItem(String material, String itemName, String... itemDescription) {
         ItemStack regionselector = new ItemStack(Material.getMaterial(material));
         ItemMeta selectorname = regionselector.getItemMeta();
