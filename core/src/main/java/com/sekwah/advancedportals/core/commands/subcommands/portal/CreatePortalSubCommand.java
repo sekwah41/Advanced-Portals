@@ -1,16 +1,23 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.data.DataTag;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreatePortalSubCommand implements SubCommand {
+
+    @Inject
+    PortalServices portalServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -22,16 +29,15 @@ public class CreatePortalSubCommand implements SubCommand {
             }
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
-            // TODO sort portal services
-            /*AdvancedPortal portal = AdvancedPortalsCore.getPortalServices().createPortal(args[1], player, portalTags);
+            AdvancedPortal portal = portalServices.createPortal(args[1], player, portalTags);
             if(portal != null) {
-                sender.sendMessage(Lang.translateColor("messageprefix.positive") + Lang.translateColor("command.create.complete"));
-                sender.sendMessage(Lang.translateColor("command.create.tags"));
+                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
+                sender.sendMessage(Lang.translate("command.create.tags"));
                 sender.sendMessage("\u00A7a" + "triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
                 for (DataTag tag: portal.getArgs()) {
                     sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUE);
                 }
-            }*/
+            }
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }
         else {
