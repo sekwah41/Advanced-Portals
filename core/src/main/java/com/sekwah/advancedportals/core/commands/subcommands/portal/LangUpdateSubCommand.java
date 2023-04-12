@@ -60,13 +60,6 @@ public class LangUpdateSubCommand implements SubCommand {
             Lang.loadLanguage(configRepository.getTranslation());
 
             sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translateInsertVariables("translatedata.updated", newTranslations.size()));
-
-            /*if(!configRepository.getTranslation().equals("en_GB")) {
-                // Copy this just to allow people to check the new translations.
-                this.portalsCore.getDataStorage().copyDefaultFile("lang/en_GB.lang", "lang/en_GB-new.lang", true);
-            }
-            this.portalsCore.getDataStorage().copyDefaultFile("lang/" + configRepository.getTranslation() + ".lang", "lang/" + configRepository.getTranslation() + "-new.lang", true);
-            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("translatedata.replaced") + Lang.translate("translatedata.overwrite"));*/
         }
     }
 

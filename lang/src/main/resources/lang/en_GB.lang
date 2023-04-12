@@ -35,8 +35,7 @@
 translatedata.translationsoutdated= Some of the translations from the current translation file &e%1$s&c are out of date.
 translatedata.replacecommand= Use &e/portal langupdate&c to copy out a new default &een_GB&c file.
 translatedata.replaced= A new &een_GB&a file has been copied to the data folder.
-translatedata.overwrite= Please use "&elangupdate overwrite&a" to replace the original file.
-translatedata.updated= &e%1$s &atranslations have been added to the lang file.
+translatedata.updated= &e%1$s &atranslations have been added to the lang file. If you want to reset the lang file, Please use "&elangupdate overwrite&a".
 
 messageprefix.positive=&a[&eAdvancedPortals&a]
 messageprefix.negative=&c[&7AdvancedPortals&c]
