@@ -6,30 +6,51 @@
 # The format of included strings is %(number of argument)$s  (starts at 1 not 0)
 # So the order of variables being inserted into the string is not a set order. Just like minecraft
 #
-# For colors use \u00A7 or § (can be entered by holding alt and pressing 2 then 1 on the numpad)
-# http://minecraft.gamepedia.com/Formatting_codes
+# For colors use & or §
+# &0   Black
+# &1   Dark Blue
+# &2   Dark Green
+# &3   Dark Aqua
+# &4   Dark Red
+# &5   Dark Purple
+# &6   Gold
+# &7   Gray
+# &8   Dark Gray
+# &9   Blue
+# &a   Green
+# &b   Aqua
+# &c   Red
+# &d   Light Purple
+# &e   Yellow
+# &f   White
+# &k   Obfuscated
+# &l   Bold
+# &m   Strikethrough
+# &n   Underline
+# &o   Italic
+# &r   Reset
 #
-# Also note that some debug messages may not be listed here for translation.
-#
-translatedata.lastchange=1.0.0
-translatedata.translationsoutdated= Some of the translations from the current translation file \u00A7e%1$s\u00A7c are out of date.
-translatedata.replacecommand= Use \u00A7e/portal langupdate\u00A7c to copy out a new default \u00A7een_GB\u00A7c file.
-translatedata.replaced= A new \u00A7een_GB\u00A7a file has been copied to the data folder.
-translatedata.overwrite= Please use "\u00A7elangupdate overwrite\u00A7a" to replace the original file.
+# Some debug messages may not be listed here for translation.
 
-messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
-messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
+translatedata.translationsoutdated= Some of the translations from the current translation file &e%1$s&c are out of date.
+translatedata.replacecommand= Use &e/portal langupdate&c to copy out a new default &een_GB&c file.
+translatedata.replaced= A new &een_GB&a file has been copied to the data folder.
+translatedata.overwrite= Please use "&elangupdate overwrite&a" to replace the original file.
+translatedata.updated= &e%1$s &atranslations have been added to the lang file.
+
+messageprefix.positive=&a[&eAdvancedPortals&a]
+messageprefix.negative=&c[&7AdvancedPortals&c]
 
 logger.pluginenable=Advanced portals have been enabled!
 logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
-command.noargs= Sorry but you need to specify a sub command, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible subcommands.
+command.noargs= Sorry but you need to specify a sub command, please use &e/%1$s help &cif you would like a list of possible subcommands.
 command.subcommand.invalid= Sorry but that is not a valid sub command.
 
-command.help.header=\u00A7e--------------- \u00A7a%1$s Help - Page %2$s of %3$s\u00A7e ---------------
-command.help.subcommandheader=\u00A7e--------- \u00A7a%1$s Help - %2$s\u00A7e ---------
-command.help.invalidhelp= Sorry but \u00A7e%1$s\u00A7c is not a valid page number or sub command.
+command.help.header=&e--------------- &a%1$s Help - Page %2$s of %3$s&e ---------------
+command.help.subcommandheader=&e--------- &a%1$s Help - %2$s&e ---------
+command.help.invalidhelp= Sorry but &e%1$s&c is not a valid page number or sub command.
 
 command.reload.help=Reloads portal data
 command.reload.detailedhelp=Reloads all portal data from files in the data folder
@@ -47,7 +68,7 @@ command.createdesti.console= You cannot create a destination using the console.
 command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 command.createdesti.complete= The destination has been successfully created.
 
-command.create.tags=\u00A7aTags:
+command.create.tags=&aTags:
 
 command.playeronly= Sorry but that command can only be run by a player.
 
@@ -58,21 +79,24 @@ command.remove.invalidselection=The portal selection you had is no longer valid
 command.remove.noselection=You don't have a portal selected
 command.remove.complete= The portal has been successfully removed.
 
+command.list.help=Lists portals
+command.list=&7 Portals&e:
+
 command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
-command.portalblock= You have been given a \u00A7ePortal Block\u00A7a!
+command.portalblock= You have been given a &ePortal Block&a!
 
-command.endportalblock= You have been given a \u00A78End Portal Block Placer\u00A7a!
+command.endportalblock= You have been given a &8End Portal Block Placer&a!
 
-command.gatewayblock= You have been given a \u00A78Gateway Block Placer\u00A7a!
+command.gatewayblock= You have been given a &8Gateway Block Placer&a!
 
 portal.error.invalidselection=You must have both pos1 and pos2 selected to create a portal.
 portal.error.takenname=The name given for the portal is already taken.
 portal.error.selection.differentworlds=Both the selected points need to be in the same world.
 
-desti.info.noargs=\u00A7cNo tags were given
+desti.info.noargs=&cNo tags were given
 
 command.error.noname= No name has been given.
 
@@ -80,11 +104,10 @@ desti.error.takenname=The name given for the portal is already taken.
 
 error.notplayer=Only players can do that.
 
-portal.selector.poschange=\u00A7eYou have selected pos%1$s X:%2$s Y:%3$s Z:%4$s
+portal.selector.poschange=&eYou have selected pos%1$s X:%2$s Y:%3$s Z:%4$s
 
 command.trans.help=Copy translation new default translation file
 
 command.version.help=Returns the current version of the plugin
 
-command.subcommand.nopermission= Sorry but you don't have permission for that, please use \u00A7e/%1$s help \u00A7cif you would like a list of possible sub commands.
-
+command.subcommand.nopermission= Sorry but you don't have permission for that, please use &e/%1$s help &cif you would like a list of possible sub commands.

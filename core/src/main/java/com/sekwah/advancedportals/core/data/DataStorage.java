@@ -105,15 +105,7 @@ public class DataStorage {
                     return false;
                 }
 
-                FileOutputStream outStream = new FileOutputStream(outFile);
-
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = inputStream.read(buf)) > 0) {
-                    outStream.write(buf, 0, len);
-                }
-                inputStream.close();
-                outStream.close();
+                writeToFile(inputStream, outFile);
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 this.infoLogger.logWarning("Could not load " + sourceLoc + ". The file does" +
@@ -156,5 +148,25 @@ public class DataStorage {
                 return null;
             }
         }
+    }
+
+    public void writeResource(InputStream inputStream, String location) {
+        File outFile = new File(dataFolder, location);
+        try {
+            writeToFile(inputStream, outFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeToFile(InputStream inputStream, File outFile) throws IOException {
+        FileOutputStream outStream = new FileOutputStream(outFile);
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buf)) > 0) {
+            outStream.write(buf, 0, len);
+        }
+        inputStream.close();
+        outStream.close();
     }
 }
