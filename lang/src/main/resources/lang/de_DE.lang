@@ -6,32 +6,52 @@
 # The format of included strings is %(number of argument)$s  (starts at 1 not 0)
 # So the order of variables being inserted into the string is not a set order. Just like minecraft
 #
-# For colors use \u00A7 or § (can be entered by holding alt and pressing 2 then 1 on the numpad)
-# http://minecraft.gamepedia.com/Formatting_codes
+# For colors use & or §
+# &0   Black
+# &1   Dark Blue
+# &2   Dark Green
+# &3   Dark Aqua
+# &4   Dark Red
+# &5   Dark Purple
+# &6   Gold
+# &7   Gray
+# &8   Dark Gray
+# &9   Blue
+# &a   Green
+# &b   Aqua
+# &c   Red
+# &d   Light Purple
+# &e   Yellow
+# &f   White
+# &k   Obfuscated
+# &l   Bold
+# &m   Strikethrough
+# &n   Underline
+# &o   Italic
+# &r   Reset
 #
 # Also note that some debug messages may not be listed here for translation.
 #
 # German - Translation by enterih from Minecityelan.net
 # Falls ihr ein Fehler oder Unschönheit findet meldet es auf Github und markiert mich mit @Sprungente
-#
-translatedata.lastchange=1.0.0
-translatedata.translationsoutdated= Einige Übersetzungen von \u00A7e%1$s\u00A7c sind nicht aktuell.
-translatedata.replacecommand= Verwende \u00A7e/portal transupdate\u00A7c um eine standard \u00A7ede_DE\u00A7c Datei zu erstellen.
-translatedata.replaced= Eine neue \u00A7ede_DE\u00A7a wurde in den ordner kopiert.
 
-messageprefix.positive=\u00A7a[\u00A7eAdvancedPortals\u00A7a]
-messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
+translatedata.translationsoutdated= Einige Übersetzungen von &e%1$s&c sind nicht aktuell.
+translatedata.replacecommand= Verwende &e/portal transupdate&c um eine standard &ede_DE&c Datei zu erstellen.
+translatedata.replaced= Eine neue &ede_DE&a wurde in den ordner kopiert.
+
+messageprefix.positive=&a[&eAdvancedPortals&a]
+messageprefix.negative=&c[&7AdvancedPortals&c]
 
 logger.pluginenable=Advanced Portals wurde erfolgreich aktiviert!
 logger.plugindisable=Advanced portals wurde deaktiviert!
 logger.plugincrafterror=Diese Version von Craftbukkit/Spigot wird derzeit nicht unterstützt oder etwas ist schief gelaufen. Bitte melde die diese Nachricht mit der Versionnummer mit dem Log in unserem Github (auf Englisch) v:%1$s
 
-command.noargs= Du musst einen Sub-Command angeben. Bitte benutze \u00A7e/%1$s help \u00A7c. Falls du eine Liste von möglichen Sub_Command willst.
+command.noargs= Du musst einen Sub-Command angeben. Bitte benutze &e/%1$s help &c. Falls du eine Liste von möglichen Sub_Command willst.
 command.subcommand.invalid= Das ist ein ungültiger Sub-Command.
 
-command.help.header=\u00A7e--------------- \u00A7a%1$s Hilfe - Seite %2$s of %3$s\u00A7e ---------------
-command.help.subcommandheader=\u00A7e--------- \u00A7a%1$s Hilfe - %2$s\u00A7e ---------
-command.help.invalidhelp= \u00A7e%1$s\u00A7c ist keine gültige Seitennummer oder Sub-Command.
+command.help.header=&e--------------- &a%1$s Hilfe - Seite %2$s of %3$s&e ---------------
+command.help.subcommandheader=&e--------- &a%1$s Hilfe - %2$s&e ---------
+command.help.invalidhelp= &e%1$s&c ist keine gültige Seitennummer oder Sub-Command.
 
 command.reload.help=Ladet die Portal-Dateien neu
 command.reload.detailedhelp=Lade alle Portal-Dateien von den Dateien im Dateiordner neu.
@@ -49,7 +69,7 @@ command.createdesti.console= Du kannst keine Destination erstellen. Überprüfe 
 command.createdesti.detailedhelp= Das Format ist /desti create (name) [tag:tagvalue] .Liste die einzelnen Tags nach Create im Format tag:Wert. Wenn dein Wert Leerzeichen benötigt, dann verwende tag:"Wert mit Leerzeichen
 command.createdesti.complete= Die Destination wurde erfolgreich erstellt.
 
-command.create.tags=\u00A7aTags:
+command.create.tags=&aTags:
 
 command.playeronly= Dieser Befehl muss von einem Spieler ausgeführt werden.
 
@@ -64,17 +84,17 @@ command.selector= Du hast den Portal-Selektor bekommen.
 command.selector.help= Gibt dir eine Portal-Selektor
 command.selector.detailedhelp= Gibt dir einen Portal-Selektor um Portalregionen auszuwählen.
 
-command.portalblock= Du hast dir einen \u00A7ePortal Block\u00A7a gegeben!
+command.portalblock= Du hast dir einen &ePortal Block&a gegeben!
 
-command.endportalblock= Du hast dir einen \u00A78End Portal Block Placer\u00A7a gegeben!
+command.endportalblock= Du hast dir einen &8End Portal Block Placer&a gegeben!
 
-command.gatewayblock= Du hast dir einen \u00A78Gateway Block Placer\u00A7a gegeben!
+command.gatewayblock= Du hast dir einen &8Gateway Block Placer&a gegeben!
 
 portal.error.invalidselection=Du beide pos1 und pos2 ausgewählt haben. Ansonsten kannst kein Portal erstellen.
 portal.error.takenname=Ein anderes Portal trägt bereits diesen Namen.
 portal.error.selection.differentworlds= Die ausgewählten Positionen müssen in der gleichen Welt sein.
 
-desti.info.noargs=\u00A7cEs wurde kein tag angegeben
+desti.info.noargs=&cEs wurde kein tag angegeben
 
 command.error.noname= Es wurde kein Name angegeben.
 
@@ -82,10 +102,10 @@ desti.error.takenname= Der Namen, den du dem Portal geben möchtes, ist bereits 
 
 error.notplayer=Nur Spieler können das machen.
 
-portal.selector.poschange=\u00A7eDu hast  pos%1$s X:%2$s Y:%3$s Z:%4$s ausgewählt
+portal.selector.poschange=&eDu hast  pos%1$s X:%2$s Y:%3$s Z:%4$s ausgewählt
 
 command.trans.help=Kopiere die Übersetzung, um die Standardeinstellungen wiederherzustellen
 
 command.version.help=Sagt dir die aktuelle Version von Advanced Portals
 
-command.subcommand.nopermission= Du hast dafür keine Berechigung. Verwende \u00A7e/%1$s help \u00A7c wenn du eine Liste von möglichen Befehlen sehen möchtest.
+command.subcommand.nopermission= Du hast dafür keine Berechigung. Verwende &e/%1$s help &c wenn du eine Liste von möglichen Befehlen sehen möchtest.

@@ -6,29 +6,49 @@
 # The format of included strings is %(number of argument)$s  (starts at 1 not 0)
 # So the order of variables being inserted into the string is not a set order. Just like minecraft
 #
-# For colors use \u00A7 or § (can be entered by holding alt and pressing 2 then 1 on the numpad)
-# http://minecraft.gamepedia.com/Formatting_codes
+# For colors use & or §
+# &0   Black
+# &1   Dark Blue
+# &2   Dark Green
+# &3   Dark Aqua
+# &4   Dark Red
+# &5   Dark Purple
+# &6   Gold
+# &7   Gray
+# &8   Dark Gray
+# &9   Blue
+# &a   Green
+# &b   Aqua
+# &c   Red
+# &d   Light Purple
+# &e   Yellow
+# &f   White
+# &k   Obfuscated
+# &l   Bold
+# &m   Strikethrough
+# &n   Underline
+# &o   Italic
+# &r   Reset
 #
-# Also note that some debug messages may not be listed here for translation.
-#
-translatedata.lastchange=1.0.0
-translatedata.translationsoutdated=Certaines des traductions du fichier de traduction actuel \u00A7e%1$s\u00A7c sont dépassées.
-translatedata.replacecommand= Utilisez \u00A7e/portal transupdate\u00A7c pour copier un nouveau fichier par défaut de traduction \u00A7een_GB\u00A7c.
-translatedata.replaced= Un nouveau fichier \u00A7een_GB\u00A7a a bien été enregistré.
+# Some debug messages may not be listed here for translation.
 
-messageprefix.positive=\u00A7c[\u00A77AdvancedPortals\u00A7c]
-messageprefix.negative=\u00A7c[\u00A77AdvancedPortals\u00A7c]
+translatedata.translationsoutdated=Certaines des traductions du fichier de traduction actuel &e%1$s&c sont dépassées.
+translatedata.replacecommand= Utilisez &e/portal transupdate&c pour copier un nouveau fichier par défaut de traduction &een_GB&c.
+translatedata.replaced= Un nouveau fichier &een_GB&a a bien été enregistré.
+
+messageprefix.positive=&c[&7AdvancedPortals&c]
+messageprefix.negative=&c[&7AdvancedPortals&c]
 
 logger.pluginenable=Advanced portals have been enabled!
 logger.plugindisable=Advanced portals are being disabled!
 logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
 
-command.noargs= Vous devez spécifier une sous commande, utilisez \u00A7e/%1$s help \u00A7cpour avoir la liste des commandes possibles.
+command.noargs= Vous devez spécifier une sous commande, utilisez &e/%1$s help &cpour avoir la liste des commandes possibles.
 command.subcommand.invalid= Ce n'est pas une sous commande.
 
-command.help.header=\u00A7e--------------- \u00A7a%1$s Aide - Page %2$s sur %3$s\u00A7e ---------------
-command.help.subcommandheader=\u00A7e--------- \u00A7a%1$s Aide - %2$s\u00A7e ---------
-command.help.invalidhelp= Désolé mais \u00A7e%1$s\u00A7c n'est pas une page ou sous commande valide.
+command.help.header=&e--------------- &a%1$s Aide - Page %2$s sur %3$s&e ---------------
+command.help.subcommandheader=&e--------- &a%1$s Aide - %2$s&e ---------
+command.help.invalidhelp= Désolé mais &e%1$s&c n'est pas une page ou sous commande valide.
 
 command.reload.help=Recharge les fichiers
 command.reload.detailedhelp=Recharge toutes les données du portail à partir des fichiers du dossier de données.
@@ -46,7 +66,7 @@ command.createdesti.console= You cannot create a destination using the console.
 command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 command.createdesti.complete= The destination has been successfully created.
 
-command.create.tags=\u00A7aTags:
+command.create.tags=&aTags:
 
 command.playeronly= Seul un joueur peut effectuer cette commande.
 
@@ -61,17 +81,17 @@ command.selector= Vous avez bien reçu un sélecteur.
 command.selector.help= Vous donne le sélecteur.
 command.selector.detailedhelp= Vous donne l'outil de sélection pour créer un portail.
 
-command.portalblock= Vous avez bien reçu un \u00A7ePortal Block\u00A7a!
+command.portalblock= Vous avez bien reçu un &ePortal Block&a!
 
-command.endportalblock= Vous avez bien reçu un \u00A78End Portal Block Placer\u00A7a!
+command.endportalblock= Vous avez bien reçu un &8End Portal Block Placer&a!
 
-command.gatewayblock= Vous avez bien reçu un \u00A78Gateway Block Placer\u00A7a!
+command.gatewayblock= Vous avez bien reçu un &8Gateway Block Placer&a!
 
 portal.error.invalidselection=Vous devez avoir sélectionné deux positions pour créer un portail.
 portal.error.takenname=Un portail du même nom existe déjà.
 portal.error.selection.differentworlds=Les deux sélections doivent être dans le même monde.
 
-desti.info.noargs=\u00A7cAucune variable n'a été précisée.
+desti.info.noargs=&cAucune variable n'a été précisée.
 
 command.error.noname= Aucun nom n'a été précisé.
 
@@ -79,7 +99,7 @@ desti.error.takenname=Une destination du même nom existe déjà.
 
 error.notplayer=Seuls les joueurs peuvent faire cela.
 
-portal.selector.poschange=\u00A7eVous avez sélectionné pos%1$s X:%2$s Y:%3$s Z:%4$s
+portal.selector.poschange=&eVous avez sélectionné pos%1$s X:%2$s Y:%3$s Z:%4$s
 
 command.trans.help=Copy translation new default translation file
 
