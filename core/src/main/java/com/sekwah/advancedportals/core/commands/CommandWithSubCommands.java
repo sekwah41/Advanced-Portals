@@ -117,6 +117,10 @@ public class CommandWithSubCommands implements CommandTemplate {
         if(args.length > 1) {
             if(args[0].equalsIgnoreCase("help")) {
                 List<String> allowedCommands = new ArrayList<>(this.subCommandRegistry.getSubCommands());
+                int pages = (int) Math.ceil(allowedCommands.size() / (float) this.subCommandsPerPage);
+                for (int i = 1; i <= pages; i++) {
+                    allowedCommands.add(String.valueOf(i));
+                }
                 Collections.sort(allowedCommands);
                 return this.filterTabResults(allowedCommands, args[args.length - 1]);
             }
