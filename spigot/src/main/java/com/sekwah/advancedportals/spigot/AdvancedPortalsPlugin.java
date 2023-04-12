@@ -24,6 +24,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         injector.injectMembers(this.portalsCore);
 
+        Listeners listeners = injector.getInstance(Listeners.class);
+        injector.injectMembers(listeners);
+        this.getServer().getPluginManager().registerEvents(listeners, this);
+
+        // Try to do this after setting up everything that would need to be injected to.
         this.portalsCore.onEnable();
 
         new Metrics(this);

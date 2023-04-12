@@ -19,6 +19,8 @@ public class AdvancedPortalsCore {
 
     public static final String version = "1.0.0";
 
+    public static final String lastTranslationUpdate = "1.0.0";
+
     private final InfoLogger infoLogger;
     private final DataStorage dataStorage;
 
