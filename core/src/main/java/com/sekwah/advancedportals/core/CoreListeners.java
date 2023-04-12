@@ -23,14 +23,6 @@ public class CoreListeners {
 
     public void playerJoin(PlayerContainer player) {
         this.portalTempDataServices.activateCooldown(player);
-        if(player.isOp()) {
-            if(!Lang.translate("translatedata.lastchange").equals(AdvancedPortalsCore.lastTranslationUpdate)) {
-                player.sendMessage(Lang.translate("messageprefix.negative")
-                        + Lang.translateInsertVariables("translatedata.translationsoutdated", configRepository.getTranslation()));
-                player.sendMessage(Lang.translate("messageprefix.negative")
-                        + Lang.translate("translatedata.replacecommand"));
-            }
-        }
     }
 
     public void teleportEvent(PlayerContainer player) {

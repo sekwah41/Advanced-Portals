@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -21,11 +22,15 @@ public class ReloadSubCommand implements SubCommand {
     @Inject
     DestinationServices destinationServices;
 
+    @Inject
+    ConfigRepository configRepository;
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         portalsCore.loadPortalConfig();
         portalServices.loadPortals();
         destinationServices.loadDestinations();
+        Lang.loadLanguage(configRepository.getTranslation());
         sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.reload.reloaded"));
     }
 

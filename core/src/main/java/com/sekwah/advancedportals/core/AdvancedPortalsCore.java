@@ -88,6 +88,7 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand());
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemoveSubCommand());
+        this.portalCommand.registerSubCommand("list", new ListSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }

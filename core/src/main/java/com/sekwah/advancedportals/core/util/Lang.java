@@ -6,6 +6,8 @@ import com.sekwah.advancedportals.core.data.DataStorage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,20 +36,19 @@ public class Lang {
     @Inject
     private InfoLogger infoLogger;
 
-    //private final String DEFAULT_LANG = "en_GB";
-
-    /*public Lang() {
-        injectTranslations(this, DEFAULT_LANG);
-    }*/
+    public static final String DEFAULT_LANG = "en_GB";
 
     public static void loadLanguage(String fileName) {
+        if(!DEFAULT_LANG.equals(fileName)) {
+            instance.injectTranslations(instance, DEFAULT_LANG);
+        }
         instance.injectTranslations(instance, fileName);
     }
 
     public static String translate(String s) {
         if (instance.languageMap.containsKey(s)) {
             String translation = instance.languageMap.get(s);
-            translation = translation.replaceAll("\\\\u00A7", "\u00A7");
+            translation = translation.replaceAll("&([0-9a-frk-o])", "\u00A7$1");
             return translation;
         } else {
             return s;
@@ -62,35 +63,50 @@ public class Lang {
         return translation;
     }
 
-    private void injectTranslations(Lang lang, String fileName) {
-        try {
-            //URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
-            //System.out.println(url);
-            //Map<String, String> newLangMap = lang.parseLang(url.openStream());
-            InputStream stream = this.dataStorage.loadResource("lang/" + fileName + ".lang");
-            if (stream != null) {
-                Map<String, String> newLangMap = lang.parseLang(stream);
-                if (newLangMap != null) {
-                    lang.languageMap.putAll(newLangMap);
-                }
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            this.infoLogger.logWarning("Could not load " + fileName + ".lang The file does" +
-                    "not exist or there has been an error reading the file. Canceled loading language file.");
+    public Map<String, String> getLanguageMap(String fileName) {
+        InputStream stream = this.dataStorage.loadResource("lang/" + fileName + ".lang");
+        if (stream != null) {
+            return Lang.parseLang(stream);
         }
+        return Collections.emptyMap();
     }
 
-    private Map<String, String> parseLang(InputStream inputStream) {
+    public Map<String, String> getInternalLanguageMap(String fileName) {
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("lang/" + fileName + ".lang");
+        if (stream != null) {
+            return Lang.parseLang(stream);
+        }
+        return Collections.emptyMap();
+    }
+
+    private void injectTranslations(Lang lang, String fileName) {
+        try {
+            URL url = lang.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
+            if (url != null) {
+                Map<String, String> initialMap = Lang.parseLang(url.openStream());
+                lang.languageMap.putAll(initialMap);
+            } else {
+                this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals as it doesn't exist.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals.");
+        }
+
+        Map<String, String> newLangMap = this.getLanguageMap("lang/" + fileName + ".lang");
+        lang.languageMap.putAll(newLangMap);
+    }
+
+    public static Map<String, String> parseLang(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream, "UTF-8");
         String line = getNextLine(scanner);
         HashMap<String, String> newMap = new HashMap<>();
-        while (scanner != null && line != null) {
+        while (line != null) {
             //System.out.println(line);
             if (!line.startsWith("#") && line.indexOf('=') > -1) {
                 int split = line.indexOf('=');
                 String key = line.substring(0, split);
-                String value = line.substring(split + 1, line.length());
+                String value = line.substring(split + 1);
                 newMap.put(key, value);
             }
             line = getNextLine(scanner);
@@ -103,7 +119,7 @@ public class Lang {
         return newMap;
     }
 
-    private String getNextLine(Scanner scanner) {
+    private static String getNextLine(Scanner scanner) {
         if (scanner.hasNextLine()) {
             return scanner.nextLine();
         }
