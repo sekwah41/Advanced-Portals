@@ -1,52 +1,42 @@
 package com.sekwah.advancedportals.core.services;
 
-import com.google.inject.Inject;
+import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.data.BlockLocation;
+import com.sekwah.advancedportals.core.data.DataTag;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
-import com.sekwah.advancedportals.core.repository.IPortalRepository;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 
-import java.util.UUID;
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Map;
 
+@Singleton
 public class PortalServices {
-
-    private final IPortalRepository portalRepository;
-
-    @Inject
-    public PortalServices(IPortalRepository portalRepository) {
-        this.portalRepository = portalRepository;
-    }
-
-    public void addSelectedPortal(UUID selectedPlayer, String portal) {
-        //portalRepository.save(selectedPlayer, portal);
-    }
-
-    public void removeSelectedPortal(UUID uuid) {
-        //selectedPortal.invalidate(uuid);
-    }
-
-    public void addSelectedPosition(UUID uuid, boolean isPos1, BlockLocation portalLocation) {
-        //selectedPositions.put(uuid, isPos1, portalLocation);
-    }
-
-    public void removeSelectedPosition(UUID uuid, boolean isPos1) {
-        //selectedPositions.remove(uuid, isPos1);
-    }
-
-    public void removeAllSelectedHand(UUID uuid) {
-        //selectedPositions.remove(uuid, true);
-        //selectedPositions.remove(uuid, false);
-    }
-
-    public void activateCooldown(PlayerContainer player) {
-
-    }
-
-    public void playerLeave(PlayerContainer player) {
+    public void loadPortals() {
 
     }
 
     public boolean inPortalRegion(PlayerLocation loc) {
+        return false;
+    }
+
+    public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
+        return false;
+    }
+
+    public ImmutableList<? extends Map.Entry<String, AdvancedPortal>> getPortals() {
+        return null;
+    }
+
+    public boolean removePortal(String name, PlayerContainer player) {
+        return false;
+    }
+
+    public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) {
+        return null;
+    }
+
+    public boolean removePlayerSelection(PlayerContainer player) {
         return false;
     }
 }
