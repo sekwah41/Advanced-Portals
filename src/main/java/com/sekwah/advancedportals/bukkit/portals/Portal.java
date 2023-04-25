@@ -515,10 +515,12 @@ public class Portal {
 
             if (portal.getDestiation() != null) {
                 if(plugin.isProxyPluginEnabled()) {
+                    String[] destinations = portal.getDestiation().split(",");
+                    String destination = destinations[random.nextInt(destinations.length)];
                     ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                     outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
                     outForList.writeUTF(bungeeServer);
-                    outForList.writeUTF(portal.getDestiation());
+                    outForList.writeUTF(destination);
                     outForList.writeUTF(player.getUniqueId().toString());
 
                     player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForList.toByteArray());
@@ -540,9 +542,11 @@ public class Portal {
             // Down to bungee to sort out the teleporting but yea theoretically they should
             // warp.
         } else if (portal.getDestiation() != null) {
+            String[] destinations = portal.getDestiation().split(",");
+            String destination = destinations[random.nextInt(destinations.length)];
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-            if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
-                warped = Destination.warp(player, portal.getDestiation(), portal, hasMessage, false);
+            if (configDesti.getConfig().getString(destination + ".world") != null) {
+                warped = Destination.warp(player, destination, portal, hasMessage, false);
                 if (!warped) {
                     if(doKnockback)
                         throwPlayerBack(player);
