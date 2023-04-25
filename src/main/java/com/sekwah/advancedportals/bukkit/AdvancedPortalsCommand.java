@@ -552,7 +552,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         boolean isBungeePortal = false;
         boolean needsPermission = false;
         boolean executesCommand = false;
-        String destination = null;
+        String[] destinations = new String[] { };
         String portalName = null;
         String triggerBlock = null;
         String serverName = null;
@@ -573,12 +573,15 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 }
                 hasName = true;
                 portalName = args[i].replaceFirst("name:", "");
+            } else if (startsWithPortalArg("destinations:", args[i])) {
+                hasDestination = true;
+                destinations = args[i].toLowerCase().replaceFirst("destinations:", "").split(",");
             } else if (startsWithPortalArg("destination:", args[i])) {
                 hasDestination = true;
-                destination = args[i].toLowerCase().replaceFirst("destination:", "");
+                destinations = args[i].toLowerCase().replaceFirst("destination:", "").split(",");
             } else if (startsWithPortalArg("desti:", args[i])) {
                 hasDestination = true;
-                destination = args[i].toLowerCase().replaceFirst("desti:", "");
+                destinations = args[i].toLowerCase().replaceFirst("desti:", "").split(",");
             } else if (startsWithPortalArg("triggerblock:", args[i])) {
                 hasTriggerBlock = true;
                 triggerBlock = args[i].toLowerCase().replaceFirst("triggerblock:", "");
@@ -679,9 +682,6 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                 player.getMetadata("Pos2Z").get(0).asInt());
         }
 
-        ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
-        String destiPosX = desticonfig.getConfig().getString(destination + ".pos.X");
-
         if (!Portal.portalExists(portalName)) {
 
             player.sendMessage("");
@@ -689,13 +689,16 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                     + "\u00A7e You have created a new portal with the following details:");
             player.sendMessage("\u00A7aname: \u00A7e" + portalName);
             if (hasDestination) {
-                if (!isBungeePortal && destiPosX == null) {
-                    player.sendMessage("\u00A7cdestination: \u00A7e" + destination
-                            + " (destination does not exist)");
-                    return true;
-                } else {
-                    player.sendMessage("\u00A7adestination: \u00A7e" + destination);
+                ConfigAccessor desticonfig = new ConfigAccessor(plugin, "destinations.yml");
+                for (String destination : destinations) {
+                    String destiPosX = desticonfig.getConfig().getString(destination + ".pos.X");
+                    if (!isBungeePortal && destiPosX == null) {
+                        player.sendMessage("\u00A7cdestination: \u00A7e" + destination
+                                + " (destination does not exist)");
+                        return true;
+                    }
                 }
+                player.sendMessage("\u00A7adestinations: \u00A7e" + String.join(", ", destinations));
 
             } else {
                 player.sendMessage(
@@ -731,7 +734,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             "\u00A7atriggerBlock: \u00A7e" + triggerBlock.toUpperCase());
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     portalArgs = extraData.toArray(portalArgs);
-                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                    player.sendMessage(Portal.create(pos1, pos2, portalName, destinations,
                             materialSet, serverName, portalArgs));
                     if(materialSet.contains(Material.END_GATEWAY)) {
                         AdvancedPortal portal = Portal.getPortal(portalName);
@@ -748,7 +751,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                             + " no valid blocks were listed so the default has been set.");
                     PortalArg[] portalArgs = new PortalArg[extraData.size()];
                     portalArgs = extraData.toArray(portalArgs);
-                    player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                    player.sendMessage(Portal.create(pos1, pos2, portalName, destinations,
                             serverName, portalArgs));
                 }
             } else {
@@ -757,7 +760,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
                         + Config.getConfig().getString("DefaultPortalTriggerBlock") + ")");
                 PortalArg[] portalArgs = new PortalArg[extraData.size()];
                 portalArgs = extraData.toArray(portalArgs);
-                player.sendMessage(Portal.create(pos1, pos2, portalName, destination,
+                player.sendMessage(Portal.create(pos1, pos2, portalName, destinations,
                         serverName, portalArgs));
             }
         } else {

@@ -22,7 +22,7 @@ public class AdvancedPortal {
     private String portalName = null;
 
     // TODO store destinations also as variables like portals
-    private String destiation = null; // Could possibly store the destination name to stop the server having to read the config file
+    private String[] destinations = new String[] {}; // Could possibly store the destination name to stop the server having to read the config file
 
     private String bungee = null; // Could possibly store the bungee server name to stop the server having to read the config file
 
@@ -32,10 +32,14 @@ public class AdvancedPortal {
 
     public HashSet<UUID> inPortal = new HashSet<UUID>();
 
-    // TODO think of relaying out the data input to a more logical format.
     public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, PortalArg... portalArgs) {
+        this(portalName, trigger, new String[] { destination }, pos1, pos2, portalArgs);
+    }
+
+    // TODO think of relaying out the data input to a more logical format.
+    public AdvancedPortal(String portalName, Material trigger, String[] destinations, Location pos1, Location pos2, PortalArg... portalArgs) {
         this(portalName, trigger, pos1, pos2, pos2.getWorld().getName(), portalArgs);
-        this.destiation = destination;
+        this.destinations = destinations;
     }
 
     public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, PortalArg... portalArgs) {
@@ -43,8 +47,12 @@ public class AdvancedPortal {
     }
 
     public AdvancedPortal(String portalName, Material trigger, String destination, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
+        this(portalName, trigger, new String[] { destination }, pos1, pos2, worldName, portalArgs);
+    }
+
+    public AdvancedPortal(String portalName, Material trigger, String[] destinations, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
         this(portalName, trigger, pos1, pos2, worldName, portalArgs);
-        this.destiation = destination;
+        this.destinations = destinations;
     }
 
     public AdvancedPortal(String portalName, Material trigger, Location pos1, Location pos2, String worldName, PortalArg... portalArgs) {
@@ -97,12 +105,32 @@ public class AdvancedPortal {
         return this.portalName;
     }
 
+    @Deprecated
     public String getDestiation() {
-        return this.destiation;
+        if(this.destinations.length == 0) {
+            // backwards compatibility
+            return null;
+        }
+        return String.join(",", this.destinations);
     }
 
+    public String[] getDestinations() {
+        return this.destinations;
+    }
+
+    @Deprecated
     public void setDestiation(String destiation) {
-        this.destiation = destiation;
+        if(destiation == null) {
+            // backwards compatibility
+            this.destinations = new String[] {};
+            return;
+        }
+
+        this.destinations = destiation.split(",");
+    }
+
+    public void setDestinations(String[] destinations) {
+        this.destinations = destinations;
     }
 
     public String getBungee() {
