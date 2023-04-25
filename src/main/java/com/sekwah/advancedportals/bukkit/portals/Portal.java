@@ -172,10 +172,20 @@ public class Portal {
 
     public static String create(Location pos1, Location pos2, String name, String destination,
                                 Set<Material> triggerBlocks, PortalArg... extraData) {
-        return create(pos1, pos2, name, destination, triggerBlocks, null, extraData);
+        return create(pos1, pos2, name, new String[] { destination }, triggerBlocks, extraData);
+    }
+
+    public static String create(Location pos1, Location pos2, String name, String[] destinations,
+                                Set<Material> triggerBlocks, PortalArg... extraData) {
+        return create(pos1, pos2, name, destinations, triggerBlocks, null, extraData);
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination,
+                                Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
+        return create(pos1, pos2, name, new String[] { destination }, triggerBlocks, serverName, portalArgs);
+    }
+
+    public static String create(Location pos1, Location pos2, String name, String[] destinations,
                                 Set<Material> triggerBlocks, String serverName, PortalArg... portalArgs) {
 
         if (!pos1.getWorld().equals(pos2.getWorld())) {
@@ -227,7 +237,8 @@ public class Portal {
         String store = triggerBlocks.stream().map(Enum::name).collect(Collectors.joining(","));
         portalData.getConfig().set(name + ".triggerblock", store);
 
-        portalData.getConfig().set(name + ".destination", destination);
+        // not renaming config entry for backwards compatibility
+        portalData.getConfig().set(name + ".destination", String.join(",", destinations));
 
         portalData.getConfig().set(name + ".bungee", serverName);
 
@@ -314,6 +325,11 @@ public class Portal {
     }
 
     public static String create(Location pos1, Location pos2, String name, String destination, String serverName,
+                                PortalArg... extraData) {
+        return create(pos1, pos2, name, new String[] { destination }, serverName, extraData);
+    }
+
+    public static String create(Location pos1, Location pos2, String name, String[] destinations, String serverName,
                                 PortalArg... extraData) { // add stuff for destination names or coordinates
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
 
@@ -325,7 +341,7 @@ public class Portal {
             triggerBlockType = Material.NETHER_PORTAL;
         }
 
-        return create(pos1, pos2, name, destination, new HashSet<>(Collections.singletonList(triggerBlockType)),
+        return create(pos1, pos2, name, destinations, new HashSet<>(Collections.singletonList(triggerBlockType)),
                 serverName, extraData);
     }
 
@@ -513,12 +529,12 @@ public class Portal {
                 }, 20 * 10);
             }
 
-            if (portal.getDestiation() != null) {
+            if (portal.getDestinations().length != 0) {
                 if(plugin.isProxyPluginEnabled()) {
                     ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                     outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
                     outForList.writeUTF(bungeeServer);
-                    outForList.writeUTF(portal.getDestiation());
+                    outForList.writeUTF(String.join(",", portal.getDestinations()));
                     outForList.writeUTF(player.getUniqueId().toString());
 
                     player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForList.toByteArray());
@@ -539,10 +555,11 @@ public class Portal {
             player.sendPluginMessage(plugin, "BungeeCord", outForSend.toByteArray());
             // Down to bungee to sort out the teleporting but yea theoretically they should
             // warp.
-        } else if (portal.getDestiation() != null) {
+        } else if (portal.getDestinations().length > 0) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
-            if (configDesti.getConfig().getString(portal.getDestiation() + ".world") != null) {
-                warped = Destination.warp(player, portal.getDestiation(), portal, hasMessage, false);
+            String randomDest = portal.getDestinations()[random.nextInt(portal.getDestinations().length)];
+            if (configDesti.getConfig().getString(randomDest + ".world") != null) {
+                warped = Destination.warp(player, randomDest, portal, hasMessage, false);
                 if (!warped) {
                     if(doKnockback)
                         throwPlayerBack(player);
