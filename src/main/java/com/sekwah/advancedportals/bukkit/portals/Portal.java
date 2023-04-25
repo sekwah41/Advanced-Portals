@@ -531,10 +531,11 @@ public class Portal {
 
             if (portal.getDestinations().length != 0) {
                 if(plugin.isProxyPluginEnabled()) {
+                    String randomDest = portal.getDestinations()[random.nextInt(portal.getDestinations().length)];
                     ByteArrayDataOutput outForList = ByteStreams.newDataOutput();
                     outForList.writeUTF(BungeeMessages.ENTER_PORTAL);
                     outForList.writeUTF(bungeeServer);
-                    outForList.writeUTF(String.join(",", portal.getDestinations()));
+                    outForList.writeUTF(randomDest);
                     outForList.writeUTF(player.getUniqueId().toString());
 
                     player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForList.toByteArray());
