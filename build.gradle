@@ -33,7 +33,7 @@ buildscript {
 
 plugins {
     id 'dev.s7a.gradle.minecraft.server' version '1.2.0'
-    id 'net.researchgate.release' version '2.8.1'
+    id 'net.researchgate.release' version '3.0.2'
 }
 
 apply plugin: 'java'
