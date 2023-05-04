@@ -12,20 +12,25 @@ Advanced Portals
 ==============
 An advanced portals plugin for bukkit made by sekwah41 designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations. This plugin not only enable normal teleportation but also cross server teleportation for networks using bungee.
 
+# Usage
+
+Check out the [Tutorial](https://advancedportals.sekwah.com/docs/intro), [List of Commands](https://advancedportals.sekwah.com/docs/commands), and [List of Portal Tags](https://advancedportals.sekwah.com/docs/portal-tags).
+
+# Download
+
+- [Bukkit](https://dev.bukkit.org/projects/advanced-portals)
+- [Spigot](https://www.spigotmc.org/resources/advanced-portals.14356/)
+- [Curseforge](https://www.curseforge.com/minecraft/bukkit-plugins/advanced-portals)
+- [Modrinth](https://modrinth.com/plugin/advanced-portals)
+- [Github](https://github.com/sekwah41/Advanced-Portals/releases)
+
 # Recode
+
 We are currently slowly working on a complete re-code of the plugin with a full API.
 For now maintaining the current 1.13+ spigot versions is our main priority.
 
-# Help
-[Command Documentation & Guides](https://www.guilded.gg/Sekwah/groups/MDqAZyrD/channels/72ffdaa3-9273-4722-bf47-b75408b371af/docs/1807463914)
-
-[List Of Commands](https://github.com/sekwah41/Advanced-Portals/wiki/Commands)
-
-[Spigot Page](https://www.spigotmc.org/resources/advanced-portals.14356/)
-
-[Bukkit Page](http://dev.bukkit.org/bukkit-plugins/advanced-portals/)
-
 # Usage Data
+
 Usage stats can be found here https://bstats.org/plugin/bukkit/AdvancedPortals
 
 # API
@@ -51,7 +56,7 @@ When commits close an issue refer in the commit description in the following sty
  * **fix**: A bug fix
  * **perf**: A code change that improves performance
  * **refactor**: A code change that neither fixes a bug nor adds a feature
- * **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) 
+ * **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 <!---
 We don't currently do tests. But in case.
  * **test**: Adding missing tests or correcting existing tests
