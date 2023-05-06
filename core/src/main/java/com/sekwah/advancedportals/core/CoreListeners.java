@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockLocation;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
@@ -78,7 +79,7 @@ public class CoreListeners {
      * @return if the block is allowed to be placed
      */
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        if(itemInHandName != null && player != null && player.hasPermission("advancedportals.build")) {
+        if(itemInHandName != null && player != null && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if(itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "PORTAL");
@@ -114,13 +115,13 @@ public class CoreListeners {
      */
     public boolean playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
                                            BlockLocation blockLoc, boolean leftClick) {
-        if(itemName != null && (player.isOp() || player.hasPermission("advancedportals.createportal")) &&
+        if(itemName != null && (player.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(player)) &&
                 materialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
                 && (!this.configRepository.getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
             this.portalTempDataServices.playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
-        else if(itemName != null && leftClick && itemName.equals("\u00A75Portal Block Placer") && player.hasPermission("advancedportals.build")) {
+        else if(itemName != null && leftClick && itemName.equals("\u00A75Portal Block Placer") && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if(world.getBlockData(blockLoc) == 1) {
                 world.setBlockData(blockLoc, (byte) 2);
