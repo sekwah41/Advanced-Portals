@@ -3,13 +3,15 @@ package com.sekwah.advancedportals.core;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import com.sekwah.advancedportals.core.connector.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.BlockLocation;
 import com.sekwah.advancedportals.core.data.PlayerLocation;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
-import com.sekwah.advancedportals.core.util.Lang;
+
+import java.util.Objects;
 
 public class CoreListeners {
 
@@ -68,7 +70,7 @@ public class CoreListeners {
      * @param blockMaterial
      * @return if the block is allowed to break
      */
-    public boolean blockBreak(PlayerContainer player, BlockLocation blockPos, String blockMaterial) {
+    public boolean blockBreak(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
         return true;
     }
 
@@ -79,14 +81,15 @@ public class CoreListeners {
      * @return if the block is allowed to be placed
      */
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
+        System.out.println("Block placed: " + blockMaterial + " " + itemInHandMaterial + " " + itemInHandName);
         if(itemInHandName != null && player != null && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if(itemInHandName.equals("\u00A75Portal Block Placer")) {
-                world.setBlock(blockPos, "PORTAL");
+                world.setBlock(blockPos, "NETHER_PORTAL");
                 return false;
             }
             else if(itemInHandName.equals("\u00A78End Portal Block Placer")) {
-                world.setBlock(blockPos, "ENDER_PORTAL");
+                world.setBlock(blockPos, "END_PORTAL");
                 return false;
             }
             else if(itemInHandName.equals("\u00A78Gateway Block Placer")) {
@@ -113,22 +116,29 @@ public class CoreListeners {
      * @param leftClick true = left click, false = right click
      * @return if player is allowed to interact with block
      */
-    public boolean playerInteractWithBlock(PlayerContainer player, String materialName, String itemName,
+    public boolean playerInteractWithBlock(PlayerContainer player, String blockMaterialname, String itemMaterialName, String itemName,
                                            BlockLocation blockLoc, boolean leftClick) {
+        System.out.println(blockMaterialname);
         if(itemName != null && (player.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(player)) &&
-                materialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
+                itemMaterialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
                 && (!this.configRepository.getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
             this.portalTempDataServices.playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
-        else if(itemName != null && leftClick && itemName.equals("\u00A75Portal Block Placer") && PortalPermissions.BUILD.hasPermission(player)) {
+        else if(itemName != null && leftClick &&
+                Objects.equals(itemMaterialName, "PURPLE_WOOL") &&
+                itemName.equals("\u00A75Portal Block Placer") && PortalPermissions.BUILD.hasPermission(player)) {
+            if(!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
+                return false;
+            }
             WorldContainer world = player.getWorld();
-            if(world.getBlockData(blockLoc) == 1) {
-                world.setBlockData(blockLoc, (byte) 2);
+            if(world.getBlockAxis(blockLoc) == BlockAxis.X) {
+                world.setBlockAxis(blockLoc, BlockAxis.Z);
             }
             else {
-                world.setBlockData(blockLoc, (byte) 1);
+                world.setBlockAxis(blockLoc, BlockAxis.X);
             }
+            return false;
         }
 
         return true;

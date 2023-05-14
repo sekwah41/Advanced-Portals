@@ -1,12 +1,13 @@
 package com.sekwah.advancedportals.spigot.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import com.sekwah.advancedportals.core.connector.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.BlockLocation;
+import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.BlockFace;
-import org.bukkit.material.Directional;
-import org.bukkit.material.MaterialData;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Orientable;
 
 public class SpigotWorldContainer implements WorldContainer {
 
@@ -17,23 +18,35 @@ public class SpigotWorldContainer implements WorldContainer {
     }
 
     public void setBlock(BlockLocation location, String material) {
-        this.world.getBlockAt(location.posX, location.posY, location.posZ).setType(Material.getMaterial(material));
-    }
-
-    public void setBlockData(BlockLocation location, byte data) {
-        MaterialData matData = world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
-        if(matData instanceof Directional) {
-            Directional dir = (Directional) world.getBlockAt(location.posX, location.posY, location.posZ).getState().getData();
-            dir.setFacingDirection(BlockFace.NORTH);
-        }
-
+        Material mat = Material.getMaterial(material, false);
+        if(mat != null) this.world.getBlockAt(location.posX, location.posY, location.posZ).setType(mat);
     }
 
     public String getBlock(BlockLocation location) {
         return this.world.getBlockAt(location.posX, location.posY, location.posZ).getType().toString();
     }
 
-    public byte getBlockData(BlockLocation location) {
-        return 0;
+    @Override
+    public BlockAxis getBlockAxis(BlockLocation location) {
+        var block = world.getBlockAt(location.posX, location.posY, location.posZ);
+        var matData = block.getState().getBlockData();
+        if(matData instanceof Orientable rotatable) {
+            try {
+                return BlockAxis.valueOf(rotatable.getAxis().toString());
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void setBlockAxis(BlockLocation location, BlockAxis axis) {
+        var block = world.getBlockAt(location.posX, location.posY, location.posZ);
+        var matData = block.getState().getBlockData();
+        if(matData instanceof Orientable rotatable) {
+            rotatable.setAxis(Axis.valueOf(axis.toString()));
+            block.setBlockData(rotatable);
+        }
     }
 }
