@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
-import com.sekwah.advancedportals.core.data.BlockLocation;
-import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 
 import java.util.UUID;
 

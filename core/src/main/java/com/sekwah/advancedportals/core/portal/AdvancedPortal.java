@@ -2,11 +2,9 @@ package com.sekwah.advancedportals.core.portal;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.data.DataTag;
-import com.sekwah.advancedportals.core.data.WorldLocation;
-import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.serializeddata.DataTag;
+import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.TagHandler;

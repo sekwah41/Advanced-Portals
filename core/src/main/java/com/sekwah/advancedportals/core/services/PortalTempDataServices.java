@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.services;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.data.BlockLocation;
-import com.sekwah.advancedportals.core.data.PlayerTempData;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
 
 import javax.inject.Singleton;
 import java.util.HashMap;

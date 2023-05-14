@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.core.data.WorldLocation;
+import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 
 import java.util.UUID;

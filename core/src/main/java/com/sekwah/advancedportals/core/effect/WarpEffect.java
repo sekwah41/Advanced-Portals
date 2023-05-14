@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.core.effect;
 
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.data.WorldLocation;
+import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 
 /**

@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
-import com.sekwah.advancedportals.core.connector.data.BlockAxis;
-import com.sekwah.advancedportals.core.data.BlockLocation;
+import com.sekwah.advancedportals.core.data.BlockAxis;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 
 public interface WorldContainer {
 

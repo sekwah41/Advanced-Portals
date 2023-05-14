@@ -6,7 +6,7 @@ import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
-import com.sekwah.advancedportals.core.data.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.InfoLogger;
