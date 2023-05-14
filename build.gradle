@@ -3,7 +3,6 @@ buildscript {
     repositories {
         maven {url "https://plugins.gradle.org/m2/"}
         mavenCentral()
-        mavenLocal()
     }
     dependencies {
         classpath "org.apache.httpcomponents:httpmime:4.5.13"
@@ -31,8 +30,8 @@ allprojects {
         buildSubmodules.finalizedBy build
     }
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 apply from: 'env-variables.gradle'
