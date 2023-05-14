@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.data.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 
 import java.io.IOException;
 import java.io.InputStream;

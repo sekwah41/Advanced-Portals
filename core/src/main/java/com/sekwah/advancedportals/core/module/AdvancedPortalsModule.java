@@ -4,7 +4,7 @@ import com.google.inject.*;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.config.Config;
 import com.sekwah.advancedportals.core.config.ConfigProvider;
-import com.sekwah.advancedportals.core.data.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;

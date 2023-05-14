@@ -3,9 +3,10 @@ package com.sekwah.advancedportals.core;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
-import com.sekwah.advancedportals.core.connector.data.BlockAxis;
-import com.sekwah.advancedportals.core.data.BlockLocation;
-import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.data.BlockAxis;
+import com.sekwah.advancedportals.core.data.Direction;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
@@ -81,11 +82,17 @@ public class CoreListeners {
      * @return if the block is allowed to be placed
      */
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        System.out.println("Block placed: " + blockMaterial + " " + itemInHandMaterial + " " + itemInHandName);
         if(itemInHandName != null && player != null && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if(itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
+                for (Direction direction : Direction.values()) {
+                    var checkLoc = new BlockLocation(blockPos, direction);
+                    if (world.getBlock(checkLoc).equals("NETHER_PORTAL")) {
+                        world.setBlockAxis(blockPos, world.getBlockAxis(checkLoc));
+                        break;
+                    }
+                }
                 return false;
             }
             else if(itemInHandName.equals("\u00A78End Portal Block Placer")) {
@@ -118,7 +125,6 @@ public class CoreListeners {
      */
     public boolean playerInteractWithBlock(PlayerContainer player, String blockMaterialname, String itemMaterialName, String itemName,
                                            BlockLocation blockLoc, boolean leftClick) {
-        System.out.println(blockMaterialname);
         if(itemName != null && (player.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(player)) &&
                 itemMaterialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
                 && (!this.configRepository.getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {

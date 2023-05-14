@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.data;
+package com.sekwah.advancedportals.core.serializeddata;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

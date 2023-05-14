@@ -1,12 +1,11 @@
 package com.sekwah.advancedportals.spigot.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
-import com.sekwah.advancedportals.core.connector.data.BlockAxis;
-import com.sekwah.advancedportals.core.data.BlockLocation;
+import com.sekwah.advancedportals.core.data.BlockAxis;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 
 public class SpigotWorldContainer implements WorldContainer {
