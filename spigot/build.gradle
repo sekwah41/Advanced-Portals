@@ -15,8 +15,10 @@ repositories {
 dependencies {
     implementation project(":core")
 
+
     // For spigot api
-    implementation "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
+    // We are using an older version to try and ensure that we are not using anything new older versions cant use.
+    implementation "org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT"
     implementation "net.md-5:bungeecord-api:1.16-R0.4"
     implementation group: 'com.google.inject', name: 'guice', version:'5.0.1'
     // Be careful to only use what you need to from paper, otherwise it will become incompatible with spigot.
