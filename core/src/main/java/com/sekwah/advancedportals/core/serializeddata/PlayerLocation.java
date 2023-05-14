@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.data;
+package com.sekwah.advancedportals.core.serializeddata;
 
 import com.google.gson.annotations.SerializedName;
 

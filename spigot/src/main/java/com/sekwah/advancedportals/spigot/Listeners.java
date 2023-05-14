@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.spigot;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.CoreListeners;
-import com.sekwah.advancedportals.core.data.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

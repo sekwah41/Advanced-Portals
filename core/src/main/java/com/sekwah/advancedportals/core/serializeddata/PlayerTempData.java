@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.data;
+package com.sekwah.advancedportals.core.serializeddata;
 
 /**
  * Possibly one of the only files in this package not designed to be serialised.
