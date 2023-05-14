@@ -1,6 +1,6 @@
 package com.sekwah.advancedportals.core.util;
 
-import com.sekwah.advancedportals.core.data.DataTag;
+import com.sekwah.advancedportals.core.serializeddata.DataTag;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
-package com.sekwah.advancedportals.core.data;
+package com.sekwah.advancedportals.core.serializeddata;
 
 import com.google.gson.annotations.SerializedName;
+import com.sekwah.advancedportals.core.data.Direction;
 
 public class BlockLocation {
 
@@ -21,5 +22,13 @@ public class BlockLocation {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
+    }
+
+    public BlockLocation(BlockLocation location, Direction direction) {
+        this.worldName = location.worldName;
+        this.posX = location.posX + direction.x;
+        this.posY = location.posY + direction.y;
+        this.posZ = location.posZ + direction.z;
+
     }
 }

@@ -2,8 +2,8 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.data.DataTag;
-import com.sekwah.advancedportals.core.data.PlayerLocation;
+import com.sekwah.advancedportals.core.serializeddata.DataTag;
+import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 
 import javax.inject.Singleton;
