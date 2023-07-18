@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -14,8 +15,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 public class Destination {
@@ -146,12 +149,29 @@ public class Destination {
                 if (player.getVehicle() != null && TELEPORT_RIDING) {
 
                     riding.eject();
-                    riding.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    riding.setPassenger(player);
+
+                    if(ForkDetector.isFolia()) {
+                        riding.teleportAsync(loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenAccept((result) -> {
+                            if(result) {
+                                player.teleportAsync(loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenAccept((result2) -> {
+                                    if(result2) {
+                                        riding.setPassenger(player);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        riding.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        riding.setPassenger(player);
+                    }
 
                 } else {
-                    player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    if(ForkDetector.isFolia()) {
+                        player.teleportAsync(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    } else {
+                        player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    }
                 }
 
                 if (disp != null && disp.getArg("particleout") != null) {

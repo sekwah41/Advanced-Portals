@@ -20,12 +20,22 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Portal {
-
+    /**
+     * Only used for Folia
+     */
+    public static final ReentrantReadWriteLock joinCooldownLock = new ReentrantReadWriteLock();
     public static HashMap<String, Long> joinCooldown = new HashMap<String, Long>();
+
+
+    /**
+     * Only used for Folia
+     */
+    public static final ReentrantReadWriteLock cooldownLock = new ReentrantReadWriteLock();
     public static HashMap<String, HashMap<String, Long>> cooldown = new HashMap<String, HashMap<String, Long>>();
     // Config values
     public static boolean portalsActive = false;
@@ -467,7 +477,10 @@ public class Portal {
             return false;
         }
 
+
+        Portal.joinCooldownLock.readLock().lock();
         Long joinCD = joinCooldown.get(player.getName());
+        Portal.joinCooldownLock.readLock().unlock();
         if (joinCD != null) {
             int diff = (int) ((System.currentTimeMillis() - joinCD) / 1000);
             if (diff < joinCooldownDelay) {
@@ -478,9 +491,12 @@ public class Portal {
                     throwPlayerBack(player);
                 return false;
             }
+            Portal.joinCooldownLock.writeLock().lock();
             joinCooldown.remove(player.getName());
+            Portal.joinCooldownLock.writeLock().unlock();
         }
 
+        cooldownLock.writeLock().lock();
         HashMap<String, Long> cds = cooldown.get(player.getName());
         if (cds != null) {
             if (cds.get(portal.getName()) != null) {
@@ -507,6 +523,7 @@ public class Portal {
         }
         cds.put(portal.getName(), System.currentTimeMillis());
         cooldown.put(player.getName(), cds);
+        cooldownLock.writeLock().unlock();
 
         boolean showFailMessage = !portal.hasArg("command.1");
 

@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.bukkit.listeners;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -66,7 +67,8 @@ public class PortalPlacer implements Listener {
         if(!this.DISABLE_GATEWAY_BEAM) {
             return;
         }
-        BlockState[] tileEntities = event.getChunk().getTileEntities();
+        // TODO take a look at potentially switching to the paper logic if paper is in use, also you can check if the chunk even contains a portal.
+        BlockState[] tileEntities = ForkDetector.isPaper() ? event.getChunk().getTileEntities(false) : event.getChunk().getTileEntities();
         for(BlockState block : tileEntities) {
             if(block.getType() == Material.END_GATEWAY) {
                 if(Portal.inPortalRegion(block.getLocation(), 5)) {
