@@ -59,12 +59,12 @@ public class Listeners implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         int cleanPeriod = config.getConfig().getInt("CleanUpPeriod", 120);
-        int period = 60 * cleanPeriod;
+        int period = 20 * 60 * cleanPeriod;
         if(ForkDetector.isFolia()) {
             FoliaHandler.repeatingTask(plugin,  new CooldownDataRemovalTask(), period);
         } else {
             plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new CooldownDataRemovalTask(),
-                    20L * period, 20L * period);
+                    period, period);
         }
     }
 
@@ -152,11 +152,18 @@ public class Listeners implements Listener {
 
                         player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, System.currentTimeMillis()));
                         if(ForkDetector.isFolia()) {
+                            FoliaHandler.scheduleEntityTask(plugin, player, new RemoveWarpData(player), 10);
+                        } else {
                             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
                         }
                         if (portal.getTriggers().contains(Material.LAVA)) {
                             player.setMetadata(LAVA_WARPED, new FixedMetadataValue(plugin, System.currentTimeMillis()));
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                            if(ForkDetector.isFolia()) {
+                                FoliaHandler.scheduleEntityTask(plugin, player, new RemoveLavaData(player), 10);
+                            } else {
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                            }
+
                         }
                         if (portal.inPortal.contains(player.getUniqueId()))
                             return;

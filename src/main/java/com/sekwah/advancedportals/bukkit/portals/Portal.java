@@ -4,11 +4,14 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.bukkit.PluginMessages;
+import com.sekwah.advancedportals.bukkit.Selection;
 import com.sekwah.advancedportals.bukkit.api.portaldata.PortalArg;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
+import com.sekwah.advancedportals.bukkit.util.FoliaHandler;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -541,9 +544,14 @@ public class Portal {
 
             if(portal.hasArg("leavedesti")) {
                 player.setMetadata("leaveDesti", new FixedMetadataValue(plugin, portal.getArg("leavedesti")));
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                Runnable removeMeta = () -> {
                     player.removeMetadata("leaveDesti", plugin);
-                }, 20 * 10);
+                };
+                if(ForkDetector.isFolia()) {
+                    FoliaHandler.scheduleEntityTask(plugin, player, removeMeta, 20 * 10);
+                } else {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, removeMeta, 20 * 10);
+                }
             }
 
             if (portal.getDestinations().length != 0) {

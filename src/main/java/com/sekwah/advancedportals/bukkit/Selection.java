@@ -1,6 +1,9 @@
 package com.sekwah.advancedportals.bukkit;
 
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
+import com.sekwah.advancedportals.bukkit.listeners.Listeners;
+import com.sekwah.advancedportals.bukkit.util.FoliaHandler;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -133,11 +136,12 @@ public class Selection {
         }
 
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-            public void run() {
-                Selection.hide(player, plugin, pos1, pos2);
-            }
-        }, timeout * 20);
+        Runnable hideRun = () -> Selection.hide(player, plugin, pos1, pos2);
+        if(ForkDetector.isFolia()) {
+            FoliaHandler.scheduleEntityTask(plugin, player, hideRun, 10);
+        } else {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, hideRun, timeout * 20);
+        }
 
     }
 

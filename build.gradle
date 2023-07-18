@@ -145,11 +145,12 @@ task discordupload {
 }
 
 minecraftServerConfig {
-    //jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.13.2.jar')
-    //jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.20.1.jar')
+    // The oldest version of spigot currently supported.
+    //jarUrl.set('https://cdn.getbukkit.org/spigot/spigot-1.17.jar')
+    //jarUrl.set('https://cdn.getbukkit.org/spigot/spigot-1.20.1.jar')
     //jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.13.2/builds/657/downloads/paper-1.13.2-657.jar')
-    jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/83/downloads/paper-1.20.1-83.jar')
-    //jarUrl.set('https://api.papermc.io/v2/projects/folia/versions/1.20.1/builds/10/downloads/folia-1.20.1-10.jar')
+    //jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/83/downloads/paper-1.20.1-83.jar')
+    jarUrl.set('https://api.papermc.io/v2/projects/folia/versions/1.20.1/builds/10/downloads/folia-1.20.1-10.jar')
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
 }
 
@@ -268,12 +269,17 @@ task curseforge {
             def versions = gameVersions.findAll { it.gameVersionTypeID == gameVersionTypeID }
 
             String[] supportedVersions = [
+                    "1.20.1",
+                    "1.20",
+                    "1.19.4",
+                    "1.19.3",
+                    "1.19.2",
+                    "1.19.1",
+                    "1.19",
+                    "1.18.2",
+                    "1.18.1",
                     "1.18",
                     "1.17",
-                    "1.16",
-                    "1.15",
-                    "1.14",
-                    "1.13"
             ]
 
             def supportedGameVersions = versions.findAll { supportedVersions.contains(it.name) }
