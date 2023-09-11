@@ -70,24 +70,32 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
                 }
                 break;
             case "list":
-                String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
-                Object[] destiObj = config.getConfig().getKeys(false).toArray();
-                LinkedList<String> destis = new LinkedList<>();
-                for (Object object : destiObj) {
-                    destis.add(object.toString());
+                if(sender.hasPermission("advancedportals.desti")) {
+                    String message = PluginMessages.customPrefix + " \u00A77Destinations \u00A7c:\u00A7a";
+                    Object[] destiObj = config.getConfig().getKeys(false).toArray();
+                    LinkedList<String> destis = new LinkedList<>();
+                    for (Object object : destiObj) {
+                        destis.add(object.toString());
+                    }
+                    Collections.sort(destis);
+                    for (Object desti : destis.toArray()) message = message + " " + desti;
+                    sender.sendMessage(message);
+                } else {
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to list destinations!");
                 }
-                Collections.sort(destis);
-                for (Object desti : destis.toArray()) message = message + " " + desti;
-                sender.sendMessage(message);
                 break;
             case "help":
-                sender.sendMessage(PluginMessages.customPrefix + " Destination Help Menu");
-                sender.sendMessage("\u00A7e\u00A7m----------------------------");
-                sender.sendMessage("\u00A76/" + command + " create \u00A7c[name] \u00A7a- create destination at your location");
-                sender.sendMessage("\u00A76/" + command + " remove \u00A7c[name] \u00A7a- remove destination");
-                sender.sendMessage("\u00A76/" + command + " warp \u00A7c[name] \u00A7a- teleport to destination");
-                sender.sendMessage("\u00A76/" + command + " list \u00A7a- list all destinations");
-                sender.sendMessage("\u00A7e\u00A7m----------------------------");
+                if(sender.hasPermission("advancedportals.desti")) {
+                    sender.sendMessage(PluginMessages.customPrefix + " Destination Help Menu");
+                    sender.sendMessage("\u00A7e\u00A7m----------------------------");
+                    sender.sendMessage("\u00A76/" + command + " create \u00A7c[name] \u00A7a- create destination at your location");
+                    sender.sendMessage("\u00A76/" + command + " remove \u00A7c[name] \u00A7a- remove destination");
+                    sender.sendMessage("\u00A76/" + command + " warp \u00A7c[name] \u00A7a- teleport to destination");
+                    sender.sendMessage("\u00A76/" + command + " list \u00A7a- list all destinations");
+                    sender.sendMessage("\u00A7e\u00A7m----------------------------");
+                } else {
+                    sender.sendMessage(PluginMessages.customPrefixFail + " You do not have permission to the destinations help menu!");
+                }
                 break;
             case "warp":
                 if (!(sender.hasPermission("advancedportals.warp.*") || sender.hasPermission("advancedportals.warp." + args[1]))) {
@@ -124,7 +132,7 @@ public class DestinationCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 1) {
             if (sender.hasPermission("advancedportals.desti") | sender.hasPermission("advancedportals.createportal")) {
-                autoComplete.addAll(Arrays.asList("create", "remove", "help"));
+                autoComplete.addAll(Arrays.asList("create", "remove", "help", "list"));
             }
             autoComplete.add("warp");
         }
