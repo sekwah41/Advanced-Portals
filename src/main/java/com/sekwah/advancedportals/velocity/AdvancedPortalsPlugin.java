@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * While there may be a better way to do this for now we are keeping the behavior so it also works with Bungee's horrible API.
  */
-@Plugin(id = "advancedportals", name = "Advanced Portals",
+@Plugin(authors = {"sekwah41"} ,id = "advancedportals", name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
         version = "0.9.3")
 public class AdvancedPortalsPlugin {
