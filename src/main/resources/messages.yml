@@ -1,0 +1,21 @@
+# Advanced Portals Messages
+
+# If this is true a custom prefix can be used, (not fully coded yet!!)
+
+UseCustomPrefix: false
+
+CustomPrefix: '&a[&eAdvancedPortals&a]'
+
+CustomPrefixFail: '&c[&7AdvancedPortals&c]'
+
+# Message sent to player in chat/action bar on warp
+WarpMessage: '&aYou have warped to &e<warp>&a.'
+
+# Message sent to player that has just joined the server trying to use a portal
+CooldownProtectionMessage: '&cThere is &e<time>&c join cooldown protection left.'
+
+# Message sent to player that doesn't have permission to use a portal
+NoPermissionPortal: '&cYou do not have permission to use this portal!'
+
+# Message sent to player that has a portal cooldown
+PortalCooldownMessage: '&cPlease wait &e<time> &cuntil attempting to enter this portal again!'
