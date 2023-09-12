@@ -459,7 +459,7 @@ public class Portal {
         if (!(permission == null || ((!invertPermission && player.hasPermission(permission)) || (invertPermission && !player.hasPermission(permission))) || player.isOp())) {
             if(!noMessage) {
                 player.sendMessage(
-                        PluginMessages.customPrefixFail + "\u00A7c You do not have permission to use this portal!");
+                        String.join(" ", PluginMessages.customPrefixFail, PluginMessages.getNoPermissionPortal()));
                 failSound(player, portal);
                 if(doKnockback)
                     throwPlayerBack(player);
@@ -472,7 +472,7 @@ public class Portal {
             int diff = (int) ((System.currentTimeMillis() - joinCD) / 1000);
             if (diff < joinCooldownDelay) {
                 int time = (joinCooldownDelay - diff);
-                player.sendMessage(ChatColor.RED + "There is " + ChatColor.YELLOW + time + ChatColor.RED + (time == 1 ? " second" : " seconds") + " join cooldown protection left.");
+                player.sendMessage(PluginMessages.getCooldownProtectionMessage(time));
                 failSound(player, portal);
                 if(doKnockback)
                     throwPlayerBack(player);
@@ -493,8 +493,7 @@ public class Portal {
                 }
                 if (diff < portalCooldown) {
                     int time = (portalCooldown - diff);
-                    player.sendMessage(ChatColor.RED + "Please wait " + ChatColor.YELLOW + time + ChatColor.RED
-                            + (time == 1 ? " second" : " seconds") + " until attempting to enter this portal again.");
+                    player.sendMessage(PluginMessages.getPortalCooldownMessage(time));
                     failSound(player, portal);
                     if(doKnockback)
                         throwPlayerBack(player);
