@@ -783,7 +783,7 @@ public class AdvancedPortalsCommand implements CommandExecutor, TabCompleter {
         // Add pages if there starts to become too many
         if (args.length == 1) {
             sendMenu(sender, "Help Menu",
-                    "\u00A76/" + command + " selector \u00A7a- gives you a region selector",
+                    "\u00A76/" + command + " selector/wand \u00A7a- gives you a region selector",
                     "\u00A76/" + command + " create \u00A7c[tags] \u00A7a- creates a portal with a selection ",
                     "\u00A76/" + command + " portalblock \u00A7a- gives you a portal block",
                     "\u00A76/" + command + " endportalblock \u00A7a- gives you an end portal block",
