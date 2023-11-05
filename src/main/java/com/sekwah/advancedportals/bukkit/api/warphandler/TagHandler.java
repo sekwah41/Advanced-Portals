@@ -72,7 +72,7 @@ public class TagHandler {
          * @param argData
          * @return if the tag will be removed.
          */
-        boolean ragRemoved(Player player, ActivationData activeData, String argData);
+        boolean tagRemoved(Player player, ActivationData activeData, String argData);
 
     }
 
