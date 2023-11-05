@@ -4,6 +4,8 @@ version: 0.9.3
 author: sekwah41
 description: An advanced portals plugin for bukkit.
 api-version: 1.13
+folia-supported: true
+website: https://advancedportals.sekwah.com/
 
 softdepend:
   - WorldEdit

@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
 import com.sekwah.advancedportals.bukkit.portals.AdvancedPortal;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
@@ -26,6 +27,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import com.sekwah.advancedportals.bukkit.util.FoliaHandler;
 
 public class Listeners implements Listener {
 
@@ -36,6 +38,8 @@ public class Listeners implements Listener {
 
     public static String HAS_WARPED = "hasWarped";
     public static String LAVA_WARPED = "lavaWarped";
+    // Just a backup in case it doesn't get removed.
+    public static long MAX_SAFETY_TIME = 1000;
 
     @SuppressWarnings("deprecation")
     public Listeners(AdvancedPortalsPlugin plugin) {
@@ -56,7 +60,12 @@ public class Listeners implements Listener {
 
         int cleanPeriod = config.getConfig().getInt("CleanUpPeriod", 120);
         int period = 20 * 60 * cleanPeriod;
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new CooldownDataRemovalTask(), period, period);
+        if(ForkDetector.isFolia()) {
+            FoliaHandler.repeatingTask(plugin,  new CooldownDataRemovalTask(), period);
+        } else {
+            plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new CooldownDataRemovalTask(),
+                    period, period);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -80,7 +89,9 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
+        Portal.joinCooldownLock.writeLock().lock();
         Portal.joinCooldown.put(event.getPlayer().getName(), System.currentTimeMillis());
+        Portal.joinCooldownLock.writeLock().unlock();
     }
 
     @EventHandler
@@ -96,7 +107,9 @@ public class Listeners implements Listener {
     public void onJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        Portal.joinCooldownLock.writeLock().lock();
         Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
+        Portal.joinCooldownLock.writeLock().unlock();
 
         Location loc = player.getLocation();
         Location eyeLoc = player.getEyeLocation();
@@ -137,11 +150,20 @@ public class Listeners implements Listener {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1)
                             : Portal.locationInPortalTrigger(portal, loc)) {
 
-                        player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, true));
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
+                        player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, System.currentTimeMillis()));
+                        if(ForkDetector.isFolia()) {
+                            FoliaHandler.scheduleEntityTask(plugin, player, new RemoveWarpData(player), 10);
+                        } else {
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
+                        }
                         if (portal.getTriggers().contains(Material.LAVA)) {
-                            player.setMetadata(LAVA_WARPED, new FixedMetadataValue(plugin, true));
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                            player.setMetadata(LAVA_WARPED, new FixedMetadataValue(plugin, System.currentTimeMillis()));
+                            if(ForkDetector.isFolia()) {
+                                FoliaHandler.scheduleEntityTask(plugin, player, new RemoveLavaData(player), 10);
+                            } else {
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveLavaData(player), 10);
+                            }
+
                         }
                         if (portal.inPortal.contains(player.getUniqueId()))
                             return;
@@ -210,13 +232,18 @@ public class Listeners implements Listener {
         }
 
         private void resizeMaps() {
+
+            Portal.cooldownLock.writeLock().lock();
             HashMap<String, HashMap<String, Long>> newCooldowns = new HashMap<String, HashMap<String, Long>>(Math.max(Portal.cooldown.size() * 2, 10));
             newCooldowns.putAll(Portal.cooldown);
             Portal.cooldown = newCooldowns;
+            Portal.cooldownLock.writeLock().unlock();
 
+            Portal.joinCooldownLock.writeLock().lock();
             HashMap<String, Long> newJoinCooldowns = new HashMap<String, Long>(Math.max(Portal.joinCooldown.size() * 2, 10));
             newJoinCooldowns.putAll(Portal.joinCooldown);
             Portal.joinCooldown = newJoinCooldowns;
+            Portal.joinCooldownLock.writeLock().unlock();
         }
     }
 
@@ -263,7 +290,7 @@ public class Listeners implements Listener {
         if (event.getEntity() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
                 || event.getCause() == EntityDamageEvent.DamageCause.FIRE
                 || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
-            if (event.getEntity().hasMetadata(LAVA_WARPED)
+            if ((event.getEntity().hasMetadata(LAVA_WARPED) && event.getEntity().getMetadata(LAVA_WARPED).get(0).asLong() + MAX_SAFETY_TIME > System.currentTimeMillis())
                     | Portal.inPortalTriggerRegion(event.getEntity().getLocation()))
                 event.setCancelled(true);
         }
@@ -283,8 +310,25 @@ public class Listeners implements Listener {
             checkTriggerLocations(player, true, loc, eyeLoc);
         }
 
-        if (player.hasMetadata(HAS_WARPED) | Portal.inPortalRegion(event.getFrom(), 1))
+        if ((player.hasMetadata(HAS_WARPED) && player.getMetadata(HAS_WARPED).get(0).asLong() + MAX_SAFETY_TIME > System.currentTimeMillis()) | Portal.inPortalRegion(event.getFrom(), 1))
             event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+
+        if((event.getCause() == PlayerTeleportEvent.TeleportCause.END_GATEWAY
+                || event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL
+                || event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)
+                && (Portal.locationInPortal(event.getFrom(), 1) || player.hasMetadata(HAS_WARPED))) {
+            event.setCancelled(true);
+        }
+
+        Location loc = event.getFrom();
+        Location eyeLoc = new Location(loc.getWorld(), loc.getX(), loc.getY() + player.getEyeHeight(), loc.getZ());
+
+        checkTriggerLocations(player, true, loc, eyeLoc);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -292,6 +336,7 @@ public class Listeners implements Listener {
         if (event.isCancelled()) {
             return;
         }
+
         if(Portal.locationInPortal(event.getFrom(), 2)) {
             event.setCancelled(true);
         }

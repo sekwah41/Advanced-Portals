@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.bukkit.effects.WarpEffects;
 import com.sekwah.advancedportals.bukkit.listeners.*;
 import com.sekwah.advancedportals.bukkit.metrics.Metrics;
 import com.sekwah.advancedportals.bukkit.portals.Portal;
+import com.sekwah.advancedportals.bukkit.util.ForkDetector;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,8 +16,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
+import java.awt.print.Paper;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -81,7 +82,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         for (Player player:
                 this.getServer().getOnlinePlayers()) {
-            player.removeMetadata(Listeners.HAS_WARPED, this);
             player.removeMetadata(Listeners.LAVA_WARPED, this);
         }
 
@@ -137,9 +137,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private boolean checkIfBungee()
     {
         // we check if the server is Spigot/Paper (because of the spigot.yml file)
-        try {
-            Class.forName("org.spigotmc.SpigotConfig");
-        } catch (ClassNotFoundException e) {
+        if(!ForkDetector.isSpigot()) {
             this.getServer().getConsoleSender().sendMessage( "\u00A7ePossibly unsupported version for bungee messages detected, channels won't be enabled." );
             getLogger().info("If you believe this shouldn't be the case please contact us on discord https://discord.sekwah.com/");
             return false;
