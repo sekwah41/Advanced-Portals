@@ -493,7 +493,7 @@ public class Portal {
                 }
                 if (diff < portalCooldown) {
                     int time = (portalCooldown - diff);
-                    player.sendMessage(PluginMessages.getPortalCooldownMessage(time));
+                    player.sendMessage(PluginMessages.getCooldownProtectionMessage(time));
                     failSound(player, portal);
                     if(doKnockback)
                         throwPlayerBack(player);
@@ -740,7 +740,7 @@ public class Portal {
     }
 
     public static void throwPlayerBack(Player player) {
-        // Not ensured to remove them out of the portal but it makes it feel nicer for
+        // Not ensured to remove them out of the portal, but it makes it feel nicer for
         // the player.
         if (throwback > 0) {
             Vector velocity = player.getLocation().getDirection();
