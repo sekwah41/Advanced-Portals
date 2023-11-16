@@ -5,14 +5,14 @@
 # Will update whenever there is a config update from an older version so may not be the latest plugin version
 ConfigVersion: 0.5.13
 
-# Set to true if you want the normal axes to work normally but the ones gived with /portals selector or wand will still work though
-# It can be usefull if people with permission want to use an iron axe on a survival server
+# Set to true if you want the normal axes to work normally but the ones given with /portals selector or wand will still work though
+# It can be useful if people with permission want to use an iron axe on a survival server
 UseOnlyServerMadeAxe: false
 
-# Preferably an item and not a block but it shouldnt matter
+# Preferably an item and not a block but it shouldn't matter
 AxeItemId: IRON_AXE
 
-# Will be implemented so you can give yourself the portal block and build manually with it so its easier to make portals with the portal block.
+# Will be implemented, so you can give yourself the portal block and build manually with it, so it's easier to make portals with the portal block.
 CanBuildPortalBlock: true
 
 # Defines if portals protect themselves
@@ -24,11 +24,11 @@ PortalProtectionArea: 5
 # What the default trigger block is for portals if nothing is defined.
 DefaultPortalTriggerBlock: PORTAL
 
-# This stops all water flowing inside a portal area(can be disabled if something like world edit is handelling the water flow or you dont want it active)
+# This stops all water flowing inside a portal area(can be disabled if something like world edit is handling the water flow or you don't want it active)
 #    you want to
 StopWaterFlow: true
 
-# This must be a placeable block or it will not work and may even crash
+# This must be a placeable block, or it will not work and may even crash
 ShowSelectionBlockID: RED_STAINED_GLASS
 
 # WarpEffect
@@ -46,13 +46,8 @@ WarpSound: 1
 # In case you want to show the bungee attempting warp message
 ShowBungeeWarpMessage: false
 
-# This changes how long the show seletion lasts in seconds
-
+# This changes how long the show selection lasts in seconds
 ShowSelectionShowDuration: 10
-
-# Where to display the message 0 = disabled(replaces PortalWarpMessages), 1 = in chat and 2 = action bar(1.8 and above only, anything lower will print the message that would
-#  generally on the action bar in the chat without a prefix or extra chat formatting)
-WarpMessageDisplay: 2
 
 # Use plugin name in the warp messages
 UseWarpPrefix: true
@@ -65,12 +60,12 @@ ThrowbackAmount: 0.7 # How fast to throw them back, 0 or lower to disable throwb
 # Only disables the gateway block places with "/portal gatewayblock" for now
 # If you want to replace already made portals just use "/portal disablebeacon" and it will run through all the blocks in the area
 # Reloading the world or chunks that portals are in will also trigger the beacons to be disabled (this is for efficiency reasons)
-# However these wont trigger in the spawn chunks as they are loaded before any pluigns are.
+# However these won't trigger in the spawn chunks as they are loaded before any plugins are.
 DisableGatewayBeam: true
 
 # Enable or disable special command portals
 #
-# n Disabled none, best just put this to really make sure the fact none are here is specified. It disables any others too
+# n Disabled none, the best just put this to really make sure the fact none are here is specified. It disables any others too
 # o enable op command portals
 # p enable permission command portals
 # c enable console command portals
@@ -81,16 +76,16 @@ CommandLevels: opcb
 # Should the commands being triggered log in the console? (If you have an active server it may cause a bit of spam)
 CommandLogs: true
 
-# If you want to use bungee or velocity and it is not automatically detected (make sure you have advanced portals on the proxy, especially with velocity)
+# If you want to use bungee or velocity, and it is not automatically detected (make sure you have advanced portals on the proxy, especially with velocity)
 ForceEnableProxySupport: false
 
 # How many seconds after the proxy event fires should the player be teleported (should help with on spawn plugins and such)
 # 0 is disabled and anything higher causes a delay.
 ProxyTeleportDelay: 0
 
-# Just in case you are not using the proxy and dont want the warning message
+# Just in case you are not using the proxy and don't want the warning message
 DisableProxyWarning: false
 
-# Whether the integration with worldedit should be enabled.
+# Whether the integration with WorldEdit should be enabled.
 # This will force AdvancedPortals to use WorldEdit selections.
 WorldEditIntegration: false
