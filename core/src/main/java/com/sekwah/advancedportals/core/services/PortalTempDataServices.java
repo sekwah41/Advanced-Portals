@@ -16,7 +16,7 @@ public final class PortalTempDataServices {
      * Possibly change to the cache map Aztec was talking about
      */
     private Map<UUID, PlayerTempData> tempDataMap = new HashMap<>();
-    
+
     public void activateCooldown(PlayerContainer player) {
     }
 
