@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.config;
+package com.sekwah.advancedportals.core.serializeddata.config;
 
 /**
  * To store the data for config
@@ -26,9 +26,5 @@ public class Config {
     public String selectionBlock = "RED_STAINED_GLASS";
 
     public String translationFile = "en_GB";
-
-    //public String selectionBlock_BELOW_1_13 = "STAINED_GLASS";
-
-   // public int selectionSubID_BELOW_1_13 = 14;
 
 }

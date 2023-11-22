@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.config;
+package com.sekwah.advancedportals.core.serializeddata.config;
 
 import com.google.inject.Provider;
 

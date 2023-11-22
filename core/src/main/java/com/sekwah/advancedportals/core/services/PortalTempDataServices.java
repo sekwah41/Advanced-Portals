@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.services;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
+import com.sekwah.advancedportals.core.util.Lang;
 
 import javax.inject.Singleton;
 import java.util.HashMap;
@@ -17,12 +18,24 @@ public final class PortalTempDataServices {
      */
     private Map<UUID, PlayerTempData> tempDataMap = new HashMap<>();
 
+    private PlayerTempData getPlayerTempData(PlayerContainer player) {
+        return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> new PlayerTempData());
+    }
+
     public void activateCooldown(PlayerContainer player) {
     }
 
     public void playerLeave(PlayerContainer player) {
+        tempDataMap.remove(player.getUUID());
     }
 
     public void playerSelectorActivate(PlayerContainer player, BlockLocation blockLoc, boolean leftClick) {
+        var tempData = getPlayerTempData(player);
+        if(leftClick) {
+            tempData.setPos1(blockLoc);
+        } else {
+            tempData.setPos2(blockLoc);
+        }
+        player.sendMessage(Lang.translateInsertVariables("portal.selector.poschange", leftClick ? "1" : "2", blockLoc.posX, blockLoc.posY, blockLoc.posZ));
     }
 }

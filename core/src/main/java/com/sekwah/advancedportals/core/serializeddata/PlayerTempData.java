@@ -28,4 +28,35 @@ public class PlayerTempData {
 
     private String selectedPortal;
 
+    public BlockLocation getPos1() {
+        return pos1;
+    }
+
+    public void setPos1(BlockLocation pos1) {
+        this.pos1 = pos1;
+    }
+
+    public BlockLocation getPos2() {
+        return pos2;
+    }
+
+    public void setPos2(BlockLocation pos2) {
+        this.pos2 = pos2;
+    }
+
+    public long getGlobalCooldown() {
+        return globalCooldown;
+    }
+
+    public void setGlobalCooldown(long globalCooldown) {
+        this.globalCooldown = globalCooldown;
+    }
+
+    public String getSelectedPortal() {
+        return selectedPortal;
+    }
+
+    public void setSelectedPortal(String selectedPortal) {
+        this.selectedPortal = selectedPortal;
+    }
 }
