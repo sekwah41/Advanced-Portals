@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.core.config.Config;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 
