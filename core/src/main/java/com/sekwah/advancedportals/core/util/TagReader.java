@@ -8,34 +8,35 @@ public class TagReader {
 
     public static ArrayList<DataTag> getTagsFromArgs(String[] args) {
         ArrayList<DataTag> tags = new ArrayList<>();
-        boolean partingValueWithSpaces = false;
-        String argBeingParsed = "";
-        String currentParsedValue = "";
-        for (int i = 1; i < args.length; i++) {
-            if(partingValueWithSpaces) {
-                if(args[i].charAt(args[i].length() - 1) == '"') {
-                    args[i] = args[i].substring(0, args[i].length() - 1);
-                    partingValueWithSpaces = false;
-                    tags.add(new DataTag(argBeingParsed.toLowerCase(), currentParsedValue));
+        StringBuilder currentValue = new StringBuilder();
+        String currentIdentifier = null;
+        boolean inQuotes = false;
+
+        for (String arg : args) {
+            if (arg.contains(":") && !inQuotes) {
+                if (currentIdentifier != null) {
+                    tags.add(new DataTag(currentIdentifier, currentValue.toString()));
                 }
-                else {
-                    currentParsedValue += " " + args[i];
+                int colonIndex = arg.indexOf(':');
+                currentIdentifier = arg.substring(0, colonIndex);
+                currentValue = new StringBuilder(arg.substring(colonIndex + 1));
+                inQuotes = currentValue.toString().startsWith("\"");
+            } else {
+                if (!currentValue.isEmpty()) {
+                    currentValue.append(" ");
                 }
+                currentValue.append(arg);
             }
-            else {
-                String detectedTag = TagReader.getTag(args[i].toLowerCase());
-                if(detectedTag != null) {
-                    String arg = args[i].substring(detectedTag.length() + 1);
-                    if(arg.length() > 0 && arg.charAt(0) == '"') {
-                        argBeingParsed = detectedTag;
-                        currentParsedValue = arg;
-                    }
-                    else {
-                        tags.add(new DataTag(detectedTag.toLowerCase(), arg));
-                    }
-                }
+
+            if (inQuotes && arg.endsWith("\"")) {
+                inQuotes = false;
             }
         }
+
+        if (currentIdentifier != null) {
+            tags.add(new DataTag(currentIdentifier, currentValue.toString().replace("\"", "")));
+        }
+
         return tags;
     }
 
