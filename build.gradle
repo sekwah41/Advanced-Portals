@@ -76,7 +76,7 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 
-    if (project.name != "advanced-portals") {
+    if (project.name != "Advanced-Portals") {
         task buildSubmodules doLast {
             task -> println "Building $task.project.name"
         }

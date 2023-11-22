@@ -1,4 +1,4 @@
-rootProject.name = "advanced-portals"
+rootProject.name = "Advanced-Portals"
 // Core modules
 include 'core'
 include 'lang'
