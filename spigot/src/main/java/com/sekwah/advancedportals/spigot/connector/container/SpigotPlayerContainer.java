@@ -33,7 +33,7 @@ public class SpigotPlayerContainer implements PlayerContainer {
     public UUID getUUID() {
         return player.getUniqueId();
     }
-    
+
     public void sendMessage(String message) {
         player.sendMessage(message);
     }
