@@ -3,11 +3,12 @@ package com.sekwah.advancedportals.core.portal;
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
-import com.sekwah.advancedportals.core.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +17,10 @@ import java.util.Map;
 /**
  * @author sekwah41
  */
-public class AdvancedPortal {
+public class AdvancedPortal implements TagTarget {
 
     @Inject
-    TagRegistry<AdvancedPortal> tagRegistry;
+    transient TagRegistry<AdvancedPortal> tagRegistry;
 
     @SerializedName("max")
     private WorldLocation maxLoc;
@@ -31,7 +32,7 @@ public class AdvancedPortal {
     private String[] triggerBlocks = {"PORTAL"};
 
     @SerializedName("a")
-    private HashMap<String, String> args = new HashMap<>();
+    private HashMap<String, String[]> args = new HashMap<>();
 
     public AdvancedPortal(WorldLocation maxLoc, WorldLocation minLoc) {
         this.maxLoc = maxLoc;
@@ -46,14 +47,22 @@ public class AdvancedPortal {
         return this.minLoc;
     }
 
-    public String getArg(String argName) {
+    @Override
+    public String[] getArgValues(String argName) {
         return this.args.get(argName);
     }
 
-    public void setArg(String argName, String argValue) {
-        this.args.put(argName, argValue);
+    @Override
+    public void setArgValues(String argName, String[] argValues) {
+        this.args.put(argName, argValues);
     }
 
+    @Override
+    public void addArg(String argName, String argValues) {
+
+    }
+
+    @Override
     public void removeArg(String arg) {
         this.args.remove(arg);
     }
@@ -71,38 +80,38 @@ public class AdvancedPortal {
         ActivationData data = new ActivationData();
         DataTag[] portalTags = new DataTag[args.size()];
         int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
+        for(Map.Entry<String, String[]> entry : args.entrySet()) {
             portalTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
 
         for(DataTag portalTag : portalTags) {
-            TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
-                activationHandler.preActivated(this, player, data, this.getArg(portalTag.NAME));
+                activationHandler.preActivated(this, player, data, this.getArgValues(portalTag.NAME));
             }
         }
         for(DataTag portalTag : portalTags) {
-            TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
-                activationHandler.activated(this, player, data, this.getArg(portalTag.NAME));
+                activationHandler.activated(this, player, data, this.getArgValues(portalTag.NAME));
             }
         }
         for(DataTag portalTag : portalTags) {
-            TagHandler.Activation<AdvancedPortal> activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
-                activationHandler.postActivated(this, player, data, this.getArg(portalTag.NAME));
+                activationHandler.postActivated(this, player, data, this.getArgValues(portalTag.NAME));
             }
         }
         return true;
     }
 
-    public void setArg(DataTag portalTag) {
-        this.setArg(portalTag.NAME, portalTag.VALUE);
+    public void setArgValues(DataTag portalTag) {
+        this.setArgValues(portalTag.NAME, portalTag.VALUES);
     }
 
     public ArrayList<DataTag> getArgs() {
         ArrayList<DataTag> tagList = new ArrayList<>();
-        for(Map.Entry<String, String> entry : this.args.entrySet()){
+        for(Map.Entry<String, String[]> entry : this.args.entrySet()){
             tagList.add(new DataTag(entry.getKey(), entry.getValue()));
         }
         return tagList;

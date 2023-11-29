@@ -3,11 +3,12 @@ package com.sekwah.advancedportals.core.util;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TagReader {
 
     public static ArrayList<DataTag> getTagsFromArgs(String[] args) {
-        ArrayList<DataTag> tags = new ArrayList<>();
+        HashMap<String, ArrayList<String>> tagMap = new HashMap<>();
         StringBuilder currentValue = new StringBuilder();
         String currentIdentifier = null;
         boolean inQuotes = false;
@@ -15,7 +16,15 @@ public class TagReader {
         for (String arg : args) {
             if (arg.contains(":") && !inQuotes) {
                 if (currentIdentifier != null) {
-                    tags.add(new DataTag(currentIdentifier, currentValue.toString()));
+                    ArrayList<String> tags;
+                    if(tagMap.containsKey(currentIdentifier)) {
+                        tags = tagMap.get(currentIdentifier);
+                    }
+                    else {
+                        tags = new ArrayList<>();
+                        tagMap.put(currentIdentifier, tags);
+                    }
+                    tags.add(currentValue.toString());
                 }
                 int colonIndex = arg.indexOf(':');
                 currentIdentifier = arg.substring(0, colonIndex);
@@ -34,7 +43,21 @@ public class TagReader {
         }
 
         if (currentIdentifier != null) {
-            tags.add(new DataTag(currentIdentifier, currentValue.toString().replace("\"", "")));
+            ArrayList<String> tags;
+            if(tagMap.containsKey(currentIdentifier)) {
+                tags = tagMap.get(currentIdentifier);
+            }
+            else {
+                tags = new ArrayList<>();
+                tagMap.put(currentIdentifier, tags);
+            }
+            tags.add(currentValue.toString().replace("\"", ""));
+        }
+
+        // Loop over values in the map and create the tags
+        ArrayList<DataTag> tags = new ArrayList<>();
+        for (String key : tagMap.keySet()) {
+            tags.add(new DataTag(key, tagMap.get(key).toArray(new String[0])));
         }
 
         return tags;
