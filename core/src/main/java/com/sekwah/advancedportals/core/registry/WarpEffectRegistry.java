@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.registry;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,9 @@ public class WarpEffectRegistry {
 
     @Inject
     private AdvancedPortalsCore portalsCore;
+
+    @Inject
+    private InfoLogger infoLogger;
 
     /**
      * Register a new warp effect.
@@ -61,7 +65,7 @@ public class WarpEffectRegistry {
                 list = this.visualEffects;
                 break;
             default:
-                this.portalsCore.getInfoLogger().logWarning(type.toString()
+                this.infoLogger.logWarning(type.toString()
                         + " effect type not recognised");
                 return null;
         }
@@ -69,7 +73,7 @@ public class WarpEffectRegistry {
             return list.get(name);
         }
         else{
-            this.portalsCore.getInfoLogger().logWarning("No effect of type:"
+            this.infoLogger.logWarning("No effect of type:"
                     + type.toString() + " was registered with the name: " + name);
             return null;
         }

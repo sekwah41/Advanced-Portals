@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 
@@ -20,6 +21,9 @@ public class CreatePortalSubCommand implements SubCommand {
     @Inject
     PortalServices portalServices;
 
+    @Inject
+    InfoLogger infoLogger;
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
@@ -30,7 +34,10 @@ public class CreatePortalSubCommand implements SubCommand {
             }
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
-            AdvancedPortal portal = portalServices.createPortal(args[1], player, portalTags);
+            // Find the tag with the "name" NAME
+            DataTag nameTag = portalTags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
+
+            AdvancedPortal portal = portalServices.createPortal(nameTag == null ? null : nameTag.VALUES[0], player, portalTags);
             if(portal != null) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
@@ -49,7 +56,7 @@ public class CreatePortalSubCommand implements SubCommand {
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }
         else {
-            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.notags"));
         }
     }
 
