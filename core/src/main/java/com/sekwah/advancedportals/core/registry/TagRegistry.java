@@ -2,7 +2,8 @@ package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,19 +26,21 @@ public class TagRegistry<T> {
      */
     private ArrayList<String> tags = new ArrayList();
     /**
-     * Description of tags for help commands
+     * Description of tags for help commands (will try to use translation strings before rendering
+     * Possibly add a way to allow addons to supply extra info to the Lang class in the future.
      */
     private Map<String, String> tagDesc = new HashMap();
-    private Map<String, TagHandler.Activation<T>> activationHandlers = new HashMap();
-    private Map<String, TagHandler.Creation<T>> creationHandlers = new HashMap();
-    private Map<String, TagHandler.TagStatus<T>> statusHandlers = new HashMap();
+    private Map<String, Tag.Activation> activationHandlers = new HashMap();
+    private Map<String, Tag.Creation> creationHandlers = new HashMap();
+    private Map<String, Tag.TagStatus> statusHandlers = new HashMap();
 
     /**
+     * Portals to trigger when a portal is activated
      *
      * @param arg
      * @return
      */
-    public TagHandler.Activation<T> getActivationHandler(String arg) {
+    public Tag.Activation getActivationHandler(String arg) {
         return this.activationHandlers.get(arg);
     }
 
@@ -46,7 +49,7 @@ public class TagRegistry<T> {
      * @param arg
      * @return
      */
-    public TagHandler.Creation<T> getCreationHandler(String arg) {
+    public Tag.Creation getCreationHandler(String arg) {
         return this.creationHandlers.get(arg);
     }
 
@@ -55,22 +58,8 @@ public class TagRegistry<T> {
      * @param arg
      * @return
      */
-    public TagHandler.TagStatus<T> getTagStatusHandler(String arg) {
+    public Tag.TagStatus getTagStatusHandler(String arg) {
         return this.statusHandlers.get(arg);
-    }
-
-    /**
-     *
-     * @param tag
-     * @param desc
-     * @param tagHandler
-     * @return if the tag was registered
-     */
-    public boolean registerTag(String tag, String desc, TagHandler tagHandler) {
-        if (registerTag(tag, tagHandler)) {
-            this.tagDesc.put(tag, desc);
-        }
-        return false;
     }
 
 
@@ -81,7 +70,7 @@ public class TagRegistry<T> {
      * @param tag
      * @return if the tag was registered
      */
-    public boolean registerTag(String tag) {
+    private boolean registerTag(String tag) {
         if (tag.contains(" ")) {
             this.portalsCore.getInfoLogger().logWarning("The tag '"
                     + tag + "' is invalid as it contains spaces.");
@@ -97,14 +86,7 @@ public class TagRegistry<T> {
         return true;
     }
 
-    /**
-     * Same as registerTag(String tag) but allows a description to be added.
-     *
-     * @param tag  Tag to be used on command line
-     * @param desc
-     * @return if the tag was registered
-     */
-    public boolean registerTag(String tag, String desc) {
+    private boolean registerTag(String tag, String desc) {
         if (registerTag(tag)) {
             this.tagDesc.put(tag, desc);
             return true;
@@ -130,7 +112,7 @@ public class TagRegistry<T> {
      * File must extend
      * @return if the tag has been registered or if it already exists.
      */
-    public boolean registerTag(String tag, Object tagHandler) {
+    public boolean registerTag(String tag, Tag tagHandler) {
 
         if (tag == null) {
             this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
@@ -141,14 +123,14 @@ public class TagRegistry<T> {
             return false;
         }
 
-        if (tagHandler instanceof TagHandler.Activation) {
-            this.activationHandlers.put(tag, (TagHandler.Activation<T>) tagHandler);
+        if (tagHandler instanceof Tag.Activation tagActivation) {
+            this.activationHandlers.put(tag, tagActivation);
         }
-        if (tagHandler instanceof TagHandler.TagStatus) {
-            this.statusHandlers.put(tag, (TagHandler.TagStatus<T>) tagHandler);
+        if (tagHandler instanceof Tag.TagStatus tagStatus) {
+            this.statusHandlers.put(tag, tagStatus);
         }
-        if (tagHandler instanceof TagHandler.Creation) {
-            this.creationHandlers.put(tag, (TagHandler.Creation<T>) tagHandler);
+        if (tagHandler instanceof Tag.Creation tagCreation) {
+            this.creationHandlers.put(tag, tagCreation);
         }
         return true;
     }

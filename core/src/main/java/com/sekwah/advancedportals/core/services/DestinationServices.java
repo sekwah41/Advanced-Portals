@@ -71,7 +71,7 @@ public class DestinationServices {
 
         Destination desti = new Destination(playerLocation);
         for(DataTag portalTag : tags) {
-            desti.setArg(portalTag);
+            desti.setArgValues(portalTag);
         }
         for(DataTag destiTag : tags) {
             // TODO sort tag handle registry
