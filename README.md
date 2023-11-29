@@ -42,7 +42,10 @@ The api isn't implemented in this version, sorry for any inconvenience. Check th
 
 The re-code is based off a mix of the original version, and the original re-code that was abandoned [see here](https://github.com/sekwah41/Advanced-Portals/tree/recode/src/main/java/com/sekwah/advancedportals).
 
-There were no issues with this approach, though for a number of reasons outside of the codebase progress was not made fast enough.
+Part of this are currently a mess in terms of package organising, though any API changes will be documented in the changelog as well as the main registry classes should be relatively solid.
+
+The goal of this rewrite is to make it easier to port to other platforms as well as add extra tags.
+
 # Contributing
 
 Don't worry about updating the file numbers in `bungee.yml`, `plugin.yml` and `AdvancedPortalsPlugin.java`.

@@ -3,11 +3,12 @@ package com.sekwah.advancedportals.core.destination;
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
-import com.sekwah.advancedportals.core.warphandler.TagHandler;
+import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Set;
  *
  * @author sekwah41
  */
-public class Destination {
+public class Destination implements TagTarget {
 
     @Inject
     TagRegistry<Destination> tagRegistry;
@@ -32,7 +33,7 @@ public class Destination {
     private PlayerLocation loc;
 
     @SerializedName("a")
-    private HashMap<String, String> args = new HashMap<>();
+    private HashMap<String, String[]> args = new HashMap<>();
 
     private transient Set<String> argsCol;
 
@@ -40,16 +41,23 @@ public class Destination {
         this.loc = loc;
     }
 
-    public String getArg(String argName) {
+    @Override
+    public String[] getArgValues(String argName) {
         return this.args.get(argName);
     }
 
-    public void setArg(String argName, String argValue) {
+    @Override
+    public void setArgValues(String argName, String[] argValue) {
         this.args.put(argName, argValue);
     }
 
-    public void setArg(DataTag portalTag) {
-        this.setArg(portalTag.NAME, portalTag.VALUE);
+    @Override
+    public void addArg(String argName, String argValues) {
+
+    }
+
+    public void setArgValues(DataTag portalTag) {
+        this.setArgValues(portalTag.NAME, portalTag.VALUES);
     }
 
     public void removeArg(String arg) {
@@ -66,19 +74,19 @@ public class Destination {
     public boolean portalActivate(PlayerContainer player, ActivationData data) {
         DataTag[] destiTags = new DataTag[args.size()];
         int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
+        for(Map.Entry<String, String[]> entry : args.entrySet()) {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for(DataTag destiTag : destiTags) {
-            TagHandler.Activation<Destination> activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
             if(activationHandler != null) {
-                activationHandler.preActivated(this, player, data, this.getArg(destiTag.NAME));
+                activationHandler.preActivated(this, player, data, this.getArgValues(destiTag.NAME));
             }
         }
         for(DataTag destiTag : destiTags) {
-            TagHandler.Activation<Destination> activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
             if(activationHandler != null) {
-                activationHandler.activated(this, player, data, this.getArg(destiTag.NAME));
+                activationHandler.activated(this, player, data, this.getArgValues(destiTag.NAME));
             }
         }
         return true;
@@ -87,20 +95,20 @@ public class Destination {
     public void postActivate(PlayerContainer player, ActivationData data) {
         DataTag[] destiTags = new DataTag[args.size()];
         int i = 0;
-        for(Map.Entry<String, String> entry : args.entrySet()) {
+        for(Map.Entry<String, String[]> entry : args.entrySet()) {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for(DataTag destiTag : destiTags) {
-            TagHandler.Activation<Destination> activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
             if(activationHandler != null) {
-                activationHandler.postActivated(this, player, data, this.getArg(destiTag.NAME));
+                activationHandler.postActivated(this, player, data, this.getArgValues(destiTag.NAME));
             }
         }
     }
 
     public ArrayList<DataTag> getArgs() {
         ArrayList<DataTag> tagList = new ArrayList<>();
-        for(Map.Entry<String, String> entry : this.args.entrySet()){
+        for(Map.Entry<String, String[]> entry : this.args.entrySet()){
             tagList.add(new DataTag(entry.getKey(), entry.getValue()));
         }
         return tagList;
