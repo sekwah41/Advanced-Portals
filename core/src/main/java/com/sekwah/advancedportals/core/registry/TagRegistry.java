@@ -2,13 +2,9 @@ package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Allows a portal to register a tag and add a handler. If a plugin wants to add functionality
@@ -16,23 +12,18 @@ import java.util.Map;
  *
  * @author sekwah41
  */
-public class TagRegistry<T> {
+public class TagRegistry {
 
     @Inject
-    private AdvancedPortalsCore portalsCore;
+    AdvancedPortalsCore portalsCore;
 
-    /**
-     * List of tag names which should be in order alphabetically
-     */
-    private ArrayList<String> tags = new ArrayList();
-    /**
-     * Description of tags for help commands (will try to use translation strings before rendering
-     * Possibly add a way to allow addons to supply extra info to the Lang class in the future.
-     */
-    private Map<String, String> tagDesc = new HashMap();
-    private Map<String, Tag.Activation> activationHandlers = new HashMap();
-    private Map<String, Tag.Creation> creationHandlers = new HashMap();
-    private Map<String, Tag.TagStatus> statusHandlers = new HashMap();
+    private final ArrayList<String> literalTags = new ArrayList<>();
+
+    private final ArrayList<Tag> tags = new ArrayList<>();
+
+    private final Map<String, Tag.Activation> activationTags = new HashMap<>();
+    private final Map<String, Tag.Creation> creationTags = new HashMap<>();
+    private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
 
     /**
      * Portals to trigger when a portal is activated
@@ -41,7 +32,7 @@ public class TagRegistry<T> {
      * @return
      */
     public Tag.Activation getActivationHandler(String arg) {
-        return this.activationHandlers.get(arg);
+        return this.activationTags.get(arg);
     }
 
     /**
@@ -50,7 +41,7 @@ public class TagRegistry<T> {
      * @return
      */
     public Tag.Creation getCreationHandler(String arg) {
-        return this.creationHandlers.get(arg);
+        return this.creationTags.get(arg);
     }
 
     /**
@@ -59,81 +50,57 @@ public class TagRegistry<T> {
      * @return
      */
     public Tag.TagStatus getTagStatusHandler(String arg) {
-        return this.statusHandlers.get(arg);
-    }
-
-
-    /**
-     * It is reccomended that you use the taghandlers to add tag functionality. However
-     * if needed such as extra data for a tag then this is here.
-     *
-     * @param tag
-     * @return if the tag was registered
-     */
-    private boolean registerTag(String tag) {
-        if (tag.contains(" ")) {
-            this.portalsCore.getInfoLogger().logWarning("The tag '"
-                    + tag + "' is invalid as it contains spaces.");
-            return false;
-        }
-        if (this.tags.contains(tag)) {
-            this.portalsCore.getInfoLogger().logWarning("The tag "
-                    + tag + " has already been registered.");
-            return false;
-        }
-        this.tags.add(tag);
-        Collections.sort(this.tags);
-        return true;
-    }
-
-    private boolean registerTag(String tag, String desc) {
-        if (registerTag(tag)) {
-            this.tagDesc.put(tag, desc);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns a non referenced copy of the array list.
-     * @return
-     */
-    public ArrayList<String> getTags() {
-        ArrayList<String> newArrayList = new ArrayList<>();
-        newArrayList.addAll(this.tags);
-        return newArrayList;
-    }
-
-    public boolean isTagRegistered(String tag){
-        return this.tagDesc.containsKey(tag);
+        return this.statusTags.get(arg);
     }
 
     /**
      * File must extend
      * @return if the tag has been registered or if it already exists.
      */
-    public boolean registerTag(String tag, Tag tagHandler) {
+    public boolean registerTag(Tag tag) {
 
-        if (tag == null) {
+        String tagName = tag.getName();
+
+        this.tags.add(tag);
+
+        // Check literal tags for clashes
+        if(this.literalTags.contains(tagName)) {
+            this.portalsCore.getInfoLogger().logWarning("A tag with the name " + tagName + " already exists.");
+            return false;
+        }
+
+        for (String alias : tag.getAliases()) {
+            if(this.literalTags.contains(alias)) {
+                this.portalsCore.getInfoLogger().logWarning("A tag with the alias " + alias + " already exists.");
+                return false;
+            }
+        }
+
+        // Add name and aliases to literalTags to check for clashes
+        this.literalTags.add(tagName);
+        Collections.addAll(this.literalTags, tag.getAliases());
+
+        if (tagName == null) {
             this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
             return false;
         }
 
-        if (!this.registerTag(tag)) {
-            return false;
+        if (tag instanceof Tag.Activation tagActivation) {
+            this.activationTags.put(tagName, tagActivation);
         }
-
-        if (tagHandler instanceof Tag.Activation tagActivation) {
-            this.activationHandlers.put(tag, tagActivation);
+        if (tag instanceof Tag.TagStatus tagStatus) {
+            this.statusTags.put(tagName, tagStatus);
         }
-        if (tagHandler instanceof Tag.TagStatus tagStatus) {
-            this.statusHandlers.put(tag, tagStatus);
-        }
-        if (tagHandler instanceof Tag.Creation tagCreation) {
-            this.creationHandlers.put(tag, tagCreation);
+        if (tag instanceof Tag.Creation tagCreation) {
+            this.creationTags.put(tagName, tagCreation);
         }
         return true;
     }
 
 
+    public List<Tag> getTags() {
+        // Make a copy of the list to prevent issues with modification
+
+        return this.tags;
+    }
 }

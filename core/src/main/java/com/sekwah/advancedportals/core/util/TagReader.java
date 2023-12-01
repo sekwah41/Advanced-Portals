@@ -7,6 +7,30 @@ import java.util.HashMap;
 
 public class TagReader {
 
+    public static boolean isClosedString(String[] args) {
+        StringBuilder currentValue = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (String arg : args) {
+            if (arg.contains(":") && !inQuotes) {
+                int colonIndex = arg.indexOf(':');
+                currentValue = new StringBuilder(arg.substring(colonIndex + 1));
+                inQuotes = currentValue.toString().startsWith("\"");
+            } else {
+                if (!currentValue.isEmpty()) {
+                    currentValue.append(" ");
+                }
+                currentValue.append(arg);
+            }
+
+            if (inQuotes && arg.endsWith("\"")) {
+                inQuotes = false;
+            }
+        }
+
+        return inQuotes;
+    }
+
     public static ArrayList<DataTag> getTagsFromArgs(String[] args) {
         HashMap<String, ArrayList<String>> tagMap = new HashMap<>();
         StringBuilder currentValue = new StringBuilder();

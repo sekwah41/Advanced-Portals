@@ -20,7 +20,7 @@ import java.util.Map;
 public class AdvancedPortal implements TagTarget {
 
     @Inject
-    transient TagRegistry<AdvancedPortal> tagRegistry;
+    transient TagRegistry tagRegistry;
 
     @SerializedName("max")
     private WorldLocation maxLoc;
