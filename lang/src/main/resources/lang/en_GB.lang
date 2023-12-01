@@ -116,3 +116,5 @@ items.selector.name=Portal Region Selector
 items.selector.pos=Select pos %1$s
 items.interact.left=Left Click
 items.interact.right=Right Click
+
+tag.desti.description=Sets the destination of the portal

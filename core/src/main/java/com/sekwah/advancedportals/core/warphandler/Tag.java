@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.core.warphandler;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 
+import java.util.List;
+
 /**
  * If a tag can be used for any of them then either make it cast the target or if it doesn't need a target
  * then the exact same tag can be registered into both and ignore the portal info.
@@ -27,6 +29,24 @@ public interface Tag {
      * @return
      */
     TagType[] getTagTypes();
+
+    String getName();
+
+    String[] getAliases();
+
+    String description();
+
+    interface AutoComplete extends Tag {
+
+        /**
+         * This is used to get the auto complete for the tag. This is called when the player is typing the tag.
+         *
+         * @param argData
+         * @return
+         */
+        List<String> autoComplete(String argData);
+
+    }
 
     /**
      * The events for portal creation and destroying
