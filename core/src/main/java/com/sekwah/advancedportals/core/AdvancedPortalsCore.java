@@ -6,9 +6,11 @@ import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 
@@ -34,6 +36,9 @@ public class AdvancedPortalsCore {
 
     @Inject
     private ConfigRepository configRepository;
+
+    @Inject
+    private TagRegistry tagRegistry;
 
     public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger) {
         this.dataStorage = new DataStorage(dataStorageLoc);
@@ -61,8 +66,13 @@ public class AdvancedPortalsCore {
         Lang.loadLanguage(configRepository.getTranslation());
 
         this.registerCommands();
+        this.registerTags();
 
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
+    }
+
+    private void registerTags() {
+        this.tagRegistry.registerTag(new DestiTag());
     }
 
     /**
@@ -71,14 +81,11 @@ public class AdvancedPortalsCore {
     public void registerCommands() {
         this.registerPortalCommand(commandRegister);
         this.registerDestinationCommand(commandRegister);
-
-        // TODO run annotation grabbing shit
     }
 
     private void registerPortalCommand(CommandRegister commandRegister) {
         this.portalCommand = new CommandWithSubCommands(this);
 
-        // TODO remove once annotations are done
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
         this.portalCommand.registerSubCommand("langupdate", new LangUpdateSubCommand());
         this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
@@ -95,8 +102,6 @@ public class AdvancedPortalsCore {
 
     private void registerDestinationCommand(CommandRegister commandRegister) {
         this.destiCommand = new CommandWithSubCommands(this);
-
-        // TODO remove once annotations are done
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
@@ -125,5 +130,9 @@ public class AdvancedPortalsCore {
 
     public AdvancedPortalsModule getModule() {
         return this.module;
+    }
+
+    public TagRegistry getTagRegistry() {
+        return this.tagRegistry;
     }
 }
