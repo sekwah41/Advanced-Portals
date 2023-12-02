@@ -24,14 +24,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-      - name: Download MC assets
-        run: ./gradlew downloadAssets --info --debug || ./gradlew downloadAssets --info --debug || (sleep 30s && ./gradlew downloadAssets --info --debug)
-      - name: Run DataGen
-        run: ./gradlew runData
+#      - name: Download MC assets
+#        run: ./gradlew downloadAssets --info --debug || ./gradlew downloadAssets --info --debug || (sleep 30s && ./gradlew downloadAssets --info --debug)
+#      - name: Run DataGen
+#        run: ./gradlew runData
       - name: Build and upload preview (run for non-release builds)
         if: ${{ github.ref && !contains( github.ref, 'renovate/deps') }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           # Build
-          ./gradlew build discordupload
+          ./gradlew build
