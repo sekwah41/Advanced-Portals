@@ -69,16 +69,18 @@ public class TagRegistry {
             return false;
         }
 
-        for (String alias : tag.getAliases()) {
-            if(this.literalTags.contains(alias)) {
-                this.portalsCore.getInfoLogger().logWarning("A tag with the alias " + alias + " already exists.");
-                return false;
-            }
-        }
-
-        // Add name and aliases to literalTags to check for clashes
+        var aliases = tag.getAliases();
         this.literalTags.add(tagName);
-        Collections.addAll(this.literalTags, tag.getAliases());
+        if(aliases != null) {
+            for (String alias : aliases) {
+                if(this.literalTags.contains(alias)) {
+                    this.portalsCore.getInfoLogger().logWarning("A tag with the alias " + alias + " already exists.");
+                    return false;
+                }
+            }
+
+            Collections.addAll(this.literalTags, aliases);
+        }
 
         if (tagName == null) {
             this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
@@ -99,7 +101,7 @@ public class TagRegistry {
 
 
     public List<Tag> getTags() {
-        // Make a copy of the list to prevent issues with modification
+        // TODO Make a copy of the list to prevent issues with modification
 
         return this.tags;
     }

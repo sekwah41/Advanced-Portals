@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.warphandler;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public interface Tag {
 
     String getName();
 
+    @Nullable
     String[] getAliases();
 
     String description();
@@ -44,6 +46,7 @@ public interface Tag {
          * @param argData
          * @return
          */
+        @Nullable
         List<String> autoComplete(String argData);
 
     }
