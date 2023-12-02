@@ -88,7 +88,23 @@ public class CreatePortalSubCommand implements SubCommand {
             if(split.length == 2 || (split.length == 1 && lastArg.endsWith(":"))) {
                 // Loop over tags in allTags and check if the first half of split is equal to the tag name or alias
                 for(Tag tag : allTags) {
-                    if(tag instanceof Tag.AutoComplete autoComplete) {
+                    // Check if the last tag starts with the tag name or alias
+                    var startsWith = false;
+                    if(lastArg.startsWith(tag.getName())) {
+                        startsWith = true;
+                    } else {
+                        var aliases = tag.getAliases();
+                        if(aliases != null) {
+                            for (String alias : aliases) {
+                                if(lastArg.startsWith(alias)) {
+                                    startsWith = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if(tag instanceof Tag.AutoComplete autoComplete && startsWith) {
                         var tagSuggestions = autoComplete.autoComplete(split.length == 2 ? split[1] : "");
                         if(tagSuggestions != null) {
                             // Loop over suggestions and add split[0] + ":" to the start
@@ -98,7 +114,7 @@ public class CreatePortalSubCommand implements SubCommand {
                         }
                     }
                 }
-                // This is returning right but something is going wrong with "desti:A" whenever anything is typed after :
+
                 return suggestions;
             }
         }
@@ -120,7 +136,10 @@ public class CreatePortalSubCommand implements SubCommand {
             return true;
         }).forEach(tag -> {
             suggestions.add(tag.getName());
-            suggestions.addAll(Arrays.stream(tag.getAliases()).toList());
+            var aliases = tag.getAliases();
+            if(aliases != null) {
+                suggestions.addAll(Arrays.stream(aliases).toList());
+            }
         });
 
         // Loop over all suggestions and add : to the end
