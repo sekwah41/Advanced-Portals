@@ -74,6 +74,38 @@ public class Lang {
         return Collections.emptyMap();
     }
 
+    /**
+     * Length of text excluding colour codes
+     * @param text
+     * @return
+     */
+    public static int textLength(String text) {
+        int length = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if(c == '\u00A7') {
+                i++;
+            }
+            else {
+                length++;
+            }
+        }
+        return length;
+    }
+
+    /**
+     * The default font is not monospaced, so this will likely be a little thinner to be on the safe side
+     * @param title
+     * @return
+     */
+    public static String centeredTitle(String title) {
+        var titleLength = 54 - (Lang.textLength(title));
+
+        int eachSide = titleLength / 2;
+
+        return "\u00A7e" + "=".repeat(eachSide) + " " + title + " \u00A7e" + "=".repeat(eachSide);
+    }
+
     private void injectTranslations(String fileName) {
         try {
             URL url = Lang.instance.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");

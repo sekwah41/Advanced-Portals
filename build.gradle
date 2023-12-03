@@ -202,7 +202,7 @@ task copyPlugin() {
             println "$buildDir/MinecraftServer/plugins/Advanced-Portals-${getVersion()}.jar"
             try {
                 delete fileTree("$buildDir/MinecraftServer/plugins/") {
-                    include "*.jar"
+                    include "Advanced-Portals*.jar"
                 }
             }
             catch (RuntimeException e) {

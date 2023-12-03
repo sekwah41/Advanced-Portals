@@ -10,7 +10,7 @@ import java.util.List;
 
 public class NameTag implements Tag.Activation, Tag.AutoComplete {
 
-    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL };
+    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL, TagType.DESTINATION };
 
     @Override
     public TagType[] getTagTypes() {

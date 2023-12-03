@@ -46,8 +46,8 @@ logger.plugincrafterror=A craftbukkit ezen verziója még nem támogatott, vagy 
 command.noargs= Sajnálom, de meg kell adni egy al parancsot, kérlek, használd &e/%1$s help &cha a lehetséges al parancsok listáját szeretnéd látni.
 command.subcommand.invalid= Sajnáljuk, de ez nem érvényes al parancs.
 
-command.help.header=&e--------------- &a%1$s Segítség - Oldal %2$s %3$s&e-ból/-ből ---------------
-command.help.subcommandheader=&e--------- &a%1$s Segítség - %2$s&e ---------
+command.help.header=&a%1$s Segítség - Oldal %2$s %3$s&e-ból/-ből
+command.help.subcommandheader=&a%1$s Segítség - %2$s
 command.help.invalidhelp= Sajnálom, de &e%1$s&c nem érvényes oldalszám vagy al parancs.
 
 command.reload.help=Portál adat újratöltése
