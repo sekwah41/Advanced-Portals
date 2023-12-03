@@ -46,8 +46,8 @@ logger.plugincrafterror=This version of craftbukkit is not yet supported or some
 command.noargs= Vous devez spécifier une sous commande, utilisez &e/%1$s help &cpour avoir la liste des commandes possibles.
 command.subcommand.invalid= Ce n'est pas une sous commande.
 
-command.help.header=&e--------------- &a%1$s Aide - Page %2$s sur %3$s&e ---------------
-command.help.subcommandheader=&e--------- &a%1$s Aide - %2$s&e ---------
+command.help.header=&a%1$s Aide - Page %2$s sur %3$s
+command.help.subcommandheader=&a%1$s Aide - %2$s
 command.help.invalidhelp= Désolé mais &e%1$s&c n'est pas une page ou sous commande valide.
 
 command.reload.help=Recharge les fichiers

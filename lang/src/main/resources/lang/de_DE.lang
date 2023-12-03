@@ -49,8 +49,8 @@ logger.plugincrafterror=Diese Version von Craftbukkit/Spigot wird derzeit nicht 
 command.noargs= Du musst einen Sub-Command angeben. Bitte benutze &e/%1$s help &c. Falls du eine Liste von möglichen Sub_Command willst.
 command.subcommand.invalid= Das ist ein ungültiger Sub-Command.
 
-command.help.header=&e--------------- &a%1$s Hilfe - Seite %2$s of %3$s&e ---------------
-command.help.subcommandheader=&e--------- &a%1$s Hilfe - %2$s&e ---------
+command.help.header=&a%1$s Hilfe - Seite %2$s of %3$s
+command.help.subcommandheader=&a%1$s Hilfe - %2$s
 command.help.invalidhelp= &e%1$s&c ist keine gültige Seitennummer oder Sub-Command.
 
 command.reload.help=Ladet die Portal-Dateien neu
