@@ -58,8 +58,18 @@ public class DestinationServices {
 
 
 
-    public Destination createDesti(String name, PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
-        // TODO change to write messages
+    public Destination createDesti(PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
+        // Find the tag with the "name" NAME
+        DataTag nameTag = tags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
+
+        String name = nameTag == null ? null : nameTag.VALUES[0];
+
+        // If the name is null, send an error saying that the name is required.
+        if(nameTag == null) {
+            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.noname"));
+            return null;
+        }
+
         if(name == null || name.equals("")) {
             player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.noname"));
             return null;
