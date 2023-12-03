@@ -64,8 +64,9 @@ public class CommandWithSubCommands implements CommandTemplate {
                         String subCommand = args[1].toLowerCase();
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
                             sender.sendMessage("");
-                            sender.sendMessage(Lang.translateInsertVariables("command.help.subcommandheader",
-                                    command, subCommand));
+                            var helpTitle = Lang.centeredTitle(Lang.translateInsertVariables("command.help.subcommandheader",
+                                    command, helpPage, pages));
+                            sender.sendMessage(helpTitle);
                             sender.sendMessage("\u00A77" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
                         else {
@@ -75,8 +76,11 @@ public class CommandWithSubCommands implements CommandTemplate {
                     }
                 }
                 sender.sendMessage("");
-                sender.sendMessage(Lang.translateInsertVariables("command.help.header",
+
+                var helpTitle = Lang.centeredTitle(Lang.translateInsertVariables("command.help.header",
                         command, helpPage, pages));
+
+                sender.sendMessage(helpTitle);
                 sender.sendMessage("\u00A7a█\u00A77 = Permission \u00A7c█\u00A77 = No Permission");
                 int subCommandOffset = (helpPage - 1) * this.subCommandsPerPage;
                 int displayEnd = subCommandOffset + this.subCommandsPerPage;
