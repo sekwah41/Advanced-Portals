@@ -33,7 +33,7 @@ public class Destination implements TagTarget {
     private PlayerLocation loc;
 
     @SerializedName("a")
-    private HashMap<String, String[]> args = new HashMap<>();
+    transient private HashMap<String, String[]> args = new HashMap<>();
 
     private transient Set<String> argsCol;
 

@@ -71,7 +71,7 @@ value needs spaces use the format tag:"value with spaces"
 command.createdesti.complete= The destination has been successfully 
 created.
 
-command.create.tags=&aTags:
+command.create.tags=&aTags&e:
 
 command.playeronly= Sorry but that command can only be run by a player.
 
@@ -101,11 +101,11 @@ portal.error.selection.differentworlds=Both the selected points need to be in th
 
 desti.info.noargs=&cNo tags were given
 
-command.error.noname= No name has been given.
+command.error.noname= You must specify a name. (name:someNameHere)
 command.error.notags= No tags have been given. You need to include at least &ename:(name)&c.
+command.error.nametaken= The name &e%1$s &cis already taken.
 
-desti.error.takenname=The name given for the portal is already taken.
-desti.error.noname=You must specify a name for the destination. (name:destinationname)
+desti.error.save= There was a problem saving the destination:
 
 error.notplayer=Only players can do that.
 

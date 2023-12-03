@@ -66,16 +66,16 @@ public class DestinationServices {
 
         // If the name is null, send an error saying that the name is required.
         if(nameTag == null) {
-            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.noname"));
+            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("desti.error.noname"));
             return null;
         }
 
         if(name == null || name.equals("")) {
-            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.noname"));
+            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
             return null;
         }
         else if(this.destinationRepository.containsKey(name)) {
-            player.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("desti.error.takenname"));
+            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.error.nametaken", name));
             return null;
         }
 
@@ -92,8 +92,9 @@ public class DestinationServices {
         }
         try {
             this.destinationRepository.addDestination(name, desti);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("desti.error.save"));
         }
         this.saveDestinations();
         return desti;
