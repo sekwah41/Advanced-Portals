@@ -20,6 +20,12 @@ import java.util.List;
  */
 public interface Tag {
 
+    /**
+     * By default, all tags should be able to use either.
+     *
+     * Though you may have use cases where you want to limit it to one or the other.
+     *
+     */
     enum TagType {
         PORTAL,
         DESTINATION
