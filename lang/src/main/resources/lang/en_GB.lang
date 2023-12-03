@@ -105,6 +105,7 @@ command.error.noname= No name has been given.
 command.error.notags= No tags have been given. You need to include at least &ename:(name)&c.
 
 desti.error.takenname=The name given for the portal is already taken.
+desti.error.noname=You must specify a name for the destination. (name:destinationname)
 
 error.notplayer=Only players can do that.
 

@@ -1,20 +1,26 @@
 package com.sekwah.advancedportals.core.commands.subcommands.desti;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.commands.SubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.reusable.CreateTaggedSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
+import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CreateDestiSubCommand implements SubCommand {
+public class CreateDestiSubCommand extends CreateTaggedSubCommand {
+
+    @Inject
+    TagRegistry tagRegistry;
 
     @Inject
     DestinationServices destinationServices;
@@ -29,7 +35,16 @@ public class CreateDestiSubCommand implements SubCommand {
             }
             ArrayList<DataTag> destinationTags = TagReader.getTagsFromArgs(args);
 
-            Destination destination = destinationServices.createDesti(args[1], player, player.getLoc(), destinationTags);
+            // Find the tag with the "name" NAME
+            DataTag nameTag = destinationTags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
+
+            // If the tag is null, check if arg[1] has a : to check it's not a tag.
+            if(nameTag == null && !args[1].contains(":")) {
+                nameTag = new DataTag("name", args[1]);
+                destinationTags.add(nameTag);
+            }
+
+            Destination destination = destinationServices.createDesti(player, player.getLoc(), destinationTags);
             if(destination != null) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.createdesti.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
@@ -64,8 +79,10 @@ public class CreateDestiSubCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
-        return null;
+    protected List<Tag> getRelatedTags() {
+        var tags = tagRegistry.getTags();
+        // Filter tags that support Destination
+        return tags.stream().filter(tag -> Arrays.asList(tag.getTagTypes()).contains(Tag.TagType.DESTINATION)).toList();
     }
 
     @Override
