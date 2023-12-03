@@ -84,6 +84,36 @@ jar {
     }
 
 }
+
+// This is used to download my plugin for helping reload the server in tandem with the copyPlugin task
+tasks.register('downloadSekCDevToolsPlugin') {
+    doLast {
+        // Define the URL and destination path
+        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
+        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
+        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
+
+        // Create the directory if it doesn't exist
+        if (!destinationDir.exists()) {
+            destinationDir.mkdirs()
+        }
+
+        // Download the file if it doesn't exist
+        if (!destinationFile.exists()) {
+            println "Downloading SekCDevToolsPlugin..."
+            new URL(url).withInputStream { i ->
+                destinationFile.withOutputStream {
+                    it << i
+                }
+            }
+        } else {
+            println "SekCDevToolsPlugin already downloaded"
+        }
+    }
+}
+
+tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
+
 minecraftServerConfig {
     jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.20.2.jar')
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
@@ -93,7 +123,11 @@ tasks.withType(Jar) {
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
+/**
+ * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
+ */
 task copyPlugin() {
+    dependsOn(build)
     doLast {
         copy {
             println "$buildDir/libs/Advanced-Portals-${getVersion()}.jar"
