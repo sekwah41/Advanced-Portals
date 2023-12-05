@@ -1,26 +1,31 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.inject.Singleton;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Singleton
 public class DestinationRepositoryImpl implements IDestinationRepository {
-    private final String fileLocation = "";
+    private final String fileLocation = "desti/";
 
+    @Inject
+    DataStorage dataStorage;
 
-    private Map<String, Destination> destinationCache = new HashMap<String, Destination>();
+    @Inject
+    InfoLogger infoLogger;
 
-    public void addDestination(String name, Destination destination) throws IOException {
-        gson.toJson(destination, new FileWriter(fileLocation + name + ".json"));
+    public void addDestination(String name, Destination destination) {
+        infoLogger.log("Adding destination: " + fileLocation + name + ".json");
+        dataStorage.storeJson(destination, fileLocation + name + ".json");
     }
 
     @Override
@@ -29,17 +34,12 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     }
 
     public boolean containsKey(String name) {
-        return Files.exists(Paths.get(fileLocation + "\\" + name + ".json"));
+        return dataStorage.fileExists(fileLocation + name + ".json");
     }
 
     @Override
     public boolean delete(String name) {
-        try {
-            Files.deleteIfExists(Paths.get(fileLocation + "\\" + name + ".json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return dataStorage.deleteFile(fileLocation + name + ".json");
     }
 
     @Override
@@ -47,11 +47,12 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         return false;
     }
 
-    public Destination get(String s) {
-        return null;
+    public Destination get(String desti) {
+        return dataStorage.loadJson(Destination.class, fileLocation + desti + ".json");
     }
 
-    public ImmutableMap<String, Destination> getAll() {
-        return null;
+    @Override
+    public List<String> listAll() {
+        return dataStorage.listAllFiles(fileLocation, true);
     }
 }

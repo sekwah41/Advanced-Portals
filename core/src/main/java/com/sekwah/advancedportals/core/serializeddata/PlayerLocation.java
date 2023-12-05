@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PlayerLocation extends WorldLocation {
 
-    @SerializedName("yaw")
+    @SerializedName("r")
     private final float yaw;
 
     @SerializedName("p")

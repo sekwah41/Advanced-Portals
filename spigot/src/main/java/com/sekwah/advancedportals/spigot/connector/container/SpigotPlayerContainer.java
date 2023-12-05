@@ -44,7 +44,7 @@ public class SpigotPlayerContainer implements PlayerContainer {
 
     public PlayerLocation getLoc() {
         Location loc = this.player.getLocation();
-        return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ());
+        return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
     }
 
     public double getEyeHeight() {

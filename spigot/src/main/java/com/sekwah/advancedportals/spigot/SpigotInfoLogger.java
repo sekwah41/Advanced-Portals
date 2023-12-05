@@ -2,6 +2,8 @@ package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
+import java.util.logging.Level;
+
 public class SpigotInfoLogger extends InfoLogger {
 
     private final AdvancedPortalsPlugin plugin;
@@ -11,7 +13,7 @@ public class SpigotInfoLogger extends InfoLogger {
     }
 
     @Override
-    public void logWarning(String s) {
+    public void warning(String s) {
         plugin.getLogger().warning(s);
     }
 
@@ -19,4 +21,11 @@ public class SpigotInfoLogger extends InfoLogger {
     public void log(String s) {
         plugin.getLogger().info(s);
     }
+
+    @Override
+    public void error(Exception e) {
+        plugin.getLogger().log(Level.SEVERE, e.getMessage(), e);
+    }
+
+
 }

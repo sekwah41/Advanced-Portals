@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
@@ -15,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class RemoveSubCommand implements SubCommand {
+public class RemovePortalSubCommand implements SubCommand {
 
 
     @Inject
@@ -25,17 +24,17 @@ public class RemoveSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
             if(portalServices.removePortal(args[1], sender.getPlayerContainer())) {
-                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.remove.complete"));
+                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.portal.remove.complete"));
             }
             else {
                 sender.sendMessage(Lang.translate("messageprefix.negative")
-                        + Lang.translate("command.remove.error"));
+                        + Lang.translate("command.portal.remove.error"));
             }
         }
         else {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translate("command.remove.noname"));
+                sender.sendMessage(Lang.translate("command.portal.remove.noname"));
             }
             else {
                 if(portalServices.removePlayerSelection(player)) {
@@ -43,7 +42,7 @@ public class RemoveSubCommand implements SubCommand {
                 }
                 else {
                     sender.sendMessage(Lang.translate("messageprefix.negative")
-                            + Lang.translate("command.remove.error"));
+                            + Lang.translate("command.portal.remove.error"));
                 }
             }
         }

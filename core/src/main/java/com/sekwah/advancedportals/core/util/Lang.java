@@ -113,11 +113,11 @@ public class Lang {
                 Map<String, String> initialMap = Lang.parseLang(url.openStream());
                 Lang.instance.languageMap.putAll(initialMap);
             } else {
-                this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals as it doesn't exist.");
+                this.infoLogger.warning("Could not load " + fileName + ".lang from within Advanced Portals as it doesn't exist.");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            this.infoLogger.logWarning("Could not load " + fileName + ".lang from within Advanced Portals.");
+            this.infoLogger.warning("Could not load " + fileName + ".lang from within Advanced Portals.");
         }
 
         Map<String, String> newLangMap = this.getLanguageMap(fileName );

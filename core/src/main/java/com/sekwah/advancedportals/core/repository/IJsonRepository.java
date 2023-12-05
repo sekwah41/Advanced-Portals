@@ -3,8 +3,10 @@ package com.sekwah.advancedportals.core.repository;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 public interface IJsonRepository<T> {
-    Gson gson = new Gson();
+
     boolean save(String name, T t);
 
     boolean containsKey(String name);
@@ -15,5 +17,5 @@ public interface IJsonRepository<T> {
 
     T get(String name);
 
-    ImmutableMap<String, T> getAll();
+    List<String> listAll();
 }

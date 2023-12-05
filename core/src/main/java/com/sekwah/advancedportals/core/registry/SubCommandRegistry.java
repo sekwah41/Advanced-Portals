@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
@@ -37,12 +36,12 @@ public class SubCommandRegistry {
     public boolean registerSubCommand(String arg, SubCommand subCommand) {
 
         if (subCommand == null) {
-            this.infoLogger.logWarning("The subcommand '" + arg + "' cannot be null.");
+            this.infoLogger.warning("The subcommand '" + arg + "' cannot be null.");
             return false;
         }
 
         if(this.subCommandMap.containsKey(arg)){
-            this.infoLogger.logWarning("The subcommand '" + arg + "' already exists.");
+            this.infoLogger.warning("The subcommand '" + arg + "' already exists.");
             return false;
         }
 

@@ -45,16 +45,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
                 sender.sendMessage("\u00A7a" + "triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
-                for (DataTag tag: portal.getArgs()) {
-                    if(tag.VALUES.length == 1) {
-                        sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUES[0]);
-                    } else {
-                        // Output in the format tag.NAME(index): value
-                        for (int i = 0; i < tag.VALUES.length; i++) {
-                            sender.sendMessage("\u00A7a" + tag.NAME + "(" + i + ")\u00A77:\u00A7e" + tag.VALUES[i]);
-                        }
-                    }
-                }
+                this.printTags(sender, portal.getArgs(), Tag.TagType.PORTAL);
             }
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }

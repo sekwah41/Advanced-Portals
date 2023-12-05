@@ -1,10 +1,14 @@
 package com.sekwah.advancedportals.core.services;
 
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.destination.Destination;
@@ -16,6 +20,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Handles logic for all destination, this is a transient layer so it should
@@ -47,20 +53,13 @@ public class DestinationServices {
         return false;
     }
 
-    public ImmutableMap<String, Destination> getDestination() {
-        return destinationRepository.getAll();
+    public List<String> getDestinations() {
+        return destinationRepository.listAll();
     }
-
-    public ImmutableMap<String, Destination> getDestinations() {
-        return ImmutableMap.copyOf(destinationRepository.getAll());
-    }
-
-
-
 
     public Destination createDesti(PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
         // Find the tag with the "name" NAME
-        DataTag nameTag = tags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
+        DataTag nameTag = tags.stream().filter(tag -> tag.NAME.equals("name")).findFirst().orElse(null);
 
         String name = nameTag == null ? null : nameTag.VALUES[0];
 
@@ -114,5 +113,13 @@ public class DestinationServices {
             this.destiHashMap = new HashMap<>();
         }
         this.portalsCore.getDataStorage().storeJson(this.destiHashMap, "destinations.json");*/
+    }
+
+    public boolean removeDesti(String name, PlayerContainer playerContainer) {
+        if(this.destinationRepository.containsKey(name)) {
+            this.destinationRepository.delete(name);
+            return true;
+        }
+        return false;
     }
 }

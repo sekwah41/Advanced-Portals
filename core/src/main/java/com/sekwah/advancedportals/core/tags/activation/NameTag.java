@@ -8,6 +8,13 @@ import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.List;
 
+/**
+ * The name of the destination or portal.
+ * <p>
+ * Most of the implementation of this tag is external, this is just to allow for the tag to be used.
+ * <p>
+ * Most tags shouldn't be like this unless they are to be paired with another tag.
+ */
 public class NameTag implements Tag.Activation, Tag.AutoComplete {
 
     private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL, TagType.DESTINATION };
