@@ -76,10 +76,12 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                 if(portalTag.NAME.equals(tag.getName())) {
                     return false;
                 }
-                // check the tag aliases
-                for (String alias : tag.getAliases()) {
-                    if(portalTag.NAME.equals(alias)) {
-                        return false;
+                var aliases = tag.getAliases();
+                if(aliases != null) {
+                    for (String alias : aliases) {
+                        if(portalTag.NAME.equals(alias)) {
+                            return false;
+                        }
                     }
                 }
             }
@@ -98,5 +100,18 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
         }
 
         return suggestions;
+    }
+
+    protected void printTags(CommandSenderContainer sender, List<DataTag> dataTags, Tag.TagType tagType) {
+        for (DataTag tag : dataTags) {
+            if(tag.VALUES.length == 1) {
+                sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUES[0]);
+            } else {
+                for (int i = 0; i < tag.VALUES.length; i++) {
+                    sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77[" + i + "]:\u00A7e" + tag.VALUES[i]);
+                }
+            }
+        }
+        // TODO add a note saying if tags were ignored due to not being valid for the type
     }
 }

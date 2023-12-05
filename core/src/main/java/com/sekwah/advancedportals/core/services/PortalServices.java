@@ -42,7 +42,7 @@ public class PortalServices {
 
     public AdvancedPortal createPortal(String name, PlayerContainer player, ArrayList<DataTag> portalTags) {
         if(name == null){
-            infoLogger.logWarning("Attempted to make a portal with no name");
+            infoLogger.warning("Attempted to make a portal with no name");
             player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
             return null;
         }
