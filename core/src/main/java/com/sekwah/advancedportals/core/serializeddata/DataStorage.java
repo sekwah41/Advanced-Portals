@@ -9,6 +9,10 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataStorage {
 
@@ -65,15 +69,24 @@ public class DataStorage {
         return gson.fromJson(bufReader, dataHolder);
     }
 
-    public void storeJson(Object dataHolder, String location) {
+    public boolean storeJson(Object dataHolder, String location) {
+        // Create folders if they don't exist
+        File outFile = new File(this.dataFolder, location);
+        if (!outFile.exists()) {
+            if(!outFile.getParentFile().mkdirs()) {
+                infoLogger.warning("Failed to create folder for file: " + location);
+            }
+        }
         String json = gson.toJson(dataHolder);
         try {
             FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location));
             fileWriter.write(json);
             fileWriter.close();
+            return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            infoLogger.error(e);
         }
+        return false;
     }
 
     /**
@@ -108,15 +121,15 @@ public class DataStorage {
                 writeToFile(inputStream, outFile);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("Could not load " + sourceLoc + ". The file does" +
+                this.infoLogger.warning("Could not load " + sourceLoc + ". The file does" +
                         "not exist or there has been an error reading the file.");
                 return false;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("Could not create " + sourceLoc);
+                this.infoLogger.warning("Could not create " + sourceLoc);
             } catch (IOException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("File error reading " + sourceLoc);
+                this.infoLogger.warning("File error reading " + sourceLoc);
             }
         }
         return true;
@@ -143,7 +156,7 @@ public class DataStorage {
                 return this.getClass().getClassLoader().getResourceAsStream(location);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.logWarning("Could not load " + location + ". The file does" +
+                this.infoLogger.warning("Could not load " + location + ". The file does" +
                         "not exist or there has been an error reading the file.");
                 return null;
             }
@@ -168,5 +181,47 @@ public class DataStorage {
         }
         inputStream.close();
         outStream.close();
+    }
+
+    public boolean fileExists(String name) {
+        return new File(this.dataFolder, name).exists();
+    }
+
+    /**
+     * @param fileLocation
+     * @param trimExtension
+     * @return
+     */
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+        File directory = new File(dataFolder, fileLocation);
+        var list = new ArrayList<String>();
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        String fileName = file.getName();
+
+                        if (trimExtension) {
+                            int i = fileName.lastIndexOf('.');
+                            if (i > 0) {
+                                fileName = fileName.substring(0, i);
+                            }
+                        }
+
+                        list.add(fileName);
+                    }
+                }
+            }
+        } else {
+            infoLogger.warning("Directory does not exist or is not a directory: " + fileLocation);
+        }
+        return list;
+    }
+
+    public boolean deleteFile(String fileLocation) {
+        return new File(dataFolder, fileLocation).delete();
     }
 }
