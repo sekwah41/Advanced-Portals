@@ -62,21 +62,24 @@ command.create.detailedhelp=Format is /portal create (name) [tag:tagvalue] List 
 command.create.complete= The portal has been successfully created.
 
 command.createdesti.help=Creates destinations
-command.createdesti.error= There was an error making the destination
+command.createdesti.error= There was a problem making the destination
 command.createdesti.console= You cannot create a destination using the console.
 command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
+command.createdesti.prep=&aCreating destination
 command.createdesti.complete= The destination has been successfully created.
 
-command.create.tags=&aTags&e:
+command.create.tags=&aTags&7:
 
 command.playeronly= Sorry but that command can only be run by a player.
 
-command.remove.noname= You need to give the name of the portal you want to remove.
-command.remove.error= There was a problem removing the portal:
-command.remove.noname=No portal by that name was found
-command.remove.invalidselection=The portal selection you had is no longer valid
-command.remove.noselection=You don't have a portal selected
-command.remove.complete= The portal has been successfully removed.
+command.portal.remove.noname= You need to give the name of the portal you want to remove.
+command.portal.remove.error= There was a problem removing the portal.
+command.portal.remove.noname=No portal by that name was found
+command.portal.remove.invalidselection=The portal selection you had is no longer valid
+command.portal.remove.noselection=You don't have a portal selected
+command.portal.remove.complete= The portal has been successfully removed.
+
+command.destination.remove.error= There was a problem removing the destination.
 
 command.list.help=Lists portals
 command.list=&7 Portals&e:
@@ -102,6 +105,7 @@ command.error.notags= No tags have been given. You need to include at least &ena
 command.error.nametaken= The name &e%1$s &cis already taken.
 
 desti.error.save= There was a problem saving the destination:
+desti.error.noname= You must specify a name. (name:someNameHere)
 
 error.notplayer=Only players can do that.
 

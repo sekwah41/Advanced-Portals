@@ -23,6 +23,7 @@ public class AdvancedPortalsModule extends AbstractModule {
 
     private Injector injector;
     private AdvancedPortalsCore advancedPortalsCore;
+    private DataStorage dataStorage;
 
     private List<DelayedBinding> delayedBindings = new ArrayList<>();
 

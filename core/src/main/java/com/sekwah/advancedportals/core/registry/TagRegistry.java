@@ -65,7 +65,7 @@ public class TagRegistry {
 
         // Check literal tags for clashes
         if(this.literalTags.contains(tagName)) {
-            this.portalsCore.getInfoLogger().logWarning("A tag with the name " + tagName + " already exists.");
+            this.portalsCore.getInfoLogger().warning("A tag with the name " + tagName + " already exists.");
             return false;
         }
 
@@ -74,7 +74,7 @@ public class TagRegistry {
         if(aliases != null) {
             for (String alias : aliases) {
                 if(this.literalTags.contains(alias)) {
-                    this.portalsCore.getInfoLogger().logWarning("A tag with the alias " + alias + " already exists.");
+                    this.portalsCore.getInfoLogger().warning("A tag with the alias " + alias + " already exists.");
                     return false;
                 }
             }
@@ -83,7 +83,7 @@ public class TagRegistry {
         }
 
         if (tagName == null) {
-            this.portalsCore.getInfoLogger().logWarning("A tag cannot be null.");
+            this.portalsCore.getInfoLogger().warning("A tag cannot be null.");
             return false;
         }
 

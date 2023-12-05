@@ -44,7 +44,7 @@ public class WarpEffectRegistry {
                 list = this.visualEffects;
                 break;
             default:
-                this.portalsCore.getInfoLogger().logWarning(type.toString()
+                this.portalsCore.getInfoLogger().warning(type.toString()
                         + " effect type not recognised");
                 return false;
         }
@@ -65,7 +65,7 @@ public class WarpEffectRegistry {
                 list = this.visualEffects;
                 break;
             default:
-                this.infoLogger.logWarning(type.toString()
+                this.infoLogger.warning(type.toString()
                         + " effect type not recognised");
                 return null;
         }
@@ -73,7 +73,7 @@ public class WarpEffectRegistry {
             return list.get(name);
         }
         else{
-            this.infoLogger.logWarning("No effect of type:"
+            this.infoLogger.warning("No effect of type:"
                     + type.toString() + " was registered with the name: " + name);
             return null;
         }

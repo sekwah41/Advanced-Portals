@@ -48,30 +48,23 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
                 return;
             }
+            sender.sendMessage(Lang.centeredTitle(Lang.translate("command.createdesti.prep")));
+            sender.sendMessage("");
+            sender.sendMessage(Lang.translate("command.create.tags"));
 
+            if(destinationTags.isEmpty()) {
+                sender.sendMessage(Lang.translate("desti.info.noargs"));
+            }
+            else {
+                this.printTags(sender, destinationTags, Tag.TagType.DESTINATION);
+            }
+            sender.sendMessage("");
             Destination destination = destinationServices.createDesti(player, player.getLoc(), destinationTags);
             if(destination != null) {
-                sender.sendMessage("");
-                sender.sendMessage(Lang.translate("command.create.tags"));
-
-                ArrayList<DataTag> destiArgs = destination.getArgs();
-
-                if(destiArgs.isEmpty()) {
-                    sender.sendMessage(Lang.translate("desti.info.noargs"));
-                }
-                else {
-                    for (DataTag tag : destiArgs) {
-                        if(tag.VALUES.length == 1) {
-                            sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUES[0]);
-                        } else {
-                            sender.sendMessage("\u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUES[0]);
-                        }
-                    }
-                }
-                sender.sendMessage("");
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.createdesti.complete"));
             }
             else {
+                sender.sendMessage("");
                 sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.createdesti.error"));
             }
         }
