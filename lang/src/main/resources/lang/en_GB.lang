@@ -109,7 +109,7 @@ desti.error.noname= You must specify a name. (name:someNameHere)
 
 error.notplayer=Only players can do that.
 
-portal.selector.poschange=&eYou have selected pos%1$s X:%2$s Y:%3$s Z:%4$s
+portal.selector.poschange=&aYou have selected &epos%1$s &aX&7:&e%2$s &aY&7:&e%3$s &aZ&7:&e%4$s
 
 command.lang.help=Update the translation file
 
