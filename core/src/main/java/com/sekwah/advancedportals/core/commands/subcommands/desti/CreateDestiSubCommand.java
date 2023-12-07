@@ -52,11 +52,9 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             sender.sendMessage("");
             sender.sendMessage(Lang.translate("command.create.tags"));
 
-            if(destinationTags.isEmpty()) {
-                sender.sendMessage(Lang.translate("desti.info.noargs"));
-            }
-            else {
-                this.printTags(sender, destinationTags, Tag.TagType.DESTINATION);
+            if(!destinationTags.isEmpty()) {
+                this.filterAndProcessTags(destinationTags);
+                this.printTags(sender, destinationTags);
             }
             sender.sendMessage("");
             Destination destination = destinationServices.createDesti(player, player.getLoc(), destinationTags);

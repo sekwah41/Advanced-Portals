@@ -102,7 +102,41 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
         return suggestions;
     }
 
-    protected void printTags(CommandSenderContainer sender, List<DataTag> dataTags, Tag.TagType tagType) {
+    protected void filterAndProcessTags(List<DataTag> dataTags) {
+        List<Tag> relatedTags = this.getRelatedTags();
+        List<DataTag> processedTags = new ArrayList<>();
+
+        for (DataTag dataTag : dataTags) {
+            for (Tag tag : relatedTags) {
+                if (dataTag.NAME.equals(tag.getName())) {
+                    // DataTag name matches the tag's main name, add as is
+                    processedTags.add(dataTag);
+                    break;
+                } else if (tag.getAliases() != null && Arrays.asList(tag.getAliases()).contains(dataTag.NAME)) {
+                    // DataTag name matches an alias, create a new DataTag with the main name
+                    processedTags.add(new DataTag(tag.getName(), dataTag.VALUES));
+                    break;
+                }
+            }
+        }
+
+        // Replace the original dataTags list with the processed tags
+        dataTags.clear();
+        dataTags.addAll(processedTags);
+        // Sort the tags by name however make sure name is first
+        dataTags.sort((o1, o2) -> {
+            if(o1.NAME.equals("name")) {
+                return -1;
+            }
+            if(o2.NAME.equals("name")) {
+                return 1;
+            }
+            return o1.NAME.compareTo(o2.NAME);
+        });
+    }
+
+
+    protected void printTags(CommandSenderContainer sender, List<DataTag> dataTags) {
         for (DataTag tag : dataTags) {
             if(tag.VALUES.length == 1) {
                 sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77:\u00A7e" + tag.VALUES[0]);
@@ -112,6 +146,5 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                 }
             }
         }
-        // TODO add a note saying if tags were ignored due to not being valid for the type
     }
 }
