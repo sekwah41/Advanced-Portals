@@ -45,7 +45,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
                 sender.sendMessage("\u00A7a" + "triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
-                this.printTags(sender, portal.getArgs(), Tag.TagType.PORTAL);
+                this.printTags(sender, portal.getArgs());
             }
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }

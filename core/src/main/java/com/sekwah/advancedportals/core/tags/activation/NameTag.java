@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * Most tags shouldn't be like this unless they are to be paired with another tag.
  */
-public class NameTag implements Tag.Activation, Tag.AutoComplete {
+public class NameTag implements Tag.AutoComplete {
 
     private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL, TagType.DESTINATION };
 
@@ -37,21 +37,6 @@ public class NameTag implements Tag.Activation, Tag.AutoComplete {
     @Override
     public String description() {
         return Lang.translate("tag.name.description");
-    }
-
-    @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        return false;
-    }
-
-    @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-
-    }
-
-    @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        return false;
     }
 
     @Override
