@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -23,10 +23,10 @@ public class AdvancedPortal implements TagTarget {
     transient TagRegistry tagRegistry;
 
     @SerializedName("max")
-    private WorldLocation maxLoc;
+    private BlockLocation maxLoc;
 
     @SerializedName("min")
-    private WorldLocation minLoc;
+    private BlockLocation minLoc;
 
     @SerializedName("t")
     private String[] triggerBlocks = {"PORTAL"};
@@ -34,16 +34,16 @@ public class AdvancedPortal implements TagTarget {
     @SerializedName("a")
     private HashMap<String, String[]> args = new HashMap<>();
 
-    public AdvancedPortal(WorldLocation maxLoc, WorldLocation minLoc) {
+    public AdvancedPortal(BlockLocation maxLoc, BlockLocation minLoc) {
         this.maxLoc = maxLoc;
         this.minLoc = minLoc;
     }
 
-    public WorldLocation getMaxLoc() {
+    public BlockLocation getMaxLoc() {
         return this.maxLoc;
     }
 
-    public WorldLocation getMinLoc() {
+    public BlockLocation getMinLoc() {
         return this.minLoc;
     }
 
