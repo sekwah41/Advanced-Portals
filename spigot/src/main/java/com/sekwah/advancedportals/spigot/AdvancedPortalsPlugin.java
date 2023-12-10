@@ -12,6 +12,16 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     private AdvancedPortalsCore portalsCore;
 
+    private static AdvancedPortalsPlugin instance;
+
+    public static AdvancedPortalsPlugin getInstance() {
+        return instance;
+    }
+
+    public AdvancedPortalsPlugin() {
+        instance = this;
+    }
+
     @Override
     public void onEnable() {
 
@@ -33,7 +43,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         new Metrics(this);
     }
-
 
     @Override
     public void onDisable() {

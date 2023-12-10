@@ -21,7 +21,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Handles logic for all destination, this is a transient layer so it should
@@ -30,13 +29,8 @@ import java.util.Map;
 @Singleton
 public class DestinationServices {
 
-
-    private final IDestinationRepository destinationRepository;
-
     @Inject
-    private DestinationServices(IDestinationRepository destinationRepository) {
-        this.destinationRepository = destinationRepository;
-    }
+    private IDestinationRepository destinationRepository;
 
     public Response.Creation create(String name, Destination destination) {
         if (!destinationRepository.containsKey(name)) {

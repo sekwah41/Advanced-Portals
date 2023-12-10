@@ -65,7 +65,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         if(this.subCommandRegistry.isArgRegistered(subCommand)) {
                             sender.sendMessage("");
                             var helpTitle = Lang.centeredTitle(Lang.translateInsertVariables("command.help.subcommandheader",
-                                    command, helpPage, pages));
+                                    command, subCommand));
                             sender.sendMessage(helpTitle);
                             sender.sendMessage("\u00A77" + this.getSubCommand(subCommand).getDetailedHelpText());
                         }
