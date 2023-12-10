@@ -30,7 +30,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
         if(args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if(player == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.createdesti.console"));
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.destination.console"));
                 return;
             }
             ArrayList<DataTag> destinationTags = TagReader.getTagsFromArgs(args);
@@ -48,7 +48,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
                 return;
             }
-            sender.sendMessage(Lang.centeredTitle(Lang.translate("command.createdesti.prep")));
+            sender.sendMessage(Lang.centeredTitle(Lang.translate("command.create.destination.prep")));
             sender.sendMessage("");
             sender.sendMessage(Lang.translate("command.create.tags"));
 
@@ -59,11 +59,11 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             sender.sendMessage("");
             Destination destination = destinationServices.createDesti(player, player.getLoc(), destinationTags);
             if(destination != null) {
-                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.createdesti.complete"));
+                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.destination.complete"));
             }
             else {
                 sender.sendMessage("");
-                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.createdesti.error"));
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.destination.error"));
             }
         }
         else {
@@ -85,11 +85,11 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.createdesti.help");
+        return Lang.translate("command.create.destination.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.createdesti.detailedhelp");
+        return Lang.translate("command.create.destination.detailedhelp");
     }
 }

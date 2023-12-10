@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -24,6 +25,9 @@ public class TagRegistry {
     private final Map<String, Tag.Activation> activationTags = new HashMap<>();
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
     private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
+
+    @Inject
+    private AdvancedPortalsCore pluginCore;
 
     /**
      * Portals to trigger when a portal is activated
@@ -58,6 +62,7 @@ public class TagRegistry {
      * @return if the tag has been registered or if it already exists.
      */
     public boolean registerTag(Tag tag) {
+        pluginCore.getModule().getInjector().injectMembers(tag);
 
         String tagName = tag.getName();
 

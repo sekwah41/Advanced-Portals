@@ -57,7 +57,7 @@ command.reload.reloaded= All Advanced Portals data reloaded
 
 command.create.help=Creates portals
 command.create.error= There was a problem making the portal:
-command.create.console= You cannot create a portal using the console.
+command.create.portal.console= You cannot create a portal using the console.
 command.create.detailedhelp=Format is /portal create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 command.create.complete= The portal has been successfully created.
 
@@ -84,8 +84,11 @@ command.portal.remove.complete= The portal has been successfully removed.
 
 command.destination.remove.error= There was a problem removing the destination.
 
-command.list.help=Lists portals
-command.list=&7 Portals&e:
+command.portal.list.help=Lists portals
+command.portal.list=&7 Portals&a:
+
+command.destination.list.help=Lists destinations
+command.destination.list=&7 Destinations&a:
 
 command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector

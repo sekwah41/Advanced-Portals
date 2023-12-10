@@ -31,4 +31,8 @@ public class BlockLocation {
         this.posZ = location.posZ + direction.z;
 
     }
+
+    public boolean equals(BlockLocation location) {
+        return location.posX == this.posX && location.posY == this.posY && location.posZ == this.posZ && location.worldName.equals(this.worldName);
+    }
 }
