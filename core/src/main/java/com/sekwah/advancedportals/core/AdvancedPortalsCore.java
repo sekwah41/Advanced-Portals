@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.desti.ListDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.RemoveDestiSubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
@@ -99,7 +100,8 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand());
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemovePortalSubCommand());
-        this.portalCommand.registerSubCommand("list", new ListSubCommand());
+        this.portalCommand.registerSubCommand("list", new ListPortalsSubCommand());
+        this.portalCommand.registerSubCommand("debug", new DebugPortalsSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -108,6 +110,7 @@ public class AdvancedPortalsCore {
         this.destiCommand = new CommandWithSubCommands(this);
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
         this.destiCommand.registerSubCommand("remove", new RemoveDestiSubCommand());
+        this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }

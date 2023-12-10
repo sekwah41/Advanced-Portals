@@ -18,6 +18,8 @@ public interface PlayerContainer {
 
     PlayerLocation getLoc();
 
+    BlockLocation getBlockLoc();
+
     double getEyeHeight();
 
     void teleport(PlayerLocation location);
@@ -41,4 +43,6 @@ public interface PlayerContainer {
     void sendFakeBlockWithData(BlockLocation blockPos, String material, byte data);
 
     void giveItem(String material, String itemName, String... itemDescription);
+
+    boolean sendPacket(String channel, byte[] bytes);
 }

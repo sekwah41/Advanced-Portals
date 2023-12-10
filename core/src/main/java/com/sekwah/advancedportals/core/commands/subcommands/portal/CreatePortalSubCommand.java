@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.reusable.CreateTaggedSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
@@ -40,7 +41,28 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             // Find the tag with the "name" NAME
             DataTag nameTag = portalTags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
 
-            AdvancedPortal portal = portalServices.createPortal(nameTag == null ? null : nameTag.VALUES[0], player, portalTags);
+            // If the tag is null, check if arg[1] has a : to check it's not a tag.
+            if(nameTag == null && !args[1].contains(":")) {
+                nameTag = new DataTag("name", args[1]);
+                portalTags.add(nameTag);
+            }
+
+            if (nameTag == null) {
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
+                return;
+            }
+
+            sender.sendMessage(Lang.centeredTitle(Lang.translate("command.create.portal.prep")));
+            sender.sendMessage("");
+            sender.sendMessage(Lang.translate("command.create.tags"));
+
+            if(!portalTags.isEmpty()) {
+                this.filterAndProcessTags(portalTags);
+                this.printTags(sender, portalTags);
+            }
+            sender.sendMessage("");
+
+            AdvancedPortal portal = portalServices.createPortal(player, portalTags);
             if(portal != null) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));

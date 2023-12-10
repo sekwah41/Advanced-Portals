@@ -18,7 +18,7 @@ public final class PortalTempDataServices {
      */
     private Map<UUID, PlayerTempData> tempDataMap = new HashMap<>();
 
-    private PlayerTempData getPlayerTempData(PlayerContainer player) {
+    public PlayerTempData getPlayerTempData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> new PlayerTempData());
     }
 

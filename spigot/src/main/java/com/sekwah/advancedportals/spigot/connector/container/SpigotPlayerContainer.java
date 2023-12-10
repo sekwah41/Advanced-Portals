@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -45,6 +46,12 @@ public class SpigotPlayerContainer implements PlayerContainer {
     public PlayerLocation getLoc() {
         Location loc = this.player.getLocation();
         return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+    }
+
+    @Override
+    public BlockLocation getBlockLoc() {
+        Location loc = this.player.getLocation();
+        return new BlockLocation(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 
     public double getEyeHeight() {
@@ -88,5 +95,15 @@ public class SpigotPlayerContainer implements PlayerContainer {
         selectorname.setLore(Arrays.asList(itemDescription));
         regionselector.setItemMeta(selectorname);
         this.player.getInventory().addItem(regionselector);
+    }
+
+    @Override
+    public boolean sendPacket(String channel, byte[] bytes) {
+        if(channel.startsWith("minecraft:")) {
+            return MinecraftCustomPayload.sendCustomPayload(player, channel, bytes);
+        } else {
+            player.sendPluginMessage(null, channel, bytes);
+        }
+        return true;
     }
 }
