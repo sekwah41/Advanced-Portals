@@ -79,6 +79,9 @@ command.portal.remove.invalidselection=The portal selection you had is no longer
 command.portal.remove.noselection=You don't have a portal selected
 command.portal.remove.complete= The portal has been successfully removed.
 
+command.portal.show.help=Shows nearby portals
+command.portal.show.detailedhelp=Shows nearby portals. Relies on debug markers so may not work on certain versions of minecraft (1.16+ atm only).
+
 command.destination.remove.error= There was a problem removing the destination.
 
 command.portal.list.help=Lists portals

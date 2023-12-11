@@ -27,7 +27,11 @@ public class CommandWithSubCommands implements CommandTemplate {
         for(String additionalArg : aliasArgs) {
             hasRegistered = this.subCommandRegistry.registerSubCommand(additionalArg,subCommand) || hasRegistered;
         }
-        return this.subCommandRegistry.registerSubCommand(arg,subCommand) || hasRegistered;
+        boolean result = this.subCommandRegistry.registerSubCommand(arg,subCommand) || hasRegistered;
+        if(subCommand instanceof SubCommand.SubCommandOnInit init) {
+            init.registered();
+        }
+        return result;
     }
 
     public ArrayList<String> getSubCommands(){
