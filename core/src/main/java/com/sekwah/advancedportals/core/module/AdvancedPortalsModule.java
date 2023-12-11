@@ -12,6 +12,7 @@ import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.repository.impl.ConfigRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.DestinationRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.PortalRepositoryImpl;
+import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.annotation.Nonnull;

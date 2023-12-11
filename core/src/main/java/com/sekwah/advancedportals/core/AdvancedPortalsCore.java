@@ -14,6 +14,7 @@ import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
+import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 
@@ -42,6 +43,9 @@ public class AdvancedPortalsCore {
 
     @Inject
     private TagRegistry tagRegistry;
+
+    @Inject
+    private GameScheduler gameScheduler;
 
     public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger) {
         this.dataStorage = new DataStorage(dataStorageLoc);
@@ -101,7 +105,7 @@ public class AdvancedPortalsCore {
         this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
         this.portalCommand.registerSubCommand("remove", new RemovePortalSubCommand());
         this.portalCommand.registerSubCommand("list", new ListPortalsSubCommand());
-        this.portalCommand.registerSubCommand("debug", new DebugPortalsSubCommand());
+        this.portalCommand.registerSubCommand("show", new ShowPortalSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -142,5 +146,9 @@ public class AdvancedPortalsCore {
 
     public TagRegistry getTagRegistry() {
         return this.tagRegistry;
+    }
+
+    public GameScheduler getGameScheduler() {
+        return gameScheduler;
     }
 }
