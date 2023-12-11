@@ -8,16 +8,22 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.util.Debug;
-import com.sekwah.advancedportals.core.util.FriendlyDataOutput;
+import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 
 import java.awt.*;
 import java.util.List;
 
-public class DebugPortalsSubCommand implements SubCommand {
+/**
+ * This will be different from the old show command and I believe it is 1.16+ till the latest version as of writing this.
+ */
+public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOnInit {
 
     @Inject
     PortalTempDataServices tempDataServices;
+
+    @Inject
+    GameScheduler gameScheduler;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -57,30 +63,6 @@ public class DebugPortalsSubCommand implements SubCommand {
                     }
                 }
             }
-            /*int minX = Math.min(tempData.getPos1().posX, tempData.getPos2().posX);
-            int minY = Math.min(tempData.getPos1().posY, tempData.getPos2().posY);
-            int minZ = Math.min(tempData.getPos1().posZ, tempData.getPos2().posZ);
-
-            int maxX = Math.max(tempData.getPos1().posX, tempData.getPos2().posX);
-            int maxY = Math.max(tempData.getPos1().posY, tempData.getPos2().posY);
-            int maxZ = Math.max(tempData.getPos1().posZ, tempData.getPos2().posZ);
-
-            FriendlyDataOutput out = new FriendlyDataOutput();
-
-            out.writeUtf("minecraft:overworld");
-
-            // Bounding Box
-            out.writeInt(minX);
-            out.writeInt(minY);
-            out.writeInt(minZ);
-            out.writeInt(maxX);
-            out.writeInt(maxY);
-            out.writeInt(maxZ);
-
-            // Count
-            out.writeInt(0);
-
-            playerContainer.sendPacket("minecraft:debug/structures", out.toByteArray());*/
         }
     }
 
@@ -96,11 +78,18 @@ public class DebugPortalsSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.portal.list.debug");
+        return Lang.translate("command.portal.show.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.portal.list.debug");
+        return Lang.translate("command.portal.show.detailedhelp");
+    }
+
+    @Override
+    public void registered() {
+        gameScheduler.intervalTickEvent("show_portal", () -> {
+            System.out.println("check visibility");
+        }, 1, 20);
     }
 }

@@ -33,4 +33,8 @@ public interface SubCommand {
      * @return the string to show if help then the tag is listed.
      */
     String getDetailedHelpText();
+
+    interface SubCommandOnInit {
+        void registered();
+    }
 }

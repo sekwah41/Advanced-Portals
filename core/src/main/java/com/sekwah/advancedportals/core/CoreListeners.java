@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.util.GameScheduler;
 
 import java.util.Objects;
 
@@ -25,6 +26,9 @@ public class CoreListeners {
     @Inject
     private ConfigRepository configRepository;
 
+    @Inject
+    private GameScheduler gameScheduler;
+
     public void playerJoin(PlayerContainer player) {
         this.portalTempDataServices.activateCooldown(player);
     }
@@ -35,6 +39,10 @@ public class CoreListeners {
 
     public void playerLeave(PlayerContainer player) {
         this.portalTempDataServices.playerLeave(player);
+    }
+
+    public void tick() {
+        this.gameScheduler.tick();
     }
 
     /**
