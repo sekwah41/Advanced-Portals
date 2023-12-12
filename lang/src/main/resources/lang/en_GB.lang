@@ -81,8 +81,21 @@ command.portal.remove.complete= The portal has been successfully removed.
 
 command.portal.show.help=Shows nearby portals
 command.portal.show.detailedhelp=Shows nearby portals. Relies on debug markers so may not work on certain versions of minecraft (1.16+ atm only).
+command.portal.show.enabled= Portal markers are now enabled.
+command.portal.show.disabled= Portal markers are now disabled.
+command.portal.show.unsupported= Portal markers are not supported on this version of minecraft. (1.16+ atm only)
 
 command.destination.remove.error= There was a problem removing the destination.
+
+command.destination.show.help=Shows nearby destinations
+command.destination.show.detailedhelp=Shows nearby destinations. Relies on debug markers so may not work on certain versions of minecraft (1.16+ atm only).
+command.destination.show.enabled= Destination markers are now enabled.
+command.destination.show.disabled= Destination markers are now disabled.
+command.destination.show.unsupported= Destination markers are not supported on this version of minecraft. (1.16+ atm only)
+
+command.destination.reload.help=Reloads the destination data from the repository.
+command.destination.reload.detailedhelp=This command will reload all destination data from the repository, updating the cache with the latest data.
+command.destination.reload= Destinations reloaded.
 
 command.portal.list.help=Lists portals
 command.portal.list=&7 Portals&a:

@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.module;
 
 import com.google.inject.*;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
@@ -45,6 +46,7 @@ public class AdvancedPortalsModule extends AbstractModule {
         bind(AdvancedPortalsCore.class).toInstance(advancedPortalsCore);
         bind(InfoLogger.class).toInstance(advancedPortalsCore.getInfoLogger());
         bind(DataStorage.class).toInstance(advancedPortalsCore.getDataStorage());
+        bind(ServerContainer.class).toInstance(advancedPortalsCore.getServerContainer());
 
         // Providers
         bind(Config.class).toProvider(ConfigProvider.class);
