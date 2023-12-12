@@ -12,7 +12,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 
 import java.util.List;
 
-public class ReloadSubCommand implements SubCommand {
+public class ReloadPortalSubCommand implements SubCommand {
 
     @Inject
     private AdvancedPortalsCore portalsCore;

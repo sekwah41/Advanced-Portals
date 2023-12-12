@@ -53,6 +53,6 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete {
 
     @Override
     public List<String> autoComplete(String argData) {
-        return destinationServices.getDestinations();
+        return destinationServices.getDestinationNames();
     }
 }

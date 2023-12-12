@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -23,14 +24,9 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     @Inject
     InfoLogger infoLogger;
 
-    public void addDestination(String name, Destination destination) {
-        infoLogger.log("Adding destination: " + fileLocation + name + ".json");
-        dataStorage.storeJson(destination, fileLocation + name + ".json");
-    }
-
     @Override
     public boolean save(String name, Destination destination) {
-        return false;
+        return dataStorage.storeJson(destination, fileLocation + name + ".json");
     }
 
     public boolean containsKey(String name) {
@@ -52,7 +48,18 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     }
 
     @Override
-    public List<String> listAll() {
+    public List<String> getAllNames() {
         return dataStorage.listAllFiles(fileLocation, true);
+    }
+
+    @Override
+    public List<Destination> getAll() {
+        List<Destination> destinations = new ArrayList<>();
+        List<String> allFiles = dataStorage.listAllFiles(fileLocation, false);
+        for (String fileName : allFiles) {
+            Destination destination = dataStorage.loadJson(Destination.class, fileLocation + fileName);
+            destinations.add(destination);
+        }
+        return destinations;
     }
 }

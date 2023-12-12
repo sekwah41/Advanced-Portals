@@ -49,7 +49,12 @@ public class PortalRepositoryImpl implements IPortalRepository {
     }
 
     @Override
-    public List<String> listAll() {
+    public List<String> getAllNames() {
+        return null;
+    }
+
+    @Override
+    public List<WorldLocation> getAll() {
         return null;
     }
 }

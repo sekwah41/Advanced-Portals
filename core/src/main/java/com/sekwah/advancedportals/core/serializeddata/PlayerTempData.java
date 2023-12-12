@@ -20,6 +20,16 @@ public class PlayerTempData {
     private BlockLocation pos2;
 
     /**
+     * If to show portals near the player
+     */
+    private boolean portalVisible;
+
+    /**
+     * If to show destination blocks near the player
+     */
+    private boolean destiVisible;
+
+    /**
      * Used for things like join cooldowns
      * TODO either store a hashmap of cool-downs on a portal, or a hashmap of cool-downs for portals on a player
      *          Can be switched at a later date
@@ -58,5 +68,21 @@ public class PlayerTempData {
 
     public void setSelectedPortal(String selectedPortal) {
         this.selectedPortal = selectedPortal;
+    }
+
+    public boolean isPortalVisible() {
+        return portalVisible;
+    }
+
+    public void setPortalVisible(boolean showPortals) {
+        this.portalVisible = showPortals;
+    }
+
+    public boolean isDestiVisible() {
+        return destiVisible;
+    }
+
+    public void setDestiVisible(boolean destiVisible) {
+        this.destiVisible = destiVisible;
     }
 }
