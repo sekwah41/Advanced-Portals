@@ -66,7 +66,13 @@ public class DataStorage {
             return null;
         }
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        return gson.fromJson(bufReader, dataHolder);
+        T data = gson.fromJson(bufReader, dataHolder);
+        try {
+            bufReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
     }
 
     public boolean storeJson(Object dataHolder, String location) {
@@ -222,6 +228,12 @@ public class DataStorage {
     }
 
     public boolean deleteFile(String fileLocation) {
-        return new File(dataFolder, fileLocation).delete();
+        try {
+            Files.delete(Paths.get(dataFolder.getAbsolutePath(), fileLocation));
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

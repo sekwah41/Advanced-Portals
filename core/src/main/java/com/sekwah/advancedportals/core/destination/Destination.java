@@ -113,4 +113,12 @@ public class Destination implements TagTarget {
         }
         return tagList;
     }
+
+    public PlayerLocation getLoc() {
+        return loc;
+    }
+
+    public void setLoc(PlayerLocation loc) {
+        this.loc = loc;
+    }
 }

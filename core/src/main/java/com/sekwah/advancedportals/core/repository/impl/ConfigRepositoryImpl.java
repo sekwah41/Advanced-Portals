@@ -43,6 +43,10 @@ public class ConfigRepositoryImpl implements ConfigRepository {
         return this.config.selectorMaterial;
     }
 
+    public int getVisibleRange() {
+        return this.config.visibleRange;
+    }
+
     @Override
     public void loadConfig(DataStorage dataStorage) {
         this.config = dataStorage.loadJson(Config.class, "config.json");

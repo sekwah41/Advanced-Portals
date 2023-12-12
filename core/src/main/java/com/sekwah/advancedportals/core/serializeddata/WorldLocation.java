@@ -22,4 +22,19 @@ public class WorldLocation {
         this.posY = posY;
         this.posZ = posZ;
     }
+
+    public double distanceTo(WorldLocation pos) {
+        return Math.sqrt(this.distanceToSq(pos));
+    }
+
+    public double distanceToSq(WorldLocation pos) {
+        double dx = this.posX - pos.posX;
+        double dy = this.posY - pos.posY;
+        double dz = this.posZ - pos.posZ;
+        return dx * dx + dy * dy + dz * dz;
+    }
+
+    public BlockLocation toBlockPos() {
+        return new BlockLocation(this.worldName, (int) Math.floor(this.posX), (int) Math.floor(this.posY), (int) Math.floor(this.posZ));
+    }
 }

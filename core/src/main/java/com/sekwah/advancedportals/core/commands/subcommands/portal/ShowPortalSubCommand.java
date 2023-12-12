@@ -1,17 +1,15 @@
 package com.sekwah.advancedportals.core.commands.subcommands.portal;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
-import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -25,45 +23,26 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     @Inject
     GameScheduler gameScheduler;
 
+    @Inject
+    AdvancedPortalsCore core;
+
+    @Inject
+    ServerContainer serverContainer;
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage("Debug");
-        if(sender.getPlayerContainer() != null) {
-            PlayerContainer playerContainer = sender.getPlayerContainer();
-            PlayerTempData tempData = tempDataServices.getPlayerTempData(playerContainer);
-            if(tempData.getPos1() != null) {
-                Debug.addMarker(sender.getPlayerContainer(), tempData.getPos1(), "Pos1", new Color(0, 255, 0), 1000 * 10);
-            }
-            if(tempData.getPos2() != null) {
-                Debug.addMarker(sender.getPlayerContainer(), tempData.getPos2(), "Pos2", new Color(255, 0, 0), 1000 * 10);
-            }
-
-            if (tempData.getPos1() != null && tempData.getPos2() != null) {
-                int minX = Math.min(tempData.getPos1().posX, tempData.getPos2().posX);
-                int minY = Math.min(tempData.getPos1().posY, tempData.getPos2().posY);
-                int minZ = Math.min(tempData.getPos1().posZ, tempData.getPos2().posZ);
-
-                int maxX = Math.max(tempData.getPos1().posX, tempData.getPos2().posX);
-                int maxY = Math.max(tempData.getPos1().posY, tempData.getPos2().posY);
-                int maxZ = Math.max(tempData.getPos1().posZ, tempData.getPos2().posZ);
-
-                for (int x = minX; x <= maxX; x++) {
-                    for (int y = minY; y <= maxY; y++) {
-                        for (int z = minZ; z <= maxZ; z++) {
-                            if ((x == minX || x == maxX) && (y == minY || y == maxY || z == minZ || z == maxZ) ||
-                                    (y == minY || y == maxY) && (x == minX || x == maxX || z == minZ || z == maxZ) ||
-                                    (z == minZ || z == maxZ) && (x == minX || x == maxX || y == minY || y == maxY)) {
-
-                                var pos = new BlockLocation(tempData.getPos1().worldName, x, y, z);
-                                if (pos.equals(tempData.getPos1()) || pos.equals(tempData.getPos2()))
-                                    continue;
-                                Debug.addMarker(sender.getPlayerContainer(), pos, "", new Color(255, 0, 0, 100), 1000 * 10);
-                            }
-                        }
-                    }
-                }
-            }
+        if(core.getMcVersion()[1] < 16) {
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.portal.show.unsupported"));
+            return;
         }
+
+        var tempData = tempDataServices.getPlayerTempData(sender.getPlayerContainer());
+        if(tempData.isPortalVisible()) {
+            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.portal.show.disabled"));
+        } else {
+            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.portal.show.enabled"));
+        }
+        tempData.setPortalVisible(!tempData.isPortalVisible());
     }
 
     @Override
@@ -89,7 +68,51 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     @Override
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
-            System.out.println("check visibility");
+            for(PlayerContainer player : serverContainer.getPlayers()) {
+                var tempData = tempDataServices.getPlayerTempData(player);
+                if(!tempData.isDestiVisible()) {
+                    return;
+                }
+
+                
+            }
+            /*sender.sendMessage("Debug");
+            if(sender.getPlayerContainer() != null) {
+                PlayerContainer playerContainer = sender.getPlayerContainer();
+                PlayerTempData tempData = tempDataServices.getPlayerTempData(playerContainer);
+                if(tempData.getPos1() != null) {
+                    Debug.addMarker(sender.getPlayerContainer(), tempData.getPos1(), "Pos1", new Color(0, 255, 0), 1000 * 10);
+                }
+                if(tempData.getPos2() != null) {
+                    Debug.addMarker(sender.getPlayerContainer(), tempData.getPos2(), "Pos2", new Color(255, 0, 0), 1000 * 10);
+                }
+
+                if (tempData.getPos1() != null && tempData.getPos2() != null) {
+                    int minX = Math.min(tempData.getPos1().posX, tempData.getPos2().posX);
+                    int minY = Math.min(tempData.getPos1().posY, tempData.getPos2().posY);
+                    int minZ = Math.min(tempData.getPos1().posZ, tempData.getPos2().posZ);
+
+                    int maxX = Math.max(tempData.getPos1().posX, tempData.getPos2().posX);
+                    int maxY = Math.max(tempData.getPos1().posY, tempData.getPos2().posY);
+                    int maxZ = Math.max(tempData.getPos1().posZ, tempData.getPos2().posZ);
+
+                    for (int x = minX; x <= maxX; x++) {
+                        for (int y = minY; y <= maxY; y++) {
+                            for (int z = minZ; z <= maxZ; z++) {
+                                if ((x == minX || x == maxX) && (y == minY || y == maxY || z == minZ || z == maxZ) ||
+                                        (y == minY || y == maxY) && (x == minX || x == maxX || z == minZ || z == maxZ) ||
+                                        (z == minZ || z == maxZ) && (x == minX || x == maxX || y == minY || y == maxY)) {
+
+                                    var pos = new BlockLocation(tempData.getPos1().worldName, x, y, z);
+                                    if (pos.equals(tempData.getPos1()) || pos.equals(tempData.getPos2()))
+                                        continue;
+                                    Debug.addMarker(sender.getPlayerContainer(), pos, "", new Color(255, 0, 0, 100), 1000 * 10);
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
         }, 1, 20);
     }
 }

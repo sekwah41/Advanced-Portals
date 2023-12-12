@@ -3,16 +3,12 @@ package com.sekwah.advancedportals.core.commands.subcommands.desti;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
-import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
-import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class RemoveDestiSubCommand implements SubCommand {
 
@@ -23,7 +19,7 @@ public class RemoveDestiSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
-            if(destinationServices.removeDesti(args[1], sender.getPlayerContainer())) {
+            if(destinationServices.removeDestination(args[1], sender.getPlayerContainer())) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.portal.remove.complete"));
             }
             else {
@@ -46,7 +42,7 @@ public class RemoveDestiSubCommand implements SubCommand {
         if(args.length > 2) {
             return Collections.emptyList();
         }
-        List<String> destiNames = destinationServices.getDestinations();
+        List<String> destiNames = destinationServices.getDestinationNames();
         Collections.sort(destiNames);
         return destiNames;
     }

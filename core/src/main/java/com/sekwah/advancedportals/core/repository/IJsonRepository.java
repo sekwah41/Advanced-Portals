@@ -1,8 +1,5 @@
 package com.sekwah.advancedportals.core.repository;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
-
 import java.util.List;
 
 public interface IJsonRepository<T> {
@@ -17,5 +14,7 @@ public interface IJsonRepository<T> {
 
     T get(String name);
 
-    List<String> listAll();
+    List<String> getAllNames();
+
+    List<T> getAll();
 }

@@ -27,4 +27,6 @@ public class Config {
 
     public String translationFile = "en_GB";
 
+    public int visibleRange = 50;
+
 }

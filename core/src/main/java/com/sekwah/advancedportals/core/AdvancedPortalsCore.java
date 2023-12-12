@@ -3,15 +3,15 @@ package com.sekwah.advancedportals.core;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
-import com.sekwah.advancedportals.core.commands.subcommands.desti.CreateDestiSubCommand;
-import com.sekwah.advancedportals.core.commands.subcommands.desti.ListDestiSubCommand;
-import com.sekwah.advancedportals.core.commands.subcommands.desti.RemoveDestiSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.desti.*;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -19,18 +19,25 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class AdvancedPortalsCore {
 
 
     public static final String version = "1.0.0";
 
-    public static final String lastTranslationUpdate = "1.0.0";
-
     private final InfoLogger infoLogger;
     private final DataStorage dataStorage;
 
     private final AdvancedPortalsModule module;
+
+    /**
+     * Use this to enable or alter certain features for different versions.
+     * If there is an issue parsing it for any reason it will be set to 0.0.0
+     */
+    private final int[] mcVersion;
+
+    private final ServerContainer serverContainer;
 
     @Inject
     private CommandRegister commandRegister;
@@ -45,17 +52,31 @@ public class AdvancedPortalsCore {
     private TagRegistry tagRegistry;
 
     @Inject
+    private DestinationServices destinationServices;
+
+    @Inject
     private GameScheduler gameScheduler;
 
-    public AdvancedPortalsCore(File dataStorageLoc, InfoLogger infoLogger) {
+    public AdvancedPortalsCore(String mcVersion, File dataStorageLoc, InfoLogger infoLogger, ServerContainer serverContainer) {
+        this.serverContainer = serverContainer;
         this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
+
+        int[] mcVersionTemp;
+        infoLogger.log("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
+        try {
+            mcVersionTemp = Arrays.stream(mcVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
+        } catch (NumberFormatException e) {
+            infoLogger.log("Failed to parse MC version: " + mcVersion);
+            e.printStackTrace();
+            mcVersionTemp = new int[]{0, 0, 0};
+        }
+        if(mcVersionTemp.length == 2) {
+            mcVersionTemp = new int[]{mcVersionTemp[0], mcVersionTemp[1], 0};
+        }
+        this.mcVersion = mcVersionTemp;
+
         this.module = new AdvancedPortalsModule(this);
-
-        // Provide any items that need to be provided.
-        //this.module.addInstanceBinding(DataCollector.class, this.infoLogger);
-
-        // Don't do much crazy setup here, keep it to onEnable as that will be once the implementation is set up.
     }
 
     /**
@@ -76,6 +97,7 @@ public class AdvancedPortalsCore {
         this.registerCommands();
         this.registerTags();
 
+        this.destinationServices.loadDestinations();
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
 
@@ -97,7 +119,7 @@ public class AdvancedPortalsCore {
 
         this.portalCommand.registerSubCommand("version", new VersionSubCommand());
         this.portalCommand.registerSubCommand("langupdate", new LangUpdateSubCommand());
-        this.portalCommand.registerSubCommand("reload", new ReloadSubCommand());
+        this.portalCommand.registerSubCommand("reload", new ReloadPortalSubCommand());
         this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(), "wand");
         this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand());
         this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand());
@@ -115,6 +137,8 @@ public class AdvancedPortalsCore {
         this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
         this.destiCommand.registerSubCommand("remove", new RemoveDestiSubCommand());
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
+        this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
+        this.destiCommand.registerSubCommand("reload", new ReloadDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }
@@ -150,5 +174,13 @@ public class AdvancedPortalsCore {
 
     public GameScheduler getGameScheduler() {
         return gameScheduler;
+    }
+
+    public int[] getMcVersion() {
+        return mcVersion;
+    }
+
+    public ServerContainer getServerContainer() {
+        return serverContainer;
     }
 }

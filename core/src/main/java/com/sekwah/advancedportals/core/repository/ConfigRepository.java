@@ -13,4 +13,6 @@ public interface ConfigRepository {
     String getSelectorMaterial();
 
     void loadConfig(DataStorage dataStorage);
+
+    int getVisibleRange();
 }

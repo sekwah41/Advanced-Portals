@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.commands.subcommands.desti;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.commands.subcommands.reusable.CreateTaggedSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.common.CreateTaggedSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;

@@ -35,4 +35,15 @@ public class BlockLocation {
     public boolean equals(BlockLocation location) {
         return location.posX == this.posX && location.posY == this.posY && location.posZ == this.posZ && location.worldName.equals(this.worldName);
     }
+
+    public double distanceTo(BlockLocation pos) {
+        return Math.sqrt(this.distanceToSq(pos));
+    }
+
+    public double distanceToSq(BlockLocation pos) {
+        double dx = this.posX - pos.posX;
+        double dy = this.posY - pos.posY;
+        double dz = this.posZ - pos.posZ;
+        return dx * dx + dy * dy + dz * dz;
+    }
 }
