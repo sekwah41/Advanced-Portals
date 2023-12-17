@@ -6,10 +6,14 @@ import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -70,21 +74,15 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
         gameScheduler.intervalTickEvent("show_portal", () -> {
             for(PlayerContainer player : serverContainer.getPlayers()) {
                 var tempData = tempDataServices.getPlayerTempData(player);
-                if(!tempData.isDestiVisible()) {
-                    return;
+                if(!tempData.isPortalVisible()) {
+                    continue;
                 }
 
-
-            }
-            /*sender.sendMessage("Debug");
-            if(sender.getPlayerContainer() != null) {
-                PlayerContainer playerContainer = sender.getPlayerContainer();
-                PlayerTempData tempData = tempDataServices.getPlayerTempData(playerContainer);
                 if(tempData.getPos1() != null) {
-                    Debug.addMarker(sender.getPlayerContainer(), tempData.getPos1(), "Pos1", new Color(0, 255, 0), 1000 * 10);
+                    Debug.addMarker(player, tempData.getPos1(), "Pos1", new Color(0, 255, 0), 1000);
                 }
                 if(tempData.getPos2() != null) {
-                    Debug.addMarker(sender.getPlayerContainer(), tempData.getPos2(), "Pos2", new Color(255, 0, 0), 1000 * 10);
+                    Debug.addMarker(player, tempData.getPos2(), "Pos2", new Color(255, 0, 0), 1000);
                 }
 
                 if (tempData.getPos1() != null && tempData.getPos2() != null) {
@@ -106,13 +104,13 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                                     var pos = new BlockLocation(tempData.getPos1().worldName, x, y, z);
                                     if (pos.equals(tempData.getPos1()) || pos.equals(tempData.getPos2()))
                                         continue;
-                                    Debug.addMarker(sender.getPlayerContainer(), pos, "", new Color(255, 0, 0, 100), 1000 * 10);
+                                    Debug.addMarker(player, pos, "", new Color(255, 0, 0, 100), 1000);
                                 }
                             }
                         }
                     }
                 }
-            }*/
+            }
         }, 1, 20);
     }
 }
