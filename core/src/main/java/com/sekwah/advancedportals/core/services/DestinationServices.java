@@ -3,12 +3,13 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.util.Response;
+import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -22,22 +23,11 @@ public class DestinationServices {
     @Inject
     private IDestinationRepository destinationRepository;
 
+
+    @Inject
+    TagRegistry tagRegistry;
+
     private final Map<String, Destination> destinationCache = new HashMap<>();
-
-    public Response.Creation create(String name, Destination destination) {
-        if (!destinationRepository.containsKey(name)) {
-            destinationRepository.save(name, destination);
-            return Response.Creation.SUCCESS;
-        }
-        return Response.Creation.NAME_IN_USE;
-    }
-
-    public Boolean delete(String name) {
-        if (!destinationRepository.containsKey(name)) {
-            destinationRepository.delete(name);
-        }
-        return false;
-    }
 
     public List<String> getDestinationNames() {
         return destinationRepository.getAllNames();
@@ -49,6 +39,7 @@ public class DestinationServices {
 
     public void loadDestinations() {
         List<String> destinationNames = destinationRepository.getAllNames();
+        destinationCache.clear();
         for (String name : destinationNames) {
             Destination destination = destinationRepository.get(name);
             destinationCache.put(name, destination);
@@ -80,17 +71,17 @@ public class DestinationServices {
             desti.setArgValues(portalTag);
         }
         for (DataTag destiTag : tags) {
-            // TODO sort tag handle registry
-            /*TagHandler.Creation<Destination> creation = AdvancedPortalsCore.getDestinationTagRegistry().getCreationHandler(destiTag.NAME);
+            Tag.Creation creation = tagRegistry.getCreationHandler(destiTag.NAME);
             if(creation != null) {
-                creation.created(desti, player, destiTag.VALUE);
-            }*/
+                if(!creation.created(desti, player, destiTag.VALUES)) {
+                    return null;
+                }
+            }
         }
         try {
             if(this.destinationRepository.save(name, desti)) {
                 this.destinationCache.put(name, desti);
             } else {
-                player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("desti.error.save"));
                 return null;
             }
         } catch (Exception e) {

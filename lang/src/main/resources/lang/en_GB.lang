@@ -142,3 +142,4 @@ items.interact.left=Left Click
 items.interact.right=Right Click
 
 tag.desti.description=Sets the destination of the portal
+tag.name.error.nospaces= The name cannot contain spaces.
