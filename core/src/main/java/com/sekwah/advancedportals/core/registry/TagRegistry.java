@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.registry;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -53,7 +52,7 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public Tag.TagStatus getTagStatusHandler(String arg) {
+    public Tag.TagStatus getStatusHandler(String arg) {
         return this.statusTags.get(arg);
     }
 

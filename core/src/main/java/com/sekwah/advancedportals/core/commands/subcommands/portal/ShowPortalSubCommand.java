@@ -74,7 +74,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                     return;
                 }
 
-                
+
             }
             /*sender.sendMessage("Debug");
             if(sender.getPlayerContainer() != null) {
