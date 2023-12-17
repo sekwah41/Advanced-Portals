@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete {
 
+    public static String TAG_NAME = "name";
     @Inject
     DestinationServices destinationServices;
 
@@ -23,7 +24,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete {
 
     @Override
     public String getName() {
-        return "destination";
+        return TAG_NAME;
     }
 
     @Override

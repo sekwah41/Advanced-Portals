@@ -138,7 +138,6 @@ public class AdvancedPortalsCore {
         this.destiCommand.registerSubCommand("remove", new RemoveDestiSubCommand());
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
-        this.destiCommand.registerSubCommand("reload", new ReloadDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }

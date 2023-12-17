@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.services;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
@@ -15,6 +16,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
@@ -28,6 +30,8 @@ public class PortalServices {
 
     @Inject
     private PortalTempDataServices portalTempDataServices;
+
+    private final Map<String, AdvancedPortal> portalCache = new HashMap<>();
 
     public void loadPortals() {
 

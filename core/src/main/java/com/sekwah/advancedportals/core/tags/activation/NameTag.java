@@ -15,7 +15,9 @@ import java.util.List;
  * <p>
  * Most tags shouldn't be like this unless they are to be paired with another tag.
  */
-public class NameTag implements Tag.AutoComplete {
+public class NameTag implements Tag.AutoComplete, Tag.Creation {
+
+    public static String TAG_NAME = "name";
 
     private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL, TagType.DESTINATION };
 
@@ -26,7 +28,7 @@ public class NameTag implements Tag.AutoComplete {
 
     @Override
     public String getName() {
-        return "name";
+        return TAG_NAME;
     }
 
     @Override
@@ -42,5 +44,22 @@ public class NameTag implements Tag.AutoComplete {
     @Override
     public List<String> autoComplete(String argData) {
         return null;
+    }
+
+    @Override
+    public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
+        if (argData.length > 0) {
+            String name = argData[0];
+            if (name.contains(" ")) {
+                player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("tag.name.error.nospaces"));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
+
     }
 }
