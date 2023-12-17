@@ -67,8 +67,9 @@ public interface Tag {
          *
          * @param player if null then created by the server or a plugin
          * @param argData
+         * @return If the tag is valid or allowed creation
          */
-        void created(TagTarget target, PlayerContainer player, String[] argData);
+        boolean created(TagTarget target, PlayerContainer player, String[] argData);
 
         /**
          * Example if the player does not have access to remove the portal or destination.

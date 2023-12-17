@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.inject.Singleton;
@@ -58,6 +59,11 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         List<String> allFiles = dataStorage.listAllFiles(fileLocation, false);
         for (String fileName : allFiles) {
             Destination destination = dataStorage.loadJson(Destination.class, fileLocation + fileName);
+            // Forces the name tag to be up-to-date on load
+            String[] name = destination.getArgValues(NameTag.TAG_NAME);
+            if(name != null && name.length > 0) {
+                destination.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".json", "")});
+            }
             destinations.add(destination);
         }
         return destinations;
