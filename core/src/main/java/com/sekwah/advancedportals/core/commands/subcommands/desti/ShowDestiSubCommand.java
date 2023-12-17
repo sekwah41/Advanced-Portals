@@ -83,7 +83,7 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
             for(PlayerContainer player : serverContainer.getPlayers()) {
                 var tempData = tempDataServices.getPlayerTempData(player);
                 if(!tempData.isDestiVisible()) {
-                    return;
+                    continue;
                 }
 
                 for (Destination destination : destinationServices.getDestinations()) {
@@ -92,8 +92,6 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
                         Debug.addMarker(player, pos.toBlockPos(), destination.getArgValues("name")[0], new Color(100, 100, 100, 100), 1000);
                     }
                 }
-                //Debug.addMarker(player, pos, "", new Color(255, 0, 0, 100), 1000 * 10);
-
             }
         }, 1, 20);
     }
