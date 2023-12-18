@@ -29,9 +29,6 @@ public class AdvancedPortal implements TagTarget {
     @SerializedName("min")
     private BlockLocation minLoc;
 
-    @SerializedName("t")
-    private String[] triggerBlocks = {"PORTAL"};
-
     @SerializedName("a")
     private HashMap<String, String[]> args = new HashMap<>();
 
@@ -86,14 +83,14 @@ public class AdvancedPortal implements TagTarget {
         this.maxLoc = new BlockLocation(loc2.worldName, maxX, maxY, maxZ);
     }
 
-    public boolean hasTriggerBlock(String blockMaterial) {
+    /*public boolean hasTriggerBlock(String blockMaterial) {
         for(String triggerBlock : triggerBlocks) {
             if(blockMaterial.equals(triggerBlock)) {
                 return true;
             }
         }
         return false;
-    }
+    }*/
 
     public boolean activate(PlayerContainer player) {
         ActivationData data = new ActivationData();
@@ -154,11 +151,11 @@ public class AdvancedPortal implements TagTarget {
         return tagList;
     }
 
-    public void setTriggerBlocks(String[] triggerBlocks) {
+    /*public void setTriggerBlocks(String[] triggerBlocks) {
         this.triggerBlocks = triggerBlocks;
-    }
+    }*/
 
-    public String[] getTriggerBlocks() {
+    /*public String[] getTriggerBlocks() {
         return triggerBlocks;
-    }
+    }*/
 }
