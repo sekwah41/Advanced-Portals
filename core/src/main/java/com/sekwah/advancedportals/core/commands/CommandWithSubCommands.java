@@ -171,11 +171,7 @@ public class CommandWithSubCommands implements CommandTemplate {
         if(tabList == null) {
             return null;
         }
-        for(String arg : tabList.toArray(new String[0])) {
-            if(!arg.startsWith(lastArg.toLowerCase())) {
-                tabList.remove(arg);
-            }
-        }
+        tabList.removeIf(arg -> !arg.startsWith(lastArg));
         return tabList;
     }
 }

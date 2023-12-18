@@ -149,3 +149,4 @@ items.interact.right=Right Click
 
 tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
+tag.triggerblock.description=Sets the trigger block/s of the portal. Comma seperated or multi tag.

@@ -3,13 +3,18 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import org.bukkit.Material;
 import org.bukkit.Server;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class SpigotServerContainer implements ServerContainer {
 
     private final Server server;
+    private final List<String> triggerBlockList = Arrays.stream(Material.values()).filter(Material::isBlock).map(Enum::name)
+            .toList();
 
     public SpigotServerContainer(Server server) {
         this.server = server;
@@ -43,6 +48,11 @@ public class SpigotServerContainer implements ServerContainer {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<String> getTriggerBlocks() {
+        return this.triggerBlockList;
     }
 
     @Override
