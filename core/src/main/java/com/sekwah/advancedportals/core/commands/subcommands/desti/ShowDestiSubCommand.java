@@ -89,7 +89,7 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
                 for (Destination destination : destinationServices.getDestinations()) {
                     var pos = destination.getLoc();
                     if(pos.distanceTo(player.getLoc()) < config.getVisibleRange()) {
-                        Debug.addMarker(player, pos.toBlockPos(), destination.getArgValues("name")[0], new Color(100, 100, 100, 100), 1000);
+                        Debug.addMarker(player, pos.toBlockPos(), destination.getArgValues("name")[0], new Color(100, 100, 100, 100), 1300);
                     }
                 }
             }
