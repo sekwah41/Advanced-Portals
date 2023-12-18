@@ -9,6 +9,8 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.tags.activation.NameTag;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -25,6 +27,9 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
     @Inject
     TagRegistry tagRegistry;
 
+    @Inject
+    InfoLogger infoLogger;
+
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
@@ -36,7 +41,11 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
             // Find the tag with the "name" NAME
-            DataTag nameTag = portalTags.stream().findFirst().filter(tag -> tag.NAME.equals("name")).orElse(null);
+            DataTag nameTag = portalTags.stream().filter(tag -> {
+                this.infoLogger.log("Tag: " + tag.NAME);
+                this.infoLogger.log("Equals: " + tag.NAME.equals(NameTag.TAG_NAME));
+                return tag.NAME.equals(NameTag.TAG_NAME);
+            }).findFirst().orElse(null);
 
             // If the tag is null, check if arg[1] has a : to check it's not a tag.
             if(nameTag == null && !args[1].contains(":")) {
@@ -63,10 +72,11 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             if(portal != null) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
-                sender.sendMessage("\u00A7a" + "triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
+                sender.sendMessage("\u00A7a" + " triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
                 this.printTags(sender, portal.getArgs());
+            } else {
+                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
             }
-            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
         }
         else {
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.notags"));

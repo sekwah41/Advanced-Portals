@@ -20,7 +20,7 @@ public class RemoveDestiSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if(args.length > 1) {
             if(destinationServices.removeDestination(args[1], sender.getPlayerContainer())) {
-                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.portal.remove.complete"));
+                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.destination.remove.complete"));
             }
             else {
                 sender.sendMessage(Lang.translate("messageprefix.negative")

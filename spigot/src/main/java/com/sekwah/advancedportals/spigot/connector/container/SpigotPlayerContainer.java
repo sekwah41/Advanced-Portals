@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -102,7 +103,7 @@ public class SpigotPlayerContainer implements PlayerContainer {
         if(channel.startsWith("minecraft:")) {
             return MinecraftCustomPayload.sendCustomPayload(player, channel, bytes);
         } else {
-            player.sendPluginMessage(null, channel, bytes);
+            player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(), channel, bytes);
         }
         return true;
     }
