@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.core.repository;
 
-import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 
-public interface IPortalRepository extends IJsonRepository<WorldLocation> {
+public interface IPortalRepository extends IJsonRepository<AdvancedPortal> {
 
 }

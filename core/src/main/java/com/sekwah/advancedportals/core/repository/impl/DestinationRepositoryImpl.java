@@ -22,9 +22,6 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     @Inject
     DataStorage dataStorage;
 
-    @Inject
-    InfoLogger infoLogger;
-
     @Override
     public boolean save(String name, Destination destination) {
         return dataStorage.storeJson(destination, fileLocation + name + ".json");
@@ -44,8 +41,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         return false;
     }
 
-    public Destination get(String desti) {
-        return dataStorage.loadJson(Destination.class, fileLocation + desti + ".json");
+    public Destination get(String name) {
+        return dataStorage.loadJson(Destination.class, fileLocation + name + ".json");
     }
 
     @Override
@@ -56,13 +53,13 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     @Override
     public List<Destination> getAll() {
         List<Destination> destinations = new ArrayList<>();
-        List<String> allFiles = dataStorage.listAllFiles(fileLocation, false);
+        List<String> allFiles = dataStorage.listAllFiles(fileLocation, true);
         for (String fileName : allFiles) {
-            Destination destination = dataStorage.loadJson(Destination.class, fileLocation + fileName);
+            Destination destination = this.get(fileName);
             // Forces the name tag to be up-to-date on load
             String[] name = destination.getArgValues(NameTag.TAG_NAME);
             if(name != null && name.length > 0) {
-                destination.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".json", "")});
+                destination.setArgValues(NameTag.TAG_NAME, new String[]{fileName});
             }
             destinations.add(destination);
         }

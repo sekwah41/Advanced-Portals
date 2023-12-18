@@ -12,6 +12,7 @@ import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
+import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -50,6 +51,9 @@ public class AdvancedPortalsCore {
 
     @Inject
     private TagRegistry tagRegistry;
+
+    @Inject
+    private PortalServices portalServices;
 
     @Inject
     private DestinationServices destinationServices;
@@ -97,6 +101,7 @@ public class AdvancedPortalsCore {
         this.registerCommands();
         this.registerTags();
 
+        this.portalServices.loadPortals();
         this.destinationServices.loadDestinations();
         this.infoLogger.log(Lang.translate("logger.pluginenable"));
     }
