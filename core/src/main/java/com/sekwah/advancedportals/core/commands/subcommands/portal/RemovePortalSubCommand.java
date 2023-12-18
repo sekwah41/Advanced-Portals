@@ -32,19 +32,7 @@ public class RemovePortalSubCommand implements SubCommand {
             }
         }
         else {
-            PlayerContainer player = sender.getPlayerContainer();
-            if(player == null) {
-                sender.sendMessage(Lang.translate("command.portal.remove.noname"));
-            }
-            else {
-                if(portalServices.removePlayerSelection(player)) {
-
-                }
-                else {
-                    sender.sendMessage(Lang.translate("messageprefix.negative")
-                            + Lang.translate("command.portal.remove.error"));
-                }
-            }
+            sender.sendMessage(Lang.translate("command.portal.remove.noname"));
         }
     }
 
@@ -55,12 +43,7 @@ public class RemovePortalSubCommand implements SubCommand {
 
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
-        List<String> portalNames = new ArrayList<>();
-        for(Map.Entry<String, AdvancedPortal> portal : portalServices.getPortals()) {
-            portalNames.add(portal.getKey());
-        }
-        Collections.sort(portalNames);
-        return portalNames;
+        return portalServices.getPortalNames();
     }
 
     @Override

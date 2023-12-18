@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -34,9 +35,8 @@ public class AdvancedPortal implements TagTarget {
     @SerializedName("a")
     private HashMap<String, String[]> args = new HashMap<>();
 
-    public AdvancedPortal(BlockLocation maxLoc, BlockLocation minLoc) {
-        this.maxLoc = maxLoc;
-        this.minLoc = minLoc;
+    public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc) {
+        this.updateBounds(minLoc, maxLoc);
     }
 
     public BlockLocation getMaxLoc() {
@@ -65,6 +65,25 @@ public class AdvancedPortal implements TagTarget {
     @Override
     public void removeArg(String arg) {
         this.args.remove(arg);
+    }
+
+    /**
+     * Updates the bounds of the portal based on the provided locations.
+     *
+     * @param loc1 The first location.
+     * @param loc2 The second location.
+     */
+    public void updateBounds(BlockLocation loc1, BlockLocation loc2) {
+        int minX = Math.min(loc1.posX, loc2.posX);
+        int minY = Math.min(loc1.posY, loc2.posY);
+        int minZ = Math.min(loc1.posZ, loc2.posZ);
+
+        int maxX = Math.max(loc1.posX, loc2.posX);
+        int maxY = Math.max(loc1.posY, loc2.posY);
+        int maxZ = Math.max(loc1.posZ, loc2.posZ);
+
+        this.minLoc = new BlockLocation(loc1.worldName, minX, minY, minZ);
+        this.maxLoc = new BlockLocation(loc2.worldName, maxX, maxY, maxZ);
     }
 
     public boolean hasTriggerBlock(String blockMaterial) {
@@ -104,6 +123,24 @@ public class AdvancedPortal implements TagTarget {
         }
         return true;
     }
+
+    public boolean isLocationInPortal(PlayerLocation playerLocation) {
+        return this.isLocationInPortal(playerLocation, 0);
+    }
+
+    public boolean isLocationInPortal(PlayerLocation playerLocation, int additionalArea) {
+        double playerX = playerLocation.getPosX();
+        double playerY = playerLocation.getPosY();
+        double playerZ = playerLocation.getPosZ();
+
+        return playerX >= this.minLoc.posX - additionalArea &&
+                playerX < this.maxLoc.posX + 1 + additionalArea &&
+                playerY >= this.minLoc.posY - additionalArea &&
+                playerY < this.maxLoc.posY + 1 + additionalArea &&
+                playerZ >= this.minLoc.posZ - additionalArea &&
+                playerZ < this.maxLoc.posZ + 1 + additionalArea;
+    }
+
 
     public void setArgValues(DataTag portalTag) {
         this.setArgValues(portalTag.NAME, portalTag.VALUES);
