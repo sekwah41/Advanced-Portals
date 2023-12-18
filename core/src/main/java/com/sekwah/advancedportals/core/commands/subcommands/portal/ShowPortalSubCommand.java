@@ -88,6 +88,19 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                 if(!tempData.isPortalVisible()) {
                     continue;
                 }
+
+
+                if(tempData.getPos1() != null) {
+                    Debug.addMarker(player, tempData.getPos1(), "Pos1", new Color(0, 255, 0), SHOW_TICKS);
+                }
+                if(tempData.getPos2() != null) {
+                    Debug.addMarker(player, tempData.getPos2(), "Pos2", new Color(255, 0, 0), SHOW_TICKS);
+                }
+
+                if (tempData.getPos1() != null && tempData.getPos2() != null) {
+                    debugPortal(player, tempData.getPos1(), tempData.getPos2(), new Color(255, 0, 0, 100), SHOW_TICKS, true);
+                }
+
                 for (var portal : portalServices.getPortals()) {
                     if(portal.isLocationInPortal(player.getLoc(), config.getVisibleRange())) {
                         BlockLocation minLoc = portal.getMinLoc();
@@ -99,17 +112,6 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                         debugPortal(player, portal.getMinLoc(), portal.getMaxLoc(), color, 1000, false);
                         Debug.addMarker(player, midPoint, portal.getArgValues(NameTag.TAG_NAME)[0], color, SHOW_TICKS);
                     }
-                }
-
-                if(tempData.getPos1() != null) {
-                    Debug.addMarker(player, tempData.getPos1(), "Pos1", new Color(0, 255, 0), SHOW_TICKS);
-                }
-                if(tempData.getPos2() != null) {
-                    Debug.addMarker(player, tempData.getPos2(), "Pos2", new Color(255, 0, 0), SHOW_TICKS);
-                }
-
-                if (tempData.getPos1() != null && tempData.getPos2() != null) {
-                    debugPortal(player, tempData.getPos1(), tempData.getPos2(), new Color(255, 0, 0, 100), SHOW_TICKS, true);
                 }
             }
         }, 1, 20);
