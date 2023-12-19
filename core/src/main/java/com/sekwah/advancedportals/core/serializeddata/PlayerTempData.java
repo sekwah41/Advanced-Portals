@@ -22,7 +22,7 @@ public class PlayerTempData {
     /**
      * If to show portals near the player
      */
-    private boolean portalVisible;
+    private boolean portalVisible = true;
 
     /**
      * If to show destination blocks near the player
