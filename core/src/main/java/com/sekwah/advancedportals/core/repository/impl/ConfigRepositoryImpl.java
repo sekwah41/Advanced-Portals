@@ -48,6 +48,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public int getMaxTriggerVisualisationSize() {
+        return this.config.maxTriggerVisualisationSize;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.config = dataStorage.loadJson(Config.class, "config.json");
     }

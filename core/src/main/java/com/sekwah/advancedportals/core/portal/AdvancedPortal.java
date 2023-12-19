@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -149,6 +150,18 @@ public class AdvancedPortal implements TagTarget {
             tagList.add(new DataTag(entry.getKey(), entry.getValue()));
         }
         return tagList;
+    }
+
+    public boolean isTriggerBlock(String blockMaterial) {
+        var triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
+        if(triggerBlocks != null) {
+            for(String triggerBlock : triggerBlocks) {
+                if(blockMaterial.equals(triggerBlock)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*public void setTriggerBlocks(String[] triggerBlocks) {

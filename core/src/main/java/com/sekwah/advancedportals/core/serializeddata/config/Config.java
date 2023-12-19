@@ -29,4 +29,6 @@ public class Config {
 
     public int visibleRange = 50;
 
+    public int maxTriggerVisualisationSize = 1000;
+
 }

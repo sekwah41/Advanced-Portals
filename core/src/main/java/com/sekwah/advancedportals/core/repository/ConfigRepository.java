@@ -15,4 +15,8 @@ public interface ConfigRepository {
     void loadConfig(DataStorage dataStorage);
 
     int getVisibleRange();
+
+    int getMaxTriggerVisualisationSize();
+
+
 }
