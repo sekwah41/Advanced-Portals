@@ -163,12 +163,4 @@ public class AdvancedPortal implements TagTarget {
         }
         return false;
     }
-
-    /*public void setTriggerBlocks(String[] triggerBlocks) {
-        this.triggerBlocks = triggerBlocks;
-    }*/
-
-    /*public String[] getTriggerBlocks() {
-        return triggerBlocks;
-    }*/
 }

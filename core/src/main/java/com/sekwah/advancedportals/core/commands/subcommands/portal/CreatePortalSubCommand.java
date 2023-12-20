@@ -5,11 +5,13 @@ import com.sekwah.advancedportals.core.commands.subcommands.common.CreateTaggedS
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
+import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
@@ -29,6 +31,9 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
     @Inject
     InfoLogger infoLogger;
+
+    @Inject
+    ConfigRepository config;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -68,11 +73,16 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             }
             sender.sendMessage("");
 
+            var triggerBlockTag = portalTags.stream().filter(tag -> tag.NAME.equals(TriggerBlockTag.TAG_NAME)).findFirst().orElse(null);
+
+            if(triggerBlockTag == null) {
+                portalTags.add(new DataTag(TriggerBlockTag.TAG_NAME, config.getDefaultTriggerBlock()));
+            }
+
             AdvancedPortal portal = portalServices.createPortal(player, portalTags);
             if(portal != null) {
                 sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
-                //sender.sendMessage("\u00A7a" + " triggerBlock\u00A77:\u00A7e" + Arrays.toString(portal.getTriggerBlocks()));
                 this.printTags(sender, portal.getArgs());
             } else {
                 sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));

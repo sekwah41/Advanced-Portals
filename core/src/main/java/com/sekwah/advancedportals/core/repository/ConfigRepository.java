@@ -6,8 +6,6 @@ public interface ConfigRepository {
 
     boolean getUseOnlySpecialAxe();
 
-    void setUseOnlySpecialAxe(boolean useOnlyServerMadeAxe);
-
     String getTranslation();
 
     String getSelectorMaterial();
@@ -17,6 +15,8 @@ public interface ConfigRepository {
     int getVisibleRange();
 
     int getMaxTriggerVisualisationSize();
+
+    String getDefaultTriggerBlock();
 
 
 }

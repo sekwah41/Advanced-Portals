@@ -27,22 +27,22 @@ public class ConfigRepositoryImpl implements ConfigRepository {
         return null;
     }
 
+    @Override
     public boolean getUseOnlySpecialAxe() {
         return this.config.useOnlySpecialAxe;
     }
 
-    public void setUseOnlySpecialAxe(boolean useOnlyServerMadeAxe) {
-        this.config.useOnlySpecialAxe = useOnlyServerMadeAxe;
-    }
-
+    @Override
     public String getTranslation() {
         return this.config.translationFile;
     }
 
+    @Override
     public String getSelectorMaterial() {
         return this.config.selectorMaterial;
     }
 
+    @Override
     public int getVisibleRange() {
         return this.config.visibleRange;
     }
@@ -50,6 +50,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     @Override
     public int getMaxTriggerVisualisationSize() {
         return this.config.maxTriggerVisualisationSize;
+    }
+
+    @Override
+    public String getDefaultTriggerBlock() {
+        return this.config.defaultTriggerBlock;
     }
 
     @Override

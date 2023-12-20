@@ -26,7 +26,9 @@ import java.util.function.Consumer;
  */
 public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOnInit {
 
-    static final int SHOW_TICKS = 1300;
+    static final int SHOW_TICKS = 1010;
+
+    boolean alternate_show_trigger = true;
 
     @Inject
     PortalTempDataServices tempDataServices;
@@ -96,6 +98,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     @Override
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
+            alternate_show_trigger = !alternate_show_trigger;
             for(PlayerContainer player : serverContainer.getPlayers()) {
                 var tempData = tempDataServices.getPlayerTempData(player);
                 if(!tempData.isPortalVisible()) {
@@ -131,7 +134,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                             else
                                 color = new Color(0, 0, 0, 0);
                         }
-                        debugVisuals(player, portal, OUTLINE_COLOR, 1000, TRIGGER_COLOR);
+                        debugVisuals(player, portal, OUTLINE_COLOR, SHOW_TICKS, TRIGGER_COLOR);
                         Debug.addMarker(player, midPoint, portal.getArgValues(NameTag.TAG_NAME)[0], color, SHOW_TICKS);
                     }
                 }
@@ -171,14 +174,15 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                     for (int z = minZ; z <= maxZ; z++) {
                         var pos = new BlockLocation(pos1.worldName, x, y, z);
                         boolean isTrigger = portal != null && portal.isTriggerBlock(world.getBlock(pos));
+                        System.out.println(world.getBlock(pos));
                         boolean isOutline = (y == minY || y == maxY) && (x == minX || x == maxX || z == minZ || z == maxZ) || (z == minZ || z == maxZ) && (x == minX || x == maxX);
-                        if (isTrigger && isOutline) {
+                        if (isTrigger && isOutline && alternate_show_trigger) {
                             Debug.addMarker(player, pos, "", TRIGGER_OUTLINE_COLOR, time);
-                        }
-                        else if(isTrigger) {
-                            Debug.addMarker(player, pos, "", triggerColor, time);
                         } else if (isOutline) {
                             Debug.addMarker(player, pos, "", color, time);
+                        } else if(isTrigger) {
+                            if(alternate_show_trigger)
+                                Debug.addMarker(player, pos, "", triggerColor, time);
                         }
                     }
                 }
