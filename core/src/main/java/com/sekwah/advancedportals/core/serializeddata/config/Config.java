@@ -13,7 +13,7 @@ public class Config {
 
     public int portalProtectionRaduis = 5;
 
-    public String defaultTriggerBlock = "PORTAL";
+    public String defaultTriggerBlock = "NETHER_PORTAL";
 
     public boolean stopWaterFlow = true;
 
