@@ -32,6 +32,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        new Metrics(this);
+
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);

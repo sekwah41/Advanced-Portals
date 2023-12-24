@@ -120,6 +120,8 @@ portal.error.selection.differentworlds= Both the selected points need to be in t
 portal.error.selection.missing= You need to select both points for the portal.
 portal.error.save= There was a problem saving the portal.
 
+portal.nobuild= You don't have permission to build here!
+
 desti.info.noargs=&cNo tags were given
 
 command.error.noname= You must specify a name &ename:someNameHere
@@ -147,3 +149,5 @@ items.interact.right=Right Click
 tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma seperated or multi tag.
+
+

@@ -32,6 +32,18 @@ public class BlockLocation {
 
     }
 
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public int getPosZ() {
+        return posZ;
+    }
+
     public boolean equals(BlockLocation location) {
         return location.posX == this.posX && location.posY == this.posY && location.posZ == this.posZ && location.worldName.equals(this.worldName);
     }
@@ -45,5 +57,13 @@ public class BlockLocation {
         double dy = this.posY - pos.posY;
         double dz = this.posZ - pos.posZ;
         return dx * dx + dy * dy + dz * dz;
+    }
+
+    public BlockLocation addY(double offsetY) {
+        return this.addY((int) Math.floor(offsetY));
+    }
+
+    public BlockLocation addY(int offsetY) {
+        return new BlockLocation(this.worldName, this.posX, (this.posY + offsetY), this.posZ);
     }
 }

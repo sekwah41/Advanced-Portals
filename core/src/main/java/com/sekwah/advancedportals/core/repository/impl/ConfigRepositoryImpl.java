@@ -58,6 +58,31 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean isProtectionActive() {
+        return this.config.portalProtection;
+    }
+
+    @Override
+    public int getProtectionRadius() {
+        return this.config.portalProtectionRaduis;
+    }
+
+    @Override
+    public boolean getStopWaterFlow() {
+        return this.config.stopWaterFlow;
+    }
+
+    @Override
+    public boolean getPortalProtection() {
+        return this.config.portalProtection;
+    }
+
+    @Override
+    public long getPortalCooldown() {
+        return this.config.portalCooldown;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.config = dataStorage.loadJson(Config.class, "config.json");
     }
