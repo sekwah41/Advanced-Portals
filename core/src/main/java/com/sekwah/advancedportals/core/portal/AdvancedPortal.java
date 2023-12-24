@@ -122,14 +122,24 @@ public class AdvancedPortal implements TagTarget {
         return true;
     }
 
-    public boolean isLocationInPortal(PlayerLocation playerLocation) {
-        return this.isLocationInPortal(playerLocation, 0);
+
+    public boolean isLocationInPortal(BlockLocation loc) {
+        return this.isLocationInPortal(loc, 0);
     }
 
-    public boolean isLocationInPortal(PlayerLocation playerLocation, int additionalArea) {
-        double playerX = playerLocation.getPosX();
-        double playerY = playerLocation.getPosY();
-        double playerZ = playerLocation.getPosZ();
+    public boolean isLocationInPortal(PlayerLocation loc) {
+        return this.isLocationInPortal(loc.toBlockPos(), 0);
+    }
+
+
+    public boolean isLocationInPortal(PlayerLocation loc, int additionalArea) {
+        return this.isLocationInPortal(loc.toBlockPos(), additionalArea);
+    }
+
+    public boolean isLocationInPortal(BlockLocation loc, int additionalArea) {
+        double playerX = loc.posX;
+        double playerY = loc.posY;
+        double playerZ = loc.posZ;
 
         return playerX >= this.minLoc.posX - additionalArea &&
                 playerX < this.maxLoc.posX + 1 + additionalArea &&
