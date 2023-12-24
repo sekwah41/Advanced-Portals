@@ -18,5 +18,13 @@ public interface ConfigRepository {
 
     String getDefaultTriggerBlock();
 
+    boolean isProtectionActive();
 
+    int getProtectionRadius();
+
+    boolean getStopWaterFlow();
+
+    boolean getPortalProtection();
+
+    long getPortalCooldown();
 }

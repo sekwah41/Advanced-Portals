@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockAxis;
@@ -12,6 +13,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.services.PortalTempDataServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
+import com.sekwah.advancedportals.core.util.Lang;
 
 import java.util.Objects;
 
@@ -46,40 +48,29 @@ public class CoreListeners {
     }
 
     /**
-     * @param loc where the entity spawns
-     * @return if the entity is allowed to spawn
-     */
-    public boolean mobSpawn(PlayerLocation loc) {
-        return !this.portalServices.inPortalRegion(loc);
-    }
-
-    /**
      * @param player
-     * @param fromLoc
      * @param toLoc
-     * @return if the player is allowed to move
      */
-    public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
-        return this.portalServices.playerMove(player, fromLoc, toLoc);
+    public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
+        this.portalServices.playerMove(player, toLoc);
     }
 
     /**
+     * If the block is indirectly broken it will also take null for the player e.g. with tnt
      *
-     * @param fromPos
-     * @param toPos
-     * @return if movement is allowed
-     */
-    public boolean liquidFlow(BlockLocation fromPos, BlockLocation toPos) {
-        return true;
-    }
-
-    /**
      * @player player causing the event (or null if not a player)
      * @param blockPos
      * @param blockMaterial
      * @return if the block is allowed to break
      */
     public boolean blockBreak(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
+        if(player == null) {
+            return !portalServices.inPortalRegionProtected(blockPos);
+        }
+        if(!(PortalPermissions.BUILD.hasPermission(player) || !portalServices.inPortalRegionProtected(blockPos))) {
+            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.nobuild"));
+            return false;
+        }
         return true;
     }
 
@@ -90,7 +81,7 @@ public class CoreListeners {
      * @return if the block is allowed to be placed
      */
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        if(itemInHandName != null && player != null && PortalPermissions.BUILD.hasPermission(player)) {
+        if(player != null && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if(itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
@@ -101,16 +92,23 @@ public class CoreListeners {
                         break;
                     }
                 }
-                return false;
+                return true;
             }
             else if(itemInHandName.equals("\u00A78End Portal Block Placer")) {
                 world.setBlock(blockPos, "END_PORTAL");
-                return false;
+                return true;
             }
             else if(itemInHandName.equals("\u00A78Gateway Block Placer")) {
                 world.setBlock(blockPos, "END_GATEWAY");
-                return false;
+                return true;
             }
+            return true;
+        }
+        if(portalServices.inPortalRegionProtected(blockPos)) {
+            if(player != null) {
+                player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.nobuild"));
+            }
+            return false;
         }
         return true;
     }
@@ -158,4 +156,21 @@ public class CoreListeners {
         return true;
     }
 
+    public void worldChange(PlayerContainer player) {
+        this.portalTempDataServices.activateCooldown(player);
+    }
+
+    public boolean preventEntityCombust(EntityContainer entity) {
+        return portalServices.inPortalRegion(entity.getBlockLoc(), 2);
+    }
+
+    public boolean portalEvent(PlayerContainer player) {
+        return !portalServices.inPortalRegion(player.getBlockLoc(), 1)
+                && (!(player.getHeight() > 1) || !portalServices.inPortalRegion(player.getBlockLoc().addY((int) player.getHeight()), 1));
+    }
+
+    public boolean entityPortalEvent(EntityContainer entity) {
+        return !portalServices.inPortalRegion(entity.getBlockLoc(), 1)
+                && (!(entity.getHeight() > 1) || !portalServices.inPortalRegion(entity.getBlockLoc().addY((int) entity.getHeight()), 1));
+    }
 }

@@ -30,9 +30,7 @@ public class PlayerTempData {
     private boolean destiVisible;
 
     /**
-     * Used for things like join cooldowns
-     * TODO either store a hashmap of cool-downs on a portal, or a hashmap of cool-downs for portals on a player
-     *          Can be switched at a later date
+     * The next time System.currentTimeMillis() a player can use a portal.
      */
     private long globalCooldown;
 

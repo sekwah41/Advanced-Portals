@@ -1,10 +1,11 @@
 package com.sekwah.advancedportals.core.services;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
@@ -21,13 +22,13 @@ import java.util.*;
 public class PortalServices {
 
     @Inject
-    InfoLogger infoLogger;
-
-    @Inject
     private IPortalRepository portalRepository;
 
     @Inject
     private PortalTempDataServices portalTempDataServices;
+
+    @Inject
+    private ConfigRepository configRepository;
 
     private final Map<String, AdvancedPortal> portalCache = new HashMap<>();
 
@@ -45,12 +46,54 @@ public class PortalServices {
 
     }
 
-    public boolean inPortalRegion(PlayerLocation loc) {
+    public boolean inPortalRegionProtected(BlockLocation loc) {
+        for (AdvancedPortal portal : portalCache.values()) {
+            if(portal.isLocationInPortal(loc, configRepository.getProtectionRadius())) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean playerMove(PlayerContainer player, PlayerLocation fromLoc, PlayerLocation toLoc) {
+    public boolean inPortalRegionProtected(PlayerLocation loc) {
+        for (AdvancedPortal portal : portalCache.values()) {
+            if(portal.isLocationInPortal(loc, configRepository.getProtectionRadius())) {
+                return true;
+            }
+        }
         return false;
+    }
+
+    public boolean inPortalRegion(BlockLocation loc, int extraBlocks) {
+        for (AdvancedPortal portal : portalCache.values()) {
+            if(portal.isLocationInPortal(loc, extraBlocks)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
+        PlayerTempData tempData = portalTempDataServices.getPlayerTempData(player);
+
+        if(tempData.getGlobalCooldown() > System.currentTimeMillis()) {
+            return;
+        }
+
+        var blockLoc = toLoc.toBlockPos();
+        var blockEntityTopLoc = blockLoc.addY(player.getHeight());
+        var world = player.getWorld();
+        var blockMaterial = world.getBlock(blockLoc);
+        var blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
+
+        for (AdvancedPortal portal : portalCache.values()) {
+            if (portal.isLocationInPortal(toLoc)
+                    || portal.isLocationInPortal(blockEntityTopLoc)
+                    || portal.isTriggerBlock(blockMaterial)
+                    || portal.isTriggerBlock(blockEntityTopMaterial)) {
+                portal.activate(player);
+            }
+        }
     }
 
     public List<String> getPortalNames() {

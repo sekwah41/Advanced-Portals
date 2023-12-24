@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
  */
-public class SpigotPlayerContainer implements PlayerContainer {
+public class SpigotPlayerContainer extends SpigotEntityContainer implements PlayerContainer {
 
     @Inject
     private AdvancedPortalsCore portalsCore;
@@ -29,52 +29,40 @@ public class SpigotPlayerContainer implements PlayerContainer {
     private final Player player;
 
     public SpigotPlayerContainer(Player player) {
+        super(player);
         this.player = player;
     }
 
+    @Override
     public UUID getUUID() {
         return player.getUniqueId();
     }
 
+    @Override
     public void sendMessage(String message) {
         player.sendMessage(message);
     }
 
+    @Override
     public boolean isOp() {
         return this.player.isOp();
     }
 
-    public PlayerLocation getLoc() {
-        Location loc = this.player.getLocation();
-        return new PlayerLocation(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
-    }
-
     @Override
-    public BlockLocation getBlockLoc() {
-        Location loc = this.player.getLocation();
-        return new BlockLocation(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-    }
-
-    public double getEyeHeight() {
-        return 0;
-    }
-
     public void teleport(PlayerLocation location) {
         this.player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
     }
 
+    @Override
     public boolean hasPermission(String permission) {
         return this.player.hasPermission(permission);
-    }
-
-    public WorldContainer getWorld() {
-        return new SpigotWorldContainer(this.player.getWorld());
     }
 
     /**
      * @param blockPos
      * @param material
      */
+    @Override
     public void sendFakeBlock(BlockLocation blockPos, String material) {
 
     }
@@ -85,10 +73,12 @@ public class SpigotPlayerContainer implements PlayerContainer {
      * @param material
      * @param data
      */
+    @Override
     public void sendFakeBlockWithData(BlockLocation blockPos, String material, byte data) {
 
     }
 
+    @Override
     public void giveItem(String material, String itemName, String... itemDescription) {
         ItemStack regionselector = new ItemStack(Material.getMaterial(material));
         ItemMeta selectorname = regionselector.getItemMeta();

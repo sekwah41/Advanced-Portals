@@ -1,6 +1,8 @@
 package com.sekwah.advancedportals.core.services;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -18,11 +20,16 @@ public final class PortalTempDataServices {
      */
     private Map<UUID, PlayerTempData> tempDataMap = new HashMap<>();
 
+    @Inject
+    private ConfigRepository configRepository;
+
     public PlayerTempData getPlayerTempData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> new PlayerTempData());
     }
 
     public void activateCooldown(PlayerContainer player) {
+        var tempData = getPlayerTempData(player);
+        tempData.setGlobalCooldown(System.currentTimeMillis() + configRepository.getPortalCooldown());
     }
 
     public void playerLeave(PlayerContainer player) {
