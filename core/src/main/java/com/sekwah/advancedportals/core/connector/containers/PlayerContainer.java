@@ -8,25 +8,15 @@ import java.util.UUID;
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
  */
-public interface PlayerContainer {
+public interface PlayerContainer extends EntityContainer {
 
     UUID getUUID();
 
-    public void sendMessage(String message);
+    void sendMessage(String message);
 
     boolean isOp();
 
-    PlayerLocation getLoc();
-
-    BlockLocation getBlockLoc();
-
-    double getEyeHeight();
-
-    void teleport(PlayerLocation location);
-
     boolean hasPermission(String permission);
-
-    WorldContainer getWorld();
 
     /**
      * @param blockPos

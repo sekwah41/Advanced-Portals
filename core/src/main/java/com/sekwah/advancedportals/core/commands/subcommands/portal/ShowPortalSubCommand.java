@@ -174,7 +174,6 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                     for (int z = minZ; z <= maxZ; z++) {
                         var pos = new BlockLocation(pos1.worldName, x, y, z);
                         boolean isTrigger = portal != null && portal.isTriggerBlock(world.getBlock(pos));
-                        System.out.println(world.getBlock(pos));
                         boolean isOutline = (y == minY || y == maxY) && (x == minX || x == maxX || z == minZ || z == maxZ) || (z == minZ || z == maxZ) && (x == minX || x == maxX);
                         if (isTrigger && isOutline && alternate_show_trigger) {
                             Debug.addMarker(player, pos, "", TRIGGER_OUTLINE_COLOR, time);
