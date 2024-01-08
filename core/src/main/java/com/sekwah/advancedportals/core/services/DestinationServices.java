@@ -46,7 +46,11 @@ public class DestinationServices {
         }
     }
 
-    public Destination createDesti(PlayerContainer player, PlayerLocation playerLocation, ArrayList<DataTag> tags) {
+    public Destination createDesti(PlayerLocation playerLocation, List<DataTag> tags) {
+        return createDesti(null, playerLocation, tags);
+    }
+
+    public Destination createDesti(PlayerContainer player, PlayerLocation playerLocation, List<DataTag> tags) {
         // Find the tag with the "name" NAME
         DataTag nameTag = tags.stream().filter(tag -> tag.NAME.equals("name")).findFirst().orElse(null);
 
@@ -54,15 +58,15 @@ public class DestinationServices {
 
         // If the name is null, send an error saying that the name is required.
         if (nameTag == null) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("desti.error.noname"));
+            if (player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("desti.error.noname"));
             return null;
         }
 
         if (name == null || name.equals("")) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
+            if (player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
             return null;
         } else if (this.destinationRepository.containsKey(name)) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.error.nametaken", name));
+            if (player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.error.nametaken", name));
             return null;
         }
 
