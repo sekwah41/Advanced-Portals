@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
+import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.*;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
@@ -147,6 +148,14 @@ public class AdvancedPortalsCore {
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
+    }
+
+    public boolean registerPortalCommand(String arg, SubCommand subCommand, String... aliasArgs) {
+        return this.portalCommand.registerSubCommand(arg, subCommand, aliasArgs);
+    }
+
+    public boolean registerDestiCommand(String arg, SubCommand subCommand, String... aliasArgs) {
+        return this.destiCommand.registerSubCommand(arg, subCommand, aliasArgs);
     }
 
     /**

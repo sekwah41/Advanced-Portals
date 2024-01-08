@@ -113,20 +113,11 @@ public class PortalServices {
         return false;
     }
 
+    public AdvancedPortal createPortal(BlockLocation pos1, BlockLocation pos2, List<DataTag> tags) {
+        return createPortal(null, pos1, pos2, tags);
+    }
+
     public AdvancedPortal createPortal(PlayerContainer player, ArrayList<DataTag> tags) {
-        // Find the tag with the "name" NAME
-        DataTag nameTag = tags.stream().filter(tag -> tag.NAME.equals(NameTag.TAG_NAME)).findFirst().orElse(null);
-
-        String name = nameTag == null ? null : nameTag.VALUES[0];
-        if(nameTag == null || name == null || name.isEmpty()) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
-            return null;
-        }
-        else if(this.portalRepository.containsKey(name)) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.error.nametaken", name));
-            return null;
-        }
-
         PlayerTempData tempData = portalTempDataServices.getPlayerTempData(player);
 
         if(tempData.getPos1() == null || tempData.getPos2() == null) {
@@ -139,7 +130,24 @@ public class PortalServices {
             return null;
         }
 
-        AdvancedPortal portal = new AdvancedPortal(tempData.getPos1(), tempData.getPos2());
+        return createPortal(player, tempData.getPos1(), tempData.getPos2(), tags);
+    }
+
+    public AdvancedPortal createPortal(PlayerContainer player, BlockLocation pos1, BlockLocation pos2, List<DataTag> tags) {
+        // Find the tag with the "name" NAME
+        DataTag nameTag = tags.stream().filter(tag -> tag.NAME.equals(NameTag.TAG_NAME)).findFirst().orElse(null);
+
+        String name = nameTag == null ? null : nameTag.VALUES[0];
+        if(nameTag == null || name == null || name.isEmpty()) {
+            if(player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
+            return null;
+        }
+        else if(this.portalRepository.containsKey(name)) {
+            if(player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translateInsertVariables("command.error.nametaken", name));
+            return null;
+        }
+
+        AdvancedPortal portal = new AdvancedPortal(pos1, pos2);
 
         for (DataTag portalTag : tags) {
             portal.setArgValues(portalTag);
@@ -162,7 +170,7 @@ public class PortalServices {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.save"));
+            if(player != null) player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.save"));
         }
 
         return portal;
