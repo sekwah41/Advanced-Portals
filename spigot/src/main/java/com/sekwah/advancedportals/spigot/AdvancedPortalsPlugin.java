@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.util.GameScheduler;
+import com.sekwah.advancedportals.spigot.commands.subcommands.portal.UpdatePortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
@@ -57,6 +58,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         // Try to do this after setting up everything that would need to be injected to.
         this.portalsCore.onEnable();
+
+        this.portalsCore.registerPortalCommand("update", new UpdatePortalSubCommand());
 
         new Metrics(this);
     }

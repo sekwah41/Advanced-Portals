@@ -108,6 +108,12 @@ command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
+command.portal.update= &e%1$s &aportals and &e%2$s &adestinations will be imported. Please type &e/portal update confirm &ato confirm this action. &7Config values will not be imported.
+command.portal.update.confirm= &aImporting portals and destinations.
+command.portal.update.complete= &aImported &e%1$s &aportals and &e%2$s &adestinations.
+command.portal.update.help=Imports portals and destinations from the old format.
+command.portal.update.detailedhelp=Imports portals and destinations from the old format. This not overwrite any existing portals and destinations with the same name.
+
 command.portalblock= You have been given a &ePortal Block&a!
 
 command.endportalblock= You have been given a &8End Portal Block Placer&a!

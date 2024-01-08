@@ -30,6 +30,11 @@ public class PlayerTempData {
     private boolean destiVisible;
 
     /**
+     * If the player is in a portal. Stops re-triggering.
+     */
+    private boolean isInPortal = false;
+
+    /**
      * The next time System.currentTimeMillis() a player can use a portal.
      */
     private long globalCooldown;
@@ -82,5 +87,13 @@ public class PlayerTempData {
 
     public void setDestiVisible(boolean destiVisible) {
         this.destiVisible = destiVisible;
+    }
+
+    public boolean isInPortal() {
+        return isInPortal;
+    }
+
+    public void setInPortal(boolean inPortal) {
+        isInPortal = inPortal;
     }
 }
