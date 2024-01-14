@@ -3,8 +3,9 @@ package com.sekwah.advancedportals.core.services;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.util.Lang;
 
 import javax.inject.Singleton;
@@ -13,18 +14,29 @@ import java.util.Map;
 import java.util.UUID;
 
 @Singleton
-public final class PortalTempDataServices {
+public final class PlayerDataServices {
+
 
     /**
      * Possibly change to the cache map Aztec was talking about
      */
-    private Map<UUID, PlayerTempData> tempDataMap = new HashMap<>();
+    private Map<UUID, PlayerData> tempDataMap = new HashMap<>();
+
+    @Inject
+    private IPlayerDataRepository tempDataRepository;
 
     @Inject
     private ConfigRepository configRepository;
 
-    public PlayerTempData getPlayerTempData(PlayerContainer player) {
-        return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> new PlayerTempData());
+    public PlayerData getPlayerTempData(PlayerContainer player) {
+        return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
+            var tempData = tempDataRepository.get(player.getUUID().toString());
+
+            if(tempData == null) {
+                tempData = new PlayerData();
+            }
+            return tempData;
+        });
     }
 
     public void activateCooldown(PlayerContainer player) {
@@ -33,6 +45,7 @@ public final class PortalTempDataServices {
     }
 
     public void playerLeave(PlayerContainer player) {
+        tempDataRepository.save(player.getUUID().toString(), getPlayerTempData(player));
         tempDataMap.remove(player.getUUID());
     }
 
