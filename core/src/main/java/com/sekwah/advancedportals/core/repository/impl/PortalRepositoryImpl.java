@@ -43,11 +43,6 @@ public class PortalRepositoryImpl implements IPortalRepository {
     }
 
     @Override
-    public boolean update(String name, AdvancedPortal portal) {
-        return false;
-    }
-
-    @Override
     public AdvancedPortal get(String name) {
         return dataStorage.loadJson(AdvancedPortal.class, fileLocation + name + ".json");
     }
