@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
+import java.util.HashMap;
+
 /**
  * Possibly one of the only files in this package not designed to be serialised.
  *
@@ -7,7 +9,7 @@ package com.sekwah.advancedportals.core.serializeddata;
  *
  * This is not a place to store long term data e.g. if you want to make a player unable to use a portal over hours/days.
  */
-public class PlayerTempData {
+public class PlayerData {
 
     /**
      * Portal selection position 1
@@ -22,7 +24,7 @@ public class PlayerTempData {
     /**
      * If to show portals near the player
      */
-    private boolean portalVisible = true;
+    private boolean portalVisible = false;
 
     /**
      * If to show destination blocks near the player
@@ -38,6 +40,8 @@ public class PlayerTempData {
      * The next time System.currentTimeMillis() a player can use a portal.
      */
     private long globalCooldown;
+
+    private HashMap<String, String> perPortalCooldowns = new HashMap<>();
 
     private String selectedPortal;
 

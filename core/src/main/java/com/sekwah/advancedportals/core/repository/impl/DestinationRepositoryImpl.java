@@ -36,11 +36,6 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         return dataStorage.deleteFile(fileLocation + name + ".json");
     }
 
-    @Override
-    public boolean update(String name, Destination destination) {
-        return false;
-    }
-
     public Destination get(String name) {
         return dataStorage.loadJson(Destination.class, fileLocation + name + ".json");
     }

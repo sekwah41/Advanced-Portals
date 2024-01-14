@@ -10,8 +10,6 @@ public interface IJsonRepository<T> {
 
     boolean delete(String name);
 
-    boolean update(String name, T t);
-
     T get(String name);
 
     List<String> getAllNames();

@@ -9,9 +9,8 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.serializeddata.PlayerTempData;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -25,7 +24,7 @@ public class PortalServices {
     private IPortalRepository portalRepository;
 
     @Inject
-    private PortalTempDataServices portalTempDataServices;
+    private PlayerDataServices playerDataServices;
 
     @Inject
     private ConfigRepository configRepository;
@@ -74,7 +73,7 @@ public class PortalServices {
     }
 
     public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
-        PlayerTempData tempData = portalTempDataServices.getPlayerTempData(player);
+        PlayerData tempData = playerDataServices.getPlayerTempData(player);
 
         if(tempData.getGlobalCooldown() > System.currentTimeMillis()) {
             return;
@@ -118,7 +117,7 @@ public class PortalServices {
     }
 
     public AdvancedPortal createPortal(PlayerContainer player, ArrayList<DataTag> tags) {
-        PlayerTempData tempData = portalTempDataServices.getPlayerTempData(player);
+        PlayerData tempData = playerDataServices.getPlayerTempData(player);
 
         if(tempData.getPos1() == null || tempData.getPos2() == null) {
             player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.selection.missing"));

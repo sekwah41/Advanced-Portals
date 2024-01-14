@@ -11,7 +11,7 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PortalServices;
-import com.sekwah.advancedportals.core.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class CoreListeners {
 
     @Inject
-    private PortalTempDataServices portalTempDataServices;
+    private PlayerDataServices playerDataServices;
 
     @Inject
     private PortalServices portalServices;
@@ -32,15 +32,15 @@ public class CoreListeners {
     private GameScheduler gameScheduler;
 
     public void playerJoin(PlayerContainer player) {
-        this.portalTempDataServices.activateCooldown(player);
+        this.playerDataServices.activateCooldown(player);
     }
 
     public void teleportEvent(PlayerContainer player) {
-        this.portalTempDataServices.activateCooldown(player);
+        this.playerDataServices.activateCooldown(player);
     }
 
     public void playerLeave(PlayerContainer player) {
-        this.portalTempDataServices.playerLeave(player);
+        this.playerDataServices.playerLeave(player);
     }
 
     public void tick() {
@@ -134,7 +134,7 @@ public class CoreListeners {
         if(itemName != null && (player.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(player)) &&
                 itemMaterialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
                 && (!this.configRepository.getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
-            this.portalTempDataServices.playerSelectorActivate(player, blockLoc, leftClick);
+            this.playerDataServices.playerSelectorActivate(player, blockLoc, leftClick);
             return false;
         }
         else if(itemName != null && leftClick &&
@@ -157,7 +157,7 @@ public class CoreListeners {
     }
 
     public void worldChange(PlayerContainer player) {
-        this.portalTempDataServices.activateCooldown(player);
+        this.playerDataServices.activateCooldown(player);
     }
 
     public boolean preventEntityCombust(EntityContainer entity) {

@@ -10,7 +10,7 @@ import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.services.PortalServices;
-import com.sekwah.advancedportals.core.services.PortalTempDataServices;
+import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -18,8 +18,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 
 import java.awt.*;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * This will be different from the old show command and I believe it is 1.16+ till the latest version as of writing this.
@@ -31,7 +29,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     boolean alternate_show_trigger = true;
 
     @Inject
-    PortalTempDataServices tempDataServices;
+    PlayerDataServices tempDataServices;
 
     @Inject
     GameScheduler gameScheduler;

@@ -14,6 +14,7 @@ import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
@@ -59,6 +60,9 @@ public class AdvancedPortalsCore {
 
     @Inject
     private DestinationServices destinationServices;
+
+    @Inject
+    private PlayerDataServices playerDataRepository;
 
     @Inject
     private GameScheduler gameScheduler;
@@ -168,6 +172,9 @@ public class AdvancedPortalsCore {
     }
 
     public void onDisable() {
+        for(var playerContainer : this.serverContainer.getPlayers()) {
+            playerDataRepository.playerLeave(playerContainer);
+        }
         this.infoLogger.log(Lang.translate("logger.plugindisable"));
     }
 
