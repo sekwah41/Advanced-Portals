@@ -4,6 +4,8 @@ import com.google.inject.*;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
+import com.sekwah.advancedportals.core.repository.impl.PlayerDataRepositoryImpl;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
@@ -13,7 +15,6 @@ import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.repository.impl.ConfigRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.DestinationRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.PortalRepositoryImpl;
-import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.annotation.Nonnull;
@@ -40,6 +41,7 @@ public class AdvancedPortalsModule extends AbstractModule {
     protected void configure() {
         bind(IPortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(IDestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
+        bind(IPlayerDataRepository.class).to(PlayerDataRepositoryImpl.class).in(Scopes.SINGLETON);
         bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
 
         // Instances
