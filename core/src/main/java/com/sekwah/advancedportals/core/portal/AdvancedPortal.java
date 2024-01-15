@@ -104,13 +104,17 @@ public class AdvancedPortal implements TagTarget {
         for(DataTag portalTag : portalTags) {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
-                activationHandler.preActivated(this, player, data, this.getArgValues(portalTag.NAME));
+                if(!activationHandler.preActivated(this, player, data, this.getArgValues(portalTag.NAME))) {
+                    return false;
+                }
             }
         }
         for(DataTag portalTag : portalTags) {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
             if(activationHandler != null) {
-                activationHandler.activated(this, player, data, this.getArgValues(portalTag.NAME));
+                if(!activationHandler.activated(this, player, data, this.getArgValues(portalTag.NAME))) {
+                    return false;
+                }
             }
         }
         for(DataTag portalTag : portalTags) {
