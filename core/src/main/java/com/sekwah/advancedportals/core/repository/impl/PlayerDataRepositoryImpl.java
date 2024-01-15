@@ -18,9 +18,6 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
     private final String fileLocation = "playerData/";
 
     @Inject
-    private ConfigRepository configRepository;
-
-    @Inject
     DataStorage dataStorage;
 
     @Override

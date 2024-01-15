@@ -86,10 +86,10 @@ public class PortalServices {
         var blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
 
         for (AdvancedPortal portal : portalCache.values()) {
-            if (portal.isLocationInPortal(toLoc)
-                    || portal.isLocationInPortal(blockEntityTopLoc)
-                    || portal.isTriggerBlock(blockMaterial)
-                    || portal.isTriggerBlock(blockEntityTopMaterial)) {
+            if ((portal.isLocationInPortal(toLoc)
+                    && portal.isTriggerBlock(blockMaterial))
+                    || (portal.isLocationInPortal(blockEntityTopLoc)
+                    && portal.isTriggerBlock(blockEntityTopMaterial))) {
                 portal.activate(player);
             }
         }

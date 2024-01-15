@@ -57,7 +57,7 @@ public interface Tag {
 
     }
 
-    interface SplitTag extends Tag {
+    interface Split extends Tag {
 
         /**
          * This is used to split the tag into the arguments if multiple are supported
