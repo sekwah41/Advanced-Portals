@@ -8,9 +8,11 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class DestiTag implements Tag.Activation, Tag.AutoComplete {
+public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
     public static String TAG_NAME = "destination";
     @Inject
@@ -62,5 +64,11 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete {
     @Override
     public List<String> autoComplete(String argData) {
         return destinationServices.getDestinationNames();
+    }
+
+    @Nullable
+    @Override
+    public String splitString() {
+        return ",";
     }
 }

@@ -1,10 +1,8 @@
 package com.sekwah.advancedportals.core.commands.subcommands.common;
 
-import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -55,18 +53,16 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                         var tagSuggestions = autoComplete.autoComplete(argData);
 
                         if(tagSuggestions != null) {
-                            if(tag instanceof Tag.SplitTag splitTag) {
+                            if(tag instanceof Tag.Split splitTag) {
                                 var multiTagSplit = splitTag.splitString();
-                                System.out.printf("Splitting with %s%n", multiTagSplit);
                                 boolean endsWithSplit = argData.endsWith(multiTagSplit);
                                 String[] items = argData.split(multiTagSplit);
-                                System.out.printf("Splitting with %s%n", Arrays.toString(items));
                                 Set<String> existingItems = Arrays.stream(items, 0, endsWithSplit ? items.length : items.length - 1)
                                         .map(String::trim)
                                         .collect(Collectors.toSet());
 
                                 String partialInput = endsWithSplit ? "" : items[items.length - 1].trim();
-                                String baseString = endsWithSplit ? argData : argData.substring(0, argData.lastIndexOf(",") + 1);
+                                String baseString = endsWithSplit ? argData : argData.substring(0, argData.lastIndexOf(multiTagSplit) + 1);
 
                                 tagSuggestions = tagSuggestions.stream()
                                         // Remove already listed items
@@ -90,17 +86,17 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
             }
         }
 
-        ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
+        ArrayList<DataTag> tagsFromArgs = TagReader.getTagsFromArgs(args);
 
         allTags.stream().filter(tag -> {
-            for (DataTag portalTag : portalTags) {
-                if(portalTag.NAME.equals(tag.getName())) {
+            for (DataTag argTag : tagsFromArgs) {
+                if(argTag.NAME.equals(tag.getName())) {
                     return false;
                 }
                 var aliases = tag.getAliases();
                 if(aliases != null) {
                     for (String alias : aliases) {
-                        if(portalTag.NAME.equals(alias)) {
+                        if(argTag.NAME.equals(alias)) {
                             return false;
                         }
                     }
@@ -127,13 +123,24 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
         List<Tag> relatedTags = this.getRelatedTags();
         List<DataTag> processedTags = new ArrayList<>();
 
-        for (DataTag dataTag : dataTags) {
+        for (var dataTag : dataTags) {
             for (Tag tag : relatedTags) {
+                if(tag instanceof Tag.Split splitTag) {
+                    var splitString = splitTag.splitString();
+                    if(splitString != null) {
+                        List<String> newValues = new ArrayList<>();
+                        for(String split : dataTag.VALUES) {
+                            newValues.addAll(Arrays.stream(split.split(splitString)).map(String::trim).toList());
+                        }
+                        dataTag = new DataTag(dataTag.NAME, newValues.toArray(new String[0]));
+                    }
+                }
                 if (dataTag.NAME.equals(tag.getName())) {
                     // DataTag name matches the tag's main name, add as is
                     processedTags.add(dataTag);
                     break;
                 } else if (tag.getAliases() != null && Arrays.asList(tag.getAliases()).contains(dataTag.NAME)) {
+                    // There is currently an edge case where if someone uses multiple aliases or names for tags at the same time, it'll only use the last one applied to the mapping.
                     // DataTag name matches an alias, create a new DataTag with the main name
                     processedTags.add(new DataTag(tag.getName(), dataTag.VALUES));
                     break;
