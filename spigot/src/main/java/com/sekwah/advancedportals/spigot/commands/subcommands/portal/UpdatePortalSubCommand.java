@@ -61,10 +61,14 @@ public class UpdatePortalSubCommand implements SubCommand {
                     config.getInt(portalName + ".pos2.Z"));
             List<DataTag> args = new ArrayList<>();
             args.add(new DataTag("name", portalName));
-            args.add(new DataTag("triggerblock", config.getString(portalName + ".triggerblock")));
+            var triggerblock = config.getString(portalName + ".triggerblock");
+            if(triggerblock != null) args.add(new DataTag("triggerblock", triggerblock.split(",")));
             // It's called bungee as that's the implementation behind it
-            args.add(new DataTag("bungee", config.getString(portalName + ".bungee")));
-            args.add(new DataTag("destination", config.getString(portalName + ".destination")));
+            var bungee = config.getString(portalName + ".bungee");
+            if(bungee != null) args.add(new DataTag("bungee", bungee.split(",")));
+
+            var destination = config.getString(portalName + ".destination");
+            if(destination != null) args.add(new DataTag("destination", destination.split(",")));
 
             ConfigurationSection portalConfigSection = config.getConfigurationSection(portalName);
             ConfigurationSection portalArgsConf = portalConfigSection.getConfigurationSection("portalArgs");

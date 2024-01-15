@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.tags.activation;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -39,6 +40,12 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete {
 
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+        // Check that the destination exists.
+        for (String destiName : destinationServices.getDestinationNames()) {
+            if (destiName.equalsIgnoreCase(argData[0])) {
+                return true;
+            }
+        }
         return false;
     }
 

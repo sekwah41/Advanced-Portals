@@ -57,6 +57,18 @@ public interface Tag {
 
     }
 
+    interface SplitTag extends Tag {
+
+        /**
+         * This is used to split the tag into the arguments if multiple are supported
+         *
+         * @return null if the tag does not support splitting
+         */
+        @Nullable
+        String splitString();
+
+    }
+
     /**
      * The events for portal creation and destroying
      */
@@ -127,13 +139,11 @@ public interface Tag {
          * You should do some second checks if it can be dependent on the preActivate, the destination tags will also be
          * triggered here if a desti is listed.
          *
-         * (You can still cancel here but it is advised to check properly in preActive)
-         *
          * @param player
          * @param activeData
          * @param argData
          *
-         * @return If the tag has allowed the warp
+         * @return Action performed (only return false if the tag failed to do anything)
          */
         boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData);
 
