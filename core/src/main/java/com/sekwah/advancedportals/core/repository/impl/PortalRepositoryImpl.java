@@ -1,12 +1,10 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
-import com.sekwah.advancedportals.core.serializeddata.WorldLocation;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 
@@ -44,7 +42,9 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     @Override
     public AdvancedPortal get(String name) {
-        return dataStorage.loadJson(AdvancedPortal.class, fileLocation + name + ".json");
+        var portal = dataStorage.loadJson(AdvancedPortal.class, fileLocation + name + ".json");
+        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
+        return portal;
     }
 
     @Override

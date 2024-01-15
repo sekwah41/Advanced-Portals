@@ -43,6 +43,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.console"));
                 return;
             }
+
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
             // Find the tag with the "name" NAME

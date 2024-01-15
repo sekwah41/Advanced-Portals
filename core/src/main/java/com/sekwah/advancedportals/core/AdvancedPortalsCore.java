@@ -43,6 +43,8 @@ public class AdvancedPortalsCore {
 
     private final ServerContainer serverContainer;
 
+    private static AdvancedPortalsCore instance;
+
     @Inject
     private CommandRegister commandRegister;
 
@@ -68,6 +70,7 @@ public class AdvancedPortalsCore {
     private GameScheduler gameScheduler;
 
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc, InfoLogger infoLogger, ServerContainer serverContainer) {
+        instance = this;
         this.serverContainer = serverContainer;
         this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
@@ -200,6 +203,10 @@ public class AdvancedPortalsCore {
 
     public int[] getMcVersion() {
         return mcVersion;
+    }
+
+    public static AdvancedPortalsCore getInstance() {
+        return instance;
     }
 
     public ServerContainer getServerContainer() {

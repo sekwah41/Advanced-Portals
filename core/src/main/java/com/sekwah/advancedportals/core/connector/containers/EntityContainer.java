@@ -15,4 +15,5 @@ public interface EntityContainer {
 
     WorldContainer getWorld();
 
+    String getName();
 }

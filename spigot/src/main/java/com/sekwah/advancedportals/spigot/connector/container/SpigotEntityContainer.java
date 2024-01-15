@@ -58,4 +58,9 @@ public class SpigotEntityContainer implements EntityContainer {
     public WorldContainer getWorld() {
         return new SpigotWorldContainer(this.entity.getWorld());
     }
+
+    @Override
+    public String getName() {
+        return this.entity.getName();
+    }
 }
