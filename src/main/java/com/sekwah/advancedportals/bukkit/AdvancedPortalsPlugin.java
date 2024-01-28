@@ -40,7 +40,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         /*Metrics metrics = */
-        new Metrics(this);
+        new Metrics(this, 4814);
 
         ConfigAccessor config = new ConfigAccessor(this, "config.yml");
 
