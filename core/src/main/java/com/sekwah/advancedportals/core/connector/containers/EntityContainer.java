@@ -11,7 +11,7 @@ public interface EntityContainer {
 
     BlockLocation getBlockLoc();
 
-    void teleport(PlayerLocation location);
+    boolean teleport(PlayerLocation location);
 
     WorldContainer getWorld();
 

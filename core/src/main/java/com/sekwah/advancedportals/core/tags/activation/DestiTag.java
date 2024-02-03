@@ -3,7 +3,9 @@ package com.sekwah.advancedportals.core.tags.activation;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
@@ -17,6 +19,9 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     public static String TAG_NAME = "destination";
     @Inject
     DestinationServices destinationServices;
+
+    @Inject
+    WarpEffectRegistry warpEffectRegistry;
 
     private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL };
 
@@ -58,7 +63,16 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
     @Override
     public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        return false;
+        System.out.println("Teleporting to destination");
+        Destination destination = destinationServices.getDestination(argData[0]);
+        if (destination != null) {
+            var warpEffect = warpEffectRegistry.getVisualEffect("ender");
+            if (warpEffect != null) {
+                warpEffect.onWarpVisual(player, ac);
+            }
+            player.teleport(destination.getLoc());
+        }
+        return true;
     }
 
     @Override

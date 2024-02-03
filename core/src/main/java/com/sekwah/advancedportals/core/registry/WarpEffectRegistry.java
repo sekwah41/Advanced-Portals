@@ -14,9 +14,7 @@ import java.util.Map;
 public class WarpEffectRegistry {
 
 
-    private Map<String, WarpEffect> visualEffects = new HashMap();
-
-    private Map<String, WarpEffect> soundEffects = new HashMap();
+    private Map<String, WarpEffect> warpEffects = new HashMap();
 
     @Inject
     private AdvancedPortalsCore portalsCore;
@@ -31,50 +29,49 @@ public class WarpEffectRegistry {
      * @param effect
      * @return if the effect was registered
      */
-    public boolean registerEffect(String name, WarpEffect effect, WarpEffect.Type type) {
+    public void registerEffect(String name, WarpEffect effect) {
+
         if(name == null){
-            return false;
+            this.infoLogger.warning("Effect name cannot be null");
+            return;
         }
-        Map<String, WarpEffect> list = null;
-        switch (type){
-            case SOUND:
-                list = this.soundEffects;
-                break;
-            case VISUAL:
-                list = this.visualEffects;
-                break;
-            default:
-                this.portalsCore.getInfoLogger().warning(type.toString()
-                        + " effect type not recognised");
-                return false;
+        if(this.warpEffects.containsKey(name)){
+            this.infoLogger.warning("Effect with the name: " + name + " already exists");
+            return;
         }
-        if(list.containsKey(name)){
-            return false;
-        }
-        list.put(name, effect);
-        return true;
+        this.warpEffects.put(name, effect);
     }
 
-    public WarpEffect getEffect(String name, WarpEffect.Type type){
-        Map<String, WarpEffect> list = null;
-        switch (type){
-            case SOUND:
-                list = this.soundEffects;
-                break;
-            case VISUAL:
-                list = this.visualEffects;
-                break;
-            default:
-                this.infoLogger.warning(type.toString()
-                        + " effect type not recognised");
+    public WarpEffect.Visual getVisualEffect(String name){
+        if(this.warpEffects.containsKey(name)) {
+            var effect = this.warpEffects.get(name);
+            if(effect instanceof WarpEffect.Visual visual){
+                return visual;
+            }
+            else{
+                this.infoLogger.warning("Effect called " + name + " is not a visual effect");
                 return null;
-        }
-        if(list.containsKey(name)) {
-            return list.get(name);
+            }
         }
         else{
-            this.infoLogger.warning("No effect of type:"
-                    + type.toString() + " was registered with the name: " + name);
+            this.infoLogger.warning("No effect called " + name + " was registered");
+            return null;
+        }
+    }
+
+    public WarpEffect.Sound getSoundEffect(String name){
+        if(this.warpEffects.containsKey(name)) {
+            var effect = this.warpEffects.get(name);
+            if(effect instanceof WarpEffect.Sound sound){
+                return sound;
+            }
+            else{
+                this.infoLogger.warning("Effect called " + name + " is not a sound effect");
+                return null;
+            }
+        }
+        else{
+            this.infoLogger.warning("No effect called " + name + " was registered");
             return null;
         }
     }

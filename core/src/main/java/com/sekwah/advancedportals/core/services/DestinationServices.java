@@ -103,4 +103,8 @@ public class DestinationServices {
         }
         return false;
     }
+
+    public Destination getDestination(String name) {
+        return destinationCache.get(name);
+    }
 }
