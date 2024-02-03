@@ -4,6 +4,7 @@ import com.google.inject.*;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.repository.impl.PlayerDataRepositoryImpl;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
@@ -53,6 +54,7 @@ public class AdvancedPortalsModule extends AbstractModule {
         // Providers
         bind(Config.class).toProvider(ConfigProvider.class);
         bind(TagRegistry.class).asEagerSingleton();
+        bind(WarpEffectRegistry.class).asEagerSingleton();
 
         // Delayed Bindings
         for(DelayedBinding delayedBinding : delayedBindings) {

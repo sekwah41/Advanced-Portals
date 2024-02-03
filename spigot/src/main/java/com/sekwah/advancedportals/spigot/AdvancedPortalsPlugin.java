@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.spigot.commands.subcommands.portal.UpdatePorta
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
+import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.regex.Matcher;
@@ -55,6 +56,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         GameScheduler scheduler = injector.getInstance(GameScheduler.class);
         this.getServer().getScheduler().scheduleSyncRepeatingTask(this, scheduler::tick, 1, 1);
+
+        var warpEffects = new SpigotWarpEffects();
+        injector.injectMembers(warpEffects);
+        warpEffects.registerEffects();
 
         // Try to do this after setting up everything that would need to be injected to.
         this.portalsCore.onEnable();
