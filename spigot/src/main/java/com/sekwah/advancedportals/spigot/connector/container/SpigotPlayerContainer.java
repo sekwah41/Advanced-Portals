@@ -49,8 +49,8 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
     }
 
     @Override
-    public void teleport(PlayerLocation location) {
-        this.player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
+    public boolean teleport(PlayerLocation location) {
+        return this.player.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
     }
 
     @Override
@@ -96,5 +96,9 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
             player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(), channel, bytes);
         }
         return true;
+    }
+
+    public Player getPlayer() {
+        return this.player;
     }
 }
