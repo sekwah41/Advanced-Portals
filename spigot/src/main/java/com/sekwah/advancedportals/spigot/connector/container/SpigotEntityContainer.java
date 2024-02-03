@@ -49,8 +49,8 @@ public class SpigotEntityContainer implements EntityContainer {
     }
 
     @Override
-    public void teleport(PlayerLocation location) {
-        this.entity.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
+    public boolean teleport(PlayerLocation location) {
+        return this.entity.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
     }
 
 
