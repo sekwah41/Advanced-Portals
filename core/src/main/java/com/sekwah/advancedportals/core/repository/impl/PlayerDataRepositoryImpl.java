@@ -49,44 +49,4 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
     public List<PlayerData> getAll() {
         return null;
     }
-
-    @Override
-    public void addSelectedPortal(UUID selectedPlayer, String portal) {
-
-    }
-
-    @Override
-    public void removeSelectedPortal(UUID uuid) {
-
-    }
-
-    @Override
-    public void addSelectedPosition(UUID uuid, boolean isPos1, BlockLocation portalLocation) {
-
-    }
-
-    @Override
-    public void removeSelectedPosition(UUID uuid, boolean isPos1) {
-
-    }
-
-    @Override
-    public void removeAllSelectedHand(UUID uuid) {
-
-    }
-
-    @Override
-    public void activateCooldown(PlayerContainer player) {
-
-    }
-
-    @Override
-    public void playerLeave(PlayerContainer player) {
-
-    }
-
-    @Override
-    public boolean inPortalRegion(PlayerLocation loc) {
-        return false;
-    }
 }

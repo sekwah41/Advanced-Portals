@@ -16,6 +16,7 @@ import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author sekwah41
@@ -153,7 +154,7 @@ public class AdvancedPortal implements TagTarget {
         double playerY = loc.posY;
         double playerZ = loc.posZ;
 
-        return playerX >= this.minLoc.posX - additionalArea &&
+        return Objects.equals(loc.worldName, this.minLoc.worldName) && playerX >= this.minLoc.posX - additionalArea &&
                 playerX < this.maxLoc.posX + 1 + additionalArea &&
                 playerY >= this.minLoc.posY - additionalArea &&
                 playerY < this.maxLoc.posY + 1 + additionalArea &&
