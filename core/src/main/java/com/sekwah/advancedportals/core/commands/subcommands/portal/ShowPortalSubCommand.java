@@ -18,6 +18,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This will be different from the old show command and I believe it is 1.16+ till the latest version as of writing this.
@@ -29,7 +30,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     boolean alternate_show_trigger = true;
 
     @Inject
-    PlayerDataServices tempDataServices;
+    PlayerDataServices playerDataServices;
 
     @Inject
     GameScheduler gameScheduler;
@@ -64,7 +65,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
             return;
         }
 
-        var tempData = tempDataServices.getPlayerTempData(sender.getPlayerContainer());
+        var tempData = playerDataServices.getPlayerData(sender.getPlayerContainer());
         if(tempData.isPortalVisible()) {
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.portal.show.disabled"));
         } else {
@@ -98,26 +99,26 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
         gameScheduler.intervalTickEvent("show_portal", () -> {
             alternate_show_trigger = !alternate_show_trigger;
             for(PlayerContainer player : serverContainer.getPlayers()) {
-                var tempData = tempDataServices.getPlayerTempData(player);
+                var tempData = playerDataServices.getPlayerData(player);
                 if(!tempData.isPortalVisible()) {
                     continue;
                 }
 
 
-                if (tempData.getPos1() != null && tempData.getPos2() != null) {
+                if (tempData.getPos1() != null && tempData.getPos2() != null && tempData.getPos1().worldName.equals(player.getWorldName()) && tempData.getPos2().worldName.equals(player.getWorldName())) {
                     debugVisuals(player, tempData.getPos1(), tempData.getPos2(), SELECTION_COLOR, SHOW_TICKS);
                 }
 
-                if(tempData.getPos1() != null) {
+                if(tempData.getPos1() != null && tempData.getPos1().worldName.equals(player.getWorldName())) {
                     Debug.addMarker(player, tempData.getPos1(), "Pos1", POS1_COLOR, SHOW_TICKS);
                 }
-                if(tempData.getPos2() != null) {
+                if(tempData.getPos2() != null && tempData.getPos2().worldName.equals(player.getWorldName())) {
                     Debug.addMarker(player, tempData.getPos2(), "Pos2", POS2_COLOR, SHOW_TICKS);
                 }
 
                 var world = player.getWorld();
                 for (var portal : portalServices.getPortals()) {
-                    if(portal.isLocationInPortal(player.getLoc(), config.getVisibleRange())) {
+                    if(Objects.equals(portal.getMinLoc().worldName, player.getWorldName())  && portal.isLocationInPortal(player.getLoc(), config.getVisibleRange())) {
                         BlockLocation minLoc = portal.getMinLoc();
                         BlockLocation maxLoc = portal.getMaxLoc();
                         int midX = (minLoc.posX + maxLoc.posX) / 2;

@@ -164,13 +164,16 @@ public class CoreListeners {
         return portalServices.inPortalRegion(entity.getBlockLoc(), 2);
     }
 
-    public boolean portalEvent(PlayerContainer player) {
-        return !portalServices.inPortalRegion(player.getBlockLoc(), 1)
-                && (!(player.getHeight() > 1) || !portalServices.inPortalRegion(player.getBlockLoc().addY((int) player.getHeight()), 1));
-    }
-
     public boolean entityPortalEvent(EntityContainer entity) {
-        return !portalServices.inPortalRegion(entity.getBlockLoc(), 1)
-                && (!(entity.getHeight() > 1) || !portalServices.inPortalRegion(entity.getBlockLoc().addY((int) entity.getHeight()), 1));
+        var pos = entity.getBlockLoc();
+        if(entity instanceof PlayerContainer player) {
+            var playerData = playerDataServices.getPlayerData(player);
+            if(playerData.isPortalCooldown()) {
+                return false;
+            }
+        }
+        var feetInPortal = portalServices.inPortalRegion(pos, 1);
+        var headInPortal = portalServices.inPortalRegion(pos.addY((int) entity.getHeight()), 1);
+        return !(feetInPortal || headInPortal);
     }
 }

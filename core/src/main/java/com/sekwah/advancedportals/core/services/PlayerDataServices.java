@@ -28,7 +28,7 @@ public final class PlayerDataServices {
     @Inject
     private ConfigRepository configRepository;
 
-    public PlayerData getPlayerTempData(PlayerContainer player) {
+    public PlayerData getPlayerData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
             var tempData = tempDataRepository.get(player.getUUID().toString());
 
@@ -40,17 +40,17 @@ public final class PlayerDataServices {
     }
 
     public void activateCooldown(PlayerContainer player) {
-        var tempData = getPlayerTempData(player);
-        tempData.setGlobalCooldown(System.currentTimeMillis() + configRepository.getPortalCooldown());
+        var tempData = getPlayerData(player);
+        tempData.setGlobalCooldown(configRepository.getPortalCooldown() * 1000);
     }
 
     public void playerLeave(PlayerContainer player) {
-        tempDataRepository.save(player.getUUID().toString(), getPlayerTempData(player));
+        tempDataRepository.save(player.getUUID().toString(), getPlayerData(player));
         tempDataMap.remove(player.getUUID());
     }
 
     public void playerSelectorActivate(PlayerContainer player, BlockLocation blockLoc, boolean leftClick) {
-        var tempData = getPlayerTempData(player);
+        var tempData = getPlayerData(player);
         if(leftClick) {
             tempData.setPos1(blockLoc);
         } else {

@@ -57,20 +57,30 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
 
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        System.out.println("Teleporting to destination");
+    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
         Destination destination = destinationServices.getDestination(argData[0]);
         if (destination != null) {
-            var warpEffect = warpEffectRegistry.getVisualEffect("ender");
-            if (warpEffect != null) {
-                warpEffect.onWarpVisual(player, ac);
+            var warpEffectVisual = warpEffectRegistry.getVisualEffect("ender");
+            if (warpEffectVisual != null) {
+                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+            }
+            var warpEffectSound = warpEffectRegistry.getSoundEffect("ender");
+            if (warpEffectSound != null) {
+                warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
             }
             player.teleport(destination.getLoc());
+            if (warpEffectVisual != null) {
+                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.EXIT);
+            }
+            if (warpEffectSound != null) {
+                warpEffectSound.onWarpSound(player, WarpEffect.Action.EXIT);
+            }
+            activationData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         }
         return true;
     }

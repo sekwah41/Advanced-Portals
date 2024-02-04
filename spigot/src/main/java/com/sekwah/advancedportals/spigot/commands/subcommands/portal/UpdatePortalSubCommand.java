@@ -120,12 +120,13 @@ public class UpdatePortalSubCommand implements SubCommand {
 
         int count = 0;
         for(String destiName : destiSet) {
+            var destiPos = destiName + ".pos";
             var desti = destinationServices.createDesti(new PlayerLocation(config.getString(destiName + ".world"),
-                    config.getDouble(destiName + ".x"),
-                    config.getDouble(destiName + ".y"),
-                    config.getDouble(destiName + ".z"),
-                    (float) config.getDouble(destiName + ".yaw"),
-                    (float) config.getDouble(destiName + ".pitch")), List.of(new DataTag("name", destiName)));
+                    config.getDouble(destiPos + ".X"),
+                    config.getDouble(destiPos + ".Y"),
+                    config.getDouble(destiPos + ".Z"),
+                    (float) config.getDouble(destiPos + ".yaw"),
+                    (float) config.getDouble(destiPos + ".pitch")), List.of(new DataTag("name", destiName)));
             if(desti != null) count++;
         }
         return count;

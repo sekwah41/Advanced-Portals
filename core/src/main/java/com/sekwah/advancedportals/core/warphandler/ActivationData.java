@@ -23,7 +23,7 @@ public class ActivationData {
     public void setWarpStatus(WarpedStatus warped) {
         if (this.warpStatus == WarpedStatus.WARPED) {
             return;
-        } else if (this.warpStatus == WarpedStatus.NOTACTIVATED) {
+        } else if (this.warpStatus == WarpedStatus.ACTIVATED && warped != WarpedStatus.WARPED) {
             return;
         }
         this.warpStatus = warped;
@@ -44,6 +44,10 @@ public class ActivationData {
 
     public void setAllowed(boolean allowed) {
         this.warpAllowed = allowed;
+    }
+
+    public boolean hasActivated() {
+        return this.warpStatus != WarpedStatus.NOTACTIVATED;
     }
 
     public enum WarpedStatus {
