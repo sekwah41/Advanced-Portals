@@ -129,7 +129,6 @@ public class Lang {
         String line = getNextLine(scanner);
         HashMap<String, String> newMap = new HashMap<>();
         while (line != null) {
-            //System.out.println(line);
             if (!line.startsWith("#") && line.indexOf('=') > -1) {
                 int split = line.indexOf('=');
                 String key = line.substring(0, split);
