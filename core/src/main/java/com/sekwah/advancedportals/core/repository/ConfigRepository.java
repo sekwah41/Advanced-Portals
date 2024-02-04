@@ -27,4 +27,8 @@ public interface ConfigRepository {
     boolean getPortalProtection();
 
     long getPortalCooldown();
+
+    double getThrowbackStrength();
+
+    boolean playFailSound();
 }
