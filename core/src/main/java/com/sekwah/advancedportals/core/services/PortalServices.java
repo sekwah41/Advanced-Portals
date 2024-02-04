@@ -73,11 +73,6 @@ public class PortalServices {
     }
 
     public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
-        PlayerData tempData = playerDataServices.getPlayerData(player);
-
-        if(tempData.getGlobalCooldown() > System.currentTimeMillis()) {
-            return;
-        }
 
         var blockLoc = toLoc.toBlockPos();
         var blockEntityTopLoc = blockLoc.addY(player.getHeight());
@@ -90,7 +85,9 @@ public class PortalServices {
                     && portal.isTriggerBlock(blockMaterial))
                     || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
-                portal.activate(player);
+                if(portal.activate(player, true)) {
+                    return;
+                }
             }
         }
     }
