@@ -16,6 +16,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This will be different from the old show command and I believe it is 1.16+ till the latest version as of writing this.
@@ -47,7 +48,7 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
             return;
         }
 
-        var tempData = tempDataServices.getPlayerTempData(sender.getPlayerContainer());
+        var tempData = tempDataServices.getPlayerData(sender.getPlayerContainer());
         if(tempData.isDestiVisible()) {
             sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.destination.show.disabled"));
         } else {
@@ -80,14 +81,14 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
             for(PlayerContainer player : serverContainer.getPlayers()) {
-                var tempData = tempDataServices.getPlayerTempData(player);
+                var tempData = tempDataServices.getPlayerData(player);
                 if(!tempData.isDestiVisible()) {
                     continue;
                 }
 
                 for (Destination destination : destinationServices.getDestinations()) {
                     var pos = destination.getLoc();
-                    if(pos.distanceTo(player.getLoc()) < config.getVisibleRange()) {
+                    if(Objects.equals(pos.getWorldName(), player.getWorldName()) && pos.distanceTo(player.getLoc()) < config.getVisibleRange()) {
                         Debug.addMarker(player, pos.toBlockPos(), destination.getArgValues("name")[0], new Color(100, 100, 100, 100), 1300);
                     }
                 }

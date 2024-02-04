@@ -73,7 +73,7 @@ public class PortalServices {
     }
 
     public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
-        PlayerData tempData = playerDataServices.getPlayerTempData(player);
+        PlayerData tempData = playerDataServices.getPlayerData(player);
 
         if(tempData.getGlobalCooldown() > System.currentTimeMillis()) {
             return;
@@ -117,7 +117,7 @@ public class PortalServices {
     }
 
     public AdvancedPortal createPortal(PlayerContainer player, ArrayList<DataTag> tags) {
-        PlayerData tempData = playerDataServices.getPlayerTempData(player);
+        PlayerData tempData = playerDataServices.getPlayerData(player);
 
         if(tempData.getPos1() == null || tempData.getPos2() == null) {
             player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.selection.missing"));
