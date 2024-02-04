@@ -101,4 +101,9 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
     public Player getPlayer() {
         return this.player;
     }
+
+    @Override
+    public void playSound(String sound, float volume, float pitch) {
+        this.player.playSound(this.player.getLocation(), sound, volume, pitch);
+    }
 }

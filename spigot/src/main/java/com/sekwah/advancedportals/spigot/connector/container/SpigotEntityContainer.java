@@ -6,16 +6,10 @@ import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
+import com.sekwah.advancedportals.core.serializeddata.Vector;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Arrays;
 
 /**
  * Just a temporary container for whenever advanced portals needs to get data from a player
@@ -66,5 +60,10 @@ public class SpigotEntityContainer implements EntityContainer {
     @Override
     public String getWorldName() {
         return this.entity.getWorld().getName();
+    }
+
+    @Override
+    public void setVelocity(Vector vector) {
+        this.entity.setVelocity(new org.bukkit.util.Vector(vector.getX(), vector.getY(), vector.getZ()));
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -13,10 +14,7 @@ import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author sekwah41
@@ -37,6 +35,9 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     transient PlayerDataServices playerDataServices;
+
+    @Inject
+    transient ConfigRepository configRepository;
 
     public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc) {
         this.updateBounds(minLoc, maxLoc);
@@ -98,7 +99,22 @@ public class AdvancedPortal implements TagTarget {
         return false;
     }*/
 
-    public boolean activate(PlayerContainer player) {
+    /**
+     *
+     * @param player
+     * @param moveActivated if the portal was activated by a move event (won't trigger knockback)
+     * @return
+     */
+    public boolean activate(PlayerContainer player, boolean moveActivated) {
+        var playerData = playerDataServices.getPlayerData(player);
+        if(playerData.isGlobalCooldown()) {
+            if(configRepository.playFailSound()) {
+                player.playSound("block.portal.travel", 0.05f, new Random().nextFloat() * 0.4F + 0.8F);
+            }
+            if(moveActivated) throwPlayerBack(player);
+            return false;
+        }
+
         ActivationData data = new ActivationData();
         DataTag[] portalTags = new DataTag[args.size()];
         int i = 0;
@@ -129,10 +145,17 @@ public class AdvancedPortal implements TagTarget {
             }
         }
         if(data.hasActivated()) {
-            playerDataServices.getPlayerData(player).setNetherPortalCooldown(1000);
+            playerData.setNetherPortalCooldown(1000);
+            playerData.setGlobalCooldown(configRepository.getPortalCooldown() * 1000);
             return true;
         }
         return false;
+    }
+
+    private void throwPlayerBack(PlayerContainer player) {
+        var strength = configRepository.getThrowbackStrength();
+        var playerLoc = player.getLoc().getDirection();
+        player.setVelocity(playerLoc.setY(0).normalize().multiply(-1).setY(0.5).multiply(strength));
     }
 
 

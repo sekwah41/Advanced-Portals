@@ -83,8 +83,18 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public double getThrowbackStrength() {
+        return this.config.throwbackStrength;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.config = dataStorage.loadJson(Config.class, "config.json");
+    }
+
+    @Override
+    public boolean playFailSound() {
+        return this.config.playFailSound;
     }
 
 }

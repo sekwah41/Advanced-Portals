@@ -107,7 +107,11 @@ public class PlayerData {
         this.netherPortalCooldown = System.currentTimeMillis() + netherPortalCooldown;
     }
 
-    public boolean isPortalCooldown() {
+    public boolean isGlobalCooldown() {
+        return System.currentTimeMillis() < globalCooldown;
+    }
+
+    public boolean isNetherPortalCooldown() {
         return System.currentTimeMillis() < netherPortalCooldown;
     }
 }
