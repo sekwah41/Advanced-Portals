@@ -53,7 +53,6 @@ public class SpigotEntityContainer implements EntityContainer {
         return this.entity.teleport(new Location(Bukkit.getWorld(location.getWorldName()), location.getPosX(), location.getPosY(), location.getPosZ()));
     }
 
-
     @Override
     public WorldContainer getWorld() {
         return new SpigotWorldContainer(this.entity.getWorld());
@@ -62,5 +61,10 @@ public class SpigotEntityContainer implements EntityContainer {
     @Override
     public String getName() {
         return this.entity.getName();
+    }
+
+    @Override
+    public String getWorldName() {
+        return this.entity.getWorld().getName();
     }
 }

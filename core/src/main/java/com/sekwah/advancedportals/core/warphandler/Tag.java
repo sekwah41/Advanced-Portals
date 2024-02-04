@@ -128,10 +128,10 @@ public interface Tag {
          * Any actions to do with player location should be done in activate
          *
          * @param player
-         * @param activeData
+         * @param activationData
          * @param argData
          */
-        void postActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData);
+        void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData);
 
         /**
          * Activates if the portal is allowed from preActivating. Should be used to set the intended warp location
@@ -140,12 +140,12 @@ public interface Tag {
          * triggered here if a desti is listed.
          *
          * @param player
-         * @param activeData
+         * @param activationData
          * @param argData
          *
          * @return Action performed (only return false if the tag failed to do anything)
          */
-        boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData);
+        boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData);
 
     }
 

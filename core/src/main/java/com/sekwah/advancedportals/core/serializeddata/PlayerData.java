@@ -34,12 +34,14 @@ public class PlayerData {
     /**
      * If the player is in a portal. Stops re-triggering.
      */
-    private boolean isInPortal = false;
+    private transient boolean isInPortal = false;
 
     /**
      * The next time System.currentTimeMillis() a player can use a portal.
      */
-    private long globalCooldown;
+    private transient long globalCooldown;
+
+    private transient long netherPortalCooldown;
 
     private HashMap<String, String> perPortalCooldowns = new HashMap<>();
 
@@ -66,7 +68,7 @@ public class PlayerData {
     }
 
     public void setGlobalCooldown(long globalCooldown) {
-        this.globalCooldown = globalCooldown;
+        this.globalCooldown = System.currentTimeMillis() + globalCooldown;
     }
 
     public String getSelectedPortal() {
@@ -99,5 +101,13 @@ public class PlayerData {
 
     public void setInPortal(boolean inPortal) {
         isInPortal = inPortal;
+    }
+
+    public void setNetherPortalCooldown(long netherPortalCooldown) {
+        this.netherPortalCooldown = System.currentTimeMillis() + netherPortalCooldown;
+    }
+
+    public boolean isPortalCooldown() {
+        return System.currentTimeMillis() < netherPortalCooldown;
     }
 }
