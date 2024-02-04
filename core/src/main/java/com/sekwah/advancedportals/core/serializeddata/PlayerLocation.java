@@ -23,15 +23,15 @@ public class PlayerLocation extends WorldLocation {
     }
 
     public double getPosX() {
-        return posX;
+        return X;
     }
 
     public double getPosY() {
-        return posY;
+        return Y;
     }
 
     public double getPosZ() {
-        return posZ;
+        return Z;
     }
 
     public String getWorldName() {
@@ -44,5 +44,17 @@ public class PlayerLocation extends WorldLocation {
 
     public float getPitch() {
         return pitch;
+    }
+
+    public Vector getDirection() {
+        double rotX = this.getYaw();
+        double rotY = this.getPitch();
+
+        var y = -Math.sin(Math.toRadians(rotY));
+        double xz = Math.cos(Math.toRadians(rotY));
+        var x = (-xz * Math.sin(Math.toRadians(rotX)));
+        var z = Math.cos(Math.toRadians(rotX));
+
+        return new Vector(x, y, z);
     }
 }

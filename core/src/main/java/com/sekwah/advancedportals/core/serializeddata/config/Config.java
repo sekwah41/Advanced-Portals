@@ -31,4 +31,7 @@ public class Config {
 
     public int maxTriggerVisualisationSize = 1000;
 
+    public double throwbackStrength = 1;
+
+    public boolean playFailSound = true;
 }

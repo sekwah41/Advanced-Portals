@@ -168,7 +168,7 @@ public class CoreListeners {
         var pos = entity.getBlockLoc();
         if(entity instanceof PlayerContainer player) {
             var playerData = playerDataServices.getPlayerData(player);
-            if(playerData.isPortalCooldown()) {
+            if(playerData.isNetherPortalCooldown()) {
                 return false;
             }
         }

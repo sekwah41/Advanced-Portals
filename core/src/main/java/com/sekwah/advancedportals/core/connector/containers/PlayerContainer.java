@@ -35,4 +35,6 @@ public interface PlayerContainer extends EntityContainer {
     void giveItem(String material, String itemName, String... itemDescription);
 
     boolean sendPacket(String channel, byte[] bytes);
+
+    void playSound(String sound, float volume, float pitch);
 }
