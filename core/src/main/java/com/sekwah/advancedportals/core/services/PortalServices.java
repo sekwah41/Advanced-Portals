@@ -12,6 +12,7 @@ import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import javax.inject.Singleton;
@@ -80,15 +81,25 @@ public class PortalServices {
         var blockMaterial = world.getBlock(blockLoc);
         var blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
 
+        var notInPortal = true;
         for (AdvancedPortal portal : portalCache.values()) {
             if ((portal.isLocationInPortal(toLoc)
                     && portal.isTriggerBlock(blockMaterial))
                     || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
+                notInPortal = false;
                 if(portal.activate(player, true)) {
                     return;
                 }
             }
+        }
+        var playerData = playerDataServices.getPlayerData(player);
+        if(!notInPortal) {
+            var strength = configRepository.getThrowbackStrength();
+            PlayerUtils.throwPlayerBack(player, strength);
+        }
+        if(playerData.isInPortal() && notInPortal) {
+            playerData.setInPortal(false);
         }
     }
 

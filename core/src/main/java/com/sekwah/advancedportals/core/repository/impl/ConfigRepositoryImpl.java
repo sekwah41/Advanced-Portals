@@ -79,7 +79,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     @Override
     public long getPortalCooldown() {
-        return this.config.portalCooldown;
+        return this.config.joinCooldown;
     }
 
     @Override

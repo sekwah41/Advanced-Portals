@@ -12,12 +12,18 @@ public class ActivationData {
 
     private boolean warpAllowed = true;
 
+    public final boolean moveActivated;
+
     private WarpedStatus warpStatus = WarpedStatus.NOTACTIVATED;
 
     private PlayerLocation wantedLocation;
 
     public WarpedStatus getWarped() {
         return this.warpStatus;
+    }
+
+    public ActivationData(boolean moveActivated) {
+        this.moveActivated = moveActivated;
     }
 
     public void setWarpStatus(WarpedStatus warped) {
