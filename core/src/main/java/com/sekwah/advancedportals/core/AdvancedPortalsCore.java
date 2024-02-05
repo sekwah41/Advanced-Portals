@@ -15,6 +15,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
+import com.sekwah.advancedportals.core.tags.activation.CooldownTag;
 import com.sekwah.advancedportals.core.tags.activation.DestiTag;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
@@ -118,6 +119,7 @@ public class AdvancedPortalsCore {
     private void registerTags() {
         this.tagRegistry.registerTag(new NameTag());
         this.tagRegistry.registerTag(new DestiTag());
+        this.tagRegistry.registerTag(new CooldownTag());
         this.tagRegistry.registerTag(new TriggerBlockTag());
     }
 

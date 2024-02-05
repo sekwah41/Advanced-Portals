@@ -39,9 +39,9 @@ public final class PlayerDataServices {
         });
     }
 
-    public void activateCooldown(PlayerContainer player) {
+    public void setJoinCooldown(PlayerContainer player) {
         var tempData = getPlayerData(player);
-        tempData.setGlobalCooldown(configRepository.getPortalCooldown() * 1000);
+        tempData.setJoinCooldown(configRepository.getPortalCooldown() * 1000);
     }
 
     public void playerLeave(PlayerContainer player) {
