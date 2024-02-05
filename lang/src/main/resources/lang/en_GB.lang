@@ -144,6 +144,11 @@ error.notplayer=Only players can do that.
 
 portal.selector.poschange=&aYou have selected &epos%1$s &aX&7:&e%2$s &aY&7:&e%3$s &aZ&7:&e%4$s
 
+time.second=second
+time.seconds=seconds
+portal.cooldown.join=&cThere is &e%1$s &c%2$s join cooldown protection left.
+portal.cooldown.individual=&cPlease wait &e%1$s &c%2$s until attempting to enter this portal again.
+
 command.lang.help=Update the translation file
 
 command.version.help=Returns the current version of the plugin
@@ -159,4 +164,5 @@ tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma seperated or multi tag.
 
+tag.cooldown.fail= The cooldown must be a number.
 

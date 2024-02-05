@@ -17,7 +17,7 @@ public class Config {
 
     public boolean stopWaterFlow = true;
 
-    public int portalCooldown = 5;
+    public int joinCooldown = 5;
 
     public String warpParticles = "ENDER";
 
@@ -31,7 +31,7 @@ public class Config {
 
     public int maxTriggerVisualisationSize = 1000;
 
-    public double throwbackStrength = 1;
+    public double throwbackStrength = 0.7;
 
     public boolean playFailSound = true;
 }

@@ -39,11 +39,11 @@ public class PlayerData {
     /**
      * The next time System.currentTimeMillis() a player can use a portal.
      */
-    private transient long globalCooldown;
+    private transient long joinCooldown;
 
     private transient long netherPortalCooldown;
 
-    private HashMap<String, String> perPortalCooldowns = new HashMap<>();
+    private HashMap<String, Long> perPortalCooldowns = new HashMap<>();
 
     private String selectedPortal;
 
@@ -63,12 +63,12 @@ public class PlayerData {
         this.pos2 = pos2;
     }
 
-    public long getGlobalCooldown() {
-        return globalCooldown;
+    public long getJoinCooldownLeft() {
+        return joinCooldown - System.currentTimeMillis();
     }
 
-    public void setGlobalCooldown(long globalCooldown) {
-        this.globalCooldown = System.currentTimeMillis() + globalCooldown;
+    public void setJoinCooldown(long joinCooldown) {
+        this.joinCooldown = System.currentTimeMillis() + joinCooldown;
     }
 
     public String getSelectedPortal() {
@@ -107,11 +107,23 @@ public class PlayerData {
         this.netherPortalCooldown = System.currentTimeMillis() + netherPortalCooldown;
     }
 
-    public boolean isGlobalCooldown() {
-        return System.currentTimeMillis() < globalCooldown;
+    public boolean hasJoinCooldown() {
+        return System.currentTimeMillis() < joinCooldown;
     }
 
     public boolean isNetherPortalCooldown() {
         return System.currentTimeMillis() < netherPortalCooldown;
+    }
+
+    public void setPortalCooldown(String portalName, long cooldown) {
+        perPortalCooldowns.put(portalName, System.currentTimeMillis() + cooldown);
+    }
+
+    public boolean hasPortalCooldown(String portalName) {
+        return perPortalCooldowns.containsKey(portalName) && System.currentTimeMillis() < perPortalCooldowns.get(portalName);
+    }
+
+    public double getPortalCooldownLeft(String portalName) {
+        return perPortalCooldowns.get(portalName) - System.currentTimeMillis();
     }
 }

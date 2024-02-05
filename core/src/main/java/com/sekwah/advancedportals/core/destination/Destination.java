@@ -65,7 +65,7 @@ public class Destination implements TagTarget {
     }
 
     public boolean activate(PlayerContainer player) {
-        ActivationData data = new ActivationData();
+        ActivationData data = new ActivationData(false);
         this.portalActivate(player, data);
         this.postActivate(player, data);
         return true;
