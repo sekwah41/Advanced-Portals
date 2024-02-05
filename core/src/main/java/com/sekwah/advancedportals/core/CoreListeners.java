@@ -32,11 +32,11 @@ public class CoreListeners {
     private GameScheduler gameScheduler;
 
     public void playerJoin(PlayerContainer player) {
-        this.playerDataServices.activateCooldown(player);
+        this.playerDataServices.setJoinCooldown(player);
     }
 
     public void teleportEvent(PlayerContainer player) {
-        this.playerDataServices.activateCooldown(player);
+        this.playerDataServices.setJoinCooldown(player);
     }
 
     public void playerLeave(PlayerContainer player) {
@@ -157,7 +157,7 @@ public class CoreListeners {
     }
 
     public void worldChange(PlayerContainer player) {
-        this.playerDataServices.activateCooldown(player);
+        this.playerDataServices.setJoinCooldown(player);
     }
 
     public boolean preventEntityCombust(EntityContainer entity) {

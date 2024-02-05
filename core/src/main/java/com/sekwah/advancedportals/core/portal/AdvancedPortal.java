@@ -11,6 +11,8 @@ import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
+import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -107,15 +109,19 @@ public class AdvancedPortal implements TagTarget {
      */
     public boolean activate(PlayerContainer player, boolean moveActivated) {
         var playerData = playerDataServices.getPlayerData(player);
-        if(playerData.isGlobalCooldown()) {
+        if(playerData.isInPortal()) return false;
+        playerData.setInPortal(true);
+        if(playerData.hasJoinCooldown()) {
+            var cooldown = (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
+            player.sendMessage(Lang.translateInsertVariables("portal.cooldown.join", cooldown,
+                    Lang.translate(cooldown == 1 ? "time.second" : "time.seconds")));
             if(configRepository.playFailSound()) {
                 player.playSound("block.portal.travel", 0.05f, new Random().nextFloat() * 0.4F + 0.8F);
             }
-            if(moveActivated) throwPlayerBack(player);
             return false;
         }
 
-        ActivationData data = new ActivationData();
+        ActivationData data = new ActivationData(moveActivated);
         DataTag[] portalTags = new DataTag[args.size()];
         int i = 0;
         for(Map.Entry<String, String[]> entry : args.entrySet()) {
@@ -146,16 +152,9 @@ public class AdvancedPortal implements TagTarget {
         }
         if(data.hasActivated()) {
             playerData.setNetherPortalCooldown(1000);
-            playerData.setGlobalCooldown(configRepository.getPortalCooldown() * 1000);
             return true;
         }
         return false;
-    }
-
-    private void throwPlayerBack(PlayerContainer player) {
-        var strength = configRepository.getThrowbackStrength();
-        var playerLoc = player.getLoc().getDirection();
-        player.setVelocity(playerLoc.setY(0).normalize().multiply(-1).setY(0.5).multiply(strength));
     }
 
 
@@ -208,5 +207,9 @@ public class AdvancedPortal implements TagTarget {
             }
         }
         return false;
+    }
+
+    public String getName() {
+        return getArgValues("name")[0];
     }
 }
