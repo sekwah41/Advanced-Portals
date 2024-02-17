@@ -27,6 +27,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     protected boolean isProxyPluginEnabled = false;
 
+    protected boolean isVelocitySupported = false;
+
     protected boolean forceRegisterProxyChannels = false;
     protected boolean disableProxyWarning = false;
 
@@ -134,6 +136,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         return isProxyPluginEnabled;
     }
 
+    public boolean isVelocitySupported() {
+        return isVelocitySupported;
+    }
+
     private boolean checkIfBungee()
     {
         // we check if the server is Spigot/Paper (because of the spigot.yml file)
@@ -161,6 +167,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             if(Objects.equals(config.get("velocity-support.enabled"),true)
                     || Objects.equals(config.get("proxies.velocity.enabled"),true)) {
                 getLogger().info( "Modern forwarding detected. Enabling proxy features." );
+                isVelocitySupported = true;
                 return true;
             }
         } catch(NoSuchMethodError | NullPointerException e) {

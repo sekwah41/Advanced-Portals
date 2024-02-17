@@ -3,9 +3,11 @@ package com.sekwah.advancedportals.bukkit.listeners;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.bukkit.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.bukkit.PluginMessages;
 import com.sekwah.advancedportals.bukkit.config.ConfigAccessor;
 import com.sekwah.advancedportals.bukkit.config.ConfigHelper;
 import com.sekwah.advancedportals.bukkit.destinations.Destination;
+import com.sekwah.advancedportals.bukkit.portals.Portal;
 import com.sekwah.advancedportals.bungee.BungeeMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -48,6 +50,17 @@ public class PluginMessageReceiver implements PluginMessageListener {
                 );
             }
 
+        } else if (subchannel.equals(BungeeMessages.KNOCKBACK)) {
+            String reason = in.readUTF();
+            String bungeeUUID = in.readUTF();
+
+            Player targetPlayer = this.plugin.getServer().getPlayer(UUID.fromString(bungeeUUID));
+
+            if (targetPlayer != null) {
+                Portal.throwPlayerBack(targetPlayer);
+                player.sendMessage(PluginMessages.customPrefixFail
+                    + "\u00A7c " + reason);
+            }
         }
     }
 

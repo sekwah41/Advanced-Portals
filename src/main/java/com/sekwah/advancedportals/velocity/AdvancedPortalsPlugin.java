@@ -10,12 +10,19 @@ import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,6 +58,21 @@ public class AdvancedPortalsPlugin {
         proxy.getChannelRegistrar().register(AP_CHANNEL);
     }
 
+    private void throwPlayerBack(Player player, String reason) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        out.writeUTF(BungeeMessages.KNOCKBACK);
+        out.writeUTF(reason);
+        out.writeUTF(player.getUniqueId().toString());
+
+        player.getCurrentServer().ifPresent(serverConnection ->
+            serverConnection.sendPluginMessage(AP_CHANNEL, out.toByteArray())
+        );
+    }
+
+    static class CannotConnectException extends Exception {
+    }
+
     @Subscribe
     public void onPluginMessage(PluginMessageEvent event) {
         if(event.getIdentifier().equals(AP_CHANNEL)) {
@@ -77,6 +99,27 @@ public class AdvancedPortalsPlugin {
                         proxy.getCommandManager().executeAsync(connection.getPlayer(), command);
                     }
 
+                } else if (subChannel.equalsIgnoreCase(BungeeMessages.SEND_TO_SERVER_WITH_KNOCKBACK)) {
+                    String targetServer = in.readUTF();
+                    Optional<RegisteredServer> server = proxy.getServer(targetServer);
+                    Player player = ((ServerConnection) event.getSource()).getPlayer();
+                    if (!server.isPresent()) {
+                        throwPlayerBack(player, "The server is invalid");
+                    } else {
+                        CompletableFuture<ConnectionRequestBuilder.Result> future = player.createConnectionRequest(server.get())
+                            .connect();
+                        proxy.getScheduler().buildTask(this, () -> {
+                            try {
+                                ConnectionRequestBuilder.Result result = future.get();
+                                if (!result.isSuccessful()) {
+                                    throw new CannotConnectException();
+                                }
+                            } catch (CancellationException | InterruptedException | ExecutionException |
+                                     CannotConnectException e) {
+                                throwPlayerBack(player, "Could not connect to the server");
+                            }
+                        }).schedule();
+                    }
                 }
             }
             // So that client packets don't make it through to the servers, always trigger on this channel.
