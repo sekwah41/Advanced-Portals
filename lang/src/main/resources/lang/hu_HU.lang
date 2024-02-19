@@ -29,6 +29,7 @@
 # &n   Underline
 # &o   Italic
 # &r   Reset
+# &x   Hex Color (#aa5f10 represented by &x&a&a&5&f&1&0)
 #
 # Vegye figyelembe, hogy néhány hibaelhárító üzenet itt nem szerepel a fordításban.
 #
