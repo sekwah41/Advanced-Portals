@@ -61,6 +61,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         ConfigAccessor destinationConfig = new ConfigAccessor(this, "destinations.yml");
         destinationConfig.saveDefaultConfig();
 
+
+        ConfigAccessor messagesConfig = new ConfigAccessor(this, "messages.yml");
+        messagesConfig.saveDefaultConfig();;
+
         this.settings = new Settings(this);
 
         // Loads the portal and destination editors

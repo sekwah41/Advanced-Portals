@@ -29,8 +29,10 @@ public class Destination {
         Destination.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
+        ConfigAccessor messagesConfig = new ConfigAccessor(plugin, "config.yml");
+
         TELEPORT_RIDING = config.getConfig().getBoolean("WarpRiddenEntity");
-        PORTAL_MESSAGE_DISPLAY = config.getConfig().getInt("WarpMessageDisplay");
+        PORTAL_MESSAGE_DISPLAY = messagesConfig.getConfig().getInt("WarpMessageDisplay");
     }
 
     // TODO add permissions for destinations.
