@@ -12,7 +12,6 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
@@ -24,7 +23,7 @@ import java.util.*;
 public class AdvancedPortal implements TagTarget {
 
     @Inject
-    transient TagRegistry tagRegistry;
+    private transient TagRegistry tagRegistry;
 
     @SerializedName("max")
     private BlockLocation maxLoc;
@@ -36,12 +35,14 @@ public class AdvancedPortal implements TagTarget {
     private HashMap<String, String[]> args = new HashMap<>();
 
     @Inject
-    transient PlayerDataServices playerDataServices;
+    private transient PlayerDataServices playerDataServices;
 
     @Inject
     transient ConfigRepository configRepository;
 
-    public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc) {
+    public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc, TagRegistry tagRegistry, PlayerDataServices playerDataServices) {
+        this.tagRegistry = tagRegistry;
+        this.playerDataServices = playerDataServices;
         this.updateBounds(minLoc, maxLoc);
     }
 
