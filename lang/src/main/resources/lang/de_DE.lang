@@ -29,7 +29,7 @@
 # &n   Underline
 # &o   Italic
 # &r   Reset
-# &x   Hex Color (#aa5f10 represented by &x&a&a&5&f&1&0)
+# &x   Hex Color (#aa5f10 represented by &x&a&a&5&f&1&0) - Spigot 1.16.1+
 #
 # Also note that some debug messages may not be listed here for translation.
 #
