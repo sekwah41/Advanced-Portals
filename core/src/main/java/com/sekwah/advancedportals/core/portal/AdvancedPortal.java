@@ -32,7 +32,7 @@ public class AdvancedPortal implements TagTarget {
     private BlockLocation minLoc;
 
     @SerializedName("a")
-    private HashMap<String, String[]> args = new HashMap<>();
+    private final HashMap<String, String[]> args = new HashMap<>();
 
     @Inject
     private transient PlayerDataServices playerDataServices;
@@ -104,7 +104,7 @@ public class AdvancedPortal implements TagTarget {
 
     /**
      *
-     * @param player
+     * @param player The player on the server attempting to use an advanced portal
      * @param moveActivated if the portal was activated by a move event (won't trigger knockback)
      * @return
      */
@@ -158,7 +158,6 @@ public class AdvancedPortal implements TagTarget {
         return false;
     }
 
-
     public boolean isLocationInPortal(BlockLocation loc) {
         return this.isLocationInPortal(loc, 0);
     }
@@ -166,7 +165,6 @@ public class AdvancedPortal implements TagTarget {
     public boolean isLocationInPortal(PlayerLocation loc) {
         return this.isLocationInPortal(loc.toBlockPos(), 0);
     }
-
 
     public boolean isLocationInPortal(PlayerLocation loc, int additionalArea) {
         return this.isLocationInPortal(loc.toBlockPos(), additionalArea);
