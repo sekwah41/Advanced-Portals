@@ -72,7 +72,7 @@ plugins {
 allprojects {
     apply plugin: 'java'
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
     }
 
@@ -85,6 +85,7 @@ allprojects {
 
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
+
 }
 
 apply from: 'env-variables.gradle'
@@ -221,14 +222,14 @@ minecraftServerConfig {
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
 }
 
-tasks.withType(Jar) {
+tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 /**
  * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
  */
-task copyPlugin() {
+tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
         copy {
