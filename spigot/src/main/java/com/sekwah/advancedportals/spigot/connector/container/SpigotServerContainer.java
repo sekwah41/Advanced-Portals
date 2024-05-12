@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class SpigotServerContainer implements ServerContainer {
 
     private final Server server;
-    private final List<String> triggerBlockList = Arrays.stream(Material.values()).filter(Material::isBlock).map(Enum::name)
+    private final List<String> triggerBlockList = Arrays.stream(Material.values()).filter(this::isAdvancedPortalBlock).map(Enum::name)
             .toList();
 
     public SpigotServerContainer(Server server) {
@@ -60,5 +61,13 @@ public class SpigotServerContainer implements ServerContainer {
         return server.getOnlinePlayers().stream()
                 .map(SpigotPlayerContainer::new)
                 .toArray(PlayerContainer[]::new);
+    }
+
+    // Check if it's a material compatible with making portals
+    private boolean isAdvancedPortalBlock(Material material) {
+        return switch (material) {
+            case WATER, LAVA, AIR, NETHER_PORTAL, END_GATEWAY, END_PORTAL -> true;
+            default -> false;
+        };
     }
 }

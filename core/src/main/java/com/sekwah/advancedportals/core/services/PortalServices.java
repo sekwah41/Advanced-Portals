@@ -25,7 +25,7 @@ public class PortalServices {
     private IPortalRepository portalRepository;
 
     @Inject
-    private PlayerDataServices playerDataServices;
+    private transient PlayerDataServices playerDataServices;
 
     @Inject
     private ConfigRepository configRepository;
@@ -88,17 +88,17 @@ public class PortalServices {
                     || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
                 notInPortal = false;
-                if(portal.activate(player, true)) {
+                if (portal.activate(player, true)) {
                     return;
                 }
             }
         }
         var playerData = playerDataServices.getPlayerData(player);
-        if(!notInPortal) {
+        if (!notInPortal) {
             var strength = configRepository.getThrowbackStrength();
             PlayerUtils.throwPlayerBack(player, strength);
         }
-        if(playerData.isInPortal() && notInPortal) {
+        if (playerData.isInPortal() && notInPortal) {
             playerData.setInPortal(false);
         }
     }
@@ -154,7 +154,7 @@ public class PortalServices {
             return null;
         }
 
-        AdvancedPortal portal = new AdvancedPortal(pos1, pos2);
+        AdvancedPortal portal = new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
 
         for (DataTag portalTag : tags) {
             portal.setArgValues(portalTag);

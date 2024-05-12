@@ -55,6 +55,8 @@ public interface Tag {
         @Nullable
         List<String> autoComplete(String argData);
 
+        @Nullable
+        String splitString();
     }
 
     interface Split extends Tag {
