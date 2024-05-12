@@ -78,14 +78,14 @@ public class DataStorage {
     public boolean storeJson(Object dataHolder, String location) {
         // Create folders if they don't exist
         File outFile = new File(this.dataFolder, location);
-        if (!outFile.exists()) {
+        if (!outFile.getParentFile().exists()) { // Check if parent folder exists
             if(!outFile.getParentFile().mkdirs()) {
                 infoLogger.warning("Failed to create folder for file: " + location);
             }
         }
         String json = gson.toJson(dataHolder);
         try {
-            FileWriter fileWriter = new FileWriter(new File(this.dataFolder, location));
+            FileWriter fileWriter = new FileWriter(outFile); // Use outFile directly here
             fileWriter.write(json);
             fileWriter.close();
             return true;
