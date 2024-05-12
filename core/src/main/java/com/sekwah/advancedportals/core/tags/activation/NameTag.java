@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -43,6 +44,12 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
 
     @Override
     public List<String> autoComplete(String argData) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String splitString() {
         return null;
     }
 

@@ -16,7 +16,7 @@ public class PortalPermissions {
 
 
     /**
-     * this will not currently build the permissions for the files, but maybe at some point. I'tll just make it easier though.
+     * this will not currently build the permissions for the files, but maybe at some point. It'll just make it easier though.
      */
     public static class PermissionBuilder {
         private final String permissionTag;
