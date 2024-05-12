@@ -162,7 +162,7 @@ items.interact.right=Right Click
 tag.permission.description=Sets the permission of a portal
 tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
-tag.triggerblock.description=Sets the trigger block/s of the portal. Comma seperated or multi tag.
+tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separated or multi tag.
+tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
 
 tag.cooldown.fail= The cooldown must be a number.
-

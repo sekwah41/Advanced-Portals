@@ -3,17 +3,19 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.tags.activation.CommandTag;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -105,5 +107,43 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
     @Override
     public void playSound(String sound, float volume, float pitch) {
         this.player.playSound(this.player.getLocation(), sound, volume, pitch);
+    }
+
+    @Override
+    public void performCommand(String command, CommandTag.CommandLevel commandLevel) {
+        Server server = this.player.getServer();
+        switch (commandLevel) {
+            case CONSOLE:
+                server.dispatchCommand(server.getConsoleSender(), command);
+                break;
+            case PLAYER:
+                server.dispatchCommand(this.getPlayer(), command);
+                break;
+            case OP, STAR:
+                executeCommandWithPermission(server, command, commandLevel);
+                break;
+        }
+    }
+
+    private void executeCommandWithPermission (Server server, String command, CommandTag.CommandLevel commandLevel) {
+        switch (commandLevel) {
+            case STAR:
+                PermissionAttachment permissionAttachment = player.addAttachment(server.getPluginManager().getPlugin("AdvancedPortals"));
+                try {
+                    permissionAttachment.setPermission("*", true);
+                    server.dispatchCommand(player, command);
+                } finally {
+                    player.removeAttachment(permissionAttachment);
+                }
+                break;
+            case OP:
+                try {
+                    player.setOp(true);
+                    server.dispatchCommand(player, command);
+                } finally {
+                    player.setOp(false);
+                }
+                break;
+        }
     }
 }
