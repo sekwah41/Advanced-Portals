@@ -43,7 +43,7 @@ public class Lang {
         if (instance.languageMap.containsKey(s)) {
             String translation = instance.languageMap.get(s);
             // noinspection ALL (not sure what the specific warning is for escaped unicode)
-            translation = translation.replaceAll("&([0-9a-frk-o])", "\u00A7$1");
+            translation = translation.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
             return translation;
         } else {
             return s;
