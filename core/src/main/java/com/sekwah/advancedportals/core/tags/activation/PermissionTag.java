@@ -55,11 +55,11 @@ public class PermissionTag implements Tag.Activation{
 
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        if (target instanceof AdvancedPortal portal) {
-            var portalName = portal.getName();
-            if (!player.hasPermission(argData[0])) return false;
-            }
-        return false;
+        if (!player.hasPermission(argData[1])) {
+            player.sendMessage(Lang.translate("portal.error.nopermission"));
+            return false;
+        }
+        return true;
     }
 
     @Override

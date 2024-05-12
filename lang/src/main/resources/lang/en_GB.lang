@@ -129,6 +129,7 @@ portal.error.takenname= The name given for the portal is already taken.
 portal.error.selection.differentworlds= Both the selected points need to be in the same world.
 portal.error.selection.missing= You need to select both points for the portal.
 portal.error.save= There was a problem saving the portal.
+portal.error.nopermission=You don't have permission to use that portal.
 
 portal.nobuild= You don't have permission to build here!
 
