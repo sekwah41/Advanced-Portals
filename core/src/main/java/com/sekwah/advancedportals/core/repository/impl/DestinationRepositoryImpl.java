@@ -1,17 +1,12 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,20 +19,20 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
 
     @Override
     public boolean save(String name, Destination destination) {
-        return dataStorage.storeJson(destination, fileLocation + name + ".json");
+        return dataStorage.storeFile(destination, fileLocation + name + ".yml");
     }
 
     public boolean containsKey(String name) {
-        return dataStorage.fileExists(fileLocation + name + ".json");
+        return dataStorage.fileExists(fileLocation + name + ".yml");
     }
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".json");
+        return dataStorage.deleteFile(fileLocation + name + ".yml");
     }
 
     public Destination get(String name) {
-        return dataStorage.loadJson(Destination.class, fileLocation + name + ".json");
+        return dataStorage.loadFile(Destination.class, fileLocation + name + ".yml");
     }
 
     @Override

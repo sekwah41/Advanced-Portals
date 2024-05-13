@@ -1,10 +1,9 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataStorage {
-
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private File dataFolder;
 
@@ -46,16 +43,22 @@ public class DataStorage {
         }
     }
 
-    public <T> T loadJson(Type dataHolder, String location) {
-        InputStream jsonResource = this.loadResource(location);
-        if(jsonResource == null) {
+    public <T> T loadFile(Type dataHolder, String location) {
+        InputStream yamlResource = this.loadResource(location);
+        if(yamlResource == null) {
             return null;
         }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        T object = gson.fromJson(bufReader, dataHolder);
-        return object;
+        BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource));
+        Yaml yaml = new Yaml();
+        T data = yaml.load(bufReader);
+        try {
+            bufReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
     }
-    public <T> T loadJson(Class<T> dataHolder, String location) {
+    public <T> T loadFile(Class<T> dataHolder, String location) {
         InputStream jsonResource = this.loadResource(location);
         if(jsonResource == null) {
             try {
@@ -66,7 +69,8 @@ public class DataStorage {
             return null;
         }
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        T data = gson.fromJson(bufReader, dataHolder);
+        Yaml yaml = new Yaml();
+        T data = yaml.load(bufReader);
         try {
             bufReader.close();
         } catch (IOException e) {
@@ -75,18 +79,19 @@ public class DataStorage {
         return data;
     }
 
-    public boolean storeJson(Object dataHolder, String location) {
+    public boolean storeFile(Object dataHolder, String location) {
         // Create folders if they don't exist
+        Yaml yaml = new Yaml();
         File outFile = new File(this.dataFolder, location);
         if (!outFile.getParentFile().exists()) { // Check if parent folder exists
             if(!outFile.getParentFile().mkdirs()) {
                 infoLogger.warning("Failed to create folder for file: " + location);
             }
         }
-        String json = gson.toJson(dataHolder);
+        String yamlFile = yaml.dump(dataHolder);
         try {
             FileWriter fileWriter = new FileWriter(outFile); // Use outFile directly here
-            fileWriter.write(json);
+            fileWriter.write(yamlFile);
             fileWriter.close();
             return true;
         } catch (IOException e) {

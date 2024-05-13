@@ -1,17 +1,11 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.inject.Inject;
-import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.destination.Destination;
-import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
-import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
-import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 
 import java.util.List;
-import java.util.UUID;
 
 public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
@@ -22,7 +16,7 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
     @Override
     public boolean save(String name, PlayerData playerData) {
-        return dataStorage.storeJson(playerData, fileLocation + name + ".json");
+        return dataStorage.storeFile(playerData, fileLocation + name + ".yml");
     }
 
     @Override
@@ -32,12 +26,12 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".json");
+        return dataStorage.deleteFile(fileLocation + name + ".yml");
     }
 
     @Override
     public PlayerData get(String name) {
-        return dataStorage.loadJson(PlayerData.class, fileLocation + name + ".json");
+        return dataStorage.loadFile(PlayerData.class, fileLocation + name + ".yml");
     }
 
     @Override
