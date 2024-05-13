@@ -135,6 +135,10 @@ public class SpigotPlayerContainer
     private void executeCommandWithPermission (Server server, String command, CommandTag.CommandLevel commandLevel) {
         switch (commandLevel) {
             case STAR:
+                if(player.hasPermission("*")) {
+                    server.dispatchCommand(player, command);
+                    return;
+                }
                 PermissionAttachment permissionAttachment = player.addAttachment(server.getPluginManager().getPlugin("AdvancedPortals"));
                 try {
                     permissionAttachment.setPermission("*", true);
@@ -144,6 +148,10 @@ public class SpigotPlayerContainer
                 }
                 break;
             case OP:
+                if(player.isOp()) {
+                    server.dispatchCommand(player, command);
+                    return;
+                }
                 try {
                     player.setOp(true);
                     server.dispatchCommand(player, command);
