@@ -5,9 +5,10 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import javax.annotation.Nullable;
 
-public class CommandTag implements Tag.Activation, Tag.Split{
+public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
     public static String TAG_NAME = "command";
 
@@ -53,12 +54,12 @@ public class CommandTag implements Tag.Activation, Tag.Split{
         if(activationData.hasActivated()) {
             for (String command : argData) {
 
+                char executionCommand = command.charAt(0);
                 String formattedCommand = command.replaceAll("@player", player.getName());
-                char executionCommand = formattedCommand.charAt(0);
 
                 switch (executionCommand) {
                     case '!':
-                        player.performCommand(formattedCommand.substring(1),CommandLevel.OP);
+                        player.performCommand(formattedCommand.substring(1), CommandLevel.OP);
                         break;
                     case '#':
                         player.performCommand(formattedCommand.substring(1), CommandLevel.CONSOLE);
@@ -77,6 +78,48 @@ public class CommandTag implements Tag.Activation, Tag.Split{
     @Override
     public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
         return true;
+    }
+
+    @Override
+    public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
+        if(argData != null) {
+            for (String command : argData) {
+                char executionCommand = command.charAt(0);
+                return switch (executionCommand) {
+                    case '!' -> {
+                        if (!player.hasPermission("advancedportals.createportal.commandlevel.op")) {
+                            player.sendMessage(Lang.translate("tag.command.nopermission")
+                                    .replaceAll("@CommandLevel", "OP"));
+                            yield false;
+                        }
+                        yield true;
+                    }
+                    case '#' -> {
+                        if (!player.hasPermission("advancedportals.createportal.commandlevel.console")) {
+                            player.sendMessage(Lang.translate("tag.command.nopermission")
+                                    .replaceAll("@CommandLevel", "Console"));
+                            yield false;
+                        }
+                        yield true;
+                    }
+                    case '^' -> {
+                        if (!player.hasPermission("advancedportals.createportal.commandlevel.star")) {
+                            player.sendMessage(Lang.translate("tag.command.nopermission")
+                                    .replaceAll("@CommandLevel", "*"));
+                            yield false;
+                        }
+                        yield true;
+                    }
+                    default -> true;
+                };
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
+
     }
 
     public enum CommandLevel{
