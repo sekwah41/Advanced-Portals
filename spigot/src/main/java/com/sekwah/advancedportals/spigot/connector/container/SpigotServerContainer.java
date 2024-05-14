@@ -65,14 +65,6 @@ public class SpigotServerContainer implements ServerContainer {
                 .toArray(PlayerContainer[]::new);
     }
 
-    // Check if it's a material compatible with making portals
-    private boolean isAdvancedPortalBlock(Material material) {
-        return switch (material) {
-            case WATER, LAVA, AIR, NETHER_PORTAL, END_GATEWAY, END_PORTAL -> true;
-            default -> false;
-        };
-    }
-
     @Override
     public void dispatchCommand(UUID uuid, String command, CommandTag.CommandLevel commandLevel) {
         Player player = server.getPlayer(uuid);
@@ -87,6 +79,11 @@ public class SpigotServerContainer implements ServerContainer {
                 executeCommandWithPermission(player, server, command, commandLevel);
                 break;
         }
+    }
+
+    @Override
+    public String getName() {
+        return server.getName();
     }
 
     // Execute commands with elevated permissions method
@@ -118,5 +115,13 @@ public class SpigotServerContainer implements ServerContainer {
                 }
                 break;
         }
+    }
+
+    // Check if it's a material compatible with making portals
+    private boolean isAdvancedPortalBlock(Material material) {
+        return switch (material) {
+            case WATER, LAVA, AIR, NETHER_PORTAL, END_GATEWAY, END_PORTAL -> true;
+            default -> false;
+        };
     }
 }

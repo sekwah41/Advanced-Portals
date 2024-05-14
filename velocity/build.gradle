@@ -7,7 +7,7 @@ configurations {
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url 'https://papermc.io/repo/repository/maven-public/' }
+    maven { url "https://repo.papermc.io/repository/maven-public/" }
     maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 
