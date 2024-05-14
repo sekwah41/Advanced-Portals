@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.tags.activation.CommandTag;
@@ -117,48 +118,7 @@ public class SpigotPlayerContainer
     }
 
     @Override
-    public void performCommand(String command, CommandTag.CommandLevel commandLevel) {
-        Server server = this.player.getServer();
-        switch (commandLevel) {
-            case CONSOLE:
-                server.dispatchCommand(server.getConsoleSender(), command);
-                break;
-            case PLAYER:
-                server.dispatchCommand(this.getPlayer(), command);
-                break;
-            case OP, STAR:
-                executeCommandWithPermission(server, command, commandLevel);
-                break;
-        }
-    }
-
-    private void executeCommandWithPermission (Server server, String command, CommandTag.CommandLevel commandLevel) {
-        switch (commandLevel) {
-            case STAR:
-                if(player.hasPermission("*")) {
-                    server.dispatchCommand(player, command);
-                    return;
-                }
-                PermissionAttachment permissionAttachment = player.addAttachment(server.getPluginManager().getPlugin("AdvancedPortals"));
-                try {
-                    permissionAttachment.setPermission("*", true);
-                    server.dispatchCommand(player, command);
-                } finally {
-                    player.removeAttachment(permissionAttachment);
-                }
-                break;
-            case OP:
-                if(player.isOp()) {
-                    server.dispatchCommand(player, command);
-                    return;
-                }
-                try {
-                    player.setOp(true);
-                    server.dispatchCommand(player, command);
-                } finally {
-                    player.setOp(false);
-                }
-                break;
-        }
+    public ServerContainer getServer() {
+        return new SpigotServerContainer(this.player.getServer());
     }
 }
