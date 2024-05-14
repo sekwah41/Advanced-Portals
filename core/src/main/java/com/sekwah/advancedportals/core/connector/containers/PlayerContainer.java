@@ -39,5 +39,5 @@ public interface PlayerContainer extends EntityContainer {
 
     void playSound(String sound, float volume, float pitch);
 
-    void performCommand(String string, CommandTag.CommandLevel commandLevel);
+    ServerContainer getServer();
 }
