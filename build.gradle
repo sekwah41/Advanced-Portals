@@ -31,10 +31,8 @@ allprojects {
     }
 
     tasks.processResources {
-        filesMatching("plugin.yml") {
-            expand(["pluginVersion": project.version])
-        }
-        filesMatching("bungee.yml") {
+        def files = ["plugin.yml", "bungee.yml"]
+        filesMatching(files) {
             expand(["pluginVersion": project.version])
         }
     }
