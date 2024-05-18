@@ -546,16 +546,24 @@ public class Portal {
 
             }
 
-            ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
-            outForSend.writeUTF("Connect");
-            outForSend.writeUTF(bungeeServer);
+            if (!plugin.isVelocitySupported() || !doKnockback) {
+                ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
+                outForSend.writeUTF("Connect");
+                outForSend.writeUTF(bungeeServer);
 
 
+                portal.inPortal.add(player.getUniqueId());
+                player.sendPluginMessage(plugin, "BungeeCord", outForSend.toByteArray());
+                // Down to bungee to sort out the teleporting but yea theoretically they should
+                // warp.
+            } else {
+                ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
+                outForSend.writeUTF(BungeeMessages.SEND_TO_SERVER_WITH_KNOCKBACK);
+                outForSend.writeUTF(bungeeServer);
 
-            portal.inPortal.add(player.getUniqueId());
-            player.sendPluginMessage(plugin, "BungeeCord", outForSend.toByteArray());
-            // Down to bungee to sort out the teleporting but yea theoretically they should
-            // warp.
+                portal.inPortal.add(player.getUniqueId());
+                player.sendPluginMessage(plugin, BungeeMessages.CHANNEL_NAME, outForSend.toByteArray());
+            }
         } else if (portal.getDestinations().length > 0) {
             ConfigAccessor configDesti = new ConfigAccessor(plugin, "destinations.yml");
             String randomDest = portal.getDestinations()[random.nextInt(portal.getDestinations().length)];

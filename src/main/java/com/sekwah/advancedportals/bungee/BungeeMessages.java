@@ -17,6 +17,10 @@ public class BungeeMessages {
      */
     public static String ENTER_PORTAL = "PortalEnter";
 
+    public static String SEND_TO_SERVER_WITH_KNOCKBACK = "SendToServerWithKnockback";
+
+    public static String KNOCKBACK = "Knockback";
+
     public static String CHANNEL_NAME = "advancedportals:warp";
 
 
