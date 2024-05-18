@@ -83,6 +83,13 @@ allprojects {
         buildSubmodules.finalizedBy build
     }
 
+    tasks.processResources {
+        def files = ["plugin.yml", "bungee.yml"]
+        filesMatching(files) {
+            expand(["pluginVersion": project.version])
+        }
+    }
+
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
 
