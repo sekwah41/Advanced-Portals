@@ -19,20 +19,20 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
 
     @Override
     public boolean save(String name, Destination destination) {
-        return dataStorage.storeFile(destination, fileLocation + name + ".yml");
+        return dataStorage.storeFile(destination, fileLocation + name + ".yaml");
     }
 
     public boolean containsKey(String name) {
-        return dataStorage.fileExists(fileLocation + name + ".yml");
+        return dataStorage.fileExists(fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".yml");
+        return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
     public Destination get(String name) {
-        return dataStorage.loadFile(Destination.class, fileLocation + name + ".yml");
+        return dataStorage.loadFile(Destination.class, fileLocation + name + ".yaml");
     }
 
     @Override

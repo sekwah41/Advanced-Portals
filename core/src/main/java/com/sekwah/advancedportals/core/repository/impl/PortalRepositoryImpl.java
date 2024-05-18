@@ -27,23 +27,25 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     @Override
     public boolean save(String name, AdvancedPortal portal) {
-        return dataStorage.storeFile(portal, fileLocation + name + ".yml");
+        return dataStorage.storeFile(portal, fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean containsKey(String name) {
-        return dataStorage.fileExists(fileLocation + name + ".yml");
+        return dataStorage.fileExists(fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".yyml");
+        return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
     @Override
     public AdvancedPortal get(String name) {
-        var portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + name + ".yml");
-        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
+        var portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + name + ".yaml");
+        if(portal != null) {
+            AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
+        }
         return portal;
     }
 
@@ -61,7 +63,7 @@ public class PortalRepositoryImpl implements IPortalRepository {
             // Forces the name tag to be up-to-date on load
             String[] name = portal.getArgValues(NameTag.TAG_NAME);
             if(name != null && name.length > 0) {
-                portal.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".yml", "")});
+                portal.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".yaml", "")});
             }
             portals.add(portal);
         }

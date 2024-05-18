@@ -89,7 +89,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     @Override
     public void loadConfig(DataStorage dataStorage) {
-        this.config = dataStorage.loadFile(Config.class, "config.json");
+        this.config = dataStorage.loadFile(Config.class, "config.yaml");
     }
 
     @Override

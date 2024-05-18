@@ -16,7 +16,7 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
     @Override
     public boolean save(String name, PlayerData playerData) {
-        return dataStorage.storeFile(playerData, fileLocation + name + ".yml");
+        return dataStorage.storeFile(playerData, fileLocation + name + ".yaml");
     }
 
     @Override
@@ -26,12 +26,12 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".yml");
+        return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
     @Override
     public PlayerData get(String name) {
-        return dataStorage.loadFile(PlayerData.class, fileLocation + name + ".yml");
+        return dataStorage.loadFile(PlayerData.class, fileLocation + name + ".yaml");
     }
 
     @Override

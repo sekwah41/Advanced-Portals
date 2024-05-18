@@ -40,6 +40,9 @@ public class PortalServices {
         portalCache.clear();
         for (String name : portalNames) {
             AdvancedPortal portal = portalRepository.get(name);
+            if(portal == null) {
+                continue;
+            }
             portalCache.put(name, portal);
             portal.updateBounds(portal.getMinLoc(), portal.getMaxLoc());
         }
