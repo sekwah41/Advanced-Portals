@@ -10,6 +10,7 @@ public class PortalPermissions {
     private static final PermissionBuilder PERMISSIONS = new PermissionBuilder("advancedportals");
 
     public static final PermissionBuilder BUILD = PERMISSIONS.createChild("build");
+    public static final PermissionBuilder DESTI = PERMISSIONS.createChild("desti");
     public static final PermissionBuilder CREATE_PORTAL = PERMISSIONS.createChild("createportal");
     public static final PermissionBuilder LANG_UPDATE = PERMISSIONS.createChild("langupdate");
     public static final PermissionBuilder RELOAD = PERMISSIONS.createChild("reload");
