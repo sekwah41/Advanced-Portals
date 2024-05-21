@@ -74,7 +74,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(sender);
+        return sender.isOp() || PortalPermissions.DESTI.hasPermission(sender);
     }
 
     @Override

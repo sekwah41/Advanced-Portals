@@ -107,4 +107,12 @@ public class DestinationServices {
     public Destination getDestination(String name) {
         return destinationCache.get(name);
     }
+
+    public boolean teleportToDestination(String name, PlayerContainer playerContainer) {
+        if(this.destinationRepository.containsKey(name)) {
+            playerContainer.teleport(this.destinationRepository.get(name).getLoc());
+            return true;
+        }
+        return false;
+    }
 }
