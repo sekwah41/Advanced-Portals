@@ -28,7 +28,7 @@ public class PluginMessages {
         }
 
         WARP_MESSAGE = config.getConfig().getString("WarpMessage", "§aYou have warped to §e<warp>§a").replaceAll(regexColorConverter, "§");
-        COOLDOWN_PROTECTION_MESSAGE = config.getConfig().getString("CooldownMessage", "§cThere is §e<time>§c join cooldown protection left.").replaceAll(regexColorConverter, "§");
+        COOLDOWN_PROTECTION_MESSAGE = config.getConfig().getString("CooldownProtectionMessage", "§cThere is §e<time>§c join cooldown protection left.").replaceAll(regexColorConverter, "§");
         NO_PERMISSION_PORTAL = config.getConfig().getString("NoPermissionPortal", "§cYou do not have permission to use this portal!").replaceAll(regexColorConverter, "§");
         PORTAL_COOLDOWN_MESSAGE = config.getConfig().getString("PortalCooldownMessage", "§cPlease wait §e<time> §cuntil attempting to enter this portal again").replaceAll(regexColorConverter, "§");
         NO_BUILD_PERMISSION = config.getConfig().getString("NoBuildPermission", "§cYou don't have permission to build here!").replaceAll(regexColorConverter, "§");
