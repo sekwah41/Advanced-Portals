@@ -1,3 +1,8 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
+
 
 buildscript {
     repositories {
@@ -134,18 +139,22 @@ tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
         copy {
-            println "$buildDir/libs/Advanced-Portals-${getVersion()}.jar"
-            println "$buildDir/MinecraftServer/plugins/Advanced-Portals-${getVersion()}.jar"
-            try {
-                delete fileTree("$buildDir/MinecraftServer/plugins/") {
-                    include "Advanced-Portals*.jar"
-                }
+            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-${getVersion()}.jar")
+            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals.jar")
+
+            println "Handling file: $destinationFilePath"
+            
+            byte[] newContent = Files.readAllBytes(sourceFilePath)
+            
+            if (Files.exists(destinationFilePath)) {
+                println "File exists. Overwriting with new binary content."
+                
+                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+            } else {
+                println "File does not exist. Copying from source."
+                
+                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
             }
-            catch (RuntimeException e) {
-                println e.getLocalizedMessage()
-            }
-            from file("$buildDir/libs/Advanced-Portals-${getVersion()}.jar")
-            into file("$buildDir/MinecraftServer/plugins")
         }
     }
 }
