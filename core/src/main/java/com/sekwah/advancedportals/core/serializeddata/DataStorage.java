@@ -3,14 +3,16 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class DataStorage {
 
-    private File dataFolder;
+    private final File dataFolder;
 
     @Inject
     private AdvancedPortalsCore portalsCore;
@@ -40,15 +42,13 @@ public class DataStorage {
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         representer.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
 
-        return new Yaml(representer, options);
+        Constructor constructor = new Constructor(clazz, new LoaderOptions());
+        constructor.addTypeDescription(new org.yaml.snakeyaml.TypeDescription(Config.class, Tag.MAP));
+
+
+        return new Yaml(constructor, representer, options);
     }
 
-    /**
-     * Copies the default file, defaults to true to keep true to the name
-     *
-     * @param fileLoc
-     * @return
-     */
     public boolean copyDefaultFile(String fileLoc) {
         return this.copyDefaultFile(fileLoc, true);
     }
@@ -61,7 +61,7 @@ public class DataStorage {
 
     public <T> T loadFile(Class<T> dataHolder, String location) {
         InputStream yamlResource = this.loadResource(location);
-        if(yamlResource == null) {
+        if (yamlResource == null) {
             try {
                 return dataHolder.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -81,7 +81,6 @@ public class DataStorage {
     }
 
     public boolean storeFile(Object dataHolder, String location) {
-        // Create folders if they don't exist
         Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
         if (!outFile.getParentFile().exists()) { // Check if parent folder exists
@@ -90,10 +89,8 @@ public class DataStorage {
             }
         }
         String yamlFile = yaml.dump(dataHolder);
-        try {
-            FileWriter fileWriter = new FileWriter(outFile); // Use outFile directly here
+        try (FileWriter fileWriter = new FileWriter(outFile)) {
             fileWriter.write(yamlFile);
-            fileWriter.close();
             return true;
         } catch (IOException e) {
             infoLogger.error(e);
@@ -185,14 +182,14 @@ public class DataStorage {
     }
 
     private void writeToFile(InputStream inputStream, File outFile) throws IOException {
-        FileOutputStream outStream = new FileOutputStream(outFile);
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = inputStream.read(buf)) > 0) {
-            outStream.write(buf, 0, len);
+        try (FileOutputStream outStream = new FileOutputStream(outFile)) {
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buf)) > 0) {
+                outStream.write(buf, 0, len);
+            }
         }
         inputStream.close();
-        outStream.close();
     }
 
     public boolean fileExists(String name) {
@@ -210,19 +207,16 @@ public class DataStorage {
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
-
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile()) {
                         String fileName = file.getName();
-
                         if (trimExtension) {
                             int i = fileName.lastIndexOf('.');
                             if (i > 0) {
                                 fileName = fileName.substring(0, i);
                             }
                         }
-
                         list.add(fileName);
                     }
                 }
