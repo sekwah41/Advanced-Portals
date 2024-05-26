@@ -3,7 +3,10 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +30,19 @@ public class DataStorage {
         this.dataFolder = dataStorageLoc;
     }
 
+    private Yaml getYaml(Class<? extends Object> clazz) {
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+        Representer representer = new Representer(options);
+        representer.addClassTag(clazz, Tag.MAP);
+        representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        representer.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
+
+        return new Yaml(representer, options);
+    }
+
     /**
      * Copies the default file, defaults to true to keep true to the name
      *
@@ -43,24 +59,9 @@ public class DataStorage {
         }
     }
 
-    public <T> T loadFile(Type dataHolder, String location) {
+    public <T> T loadFile(Class<T> dataHolder, String location) {
         InputStream yamlResource = this.loadResource(location);
         if(yamlResource == null) {
-            return null;
-        }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource));
-        Yaml yaml = new Yaml();
-        T data = yaml.load(bufReader);
-        try {
-            bufReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return data;
-    }
-    public <T> T loadFile(Class<T> dataHolder, String location) {
-        InputStream jsonResource = this.loadResource(location);
-        if(jsonResource == null) {
             try {
                 return dataHolder.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -68,9 +69,9 @@ public class DataStorage {
             }
             return null;
         }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        Yaml yaml = new Yaml();
-        T data = yaml.load(bufReader);
+        BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource));
+        Yaml yaml = getYaml(dataHolder);
+        T data = yaml.loadAs(bufReader, dataHolder);
         try {
             bufReader.close();
         } catch (IOException e) {
@@ -81,7 +82,7 @@ public class DataStorage {
 
     public boolean storeFile(Object dataHolder, String location) {
         // Create folders if they don't exist
-        Yaml yaml = new Yaml();
+        Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
         if (!outFile.getParentFile().exists()) { // Check if parent folder exists
             if(!outFile.getParentFile().mkdirs()) {

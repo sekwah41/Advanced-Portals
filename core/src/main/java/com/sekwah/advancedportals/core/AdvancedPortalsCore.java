@@ -172,7 +172,7 @@ public class AdvancedPortalsCore {
      */
     public void loadPortalConfig() {
         this.configRepository.loadConfig(this.dataStorage);
-        this.dataStorage.storeFile(this.configRepository, "config.yaml");
+        this.configRepository.storeConfig();
     }
 
     public void onDisable() {

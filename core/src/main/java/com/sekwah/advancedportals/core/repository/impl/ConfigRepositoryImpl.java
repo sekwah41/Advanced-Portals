@@ -12,6 +12,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     private HashMap<String, Config> configs;
     private Config config;
+    private DataStorage dataStorage;
 
     public ConfigRepositoryImpl() {
         configs = new HashMap<String,Config>();
@@ -89,12 +90,18 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     @Override
     public void loadConfig(DataStorage dataStorage) {
+        this.dataStorage = dataStorage;
         this.config = dataStorage.loadFile(Config.class, "config.yaml");
     }
 
     @Override
     public boolean playFailSound() {
         return this.config.playFailSound;
+    }
+
+    @Override
+    public void storeConfig() {
+        this.dataStorage.storeFile(this.config, "config.yaml");
     }
 
 }
