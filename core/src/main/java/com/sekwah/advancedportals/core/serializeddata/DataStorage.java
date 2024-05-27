@@ -1,5 +1,8 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
@@ -28,25 +31,10 @@ public class DataStorage {
     @Inject
     private InfoLogger infoLogger;
 
+    private ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+
     public DataStorage(File dataStorageLoc) {
         this.dataFolder = dataStorageLoc;
-    }
-
-    private Yaml getYaml(Class<? extends Object> clazz) {
-
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-
-        Representer representer = new Representer(options);
-        representer.addClassTag(clazz, Tag.MAP);
-        representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        representer.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
-
-        Constructor constructor = new Constructor(clazz, new LoaderOptions());
-        constructor.addTypeDescription(new org.yaml.snakeyaml.TypeDescription(Config.class, Tag.MAP));
-
-
-        return new Yaml(constructor, representer, options);
     }
 
     public boolean copyDefaultFile(String fileLoc) {
@@ -70,26 +58,27 @@ public class DataStorage {
             return null;
         }
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource));
-        Yaml yaml = getYaml(dataHolder);
-        T data = yaml.loadAs(bufReader, dataHolder);
         try {
+            T data = mapper.readValue(bufReader, dataHolder);
             bufReader.close();
+            return data;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            infoLogger.warning("Failed to load file: " + location);
+            infoLogger.error(e);
+            return null;
         }
-        return data;
     }
 
     public boolean storeFile(Object dataHolder, String location) {
-        Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
         if (!outFile.getParentFile().exists()) { // Check if parent folder exists
             if(!outFile.getParentFile().mkdirs()) {
                 infoLogger.warning("Failed to create folder for file: " + location);
             }
         }
-        String yamlFile = yaml.dump(dataHolder);
+
         try (FileWriter fileWriter = new FileWriter(outFile)) {
+            String yamlFile = mapper.writeValueAsString(dataHolder);
             fileWriter.write(yamlFile);
             return true;
         } catch (IOException e) {

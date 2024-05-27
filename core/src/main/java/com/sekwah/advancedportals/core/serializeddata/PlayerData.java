@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.HashMap;
 
 /**
@@ -9,6 +11,7 @@ import java.util.HashMap;
  *
  * This is not a place to store long term data e.g. if you want to make a player unable to use a portal over hours/days.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
 
     /**
