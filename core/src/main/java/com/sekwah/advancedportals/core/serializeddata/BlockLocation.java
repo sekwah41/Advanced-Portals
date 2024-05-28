@@ -6,20 +6,16 @@ import com.sekwah.advancedportals.core.data.Direction;
 public class BlockLocation {
 
     @SerializedName("x")
-    public int posX;
+    public final int posX;
 
     @SerializedName("y")
-    public int posY;
+    public final int posY;
 
     @SerializedName("z")
-    public int posZ;
+    public final int posZ;
 
     @SerializedName("w")
-    public String worldName;
-
-    public BlockLocation() {
-
-    }
+    public final String worldName;
 
     public BlockLocation(String worldName, int posX, int posY, int posZ) {
         this.worldName = worldName;
