@@ -8,6 +8,10 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -36,17 +40,30 @@ public class DataStorage {
 
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-
-        Representer representer = new Representer(options);
+        Representer representer = new Representer(options) {
+            @Override
+            protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
+                NodeTuple tuple = super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
+                Node keyNode = tuple.getKeyNode();
+                if (keyNode instanceof ScalarNode) {
+                    String camelCaseKey = ((ScalarNode) keyNode).getValue();
+                    String pascalCaseKey = convertToPascalCase(camelCaseKey);
+                    keyNode = new ScalarNode(Tag.STR, pascalCaseKey, null, null, DumperOptions.ScalarStyle.PLAIN);
+                }
+                return new NodeTuple(keyNode, tuple.getValueNode());
+            }
+        };
         representer.addClassTag(clazz, Tag.MAP);
-        representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        representer.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
 
-        Constructor constructor = new Constructor(clazz, new LoaderOptions());
-        constructor.addTypeDescription(new org.yaml.snakeyaml.TypeDescription(Config.class, Tag.MAP));
+        return new Yaml(representer);
+    }
 
 
-        return new Yaml(constructor, representer, options);
+    private String convertToPascalCase(String camelCase) {
+        if (camelCase == null || camelCase.isEmpty()) {
+            return camelCase;
+        }
+        return camelCase.substring(0, 1).toUpperCase() + camelCase.substring(1);
     }
 
     public boolean copyDefaultFile(String fileLoc) {
@@ -69,15 +86,13 @@ public class DataStorage {
             }
             return null;
         }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource));
         Yaml yaml = getYaml(dataHolder);
-        T data = yaml.loadAs(bufReader, dataHolder);
-        try {
-            bufReader.close();
-        } catch (IOException e) {
+        try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource))) {
+            return yaml.loadAs(bufReader, dataHolder);
+        } catch (Exception e) {
+            infoLogger.warning("Failed to load file: " + location);
             throw new RuntimeException(e);
         }
-        return data;
     }
 
     public boolean storeFile(Object dataHolder, String location) {
