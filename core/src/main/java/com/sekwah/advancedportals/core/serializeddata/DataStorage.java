@@ -40,30 +40,10 @@ public class DataStorage {
 
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Representer representer = new Representer(options) {
-            @Override
-            protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-                NodeTuple tuple = super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
-                Node keyNode = tuple.getKeyNode();
-                if (keyNode instanceof ScalarNode) {
-                    String camelCaseKey = ((ScalarNode) keyNode).getValue();
-                    String pascalCaseKey = convertToPascalCase(camelCaseKey);
-                    keyNode = new ScalarNode(Tag.STR, pascalCaseKey, null, null, DumperOptions.ScalarStyle.PLAIN);
-                }
-                return new NodeTuple(keyNode, tuple.getValueNode());
-            }
-        };
+        Representer representer = new Representer(options);
         representer.addClassTag(clazz, Tag.MAP);
 
         return new Yaml(representer);
-    }
-
-
-    private String convertToPascalCase(String camelCase) {
-        if (camelCase == null || camelCase.isEmpty()) {
-            return camelCase;
-        }
-        return camelCase.substring(0, 1).toUpperCase() + camelCase.substring(1);
     }
 
     public boolean copyDefaultFile(String fileLoc) {
@@ -91,7 +71,8 @@ public class DataStorage {
             return yaml.loadAs(bufReader, dataHolder);
         } catch (Exception e) {
             infoLogger.warning("Failed to load file: " + location);
-            throw new RuntimeException(e);
+            infoLogger.error(e);
+            return null;
         }
     }
 
