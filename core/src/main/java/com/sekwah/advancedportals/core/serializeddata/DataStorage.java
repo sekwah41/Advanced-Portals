@@ -42,16 +42,19 @@ public class DataStorage {
         LoaderOptions loaderOptions = new LoaderOptions();
 
         TagInspector tagInspector = tag -> tag.getClassName().equals(clazz.getName());
-        
+
         loaderOptions.setTagInspector(tagInspector);
-        
+
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Representer representer = new Representer(options);
+        Representer representer = new ReflectiveRepresenter(options);
         representer.addClassTag(clazz, Tag.MAP);
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        ReflectiveConstructor constructor = new ReflectiveConstructor(clazz, loaderOptions);
 
-        return new Yaml(new Constructor(clazz, loaderOptions), representer);
+        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(constructor);
+
+        return new Yaml(constructor, representer);
     }
 
     public boolean copyDefaultFile(String fileLoc) {
@@ -203,7 +206,7 @@ public class DataStorage {
     public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
         return listAllFiles(fileLocation, trimExtension, null);
     }
-    
+
     /**
      * @param fileLocation - location of the folder to list
      * @param trimExtension - if true will remove the file extension
