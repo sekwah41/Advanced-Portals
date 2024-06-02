@@ -135,7 +135,7 @@ public class PortalServices {
             return null;
         }
 
-        if(!tempData.getPos1().worldName.equals(tempData.getPos2().worldName)) {
+        if(!tempData.getPos1().getWorldName().equals(tempData.getPos2().getWorldName())) {
             player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.selection.differentworlds"));
             return null;
         }

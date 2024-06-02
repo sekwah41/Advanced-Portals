@@ -105,30 +105,30 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                 }
 
 
-                if (tempData.getPos1() != null && tempData.getPos2() != null && tempData.getPos1().worldName.equals(player.getWorldName()) && tempData.getPos2().worldName.equals(player.getWorldName())) {
+                if (tempData.getPos1() != null && tempData.getPos2() != null && tempData.getPos1().getWorldName().equals(player.getWorldName()) && tempData.getPos2().getWorldName().equals(player.getWorldName())) {
                     debugVisuals(player, tempData.getPos1(), tempData.getPos2(), SELECTION_COLOR, SHOW_TICKS);
                 }
 
-                if(tempData.getPos1() != null && tempData.getPos1().worldName.equals(player.getWorldName())) {
+                if(tempData.getPos1() != null && tempData.getPos1().getWorldName().equals(player.getWorldName())) {
                     Debug.addMarker(player, tempData.getPos1(), "Pos1", POS1_COLOR, SHOW_TICKS);
                 }
-                if(tempData.getPos2() != null && tempData.getPos2().worldName.equals(player.getWorldName())) {
+                if(tempData.getPos2() != null && tempData.getPos2().getWorldName().equals(player.getWorldName())) {
                     Debug.addMarker(player, tempData.getPos2(), "Pos2", POS2_COLOR, SHOW_TICKS);
                 }
 
                 var world = player.getWorld();
                 for (var portal : portalServices.getPortals()) {
-                    if(Objects.equals(portal.getMinLoc().worldName, player.getWorldName())  && portal.isLocationInPortal(player.getLoc(), config.getVisibleRange())) {
+                    if(Objects.equals(portal.getMinLoc().getWorldName(), player.getWorldName())  && portal.isLocationInPortal(player.getLoc(), config.getVisibleRange())) {
                         BlockLocation minLoc = portal.getMinLoc();
                         BlockLocation maxLoc = portal.getMaxLoc();
-                        int midX = (minLoc.posX + maxLoc.posX) / 2;
-                        int midZ = (minLoc.posZ + maxLoc.posZ) / 2;
-                        BlockLocation midPoint = new BlockLocation(minLoc.worldName, midX, maxLoc.posY, midZ);
+                        int midX = (minLoc.getPosX() + maxLoc.getPosX()) / 2;
+                        int midZ = (minLoc.getPosZ() + maxLoc.getPosZ()) / 2;
+                        BlockLocation midPoint = new BlockLocation(minLoc.getWorldName(), midX, maxLoc.getPosY(), midZ);
                         Color color;
                         if(portal.isTriggerBlock(world.getBlock(midPoint))) {
                             color = TRIGGER_OUTLINE_COLOR;
                         } else {
-                            if(midPoint.posX == minLoc.posX || midPoint.posX == maxLoc.posX || midPoint.posZ == minLoc.posZ || midPoint.posZ == maxLoc.posZ)
+                            if(midPoint.getPosX() == minLoc.getPosX() || midPoint.getPosX() == maxLoc.getPosX() || midPoint.getPosZ() == minLoc.getPosZ() || midPoint.getPosZ() == maxLoc.getPosZ())
                                 color = OUTLINE_COLOR;
                             else
                                 color = new Color(0, 0, 0, 0);
@@ -150,13 +150,13 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1, BlockLocation pos2, Color color, int time, Color triggerColor, AdvancedPortal portal) {
-        int minX = Math.min(pos1.posX, pos2.posX);
-        int minY = Math.min(pos1.posY, pos2.posY);
-        int minZ = Math.min(pos1.posZ, pos2.posZ);
+        int minX = Math.min(pos1.getPosX(), pos2.getPosX());
+        int minY = Math.min(pos1.getPosY(), pos2.getPosY());
+        int minZ = Math.min(pos1.getPosZ(), pos2.getPosZ());
 
-        int maxX = Math.max(pos1.posX, pos2.posX);
-        int maxY = Math.max(pos1.posY, pos2.posY);
-        int maxZ = Math.max(pos1.posZ, pos2.posZ);
+        int maxX = Math.max(pos1.getPosX(), pos2.getPosX());
+        int maxY = Math.max(pos1.getPosY(), pos2.getPosY());
+        int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ());
 
         var world = player.getWorld();
 
@@ -171,7 +171,7 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
-                        var pos = new BlockLocation(pos1.worldName, x, y, z);
+                        var pos = new BlockLocation(pos1.getWorldName(), x, y, z);
                         boolean isTrigger = portal != null && portal.isTriggerBlock(world.getBlock(pos));
                         boolean isOutline = (y == minY || y == maxY) && (x == minX || x == maxX || z == minZ || z == maxZ) || (z == minZ || z == maxZ) && (x == minX || x == maxX);
                         if (isTrigger && isOutline && alternate_show_trigger) {
@@ -188,23 +188,23 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
         } else {
 
             for (int x = minX; x <= maxX; x++) {
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, x, minY, minZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, x, minY, maxZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, x, maxY, minZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, x, maxY, maxZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), x, minY, minZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), x, minY, maxZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), x, maxY, minZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), x, maxY, maxZ), "", color, time);
             }
             for (int z = minZ + 1; z < maxZ; z++) {
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, minX, minY, z), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, maxX, minY, z), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, minX, maxY, z), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, maxX, maxY, z), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), minX, minY, z), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), maxX, minY, z), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), minX, maxY, z), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), maxX, maxY, z), "", color, time);
             }
 
             for (int y = minY + 1; y < maxY; y++) {
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, minX, y, minZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, maxX, y, minZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, minX, y, maxZ), "", color, time);
-                Debug.addMarker(player, new BlockLocation(pos1.worldName, maxX, y, maxZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), minX, y, minZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), maxX, y, minZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), minX, y, maxZ), "", color, time);
+                Debug.addMarker(player, new BlockLocation(pos1.getWorldName(), maxX, y, maxZ), "", color, time);
             }
         }
     }

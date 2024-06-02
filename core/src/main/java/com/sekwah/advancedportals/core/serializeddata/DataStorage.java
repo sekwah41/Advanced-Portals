@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.inspector.TagInspector;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -38,12 +39,19 @@ public class DataStorage {
 
     private Yaml getYaml(Class<? extends Object> clazz) {
 
+        LoaderOptions loaderOptions = new LoaderOptions();
+
+        TagInspector tagInspector = tag -> tag.getClassName().equals(clazz.getName());
+        
+        loaderOptions.setTagInspector(tagInspector);
+        
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Representer representer = new Representer(options);
         representer.addClassTag(clazz, Tag.MAP);
+        representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
-        return new Yaml(representer);
+        return new Yaml(new Constructor(clazz, loaderOptions), representer);
     }
 
     public boolean copyDefaultFile(String fileLoc) {
@@ -192,14 +200,19 @@ public class DataStorage {
         return new File(this.dataFolder, name).exists();
     }
 
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+        return listAllFiles(fileLocation, trimExtension, null);
+    }
+    
     /**
-     * @param fileLocation
-     * @param trimExtension
+     * @param fileLocation - location of the folder to list
+     * @param trimExtension - if true will remove the file extension
+     * @param extension - if null will not filter by extension
      * @return
      */
-    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension, String extension) {
         File directory = new File(dataFolder, fileLocation);
-        var list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -207,13 +220,17 @@ public class DataStorage {
                 for (File file : files) {
                     if (file.isFile()) {
                         String fileName = file.getName();
-                        if (trimExtension) {
-                            int i = fileName.lastIndexOf('.');
-                            if (i > 0) {
-                                fileName = fileName.substring(0, i);
+                        boolean extensionMatches = (extension == null || fileName.endsWith("." + extension));
+
+                        if (extensionMatches) {
+                            if (trimExtension) {
+                                int i = fileName.lastIndexOf('.');
+                                if (i > 0) {
+                                    fileName = fileName.substring(0, i);
+                                }
                             }
+                            list.add(fileName);
                         }
-                        list.add(fileName);
                     }
                 }
             }
@@ -228,7 +245,7 @@ public class DataStorage {
             Files.delete(Paths.get(dataFolder.getAbsolutePath(), fileLocation));
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            infoLogger.error(e);
             return false;
         }
     }

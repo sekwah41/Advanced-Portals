@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.portal;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -15,6 +14,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -24,14 +24,11 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     private transient TagRegistry tagRegistry;
-
-    @SerializedName("max")
+    
     private BlockLocation maxLoc;
-
-    @SerializedName("min")
+    
     private BlockLocation minLoc;
-
-    @SerializedName("a")
+    
     private final HashMap<String, String[]> args = new HashMap<>();
 
     @Inject
@@ -81,16 +78,16 @@ public class AdvancedPortal implements TagTarget {
      * @param loc2 The second location.
      */
     public void updateBounds(BlockLocation loc1, BlockLocation loc2) {
-        int minX = Math.min(loc1.posX, loc2.posX);
-        int minY = Math.min(loc1.posY, loc2.posY);
-        int minZ = Math.min(loc1.posZ, loc2.posZ);
+        int minX = Math.min(loc1.getPosX(), loc2.getPosX());
+        int minY = Math.min(loc1.getPosY(), loc2.getPosY());
+        int minZ = Math.min(loc1.getPosZ(), loc2.getPosZ());
 
-        int maxX = Math.max(loc1.posX, loc2.posX);
-        int maxY = Math.max(loc1.posY, loc2.posY);
-        int maxZ = Math.max(loc1.posZ, loc2.posZ);
+        int maxX = Math.max(loc1.getPosX(), loc2.getPosX());
+        int maxY = Math.max(loc1.getPosY(), loc2.getPosY());
+        int maxZ = Math.max(loc1.getPosZ(), loc2.getPosZ());
 
-        this.minLoc = new BlockLocation(loc1.worldName, minX, minY, minZ);
-        this.maxLoc = new BlockLocation(loc2.worldName, maxX, maxY, maxZ);
+        this.minLoc = new BlockLocation(loc1.getWorldName(), minX, minY, minZ);
+        this.maxLoc = new BlockLocation(loc2.getWorldName(), maxX, maxY, maxZ);
     }
 
     /*public boolean hasTriggerBlock(String blockMaterial) {
@@ -171,16 +168,16 @@ public class AdvancedPortal implements TagTarget {
     }
 
     public boolean isLocationInPortal(BlockLocation loc, int additionalArea) {
-        double playerX = loc.posX;
-        double playerY = loc.posY;
-        double playerZ = loc.posZ;
+        double playerX = loc.getPosX();
+        double playerY = loc.getPosY();
+        double playerZ = loc.getPosZ();
 
-        return Objects.equals(loc.worldName, this.minLoc.worldName) && playerX >= this.minLoc.posX - additionalArea &&
-                playerX < this.maxLoc.posX + 1 + additionalArea &&
-                playerY >= this.minLoc.posY - additionalArea &&
-                playerY < this.maxLoc.posY + 1 + additionalArea &&
-                playerZ >= this.minLoc.posZ - additionalArea &&
-                playerZ < this.maxLoc.posZ + 1 + additionalArea;
+        return Objects.equals(loc.getWorldName(), this.minLoc.getWorldName()) && playerX >= this.minLoc.getPosX() - additionalArea &&
+                playerX < this.maxLoc.getPosX() + 1 + additionalArea &&
+                playerY >= this.minLoc.getPosY() - additionalArea &&
+                playerY < this.maxLoc.getPosY() + 1 + additionalArea &&
+                playerZ >= this.minLoc.getPosZ() - additionalArea &&
+                playerZ < this.maxLoc.getPosZ() + 1 + additionalArea;
     }
 
 

@@ -51,7 +51,7 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     @Override
     public List<String> getAllNames() {
-        return dataStorage.listAllFiles(fileLocation, true);
+        return dataStorage.listAllFiles(fileLocation, true, "yaml");
     }
 
     @Override
