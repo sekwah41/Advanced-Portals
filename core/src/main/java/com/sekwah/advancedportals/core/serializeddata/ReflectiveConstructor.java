@@ -29,8 +29,9 @@ public class ReflectiveConstructor<T> extends Constructor {
 
     @Override
     protected Object constructObject(Node node) {
+        infoLogger.log("Constructing object from node: " + node);
         if (node instanceof MappingNode) {
-            return constructFromMappingNode((MappingNode) node);
+            return constructFromMappingNode(clazz, (MappingNode) node);
         } else if (node instanceof ScalarNode) {
             return constructFromScalarNode((ScalarNode) node);
         } else {
@@ -39,25 +40,29 @@ public class ReflectiveConstructor<T> extends Constructor {
         }
     }
 
-    private Object constructFromMappingNode(MappingNode mappingNode) {
+    private <U> Object constructFromMappingNode(Class<U> currentClass, MappingNode mappingNode) {
 
         try {
-            Object instance = unsafe.allocateInstance(clazz);
+            Object instance = unsafe.allocateInstance(currentClass);
             Map<String, Object> mappedValues = mapMappingNode(mappingNode);
 
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
                 if (field.isSynthetic() || Modifier.isTransient(field.getModifiers())) continue;
                 makeFieldAccessible(field);
                 if (mappedValues.containsKey(field.getName())) {
                     Object value = mappedValues.get(field.getName());
+                    if(value instanceof MappingNode mappingNodeChild) {
+                        value = constructFromMappingNode(field.getType(), mappingNodeChild);
+                    }
+                    infoLogger.log("Setting field " + field.getName() + " to " + value + " in " + currentClass.getName());
                     field.set(instance, value);
                 }
             }
             return instance;
         } catch (Exception e) {
-            infoLogger.warning("Failed to instantiate " + clazz.getName() + ": " + e.getMessage());
-            throw new RuntimeException("Failed to instantiate " + clazz.getName(), e);
+            infoLogger.warning("Failed to instantiate " + currentClass.getName() + ": " + e.getMessage());
+            throw new RuntimeException("Failed to instantiate " + currentClass.getName(), e);
         }
     }
 

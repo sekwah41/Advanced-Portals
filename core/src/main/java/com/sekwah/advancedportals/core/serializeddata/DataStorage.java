@@ -90,11 +90,10 @@ public class DataStorage {
     public boolean storeFile(Object dataHolder, String location) {
         Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
-        if (!outFile.getParentFile().exists()) { // Check if parent folder exists
-            if(!outFile.getParentFile().mkdirs()) {
-                infoLogger.warning("Failed to create folder for file: " + location);
-            }
+        if (!outFile.getParentFile().exists() && !outFile.getParentFile().mkdirs()) {
+            infoLogger.warning("Failed to create folder for file: " + location);
         }
+
         String yamlFile = yaml.dump(dataHolder);
         try (FileWriter fileWriter = new FileWriter(outFile)) {
             fileWriter.write(yamlFile);

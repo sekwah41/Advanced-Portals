@@ -1,13 +1,10 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-import com.google.gson.annotations.SerializedName;
 
 public class PlayerLocation extends WorldLocation {
 
-    @SerializedName("r")
     private final float yaw;
 
-    @SerializedName("p")
     private final float pitch;
 
     public PlayerLocation(String worldName, double posX, double posY, double posZ) {
@@ -23,15 +20,15 @@ public class PlayerLocation extends WorldLocation {
     }
 
     public double getPosX() {
-        return X;
+        return x;
     }
 
     public double getPosY() {
-        return Y;
+        return y;
     }
 
     public double getPosZ() {
-        return Z;
+        return z;
     }
 
     public String getWorldName() {
