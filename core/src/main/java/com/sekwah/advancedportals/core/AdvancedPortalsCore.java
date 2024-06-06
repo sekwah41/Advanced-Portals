@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -67,6 +68,10 @@ public class AdvancedPortalsCore {
     @Inject
     private GameScheduler gameScheduler;
 
+    // TEMP REMOVE THIS THIS IS JUST FOR DEV
+    @Inject
+    private IPlayerDataRepository tempDataRepository;
+
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc, InfoLogger infoLogger, ServerContainer serverContainer) {
         instance = this;
         this.serverContainer = serverContainer;
@@ -119,6 +124,16 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new CooldownTag());
         this.tagRegistry.registerTag(new TriggerBlockTag());
         this.tagRegistry.registerTag(new PermissionTag());
+
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        infoLogger.log("Test a thingy stuffs");
+        tempDataRepository.get("testData");
     }
 
     /**

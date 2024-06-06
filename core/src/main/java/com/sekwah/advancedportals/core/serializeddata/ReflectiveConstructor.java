@@ -41,6 +41,7 @@ public class ReflectiveConstructor<T> extends Constructor {
     }
 
     private <U> Object constructFromMappingNode(Class<U> currentClass, MappingNode mappingNode) {
+        System.out.println("Constructing object from mapping node " + mappingNode.getValue());
 
         try {
             Object instance = unsafe.allocateInstance(currentClass);
@@ -67,6 +68,7 @@ public class ReflectiveConstructor<T> extends Constructor {
     }
 
     private Object constructFromScalarNode(ScalarNode scalarNode) {
+        System.out.println("Constructing object from scalar node " + scalarNode.getValue());
         return super.constructObject(scalarNode);
     }
 
