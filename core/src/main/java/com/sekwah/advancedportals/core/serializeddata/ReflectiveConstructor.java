@@ -29,9 +29,13 @@ public class ReflectiveConstructor<T> extends Constructor {
 
     @Override
     protected Object constructObject(Node node) {
+        return this.constructObject(clazz, node);
+    }
+
+    private Object constructObject(Class<?> currentClass, Node node) {
         infoLogger.log("Constructing object from node: " + node);
         if (node instanceof MappingNode) {
-            return constructFromMappingNode(clazz, (MappingNode) node);
+            return constructFromMappingNode(currentClass, (MappingNode) node);
         } else if (node instanceof ScalarNode) {
             return constructFromScalarNode((ScalarNode) node);
         } else {
@@ -45,19 +49,24 @@ public class ReflectiveConstructor<T> extends Constructor {
 
         try {
             Object instance = unsafe.allocateInstance(currentClass);
-            Map<String, Object> mappedValues = mapMappingNode(mappingNode);
+            Map<String, Object> mappedValues = mapMappingNode(currentClass, mappingNode);
 
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (field.isSynthetic() || Modifier.isTransient(field.getModifiers())) continue;
-                makeFieldAccessible(field);
-                if (mappedValues.containsKey(field.getName())) {
-                    Object value = mappedValues.get(field.getName());
-                    if(value instanceof MappingNode mappingNodeChild) {
-                        value = constructFromMappingNode(field.getType(), mappingNodeChild);
+                try {
+
+                    if (field.isSynthetic() || Modifier.isTransient(field.getModifiers())) continue;
+                    makeFieldAccessible(field);
+                    if (mappedValues.containsKey(field.getName())) {
+                        Object value = mappedValues.get(field.getName());
+
+                        infoLogger.log("Setting field " + field.getName() + " to " + value + " in " + currentClass.getName());
+                        field.set(instance, value);
                     }
-                    infoLogger.log("Setting field " + field.getName() + " to " + value + " in " + currentClass.getName());
-                    field.set(instance, value);
+                }
+                catch (Exception e) {
+                    infoLogger.warning("Failed to set field " + field.getName() + " in " + currentClass.getName() + ": " + e.getMessage());
+                    throw new RuntimeException("Failed to set field " + field.getName() + " in " + currentClass.getName(), e);
                 }
             }
             return instance;
@@ -72,12 +81,33 @@ public class ReflectiveConstructor<T> extends Constructor {
         return super.constructObject(scalarNode);
     }
 
-    private Map<String, Object> mapMappingNode(MappingNode mappingNode) {
+    private Map<String, Object> mapMappingNode(Class<?> currentClass, MappingNode mappingNode) {
         Map<String, Object> values = new HashMap<>();
         for (NodeTuple tuple : mappingNode.getValue()) {
-            String key = (String) constructObject(tuple.getKeyNode());
-            Object value = constructObject(tuple.getValueNode());
-            values.put(key, value);
+            var key = (String) constructObject(tuple.getKeyNode());
+
+            var node = tuple.getValueNode();
+
+            if (node instanceof ScalarNode scalarNode) {
+                values.put(key, constructFromScalarNode(scalarNode));
+            } if (node instanceof MappingNode mappingNodeChild) {
+                try {
+                    var field = currentClass.getDeclaredField(key);
+
+                    infoLogger.log("Looking for field " + key + " on " + currentClass.getName());
+                    // Output the type of the field
+                    infoLogger.log("Field type: " + field.getType().getName());
+
+                    Object value = constructFromMappingNode(field.getType(), mappingNodeChild);
+
+                    infoLogger.log("Mapping key " + key + " to value " + value);
+                    values.put(key, value);
+                } catch (NoSuchFieldException e) {
+                    infoLogger.warning("Field " + key + " not found on " + currentClass.getName());
+                }
+            } else {
+                infoLogger.warning("Unexpected node type encountered: " + node.getClass().getSimpleName());
+            }
         }
         return values;
     }
