@@ -4,7 +4,7 @@ import com.sekwah.advancedportals.core.data.Direction;
 
 import java.io.Serializable;
 
-public class BlockLocation implements Serializable {
+public class BlockLocation {
 
     // These should be treated as final, they only are not for serialization purposes
     private final int posX;

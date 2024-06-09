@@ -47,6 +47,32 @@ public class ReflectiveConstructor<T> extends Constructor {
     private <U> Object constructFromMappingNode(Class<U> currentClass, MappingNode mappingNode) {
         System.out.println("Constructing object from mapping node " + mappingNode.getValue());
 
+        // if the class is a hashmap, loop over the values and construct the objects
+        if (currentClass.equals(HashMap.class)) {
+            Map<String, Object> values = new HashMap<>();
+            for (NodeTuple tuple : mappingNode.getValue()) {
+                var key = (String) constructObject(tuple.getKeyNode());
+
+                var node = tuple.getValueNode();
+
+                if (node instanceof ScalarNode scalarNode) {
+                    values.put(key, constructFromScalarNode(scalarNode));
+                } else if (node instanceof MappingNode mappingNodeChild) {
+                    try {
+                        Object value = constructFromMappingNode(Object.class, mappingNodeChild);
+
+                        infoLogger.log("Mapping key " + key + " to value " + value);
+                        values.put(key, value);
+                    } catch (Exception e) {
+                        infoLogger.warning("Failed to construct object from mapping node: " + e.getMessage());
+                    }
+                } else {
+                    infoLogger.warning("Unexpected node type encountered: " + node.getClass().getSimpleName());
+                }
+            }
+            return values;
+        }
+
         try {
             Object instance = unsafe.allocateInstance(currentClass);
             Map<String, Object> mappedValues = mapMappingNode(currentClass, mappingNode);
@@ -66,6 +92,7 @@ public class ReflectiveConstructor<T> extends Constructor {
                 }
                 catch (Exception e) {
                     infoLogger.warning("Failed to set field " + field.getName() + " in " + currentClass.getName() + ": " + e.getMessage());
+                    infoLogger.error(e);
                     throw new RuntimeException("Failed to set field " + field.getName() + " in " + currentClass.getName(), e);
                 }
             }
@@ -90,38 +117,31 @@ public class ReflectiveConstructor<T> extends Constructor {
 
             if (node instanceof ScalarNode scalarNode) {
                 values.put(key, constructFromScalarNode(scalarNode));
-            } if (node instanceof MappingNode mappingNodeChild) {
+            } else if (node instanceof MappingNode mappingNodeChild) {
                 try {
                     var field = currentClass.getDeclaredField(key);
-
-                    infoLogger.log("Looking for field " + key + " on " + currentClass.getName());
-                    // Output the type of the field
-                    infoLogger.log("Field type: " + field.getType().getName());
-
                     Object value = constructFromMappingNode(field.getType(), mappingNodeChild);
-
-                    infoLogger.log("Mapping key " + key + " to value " + value);
                     values.put(key, value);
                 } catch (NoSuchFieldException e) {
                     infoLogger.warning("Field " + key + " not found on " + currentClass.getName());
                 }
             } else {
-                infoLogger.warning("Unexpected node type encountered: " + node.getClass().getSimpleName());
+                infoLogger.warning("Expected mapping node: " + node.getClass().getSimpleName());
             }
         }
         return values;
     }
 
-    private void makeFieldAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
+    private void makeFieldAccessible(Field field) {
         if (!field.isAccessible() || Modifier.isFinal(field.getModifiers())) {
             field.setAccessible(true);
             if (Modifier.isFinal(field.getModifiers())) {
-                Field modifiersField = Field.class.getDeclaredField("modifiers");
-                modifiersField.setAccessible(true);
-                modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+                long offset = unsafe.objectFieldOffset(field);
+                unsafe.putObjectVolatile(field, offset, field.getModifiers() & ~Modifier.FINAL);
             }
         }
     }
+
 
     private static Unsafe getUnsafe() {
         try {
