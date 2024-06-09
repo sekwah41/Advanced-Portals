@@ -134,7 +134,10 @@ public class ShowPortalSubCommand implements SubCommand, SubCommand.SubCommandOn
                                 color = new Color(0, 0, 0, 0);
                         }
                         debugVisuals(player, portal, OUTLINE_COLOR, SHOW_TICKS, TRIGGER_COLOR);
-                        Debug.addMarker(player, midPoint, portal.getArgValues(NameTag.TAG_NAME)[0], color, SHOW_TICKS);
+                        var name = portal.getArgValues(NameTag.TAG_NAME);
+                        if(name != null && name.length > 0) {
+                            Debug.addMarker(player, midPoint, name[0], color, SHOW_TICKS);
+                        }
                     }
                 }
             }

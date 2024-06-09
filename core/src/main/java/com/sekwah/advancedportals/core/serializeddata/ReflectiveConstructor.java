@@ -3,16 +3,15 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.*;
 import sun.misc.Unsafe;
 
 import javax.inject.Inject;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReflectiveConstructor<T> extends Constructor {
@@ -33,19 +32,35 @@ public class ReflectiveConstructor<T> extends Constructor {
     }
 
     private Object constructObject(Class<?> currentClass, Node node) {
-        infoLogger.log("Constructing object from node: " + node);
         if (node instanceof MappingNode) {
             return constructFromMappingNode(currentClass, (MappingNode) node);
-        } else if (node instanceof ScalarNode) {
-            return constructFromScalarNode((ScalarNode) node);
+        } else if (node instanceof ScalarNode scalarNode) {
+            return constructFromScalarNode(scalarNode);
+        } else if(node instanceof SequenceNode sequenceNode) {
+            return constructFromSequenceNode(sequenceNode);
         } else {
             infoLogger.warning("Unexpected node type encountered: " + node.getClass().getSimpleName());
             return null;
         }
     }
 
+    private Object constructFromSequenceNode(SequenceNode sequenceNode) {
+        List<?> list = (List<?>) super.constructObject(sequenceNode);
+
+        if (list == null || list.isEmpty()) {
+            return list;
+        }
+
+        Class<?> componentType = list.get(0).getClass();
+        Object array = Array.newInstance(componentType, list.size());
+        for (int i = 0; i < list.size(); i++) {
+            Array.set(array, i, list.get(i));
+        }
+
+        return array;
+    }
+
     private <U> Object constructFromMappingNode(Class<U> currentClass, MappingNode mappingNode) {
-        System.out.println("Constructing object from mapping node " + mappingNode.getValue());
 
         // if the class is a hashmap, loop over the values and construct the objects
         if (currentClass.equals(HashMap.class)) {
@@ -56,12 +71,14 @@ public class ReflectiveConstructor<T> extends Constructor {
                 var node = tuple.getValueNode();
 
                 if (node instanceof ScalarNode scalarNode) {
-                    values.put(key, constructFromScalarNode(scalarNode));
+                    var constructedItem = constructFromScalarNode(scalarNode);
+                    values.put(key, constructedItem);
+                } else if(node instanceof SequenceNode sequenceNode) {
+                    var constructedItem = constructFromSequenceNode(sequenceNode);
+                    values.put(key, constructedItem);
                 } else if (node instanceof MappingNode mappingNodeChild) {
                     try {
                         Object value = constructFromMappingNode(Object.class, mappingNodeChild);
-
-                        infoLogger.log("Mapping key " + key + " to value " + value);
                         values.put(key, value);
                     } catch (Exception e) {
                         infoLogger.warning("Failed to construct object from mapping node: " + e.getMessage());
@@ -77,17 +94,14 @@ public class ReflectiveConstructor<T> extends Constructor {
             Object instance = unsafe.allocateInstance(currentClass);
             Map<String, Object> mappedValues = mapMappingNode(currentClass, mappingNode);
 
-            Field[] fields = currentClass.getDeclaredFields();
+            Field[] fields = getAllFields(currentClass);
             for (Field field : fields) {
                 try {
-
-                    if (field.isSynthetic() || Modifier.isTransient(field.getModifiers())) continue;
                     makeFieldAccessible(field);
                     if (mappedValues.containsKey(field.getName())) {
                         Object value = mappedValues.get(field.getName());
 
-                        infoLogger.log("Setting field " + field.getName() + " to " + value + " in " + currentClass.getName());
-                        field.set(instance, value);
+                        setField(instance, field, value);
                     }
                 }
                 catch (Exception e) {
@@ -103,15 +117,25 @@ public class ReflectiveConstructor<T> extends Constructor {
         }
     }
 
+    private Field[] getAllFields(Class<?> clazz) {
+        Map<String, Field> fields = new HashMap<>();
+        while (clazz != null) {
+            for (Field field : clazz.getDeclaredFields()) {
+                fields.putIfAbsent(field.getName(), field);
+            }
+            clazz = clazz.getSuperclass();
+        }
+        return fields.values().toArray(new Field[0]);
+    }
+
     private Object constructFromScalarNode(ScalarNode scalarNode) {
-        System.out.println("Constructing object from scalar node " + scalarNode.getValue());
         return super.constructObject(scalarNode);
     }
 
     private Map<String, Object> mapMappingNode(Class<?> currentClass, MappingNode mappingNode) {
         Map<String, Object> values = new HashMap<>();
         for (NodeTuple tuple : mappingNode.getValue()) {
-            var key = (String) constructObject(tuple.getKeyNode());
+            var key = (String) super.constructObject(tuple.getKeyNode());
 
             var node = tuple.getValueNode();
 
@@ -140,6 +164,25 @@ public class ReflectiveConstructor<T> extends Constructor {
                 unsafe.putObjectVolatile(field, offset, field.getModifiers() & ~Modifier.FINAL);
             }
         }
+    }
+
+    /**
+     * Check and convert value types e.g. double to float
+     */
+    private void setField(Object instance, Field field, Object value) throws IllegalAccessException {
+
+        // Check for numeric type compatibility and cast if necessary
+        if (field.getType() == float.class && value instanceof Double) {
+            value = ((Double) value).floatValue();
+        } else if (field.getType() == int.class && value instanceof Long) {
+            value = ((Long) value).intValue();
+        } else if (field.getType() == short.class && value instanceof Integer) {
+            value = ((Integer) value).shortValue();
+        } else if (field.getType() == byte.class && value instanceof Integer) {
+            value = ((Integer) value).byteValue();
+        }
+
+        field.set(instance, value);
     }
 
 

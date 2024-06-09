@@ -124,16 +124,6 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new CooldownTag());
         this.tagRegistry.registerTag(new TriggerBlockTag());
         this.tagRegistry.registerTag(new PermissionTag());
-
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        infoLogger.log("Test a thingy stuffs");
-        tempDataRepository.get("testData");
     }
 
     /**
