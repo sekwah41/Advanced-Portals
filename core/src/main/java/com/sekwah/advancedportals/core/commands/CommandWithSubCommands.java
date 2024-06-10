@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandWithSubCommands implements CommandTemplate {
 
@@ -171,7 +172,8 @@ public class CommandWithSubCommands implements CommandTemplate {
         if(tabList == null) {
             return null;
         }
-        tabList.removeIf(arg -> !arg.startsWith(lastArg));
-        return tabList;
+        return tabList.stream()
+                .filter(arg -> arg.startsWith(lastArg))
+                .collect(Collectors.toList());
     }
 }

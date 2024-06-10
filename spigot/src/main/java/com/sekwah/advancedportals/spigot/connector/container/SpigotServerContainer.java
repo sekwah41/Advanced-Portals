@@ -75,7 +75,7 @@ public class SpigotServerContainer implements ServerContainer {
             case PLAYER:
                 server.dispatchCommand(player, command);
                 break;
-            case OP, STAR:
+            case OP, PERMISSION_WILDCARD:
                 executeCommandWithPermission(player, server, command, commandLevel);
                 break;
         }
@@ -89,8 +89,8 @@ public class SpigotServerContainer implements ServerContainer {
     // Execute commands with elevated permissions method
     private void executeCommandWithPermission (Player player, Server server, String command, CommandTag.CommandLevel commandLevel) {
         switch (commandLevel) {
-            case STAR:
-                if(player.hasPermission("*")) {
+            case PERMISSION_WILDCARD:
+                if (player.hasPermission("*")) {
                     server.dispatchCommand(player, command);
                     return;
                 }
@@ -103,7 +103,7 @@ public class SpigotServerContainer implements ServerContainer {
                 }
                 break;
             case OP:
-                if(player.isOp()) {
+                if (player.isOp()) {
                     server.dispatchCommand(player, command);
                     return;
                 }
