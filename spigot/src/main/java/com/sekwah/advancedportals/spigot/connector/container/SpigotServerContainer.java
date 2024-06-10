@@ -3,9 +3,11 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import com.sekwah.advancedportals.core.tags.activation.CommandTag;
 import org.bukkit.Material;
 import org.bukkit.Server;
-import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +63,58 @@ public class SpigotServerContainer implements ServerContainer {
         return server.getOnlinePlayers().stream()
                 .map(SpigotPlayerContainer::new)
                 .toArray(PlayerContainer[]::new);
+    }
+
+    @Override
+    public void dispatchCommand(UUID uuid, String command, CommandTag.CommandLevel commandLevel) {
+        Player player = server.getPlayer(uuid);
+        switch (commandLevel) {
+            case CONSOLE:
+                server.dispatchCommand(server.getConsoleSender(), command);
+                break;
+            case PLAYER:
+                server.dispatchCommand(player, command);
+                break;
+            case OP, PERMISSION_WILDCARD:
+                executeCommandWithPermission(player, server, command, commandLevel);
+                break;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return server.getName();
+    }
+
+    // Execute commands with elevated permissions method
+    private void executeCommandWithPermission (Player player, Server server, String command, CommandTag.CommandLevel commandLevel) {
+        switch (commandLevel) {
+            case PERMISSION_WILDCARD:
+                if (player.hasPermission("*")) {
+                    server.dispatchCommand(player, command);
+                    return;
+                }
+                PermissionAttachment permissionAttachment = player.addAttachment(server.getPluginManager().getPlugin("AdvancedPortals"));
+                try {
+                    permissionAttachment.setPermission("*", true);
+                    server.dispatchCommand(player, command);
+                } finally {
+                    player.removeAttachment(permissionAttachment);
+                }
+                break;
+            case OP:
+                if (player.isOp()) {
+                    server.dispatchCommand(player, command);
+                    return;
+                }
+                try {
+                    player.setOp(true);
+                    server.dispatchCommand(player, command);
+                } finally {
+                    player.setOp(false);
+                }
+                break;
+        }
     }
 
     // Check if it's a material compatible with making portals
