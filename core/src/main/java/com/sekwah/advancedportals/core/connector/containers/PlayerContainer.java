@@ -1,8 +1,6 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
-import com.sekwah.advancedportals.core.tags.activation.CommandTag;
 
 import java.util.UUID;
 
