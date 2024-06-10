@@ -1,0 +1,4 @@
+name: AdvancedPortals
+version: ${pluginVersion}
+author: sekwah41
+main: com.sekwah.advancedportals.bungee.AdvancedPortalsPlugin

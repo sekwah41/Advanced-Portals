@@ -119,6 +119,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new CooldownTag());
         this.tagRegistry.registerTag(new TriggerBlockTag());
         this.tagRegistry.registerTag(new PermissionTag());
+        this.tagRegistry.registerTag(new CommandTag());
     }
 
     /**
