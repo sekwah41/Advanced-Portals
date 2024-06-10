@@ -59,16 +59,16 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
                 switch (executionCommand) {
                     case '!':
-                        player.performCommand(formattedCommand.substring(1), CommandLevel.OP);
+                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.OP);
                         break;
                     case '#':
-                        player.performCommand(formattedCommand.substring(1), CommandLevel.CONSOLE);
+                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.CONSOLE);
                         break;
                     case '^':
-                        player.performCommand(formattedCommand.substring(1), CommandLevel.STAR);
+                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.PERMISSION_WILDCARD);
                         break;
                     default:
-                        player.performCommand(formattedCommand, CommandLevel.PLAYER);
+                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand, CommandLevel.PLAYER);
                         break;
                 }
             }
@@ -103,7 +103,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         yield true;
                     }
                     case '^' -> {
-                        if (!player.hasPermission("advancedportals.createportal.commandlevel.star")) {
+                        if (!player.hasPermission("advancedportals.createportal.commandlevel.permswild")) {
                             player.sendMessage(Lang.translate("tag.command.nopermission")
                                     .replaceAll("@CommandLevel", "*"));
                             yield false;
@@ -124,7 +124,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
     public enum CommandLevel{
         OP,
-        STAR,
+        PERMISSION_WILDCARD,
         CONSOLE,
         PLAYER
     }
