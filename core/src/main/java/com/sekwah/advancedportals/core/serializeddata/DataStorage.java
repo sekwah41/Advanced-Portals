@@ -3,16 +3,10 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
-import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.inspector.TagInspector;
-import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -68,6 +62,7 @@ public class DataStorage {
     }
 
     public <T> T loadFile(Class<T> dataHolder, String location) {
+        infoLogger.info("Loading file: " + location);
         InputStream yamlResource = this.loadResource(location);
         if (yamlResource == null) {
             try {

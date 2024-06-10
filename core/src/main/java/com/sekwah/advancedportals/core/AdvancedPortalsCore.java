@@ -79,11 +79,11 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.log("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
+        infoLogger.info("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
         try {
             mcVersionTemp = Arrays.stream(mcVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
         } catch (NumberFormatException e) {
-            infoLogger.log("Failed to parse MC version: " + mcVersion);
+            infoLogger.info("Failed to parse MC version: " + mcVersion);
             e.printStackTrace();
             mcVersionTemp = new int[]{0, 0, 0};
         }
@@ -115,7 +115,7 @@ public class AdvancedPortalsCore {
 
         this.portalServices.loadPortals();
         this.destinationServices.loadDestinations();
-        this.infoLogger.log(Lang.translate("logger.pluginenable"));
+        this.infoLogger.info(Lang.translate("logger.pluginenable"));
     }
 
     private void registerTags() {
@@ -184,7 +184,7 @@ public class AdvancedPortalsCore {
         for(var playerContainer : this.serverContainer.getPlayers()) {
             playerDataRepository.playerLeave(playerContainer);
         }
-        this.infoLogger.log(Lang.translate("logger.plugindisable"));
+        this.infoLogger.info(Lang.translate("logger.plugindisable"));
     }
 
     public InfoLogger getInfoLogger() {

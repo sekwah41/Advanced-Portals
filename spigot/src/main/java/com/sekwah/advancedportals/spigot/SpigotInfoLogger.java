@@ -18,7 +18,7 @@ public class SpigotInfoLogger extends InfoLogger {
     }
 
     @Override
-    public void log(String s) {
+    public void info(String s) {
         plugin.getLogger().info(s);
     }
 

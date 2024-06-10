@@ -7,9 +7,7 @@ import org.yaml.snakeyaml.nodes.*;
 import sun.misc.Unsafe;
 
 import javax.inject.Inject;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,12 +94,19 @@ public class ReflectiveConstructor<T> extends Constructor {
 
             Field[] fields = getAllFields(currentClass);
             for (Field field : fields) {
+                if (Modifier.isTransient(field.getModifiers())) {
+                    continue;
+                }
+
+                infoLogger.info("Setting field " + field.getName() + " in " + currentClass.getName());
                 try {
                     makeFieldAccessible(field);
                     if (mappedValues.containsKey(field.getName())) {
                         Object value = mappedValues.get(field.getName());
 
                         setField(instance, field, value);
+                    } else {
+                        infoLogger.warning("Field " + field.getName() + " not found in mapping node" + field.getName().getClass());
                     }
                 }
                 catch (Exception e) {
@@ -159,10 +164,26 @@ public class ReflectiveConstructor<T> extends Constructor {
     private void makeFieldAccessible(Field field) {
         if (!field.isAccessible() || Modifier.isFinal(field.getModifiers())) {
             field.setAccessible(true);
+
             if (Modifier.isFinal(field.getModifiers())) {
                 long offset = unsafe.objectFieldOffset(field);
                 unsafe.putObjectVolatile(field, offset, field.getModifiers() & ~Modifier.FINAL);
             }
+        }
+    }
+
+    public static void setFieldValue(Object instance, String fieldName, Object value) {
+        try {
+            Field f = instance.getClass().getDeclaredField(fieldName);
+
+
+            Method offset = Class.forName("jdk.internal.misc.Unsafe").getMethod("objectFieldOffset", Field.class);
+            unsafe.putBoolean(offset, 12, true);
+
+            unsafe.putObject(instance, (long) offset.invoke(theInternalUnsafe, f), value);
+        } catch (IllegalAccessException | NoSuchFieldException | ClassNotFoundException | NoSuchMethodException |
+                 InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
@@ -182,6 +203,7 @@ public class ReflectiveConstructor<T> extends Constructor {
             value = ((Integer) value).byteValue();
         }
 
+        infoLogger.info("Setting field " + field.getName() + " to " + value + " in " + instance.getClass().getName());
         field.set(instance, value);
     }
 
