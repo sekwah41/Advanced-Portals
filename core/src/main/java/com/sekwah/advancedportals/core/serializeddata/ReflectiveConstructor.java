@@ -172,21 +172,6 @@ public class ReflectiveConstructor<T> extends Constructor {
         }
     }
 
-    public static void setFieldValue(Object instance, String fieldName, Object value) {
-        try {
-            Field f = instance.getClass().getDeclaredField(fieldName);
-
-
-            Method offset = Class.forName("jdk.internal.misc.Unsafe").getMethod("objectFieldOffset", Field.class);
-            unsafe.putBoolean(offset, 12, true);
-
-            unsafe.putObject(instance, (long) offset.invoke(theInternalUnsafe, f), value);
-        } catch (IllegalAccessException | NoSuchFieldException | ClassNotFoundException | NoSuchMethodException |
-                 InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Check and convert value types e.g. double to float
      */
