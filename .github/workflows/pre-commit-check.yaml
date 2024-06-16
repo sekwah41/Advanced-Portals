@@ -13,6 +13,8 @@ concurrency:
 
 jobs:
   pre-commit-check:
+    permissions:
+      pull-requests: write
     if: github.event.action != 'labeled' || github.event.label.name == 'pre-commit ci run'
     name: Run pre-commit checks
     runs-on: ubuntu-20.04
