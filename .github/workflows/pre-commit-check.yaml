@@ -3,6 +3,8 @@ name: Pre-commit consistency check
 on:
   workflow_dispatch:
   pull_request:
+  push:
+    branches: [spigot, re-recode]
 
 concurrency:
   group: ${{ github.head_ref }}-precommit
@@ -28,7 +30,7 @@ jobs:
 
       # run only if changed files were detected
     - name: Run against changes
-      uses: pre-commit/action@v2.0.3
+      uses: pre-commit/action@v3.0.1
       if: steps.filter.outputs.addedOrModified == 'true'
       with:
         extra_args: --files ${{ steps.filter.outputs.addedOrModified_files }}
@@ -39,3 +41,5 @@ jobs:
       if: steps.filter.outputs.addedOrModified != 'true'
       with:
         extra_args: --all-files
+    - uses: pre-commit-ci/lite-action@v1.0.2
+      if: always()
