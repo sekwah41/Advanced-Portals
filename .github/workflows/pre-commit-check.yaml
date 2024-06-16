@@ -48,7 +48,7 @@ jobs:
         extra_args: --all-files
     - uses: pre-commit-ci/lite-action@v1.0.2
       if: always()
-      
+
     - name: Commit pre-commit changes
       if: always() && github.event.action != 'pull_request'
       run: |
