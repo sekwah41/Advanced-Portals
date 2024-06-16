@@ -4,13 +4,10 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
-
     @Inject private ServerContainer serverContainer;
 
     public static String TAG_NAME = "triggerblock";

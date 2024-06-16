@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 
 public interface EntityContainer {
-
     PlayerLocation getLoc();
 
     double getHeight();

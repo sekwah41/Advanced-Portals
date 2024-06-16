@@ -2,31 +2,30 @@ package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-
 import java.awt.*;
 
 public class Debug {
-    public static boolean addMarker(
-            PlayerContainer player,
-            BlockLocation blockPos,
-            String name,
-            Color color,
-            int milliseconds) {
+    public static boolean addMarker(PlayerContainer player,
+                                    BlockLocation blockPos, String name,
+                                    Color color, int milliseconds) {
         FriendlyDataOutput out = new FriendlyDataOutput();
         out.writeBlock(blockPos);
         out.writeInt(color(color));
         out.writeUtf(name);
         out.writeInt(milliseconds);
-        return player.sendPacket("minecraft:debug/game_test_add_marker", out.toByteArray());
+        return player.sendPacket("minecraft:debug/game_test_add_marker",
+                                 out.toByteArray());
     }
 
     public static boolean clear(PlayerContainer player) {
         FriendlyDataOutput out = new FriendlyDataOutput();
-        return player.sendPacket("minecraft:debug/game_test_clear", out.toByteArray());
+        return player.sendPacket("minecraft:debug/game_test_clear",
+                                 out.toByteArray());
     }
 
     public static int color(Color color) {
-        return color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        return color(color.getRed(), color.getGreen(), color.getBlue(),
+                     color.getAlpha());
     }
 
     public static int color(int r, int g, int b) {

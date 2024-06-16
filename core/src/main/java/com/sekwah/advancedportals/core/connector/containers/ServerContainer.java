@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ServerContainer {
-
     WorldContainer getWorld(String name);
 
     PlayerContainer getPlayer(String name);

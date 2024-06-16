@@ -3,32 +3,44 @@ package com.sekwah.advancedportals.core.serializeddata;
 import java.util.HashMap;
 
 /**
- * Possibly one of the only files in this package not designed to be serialised.
+ * Possibly one of the only files in this package not designed to be
+ * serialised.
  *
- * <p>Any temporary data about players will be stored here and cleaned up when the player leaves the
- * server.
+ * <p>Any temporary data about players will be stored here and cleaned up when
+ * the player leaves the server.
  *
- * <p>This is not a place to store long term data e.g. if you want to make a player unable to use a
- * portal over hours/days.
+ * <p>This is not a place to store long term data e.g. if you want to make a
+ * player unable to use a portal over hours/days.
  */
 public class PlayerData {
-
-    /** Portal selection position 1 */
+    /**
+     * Portal selection position 1
+     */
     private BlockLocation pos1;
 
-    /** Portal selection position 2 */
+    /**
+     * Portal selection position 2
+     */
     private BlockLocation pos2;
 
-    /** If to show portals near the player */
+    /**
+     * If to show portals near the player
+     */
     private boolean portalVisible = false;
 
-    /** If to show destination blocks near the player */
+    /**
+     * If to show destination blocks near the player
+     */
     private boolean destiVisible;
 
-    /** If the player is in a portal. Stops re-triggering. */
+    /**
+     * If the player is in a portal. Stops re-triggering.
+     */
     private transient boolean isInPortal = false;
 
-    /** The next time System.currentTimeMillis() a player can use a portal. */
+    /**
+     * The next time System.currentTimeMillis() a player can use a portal.
+     */
     private transient long joinCooldown;
 
     private transient long netherPortalCooldown;
@@ -94,7 +106,8 @@ public class PlayerData {
     }
 
     public void setNetherPortalCooldown(long netherPortalCooldown) {
-        this.netherPortalCooldown = System.currentTimeMillis() + netherPortalCooldown;
+        this.netherPortalCooldown =
+            System.currentTimeMillis() + netherPortalCooldown;
     }
 
     public boolean hasJoinCooldown() {
@@ -106,12 +119,13 @@ public class PlayerData {
     }
 
     public void setPortalCooldown(String portalName, long cooldown) {
-        perPortalCooldowns.put(portalName, System.currentTimeMillis() + cooldown);
+        perPortalCooldowns.put(portalName,
+                               System.currentTimeMillis() + cooldown);
     }
 
     public boolean hasPortalCooldown(String portalName) {
         return perPortalCooldowns.containsKey(portalName)
-                && System.currentTimeMillis() < perPortalCooldowns.get(portalName);
+            && System.currentTimeMillis() < perPortalCooldowns.get(portalName);
     }
 
     public double getPortalCooldownLeft(String portalName) {

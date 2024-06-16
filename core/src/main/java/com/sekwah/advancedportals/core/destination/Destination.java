@@ -8,24 +8,23 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Possibly look at adding the ability to add some tags to destinations such as permissions. Would
- * make it easier to add permissions to block access to certain areas and such. Could be a different
- * permission system or just it takes the tags on the destination and automatically applies them
- * when a portal wants to warp to there. (Of course it would not work cross server unless the data
- * was communicated and checked first however that could affect performance and would definitely
- * affect speed)
+ * Possibly look at adding the ability to add some tags to destinations such as
+ * permissions. Would make it easier to add permissions to block access to
+ * certain areas and such. Could be a different permission system or just it
+ * takes the tags on the destination and automatically applies them when a
+ * portal wants to warp to there. (Of course it would not work cross server
+ * unless the data was communicated and checked first however that could affect
+ * performance and would definitely affect speed)
  *
  * @author sekwah41
  */
 public class Destination implements TagTarget {
-
     @Inject transient TagRegistry tagRegistry;
 
     private PlayerLocation loc;
@@ -53,7 +52,8 @@ public class Destination implements TagTarget {
     }
 
     @Override
-    public void addArg(String argName, String argValues) {}
+    public void addArg(String argName, String argValues) {
+    }
 
     public void setArgValues(DataTag portalTag) {
         this.setArgValues(portalTag.NAME, portalTag.VALUES);
@@ -77,16 +77,19 @@ public class Destination implements TagTarget {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler =
+                tagRegistry.getActivationHandler(destiTag.NAME);
             if (activationHandler != null) {
                 activationHandler.preActivated(
-                        this, player, data, this.getArgValues(destiTag.NAME));
+                    this, player, data, this.getArgValues(destiTag.NAME));
             }
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler =
+                tagRegistry.getActivationHandler(destiTag.NAME);
             if (activationHandler != null) {
-                activationHandler.activated(this, player, data, this.getArgValues(destiTag.NAME));
+                activationHandler.activated(this, player, data,
+                                            this.getArgValues(destiTag.NAME));
             }
         }
         return true;
@@ -99,10 +102,11 @@ public class Destination implements TagTarget {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler = tagRegistry.getActivationHandler(destiTag.NAME);
+            Tag.Activation activationHandler =
+                tagRegistry.getActivationHandler(destiTag.NAME);
             if (activationHandler != null) {
                 activationHandler.postActivated(
-                        this, player, data, this.getArgValues(destiTag.NAME));
+                    this, player, data, this.getArgValues(destiTag.NAME));
             }
         }
     }
