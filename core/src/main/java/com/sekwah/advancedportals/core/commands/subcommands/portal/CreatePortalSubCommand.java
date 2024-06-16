@@ -48,8 +48,8 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
             // Find the tag with the "name" NAME
             DataTag nameTag = portalTags.stream().filter(tag -> {
-                this.infoLogger.log("Tag: " + tag.NAME);
-                this.infoLogger.log("Equals: " + tag.NAME.equals(NameTag.TAG_NAME));
+                this.infoLogger.info("Tag: " + tag.NAME);
+                this.infoLogger.info("Equals: " + tag.NAME.equals(NameTag.TAG_NAME));
                 return tag.NAME.equals(NameTag.TAG_NAME);
             }).findFirst().orElse(null);
 

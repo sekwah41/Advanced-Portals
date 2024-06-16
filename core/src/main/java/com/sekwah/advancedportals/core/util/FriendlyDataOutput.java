@@ -113,8 +113,8 @@ public class FriendlyDataOutput {
     private long blockAsLong(BlockLocation blockLoc) {
 
         long i = 0L;
-        i |= ((long)blockLoc.posX & PACKED_X_MASK) << X_OFFSET;
-        i |= ((long)blockLoc.posY & PACKED_Y_MASK) << 0;
-        return i | ((long)blockLoc.posZ & PACKED_Z_MASK) << Z_OFFSET;
+        i |= ((long)blockLoc.getPosX() & PACKED_X_MASK) << X_OFFSET;
+        i |= ((long)blockLoc.getPosY() & PACKED_Y_MASK) << 0;
+        return i | ((long)blockLoc.getPosZ() & PACKED_Z_MASK) << Z_OFFSET;
     }
 }
