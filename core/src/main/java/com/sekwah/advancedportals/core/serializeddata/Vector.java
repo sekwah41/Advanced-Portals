@@ -1,33 +1,28 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Vector {
-    @SerializedName("x")
-    public final double X;
+    protected final double x;
 
-    @SerializedName("y")
-    public final double Y;
+    protected final double y;
 
-    @SerializedName("z")
-    public final double Z;
+    protected final double z;
 
     public Vector(double X, double Y, double Z) {
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
+        this.x = X;
+        this.y = Y;
+        this.z = Z;
     }
 
     public Vector add(Vector vec) {
-        return new Vector(this.X + vec.X, this.Y + vec.Y, this.Z + vec.Z);
+        return new Vector(this.x + vec.x, this.y + vec.y, this.z + vec.z);
     }
 
     public Vector multiply(double value) {
-        return new Vector(this.X * value, this.Y * value, this.Z * value);
+        return new Vector(this.x * value, this.y * value, this.z * value);
     }
 
     public Vector setY(double y) {
-        return new Vector(this.X, y, this.Z);
+        return new Vector(this.x, y, this.z);
     }
 
     public double distanceTo(Vector pos) {
@@ -35,22 +30,22 @@ public class Vector {
     }
 
     private double distanceToSq(Vector pos) {
-        double dx = this.X - pos.X;
-        double dy = this.Y - pos.Y;
-        double dz = this.Z - pos.Z;
+        double dx = this.x - pos.x;
+        double dy = this.y - pos.y;
+        double dz = this.z - pos.z;
         return dx * dx + dy * dy + dz * dz;
     }
 
     public double getX() {
-        return this.X;
+        return this.x;
     }
 
     public double getY() {
-        return this.Y;
+        return this.y;
     }
 
     public double getZ() {
-        return this.Z;
+        return this.z;
     }
 
     public Vector normalize() {
@@ -58,6 +53,6 @@ public class Vector {
     }
 
     private double length() {
-        return Math.sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
     }
 }

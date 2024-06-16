@@ -27,29 +27,31 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     @Override
     public boolean save(String name, AdvancedPortal portal) {
-        return dataStorage.storeJson(portal, fileLocation + name + ".json");
+        return dataStorage.storeFile(portal, fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean containsKey(String name) {
-        return dataStorage.fileExists(fileLocation + name + ".json");
+        return dataStorage.fileExists(fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean delete(String name) {
-        return dataStorage.deleteFile(fileLocation + name + ".json");
+        return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
     @Override
     public AdvancedPortal get(String name) {
-        var portal = dataStorage.loadJson(AdvancedPortal.class, fileLocation + name + ".json");
-        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
+        var portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + name + ".yaml");
+        if(portal != null) {
+            AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
+        }
         return portal;
     }
 
     @Override
     public List<String> getAllNames() {
-        return dataStorage.listAllFiles(fileLocation, true);
+        return dataStorage.listAllFiles(fileLocation, true, "yaml");
     }
 
     @Override
@@ -57,11 +59,11 @@ public class PortalRepositoryImpl implements IPortalRepository {
         List<AdvancedPortal> portals = new ArrayList<>();
         List<String> allFiles = dataStorage.listAllFiles(fileLocation, false);
         for (String fileName : allFiles) {
-            AdvancedPortal portal = dataStorage.loadJson(AdvancedPortal.class, fileLocation + fileName);
+            AdvancedPortal portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + fileName);
             // Forces the name tag to be up-to-date on load
             String[] name = portal.getArgValues(NameTag.TAG_NAME);
             if(name != null && name.length > 0) {
-                portal.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".json", "")});
+                portal.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".yaml", "")});
             }
             portals.add(portal);
         }

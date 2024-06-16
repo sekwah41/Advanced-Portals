@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.destination;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -20,7 +19,7 @@ import java.util.Set;
  * to add permissions to block access to certain areas and such. Could be a different permission system or just
  * it takes the tags on the destination and automatically applies them when a portal wants to warp to there.
  * (Of course it would not work cross server unless the data was communicated and checked first however that
- * could effect performance and would definitely effect speed)
+ * could affect performance and would definitely affect speed)
  *
  * @author sekwah41
  */
@@ -29,13 +28,15 @@ public class Destination implements TagTarget {
     @Inject
     transient TagRegistry tagRegistry;
 
-    @SerializedName("l")
     private PlayerLocation loc;
 
-    @SerializedName("a")
     private HashMap<String, String[]> args = new HashMap<>();
 
     private transient Set<String> argsCol;
+
+    public Destination() {
+        this.loc = new PlayerLocation();
+    }
 
     public Destination(PlayerLocation loc) {
         this.loc = loc;

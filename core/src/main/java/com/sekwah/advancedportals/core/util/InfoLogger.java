@@ -13,7 +13,7 @@ public abstract class InfoLogger {
      * General information logging
      * @param s info message
      */
-    public abstract void log(String s);
+    public abstract void info(String s);
 
     public abstract void error(Exception e);
 }

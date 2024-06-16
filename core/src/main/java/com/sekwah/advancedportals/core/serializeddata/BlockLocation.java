@@ -1,21 +1,26 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-import com.google.gson.annotations.SerializedName;
 import com.sekwah.advancedportals.core.data.Direction;
+
+import java.io.Serializable;
 
 public class BlockLocation {
 
-    @SerializedName("x")
-    public final int posX;
+    // These should be treated as final, they only are not for serialization purposes
+    private final int posX;
 
-    @SerializedName("y")
-    public final int posY;
+    private final int posY;
 
-    @SerializedName("z")
-    public final int posZ;
+    private final int posZ;
 
-    @SerializedName("w")
-    public final String worldName;
+    private final String worldName;
+
+    public BlockLocation() {
+        this.worldName = "";
+        this.posX = 0;
+        this.posY = 0;
+        this.posZ = 0;
+    }
 
     public BlockLocation(String worldName, int posX, int posY, int posZ) {
         this.worldName = worldName;
@@ -42,6 +47,10 @@ public class BlockLocation {
 
     public int getPosZ() {
         return posZ;
+    }
+
+    public String getWorldName() {
+        return worldName;
     }
 
     public boolean equals(BlockLocation location) {
