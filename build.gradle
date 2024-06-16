@@ -143,16 +143,16 @@ tasks.register('copyPlugin') {
             def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals.jar")
 
             println "Handling file: $destinationFilePath"
-            
+
             byte[] newContent = Files.readAllBytes(sourceFilePath)
-            
+
             if (Files.exists(destinationFilePath)) {
                 println "File exists. Overwriting with new binary content."
-                
+
                 Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
             } else {
                 println "File does not exist. Copying from source."
-                
+
                 Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
             }
         }

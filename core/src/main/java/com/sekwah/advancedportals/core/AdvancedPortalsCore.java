@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -67,6 +68,10 @@ public class AdvancedPortalsCore {
     @Inject
     private GameScheduler gameScheduler;
 
+    // TEMP REMOVE THIS THIS IS JUST FOR DEV
+    @Inject
+    private IPlayerDataRepository tempDataRepository;
+
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc, InfoLogger infoLogger, ServerContainer serverContainer) {
         instance = this;
         this.serverContainer = serverContainer;
@@ -74,11 +79,11 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.log("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
+        infoLogger.info("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
         try {
             mcVersionTemp = Arrays.stream(mcVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
         } catch (NumberFormatException e) {
-            infoLogger.log("Failed to parse MC version: " + mcVersion);
+            infoLogger.info("Failed to parse MC version: " + mcVersion);
             e.printStackTrace();
             mcVersionTemp = new int[]{0, 0, 0};
         }
@@ -110,7 +115,7 @@ public class AdvancedPortalsCore {
 
         this.portalServices.loadPortals();
         this.destinationServices.loadDestinations();
-        this.infoLogger.log(Lang.translate("logger.pluginenable"));
+        this.infoLogger.info(Lang.translate("logger.pluginenable"));
     }
 
     private void registerTags() {
@@ -172,14 +177,14 @@ public class AdvancedPortalsCore {
      */
     public void loadPortalConfig() {
         this.configRepository.loadConfig(this.dataStorage);
-        this.dataStorage.storeJson(this.configRepository, "config.json");
+        this.configRepository.storeConfig();
     }
 
     public void onDisable() {
         for(var playerContainer : this.serverContainer.getPlayers()) {
             playerDataRepository.playerLeave(playerContainer);
         }
-        this.infoLogger.log(Lang.translate("logger.plugindisable"));
+        this.infoLogger.info(Lang.translate("logger.plugindisable"));
     }
 
     public InfoLogger getInfoLogger() {
