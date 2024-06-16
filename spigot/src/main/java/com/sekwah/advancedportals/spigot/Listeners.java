@@ -27,11 +27,14 @@ import org.bukkit.event.player.*;
  * others it's easier to just check directly.
  */
 public class Listeners implements Listener {
-    @Inject private CoreListeners coreListeners;
+    @Inject
+    private CoreListeners coreListeners;
 
-    @Inject private PortalServices portalServices;
+    @Inject
+    private PortalServices portalServices;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
     // Entity and portal events
     @EventHandler

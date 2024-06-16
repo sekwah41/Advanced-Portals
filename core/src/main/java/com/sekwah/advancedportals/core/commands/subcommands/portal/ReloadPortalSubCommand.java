@@ -12,13 +12,17 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.List;
 
 public class ReloadPortalSubCommand implements SubCommand {
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
-    @Inject PortalServices portalServices;
+    @Inject
+    PortalServices portalServices;
 
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
-    @Inject ConfigRepository configRepository;
+    @Inject
+    ConfigRepository configRepository;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

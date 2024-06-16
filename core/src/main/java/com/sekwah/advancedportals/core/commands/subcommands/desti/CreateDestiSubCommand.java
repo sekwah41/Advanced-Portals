@@ -17,9 +17,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreateDestiSubCommand extends CreateTaggedSubCommand {
-    @Inject TagRegistry tagRegistry;
+    @Inject
+    TagRegistry tagRegistry;
 
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

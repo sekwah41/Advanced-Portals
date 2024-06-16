@@ -21,13 +21,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreatePortalSubCommand extends CreateTaggedSubCommand {
-    @Inject PortalServices portalServices;
+    @Inject
+    PortalServices portalServices;
 
-    @Inject TagRegistry tagRegistry;
+    @Inject
+    TagRegistry tagRegistry;
 
-    @Inject InfoLogger infoLogger;
+    @Inject
+    InfoLogger infoLogger;
 
-    @Inject ConfigRepository config;
+    @Inject
+    ConfigRepository config;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

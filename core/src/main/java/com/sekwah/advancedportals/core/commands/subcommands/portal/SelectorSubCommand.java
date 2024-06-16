@@ -11,9 +11,11 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.List;
 
 public class SelectorSubCommand implements SubCommand {
-    @Inject private ConfigRepository configRepo;
+    @Inject
+    private ConfigRepository configRepo;
 
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

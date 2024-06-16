@@ -12,11 +12,14 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 public class PermissionTag implements Tag.Activation {
-    @Inject transient PlayerDataServices playerDataServices;
+    @Inject
+    transient PlayerDataServices playerDataServices;
 
-    @Inject transient ConfigRepository configRepository;
+    @Inject
+    transient ConfigRepository configRepository;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     public static String TAG_NAME = "permission";
 
