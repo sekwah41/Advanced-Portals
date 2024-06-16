@@ -17,13 +17,17 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.Objects;
 
 public class CoreListeners {
-    @Inject private PlayerDataServices playerDataServices;
+    @Inject
+    private PlayerDataServices playerDataServices;
 
-    @Inject private PortalServices portalServices;
+    @Inject
+    private PortalServices portalServices;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
-    @Inject private GameScheduler gameScheduler;
+    @Inject
+    private GameScheduler gameScheduler;
 
     public void playerJoin(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);

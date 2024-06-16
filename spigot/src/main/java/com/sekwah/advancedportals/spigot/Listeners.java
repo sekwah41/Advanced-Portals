@@ -25,9 +25,11 @@ public class Listeners implements Listener {
 
     private CoreListeners coreListeners = AdvancedPortalsCore.getInstance().getCoreListeners();
 
-    @Inject private PortalServices portalServices;
+    @Inject
+    private PortalServices portalServices;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
     // Entity and portal events
     @EventHandler

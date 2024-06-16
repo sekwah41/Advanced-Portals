@@ -9,7 +9,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.List;
 
 public class RemovePortalSubCommand implements SubCommand {
-    @Inject PortalServices portalServices;
+    @Inject
+    PortalServices portalServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

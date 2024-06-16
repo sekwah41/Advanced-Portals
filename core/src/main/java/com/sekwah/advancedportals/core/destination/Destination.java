@@ -25,7 +25,8 @@ import java.util.Set;
  * @author sekwah41
  */
 public class Destination implements TagTarget {
-    @Inject transient TagRegistry tagRegistry;
+    @Inject
+    transient TagRegistry tagRegistry;
 
     private PlayerLocation loc;
 

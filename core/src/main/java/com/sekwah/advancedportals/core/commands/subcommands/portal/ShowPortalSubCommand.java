@@ -29,17 +29,23 @@ public class ShowPortalSubCommand
 
     boolean alternate_show_trigger = true;
 
-    @Inject PlayerDataServices playerDataServices;
+    @Inject
+    PlayerDataServices playerDataServices;
 
-    @Inject GameScheduler gameScheduler;
+    @Inject
+    GameScheduler gameScheduler;
 
-    @Inject AdvancedPortalsCore core;
+    @Inject
+    AdvancedPortalsCore core;
 
-    @Inject ServerContainer serverContainer;
+    @Inject
+    ServerContainer serverContainer;
 
-    @Inject PortalServices portalServices;
+    @Inject
+    PortalServices portalServices;
 
-    @Inject ConfigRepository config;
+    @Inject
+    ConfigRepository config;
 
     final Color POS1_COLOR = new Color(0, 255, 0);
     final Color POS2_COLOR = new Color(255, 0, 0);

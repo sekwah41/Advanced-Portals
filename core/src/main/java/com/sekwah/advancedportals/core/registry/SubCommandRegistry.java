@@ -25,7 +25,8 @@ public class SubCommandRegistry {
      */
     protected ArrayList<String> subCommands = new ArrayList<>();
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     /**
      * @param arg argument needed to activate

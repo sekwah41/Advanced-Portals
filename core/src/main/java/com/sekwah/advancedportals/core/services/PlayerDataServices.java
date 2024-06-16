@@ -19,9 +19,11 @@ public final class PlayerDataServices {
      */
     private Map<UUID, PlayerData> tempDataMap = new HashMap<>();
 
-    @Inject private IPlayerDataRepository tempDataRepository;
+    @Inject
+    private IPlayerDataRepository tempDataRepository;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
     public PlayerData getPlayerData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {

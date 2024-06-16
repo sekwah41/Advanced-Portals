@@ -13,9 +13,11 @@ import java.util.Map;
 public class WarpEffectRegistry {
     private Map<String, WarpEffect> warpEffects = new HashMap();
 
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     /**
      * Register a new warp effect.

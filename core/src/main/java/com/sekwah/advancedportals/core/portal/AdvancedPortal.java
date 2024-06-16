@@ -19,7 +19,8 @@ import java.util.*;
  * @author sekwah41
  */
 public class AdvancedPortal implements TagTarget {
-    @Inject private transient TagRegistry tagRegistry;
+    @Inject
+    private transient TagRegistry tagRegistry;
 
     private BlockLocation maxLoc;
 
@@ -27,9 +28,11 @@ public class AdvancedPortal implements TagTarget {
 
     private final HashMap<String, String[]> args = new HashMap<>();
 
-    @Inject private transient PlayerDataServices playerDataServices;
+    @Inject
+    private transient PlayerDataServices playerDataServices;
 
-    @Inject transient ConfigRepository configRepository;
+    @Inject
+    transient ConfigRepository configRepository;
 
     public AdvancedPortal() {
         this.minLoc = new BlockLocation();

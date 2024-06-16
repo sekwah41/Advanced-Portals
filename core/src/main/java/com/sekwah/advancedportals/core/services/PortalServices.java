@@ -19,15 +19,19 @@ import javax.inject.Singleton;
 
 @Singleton
 public class PortalServices {
-    @Inject private IPortalRepository portalRepository;
+    @Inject
+    private IPortalRepository portalRepository;
 
-    @Inject private transient PlayerDataServices playerDataServices;
+    @Inject
+    private transient PlayerDataServices playerDataServices;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
     private final Map<String, AdvancedPortal> portalCache = new HashMap<>();
 
-    @Inject TagRegistry tagRegistry;
+    @Inject
+    TagRegistry tagRegistry;
 
     public void loadPortals() {
         List<String> portalNames = portalRepository.getAllNames();

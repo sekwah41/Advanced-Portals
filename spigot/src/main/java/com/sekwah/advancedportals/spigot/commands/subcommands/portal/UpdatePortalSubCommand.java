@@ -17,11 +17,14 @@ import java.util.Set;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class UpdatePortalSubCommand implements SubCommand {
-    @Inject PortalServices portalServices;
+    @Inject
+    PortalServices portalServices;
 
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
-    @Inject PortalServices portalService;
+    @Inject
+    PortalServices portalService;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

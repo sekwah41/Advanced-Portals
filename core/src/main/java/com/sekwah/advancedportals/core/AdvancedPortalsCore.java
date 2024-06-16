@@ -41,25 +41,33 @@ public class AdvancedPortalsCore {
 
     private static AdvancedPortalsCore instance;
 
-    @Inject private CommandRegister commandRegister;
+    @Inject
+    private CommandRegister commandRegister;
 
     private CommandWithSubCommands portalCommand;
     private CommandWithSubCommands destiCommand;
 
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private ConfigRepository configRepository;
 
-    @Inject private TagRegistry tagRegistry;
+    @Inject
+    private TagRegistry tagRegistry;
 
-    @Inject private PortalServices portalServices;
+    @Inject
+    private PortalServices portalServices;
 
-    @Inject private DestinationServices destinationServices;
+    @Inject
+    private DestinationServices destinationServices;
 
-    @Inject private PlayerDataServices playerDataRepository;
+    @Inject
+    private PlayerDataServices playerDataRepository;
 
-    @Inject private GameScheduler gameScheduler;
+    @Inject
+    private GameScheduler gameScheduler;
 
     // TEMP REMOVE THIS THIS IS JUST FOR DEV
-    @Inject private IPlayerDataRepository tempDataRepository;
+    @Inject
+    private IPlayerDataRepository tempDataRepository;
 
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc,
                                InfoLogger infoLogger,

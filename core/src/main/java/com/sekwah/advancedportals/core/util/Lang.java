@@ -21,9 +21,11 @@ public class Lang {
     public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
 
-    @Inject private DataStorage dataStorage;
+    @Inject
+    private DataStorage dataStorage;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     public static final String DEFAULT_LANG = "en_GB";
 

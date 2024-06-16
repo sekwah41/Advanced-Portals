@@ -13,7 +13,8 @@ import javax.inject.Singleton;
 public class DestinationRepositoryImpl implements IDestinationRepository {
     private final String fileLocation = "desti/";
 
-    @Inject DataStorage dataStorage;
+    @Inject
+    DataStorage dataStorage;
 
     @Override
     public boolean save(String name, Destination destination) {

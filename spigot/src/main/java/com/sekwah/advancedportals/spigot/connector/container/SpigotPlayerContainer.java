@@ -22,7 +22,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public class SpigotPlayerContainer
     extends SpigotEntityContainer implements PlayerContainer {
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     private final Player player;
 

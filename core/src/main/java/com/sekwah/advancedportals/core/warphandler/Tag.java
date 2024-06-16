@@ -38,7 +38,8 @@ public interface Tag {
 
     String getName();
 
-    @Nullable String[] getAliases();
+    @Nullable
+    String[] getAliases();
 
     String description();
 
@@ -50,9 +51,11 @@ public interface Tag {
          * @param argData
          * @return
          */
-        @Nullable List<String> autoComplete(String argData);
+        @Nullable
+        List<String> autoComplete(String argData);
 
-        @Nullable String splitString();
+        @Nullable
+        String splitString();
     }
 
     interface Split extends Tag {
@@ -62,7 +65,8 @@ public interface Tag {
          *
          * @return null if the tag does not support splitting
          */
-        @Nullable String splitString();
+        @Nullable
+        String splitString();
     }
 
     /**

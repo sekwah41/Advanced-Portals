@@ -15,9 +15,11 @@ import javax.annotation.Nullable;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     public static String TAG_NAME = "destination";
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
-    @Inject WarpEffectRegistry warpEffectRegistry;
+    @Inject
+    WarpEffectRegistry warpEffectRegistry;
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 

@@ -17,8 +17,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LangUpdateSubCommand implements SubCommand {
-    @Inject private AdvancedPortalsCore portalsCore;
-    @Inject private ConfigRepository configRepository;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
+    @Inject
+    private ConfigRepository configRepository;
 
     public LangUpdateSubCommand() {
     }
