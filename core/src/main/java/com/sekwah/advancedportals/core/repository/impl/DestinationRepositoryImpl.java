@@ -6,16 +6,16 @@ import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class DestinationRepositoryImpl implements IDestinationRepository {
     private final String fileLocation = "desti/";
 
-    @Inject
-    DataStorage dataStorage;
+    @Inject DataStorage dataStorage;
 
     @Override
     public boolean save(String name, Destination destination) {
@@ -48,8 +48,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
             Destination destination = this.get(fileName);
             // Forces the name tag to be up-to-date on load
             String[] name = destination.getArgValues(NameTag.TAG_NAME);
-            if(name != null && name.length > 0) {
-                destination.setArgValues(NameTag.TAG_NAME, new String[]{fileName});
+            if (name != null && name.length > 0) {
+                destination.setArgValues(NameTag.TAG_NAME, new String[] {fileName});
             }
             destinations.add(destination);
         }
