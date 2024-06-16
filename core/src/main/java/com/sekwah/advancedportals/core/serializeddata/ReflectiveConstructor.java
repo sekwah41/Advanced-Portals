@@ -96,7 +96,7 @@ public class ReflectiveConstructor<T> extends Constructor {
                 infoLogger.info("No default constructor found for " + currentClass.getName() + ", using unsafe allocation.");
                 instance = unsafe.allocateInstance(currentClass);
             }
-            
+
             Map<String, Object> mappedValues = mapMappingNode(currentClass, mappingNode);
 
             Field[] fields = getAllFields(currentClass);
@@ -104,11 +104,11 @@ public class ReflectiveConstructor<T> extends Constructor {
                 if (Modifier.isTransient(field.getModifiers())) {
                     continue;
                 }
-                
+
                 try {
                     if (mappedValues.containsKey(field.getName())) {
                         Object value = mappedValues.get(field.getName());
-                        
+
                         setField(instance, field, value);
                     } else {
                         infoLogger.warning("Field " + field.getName() + " not found in mapping node " + instance.getClass().getName() + " will use default value.");

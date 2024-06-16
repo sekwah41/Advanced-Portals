@@ -23,11 +23,11 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     private transient TagRegistry tagRegistry;
-    
+
     private BlockLocation maxLoc;
-    
+
     private BlockLocation minLoc;
-    
+
     private final HashMap<String, String[]> args = new HashMap<>();
 
     @Inject
@@ -35,7 +35,7 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     transient ConfigRepository configRepository;
-    
+
     public AdvancedPortal() {
         this.minLoc = new BlockLocation();
         this.maxLoc = new BlockLocation();

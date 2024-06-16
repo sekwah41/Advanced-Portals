@@ -6,7 +6,7 @@ public class PlayerLocation extends WorldLocation {
     private final float yaw;
 
     private final float pitch;
-    
+
     public PlayerLocation() {
         super("", 0, 0, 0);
         this.yaw = 0;
