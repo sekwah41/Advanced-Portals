@@ -75,9 +75,8 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                                 String baseString = endsWithSplit
                                     ? argData
                                     : argData.substring(
-                                          0,
-                                          argData.lastIndexOf(multiTagSplit)
-                                              + 1);
+                                        0,
+                                        argData.lastIndexOf(multiTagSplit) + 1);
 
                                 tagSuggestions =
                                     tagSuggestions
