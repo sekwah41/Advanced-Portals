@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.block.data.Orientable;
 
 public class SpigotWorldContainer implements WorldContainer {
-
     private final World world;
 
     public SpigotWorldContainer(World world) {
@@ -18,18 +17,27 @@ public class SpigotWorldContainer implements WorldContainer {
 
     public void setBlock(BlockLocation location, String material) {
         Material mat = Material.getMaterial(material, false);
-        if(mat != null) this.world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ()).setType(mat);
+        if (mat != null)
+            this.world
+                .getBlockAt(location.getPosX(), location.getPosY(),
+                            location.getPosZ())
+                .setType(mat);
     }
 
     public String getBlock(BlockLocation location) {
-        return this.world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ()).getType().toString();
+        return this.world
+            .getBlockAt(location.getPosX(), location.getPosY(),
+                        location.getPosZ())
+            .getType()
+            .toString();
     }
 
     @Override
     public BlockAxis getBlockAxis(BlockLocation location) {
-        var block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
+        var block = world.getBlockAt(location.getPosX(), location.getPosY(),
+                                     location.getPosZ());
         var matData = block.getState().getBlockData();
-        if(matData instanceof Orientable rotatable) {
+        if (matData instanceof Orientable rotatable) {
             try {
                 return BlockAxis.valueOf(rotatable.getAxis().toString());
             } catch (IllegalArgumentException e) {
@@ -41,9 +49,10 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public void setBlockAxis(BlockLocation location, BlockAxis axis) {
-        var block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
+        var block = world.getBlockAt(location.getPosX(), location.getPosY(),
+                                     location.getPosZ());
         var matData = block.getState().getBlockData();
-        if(matData instanceof Orientable rotatable) {
+        if (matData instanceof Orientable rotatable) {
             rotatable.setAxis(Axis.valueOf(axis.toString()));
             block.setBlockData(rotatable);
         }

@@ -14,14 +14,11 @@ import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.*;
-
 import javax.inject.Singleton;
 
 @Singleton
 public class PortalServices {
-
     @Inject private IPortalRepository portalRepository;
 
     @Inject private transient PlayerDataServices playerDataServices;
@@ -47,7 +44,8 @@ public class PortalServices {
 
     public boolean inPortalRegionProtected(BlockLocation loc) {
         for (AdvancedPortal portal : portalCache.values()) {
-            if (portal.isLocationInPortal(loc, configRepository.getProtectionRadius())) {
+            if (portal.isLocationInPortal(
+                    loc, configRepository.getProtectionRadius())) {
                 return true;
             }
         }
@@ -56,7 +54,8 @@ public class PortalServices {
 
     public boolean inPortalRegionProtected(PlayerLocation loc) {
         for (AdvancedPortal portal : portalCache.values()) {
-            if (portal.isLocationInPortal(loc, configRepository.getProtectionRadius())) {
+            if (portal.isLocationInPortal(
+                    loc, configRepository.getProtectionRadius())) {
                 return true;
             }
         }
@@ -73,7 +72,6 @@ public class PortalServices {
     }
 
     public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
-
         var blockLoc = toLoc.toBlockPos();
         var blockEntityTopLoc = blockLoc.addY(player.getHeight());
         var world = player.getWorld();
@@ -82,9 +80,10 @@ public class PortalServices {
 
         var notInPortal = true;
         for (AdvancedPortal portal : portalCache.values()) {
-            if ((portal.isLocationInPortal(toLoc) && portal.isTriggerBlock(blockMaterial))
-                    || (portal.isLocationInPortal(blockEntityTopLoc)
-                            && portal.isTriggerBlock(blockEntityTopMaterial))) {
+            if ((portal.isLocationInPortal(toLoc)
+                 && portal.isTriggerBlock(blockMaterial))
+                || (portal.isLocationInPortal(blockEntityTopLoc)
+                    && portal.isTriggerBlock(blockEntityTopMaterial))) {
                 notInPortal = false;
                 if (portal.activate(player, true)) {
                     return;
@@ -118,62 +117,67 @@ public class PortalServices {
         return false;
     }
 
-    public AdvancedPortal createPortal(BlockLocation pos1, BlockLocation pos2, List<DataTag> tags) {
+    public AdvancedPortal createPortal(BlockLocation pos1, BlockLocation pos2,
+                                       List<DataTag> tags) {
         return createPortal(null, pos1, pos2, tags);
     }
 
-    public AdvancedPortal createPortal(PlayerContainer player, ArrayList<DataTag> tags) {
+    public AdvancedPortal createPortal(PlayerContainer player,
+                                       ArrayList<DataTag> tags) {
         PlayerData tempData = playerDataServices.getPlayerData(player);
 
         if (tempData.getPos1() == null || tempData.getPos2() == null) {
             player.sendMessage(
-                    Lang.translate("messageprefix.negative")
-                            + Lang.translate("portal.error.selection.missing"));
+                Lang.translate("messageprefix.negative")
+                + Lang.translate("portal.error.selection.missing"));
             return null;
         }
 
-        if (!tempData.getPos1().getWorldName().equals(tempData.getPos2().getWorldName())) {
+        if (!tempData.getPos1().getWorldName().equals(
+                tempData.getPos2().getWorldName())) {
             player.sendMessage(
-                    Lang.translate("messageprefix.negative")
-                            + Lang.translate("portal.error.selection.differentworlds"));
+                Lang.translate("messageprefix.negative")
+                + Lang.translate("portal.error.selection.differentworlds"));
             return null;
         }
 
-        return createPortal(player, tempData.getPos1(), tempData.getPos2(), tags);
+        return createPortal(player, tempData.getPos1(), tempData.getPos2(),
+                            tags);
     }
 
-    public AdvancedPortal createPortal(
-            PlayerContainer player, BlockLocation pos1, BlockLocation pos2, List<DataTag> tags) {
+    public AdvancedPortal createPortal(PlayerContainer player,
+                                       BlockLocation pos1, BlockLocation pos2,
+                                       List<DataTag> tags) {
         // Find the tag with the "name" NAME
-        DataTag nameTag =
-                tags.stream()
-                        .filter(tag -> tag.NAME.equals(NameTag.TAG_NAME))
-                        .findFirst()
-                        .orElse(null);
+        DataTag nameTag = tags.stream()
+                              .filter(tag -> tag.NAME.equals(NameTag.TAG_NAME))
+                              .findFirst()
+                              .orElse(null);
 
         String name = nameTag == null ? null : nameTag.VALUES[0];
         if (nameTag == null || name == null || name.isEmpty()) {
             if (player != null)
-                player.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("command.error.noname"));
+                player.sendMessage(Lang.translate("messageprefix.negative")
+                                   + Lang.translate("command.error.noname"));
             return null;
         } else if (this.portalRepository.containsKey(name)) {
             if (player != null)
-                player.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translateInsertVariables("command.error.nametaken", name));
+                player.sendMessage(Lang.translate("messageprefix.negative")
+                                   + Lang.translateInsertVariables(
+                                       "command.error.nametaken", name));
             return null;
         }
 
-        AdvancedPortal portal = new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
+        AdvancedPortal portal =
+            new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
 
         for (DataTag portalTag : tags) {
             portal.setArgValues(portalTag);
         }
 
         for (DataTag portalTag : tags) {
-            Tag.Creation creation = tagRegistry.getCreationHandler(portalTag.NAME);
+            Tag.Creation creation =
+                tagRegistry.getCreationHandler(portalTag.NAME);
             if (creation != null) {
                 if (!creation.created(portal, player, portalTag.VALUES)) {
                     return null;
@@ -190,9 +194,8 @@ public class PortalServices {
         } catch (Exception e) {
             e.printStackTrace();
             if (player != null)
-                player.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("portal.error.save"));
+                player.sendMessage(Lang.translate("messageprefix.negative")
+                                   + Lang.translate("portal.error.save"));
         }
 
         return portal;

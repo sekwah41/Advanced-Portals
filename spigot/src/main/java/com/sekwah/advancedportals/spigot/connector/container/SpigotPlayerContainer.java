@@ -7,7 +7,8 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
-
+import java.util.Arrays;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,12 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.UUID;
-
-/** Just a temporary container for whenever advanced portals needs to get data from a player */
-public class SpigotPlayerContainer extends SpigotEntityContainer implements PlayerContainer {
-
+/**
+ * Just a temporary container for whenever advanced portals needs to get data
+ * from a player
+ */
+public class SpigotPlayerContainer
+    extends SpigotEntityContainer implements PlayerContainer {
     @Inject private AdvancedPortalsCore portalsCore;
 
     private final Player player;
@@ -47,12 +48,9 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
 
     @Override
     public boolean teleport(PlayerLocation location) {
-        return this.player.teleport(
-                new Location(
-                        Bukkit.getWorld(location.getWorldName()),
-                        location.getPosX(),
-                        location.getPosY(),
-                        location.getPosZ()));
+        return this.player.teleport(new Location(
+            Bukkit.getWorld(location.getWorldName()), location.getPosX(),
+            location.getPosY(), location.getPosZ()));
     }
 
     @Override
@@ -65,7 +63,8 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
      * @param material
      */
     @Override
-    public void sendFakeBlock(BlockLocation blockPos, String material) {}
+    public void sendFakeBlock(BlockLocation blockPos, String material) {
+    }
 
     /**
      * Only 1.12 and below supported
@@ -75,11 +74,15 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
      * @param data
      */
     @Override
-    public void sendFakeBlockWithData(BlockLocation blockPos, String material, byte data) {}
+    public void sendFakeBlockWithData(BlockLocation blockPos, String material,
+                                      byte data) {
+    }
 
     @Override
-    public void giveItem(String material, String itemName, String... itemDescription) {
-        ItemStack regionselector = new ItemStack(Material.getMaterial(material));
+    public void giveItem(String material, String itemName,
+                         String... itemDescription) {
+        ItemStack regionselector =
+            new ItemStack(Material.getMaterial(material));
         ItemMeta selectorname = regionselector.getItemMeta();
         selectorname.setDisplayName(itemName);
         selectorname.setLore(Arrays.asList(itemDescription));
@@ -90,9 +93,11 @@ public class SpigotPlayerContainer extends SpigotEntityContainer implements Play
     @Override
     public boolean sendPacket(String channel, byte[] bytes) {
         if (channel.startsWith("minecraft:")) {
-            return MinecraftCustomPayload.sendCustomPayload(player, channel, bytes);
+            return MinecraftCustomPayload.sendCustomPayload(player, channel,
+                                                            bytes);
         } else {
-            player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(), channel, bytes);
+            player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(),
+                                     channel, bytes);
         }
         return true;
     }

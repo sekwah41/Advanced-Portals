@@ -6,30 +6,24 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.Direction;
-import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
-import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
+import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.Objects;
 
 public class CoreListeners {
+    @Inject private PlayerDataServices playerDataServices;
 
-    @Inject
-    private PlayerDataServices playerDataServices;
+    @Inject private PortalServices portalServices;
 
-    @Inject
-    private PortalServices portalServices;
+    @Inject private ConfigRepository configRepository;
 
-    @Inject
-    private ConfigRepository configRepository;
-
-    @Inject
-    private GameScheduler gameScheduler;
+    @Inject private GameScheduler gameScheduler;
 
     public void playerJoin(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);
@@ -56,19 +50,24 @@ public class CoreListeners {
     }
 
     /**
-     * If the block is indirectly broken it will also take null for the player e.g. with tnt
+     * If the block is indirectly broken it will also take null for the player
+     * e.g. with tnt
      *
      * @player player causing the event (or null if not a player)
      * @param blockPos
      * @param blockMaterial
      * @return if the block is allowed to break
      */
-    public boolean blockBreak(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        if(player == null) {
+    public boolean blockBreak(PlayerContainer player, BlockLocation blockPos,
+                              String blockMaterial, String itemInHandMaterial,
+                              String itemInHandName) {
+        if (player == null) {
             return !portalServices.inPortalRegionProtected(blockPos);
         }
-        if(!(PortalPermissions.BUILD.hasPermission(player) || !portalServices.inPortalRegionProtected(blockPos))) {
-            player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.nobuild"));
+        if (!(PortalPermissions.BUILD.hasPermission(player)
+              || !portalServices.inPortalRegionProtected(blockPos))) {
+            player.sendMessage(Lang.translate("messageprefix.negative")
+                               + Lang.translate("portal.nobuild"));
             return false;
         }
         return true;
@@ -80,33 +79,36 @@ public class CoreListeners {
      * @param blockMaterial
      * @return if the block is allowed to be placed
      */
-    public boolean blockPlace(PlayerContainer player, BlockLocation blockPos, String blockMaterial, String itemInHandMaterial, String itemInHandName) {
-        if(player != null && PortalPermissions.BUILD.hasPermission(player)) {
+    public boolean blockPlace(PlayerContainer player, BlockLocation blockPos,
+                              String blockMaterial, String itemInHandMaterial,
+                              String itemInHandName) {
+        if (player != null && PortalPermissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
-            if(itemInHandName.equals("\u00A75Portal Block Placer")) {
+            if (itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
                 for (Direction direction : Direction.values()) {
                     var checkLoc = new BlockLocation(blockPos, direction);
                     if (world.getBlock(checkLoc).equals("NETHER_PORTAL")) {
-                        world.setBlockAxis(blockPos, world.getBlockAxis(checkLoc));
+                        world.setBlockAxis(blockPos,
+                                           world.getBlockAxis(checkLoc));
                         break;
                     }
                 }
                 return true;
-            }
-            else if(itemInHandName.equals("\u00A78End Portal Block Placer")) {
+            } else if (itemInHandName.equals(
+                           "\u00A78End Portal Block Placer")) {
                 world.setBlock(blockPos, "END_PORTAL");
                 return true;
-            }
-            else if(itemInHandName.equals("\u00A78Gateway Block Placer")) {
+            } else if (itemInHandName.equals("\u00A78Gateway Block Placer")) {
                 world.setBlock(blockPos, "END_GATEWAY");
                 return true;
             }
             return true;
         }
-        if(portalServices.inPortalRegionProtected(blockPos)) {
-            if(player != null) {
-                player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.nobuild"));
+        if (portalServices.inPortalRegionProtected(blockPos)) {
+            if (player != null) {
+                player.sendMessage(Lang.translate("messageprefix.negative")
+                                   + Lang.translate("portal.nobuild"));
             }
             return false;
         }
@@ -119,7 +121,8 @@ public class CoreListeners {
      * @param blockPos
      * @return
      */
-    public boolean blockInteract(PlayerContainer player, BlockLocation blockPos) {
+    public boolean blockInteract(PlayerContainer player,
+                                 BlockLocation blockPos) {
         return true;
     }
 
@@ -129,25 +132,33 @@ public class CoreListeners {
      * @param leftClick true = left click, false = right click
      * @return if player is allowed to interact with block
      */
-    public boolean playerInteractWithBlock(PlayerContainer player, String blockMaterialname, String itemMaterialName, String itemName,
-                                           BlockLocation blockLoc, boolean leftClick) {
-        if(itemName != null && (player.isOp() || PortalPermissions.CREATE_PORTAL.hasPermission(player)) &&
-                itemMaterialName.equalsIgnoreCase(this.configRepository.getSelectorMaterial())
-                && (!this.configRepository.getUseOnlySpecialAxe() || itemName.equals("\u00A7ePortal Region Selector"))) {
-            this.playerDataServices.playerSelectorActivate(player, blockLoc, leftClick);
+    public boolean playerInteractWithBlock(PlayerContainer player,
+                                           String blockMaterialname,
+                                           String itemMaterialName,
+                                           String itemName,
+                                           BlockLocation blockLoc,
+                                           boolean leftClick) {
+        if (itemName != null
+            && (player.isOp()
+                || PortalPermissions.CREATE_PORTAL.hasPermission(player))
+            && itemMaterialName.equalsIgnoreCase(
+                this.configRepository.getSelectorMaterial())
+            && (!this.configRepository.getUseOnlySpecialAxe()
+                || itemName.equals("\u00A7ePortal Region Selector"))) {
+            this.playerDataServices.playerSelectorActivate(player, blockLoc,
+                                                           leftClick);
             return false;
-        }
-        else if(itemName != null && leftClick &&
-                Objects.equals(itemMaterialName, "PURPLE_WOOL") &&
-                itemName.equals("\u00A75Portal Block Placer") && PortalPermissions.BUILD.hasPermission(player)) {
-            if(!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
+        } else if (itemName != null && leftClick
+                   && Objects.equals(itemMaterialName, "PURPLE_WOOL")
+                   && itemName.equals("\u00A75Portal Block Placer")
+                   && PortalPermissions.BUILD.hasPermission(player)) {
+            if (!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
                 return false;
             }
             WorldContainer world = player.getWorld();
-            if(world.getBlockAxis(blockLoc) == BlockAxis.X) {
+            if (world.getBlockAxis(blockLoc) == BlockAxis.X) {
                 world.setBlockAxis(blockLoc, BlockAxis.Z);
-            }
-            else {
+            } else {
                 world.setBlockAxis(blockLoc, BlockAxis.X);
             }
             return false;
@@ -166,14 +177,15 @@ public class CoreListeners {
 
     public boolean entityPortalEvent(EntityContainer entity) {
         var pos = entity.getBlockLoc();
-        if(entity instanceof PlayerContainer player) {
+        if (entity instanceof PlayerContainer player) {
             var playerData = playerDataServices.getPlayerData(player);
-            if(playerData.isNetherPortalCooldown()) {
+            if (playerData.isNetherPortalCooldown()) {
                 return false;
             }
         }
         var feetInPortal = portalServices.inPortalRegion(pos, 1);
-        var headInPortal = portalServices.inPortalRegion(pos.addY((int) entity.getHeight()), 1);
+        var headInPortal = portalServices.inPortalRegion(
+            pos.addY((int) entity.getHeight()), 1);
         return !(feetInPortal || headInPortal);
     }
 }

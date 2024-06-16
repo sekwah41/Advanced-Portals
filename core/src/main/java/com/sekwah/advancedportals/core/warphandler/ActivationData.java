@@ -8,7 +8,6 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
  * @author sekwah41
  */
 public class ActivationData {
-
     private boolean warpAllowed = true;
 
     public final boolean moveActivated;
@@ -28,15 +27,16 @@ public class ActivationData {
     public void setWarpStatus(WarpedStatus warped) {
         if (this.warpStatus == WarpedStatus.WARPED) {
             return;
-        } else if (this.warpStatus == WarpedStatus.ACTIVATED && warped != WarpedStatus.WARPED) {
+        } else if (this.warpStatus == WarpedStatus.ACTIVATED
+                   && warped != WarpedStatus.WARPED) {
             return;
         }
         this.warpStatus = warped;
     }
 
     /**
-     * In case you need to set the status back down a step for whatever reason. However it is not
-     * recommended.
+     * In case you need to set the status back down a step for whatever reason.
+     * However it is not recommended.
      *
      * @param warped
      */
@@ -57,11 +57,20 @@ public class ActivationData {
     }
 
     public enum WarpedStatus {
-        /** Player has moved or something major has happened. (only one of these should activate) */
+        /**
+         * Player has moved or something major has happened. (only one of these
+         * should activate)
+         */
         WARPED,
-        /** Shows that the portal has been activated even if a major function is not performed. */
+        /**
+         * Shows that the portal has been activated even if a major function is
+         * not performed.
+         */
         ACTIVATED,
-        /** Nothing has activated on the portal (may need to come up with a new name) */
+        /**
+         * Nothing has activated on the portal (may need to come up with a new
+         * name)
+         */
         NOTACTIVATED;
     }
 }

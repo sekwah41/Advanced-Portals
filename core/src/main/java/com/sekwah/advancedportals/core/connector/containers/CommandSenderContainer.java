@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
 public interface CommandSenderContainer {
-
     void sendMessage(String message);
 
     boolean isOp();

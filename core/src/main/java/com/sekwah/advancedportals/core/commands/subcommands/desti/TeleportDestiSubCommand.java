@@ -6,27 +6,26 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.Collections;
 import java.util.List;
 
 public class TeleportDestiSubCommand implements SubCommand {
-
     @Inject DestinationServices destinationServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1) {
-            if (destinationServices.teleportToDestination(args[1], sender.getPlayerContainer())) {
+            if (destinationServices.teleportToDestination(
+                    args[1], sender.getPlayerContainer())) {
                 sender.sendMessage(
-                        Lang.translate("messageprefix.positive")
-                                + Lang.translate("command.destination.teleport.success")
-                                        .replaceAll("@destiname", args[1]));
+                    Lang.translate("messageprefix.positive")
+                    + Lang.translate("command.destination.teleport.success")
+                          .replaceAll("@destiname", args[1]));
             } else {
                 sender.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("command.destination.teleport.error")
-                                        .replaceAll("@destiname", args[1]));
+                    Lang.translate("messageprefix.negative")
+                    + Lang.translate("command.destination.teleport.error")
+                          .replaceAll("@destiname", args[1]));
             }
         } else {
             sender.sendMessage(Lang.translate("command.destination.noname"));
@@ -39,7 +38,8 @@ public class TeleportDestiSubCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         if (args.length > 2) {
             return Collections.emptyList();
         }

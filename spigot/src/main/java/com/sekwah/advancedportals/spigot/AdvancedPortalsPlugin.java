@@ -10,14 +10,11 @@ import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
-
     private AdvancedPortalsCore portalsCore;
 
     private static AdvancedPortalsPlugin instance;
@@ -32,21 +29,19 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         new Metrics(this);
 
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
-        this.portalsCore =
-                new AdvancedPortalsCore(
-                        matcher.find() ? matcher.group(1) : "0.0.0",
-                        this.getDataFolder(),
-                        new SpigotInfoLogger(this),
-                        new SpigotServerContainer(this.getServer()));
+        this.portalsCore = new AdvancedPortalsCore(
+            matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
+            new SpigotInfoLogger(this),
+            new SpigotServerContainer(this.getServer()));
         AdvancedPortalsModule module = this.portalsCore.getModule();
 
-        module.addInstanceBinding(CommandRegister.class, new SpigotCommandRegister(this));
+        module.addInstanceBinding(CommandRegister.class,
+                                  new SpigotCommandRegister(this));
 
         Injector injector = module.getInjector();
 
@@ -57,16 +52,19 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(listeners, this);
 
         GameScheduler scheduler = injector.getInstance(GameScheduler.class);
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, scheduler::tick, 1, 1);
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(
+            this, scheduler::tick, 1, 1);
 
         var warpEffects = new SpigotWarpEffects();
         injector.injectMembers(warpEffects);
         warpEffects.registerEffects();
 
-        // Try to do this after setting up everything that would need to be injected to.
+        // Try to do this after setting up everything that would need to be
+        // injected to.
         this.portalsCore.onEnable();
 
-        this.portalsCore.registerPortalCommand("update", new UpdatePortalSubCommand());
+        this.portalsCore.registerPortalCommand("update",
+                                               new UpdatePortalSubCommand());
 
         new Metrics(this);
     }

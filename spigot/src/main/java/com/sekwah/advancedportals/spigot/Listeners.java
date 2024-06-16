@@ -8,7 +8,7 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
-
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -22,14 +22,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 
-import java.util.List;
-
 /**
- * Some of these will be passed to the core listener to handle the events, others it's easier to
- * just check directly.
+ * Some of these will be passed to the core listener to handle the events,
+ * others it's easier to just check directly.
  */
 public class Listeners implements Listener {
-
     @Inject private CoreListeners coreListeners;
 
     @Inject private PortalServices portalServices;
@@ -50,21 +47,22 @@ public class Listeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMoveEvent(PlayerMoveEvent event) {
         var to = event.getTo();
-        coreListeners.playerMove(
-                new SpigotPlayerContainer(event.getPlayer()),
-                ContainerHelpers.toPlayerLocation(to));
+        coreListeners.playerMove(new SpigotPlayerContainer(event.getPlayer()),
+                                 ContainerHelpers.toPlayerLocation(to));
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityPortalEvent(EntityPortalEvent event) {
-        if (!this.coreListeners.entityPortalEvent(new SpigotEntityContainer(event.getEntity()))) {
+        if (!this.coreListeners.entityPortalEvent(
+                new SpigotEntityContainer(event.getEntity()))) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPortalEvent(PlayerPortalEvent event) {
-        if (!this.coreListeners.entityPortalEvent(new SpigotPlayerContainer(event.getPlayer()))) {
+        if (!this.coreListeners.entityPortalEvent(
+                new SpigotPlayerContainer(event.getPlayer()))) {
             event.setCancelled(true);
         }
     }
@@ -72,9 +70,10 @@ public class Listeners implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onDamEvent(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player
-                && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
-                        || event.getCause() == EntityDamageEvent.DamageCause.FIRE
-                        || event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)) {
+            && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
+                || event.getCause() == EntityDamageEvent.DamageCause.FIRE
+                || event.getCause()
+                    == EntityDamageEvent.DamageCause.FIRE_TICK)) {
             if (this.coreListeners.preventEntityCombust(
                     new SpigotEntityContainer(event.getEntity()))) {
                 event.setCancelled(true);
@@ -84,7 +83,8 @@ public class Listeners implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCombustEntityEvent(EntityCombustEvent event) {
-        if (this.coreListeners.preventEntityCombust(new SpigotEntityContainer(event.getEntity()))) {
+        if (this.coreListeners.preventEntityCombust(
+                new SpigotEntityContainer(event.getEntity()))) {
             event.setCancelled(true);
         }
     }
@@ -96,10 +96,8 @@ public class Listeners implements Listener {
             if (!this.coreListeners.blockPlace(
                     new SpigotPlayerContainer(event.getPlayer()),
                     new BlockLocation(
-                            blockloc.getWorld().getName(),
-                            blockloc.getBlockX(),
-                            blockloc.getBlockY(),
-                            blockloc.getBlockZ()),
+                        blockloc.getWorld().getName(), blockloc.getBlockX(),
+                        blockloc.getBlockY(), blockloc.getBlockZ()),
                     event.getBlockPlaced().getType().toString(),
                     event.getItemInHand().getType().toString(),
                     event.getItemInHand().getItemMeta().getDisplayName())) {
@@ -116,31 +114,29 @@ public class Listeners implements Listener {
     @EventHandler
     public void onItemInteract(PlayerInteractEvent event) {
         if (!event.isCancelled()
-                && (event.getAction() == Action.LEFT_CLICK_BLOCK
-                        || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-                && event.getItem() != null) {
+            && (event.getAction() == Action.LEFT_CLICK_BLOCK
+                || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+            && event.getItem() != null) {
             Location blockloc = event.getClickedBlock().getLocation();
-            boolean allowEvent =
-                    this.coreListeners.playerInteractWithBlock(
-                            new SpigotPlayerContainer(event.getPlayer()),
-                            event.getClickedBlock().getType().toString(),
-                            event.getMaterial().toString(),
-                            event.getItem().getItemMeta().getDisplayName(),
-                            new BlockLocation(
-                                    blockloc.getWorld().getName(),
-                                    blockloc.getBlockX(),
-                                    blockloc.getBlockY(),
-                                    blockloc.getBlockZ()),
-                            event.getAction() == Action.LEFT_CLICK_BLOCK);
+            boolean allowEvent = this.coreListeners.playerInteractWithBlock(
+                new SpigotPlayerContainer(event.getPlayer()),
+                event.getClickedBlock().getType().toString(),
+                event.getMaterial().toString(),
+                event.getItem().getItemMeta().getDisplayName(),
+                new BlockLocation(blockloc.getWorld().getName(),
+                                  blockloc.getBlockX(), blockloc.getBlockY(),
+                                  blockloc.getBlockZ()),
+                event.getAction() == Action.LEFT_CLICK_BLOCK);
             event.setCancelled(!allowEvent);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void spawnMobEvent(CreatureSpawnEvent event) {
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL
-                && portalServices.inPortalRegionProtected(
-                        ContainerHelpers.toPlayerLocation(event.getLocation()))) {
+        if (event.getSpawnReason()
+                == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL
+            && portalServices.inPortalRegionProtected(
+                ContainerHelpers.toPlayerLocation(event.getLocation()))) {
             event.setCancelled(true);
         }
     }
@@ -152,18 +148,16 @@ public class Listeners implements Listener {
         if (!configRepository.getStopWaterFlow()) {
             return;
         }
-        if (!coreListeners.blockPlace(
-                        null,
-                        ContainerHelpers.toBlockLocation(event.getBlock().getLocation()),
-                        event.getBlock().getType().toString(),
-                        null,
-                        null)
-                || !coreListeners.blockPlace(
-                        null,
-                        ContainerHelpers.toBlockLocation(event.getToBlock().getLocation()),
-                        event.getBlock().getType().toString(),
-                        null,
-                        null)) {
+        if (!coreListeners.blockPlace(null,
+                                      ContainerHelpers.toBlockLocation(
+                                          event.getBlock().getLocation()),
+                                      event.getBlock().getType().toString(),
+                                      null, null)
+            || !coreListeners.blockPlace(null,
+                                         ContainerHelpers.toBlockLocation(
+                                             event.getToBlock().getLocation()),
+                                         event.getBlock().getType().toString(),
+                                         null, null)) {
             event.setCancelled(true);
         }
     }
@@ -173,19 +167,21 @@ public class Listeners implements Listener {
         var itemInHand = event.getPlayer().getItemInHand();
         if (!coreListeners.blockBreak(
                 new SpigotPlayerContainer(event.getPlayer()),
-                ContainerHelpers.toBlockLocation(event.getBlock().getLocation()),
+                ContainerHelpers.toBlockLocation(
+                    event.getBlock().getLocation()),
                 event.getBlock().getType().toString(),
                 itemInHand == null ? null : itemInHand.getType().toString(),
                 itemInHand == null || itemInHand.getItemMeta() == null
-                        ? null
-                        : itemInHand.getItemMeta().getDisplayName())) {
+                    ? null
+                    : itemInHand.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event) {
-        if (!configRepository.getPortalProtection()) return;
+        if (!configRepository.getPortalProtection())
+            return;
 
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {
