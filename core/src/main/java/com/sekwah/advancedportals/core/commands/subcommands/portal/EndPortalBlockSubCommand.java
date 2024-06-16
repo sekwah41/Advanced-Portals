@@ -10,7 +10,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.List;
 
 public class EndPortalBlockSubCommand implements SubCommand {
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

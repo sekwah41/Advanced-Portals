@@ -15,7 +15,8 @@ public class ReflectiveConstructor<T> extends Constructor {
     private static final Unsafe unsafe = getUnsafe();
     private final Class<T> clazz;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     public ReflectiveConstructor(Class<T> clazz, LoaderOptions loadingConfig) {
         super(clazz, loadingConfig);

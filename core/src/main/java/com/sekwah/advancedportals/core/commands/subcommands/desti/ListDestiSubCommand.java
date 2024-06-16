@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ListDestiSubCommand implements SubCommand {
-    @Inject DestinationServices portalServices;
+    @Inject
+    DestinationServices portalServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

@@ -13,7 +13,8 @@ import java.util.*;
 public class PortalRepositoryImpl implements IPortalRepository {
     private final String fileLocation = "portals/";
 
-    @Inject DataStorage dataStorage;
+    @Inject
+    DataStorage dataStorage;
 
     /**
      * In memory copy of the portal files as they will be accessed every

@@ -12,7 +12,8 @@ import java.util.*;
  * @author sekwah41
  */
 public class TagRegistry {
-    @Inject AdvancedPortalsCore portalsCore;
+    @Inject
+    AdvancedPortalsCore portalsCore;
 
     private final ArrayList<String> literalTags = new ArrayList<>();
 
@@ -22,7 +23,8 @@ public class TagRegistry {
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
     private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
 
-    @Inject private AdvancedPortalsCore pluginCore;
+    @Inject
+    private AdvancedPortalsCore pluginCore;
 
     /**
      * Portals to trigger when a portal is activated

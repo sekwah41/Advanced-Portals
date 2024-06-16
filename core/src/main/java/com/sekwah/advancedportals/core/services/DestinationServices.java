@@ -17,9 +17,11 @@ import javax.inject.Singleton;
 
 @Singleton
 public class DestinationServices {
-    @Inject private IDestinationRepository destinationRepository;
+    @Inject
+    private IDestinationRepository destinationRepository;
 
-    @Inject TagRegistry tagRegistry;
+    @Inject
+    TagRegistry tagRegistry;
 
     private final Map<String, Destination> destinationCache = new HashMap<>();
 

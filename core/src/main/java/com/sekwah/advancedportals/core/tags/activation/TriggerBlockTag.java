@@ -8,7 +8,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
-    @Inject private ServerContainer serverContainer;
+    @Inject
+    private ServerContainer serverContainer;
 
     public static String TAG_NAME = "triggerblock";
 

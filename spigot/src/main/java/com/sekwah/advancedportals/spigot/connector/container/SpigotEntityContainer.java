@@ -16,7 +16,8 @@ import org.bukkit.entity.Entity;
  * from a player
  */
 public class SpigotEntityContainer implements EntityContainer {
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
     private final Entity entity;
 
