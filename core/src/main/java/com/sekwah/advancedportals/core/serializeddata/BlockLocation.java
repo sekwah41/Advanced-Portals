@@ -2,8 +2,6 @@ package com.sekwah.advancedportals.core.serializeddata;
 
 import com.sekwah.advancedportals.core.data.Direction;
 
-import java.io.Serializable;
-
 public class BlockLocation {
 
     // These should be treated as final, they only are not for serialization purposes
@@ -34,7 +32,6 @@ public class BlockLocation {
         this.posX = location.posX + direction.x;
         this.posY = location.posY + direction.y;
         this.posZ = location.posZ + direction.z;
-
     }
 
     public int getPosX() {
@@ -54,7 +51,10 @@ public class BlockLocation {
     }
 
     public boolean equals(BlockLocation location) {
-        return location.posX == this.posX && location.posY == this.posY && location.posZ == this.posZ && location.worldName.equals(this.worldName);
+        return location.posX == this.posX
+                && location.posY == this.posY
+                && location.posZ == this.posZ
+                && location.worldName.equals(this.worldName);
     }
 
     public double distanceTo(BlockLocation pos) {

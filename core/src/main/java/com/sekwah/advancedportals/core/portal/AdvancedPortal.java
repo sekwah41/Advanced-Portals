@@ -2,11 +2,11 @@ package com.sekwah.advancedportals.core.portal;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
@@ -21,8 +21,7 @@ import java.util.*;
  */
 public class AdvancedPortal implements TagTarget {
 
-    @Inject
-    private transient TagRegistry tagRegistry;
+    @Inject private transient TagRegistry tagRegistry;
 
     private BlockLocation maxLoc;
 
@@ -30,18 +29,20 @@ public class AdvancedPortal implements TagTarget {
 
     private final HashMap<String, String[]> args = new HashMap<>();
 
-    @Inject
-    private transient PlayerDataServices playerDataServices;
+    @Inject private transient PlayerDataServices playerDataServices;
 
-    @Inject
-    transient ConfigRepository configRepository;
+    @Inject transient ConfigRepository configRepository;
 
     public AdvancedPortal() {
         this.minLoc = new BlockLocation();
         this.maxLoc = new BlockLocation();
     }
 
-    public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc, TagRegistry tagRegistry, PlayerDataServices playerDataServices) {
+    public AdvancedPortal(
+            BlockLocation minLoc,
+            BlockLocation maxLoc,
+            TagRegistry tagRegistry,
+            PlayerDataServices playerDataServices) {
         this.tagRegistry = tagRegistry;
         this.playerDataServices = playerDataServices;
         this.updateBounds(minLoc, maxLoc);
@@ -59,7 +60,6 @@ public class AdvancedPortal implements TagTarget {
     public String[] getArgValues(String argName) {
         return this.args.get(argName);
     }
-
 
     @Override
     public void setArgValues(String argName, String[] argValues) {
@@ -105,20 +105,22 @@ public class AdvancedPortal implements TagTarget {
     }*/
 
     /**
-     *
      * @param player The player on the server attempting to use an advanced portal
      * @param moveActivated if the portal was activated by a move event (won't trigger knockback)
      * @return
      */
     public boolean activate(PlayerContainer player, boolean moveActivated) {
         var playerData = playerDataServices.getPlayerData(player);
-        if(playerData.isInPortal()) return false;
+        if (playerData.isInPortal()) return false;
         playerData.setInPortal(true);
-        if(playerData.hasJoinCooldown()) {
+        if (playerData.hasJoinCooldown()) {
             var cooldown = (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
-            player.sendMessage(Lang.translateInsertVariables("portal.cooldown.join", cooldown,
-                    Lang.translate(cooldown == 1 ? "time.second" : "time.seconds")));
-            if(configRepository.playFailSound()) {
+            player.sendMessage(
+                    Lang.translateInsertVariables(
+                            "portal.cooldown.join",
+                            cooldown,
+                            Lang.translate(cooldown == 1 ? "time.second" : "time.seconds")));
+            if (configRepository.playFailSound()) {
                 var rand = new Random();
                 player.playSound("block.portal.travel", 0.05f, rand.nextFloat() * 0.4F + 0.8F);
             }
@@ -128,33 +130,36 @@ public class AdvancedPortal implements TagTarget {
         ActivationData data = new ActivationData(moveActivated);
         DataTag[] portalTags = new DataTag[args.size()];
         int i = 0;
-        for(Map.Entry<String, String[]> entry : args.entrySet()) {
+        for (Map.Entry<String, String[]> entry : args.entrySet()) {
             portalTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
 
-        for(DataTag portalTag : portalTags) {
+        for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            if(activationHandler != null) {
-                if(!activationHandler.preActivated(this, player, data, this.getArgValues(portalTag.NAME))) {
+            if (activationHandler != null) {
+                if (!activationHandler.preActivated(
+                        this, player, data, this.getArgValues(portalTag.NAME))) {
                     return false;
                 }
             }
         }
-        for(DataTag portalTag : portalTags) {
+        for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            if(activationHandler != null) {
-                if(!activationHandler.activated(this, player, data, this.getArgValues(portalTag.NAME))) {
+            if (activationHandler != null) {
+                if (!activationHandler.activated(
+                        this, player, data, this.getArgValues(portalTag.NAME))) {
                     return false;
                 }
             }
         }
-        for(DataTag portalTag : portalTags) {
+        for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(portalTag.NAME);
-            if(activationHandler != null) {
-                activationHandler.postActivated(this, player, data, this.getArgValues(portalTag.NAME));
+            if (activationHandler != null) {
+                activationHandler.postActivated(
+                        this, player, data, this.getArgValues(portalTag.NAME));
             }
         }
-        if(data.hasActivated()) {
+        if (data.hasActivated()) {
             playerData.setNetherPortalCooldown(1000);
             return true;
         }
@@ -178,14 +183,14 @@ public class AdvancedPortal implements TagTarget {
         double playerY = loc.getPosY();
         double playerZ = loc.getPosZ();
 
-        return Objects.equals(loc.getWorldName(), this.minLoc.getWorldName()) && playerX >= this.minLoc.getPosX() - additionalArea &&
-                playerX < this.maxLoc.getPosX() + 1 + additionalArea &&
-                playerY >= this.minLoc.getPosY() - additionalArea &&
-                playerY < this.maxLoc.getPosY() + 1 + additionalArea &&
-                playerZ >= this.minLoc.getPosZ() - additionalArea &&
-                playerZ < this.maxLoc.getPosZ() + 1 + additionalArea;
+        return Objects.equals(loc.getWorldName(), this.minLoc.getWorldName())
+                && playerX >= this.minLoc.getPosX() - additionalArea
+                && playerX < this.maxLoc.getPosX() + 1 + additionalArea
+                && playerY >= this.minLoc.getPosY() - additionalArea
+                && playerY < this.maxLoc.getPosY() + 1 + additionalArea
+                && playerZ >= this.minLoc.getPosZ() - additionalArea
+                && playerZ < this.maxLoc.getPosZ() + 1 + additionalArea;
     }
-
 
     public void setArgValues(DataTag portalTag) {
         this.setArgValues(portalTag.NAME, portalTag.VALUES);
@@ -193,7 +198,7 @@ public class AdvancedPortal implements TagTarget {
 
     public ArrayList<DataTag> getArgs() {
         ArrayList<DataTag> tagList = new ArrayList<>();
-        for(Map.Entry<String, String[]> entry : this.args.entrySet()){
+        for (Map.Entry<String, String[]> entry : this.args.entrySet()) {
             tagList.add(new DataTag(entry.getKey(), entry.getValue()));
         }
         return tagList;
@@ -201,9 +206,9 @@ public class AdvancedPortal implements TagTarget {
 
     public boolean isTriggerBlock(String blockMaterial) {
         var triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
-        if(triggerBlocks != null) {
-            for(String triggerBlock : triggerBlocks) {
-                if(blockMaterial.equals(triggerBlock)) {
+        if (triggerBlocks != null) {
+            for (String triggerBlock : triggerBlocks) {
+                if (blockMaterial.equals(triggerBlock)) {
                     return true;
                 }
             }

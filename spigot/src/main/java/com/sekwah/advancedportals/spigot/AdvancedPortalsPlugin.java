@@ -10,12 +10,11 @@ import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.awt.SystemColor.text;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
 
@@ -39,9 +38,12 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
-        this.portalsCore = new AdvancedPortalsCore(matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
-                new SpigotInfoLogger(this),
-                new SpigotServerContainer(this.getServer()));
+        this.portalsCore =
+                new AdvancedPortalsCore(
+                        matcher.find() ? matcher.group(1) : "0.0.0",
+                        this.getDataFolder(),
+                        new SpigotInfoLogger(this),
+                        new SpigotServerContainer(this.getServer()));
         AdvancedPortalsModule module = this.portalsCore.getModule();
 
         module.addInstanceBinding(CommandRegister.class, new SpigotCommandRegister(this));
@@ -73,5 +75,4 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     public void onDisable() {
         this.portalsCore.onDisable();
     }
-
 }

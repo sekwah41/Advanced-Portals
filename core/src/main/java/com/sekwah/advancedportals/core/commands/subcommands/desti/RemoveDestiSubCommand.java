@@ -12,22 +12,21 @@ import java.util.List;
 
 public class RemoveDestiSubCommand implements SubCommand {
 
-
-    @Inject
-    DestinationServices destinationServices;
+    @Inject DestinationServices destinationServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if(args.length > 1) {
-            if(destinationServices.removeDestination(args[1], sender.getPlayerContainer())) {
-                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.destination.remove.complete"));
+        if (args.length > 1) {
+            if (destinationServices.removeDestination(args[1], sender.getPlayerContainer())) {
+                sender.sendMessage(
+                        Lang.translate("messageprefix.positive")
+                                + Lang.translate("command.destination.remove.complete"));
+            } else {
+                sender.sendMessage(
+                        Lang.translate("messageprefix.negative")
+                                + Lang.translate("command.destination.remove.error"));
             }
-            else {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
-                        + Lang.translate("command.destination.remove.error"));
-            }
-        }
-        else {
+        } else {
             sender.sendMessage(Lang.translate("command.destination.noname"));
         }
     }
@@ -39,7 +38,7 @@ public class RemoveDestiSubCommand implements SubCommand {
 
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
-        if(args.length > 2) {
+        if (args.length > 2) {
             return Collections.emptyList();
         }
         List<String> destiNames = destinationServices.getDestinationNames();

@@ -13,28 +13,35 @@ import java.util.List;
 
 public class SelectorSubCommand implements SubCommand {
 
-    @Inject
-    private ConfigRepository configRepo;
+    @Inject private ConfigRepository configRepo;
 
-    @Inject
-    private AdvancedPortalsCore portalsCore;
+    @Inject private AdvancedPortalsCore portalsCore;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
-        if(player == null) {
-            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.playeronly"));
-        }
-        else {
-            player.giveItem(configRepo.getSelectorMaterial(), "\u00A7e" + Lang.translate("items.selector.name")
-                    , "\u00A7r\u00A77This wand with has the power to help",
+        if (player == null) {
+            sender.sendMessage(
+                    Lang.translate("messageprefix.negative")
+                            + Lang.translate("command.playeronly"));
+        } else {
+            player.giveItem(
+                    configRepo.getSelectorMaterial(),
+                    "\u00A7e" + Lang.translate("items.selector.name"),
+                    "\u00A7r\u00A77This wand with has the power to help",
                     "\u00A7r\u00A77 create portals bistowed upon it!",
                     "",
-                    "\u00A7r\u00A7e" + Lang.translate("items.interact.left") + "\u00A77: " + Lang.translateInsertVariables("items.selector.pos", "1"),
-                    "\u00A7r\u00A7e" + Lang.translate("items.interact.right") + "\u00A77: " + Lang.translateInsertVariables("items.selector.pos", "2"));
-            sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.selector"));
+                    "\u00A7r\u00A7e"
+                            + Lang.translate("items.interact.left")
+                            + "\u00A77: "
+                            + Lang.translateInsertVariables("items.selector.pos", "1"),
+                    "\u00A7r\u00A7e"
+                            + Lang.translate("items.interact.right")
+                            + "\u00A77: "
+                            + Lang.translateInsertVariables("items.selector.pos", "2"));
+            sender.sendMessage(
+                    Lang.translate("messageprefix.positive") + Lang.translate("command.selector"));
         }
-
     }
 
     @Override
