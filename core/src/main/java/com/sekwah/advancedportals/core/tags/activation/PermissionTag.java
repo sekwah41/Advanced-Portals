@@ -8,12 +8,10 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 public class PermissionTag implements Tag.Activation {
-
     @Inject transient PlayerDataServices playerDataServices;
 
     @Inject transient ConfigRepository configRepository;
@@ -48,8 +46,8 @@ public class PermissionTag implements Tag.Activation {
     }
 
     @Override
-    public boolean preActivated(
-            TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         if (!player.hasPermission(argData[1])) {
             player.sendMessage(Lang.translate("portal.error.nopermission"));
             return false;
@@ -58,18 +56,13 @@ public class PermissionTag implements Tag.Activation {
     }
 
     @Override
-    public void postActivated(
-            TagTarget target,
-            PlayerContainer player,
-            ActivationData activationData,
-            String[] argData) {}
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
+    }
 
     @Override
-    public boolean activated(
-            TagTarget target,
-            PlayerContainer player,
-            ActivationData activationData,
-            String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activationData, String[] argData) {
         return true;
     }
 }

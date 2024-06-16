@@ -5,10 +5,8 @@ import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Singleton;
 
 @Singleton
@@ -19,7 +17,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
 
     @Override
     public boolean save(String name, Destination destination) {
-        return dataStorage.storeFile(destination, fileLocation + name + ".yaml");
+        return dataStorage.storeFile(destination,
+                                     fileLocation + name + ".yaml");
     }
 
     public boolean containsKey(String name) {
@@ -32,7 +31,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     }
 
     public Destination get(String name) {
-        return dataStorage.loadFile(Destination.class, fileLocation + name + ".yaml");
+        return dataStorage.loadFile(Destination.class,
+                                    fileLocation + name + ".yaml");
     }
 
     @Override
@@ -49,7 +49,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
             // Forces the name tag to be up-to-date on load
             String[] name = destination.getArgValues(NameTag.TAG_NAME);
             if (name != null && name.length > 0) {
-                destination.setArgValues(NameTag.TAG_NAME, new String[] {fileName});
+                destination.setArgValues(NameTag.TAG_NAME,
+                                         new String[] {fileName});
             }
             destinations.add(destination);
         }

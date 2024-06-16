@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.util;
 
 public abstract class InfoLogger {
-
     /**
      * Problematic messages
      *

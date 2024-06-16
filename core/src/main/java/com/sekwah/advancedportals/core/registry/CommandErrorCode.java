@@ -4,5 +4,6 @@ public enum CommandErrorCode {
     INSUFFICIENT_ARGUMENTS(""),
     NO_PERMISSION("");
 
-    CommandErrorCode(String message) {}
+    CommandErrorCode(String message) {
+    }
 }
