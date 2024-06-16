@@ -14,7 +14,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -36,6 +35,11 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     transient ConfigRepository configRepository;
+    
+    public AdvancedPortal() {
+        this.minLoc = new BlockLocation();
+        this.maxLoc = new BlockLocation();
+    }
 
     public AdvancedPortal(BlockLocation minLoc, BlockLocation maxLoc, TagRegistry tagRegistry, PlayerDataServices playerDataServices) {
         this.tagRegistry = tagRegistry;
@@ -64,7 +68,7 @@ public class AdvancedPortal implements TagTarget {
 
     @Override
     public void addArg(String argName, String argValues) {
-
+        // TODO need to add the ability to add args after creation
     }
 
     @Override
@@ -115,7 +119,8 @@ public class AdvancedPortal implements TagTarget {
             player.sendMessage(Lang.translateInsertVariables("portal.cooldown.join", cooldown,
                     Lang.translate(cooldown == 1 ? "time.second" : "time.seconds")));
             if(configRepository.playFailSound()) {
-                player.playSound("block.portal.travel", 0.05f, new Random().nextFloat() * 0.4F + 0.8F);
+                var rand = new Random();
+                player.playSound("block.portal.travel", 0.05f, rand.nextFloat() * 0.4F + 0.8F);
             }
             return false;
         }

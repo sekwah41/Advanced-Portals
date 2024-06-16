@@ -39,12 +39,12 @@ public class DataStorage {
 
         loaderOptions.setTagInspector(tagInspector);
 
-        DumperOptions options = new DumperOptions();
+        var options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Representer representer = new ReflectiveRepresenter(options);
+        var representer = new ReflectiveRepresenter(options);
         representer.addClassTag(clazz, Tag.MAP);
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        ReflectiveConstructor constructor = new ReflectiveConstructor(clazz, loaderOptions);
+        var constructor = new ReflectiveConstructor(clazz, loaderOptions);
 
         AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(constructor);
 
@@ -62,7 +62,6 @@ public class DataStorage {
     }
 
     public <T> T loadFile(Class<T> dataHolder, String location) {
-        infoLogger.info("Loading file: " + location);
         InputStream yamlResource = this.loadResource(location);
         if (yamlResource == null) {
             try {

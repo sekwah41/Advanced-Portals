@@ -14,6 +14,13 @@ public class BlockLocation {
     private final int posZ;
 
     private final String worldName;
+    
+    public BlockLocation() {
+        this.worldName = "";
+        this.posX = 0;
+        this.posY = 0;
+        this.posZ = 0;
+    }
 
     public BlockLocation(String worldName, int posX, int posY, int posZ) {
         this.worldName = worldName;
