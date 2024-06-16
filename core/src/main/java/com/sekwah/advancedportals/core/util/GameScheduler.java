@@ -1,18 +1,16 @@
 package com.sekwah.advancedportals.core.util;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**
- * For all delayed and repeating tasks.
- */
+import javax.inject.Singleton;
+
+/** For all delayed and repeating tasks. */
 @Singleton
 public final class GameScheduler {
 
     private final ArrayList<DelayedGameTickEvent> newTickEvents = new ArrayList<>();
     private final ArrayList<DelayedGameTickEvent> delayedTickEvents = new ArrayList<>();
-
 
     public void tick() {
         this.delayedTickEvents.addAll(this.newTickEvents);
@@ -23,8 +21,7 @@ public final class GameScheduler {
             event.tick();
             if (event.shouldRun()) {
                 event.run();
-                if(!(event instanceof DelayedGameIntervalEvent))
-                    tickEventIterator.remove();
+                if (!(event instanceof DelayedGameIntervalEvent)) tickEventIterator.remove();
             }
         }
     }
@@ -81,6 +78,5 @@ public final class GameScheduler {
             this.ticks = interval;
             super.run();
         }
-
     }
 }

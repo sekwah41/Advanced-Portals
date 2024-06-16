@@ -15,9 +15,9 @@ public class PortalPermissions {
     public static final PermissionBuilder LANG_UPDATE = PERMISSIONS.createChild("langupdate");
     public static final PermissionBuilder RELOAD = PERMISSIONS.createChild("reload");
 
-
     /**
-     * this will not currently build the permissions for the files, but maybe at some point. It'll just make it easier though.
+     * this will not currently build the permissions for the files, but maybe at some point. It'll
+     * just make it easier though.
      */
     public static class PermissionBuilder {
         private final String permissionTag;
@@ -42,7 +42,7 @@ public class PortalPermissions {
 
         @Override
         public String toString() {
-            if(parent != null) {
+            if (parent != null) {
                 return parent + "." + permissionTag;
             } else {
                 return permissionTag;

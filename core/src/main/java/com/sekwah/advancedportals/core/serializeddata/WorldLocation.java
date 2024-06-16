@@ -10,6 +10,10 @@ public class WorldLocation extends Vector {
     }
 
     public BlockLocation toBlockPos() {
-        return new BlockLocation(this.worldName, (int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z));
+        return new BlockLocation(
+                this.worldName,
+                (int) Math.floor(this.x),
+                (int) Math.floor(this.y),
+                (int) Math.floor(this.z));
     }
 }

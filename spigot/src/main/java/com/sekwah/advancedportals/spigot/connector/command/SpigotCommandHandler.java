@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.spigot.connector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotCommandSenderContainer;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,13 +19,17 @@ public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        this.commandExecutor.onCommand(new SpigotCommandSenderContainer(commandSender), command.getName(), args);
+    public boolean onCommand(
+            CommandSender commandSender, Command command, String s, String[] args) {
+        this.commandExecutor.onCommand(
+                new SpigotCommandSenderContainer(commandSender), command.getName(), args);
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
-        return this.commandExecutor.onTabComplete(new SpigotCommandSenderContainer(commandSender), args);
+    public List<String> onTabComplete(
+            CommandSender commandSender, Command command, String s, String[] args) {
+        return this.commandExecutor.onTabComplete(
+                new SpigotCommandSenderContainer(commandSender), args);
     }
 }

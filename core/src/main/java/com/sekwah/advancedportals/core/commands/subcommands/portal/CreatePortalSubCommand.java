@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.subcommands.common.CreateTaggedSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
-import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
@@ -23,44 +23,50 @@ import java.util.List;
 
 public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
-    @Inject
-    PortalServices portalServices;
+    @Inject PortalServices portalServices;
 
-    @Inject
-    TagRegistry tagRegistry;
+    @Inject TagRegistry tagRegistry;
 
-    @Inject
-    InfoLogger infoLogger;
+    @Inject InfoLogger infoLogger;
 
-    @Inject
-    ConfigRepository config;
+    @Inject ConfigRepository config;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if(args.length > 1) {
+        if (args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
-            if(player == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.console"));
+            if (player == null) {
+                sender.sendMessage(
+                        Lang.translate("messageprefix.negative")
+                                + Lang.translate("command.create.console"));
                 return;
             }
 
             ArrayList<DataTag> portalTags = TagReader.getTagsFromArgs(args);
 
             // Find the tag with the "name" NAME
-            DataTag nameTag = portalTags.stream().filter(tag -> {
-                this.infoLogger.info("Tag: " + tag.NAME);
-                this.infoLogger.info("Equals: " + tag.NAME.equals(NameTag.TAG_NAME));
-                return tag.NAME.equals(NameTag.TAG_NAME);
-            }).findFirst().orElse(null);
+            DataTag nameTag =
+                    portalTags.stream()
+                            .filter(
+                                    tag -> {
+                                        this.infoLogger.info("Tag: " + tag.NAME);
+                                        this.infoLogger.info(
+                                                "Equals: " + tag.NAME.equals(NameTag.TAG_NAME));
+                                        return tag.NAME.equals(NameTag.TAG_NAME);
+                                    })
+                            .findFirst()
+                            .orElse(null);
 
             // If the tag is null, check if arg[1] has a : to check it's not a tag.
-            if(nameTag == null && !args[1].contains(":")) {
+            if (nameTag == null && !args[1].contains(":")) {
                 nameTag = new DataTag("name", args[1]);
                 portalTags.add(nameTag);
             }
 
             if (nameTag == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.noname"));
+                sender.sendMessage(
+                        Lang.translate("messageprefix.negative")
+                                + Lang.translate("command.error.noname"));
                 return;
             }
 
@@ -68,29 +74,39 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             sender.sendMessage("");
             sender.sendMessage(Lang.translate("command.create.tags"));
 
-            if(!portalTags.isEmpty()) {
+            if (!portalTags.isEmpty()) {
                 this.filterAndProcessTags(portalTags);
                 this.printTags(sender, portalTags);
             }
             sender.sendMessage("");
 
-            var triggerBlockTag = portalTags.stream().filter(tag -> tag.NAME.equals(TriggerBlockTag.TAG_NAME)).findFirst().orElse(null);
+            var triggerBlockTag =
+                    portalTags.stream()
+                            .filter(tag -> tag.NAME.equals(TriggerBlockTag.TAG_NAME))
+                            .findFirst()
+                            .orElse(null);
 
-            if(triggerBlockTag == null) {
-                portalTags.add(new DataTag(TriggerBlockTag.TAG_NAME, config.getDefaultTriggerBlock()));
+            if (triggerBlockTag == null) {
+                portalTags.add(
+                        new DataTag(TriggerBlockTag.TAG_NAME, config.getDefaultTriggerBlock()));
             }
 
             AdvancedPortal portal = portalServices.createPortal(player, portalTags);
-            if(portal != null) {
-                sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.create.complete"));
+            if (portal != null) {
+                sender.sendMessage(
+                        Lang.translate("messageprefix.positive")
+                                + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
                 this.printTags(sender, portal.getArgs());
             } else {
-                sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.create.error"));
+                sender.sendMessage(
+                        Lang.translate("messageprefix.negative")
+                                + Lang.translate("command.create.error"));
             }
-        }
-        else {
-            sender.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("command.error.notags"));
+        } else {
+            sender.sendMessage(
+                    Lang.translate("messageprefix.negative")
+                            + Lang.translate("command.error.notags"));
         }
     }
 
@@ -103,7 +119,9 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
     protected List<Tag> getRelatedTags() {
         var tags = tagRegistry.getTags();
         // Filter tags that support Destination
-        return tags.stream().filter(tag -> Arrays.asList(tag.getTagTypes()).contains(Tag.TagType.PORTAL)).toList();
+        return tags.stream()
+                .filter(tag -> Arrays.asList(tag.getTagTypes()).contains(Tag.TagType.PORTAL))
+                .toList();
     }
 
     @Override

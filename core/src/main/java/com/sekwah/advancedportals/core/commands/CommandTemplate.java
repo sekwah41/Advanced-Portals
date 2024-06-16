@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Already know spigot's auto complete possibilities
  *
- * Sponge https://docs.spongepowered.org/stable/en/plugin/commands/arguments.html#custom-command-elements
+ * <p>Sponge
+ * https://docs.spongepowered.org/stable/en/plugin/commands/arguments.html#custom-command-elements
  */
 public interface CommandTemplate {
 
@@ -15,10 +16,10 @@ public interface CommandTemplate {
 
     /**
      * Fired when someone asks for a tab complete action.
+     *
      * @param sender whoever triggered the command e.g. command block, server or player
      * @param args arguments for the command
      * @return a lot of strings that are possible completions
      */
     List<String> onTabComplete(CommandSenderContainer sender, String[] args);
-
 }

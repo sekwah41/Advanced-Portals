@@ -1,9 +1,9 @@
 package com.sekwah.advancedportals.core.repository.impl;
 
 import com.google.inject.Singleton;
-import com.sekwah.advancedportals.core.serializeddata.config.Config;
-import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
 
 import java.util.HashMap;
 
@@ -15,7 +15,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     private DataStorage dataStorage;
 
     public ConfigRepositoryImpl() {
-        configs = new HashMap<String,Config>();
+        configs = new HashMap<String, Config>();
     }
 
     public <T> T getValue(String output) {
@@ -103,5 +103,4 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     public void storeConfig() {
         this.dataStorage.storeFile(this.config, "config.yaml");
     }
-
 }

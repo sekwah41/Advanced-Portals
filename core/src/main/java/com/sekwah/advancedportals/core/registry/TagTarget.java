@@ -1,12 +1,11 @@
 package com.sekwah.advancedportals.core.registry;
 
-/**
- * Something that a tag can be executed on.
- */
+/** Something that a tag can be executed on. */
 public interface TagTarget {
 
     /**
      * Get the values for the arg
+     *
      * @param argName
      * @return
      */
@@ -14,6 +13,7 @@ public interface TagTarget {
 
     /**
      * Set the values for the arg
+     *
      * @param argName
      * @param argValues
      */
@@ -21,6 +21,7 @@ public interface TagTarget {
 
     /**
      * Add a new arg to the tag
+     *
      * @param argName
      * @param argValues
      */
@@ -28,6 +29,7 @@ public interface TagTarget {
 
     /**
      * Remove the arg entirely from the target
+     *
      * @param arg
      */
     void removeArg(String arg);

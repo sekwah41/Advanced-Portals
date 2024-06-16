@@ -12,5 +12,4 @@ public interface CommandSenderContainer {
     PlayerContainer getPlayerContainer();
 
     boolean hasPermission(String permission);
-
 }

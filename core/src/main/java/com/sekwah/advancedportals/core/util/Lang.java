@@ -13,27 +13,24 @@ import java.util.Scanner;
 
 /**
  * @author sekwah41
- *         <p>
- *         The language translation file for the game. Will always load english first
- *         so that if the translations are missing any then they are still readable and can then be translated.
- *         (It's better than a raw translate string)
- *         <p>
+ *     <p>The language translation file for the game. Will always load english first so that if the
+ *     translations are missing any then they are still readable and can then be translated. (It's
+ *     better than a raw translate string)
+ *     <p>
  */
 public class Lang {
 
     public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
 
-    @Inject
-    private DataStorage dataStorage;
+    @Inject private DataStorage dataStorage;
 
-    @Inject
-    private InfoLogger infoLogger;
+    @Inject private InfoLogger infoLogger;
 
     public static final String DEFAULT_LANG = "en_GB";
 
     public static void loadLanguage(String fileName) {
-        if(!DEFAULT_LANG.equals(fileName)) {
+        if (!DEFAULT_LANG.equals(fileName)) {
             instance.injectTranslations(DEFAULT_LANG);
         }
         instance.injectTranslations(fileName);
@@ -53,7 +50,7 @@ public class Lang {
     public static String translateInsertVariables(String s, Object... args) {
         String translation = translate(s);
         for (int i = 1; i <= args.length; i++) {
-            translation = translation.replaceAll("%" + i + "\\$s", args[i-1].toString());
+            translation = translation.replaceAll("%" + i + "\\$s", args[i - 1].toString());
         }
         return translation;
     }
@@ -67,7 +64,8 @@ public class Lang {
     }
 
     public Map<String, String> getInternalLanguageMap(String fileName) {
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("lang/" + fileName + ".lang");
+        InputStream stream =
+                this.getClass().getClassLoader().getResourceAsStream("lang/" + fileName + ".lang");
         if (stream != null) {
             return Lang.parseLang(stream);
         }
@@ -76,6 +74,7 @@ public class Lang {
 
     /**
      * Length of text excluding colour codes
+     *
      * @param text
      * @return
      */
@@ -83,10 +82,9 @@ public class Lang {
         int length = 0;
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
-            if(c == '\u00A7') {
+            if (c == '\u00A7') {
                 i++;
-            }
-            else {
+            } else {
                 length++;
             }
         }
@@ -94,7 +92,9 @@ public class Lang {
     }
 
     /**
-     * The default font is not monospaced, so this will likely be a little thinner to be on the safe side
+     * The default font is not monospaced, so this will likely be a little thinner to be on the safe
+     * side
+     *
      * @param title
      * @return
      */
@@ -108,19 +108,27 @@ public class Lang {
 
     private void injectTranslations(String fileName) {
         try {
-            URL url = Lang.instance.getClass().getClassLoader().getResource("lang/" + fileName + ".lang");
+            URL url =
+                    Lang.instance
+                            .getClass()
+                            .getClassLoader()
+                            .getResource("lang/" + fileName + ".lang");
             if (url != null) {
                 Map<String, String> initialMap = Lang.parseLang(url.openStream());
                 Lang.instance.languageMap.putAll(initialMap);
             } else {
-                this.infoLogger.warning("Could not load " + fileName + ".lang from within Advanced Portals as it doesn't exist.");
+                this.infoLogger.warning(
+                        "Could not load "
+                                + fileName
+                                + ".lang from within Advanced Portals as it doesn't exist.");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            this.infoLogger.warning("Could not load " + fileName + ".lang from within Advanced Portals.");
+            this.infoLogger.warning(
+                    "Could not load " + fileName + ".lang from within Advanced Portals.");
         }
 
-        Map<String, String> newLangMap = this.getLanguageMap(fileName );
+        Map<String, String> newLangMap = this.getLanguageMap(fileName);
         Lang.instance.languageMap.putAll(newLangMap);
     }
 

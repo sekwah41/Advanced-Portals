@@ -3,12 +3,12 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.inspector.TagInspector;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -21,11 +21,9 @@ public class DataStorage {
 
     private final File dataFolder;
 
-    @Inject
-    private AdvancedPortalsCore portalsCore;
+    @Inject private AdvancedPortalsCore portalsCore;
 
-    @Inject
-    private InfoLogger infoLogger;
+    @Inject private InfoLogger infoLogger;
 
     public DataStorage(File dataStorageLoc) {
         this.dataFolder = dataStorageLoc;
@@ -66,7 +64,10 @@ public class DataStorage {
         if (yamlResource == null) {
             try {
                 return dataHolder.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            } catch (InstantiationException
+                    | IllegalAccessException
+                    | NoSuchMethodException
+                    | InvocationTargetException e) {
                 e.printStackTrace();
             }
             return null;
@@ -102,7 +103,8 @@ public class DataStorage {
      * Copies the specified file out of the plugin and into the plugins folder.
      *
      * @param fileLoc
-     * @return if the file is copied, will be false if override is false and the file already existed.
+     * @return if the file is copied, will be false if override is false and the file already
+     *     existed.
      */
     public boolean copyDefaultFile(String fileLoc, boolean overwrite) {
         return this.copyDefaultFile(fileLoc, fileLoc, overwrite);
@@ -113,7 +115,8 @@ public class DataStorage {
      *
      * @param sourceLoc - location of the file in the jar
      * @param fileLoc - location to save the file
-     * @return if the file is copied, will be false if override is false and the file already existed.
+     * @return if the file is copied, will be false if override is false and the file already
+     *     existed.
      */
     public boolean copyDefaultFile(String sourceLoc, String fileLoc, boolean overwrite) {
         File outFile = new File(this.dataFolder, fileLoc);
@@ -122,16 +125,20 @@ public class DataStorage {
         }
         if (!outFile.exists() || overwrite) {
             try {
-                InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(sourceLoc);
-                if(inputStream == null) {
+                InputStream inputStream =
+                        this.getClass().getClassLoader().getResourceAsStream(sourceLoc);
+                if (inputStream == null) {
                     return false;
                 }
 
                 writeToFile(inputStream, outFile);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.warning("Could not load " + sourceLoc + ". The file does" +
-                        "not exist or there has been an error reading the file.");
+                this.infoLogger.warning(
+                        "Could not load "
+                                + sourceLoc
+                                + ". The file does"
+                                + "not exist or there has been an error reading the file.");
                 return false;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -145,8 +152,11 @@ public class DataStorage {
     }
 
     /**
-     * A method to try to grab the files from the plugin and if its in the plugin folder load from there instead.
+     * A method to try to grab the files from the plugin and if its in the plugin folder load from
+     * there instead.
+     *
      * <p>
+     *
      * @param location
      * @return
      */
@@ -165,8 +175,11 @@ public class DataStorage {
                 return this.getClass().getClassLoader().getResourceAsStream(location);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.warning("Could not load " + location + ". The file does" +
-                        "not exist or there has been an error reading the file.");
+                this.infoLogger.warning(
+                        "Could not load "
+                                + location
+                                + ". The file does"
+                                + "not exist or there has been an error reading the file.");
                 return null;
             }
         }
@@ -216,7 +229,8 @@ public class DataStorage {
                 for (File file : files) {
                     if (file.isFile()) {
                         String fileName = file.getName();
-                        boolean extensionMatches = (extension == null || fileName.endsWith("." + extension));
+                        boolean extensionMatches =
+                                (extension == null || fileName.endsWith("." + extension));
 
                         if (extensionMatches) {
                             if (trimExtension) {

@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
-import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.activation.NameTag;
 
 import java.util.*;
@@ -15,13 +15,13 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     private final String fileLocation = "portals/";
 
-    @Inject
-    DataStorage dataStorage;
+    @Inject DataStorage dataStorage;
 
     /**
      * In memory copy of the portal files as they will be accessed every movement tick.
      *
-     * If we need to get it by name we can just load it from the file, but this is good for looping fast for the player move events.
+     * <p>If we need to get it by name we can just load it from the file, but this is good for
+     * looping fast for the player move events.
      */
     private List<AdvancedPortal> portals = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class PortalRepositoryImpl implements IPortalRepository {
     @Override
     public AdvancedPortal get(String name) {
         var portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + name + ".yaml");
-        if(portal != null) {
+        if (portal != null) {
             AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(portal);
         }
         return portal;
@@ -59,11 +59,12 @@ public class PortalRepositoryImpl implements IPortalRepository {
         List<AdvancedPortal> portals = new ArrayList<>();
         List<String> allFiles = dataStorage.listAllFiles(fileLocation, false);
         for (String fileName : allFiles) {
-            AdvancedPortal portal = dataStorage.loadFile(AdvancedPortal.class, fileLocation + fileName);
+            AdvancedPortal portal =
+                    dataStorage.loadFile(AdvancedPortal.class, fileLocation + fileName);
             // Forces the name tag to be up-to-date on load
             String[] name = portal.getArgValues(NameTag.TAG_NAME);
-            if(name != null && name.length > 0) {
-                portal.setArgValues(NameTag.TAG_NAME, new String[]{fileName.replace(".yaml", "")});
+            if (name != null && name.length > 0) {
+                portal.setArgValues(NameTag.TAG_NAME, new String[] {fileName.replace(".yaml", "")});
             }
             portals.add(portal);
         }

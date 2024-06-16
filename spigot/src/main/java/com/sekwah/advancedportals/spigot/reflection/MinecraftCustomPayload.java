@@ -8,8 +8,8 @@ import java.lang.reflect.Method;
 /**
  * Just a util class to force spigot to allow us to have fun with the minecraft: channel category
  *
- * Atm at least this is just designed to be able to access debug/ for showing visuals of the portals and such
- *
+ * <p>Atm at least this is just designed to be able to access debug/ for showing visuals of the
+ * portals and such
  */
 public class MinecraftCustomPayload {
 
@@ -23,7 +23,10 @@ public class MinecraftCustomPayload {
             Object minecraftKey = minecraftKeyConstructor.newInstance(channel);
 
             // Access the sendCustomPayload method in the CraftPlayer class
-            Method sendCustomPayloadMethod = player.getClass().getDeclaredMethod("sendCustomPayload", minecraftKeyClass, byte[].class);
+            Method sendCustomPayloadMethod =
+                    player.getClass()
+                            .getDeclaredMethod(
+                                    "sendCustomPayload", minecraftKeyClass, byte[].class);
 
             // Make the private method accessible
             sendCustomPayloadMethod.setAccessible(true);

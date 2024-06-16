@@ -8,35 +8,33 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.util.Lang;
 
-import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 @Singleton
 public final class PlayerDataServices {
 
-
-    /**
-     * Possibly change to the cache map Aztec was talking about
-     */
+    /** Possibly change to the cache map Aztec was talking about */
     private Map<UUID, PlayerData> tempDataMap = new HashMap<>();
 
-    @Inject
-    private IPlayerDataRepository tempDataRepository;
+    @Inject private IPlayerDataRepository tempDataRepository;
 
-    @Inject
-    private ConfigRepository configRepository;
+    @Inject private ConfigRepository configRepository;
 
     public PlayerData getPlayerData(PlayerContainer player) {
-        return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
-            var tempData = tempDataRepository.get(player.getUUID().toString());
+        return tempDataMap.computeIfAbsent(
+                player.getUUID(),
+                uuid -> {
+                    var tempData = tempDataRepository.get(player.getUUID().toString());
 
-            if(tempData == null) {
-                tempData = new PlayerData();
-            }
-            return tempData;
-        });
+                    if (tempData == null) {
+                        tempData = new PlayerData();
+                    }
+                    return tempData;
+                });
     }
 
     public void setJoinCooldown(PlayerContainer player) {
@@ -49,13 +47,20 @@ public final class PlayerDataServices {
         tempDataMap.remove(player.getUUID());
     }
 
-    public void playerSelectorActivate(PlayerContainer player, BlockLocation blockLoc, boolean leftClick) {
+    public void playerSelectorActivate(
+            PlayerContainer player, BlockLocation blockLoc, boolean leftClick) {
         var tempData = getPlayerData(player);
-        if(leftClick) {
+        if (leftClick) {
             tempData.setPos1(blockLoc);
         } else {
             tempData.setPos2(blockLoc);
         }
-        player.sendMessage(Lang.translateInsertVariables("portal.selector.poschange", leftClick ? "1" : "2", blockLoc.getPosX(), blockLoc.getPosY(), blockLoc.getPosZ()));
+        player.sendMessage(
+                Lang.translateInsertVariables(
+                        "portal.selector.poschange",
+                        leftClick ? "1" : "2",
+                        blockLoc.getPosX(),
+                        blockLoc.getPosY(),
+                        blockLoc.getPosZ()));
     }
 }

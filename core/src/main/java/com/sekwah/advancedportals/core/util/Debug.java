@@ -2,12 +2,16 @@ package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.util.FriendlyDataOutput;
 
 import java.awt.*;
 
 public class Debug {
-    public static boolean addMarker(PlayerContainer player, BlockLocation blockPos, String name, Color color, int milliseconds) {
+    public static boolean addMarker(
+            PlayerContainer player,
+            BlockLocation blockPos,
+            String name,
+            Color color,
+            int milliseconds) {
         FriendlyDataOutput out = new FriendlyDataOutput();
         out.writeBlock(blockPos);
         out.writeInt(color(color));
@@ -34,18 +38,18 @@ public class Debug {
     }
 
     public float getR(int color) {
-        return (float)(color >> 16 & 255) / 255.0F;
+        return (float) (color >> 16 & 255) / 255.0F;
     }
 
     public float getG(int color) {
-        return (float)(color >> 8 & 255) / 255.0F;
+        return (float) (color >> 8 & 255) / 255.0F;
     }
 
     public float getB(int color) {
-        return (float)(color & 255) / 255.0F;
+        return (float) (color & 255) / 255.0F;
     }
 
     public float getA(int color) {
-        return (float)(color >> 24 & 255) / 255.0F;
+        return (float) (color >> 24 & 255) / 255.0F;
     }
 }

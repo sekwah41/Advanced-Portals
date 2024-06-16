@@ -1,8 +1,6 @@
 package com.sekwah.advancedportals.core.serializeddata.config;
 
-/**
- * To store the data for config
- */
+/** To store the data for config */
 public class Config {
 
     public boolean useOnlySpecialAxe = true;

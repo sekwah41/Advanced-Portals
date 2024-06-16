@@ -4,9 +4,7 @@ import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 
-/**
- * Register the CommandTemplate files to the appropriate system
- */
+/** Register the CommandTemplate files to the appropriate system */
 public class SpigotCommandRegister implements CommandRegister {
 
     private final AdvancedPortalsPlugin plugin;
@@ -17,6 +15,7 @@ public class SpigotCommandRegister implements CommandRegister {
 
     /**
      * Registers the command to the appropriate system
+     *
      * @param commandName
      * @param commandExecutor
      */

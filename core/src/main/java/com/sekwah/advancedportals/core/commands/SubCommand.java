@@ -9,15 +9,14 @@ public interface SubCommand {
     /**
      * @param sender
      * @param args arguments including the subcommand that has been specified.
-     * @return if the command has worked (if false it will just display a message from the command suggesting to check help)
+     * @return if the command has worked (if false it will just display a message from the command
+     *     suggesting to check help)
      */
     void onCommand(CommandSenderContainer sender, String[] args);
 
     boolean hasPermission(CommandSenderContainer sender);
 
     /**
-     *
-     *
      * @param sender
      * @param args arguments including the subcommand that has been specified.
      * @return tab completion for the subcommand

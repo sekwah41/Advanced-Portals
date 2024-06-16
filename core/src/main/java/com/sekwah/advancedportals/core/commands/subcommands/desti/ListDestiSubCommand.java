@@ -11,13 +11,17 @@ import java.util.stream.Collectors;
 
 public class ListDestiSubCommand implements SubCommand {
 
-    @Inject
-    DestinationServices portalServices;
+    @Inject DestinationServices portalServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage(Lang.translate("messageprefix.positive") + Lang.translate("command.destination.list")
-                + " " + portalServices.getDestinationNames().stream().sorted().collect(Collectors.joining(", ")));
+        sender.sendMessage(
+                Lang.translate("messageprefix.positive")
+                        + Lang.translate("command.destination.list")
+                        + " "
+                        + portalServices.getDestinationNames().stream()
+                                .sorted()
+                                .collect(Collectors.joining(", ")));
     }
 
     @Override

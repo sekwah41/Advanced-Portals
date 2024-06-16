@@ -5,25 +5,25 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
-import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
-import com.sekwah.advancedportals.core.repository.impl.PlayerDataRepositoryImpl;
-import com.sekwah.advancedportals.core.serializeddata.config.Config;
-import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
-import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
+import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.repository.impl.ConfigRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.DestinationRepositoryImpl;
+import com.sekwah.advancedportals.core.repository.impl.PlayerDataRepositoryImpl;
 import com.sekwah.advancedportals.core.repository.impl.PortalRepositoryImpl;
+import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
+import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedPortalsModule extends AbstractModule {
+import javax.annotation.Nonnull;
 
+public class AdvancedPortalsModule extends AbstractModule {
 
     private Injector injector;
     private AdvancedPortalsCore advancedPortalsCore;
@@ -35,9 +35,7 @@ public class AdvancedPortalsModule extends AbstractModule {
         this.advancedPortalsCore = advancedPortalsCore;
     }
 
-    /**
-     * https://github.com/google/guice/wiki/Bindings
-     */
+    /** https://github.com/google/guice/wiki/Bindings */
     @Override
     protected void configure() {
         bind(IPortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
@@ -57,7 +55,7 @@ public class AdvancedPortalsModule extends AbstractModule {
         bind(WarpEffectRegistry.class).asEagerSingleton();
 
         // Delayed Bindings
-        for(DelayedBinding delayedBinding : delayedBindings) {
+        for (DelayedBinding delayedBinding : delayedBindings) {
             bind(delayedBinding.clazz).toInstance(delayedBinding.instance);
         }
     }
@@ -80,7 +78,7 @@ public class AdvancedPortalsModule extends AbstractModule {
     // Call this later than the calls to addInstanceBinding
     @Nonnull
     public Injector getInjector() {
-        if(injector == null) {
+        if (injector == null) {
             injector = Guice.createInjector(this);
         }
         return injector;

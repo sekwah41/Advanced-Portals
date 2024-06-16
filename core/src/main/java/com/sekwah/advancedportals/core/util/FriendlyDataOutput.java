@@ -1,15 +1,14 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.EncoderException;
 
 import java.nio.charset.StandardCharsets;
 
-/**
- * Meant to be similar to FriendlyByteBuf if you have used that before.
- */
+/** Meant to be similar to FriendlyByteBuf if you have used that before. */
 public class FriendlyDataOutput {
 
     private final ByteBuf dataOutput;
@@ -52,12 +51,14 @@ public class FriendlyDataOutput {
 
     public void writeUtf(String text, int maxLength) {
         if (text.length() > maxLength) {
-            throw new EncoderException("String too big (was " + text.length() + " characters, max " + maxLength + ")");
+            throw new EncoderException(
+                    "String too big (was " + text.length() + " characters, max " + maxLength + ")");
         } else {
             byte[] abyte = text.getBytes(StandardCharsets.UTF_8);
             int i = getMaxEncodedUtfLength(maxLength);
             if (abyte.length > i) {
-                throw new EncoderException("String too big (was " + abyte.length + " bytes encoded, max " + i + ")");
+                throw new EncoderException(
+                        "String too big (was " + abyte.length + " bytes encoded, max " + i + ")");
             } else {
                 this.writeVarInt(abyte.length);
                 this.writeBytes(abyte);
@@ -66,7 +67,7 @@ public class FriendlyDataOutput {
     }
 
     public void writeVarInt(int p_130131_) {
-        while((p_130131_ & -128) != 0) {
+        while ((p_130131_ & -128) != 0) {
             this.writeByte(p_130131_ & 127 | 128);
             p_130131_ >>>= 7;
         }
@@ -97,7 +98,9 @@ public class FriendlyDataOutput {
     }
 
     // Only for block serialising and such
-    private static final int PACKED_X_LENGTH = 26; // 1 + Mth.log2(Mth.smallestEncompassingPowerOfTwo(30000000)) (im not gonna add all the mojang math stuff to calculate this.
+    private static final int PACKED_X_LENGTH =
+            26; // 1 + Mth.log2(Mth.smallestEncompassingPowerOfTwo(30000000)) (im not gonna add all
+                // the mojang math stuff to calculate this.
     private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
     public static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
     private static final long PACKED_X_MASK = (1L << PACKED_X_LENGTH) - 1L;
@@ -113,8 +116,8 @@ public class FriendlyDataOutput {
     private long blockAsLong(BlockLocation blockLoc) {
 
         long i = 0L;
-        i |= ((long)blockLoc.getPosX() & PACKED_X_MASK) << X_OFFSET;
-        i |= ((long)blockLoc.getPosY() & PACKED_Y_MASK) << 0;
-        return i | ((long)blockLoc.getPosZ() & PACKED_Z_MASK) << Z_OFFSET;
+        i |= ((long) blockLoc.getPosX() & PACKED_X_MASK) << X_OFFSET;
+        i |= ((long) blockLoc.getPosY() & PACKED_Y_MASK) << 0;
+        return i | ((long) blockLoc.getPosZ() & PACKED_Z_MASK) << Z_OFFSET;
     }
 }

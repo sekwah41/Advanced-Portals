@@ -1,8 +1,6 @@
 package com.sekwah.advancedportals.core.tags.activation;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
-import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
@@ -13,24 +11,20 @@ import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.List;
 
-public class PermissionTag implements Tag.Activation{
+public class PermissionTag implements Tag.Activation {
 
-    @Inject
-    transient PlayerDataServices playerDataServices;
+    @Inject transient PlayerDataServices playerDataServices;
 
-    @Inject
-    transient ConfigRepository configRepository;
+    @Inject transient ConfigRepository configRepository;
 
-    @Inject
-    private InfoLogger infoLogger;
+    @Inject private InfoLogger infoLogger;
 
     public static String TAG_NAME = "permission";
 
-    private final String[] aliases = new String[]{ "perm" };
+    private final String[] aliases = new String[] {"perm"};
 
-    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL };
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
     @Override
     public TagType[] getTagTypes() {
@@ -54,7 +48,8 @@ public class PermissionTag implements Tag.Activation{
     }
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(
+            TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
         if (!player.hasPermission(argData[1])) {
             player.sendMessage(Lang.translate("portal.error.nopermission"));
             return false;
@@ -63,12 +58,18 @@ public class PermissionTag implements Tag.Activation{
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-
-    }
+    public void postActivated(
+            TagTarget target,
+            PlayerContainer player,
+            ActivationData activationData,
+            String[] argData) {}
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
+    public boolean activated(
+            TagTarget target,
+            PlayerContainer player,
+            ActivationData activationData,
+            String[] argData) {
         return true;
     }
 }

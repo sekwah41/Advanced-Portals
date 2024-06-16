@@ -1,13 +1,10 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
-import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 
 import java.util.UUID;
 
-/**
- * Just a temporary container for whenever advanced portals needs to get data from a player
- */
+/** Just a temporary container for whenever advanced portals needs to get data from a player */
 public interface PlayerContainer extends EntityContainer {
 
     UUID getUUID();
@@ -26,6 +23,7 @@ public interface PlayerContainer extends EntityContainer {
 
     /**
      * Only 1.12 and below supported
+     *
      * @param blockPos
      * @param material
      * @param data

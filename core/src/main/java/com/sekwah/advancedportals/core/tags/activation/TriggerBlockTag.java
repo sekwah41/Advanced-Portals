@@ -5,17 +5,17 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
 
-    @Inject
-    private ServerContainer serverContainer;
+    @Inject private ServerContainer serverContainer;
 
     public static String TAG_NAME = "triggerblock";
 
-    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL };
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
     @Override
     public TagType[] getTagTypes() {
