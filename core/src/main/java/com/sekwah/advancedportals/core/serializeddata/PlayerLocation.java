@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-
 public class PlayerLocation extends WorldLocation {
 
     private final float yaw;
@@ -19,7 +18,8 @@ public class PlayerLocation extends WorldLocation {
         this.pitch = 0;
     }
 
-    public PlayerLocation(String worldName, double posX, double posY, double posZ, float yaw, float pitch) {
+    public PlayerLocation(
+            String worldName, double posX, double posY, double posZ, float yaw, float pitch) {
         super(worldName, posX, posY, posZ);
         this.yaw = yaw;
         this.pitch = pitch;

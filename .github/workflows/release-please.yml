@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+    - master
 name: release-please
 jobs:
   release-please:
@@ -12,11 +12,11 @@ jobs:
       upload_url: ${{ steps.release.outputs.upload_url }}
     # https://github.com/google-github-actions/release-please-action in case more config is needed
     steps:
-      - uses: google-github-actions/release-please-action@v3
-        id: release
-        with:
-          command: manifest
-          token: ${{ secrets.PAT }}
+    - uses: google-github-actions/release-please-action@v3
+      id: release
+      with:
+        command: manifest
+        token: ${{ secrets.PAT }}
           # See how to configure file https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md
       # See output info at https://github.com/google-github-actions/release-please-action#configuration for variables
 
@@ -30,28 +30,28 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.release-please.outputs.release_created }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: Download MC assets
-        run: ./gradlew downloadAssets || ./gradlew downloadAssets || (sleep 30s && ./gradlew downloadAssets)
-      - name: Run DataGen
-        run: ./gradlew runData
-      - name: Build and publish (release)
-        env:
-          CURSE_API: ${{ secrets.CURSE_API }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          IS_RELEASE: true
-        run: |
-          # Build
-          ./gradlew build ${{ matrix.release-task }}
+    - uses: actions/checkout@v3
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: zulu
+        java-version: 17
+    - name: Download MC assets
+      run: ./gradlew downloadAssets || ./gradlew downloadAssets || (sleep 30s && ./gradlew downloadAssets)
+    - name: Run DataGen
+      run: ./gradlew runData
+    - name: Build and publish (release)
+      env:
+        CURSE_API: ${{ secrets.CURSE_API }}
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        IS_RELEASE: true
+      run: |
+        # Build
+        ./gradlew build ${{ matrix.release-task }}

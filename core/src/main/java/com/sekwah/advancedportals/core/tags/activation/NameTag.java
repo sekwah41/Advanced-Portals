@@ -3,24 +3,25 @@ package com.sekwah.advancedportals.core.tags.activation;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * The name of the destination or portal.
- * <p>
- * Most of the implementation of this tag is external, this is just to allow for the tag to be used.
- * <p>
- * Most tags shouldn't be like this unless they are to be paired with another tag.
+ *
+ * <p>Most of the implementation of this tag is external, this is just to allow for the tag to be
+ * used.
+ *
+ * <p>Most tags shouldn't be like this unless they are to be paired with another tag.
  */
 public class NameTag implements Tag.AutoComplete, Tag.Creation {
 
     public static String TAG_NAME = "name";
 
-    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL, TagType.DESTINATION };
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL, TagType.DESTINATION};
 
     @Override
     public TagType[] getTagTypes() {
@@ -58,7 +59,9 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
         if (argData.length > 0) {
             String name = argData[0];
             if (name.contains(" ")) {
-                player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("tag.name.error.nospaces"));
+                player.sendMessage(
+                        Lang.translate("messageprefix.negative")
+                                + Lang.translate("tag.name.error.nospaces"));
                 return false;
             }
         }
@@ -66,7 +69,5 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
     }
 
     @Override
-    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
-
-    }
+    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {}
 }

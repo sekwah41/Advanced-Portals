@@ -55,6 +55,9 @@ Please ensure that your commits are in the following style for PR's
 
 https://www.conventionalcommits.org/en/v1.0.0/
 
+Also if you could, please run `pre-commit run --files ...` or `pre-commit run --all-files` to ensure that the code is formatted correctly.
+You will need to run this command with Java 11 for the java formatter.
+
 ## Types available
  * **build**: Changes that affect the build system or external dependencies
  * **ci**: Changes to our CI configuration files and scripts

@@ -26,6 +26,4 @@ public class SpigotInfoLogger extends InfoLogger {
     public void error(Exception e) {
         plugin.getLogger().log(Level.SEVERE, e.getMessage(), e);
     }
-
-
 }

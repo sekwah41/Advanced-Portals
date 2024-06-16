@@ -25,8 +25,7 @@ public class ConfigAccessor {
     public void reloadConfig() {
         if (configFile == null) {
             File dataFolder = plugin.getDataFolder();
-            if (dataFolder == null)
-                throw new IllegalStateException();
+            if (dataFolder == null) throw new IllegalStateException();
             configFile = new File(dataFolder, fileName);
         }
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
@@ -55,11 +54,8 @@ public class ConfigAccessor {
     // Saves
 
     /**
-     * public void saveDefaultConfig() {
-     * if (!configFile.exists()) {
-     * this.plugin.saveResource(fileName, false);
-     * }
-     * }
+     * public void saveDefaultConfig() { if (!configFile.exists()) {
+     * this.plugin.saveResource(fileName, false); } }
      */
 
     // New save default config saving code, it checks if the needed config is in the jar file before
@@ -72,5 +68,4 @@ public class ConfigAccessor {
             plugin.saveResource(fileName, false);
         }
     }
-
 }

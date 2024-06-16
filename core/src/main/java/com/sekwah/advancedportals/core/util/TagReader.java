@@ -1,11 +1,9 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TagReader {
 
@@ -43,10 +41,9 @@ public class TagReader {
             if (arg.contains(":") && !inQuotes) {
                 if (currentIdentifier != null) {
                     ArrayList<String> tags;
-                    if(tagMap.containsKey(currentIdentifier)) {
+                    if (tagMap.containsKey(currentIdentifier)) {
                         tags = tagMap.get(currentIdentifier);
-                    }
-                    else {
+                    } else {
                         tags = new ArrayList<>();
                         tagMap.put(currentIdentifier, tags);
                     }
@@ -70,10 +67,9 @@ public class TagReader {
 
         if (currentIdentifier != null) {
             ArrayList<String> tags;
-            if(tagMap.containsKey(currentIdentifier)) {
+            if (tagMap.containsKey(currentIdentifier)) {
                 tags = tagMap.get(currentIdentifier);
-            }
-            else {
+            } else {
                 tags = new ArrayList<>();
                 tagMap.put(currentIdentifier, tags);
             }
@@ -89,13 +85,11 @@ public class TagReader {
         return tags;
     }
 
-
     public static String getTag(String arg) {
         int splitLoc = arg.indexOf(":");
-        if(splitLoc != -1) {
-            return arg.substring(0,splitLoc);
+        if (splitLoc != -1) {
+            return arg.substring(0, splitLoc);
         }
         return null;
     }
-
 }
