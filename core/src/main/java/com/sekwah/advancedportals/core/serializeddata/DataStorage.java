@@ -18,9 +18,11 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class DataStorage {
     private final File dataFolder;
 
-    @Inject private AdvancedPortalsCore portalsCore;
+    @Inject
+    private AdvancedPortalsCore portalsCore;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     public DataStorage(File dataStorageLoc) {
         this.dataFolder = dataStorageLoc;

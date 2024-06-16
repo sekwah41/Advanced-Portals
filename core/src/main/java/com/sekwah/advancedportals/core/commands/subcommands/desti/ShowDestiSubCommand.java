@@ -23,17 +23,23 @@ import java.util.Objects;
  */
 public class ShowDestiSubCommand
     implements SubCommand, SubCommand.SubCommandOnInit {
-    @Inject PlayerDataServices tempDataServices;
+    @Inject
+    PlayerDataServices tempDataServices;
 
-    @Inject GameScheduler gameScheduler;
+    @Inject
+    GameScheduler gameScheduler;
 
-    @Inject AdvancedPortalsCore core;
+    @Inject
+    AdvancedPortalsCore core;
 
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
-    @Inject ServerContainer serverContainer;
+    @Inject
+    ServerContainer serverContainer;
 
-    @Inject ConfigRepository config;
+    @Inject
+    ConfigRepository config;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

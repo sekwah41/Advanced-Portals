@@ -10,7 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class TeleportDestiSubCommand implements SubCommand {
-    @Inject DestinationServices destinationServices;
+    @Inject
+    DestinationServices destinationServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {

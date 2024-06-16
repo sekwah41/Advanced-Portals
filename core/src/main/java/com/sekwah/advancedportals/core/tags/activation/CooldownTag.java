@@ -18,11 +18,14 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 public class CooldownTag implements Tag.Activation, Tag.Creation {
-    @Inject transient PlayerDataServices playerDataServices;
+    @Inject
+    transient PlayerDataServices playerDataServices;
 
-    @Inject transient ConfigRepository configRepository;
+    @Inject
+    transient ConfigRepository configRepository;
 
-    @Inject private InfoLogger infoLogger;
+    @Inject
+    private InfoLogger infoLogger;
 
     public static String TAG_NAME = "cooldown";
 
