@@ -11,8 +11,8 @@ import java.util.Map;
 
 /**
  * Do not register to here. Register to the sprcific subcommand registry classes.
- * <p>
- * Designed to let addons add new command sections to access, edit or add new functonality.
+ *
+ * <p>Designed to let addons add new command sections to access, edit or add new functonality.
  *
  * @author sekwah41
  */
@@ -20,13 +20,10 @@ public class SubCommandRegistry {
 
     protected Map<String, SubCommand> subCommandMap = new HashMap<>();
 
-    /**
-     * List of subcommand names which should be in order alphabetically
-     */
+    /** List of subcommand names which should be in order alphabetically */
     protected ArrayList<String> subCommands = new ArrayList<>();
 
-    @Inject
-    private InfoLogger infoLogger;
+    @Inject private InfoLogger infoLogger;
 
     /**
      * @param arg argument needed to activate
@@ -40,7 +37,7 @@ public class SubCommandRegistry {
             return false;
         }
 
-        if(this.subCommandMap.containsKey(arg)){
+        if (this.subCommandMap.containsKey(arg)) {
             this.infoLogger.warning("The subcommand '" + arg + "' already exists.");
             return false;
         }
@@ -57,28 +54,30 @@ public class SubCommandRegistry {
     /**
      * @return a list of arguments of registered subcommands
      */
-    public ArrayList<String> getSubCommands(){
+    public ArrayList<String> getSubCommands() {
         return this.subCommands;
     }
 
     /**
      * I may be wrong but for larger lists containsKey is faster with a hashmap than arraylist.
      *
-     * Though im not sure at what size it becomes more efficient.
+     * <p>Though im not sure at what size it becomes more efficient.
+     *
      * @param arg
      * @return if the argument is registered
      */
-    public boolean isArgRegistered(String arg){
+    public boolean isArgRegistered(String arg) {
         return this.subCommandMap.containsKey(arg.toLowerCase());
     }
 
     /**
      * Gets the subcommand corresponding to the string argument
+     *
      * @param arg
      * @return the subcommand linked to the arg
      */
-    public SubCommand getSubCommand(String arg){
-        if(this.subCommandMap.containsKey(arg.toLowerCase())){
+    public SubCommand getSubCommand(String arg) {
+        if (this.subCommandMap.containsKey(arg.toLowerCase())) {
             return this.subCommandMap.get(arg.toLowerCase());
         }
         return null;

@@ -9,5 +9,4 @@ public class DataTag {
         this.NAME = argName;
         this.VALUES = values;
     }
-
 }

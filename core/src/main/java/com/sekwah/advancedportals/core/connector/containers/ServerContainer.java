@@ -14,5 +14,4 @@ public interface ServerContainer {
     List<String> getTriggerBlocks();
 
     PlayerContainer[] getPlayers();
-
 }
