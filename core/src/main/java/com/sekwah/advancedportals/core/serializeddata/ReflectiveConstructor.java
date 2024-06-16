@@ -89,7 +89,14 @@ public class ReflectiveConstructor<T> extends Constructor {
         }
 
         try {
-            Object instance = unsafe.allocateInstance(currentClass);
+            Object instance;
+            try {
+                instance = currentClass.getDeclaredConstructor().newInstance();
+            } catch (NoSuchMethodException e) {
+                infoLogger.info("No default constructor found for " + currentClass.getName() + ", using unsafe allocation.");
+                instance = unsafe.allocateInstance(currentClass);
+            }
+            
             Map<String, Object> mappedValues = mapMappingNode(currentClass, mappingNode);
 
             Field[] fields = getAllFields(currentClass);
@@ -97,16 +104,14 @@ public class ReflectiveConstructor<T> extends Constructor {
                 if (Modifier.isTransient(field.getModifiers())) {
                     continue;
                 }
-
-                infoLogger.info("Setting field " + field.getName() + " in " + currentClass.getName());
+                
                 try {
-                    makeFieldAccessible(field);
                     if (mappedValues.containsKey(field.getName())) {
                         Object value = mappedValues.get(field.getName());
-
+                        
                         setField(instance, field, value);
                     } else {
-                        infoLogger.warning("Field " + field.getName() + " not found in mapping node" + field.getName().getClass());
+                        infoLogger.warning("Field " + field.getName() + " not found in mapping node " + instance.getClass().getName() + " will use default value.");
                     }
                 }
                 catch (Exception e) {
@@ -161,17 +166,6 @@ public class ReflectiveConstructor<T> extends Constructor {
         return values;
     }
 
-    private void makeFieldAccessible(Field field) {
-        if (!field.isAccessible() || Modifier.isFinal(field.getModifiers())) {
-            field.setAccessible(true);
-
-            if (Modifier.isFinal(field.getModifiers())) {
-                long offset = unsafe.objectFieldOffset(field);
-                unsafe.putObjectVolatile(field, offset, field.getModifiers() & ~Modifier.FINAL);
-            }
-        }
-    }
-
     /**
      * Check and convert value types e.g. double to float
      */
@@ -188,7 +182,7 @@ public class ReflectiveConstructor<T> extends Constructor {
             value = ((Integer) value).byteValue();
         }
 
-        infoLogger.info("Setting field " + field.getName() + " to " + value + " in " + instance.getClass().getName());
+        field.setAccessible(true);
         field.set(instance, value);
     }
 

@@ -7,13 +7,10 @@ public class Vector {
 
     protected final double z;
 
-    protected final double f;
-
     public Vector(double X, double Y, double Z) {
         this.x = X;
         this.y = Y;
         this.z = Z;
-        this.f = 0;
     }
 
     public Vector add(Vector vec) {

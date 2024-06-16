@@ -33,6 +33,10 @@ public class Destination implements TagTarget {
     private HashMap<String, String[]> args = new HashMap<>();
 
     private transient Set<String> argsCol;
+    
+    public Destination() {
+        this.loc = new PlayerLocation();
+    }
 
     public Destination(PlayerLocation loc) {
         this.loc = loc;

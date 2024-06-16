@@ -6,6 +6,12 @@ public class PlayerLocation extends WorldLocation {
     private final float yaw;
 
     private final float pitch;
+    
+    public PlayerLocation() {
+        super("", 0, 0, 0);
+        this.yaw = 0;
+        this.pitch = 0;
+    }
 
     public PlayerLocation(String worldName, double posX, double posY, double posZ) {
         super(worldName, posX, posY, posZ);
