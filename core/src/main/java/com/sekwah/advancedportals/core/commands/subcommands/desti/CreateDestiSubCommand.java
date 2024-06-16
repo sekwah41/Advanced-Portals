@@ -12,13 +12,11 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CreateDestiSubCommand extends CreateTaggedSubCommand {
-
     @Inject TagRegistry tagRegistry;
 
     @Inject DestinationServices destinationServices;
@@ -29,34 +27,34 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             PlayerContainer player = sender.getPlayerContainer();
             if (player == null) {
                 sender.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("command.create.destination.console"));
+                    Lang.translate("messageprefix.negative")
+                    + Lang.translate("command.create.destination.console"));
                 return;
             }
 
-            ArrayList<DataTag> destinationTags = TagReader.getTagsFromArgs(args);
+            ArrayList<DataTag> destinationTags =
+                TagReader.getTagsFromArgs(args);
 
             // Find the tag with the "name" NAME
-            DataTag nameTag =
-                    destinationTags.stream()
-                            .filter(tag -> tag.NAME.equals("name"))
-                            .findFirst()
-                            .orElse(null);
+            DataTag nameTag = destinationTags.stream()
+                                  .filter(tag -> tag.NAME.equals("name"))
+                                  .findFirst()
+                                  .orElse(null);
 
-            // If the tag is null, check if arg[1] has a : to check it's not a tag.
+            // If the tag is null, check if arg[1] has a : to check it's not a
+            // tag.
             if (nameTag == null && !args[1].contains(":")) {
                 nameTag = new DataTag("name", args[1]);
                 destinationTags.add(nameTag);
             }
 
             if (nameTag == null) {
-                sender.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("command.error.noname"));
+                sender.sendMessage(Lang.translate("messageprefix.negative")
+                                   + Lang.translate("command.error.noname"));
                 return;
             }
-            sender.sendMessage(
-                    Lang.centeredTitle(Lang.translate("command.create.destination.prep")));
+            sender.sendMessage(Lang.centeredTitle(
+                Lang.translate("command.create.destination.prep")));
             sender.sendMessage("");
             sender.sendMessage(Lang.translate("command.create.tags"));
 
@@ -65,22 +63,21 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
                 this.printTags(sender, destinationTags);
             }
             sender.sendMessage("");
-            Destination destination =
-                    destinationServices.createDesti(player, player.getLoc(), destinationTags);
+            Destination destination = destinationServices.createDesti(
+                player, player.getLoc(), destinationTags);
             if (destination != null) {
                 sender.sendMessage(
-                        Lang.translate("messageprefix.positive")
-                                + Lang.translate("command.create.destination.complete"));
+                    Lang.translate("messageprefix.positive")
+                    + Lang.translate("command.create.destination.complete"));
             } else {
                 sender.sendMessage("");
                 sender.sendMessage(
-                        Lang.translate("messageprefix.negative")
-                                + Lang.translate("command.create.destination.error"));
+                    Lang.translate("messageprefix.negative")
+                    + Lang.translate("command.create.destination.error"));
             }
         } else {
-            sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
-                            + Lang.translate("command.error.noname"));
+            sender.sendMessage(Lang.translate("messageprefix.negative")
+                               + Lang.translate("command.error.noname"));
         }
     }
 
@@ -94,8 +91,10 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
         var tags = tagRegistry.getTags();
         // Filter tags that support Destination
         return tags.stream()
-                .filter(tag -> Arrays.asList(tag.getTagTypes()).contains(Tag.TagType.DESTINATION))
-                .toList();
+            .filter(tag
+                    -> Arrays.asList(tag.getTagTypes())
+                           .contains(Tag.TagType.DESTINATION))
+            .toList();
     }
 
     @Override

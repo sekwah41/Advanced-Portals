@@ -2,22 +2,26 @@ package com.sekwah.advancedportals.core.permissions;
 
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-
 import java.util.List;
 
 public class PortalPermissions {
+    private static final PermissionBuilder PERMISSIONS =
+        new PermissionBuilder("advancedportals");
 
-    private static final PermissionBuilder PERMISSIONS = new PermissionBuilder("advancedportals");
-
-    public static final PermissionBuilder BUILD = PERMISSIONS.createChild("build");
-    public static final PermissionBuilder DESTI = PERMISSIONS.createChild("desti");
-    public static final PermissionBuilder CREATE_PORTAL = PERMISSIONS.createChild("createportal");
-    public static final PermissionBuilder LANG_UPDATE = PERMISSIONS.createChild("langupdate");
-    public static final PermissionBuilder RELOAD = PERMISSIONS.createChild("reload");
+    public static final PermissionBuilder BUILD =
+        PERMISSIONS.createChild("build");
+    public static final PermissionBuilder DESTI =
+        PERMISSIONS.createChild("desti");
+    public static final PermissionBuilder CREATE_PORTAL =
+        PERMISSIONS.createChild("createportal");
+    public static final PermissionBuilder LANG_UPDATE =
+        PERMISSIONS.createChild("langupdate");
+    public static final PermissionBuilder RELOAD =
+        PERMISSIONS.createChild("reload");
 
     /**
-     * this will not currently build the permissions for the files, but maybe at some point. It'll
-     * just make it easier though.
+     * this will not currently build the permissions for the files, but maybe at
+     * some point. It'll just make it easier though.
      */
     public static class PermissionBuilder {
         private final String permissionTag;

@@ -17,14 +17,11 @@ import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 
 public class AdvancedPortalsModule extends AbstractModule {
-
     private Injector injector;
     private AdvancedPortalsCore advancedPortalsCore;
     private DataStorage dataStorage;
@@ -35,19 +32,31 @@ public class AdvancedPortalsModule extends AbstractModule {
         this.advancedPortalsCore = advancedPortalsCore;
     }
 
-    /** https://github.com/google/guice/wiki/Bindings */
+    /**
+     * https://github.com/google/guice/wiki/Bindings
+     */
     @Override
     protected void configure() {
-        bind(IPortalRepository.class).to(PortalRepositoryImpl.class).in(Scopes.SINGLETON);
-        bind(IDestinationRepository.class).to(DestinationRepositoryImpl.class).in(Scopes.SINGLETON);
-        bind(IPlayerDataRepository.class).to(PlayerDataRepositoryImpl.class).in(Scopes.SINGLETON);
-        bind(ConfigRepository.class).to(ConfigRepositoryImpl.class).in(Scopes.SINGLETON);
+        bind(IPortalRepository.class)
+            .to(PortalRepositoryImpl.class)
+            .in(Scopes.SINGLETON);
+        bind(IDestinationRepository.class)
+            .to(DestinationRepositoryImpl.class)
+            .in(Scopes.SINGLETON);
+        bind(IPlayerDataRepository.class)
+            .to(PlayerDataRepositoryImpl.class)
+            .in(Scopes.SINGLETON);
+        bind(ConfigRepository.class)
+            .to(ConfigRepositoryImpl.class)
+            .in(Scopes.SINGLETON);
 
         // Instances
         bind(AdvancedPortalsCore.class).toInstance(advancedPortalsCore);
         bind(InfoLogger.class).toInstance(advancedPortalsCore.getInfoLogger());
-        bind(DataStorage.class).toInstance(advancedPortalsCore.getDataStorage());
-        bind(ServerContainer.class).toInstance(advancedPortalsCore.getServerContainer());
+        bind(DataStorage.class)
+            .toInstance(advancedPortalsCore.getDataStorage());
+        bind(ServerContainer.class)
+            .toInstance(advancedPortalsCore.getServerContainer());
 
         // Providers
         bind(Config.class).toProvider(ConfigProvider.class);

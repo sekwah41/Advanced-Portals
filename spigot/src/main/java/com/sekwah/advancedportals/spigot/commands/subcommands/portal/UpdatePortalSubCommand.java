@@ -11,15 +11,12 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.update.ConfigAccessor;
-
-import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class UpdatePortalSubCommand implements SubCommand {
-
     @Inject PortalServices portalServices;
 
     @Inject DestinationServices destinationServices;
@@ -29,43 +26,41 @@ public class UpdatePortalSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1 && "confirm".equals(args[1])) {
-            sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
-                            + Lang.translateInsertVariables("command.portal.update.confirm"));
+            sender.sendMessage(Lang.translate("messageprefix.positive")
+                               + Lang.translateInsertVariables(
+                                   "command.portal.update.confirm"));
             int destinations = importDestinations();
             int portals = importPortals();
             sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
-                            + Lang.translateInsertVariables(
-                                    "command.portal.update.complete", portals, destinations));
+                Lang.translate("messageprefix.positive")
+                + Lang.translateInsertVariables(
+                    "command.portal.update.complete", portals, destinations));
             return;
         }
-        sender.sendMessage(
-                Lang.translate("messageprefix.positive")
-                        + Lang.translateInsertVariables(
-                                "command.portal.update", getPortalCount(), getDestinationCount()));
+        sender.sendMessage(Lang.translate("messageprefix.positive")
+                           + Lang.translateInsertVariables(
+                               "command.portal.update", getPortalCount(),
+                               getDestinationCount()));
     }
 
     private int importPortals() {
-        ConfigAccessor portalConfig =
-                new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yaml");
+        ConfigAccessor portalConfig = new ConfigAccessor(
+            AdvancedPortalsPlugin.getInstance(), "portals.yaml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         int count = 0;
         for (String portalName : portalSet) {
             BlockLocation pos1 =
-                    new BlockLocation(
-                            config.getString(portalName + ".world"),
-                            config.getInt(portalName + ".pos1.X"),
-                            config.getInt(portalName + ".pos1.Y"),
-                            config.getInt(portalName + ".pos1.Z"));
+                new BlockLocation(config.getString(portalName + ".world"),
+                                  config.getInt(portalName + ".pos1.X"),
+                                  config.getInt(portalName + ".pos1.Y"),
+                                  config.getInt(portalName + ".pos1.Z"));
             BlockLocation pos2 =
-                    new BlockLocation(
-                            config.getString(portalName + ".world"),
-                            config.getInt(portalName + ".pos2.X"),
-                            config.getInt(portalName + ".pos2.Y"),
-                            config.getInt(portalName + ".pos2.Z"));
+                new BlockLocation(config.getString(portalName + ".world"),
+                                  config.getInt(portalName + ".pos2.X"),
+                                  config.getInt(portalName + ".pos2.Y"),
+                                  config.getInt(portalName + ".pos2.Z"));
             List<DataTag> args = new ArrayList<>();
             args.add(new DataTag("name", portalName));
             var triggerblock = config.getString(portalName + ".triggerblock");
@@ -73,24 +68,26 @@ public class UpdatePortalSubCommand implements SubCommand {
                 args.add(new DataTag("triggerblock", triggerblock.split(",")));
             // It's called bungee as that's the implementation behind it
             var bungee = config.getString(portalName + ".bungee");
-            if (bungee != null) args.add(new DataTag("bungee", bungee.split(",")));
+            if (bungee != null)
+                args.add(new DataTag("bungee", bungee.split(",")));
 
             var destination = config.getString(portalName + ".destination");
-            if (destination != null) args.add(new DataTag("destination", destination.split(",")));
+            if (destination != null)
+                args.add(new DataTag("destination", destination.split(",")));
 
-            ConfigurationSection portalConfigSection = config.getConfigurationSection(portalName);
+            ConfigurationSection portalConfigSection =
+                config.getConfigurationSection(portalName);
             ConfigurationSection portalArgsConf =
-                    portalConfigSection.getConfigurationSection("portalArgs");
+                portalConfigSection.getConfigurationSection("portalArgs");
 
             if (portalArgsConf != null) {
                 Set<String> argsSet = portalArgsConf.getKeys(true);
                 for (Object argName : argsSet.toArray()) {
                     // skip if it argName starts with command.
                     if (portalArgsConf.isString(argName.toString())) {
-                        args.add(
-                                new DataTag(
-                                        argName.toString(),
-                                        portalArgsConf.getString(argName.toString())));
+                        args.add(new DataTag(
+                            argName.toString(),
+                            portalArgsConf.getString(argName.toString())));
                     }
                 }
             }
@@ -104,16 +101,18 @@ public class UpdatePortalSubCommand implements SubCommand {
                 }
             }
             if (!commands.isEmpty()) {
-                args.add(new DataTag("commands", commands.toArray(new String[0])));
+                args.add(
+                    new DataTag("commands", commands.toArray(new String[0])));
             }
             args.stream()
-                    .filter(dataTag -> dataTag.NAME.startsWith("command."))
-                    .toList()
-                    .forEach(args::remove);
+                .filter(dataTag -> dataTag.NAME.startsWith("command."))
+                .toList()
+                .forEach(args::remove);
 
             var portal = portalService.createPortal(pos1, pos2, args);
 
-            if (portal != null) count++;
+            if (portal != null)
+                count++;
         }
 
         return count;
@@ -129,32 +128,32 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     public int importDestinations() {
-        ConfigAccessor destiConfig =
-                new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
+        ConfigAccessor destiConfig = new ConfigAccessor(
+            AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
         int count = 0;
         for (String destiName : destiSet) {
             var destiPos = destiName + ".pos";
-            var desti =
-                    destinationServices.createDesti(
-                            new PlayerLocation(
-                                    config.getString(destiName + ".world"),
-                                    config.getDouble(destiPos + ".X"),
-                                    config.getDouble(destiPos + ".Y"),
-                                    config.getDouble(destiPos + ".Z"),
-                                    (float) config.getDouble(destiPos + ".yaw"),
-                                    (float) config.getDouble(destiPos + ".pitch")),
-                            List.of(new DataTag("name", destiName)));
-            if (desti != null) count++;
+            var desti = destinationServices.createDesti(
+                new PlayerLocation(
+                    config.getString(destiName + ".world"),
+                    config.getDouble(destiPos + ".X"),
+                    config.getDouble(destiPos + ".Y"),
+                    config.getDouble(destiPos + ".Z"),
+                    (float) config.getDouble(destiPos + ".yaw"),
+                    (float) config.getDouble(destiPos + ".pitch")),
+                List.of(new DataTag("name", destiName)));
+            if (desti != null)
+                count++;
         }
         return count;
     }
 
     public int getDestinationCount() {
-        ConfigAccessor destiConfig =
-                new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
+        ConfigAccessor destiConfig = new ConfigAccessor(
+            AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
@@ -162,8 +161,8 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     public int getPortalCount() {
-        ConfigAccessor portalConfig =
-                new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yaml");
+        ConfigAccessor portalConfig = new ConfigAccessor(
+            AdvancedPortalsPlugin.getInstance(), "portals.yaml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
@@ -176,7 +175,8 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         return null;
     }
 

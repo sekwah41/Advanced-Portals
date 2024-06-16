@@ -4,11 +4,9 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
-
 import java.util.List;
 
 public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
-
     private final String fileLocation = "playerData/";
 
     @Inject DataStorage dataStorage;
@@ -30,7 +28,8 @@ public class PlayerDataRepositoryImpl implements IPlayerDataRepository {
 
     @Override
     public PlayerData get(String name) {
-        return dataStorage.loadFile(PlayerData.class, fileLocation + name + ".yaml");
+        return dataStorage.loadFile(PlayerData.class,
+                                    fileLocation + name + ".yaml");
     }
 
     @Override

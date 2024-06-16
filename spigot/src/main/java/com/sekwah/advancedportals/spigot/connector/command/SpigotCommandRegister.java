@@ -4,9 +4,10 @@ import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 
-/** Register the CommandTemplate files to the appropriate system */
+/**
+ * Register the CommandTemplate files to the appropriate system
+ */
 public class SpigotCommandRegister implements CommandRegister {
-
     private final AdvancedPortalsPlugin plugin;
 
     public SpigotCommandRegister(AdvancedPortalsPlugin plugin) {
@@ -19,7 +20,9 @@ public class SpigotCommandRegister implements CommandRegister {
      * @param commandName
      * @param commandExecutor
      */
-    public void registerCommand(String commandName, CommandTemplate commandExecutor) {
-        this.plugin.getCommand(commandName).setExecutor(new SpigotCommandHandler(commandExecutor));
+    public void registerCommand(String commandName,
+                                CommandTemplate commandExecutor) {
+        this.plugin.getCommand(commandName)
+            .setExecutor(new SpigotCommandHandler(commandExecutor));
     }
 }

@@ -3,22 +3,19 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.inspector.TagInspector;
-import org.yaml.snakeyaml.nodes.Tag;
-
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class DataStorage {
-
     private final File dataFolder;
 
     @Inject private AdvancedPortalsCore portalsCore;
@@ -30,10 +27,10 @@ public class DataStorage {
     }
 
     private Yaml getYaml(Class<? extends Object> clazz) {
-
         LoaderOptions loaderOptions = new LoaderOptions();
 
-        TagInspector tagInspector = tag -> tag.getClassName().equals(clazz.getName());
+        TagInspector tagInspector =
+            tag -> tag.getClassName().equals(clazz.getName());
 
         loaderOptions.setTagInspector(tagInspector);
 
@@ -44,7 +41,10 @@ public class DataStorage {
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         var constructor = new ReflectiveConstructor(clazz, loaderOptions);
 
-        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(constructor);
+        AdvancedPortalsCore.getInstance()
+            .getModule()
+            .getInjector()
+            .injectMembers(constructor);
 
         return new Yaml(constructor, representer);
     }
@@ -64,16 +64,15 @@ public class DataStorage {
         if (yamlResource == null) {
             try {
                 return dataHolder.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException
-                    | IllegalAccessException
-                    | NoSuchMethodException
-                    | InvocationTargetException e) {
+            } catch (InstantiationException | IllegalAccessException
+                     | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
             return null;
         }
         Yaml yaml = getYaml(dataHolder);
-        try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource))) {
+        try (BufferedReader bufReader =
+                 new BufferedReader(new InputStreamReader(yamlResource))) {
             return yaml.loadAs(bufReader, dataHolder);
         } catch (Exception e) {
             infoLogger.warning("Failed to load file: " + location);
@@ -85,7 +84,8 @@ public class DataStorage {
     public boolean storeFile(Object dataHolder, String location) {
         Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
-        if (!outFile.getParentFile().exists() && !outFile.getParentFile().mkdirs()) {
+        if (!outFile.getParentFile().exists()
+            && !outFile.getParentFile().mkdirs()) {
             infoLogger.warning("Failed to create folder for file: " + location);
         }
 
@@ -103,8 +103,8 @@ public class DataStorage {
      * Copies the specified file out of the plugin and into the plugins folder.
      *
      * @param fileLoc
-     * @return if the file is copied, will be false if override is false and the file already
-     *     existed.
+     * @return if the file is copied, will be false if override is false and the
+     *     file already existed.
      */
     public boolean copyDefaultFile(String fileLoc, boolean overwrite) {
         return this.copyDefaultFile(fileLoc, fileLoc, overwrite);
@@ -115,10 +115,11 @@ public class DataStorage {
      *
      * @param sourceLoc - location of the file in the jar
      * @param fileLoc - location to save the file
-     * @return if the file is copied, will be false if override is false and the file already
-     *     existed.
+     * @return if the file is copied, will be false if override is false and the
+     *     file already existed.
      */
-    public boolean copyDefaultFile(String sourceLoc, String fileLoc, boolean overwrite) {
+    public boolean copyDefaultFile(String sourceLoc, String fileLoc,
+                                   boolean overwrite) {
         File outFile = new File(this.dataFolder, fileLoc);
         if (!outFile.exists()) {
             outFile.getParentFile().mkdirs();
@@ -126,7 +127,8 @@ public class DataStorage {
         if (!outFile.exists() || overwrite) {
             try {
                 InputStream inputStream =
-                        this.getClass().getClassLoader().getResourceAsStream(sourceLoc);
+                    this.getClass().getClassLoader().getResourceAsStream(
+                        sourceLoc);
                 if (inputStream == null) {
                     return false;
                 }
@@ -134,11 +136,10 @@ public class DataStorage {
                 writeToFile(inputStream, outFile);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.warning(
-                        "Could not load "
-                                + sourceLoc
-                                + ". The file does"
-                                + "not exist or there has been an error reading the file.");
+                this.infoLogger.warning("Could not load " + sourceLoc
+                                        + ". The file does"
+                                        + ("not exist or there has been an "
+                                           + "error reading the file."));
                 return false;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -152,8 +153,8 @@ public class DataStorage {
     }
 
     /**
-     * A method to try to grab the files from the plugin and if its in the plugin folder load from
-     * there instead.
+     * A method to try to grab the files from the plugin and if its in the
+     * plugin folder load from there instead.
      *
      * <p>
      *
@@ -172,14 +173,14 @@ public class DataStorage {
         } else {
             try {
                 copyDefaultFile(location, false);
-                return this.getClass().getClassLoader().getResourceAsStream(location);
+                return this.getClass().getClassLoader().getResourceAsStream(
+                    location);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                this.infoLogger.warning(
-                        "Could not load "
-                                + location
-                                + ". The file does"
-                                + "not exist or there has been an error reading the file.");
+                this.infoLogger.warning("Could not load " + location
+                                        + ". The file does"
+                                        + ("not exist or there has been an "
+                                           + "error reading the file."));
                 return null;
             }
         }
@@ -194,7 +195,8 @@ public class DataStorage {
         }
     }
 
-    private void writeToFile(InputStream inputStream, File outFile) throws IOException {
+    private void writeToFile(InputStream inputStream, File outFile)
+        throws IOException {
         try (FileOutputStream outStream = new FileOutputStream(outFile)) {
             byte[] buf = new byte[1024];
             int len;
@@ -209,7 +211,8 @@ public class DataStorage {
         return new File(this.dataFolder, name).exists();
     }
 
-    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+    public List<String> listAllFiles(String fileLocation,
+                                     boolean trimExtension) {
         return listAllFiles(fileLocation, trimExtension, null);
     }
 
@@ -219,7 +222,8 @@ public class DataStorage {
      * @param extension - if null will not filter by extension
      * @return
      */
-    public List<String> listAllFiles(String fileLocation, boolean trimExtension, String extension) {
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension,
+                                     String extension) {
         File directory = new File(dataFolder, fileLocation);
         List<String> list = new ArrayList<>();
 
@@ -230,7 +234,8 @@ public class DataStorage {
                     if (file.isFile()) {
                         String fileName = file.getName();
                         boolean extensionMatches =
-                                (extension == null || fileName.endsWith("." + extension));
+                            (extension == null
+                             || fileName.endsWith("." + extension));
 
                         if (extensionMatches) {
                             if (trimExtension) {
@@ -245,7 +250,9 @@ public class DataStorage {
                 }
             }
         } else {
-            infoLogger.warning("Directory does not exist or is not a directory: " + fileLocation);
+            infoLogger.warning(
+                "Directory does not exist or is not a directory: "
+                + fileLocation);
         }
         return list;
     }

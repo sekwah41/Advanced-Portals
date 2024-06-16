@@ -1,0 +1,11 @@
+BasedOnStyle: Google
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Attach
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+BreakConstructorInitializers: BeforeComma
+AlignAfterOpenBracket: Align
+PenaltyBreakBeforeFirstCallParameter: 1
+ColumnLimit: 80

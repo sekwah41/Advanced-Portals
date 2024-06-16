@@ -20,12 +20,10 @@ import com.sekwah.advancedportals.core.tags.activation.*;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.io.File;
 import java.util.Arrays;
 
 public class AdvancedPortalsCore {
-
     public static final String version = "1.0.0";
 
     private final InfoLogger infoLogger;
@@ -34,8 +32,8 @@ public class AdvancedPortalsCore {
     private final AdvancedPortalsModule module;
 
     /**
-     * Use this to enable or alter certain features for different versions. If there is an issue
-     * parsing it for any reason it will be set to 0.0.0
+     * Use this to enable or alter certain features for different versions. If
+     * there is an issue parsing it for any reason it will be set to 0.0.0
      */
     private final int[] mcVersion;
 
@@ -63,21 +61,21 @@ public class AdvancedPortalsCore {
     // TEMP REMOVE THIS THIS IS JUST FOR DEV
     @Inject private IPlayerDataRepository tempDataRepository;
 
-    public AdvancedPortalsCore(
-            String mcVersion,
-            File dataStorageLoc,
-            InfoLogger infoLogger,
-            ServerContainer serverContainer) {
+    public AdvancedPortalsCore(String mcVersion, File dataStorageLoc,
+                               InfoLogger infoLogger,
+                               ServerContainer serverContainer) {
         instance = this;
         this.serverContainer = serverContainer;
         this.dataStorage = new DataStorage(dataStorageLoc);
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.info("Loading Advanced Portals Core v" + version + " for MC: " + mcVersion);
+        infoLogger.info("Loading Advanced Portals Core v" + version
+                        + " for MC: " + mcVersion);
         try {
-            mcVersionTemp =
-                    Arrays.stream(mcVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
+            mcVersionTemp = Arrays.stream(mcVersion.split("\\."))
+                                .mapToInt(Integer::parseInt)
+                                .toArray();
         } catch (NumberFormatException e) {
             infoLogger.info("Failed to parse MC version: " + mcVersion);
             e.printStackTrace();
@@ -92,13 +90,13 @@ public class AdvancedPortalsCore {
     }
 
     /**
-     * For some platforms we could do this on construction but this just allows for a bit more
-     * control
+     * For some platforms we could do this on construction but this just allows
+     * for a bit more control
      */
     public void onEnable() {
-        // Force values to get injected, either because the initial ones were created too early or
-        // to ensure they are not null.
-        // Do it here to give implementations a chance to interact with the module.
+        // Force values to get injected, either because the initial ones were
+        // created too early or to ensure they are not null. Do it here to give
+        // implementations a chance to interact with the module.
         Injector injector = module.getInjector();
         injector.injectMembers(this);
         injector.injectMembers(Lang.instance);
@@ -124,7 +122,8 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new PermissionTag());
     }
 
-    /** */
+    /**
+     */
     public void registerCommands() {
         this.registerPortalCommand(commandRegister);
         this.registerDestinationCommand(commandRegister);
@@ -133,43 +132,61 @@ public class AdvancedPortalsCore {
     private void registerPortalCommand(CommandRegister commandRegister) {
         this.portalCommand = new CommandWithSubCommands(this);
 
-        this.portalCommand.registerSubCommand("version", new VersionSubCommand());
-        this.portalCommand.registerSubCommand("langupdate", new LangUpdateSubCommand());
-        this.portalCommand.registerSubCommand("reload", new ReloadPortalSubCommand());
-        this.portalCommand.registerSubCommand("selector", new SelectorSubCommand(), "wand");
-        this.portalCommand.registerSubCommand("portalblock", new PortalBlockSubCommand());
-        this.portalCommand.registerSubCommand("endportalblock", new EndPortalBlockSubCommand());
-        this.portalCommand.registerSubCommand("endgatewayblock", new EndGatewayBlockSubCommand());
-        this.portalCommand.registerSubCommand("create", new CreatePortalSubCommand());
-        this.portalCommand.registerSubCommand("remove", new RemovePortalSubCommand());
-        this.portalCommand.registerSubCommand("list", new ListPortalsSubCommand());
-        this.portalCommand.registerSubCommand("show", new ShowPortalSubCommand());
+        this.portalCommand.registerSubCommand("version",
+                                              new VersionSubCommand());
+        this.portalCommand.registerSubCommand("langupdate",
+                                              new LangUpdateSubCommand());
+        this.portalCommand.registerSubCommand("reload",
+                                              new ReloadPortalSubCommand());
+        this.portalCommand.registerSubCommand("selector",
+                                              new SelectorSubCommand(), "wand");
+        this.portalCommand.registerSubCommand("portalblock",
+                                              new PortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endportalblock",
+                                              new EndPortalBlockSubCommand());
+        this.portalCommand.registerSubCommand("endgatewayblock",
+                                              new EndGatewayBlockSubCommand());
+        this.portalCommand.registerSubCommand("create",
+                                              new CreatePortalSubCommand());
+        this.portalCommand.registerSubCommand("remove",
+                                              new RemovePortalSubCommand());
+        this.portalCommand.registerSubCommand("list",
+                                              new ListPortalsSubCommand());
+        this.portalCommand.registerSubCommand("show",
+                                              new ShowPortalSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
 
     private void registerDestinationCommand(CommandRegister commandRegister) {
         this.destiCommand = new CommandWithSubCommands(this);
-        this.destiCommand.registerSubCommand("create", new CreateDestiSubCommand());
-        this.destiCommand.registerSubCommand("remove", new RemoveDestiSubCommand());
-        this.destiCommand.registerSubCommand("teleport", new TeleportDestiSubCommand(), "tp");
+        this.destiCommand.registerSubCommand("create",
+                                             new CreateDestiSubCommand());
+        this.destiCommand.registerSubCommand("remove",
+                                             new RemoveDestiSubCommand());
+        this.destiCommand.registerSubCommand(
+            "teleport", new TeleportDestiSubCommand(), "tp");
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }
 
-    public boolean registerPortalCommand(String arg, SubCommand subCommand, String... aliasArgs) {
-        return this.portalCommand.registerSubCommand(arg, subCommand, aliasArgs);
+    public boolean registerPortalCommand(String arg, SubCommand subCommand,
+                                         String... aliasArgs) {
+        return this.portalCommand.registerSubCommand(arg, subCommand,
+                                                     aliasArgs);
     }
 
-    public boolean registerDestiCommand(String arg, SubCommand subCommand, String... aliasArgs) {
+    public boolean registerDestiCommand(String arg, SubCommand subCommand,
+                                        String... aliasArgs) {
         return this.destiCommand.registerSubCommand(arg, subCommand, aliasArgs);
     }
 
     /**
-     * Loads the portal config into the memory and saves from the memory to check in case certain
-     * things have changed (basically if values are missing or whatever)
+     * Loads the portal config into the memory and saves from the memory to
+     * check in case certain things have changed (basically if values are
+     * missing or whatever)
      */
     public void loadPortalConfig() {
         this.configRepository.loadConfig(this.dataStorage);

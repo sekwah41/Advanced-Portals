@@ -10,13 +10,10 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
-
     public static String TAG_NAME = "destination";
     @Inject DestinationServices destinationServices;
 
@@ -45,8 +42,8 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     }
 
     @Override
-    public boolean preActivated(
-            TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         // Check that the destination exists.
         for (String destiName : destinationServices.getDestinationNames()) {
             if (destiName.equalsIgnoreCase(argData[0])) {
@@ -57,19 +54,15 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     }
 
     @Override
-    public void postActivated(
-            TagTarget target,
-            PlayerContainer player,
-            ActivationData activationData,
-            String[] argData) {}
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
+    }
 
     @Override
-    public boolean activated(
-            TagTarget target,
-            PlayerContainer player,
-            ActivationData activationData,
-            String[] argData) {
-        Destination destination = destinationServices.getDestination(argData[0]);
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activationData, String[] argData) {
+        Destination destination =
+            destinationServices.getDestination(argData[0]);
         if (destination != null) {
             var warpEffectVisual = warpEffectRegistry.getVisualEffect("ender");
             if (warpEffectVisual != null) {

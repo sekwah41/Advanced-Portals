@@ -4,12 +4,10 @@ import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
-
 import java.util.HashMap;
 
 @Singleton
 public class ConfigRepositoryImpl implements ConfigRepository {
-
     private HashMap<String, Config> configs;
     private Config config;
     private DataStorage dataStorage;
@@ -19,11 +17,9 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     public <T> T getValue(String output) {
-
         try {
             return (T) configs.get(output);
         } catch (ClassCastException ignored) {
-
         }
         return null;
     }

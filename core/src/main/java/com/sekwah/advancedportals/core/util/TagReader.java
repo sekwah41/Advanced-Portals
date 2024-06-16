@@ -1,12 +1,10 @@
 package com.sekwah.advancedportals.core.util;
 
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TagReader {
-
     public static boolean isClosedString(String[] args) {
         StringBuilder currentValue = new StringBuilder();
         boolean inQuotes = false;

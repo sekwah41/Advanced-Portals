@@ -3,24 +3,26 @@ package com.sekwah.advancedportals.core.registry;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Do not register to here. Register to the sprcific subcommand registry classes.
+ * Do not register to here. Register to the sprcific subcommand registry
+ * classes.
  *
- * <p>Designed to let addons add new command sections to access, edit or add new functonality.
+ * <p>Designed to let addons add new command sections to access, edit or add
+ * new functonality.
  *
  * @author sekwah41
  */
 public class SubCommandRegistry {
-
     protected Map<String, SubCommand> subCommandMap = new HashMap<>();
 
-    /** List of subcommand names which should be in order alphabetically */
+    /**
+     * List of subcommand names which should be in order alphabetically
+     */
     protected ArrayList<String> subCommands = new ArrayList<>();
 
     @Inject private InfoLogger infoLogger;
@@ -31,14 +33,15 @@ public class SubCommandRegistry {
      * @return if the subcommand is registered or not
      */
     public boolean registerSubCommand(String arg, SubCommand subCommand) {
-
         if (subCommand == null) {
-            this.infoLogger.warning("The subcommand '" + arg + "' cannot be null.");
+            this.infoLogger.warning("The subcommand '" + arg
+                                    + "' cannot be null.");
             return false;
         }
 
         if (this.subCommandMap.containsKey(arg)) {
-            this.infoLogger.warning("The subcommand '" + arg + "' already exists.");
+            this.infoLogger.warning("The subcommand '" + arg
+                                    + "' already exists.");
             return false;
         }
 
@@ -59,7 +62,8 @@ public class SubCommandRegistry {
     }
 
     /**
-     * I may be wrong but for larger lists containsKey is faster with a hashmap than arraylist.
+     * I may be wrong but for larger lists containsKey is faster with a hashmap
+     * than arraylist.
      *
      * <p>Though im not sure at what size it becomes more efficient.
      *

@@ -17,11 +17,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 
-import java.util.List;
-
 /**
- * Some of these will be passed to the core listener to handle the events, others it's easier to
- * just check directly.
+ * Some of these will be passed to the core listener to handle the events,
+ * others it's easier to just check directly.
  */
 public class Listeners implements Listener {
 
@@ -60,9 +58,9 @@ public class Listeners implements Listener {
     @EventHandler
     public void onItemInteract(PlayerInteractEvent event) {
         if (!event.isCancelled()
-                && (event.getAction() == Action.LEFT_CLICK_BLOCK
-                        || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-                && event.getItem() != null) {
+            && (event.getAction() == Action.LEFT_CLICK_BLOCK
+                || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+            && event.getItem() != null) {
             Location blockloc = event.getClickedBlock().getLocation();
             boolean allowEvent = this.coreListeners.playerInteractWithBlock(new SpigotPlayerContainer(event.getPlayer()),
                     event.getClickedBlock().getType().toString(),
@@ -76,9 +74,10 @@ public class Listeners implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void spawnMobEvent(CreatureSpawnEvent event) {
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL
-                && portalServices.inPortalRegionProtected(
-                        ContainerHelpers.toPlayerLocation(event.getLocation()))) {
+        if (event.getSpawnReason()
+                == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL
+            && portalServices.inPortalRegionProtected(
+                ContainerHelpers.toPlayerLocation(event.getLocation()))) {
             event.setCancelled(true);
         }
     }
@@ -90,18 +89,16 @@ public class Listeners implements Listener {
         if (!configRepository.getStopWaterFlow()) {
             return;
         }
-        if (!coreListeners.blockPlace(
-                        null,
-                        ContainerHelpers.toBlockLocation(event.getBlock().getLocation()),
-                        event.getBlock().getType().toString(),
-                        null,
-                        null)
-                || !coreListeners.blockPlace(
-                        null,
-                        ContainerHelpers.toBlockLocation(event.getToBlock().getLocation()),
-                        event.getBlock().getType().toString(),
-                        null,
-                        null)) {
+        if (!coreListeners.blockPlace(null,
+                                      ContainerHelpers.toBlockLocation(
+                                          event.getBlock().getLocation()),
+                                      event.getBlock().getType().toString(),
+                                      null, null)
+            || !coreListeners.blockPlace(null,
+                                         ContainerHelpers.toBlockLocation(
+                                             event.getToBlock().getLocation()),
+                                         event.getBlock().getType().toString(),
+                                         null, null)) {
             event.setCancelled(true);
         }
     }
@@ -111,19 +108,21 @@ public class Listeners implements Listener {
         var itemInHand = event.getPlayer().getItemInHand();
         if (!coreListeners.blockBreak(
                 new SpigotPlayerContainer(event.getPlayer()),
-                ContainerHelpers.toBlockLocation(event.getBlock().getLocation()),
+                ContainerHelpers.toBlockLocation(
+                    event.getBlock().getLocation()),
                 event.getBlock().getType().toString(),
                 itemInHand == null ? null : itemInHand.getType().toString(),
                 itemInHand == null || itemInHand.getItemMeta() == null
-                        ? null
-                        : itemInHand.getItemMeta().getDisplayName())) {
+                    ? null
+                    : itemInHand.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosion(EntityExplodeEvent event) {
-        if (!configRepository.getPortalProtection()) return;
+        if (!configRepository.getPortalProtection())
+            return;
 
         List<Block> blockList = event.blockList();
         for (int i = 0; i < blockList.size(); i++) {

@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
 public class DataTag {
-
     public final String NAME;
     public final String[] VALUES;
 

@@ -1,8 +1,9 @@
 package com.sekwah.advancedportals.core.registry;
 
-/** Something that a tag can be executed on. */
+/**
+ * Something that a tag can be executed on.
+ */
 public interface TagTarget {
-
     /**
      * Get the values for the arg
      *

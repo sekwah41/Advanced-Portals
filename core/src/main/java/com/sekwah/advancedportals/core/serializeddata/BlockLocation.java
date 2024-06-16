@@ -3,8 +3,8 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.sekwah.advancedportals.core.data.Direction;
 
 public class BlockLocation {
-
-    // These should be treated as final, they only are not for serialization purposes
+    // These should be treated as final, they only are not for serialization
+    // purposes
     private final int posX;
 
     private final int posY;
@@ -51,10 +51,9 @@ public class BlockLocation {
     }
 
     public boolean equals(BlockLocation location) {
-        return location.posX == this.posX
-                && location.posY == this.posY
-                && location.posZ == this.posZ
-                && location.worldName.equals(this.worldName);
+        return location.posX == this.posX && location.posY == this.posY
+            && location.posZ == this.posZ
+            && location.worldName.equals(this.worldName);
     }
 
     public double distanceTo(BlockLocation pos) {
@@ -73,6 +72,7 @@ public class BlockLocation {
     }
 
     public BlockLocation addY(int offsetY) {
-        return new BlockLocation(this.worldName, this.posX, (this.posY + offsetY), this.posZ);
+        return new BlockLocation(this.worldName, this.posX,
+                                 (this.posY + offsetY), this.posZ);
     }
 }

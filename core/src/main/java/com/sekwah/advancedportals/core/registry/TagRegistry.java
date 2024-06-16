@@ -3,19 +3,16 @@ package com.sekwah.advancedportals.core.registry;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.*;
 
 /**
- * Allows a portal to register a tag and add a handler. If a plugin wants to add functionality
- * to someone elses tag then they should use the events.
+ * Allows a portal to register a tag and add a handler. If a plugin wants to
+ * add functionality to someone elses tag then they should use the events.
  *
  * @author sekwah41
  */
 public class TagRegistry {
-
-    @Inject
-    AdvancedPortalsCore portalsCore;
+    @Inject AdvancedPortalsCore portalsCore;
 
     private final ArrayList<String> literalTags = new ArrayList<>();
 
@@ -25,8 +22,7 @@ public class TagRegistry {
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
     private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
 
-    @Inject
-    private AdvancedPortalsCore pluginCore;
+    @Inject private AdvancedPortalsCore pluginCore;
 
     /**
      * Portals to trigger when a portal is activated
@@ -68,17 +64,19 @@ public class TagRegistry {
         this.tags.add(tag);
 
         // Check literal tags for clashes
-        if(this.literalTags.contains(tagName)) {
-            this.portalsCore.getInfoLogger().warning("A tag with the name " + tagName + " already exists.");
+        if (this.literalTags.contains(tagName)) {
+            this.portalsCore.getInfoLogger().warning(
+                "A tag with the name " + tagName + " already exists.");
             return false;
         }
 
         var aliases = tag.getAliases();
         this.literalTags.add(tagName);
-        if(aliases != null) {
+        if (aliases != null) {
             for (String alias : aliases) {
-                if(this.literalTags.contains(alias)) {
-                    this.portalsCore.getInfoLogger().warning("A tag with the alias " + alias + " already exists.");
+                if (this.literalTags.contains(alias)) {
+                    this.portalsCore.getInfoLogger().warning(
+                        "A tag with the alias " + alias + " already exists.");
                     return false;
                 }
             }
@@ -102,7 +100,6 @@ public class TagRegistry {
         }
         return true;
     }
-
 
     public List<Tag> getTags() {
         // TODO Make a copy of the list to prevent issues with modification

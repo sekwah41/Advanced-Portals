@@ -9,11 +9,9 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.List;
 
 public class ReloadPortalSubCommand implements SubCommand {
-
     @Inject private AdvancedPortalsCore portalsCore;
 
     @Inject PortalServices portalServices;
@@ -28,9 +26,8 @@ public class ReloadPortalSubCommand implements SubCommand {
         portalServices.loadPortals();
         destinationServices.loadDestinations();
         Lang.loadLanguage(configRepository.getTranslation());
-        sender.sendMessage(
-                Lang.translate("messageprefix.positive")
-                        + Lang.translate("command.reload.reloaded"));
+        sender.sendMessage(Lang.translate("messageprefix.positive")
+                           + Lang.translate("command.reload.reloaded"));
     }
 
     @Override
@@ -39,7 +36,8 @@ public class ReloadPortalSubCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         return null;
     }
 

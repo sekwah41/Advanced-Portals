@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.repository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 
 public interface ConfigRepository {
-
     boolean getUseOnlySpecialAxe();
 
     String getTranslation();

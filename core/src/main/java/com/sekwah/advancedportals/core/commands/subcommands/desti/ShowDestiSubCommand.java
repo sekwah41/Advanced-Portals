@@ -13,17 +13,16 @@ import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * This will be different from the old show command and I believe it is 1.16+ till the latest
- * version as of writing this.
+ * This will be different from the old show command and I believe it is 1.16+
+ * till the latest version as of writing this.
  */
-public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnInit {
-
+public class ShowDestiSubCommand
+    implements SubCommand, SubCommand.SubCommandOnInit {
     @Inject PlayerDataServices tempDataServices;
 
     @Inject GameScheduler gameScheduler;
@@ -40,20 +39,21 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (core.getMcVersion()[1] < 16) {
             sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
-                            + Lang.translate("command.portal.show.unsupported"));
+                Lang.translate("messageprefix.negative")
+                + Lang.translate("command.portal.show.unsupported"));
             return;
         }
 
-        var tempData = tempDataServices.getPlayerData(sender.getPlayerContainer());
+        var tempData =
+            tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
             sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
-                            + Lang.translate("command.destination.show.disabled"));
+                Lang.translate("messageprefix.negative")
+                + Lang.translate("command.destination.show.disabled"));
         } else {
             sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
-                            + Lang.translate("command.destination.show.enabled"));
+                Lang.translate("messageprefix.positive")
+                + Lang.translate("command.destination.show.enabled"));
         }
         tempData.setDestiVisible(!tempData.isDestiVisible());
     }
@@ -64,7 +64,8 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         return null;
     }
 
@@ -80,30 +81,26 @@ public class ShowDestiSubCommand implements SubCommand, SubCommand.SubCommandOnI
 
     @Override
     public void registered() {
-        gameScheduler.intervalTickEvent(
-                "show_portal",
-                () -> {
-                    for (PlayerContainer player : serverContainer.getPlayers()) {
-                        var tempData = tempDataServices.getPlayerData(player);
-                        if (!tempData.isDestiVisible()) {
-                            continue;
-                        }
+        gameScheduler.intervalTickEvent("show_portal", () -> {
+            for (PlayerContainer player : serverContainer.getPlayers()) {
+                var tempData = tempDataServices.getPlayerData(player);
+                if (!tempData.isDestiVisible()) {
+                    continue;
+                }
 
-                        for (Destination destination : destinationServices.getDestinations()) {
-                            var pos = destination.getLoc();
-                            if (Objects.equals(pos.getWorldName(), player.getWorldName())
-                                    && pos.distanceTo(player.getLoc()) < config.getVisibleRange()) {
-                                Debug.addMarker(
-                                        player,
-                                        pos.toBlockPos(),
+                for (Destination destination :
+                     destinationServices.getDestinations()) {
+                    var pos = destination.getLoc();
+                    if (Objects.equals(pos.getWorldName(),
+                                       player.getWorldName())
+                        && pos.distanceTo(player.getLoc())
+                            < config.getVisibleRange()) {
+                        Debug.addMarker(player, pos.toBlockPos(),
                                         destination.getArgValues("name")[0],
-                                        new Color(100, 100, 100, 100),
-                                        1300);
-                            }
-                        }
+                                        new Color(100, 100, 100, 100), 1300);
                     }
-                },
-                1,
-                20);
+                }
+            }
+        }, 1, 20);
     }
 }

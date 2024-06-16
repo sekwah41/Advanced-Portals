@@ -7,14 +7,15 @@ import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-/** Just a temporary container for whenever advanced portals needs to get data from a player */
+/**
+ * Just a temporary container for whenever advanced portals needs to get data
+ * from a player
+ */
 public class SpigotEntityContainer implements EntityContainer {
-
     @Inject private AdvancedPortalsCore portalsCore;
 
     private final Entity entity;
@@ -26,20 +27,16 @@ public class SpigotEntityContainer implements EntityContainer {
     @Override
     public PlayerLocation getLoc() {
         Location loc = this.entity.getLocation();
-        return new PlayerLocation(
-                loc.getWorld().getName(),
-                loc.getX(),
-                loc.getY(),
-                loc.getZ(),
-                loc.getYaw(),
-                loc.getPitch());
+        return new PlayerLocation(loc.getWorld().getName(), loc.getX(),
+                                  loc.getY(), loc.getZ(), loc.getYaw(),
+                                  loc.getPitch());
     }
 
     @Override
     public BlockLocation getBlockLoc() {
         Location loc = this.entity.getLocation();
-        return new BlockLocation(
-                loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+        return new BlockLocation(loc.getWorld().getName(), loc.getBlockX(),
+                                 loc.getBlockY(), loc.getBlockZ());
     }
 
     @Override
@@ -49,12 +46,9 @@ public class SpigotEntityContainer implements EntityContainer {
 
     @Override
     public boolean teleport(PlayerLocation location) {
-        return this.entity.teleport(
-                new Location(
-                        Bukkit.getWorld(location.getWorldName()),
-                        location.getPosX(),
-                        location.getPosY(),
-                        location.getPosZ()));
+        return this.entity.teleport(new Location(
+            Bukkit.getWorld(location.getWorldName()), location.getPosX(),
+            location.getPosY(), location.getPosZ()));
     }
 
     @Override
@@ -74,7 +68,7 @@ public class SpigotEntityContainer implements EntityContainer {
 
     @Override
     public void setVelocity(Vector vector) {
-        this.entity.setVelocity(
-                new org.bukkit.util.Vector(vector.getX(), vector.getY(), vector.getZ()));
+        this.entity.setVelocity(new org.bukkit.util.Vector(
+            vector.getX(), vector.getY(), vector.getZ()));
     }
 }
