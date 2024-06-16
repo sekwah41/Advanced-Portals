@@ -3,6 +3,7 @@ name: Pre-commit consistency check
 on:
   workflow_dispatch:
   pull_request:
+    types: [labeled, opened, reopened, synchronize]
   push:
     branches: [spigot, re-recode]
 
@@ -12,6 +13,7 @@ concurrency:
 
 jobs:
   pre-commit-check:
+    if: "github.event.action != 'labeled' || github.event.label.name == 'pre-commit ci run'"
     name: Run pre-commit checks
     runs-on: ubuntu-20.04
     steps:
@@ -19,7 +21,10 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
+    - run: gh pr edit ${{ github.event.number }} --remove-label 'pre-commit ci run'
+      if: github.event.action == 'labeled' && github.event.label.name == 'pre-commit ci run'
+      env:
+        GH_TOKEN: ${{ github.token }}
     - uses: dorny/paths-filter@v2
       id: filter
       with:
