@@ -31,4 +31,6 @@ public interface ConfigRepository {
     double getThrowbackStrength();
 
     boolean playFailSound();
+
+    void storeConfig();
 }

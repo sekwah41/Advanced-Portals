@@ -21,7 +21,7 @@ public class ConfigAccessor {
         this.fileName = fileName;
     }
 
-    // gets all of the 
+    // gets all of the
     public void reloadConfig() {
         if (configFile == null) {
             File dataFolder = plugin.getDataFolder();
@@ -52,7 +52,7 @@ public class ConfigAccessor {
         }
     }
 
-    // Saves 
+    // Saves
 
     /**
      * public void saveDefaultConfig() {

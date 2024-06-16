@@ -18,16 +18,16 @@ public class SpigotWorldContainer implements WorldContainer {
 
     public void setBlock(BlockLocation location, String material) {
         Material mat = Material.getMaterial(material, false);
-        if(mat != null) this.world.getBlockAt(location.posX, location.posY, location.posZ).setType(mat);
+        if(mat != null) this.world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ()).setType(mat);
     }
 
     public String getBlock(BlockLocation location) {
-        return this.world.getBlockAt(location.posX, location.posY, location.posZ).getType().toString();
+        return this.world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ()).getType().toString();
     }
 
     @Override
     public BlockAxis getBlockAxis(BlockLocation location) {
-        var block = world.getBlockAt(location.posX, location.posY, location.posZ);
+        var block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
         var matData = block.getState().getBlockData();
         if(matData instanceof Orientable rotatable) {
             try {
@@ -41,7 +41,7 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public void setBlockAxis(BlockLocation location, BlockAxis axis) {
-        var block = world.getBlockAt(location.posX, location.posY, location.posZ);
+        var block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
         var matData = block.getState().getBlockData();
         if(matData instanceof Orientable rotatable) {
             rotatable.setAxis(Axis.valueOf(axis.toString()));

@@ -1,14 +1,17 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,9 +19,7 @@ import java.util.List;
 
 public class DataStorage {
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-    private File dataFolder;
+    private final File dataFolder;
 
     @Inject
     private AdvancedPortalsCore portalsCore;
@@ -30,12 +31,26 @@ public class DataStorage {
         this.dataFolder = dataStorageLoc;
     }
 
-    /**
-     * Copies the default file, defaults to true to keep true to the name
-     *
-     * @param fileLoc
-     * @return
-     */
+    private Yaml getYaml(Class<? extends Object> clazz) {
+
+        LoaderOptions loaderOptions = new LoaderOptions();
+
+        TagInspector tagInspector = tag -> tag.getClassName().equals(clazz.getName());
+
+        loaderOptions.setTagInspector(tagInspector);
+
+        var options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        var representer = new ReflectiveRepresenter(options);
+        representer.addClassTag(clazz, Tag.MAP);
+        representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        var constructor = new ReflectiveConstructor(clazz, loaderOptions);
+
+        AdvancedPortalsCore.getInstance().getModule().getInjector().injectMembers(constructor);
+
+        return new Yaml(constructor, representer);
+    }
+
     public boolean copyDefaultFile(String fileLoc) {
         return this.copyDefaultFile(fileLoc, true);
     }
@@ -46,18 +61,9 @@ public class DataStorage {
         }
     }
 
-    public <T> T loadJson(Type dataHolder, String location) {
-        InputStream jsonResource = this.loadResource(location);
-        if(jsonResource == null) {
-            return null;
-        }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        T object = gson.fromJson(bufReader, dataHolder);
-        return object;
-    }
-    public <T> T loadJson(Class<T> dataHolder, String location) {
-        InputStream jsonResource = this.loadResource(location);
-        if(jsonResource == null) {
+    public <T> T loadFile(Class<T> dataHolder, String location) {
+        InputStream yamlResource = this.loadResource(location);
+        if (yamlResource == null) {
             try {
                 return dataHolder.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -65,29 +71,26 @@ public class DataStorage {
             }
             return null;
         }
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(jsonResource));
-        T data = gson.fromJson(bufReader, dataHolder);
-        try {
-            bufReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Yaml yaml = getYaml(dataHolder);
+        try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(yamlResource))) {
+            return yaml.loadAs(bufReader, dataHolder);
+        } catch (Exception e) {
+            infoLogger.warning("Failed to load file: " + location);
+            infoLogger.error(e);
+            return null;
         }
-        return data;
     }
 
-    public boolean storeJson(Object dataHolder, String location) {
-        // Create folders if they don't exist
+    public boolean storeFile(Object dataHolder, String location) {
+        Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
-        if (!outFile.getParentFile().exists()) { // Check if parent folder exists
-            if(!outFile.getParentFile().mkdirs()) {
-                infoLogger.warning("Failed to create folder for file: " + location);
-            }
+        if (!outFile.getParentFile().exists() && !outFile.getParentFile().mkdirs()) {
+            infoLogger.warning("Failed to create folder for file: " + location);
         }
-        String json = gson.toJson(dataHolder);
-        try {
-            FileWriter fileWriter = new FileWriter(outFile); // Use outFile directly here
-            fileWriter.write(json);
-            fileWriter.close();
+
+        String yamlFile = yaml.dump(dataHolder);
+        try (FileWriter fileWriter = new FileWriter(outFile)) {
+            fileWriter.write(yamlFile);
             return true;
         } catch (IOException e) {
             infoLogger.error(e);
@@ -179,45 +182,51 @@ public class DataStorage {
     }
 
     private void writeToFile(InputStream inputStream, File outFile) throws IOException {
-        FileOutputStream outStream = new FileOutputStream(outFile);
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = inputStream.read(buf)) > 0) {
-            outStream.write(buf, 0, len);
+        try (FileOutputStream outStream = new FileOutputStream(outFile)) {
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buf)) > 0) {
+                outStream.write(buf, 0, len);
+            }
         }
         inputStream.close();
-        outStream.close();
     }
 
     public boolean fileExists(String name) {
         return new File(this.dataFolder, name).exists();
     }
 
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+        return listAllFiles(fileLocation, trimExtension, null);
+    }
+
     /**
-     * @param fileLocation
-     * @param trimExtension
+     * @param fileLocation - location of the folder to list
+     * @param trimExtension - if true will remove the file extension
+     * @param extension - if null will not filter by extension
      * @return
      */
-    public List<String> listAllFiles(String fileLocation, boolean trimExtension) {
+    public List<String> listAllFiles(String fileLocation, boolean trimExtension, String extension) {
         File directory = new File(dataFolder, fileLocation);
-        var list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
-
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile()) {
                         String fileName = file.getName();
+                        boolean extensionMatches = (extension == null || fileName.endsWith("." + extension));
 
-                        if (trimExtension) {
-                            int i = fileName.lastIndexOf('.');
-                            if (i > 0) {
-                                fileName = fileName.substring(0, i);
+                        if (extensionMatches) {
+                            if (trimExtension) {
+                                int i = fileName.lastIndexOf('.');
+                                if (i > 0) {
+                                    fileName = fileName.substring(0, i);
+                                }
                             }
+                            list.add(fileName);
                         }
-
-                        list.add(fileName);
                     }
                 }
             }
@@ -232,7 +241,7 @@ public class DataStorage {
             Files.delete(Paths.get(dataFolder.getAbsolutePath(), fileLocation));
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            infoLogger.error(e);
             return false;
         }
     }

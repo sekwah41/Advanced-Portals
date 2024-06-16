@@ -45,7 +45,7 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     private int importPortals() {
-        ConfigAccessor portalConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yml");
+        ConfigAccessor portalConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yaml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
@@ -114,7 +114,7 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     public int importDestinations() {
-        ConfigAccessor destiConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yml");
+        ConfigAccessor destiConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
@@ -133,7 +133,7 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     public int getDestinationCount() {
-        ConfigAccessor destiConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yml");
+        ConfigAccessor destiConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
@@ -141,7 +141,7 @@ public class UpdatePortalSubCommand implements SubCommand {
     }
 
     public int getPortalCount() {
-        ConfigAccessor portalConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yml");
+        ConfigAccessor portalConfig = new ConfigAccessor(AdvancedPortalsPlugin.getInstance(), "portals.yaml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 

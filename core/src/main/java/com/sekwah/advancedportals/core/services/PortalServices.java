@@ -40,6 +40,9 @@ public class PortalServices {
         portalCache.clear();
         for (String name : portalNames) {
             AdvancedPortal portal = portalRepository.get(name);
+            if(portal == null) {
+                continue;
+            }
             portalCache.put(name, portal);
             portal.updateBounds(portal.getMinLoc(), portal.getMaxLoc());
         }
@@ -132,7 +135,7 @@ public class PortalServices {
             return null;
         }
 
-        if(!tempData.getPos1().worldName.equals(tempData.getPos2().worldName)) {
+        if(!tempData.getPos1().getWorldName().equals(tempData.getPos2().getWorldName())) {
             player.sendMessage(Lang.translate("messageprefix.negative") + Lang.translate("portal.error.selection.differentworlds"));
             return null;
         }

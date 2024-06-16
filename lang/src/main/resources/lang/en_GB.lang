@@ -175,4 +175,3 @@ tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma seperated or multi tag.
 
 tag.cooldown.fail= The cooldown must be a number.
-

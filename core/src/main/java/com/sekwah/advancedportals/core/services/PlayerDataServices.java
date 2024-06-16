@@ -56,6 +56,6 @@ public final class PlayerDataServices {
         } else {
             tempData.setPos2(blockLoc);
         }
-        player.sendMessage(Lang.translateInsertVariables("portal.selector.poschange", leftClick ? "1" : "2", blockLoc.posX, blockLoc.posY, blockLoc.posZ));
+        player.sendMessage(Lang.translateInsertVariables("portal.selector.poschange", leftClick ? "1" : "2", blockLoc.getPosX(), blockLoc.getPosY(), blockLoc.getPosZ()));
     }
 }
