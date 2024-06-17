@@ -54,7 +54,7 @@ jobs:
           msg: apply code formatting
 
       - name: Commit pre-commit changes
-        if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled'
+        if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
