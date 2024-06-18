@@ -48,7 +48,8 @@ jobs:
         if: steps.filter.outputs.addedOrModified != 'true'
         with:
           extra_args: --all-files
-      - uses: pre-commit-ci/lite-action@v1.0.2
+      - name: Run pre-commit-ci-lite
+        uses: pre-commit-ci/lite-action@v1.0.2
         if: always()
         with:
           msg: apply code formatting
