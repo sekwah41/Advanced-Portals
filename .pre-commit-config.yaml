@@ -29,7 +29,3 @@ repos:
   hooks:
   - id: clang-format
     args: [-i, --style=file]
-
-ci:
-  autofix_prs: true
-  autofix_commit_msg: "chore: pre-commit autofix [skip ci]"

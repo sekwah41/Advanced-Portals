@@ -50,18 +50,26 @@ jobs:
           extra_args: --all-files
 
       - name: Commit pre-commit changes
-        if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
+        if: always()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: pre-commit changes" || echo "No changes to commit"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit pre-commit changes
+        if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
+        run: |
           git push ${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run pre-commit-ci-lite
-        uses: pre-commit-ci/lite-action@v1.0.2
-        if: always()
-        with:
-          msg: apply code formatting
+      - name: Push changes to upstream for forked PRs
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
