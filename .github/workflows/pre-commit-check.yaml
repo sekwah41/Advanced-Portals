@@ -48,11 +48,6 @@ jobs:
         if: steps.filter.outputs.addedOrModified != 'true'
         with:
           extra_args: --all-files
-      - name: Run pre-commit-ci-lite
-        uses: pre-commit-ci/lite-action@v1.0.2
-        if: always()
-        with:
-          msg: apply code formatting
 
       - name: Commit pre-commit changes
         if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
@@ -64,3 +59,9 @@ jobs:
           git push ${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run pre-commit-ci-lite
+        uses: pre-commit-ci/lite-action@v1.0.2
+        if: always()
+        with:
+          msg: apply code formatting
