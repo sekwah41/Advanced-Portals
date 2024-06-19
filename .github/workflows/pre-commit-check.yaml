@@ -59,17 +59,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit pre-commit changes
+      - name: Push pre-commit changes
         if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
         run: |
           git push ${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push changes to upstream for forked PRs
+# Maybe switch if possible to committing them for them. but I like the idea of it suggesting changes.
+      - name: Suggest changes to forked pr's
+        uses: parkerbxyz/suggest-changes@v1
         if: always() && github.event.pull_request.head.repo.full_name != github.repository
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          comment: 'Please commit the suggested changes as a batch. as "chore: linting fixes"'
