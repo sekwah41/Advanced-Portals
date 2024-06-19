@@ -1,13 +1,19 @@
 package com.sekwah.advancedportals.core.tags.activation;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import javax.annotation.Nullable;
 
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
+
+    @Inject
+    ConfigRepository configRepository;
+
     public static String TAG_NAME = "command";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
@@ -94,30 +100,28 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean created(TagTarget target, PlayerContainer player,
                            String[] argData) {
+        var commandPortals = configRepository.getCommandPortals();
         if (argData != null) {
             for (String command : argData) {
                 char executionCommand = command.charAt(0);
                 return switch (executionCommand) {
                     case '!' -> {
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.op")) {
-                            player.sendMessage(Lang.translate("tag.command.nopermission")
-                                    .replaceAll("@CommandLevel", "OP"));
+                            player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission", "OP"));
                             yield false;
                         }
                         yield true;
                     }
                     case '#' -> {
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.console")) {
-                            player.sendMessage(Lang.translate("tag.command.nopermission")
-                                    .replaceAll("@CommandLevel", "Console"));
+                            player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission","Console"));
                             yield false;
                         }
                         yield true;
                     }
                     case '^' -> {
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.permswild")) {
-                            player.sendMessage(Lang.translate("tag.command.nopermission")
-                                    .replaceAll("@CommandLevel", "*"));
+                            player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission", "*"));
                             yield false;
                         }
                         yield true;

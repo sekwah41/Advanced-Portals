@@ -173,4 +173,5 @@ tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separ
 tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
 
 tag.cooldown.fail= The cooldown must be a number.
-tag.command.nopermission= You do not have permission to create a command at @CommandLevel command level
+tag.command.nopermission= You do not have permission to create a command at %1$s command level
+tag.command.notenabled= Command portals of %1$s level are not enabled on this server.

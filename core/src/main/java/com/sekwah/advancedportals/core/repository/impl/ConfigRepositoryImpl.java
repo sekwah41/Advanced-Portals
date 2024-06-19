@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.repository.impl;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import java.util.HashMap;
 
@@ -93,6 +94,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     @Override
     public boolean playFailSound() {
         return this.config.playFailSound;
+    }
+
+    @Override
+    public CommandPortalConfig getCommandPortals() {
+        return this.config.commandPortals;
     }
 
     @Override
