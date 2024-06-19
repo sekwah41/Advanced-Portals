@@ -5,14 +5,12 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import javax.annotation.Nullable;
 
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
-
     public static String TAG_NAME = "command";
 
-    private final TagType[] tagTypes = new TagType[]{ TagType.PORTAL };
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
     @Override
     public TagType[] getTagTypes() {
@@ -42,33 +40,45 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         return true;
     }
-    //TODO: Check if its worth autocompleting an existing command in the command tag by
-    //                          grabbing all commands in the server
+    // TODO: Check if its worth autocompleting an existing command in the
+    // command tag by
+    //                           grabbing all commands in the server
 
-    //TODO: Add a warning in console if op/* command is used and tell them to use console instead
+    // TODO: Add a warning in console if op/* command is used and tell them to
+    // use console instead
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-        if(activationData.hasActivated()) {
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
+        if (activationData.hasActivated()) {
             for (String command : argData) {
-
                 char executionCommand = command.charAt(0);
-                String formattedCommand = command.replaceAll("@player", player.getName());
+                String formattedCommand =
+                    command.replaceAll("@player", player.getName());
 
                 switch (executionCommand) {
                     case '!':
-                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.OP);
+                        player.getServer().dispatchCommand(
+                            player.getUUID(), formattedCommand.substring(1),
+                            CommandLevel.OP);
                         break;
                     case '#':
-                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.CONSOLE);
+                        player.getServer().dispatchCommand(
+                            player.getUUID(), formattedCommand.substring(1),
+                            CommandLevel.CONSOLE);
                         break;
                     case '^':
-                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand.substring(1), CommandLevel.PERMISSION_WILDCARD);
+                        player.getServer().dispatchCommand(
+                            player.getUUID(), formattedCommand.substring(1),
+                            CommandLevel.PERMISSION_WILDCARD);
                         break;
                     default:
-                        player.getServer().dispatchCommand(player.getUUID(), formattedCommand, CommandLevel.PLAYER);
+                        player.getServer().dispatchCommand(player.getUUID(),
+                                                           formattedCommand,
+                                                           CommandLevel.PLAYER);
                         break;
                 }
             }
@@ -76,13 +86,15 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activationData, String[] argData) {
         return true;
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
-        if(argData != null) {
+    public boolean created(TagTarget target, PlayerContainer player,
+                           String[] argData) {
+        if (argData != null) {
             for (String command : argData) {
                 char executionCommand = command.charAt(0);
                 return switch (executionCommand) {
