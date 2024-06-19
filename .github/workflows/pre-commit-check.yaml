@@ -70,7 +70,5 @@ jobs:
       - name: Suggest changes to forked pr's
         uses: parkerbxyz/suggest-changes@v1
         if: always() && github.event.pull_request.head.repo.full_name != github.repository
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           comment: 'Please commit the suggested changes as a batch. as "chore: linting fixes"'
