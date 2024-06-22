@@ -51,7 +51,8 @@ public class SpigotPlayerContainer
     public boolean teleport(PlayerLocation location) {
         return this.player.teleport(new Location(
             Bukkit.getWorld(location.getWorldName()), location.getPosX(),
-            location.getPosY(), location.getPosZ()));
+            location.getPosY(), location.getPosZ(), location.getYaw(),
+            location.getPitch()));
     }
 
     @Override
