@@ -33,8 +33,7 @@ jobs:
       - name: Prepare repository
         run: |
           git fetch --unshallow --tags
-          yarn install
-          echo $(yarn bin) >> $GITHUB_PATH
+          yarn install --immutable
       - name: Build with Gradle
         run: ./gradlew build
       - name: Create Release
@@ -43,5 +42,5 @@ jobs:
           CURSE_API: ${{ secrets.CURSE_API }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          auto shipit
+          yarn auto shipit
 
