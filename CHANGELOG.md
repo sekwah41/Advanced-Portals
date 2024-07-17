@@ -1,3 +1,48 @@
+# v0.10.0 (Wed Jul 17 2024)
+
+#### 🚀 Enhancement
+
+- feat: trigger a release for the older version ([@sekwah41](https://github.com/sekwah41))
+- feat: add multi destination randomisation ([@Galster-dev](https://github.com/Galster-dev))
+
+#### 🐛 Bug Fix
+
+- chore: force changes [#433](https://github.com/sekwah41/Advanced-Portals/pull/433) ([@sekwah41](https://github.com/sekwah41))
+- feat: add link to re-code progress [#432](https://github.com/sekwah41/Advanced-Portals/pull/432) ([@sekwah41](https://github.com/sekwah41))
+- chore: disable freeze for now ([@sekwah41](https://github.com/sekwah41))
+- chore: update yarn stuff ([@sekwah41](https://github.com/sekwah41))
+- chore: try updating auto ([@sekwah41](https://github.com/sekwah41))
+- chore(deps): update actions/setup-java action to v4 [#405](https://github.com/sekwah41/Advanced-Portals/pull/405) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): bump semver from 5.7.1 to 5.7.2 [#425](https://github.com/sekwah41/Advanced-Portals/pull/425) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): update actions/cache action to v4 [#409](https://github.com/sekwah41/Advanced-Portals/pull/409) ([@renovate[bot]](https://github.com/renovate[bot]))
+- fix: something in the old metrics class was triggering certain antivirus [#411](https://github.com/sekwah41/Advanced-Portals/pull/411) ([@sekwah41](https://github.com/sekwah41))
+- style: Fix Typo [#396](https://github.com/sekwah41/Advanced-Portals/pull/396) ([@TreemanKing](https://github.com/TreemanKing))
+- fix: Add Selector Alias (Wand) in Help Message [#387](https://github.com/sekwah41/Advanced-Portals/pull/387) ([@TreemanKing](https://github.com/TreemanKing))
+- fix: add author for velocity plugin [#386](https://github.com/sekwah41/Advanced-Portals/pull/386) ([@TreemanKing](https://github.com/TreemanKing))
+- Point to documentation in README [#369](https://github.com/sekwah41/Advanced-Portals/pull/369) ([@omentic](https://github.com/omentic))
+- chore(deps): Update Deps to v10.45.0 [#364](https://github.com/sekwah41/Advanced-Portals/pull/364) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps [#361](https://github.com/sekwah41/Advanced-Portals/pull/361) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency com.sk89q.worldedit:worldedit-bukkit to v7.2.14 [#359](https://github.com/sekwah41/Advanced-Portals/pull/359) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.90.Final [#358](https://github.com/sekwah41/Advanced-Portals/pull/358) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps to v10.43.0 [#353](https://github.com/sekwah41/Advanced-Portals/pull/353) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps [#352](https://github.com/sekwah41/Advanced-Portals/pull/352) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.89.Final [#351](https://github.com/sekwah41/Advanced-Portals/pull/351) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update dependency io.netty:netty-all to v4.1.88.Final [#349](https://github.com/sekwah41/Advanced-Portals/pull/349) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps to v10.42.0 [#348](https://github.com/sekwah41/Advanced-Portals/pull/348) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps to v10.38.5 [#347](https://github.com/sekwah41/Advanced-Portals/pull/347) ([@renovate[bot]](https://github.com/renovate[bot]))
+- chore(deps): Update Deps ([@renovate[bot]](https://github.com/renovate[bot]))
+
+#### Authors: 6
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@Galster-dev](https://github.com/Galster-dev)
+- [@renovate[bot]](https://github.com/renovate[bot])
+- [@TreemanKing](https://github.com/TreemanKing)
+- JJ ([@omentic](https://github.com/omentic))
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+
+---
+
 # v0.9.3 (Sat Jan 21 2023)
 
 #### 🐛 Bug Fix
