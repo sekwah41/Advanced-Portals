@@ -26,10 +26,10 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 8
-      - name: Use Node.js 12.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: 18.x
       - name: Prepare repository
         run: |
           git fetch --unshallow --tags

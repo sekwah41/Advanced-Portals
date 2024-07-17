@@ -1,12 +1,12 @@
 {
   "devDependencies": {
-    "conventional-changelog-angular": "5.0.13",
     "@auto-it/conventional-commits": "11.1.6",
     "@auto-it/exec": "11.1.6",
     "@auto-it/first-time-contributor": "11.1.6",
     "@auto-it/gradle": "11.1.6",
     "@auto-it/released": "11.1.6",
     "@auto-it/upload-assets": "11.1.6",
-    "auto": "11.1.6"
+    "auto": "11.1.6",
+    "conventional-changelog-angular": "5.0.13"
   }
 }
