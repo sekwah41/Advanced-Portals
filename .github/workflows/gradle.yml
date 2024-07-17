@@ -33,7 +33,7 @@ jobs:
       - name: Prepare repository
         run: |
           git fetch --unshallow --tags
-          yarn install
+          yarn install --immutable
           echo $(yarn bin) >> $GITHUB_PATH
       - name: Build with Gradle
         run: ./gradlew build
