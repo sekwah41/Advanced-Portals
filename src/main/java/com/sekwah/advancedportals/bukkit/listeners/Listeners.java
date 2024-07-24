@@ -95,6 +95,8 @@ public class Listeners implements Listener {
     public void onJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        if(player.hasMetadata(HAS_WARPED)) player.removeMetadata(HAS_WARPED, plugin);
+
         Portal.joinCooldown.put(player.getName(), System.currentTimeMillis());
 
         Location loc = player.getLocation();
