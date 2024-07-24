@@ -22,7 +22,6 @@ import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
