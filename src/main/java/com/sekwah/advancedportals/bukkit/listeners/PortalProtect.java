@@ -20,18 +20,16 @@ public class PortalProtect implements Listener {
 
     @SuppressWarnings("unused")
     private final AdvancedPortalsPlugin plugin;
-
     // The needed config values will be stored so they are easier to access later
     // an example is in the interact event in this if statement if((!UseOnlyServerAxe || event.getItem().getItemMeta().getDisplayName().equals("�eP...
-    private boolean PortalProtect = true;
-
-    private int PortalProtectionArea = 5;
+    private final boolean PortalProtect;
+    private final int PortalProtectionArea;
 
     public PortalProtect(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
 
         ConfigAccessor config = new ConfigAccessor(plugin, "config.yml");
-        this.PortalProtect = config.getConfig().getBoolean("PortalProtection");
+        this.PortalProtect = config.getConfig().getBoolean("PortalProtection", true);
 
         this.PortalProtectionArea = config.getConfig().getInt("PortalProtectionArea", 5);
 
@@ -48,7 +46,7 @@ public class PortalProtect implements Listener {
         if (!player.hasPermission("advancedportals.build")
                 && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
             event.setCancelled(true);
-            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
+            player.sendMessage(String.join(" ",PluginMessages.customPrefixFail, PluginMessages.getNoBuildPermission()));
         }
     }
 
@@ -60,7 +58,7 @@ public class PortalProtect implements Listener {
         if (PortalProtect && !player.hasPermission("advancedportals.build")
                 && Portal.inPortalRegion(event.getBlock().getLocation(), PortalProtectionArea)) {
             event.setCancelled(true);
-            player.sendMessage(PluginMessages.customPrefixFail + " You don't have permission to build here!");
+            player.sendMessage(String.join(" ",PluginMessages.customPrefixFail, PluginMessages.getNoBuildPermission()));
         }
     }
 
@@ -77,6 +75,4 @@ public class PortalProtect implements Listener {
             }
         }
     }
-
-
 }
