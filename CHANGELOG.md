@@ -1,3 +1,15 @@
+# v0.10.1 (Wed Jul 24 2024)
+
+#### 🐛 Bug Fix
+
+- feat: add custom warp message config (messages.yml) [#388](https://github.com/sekwah41/Advanced-Portals/pull/388) ([@TreemanKing](https://github.com/TreemanKing))
+
+#### Authors: 1
+
+- [@TreemanKing](https://github.com/TreemanKing)
+
+---
+
 # v0.10.0 (Wed Jul 17 2024)
 
 #### 🚀 Enhancement
