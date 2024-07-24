@@ -1,3 +1,15 @@
+# v0.11.0 (Wed Jul 24 2024)
+
+#### 🚀 Enhancement
+
+- FIX: Remove HAS_WARPED Metadata when logging into a new server [#397](https://github.com/sekwah41/Advanced-Portals/pull/397) ([@TreemanKing](https://github.com/TreemanKing))
+
+#### Authors: 1
+
+- [@TreemanKing](https://github.com/TreemanKing)
+
+---
+
 # v0.10.1 (Wed Jul 24 2024)
 
 #### 🐛 Bug Fix
