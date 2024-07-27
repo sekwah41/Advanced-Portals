@@ -164,8 +164,6 @@ public class Destination {
                     WarpEffects.activateSound(player);
                 }
 
-                System.out.println(PORTAL_MESSAGE_DISPLAY);
-
                 if (PORTAL_MESSAGE_DISPLAY == 1) {
                     player.sendMessage("");
                     player.sendMessage(PluginMessages.customPrefix + PluginMessages.getWarpMessage(dest));

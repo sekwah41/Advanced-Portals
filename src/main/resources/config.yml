@@ -3,7 +3,7 @@
 # To set this file back to its default state just delete it and reload the server or restart it!
 
 # Will update whenever there is a config update from an older version so may not be the latest plugin version
-ConfigVersion: 0.5.13
+ConfigVersion: 0.5.14
 
 # Set to true if you want the normal axes to work normally but the ones given with /portals selector or wand will still work though
 # It can be useful if people with permission want to use an iron axe on a survival server
@@ -76,8 +76,8 @@ CommandLevels: opcb
 # Should the commands being triggered log in the console? (If you have an active server it may cause a bit of spam)
 CommandLogs: true
 
-# If you want to use bungee or velocity, and it is not automatically detected (make sure you have advanced portals on the proxy, especially with velocity)
-ForceEnableProxySupport: false
+# If you want to use bungee or velocity features
+EnableProxySupport: false
 
 # How many seconds after the proxy event fires should the player be teleported (should help with on spawn plugins and such)
 # 0 is disabled and anything higher causes a delay.

@@ -25,9 +25,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     private Settings settings;
 
-    protected boolean isProxyPluginEnabled = false;
-
-    protected boolean forceRegisterProxyChannels = false;
+    protected boolean registerProxyChannels = false;
     protected boolean disableProxyWarning = false;
 
     private boolean worldEditActive = false;
@@ -51,7 +49,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         config.saveConfig();
 
         FileConfiguration pluginConfig = config.getConfig();
-        forceRegisterProxyChannels = pluginConfig.getBoolean(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
+        registerProxyChannels = pluginConfig.getBoolean(ConfigHelper.ENABLE_PROXY_SUPPORT, false);
         disableProxyWarning = pluginConfig.getBoolean(ConfigHelper.DISABLE_PROXY_WARNING, false);
 
         ConfigAccessor portalConfig = new ConfigAccessor(this, "portals.yml");
@@ -118,15 +116,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     private void setupBungee() {
         // Enables very basic bungee support if not setup right
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        if(forceRegisterProxyChannels || this.checkIfBungee()) {
+        if(registerProxyChannels || this.checkIfBungee()) {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener(this));
 
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, BungeeMessages.CHANNEL_NAME);
             this.getServer().getMessenger().registerIncomingPluginChannel(this, BungeeMessages.CHANNEL_NAME, new PluginMessageReceiver(this));
-            isProxyPluginEnabled = true;
-        }
-        else {
-            isProxyPluginEnabled = false;
         }
     }
 
@@ -135,7 +129,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     }
 
     public boolean isProxyPluginEnabled() {
-        return isProxyPluginEnabled;
+        return registerProxyChannels;
     }
 
     private boolean checkIfBungee()
