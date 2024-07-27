@@ -8,6 +8,7 @@ public class ConfigHelper {
 
     public static final String COMMAND_LOGS = "CommandLogs";
 
+    public static final String ENABLE_PROXY_SUPPORT = "EnableProxySupport";
     public static final String FORCE_ENABLE_PROXY_SUPPORT = "ForceEnableProxySupport";
     public static final String DISABLE_PROXY_WARNING = "DisableProxyWarning";
 
@@ -40,6 +41,11 @@ public class ConfigHelper {
             config.set(ConfigHelper.CONFIG_VERSION, "0.5.13");
             config.set(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, false);
             config.set(ConfigHelper.PROXY_TELEPORT_DELAY, 0);
+            update();
+        } else if(configVersion.equals("0.5.13")) {
+            config.set(ConfigHelper.CONFIG_VERSION, "0.5.14");
+            config.set(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT, null);
+            config.set(ConfigHelper.ENABLE_PROXY_SUPPORT, config.getBoolean(ConfigHelper.FORCE_ENABLE_PROXY_SUPPORT));
         }
     }
 }
