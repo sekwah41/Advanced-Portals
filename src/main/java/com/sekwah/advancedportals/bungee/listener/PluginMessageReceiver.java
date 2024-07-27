@@ -19,7 +19,10 @@ public class PluginMessageReceiver implements Listener {
 
     @EventHandler
     public void onMessageReceived(PluginMessageEvent event) {
-        if(!event.getTag().equalsIgnoreCase(BungeeMessages.CHANNEL_NAME) || !(event.getSender() instanceof Server)) return;
+        if(!event.getTag().equalsIgnoreCase(BungeeMessages.CHANNEL_NAME)) return;
+        event.setCancelled(true);
+
+        if(!(event.getSender() instanceof Server)) return;
 
         ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
         String subChannel = in.readUTF();
@@ -43,7 +46,5 @@ public class PluginMessageReceiver implements Listener {
                 plugin.getProxy().getPluginManager().dispatchCommand(player, command);
             }
         }
-
-        event.setCancelled(true);
     }
 }
