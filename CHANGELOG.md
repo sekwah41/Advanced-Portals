@@ -1,3 +1,16 @@
+# v1.0.0 (Sat Jul 27 2024)
+
+#### 💥 Breaking Change
+
+- fix!: disable proxy detection to avoid vulnerabilities (see full commit for more info) [#436](https://github.com/sekwah41/Advanced-Portals/pull/436) ([@sekwah41](https://github.com/sekwah41))
+- fix: stop portal packets still being forwarded to the client [#436](https://github.com/sekwah41/Advanced-Portals/pull/436) ([@sekwah41](https://github.com/sekwah41))
+
+#### Authors: 1
+
+- Sekwah ([@sekwah41](https://github.com/sekwah41))
+
+---
+
 # v0.11.0 (Wed Jul 24 2024)
 
 #### 🚀 Enhancement
