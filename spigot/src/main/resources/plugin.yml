@@ -30,13 +30,13 @@ permissions:
     default: false
     children:
       advancedportals.createportal.commandlevel.op: true
-      advancedportals.createportal.commandlevel.perms: true
+      advancedportals.createportal.commandlevel.permswild: true
       advancedportals.createportal.commandlevel.console: true
   advancedportals.createportal.commandlevel.op:
-    description: Allows you to increase the users level temporaily to op
+    description: Allows you to increase the users level temporarily to op
     default: false
-  advancedportals.createportal.commandlevel.perms:
-    description: Allows you to increase the users level temporaily to have all perms
+  advancedportals.createportal.commandlevel.permswild:
+    description: Allows you to increase the users level temporarily to have all perms
     default: false
   advancedportals.createportal.commandlevel.console:
     description: Executes command in the console

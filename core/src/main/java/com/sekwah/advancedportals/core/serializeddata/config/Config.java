@@ -33,4 +33,6 @@ public class Config {
     public double throwbackStrength = 0.7;
 
     public boolean playFailSound = true;
+
+    public CommandPortalConfig commandPortals = new CommandPortalConfig();
 }

@@ -127,8 +127,8 @@ public class ReflectiveConstructor<T> extends Constructor {
                     }
                 } catch (Exception e) {
                     infoLogger.warning("Failed to set field " + field.getName()
-                                       + " in " + currentClass.getName() + ": "
-                                       + e.getMessage());
+                                       + " in " + currentClass.getName()
+                                       + ": " + e.getMessage());
                     infoLogger.error(e);
                     throw new RuntimeException("Failed to set field "
                                                    + field.getName() + " in "

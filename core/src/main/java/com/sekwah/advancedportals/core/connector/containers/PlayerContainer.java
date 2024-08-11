@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.tags.activation.CommandTag;
 import java.util.UUID;
 
 /**
@@ -37,4 +38,6 @@ public interface PlayerContainer extends EntityContainer {
     boolean sendPacket(String channel, byte[] bytes);
 
     void playSound(String sound, float volume, float pitch);
+
+    ServerContainer getServer();
 }
