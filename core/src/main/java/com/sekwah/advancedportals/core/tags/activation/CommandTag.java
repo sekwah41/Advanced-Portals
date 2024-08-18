@@ -59,7 +59,6 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
-        if (activationData.hasActivated()) {
             for (String command : argData) {
                 char executionCommand = command.charAt(0);
                 String formattedCommand =
@@ -88,7 +87,6 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         break;
                 }
             }
-        }
     }
 
     @Override
@@ -135,7 +133,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
     @Override
     public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
-
+        // Needs created but not destroyed
     }
 
     public enum CommandLevel{
