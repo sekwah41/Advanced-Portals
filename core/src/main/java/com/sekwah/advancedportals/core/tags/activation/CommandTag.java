@@ -92,13 +92,14 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean activated(TagTarget target, PlayerContainer player,
                              ActivationData activationData, String[] argData) {
+        // Will trigger in the post activation stage to make sure the command triggers after any teleportation
+        activationData.setWarpStatus(ActivationData.WarpedStatus.ACTIVATED);
         return true;
     }
 
     @Override
     public boolean created(TagTarget target, PlayerContainer player,
                            String[] argData) {
-        var commandPortals = configRepository.getCommandPortals();
         if (argData != null) {
             for (String command : argData) {
                 char executionCommand = command.charAt(0);
