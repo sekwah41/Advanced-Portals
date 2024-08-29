@@ -102,9 +102,11 @@ public class Listeners implements Listener {
         Location loc = player.getLocation();
         Location eyeLoc = player.getEyeLocation();
         UUID uuid = player.getUniqueId();
+        Material block = loc.getBlock().getType();
+        Material eyeBlock = eyeLoc.getBlock().getType();
         for (AdvancedPortal portal : Portal.portals) {
             if (!portal.inPortal.contains(uuid)
-                    && (Portal.locationInPortalTrigger(portal, loc) || Portal.locationInPortalTrigger(portal, eyeLoc))) {
+                    && (Portal.locationInPortalTrigger(portal, loc, block) || Portal.locationInPortalTrigger(portal, eyeLoc, eyeBlock))) {
                 portal.inPortal.add(uuid);
             }
         }

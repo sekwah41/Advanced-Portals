@@ -694,14 +694,23 @@ public class Portal {
     }
 
     public static boolean inPortalTriggerRegion(Location loc) {
+        Material block = loc.getBlock().getType();
         for (AdvancedPortal portal : Portal.portals)
-            if (Portal.locationInPortalTrigger(portal, loc))
+            if (Portal.locationInPortalTrigger(portal, loc, block))
                 return true;
         return false;
     }
 
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc, int additionalArea) {
-        return portal.getTriggers().contains(loc.getBlock().getType()) && locationInPortal(portal, loc, additionalArea);
+        return locationInPortalTrigger(portal, loc, additionalArea, loc.getBlock().getType());
+    }
+
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc, int additionalArea, Material type) {
+        return portal.getTriggers().contains(type) && locationInPortal(portal, loc, additionalArea);
+    }
+
+    public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc, Material type) {
+        return locationInPortalTrigger(portal, loc, 0, type);
     }
 
     public static boolean locationInPortalTrigger(AdvancedPortal portal, Location loc) {
