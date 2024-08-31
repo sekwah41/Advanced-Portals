@@ -15,10 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 
@@ -106,6 +103,15 @@ public class Listeners implements Listener {
                     event.getItemInHand().getItemMeta().getDisplayName())) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPhysicsEvent(BlockPhysicsEvent event) {
+        if (!coreListeners.physicsEvent(ContainerHelpers.toBlockLocation(
+                                          event.getBlock().getLocation()),
+                                      event.getBlock().getType().toString())) {
+            event.setCancelled(true);
         }
     }
 
