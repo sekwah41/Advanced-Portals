@@ -196,6 +196,7 @@ public class CoreListeners {
     }
 
     public boolean physicsEvent(BlockLocation blockLocation, String string) {
-        return !configRepository.getDisablePhysicsEvents() || !portalServices.inPortalRegionProtected(blockLocation);
+        return !configRepository.getDisablePhysicsEvents()
+            || !portalServices.inPortalRegionProtected(blockLocation);
     }
 }
