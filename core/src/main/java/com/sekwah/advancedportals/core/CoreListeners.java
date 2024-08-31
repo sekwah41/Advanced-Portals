@@ -194,4 +194,8 @@ public class CoreListeners {
             pos.addY((int) entity.getHeight()), 1);
         return !(feetInPortal || headInPortal);
     }
+
+    public boolean physicsEvent(BlockLocation blockLocation, String string) {
+        return !configRepository.getDisablePhysicsEvents() || !portalServices.inPortalRegionProtected(blockLocation);
+    }
 }

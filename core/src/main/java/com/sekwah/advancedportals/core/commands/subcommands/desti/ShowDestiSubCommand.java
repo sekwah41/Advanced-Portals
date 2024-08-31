@@ -100,7 +100,7 @@ public class ShowDestiSubCommand
                     if (Objects.equals(pos.getWorldName(),
                                        player.getWorldName())
                         && pos.distanceTo(player.getLoc())
-                            < config.getVisibleRange()) {
+                            < config.getShowVisibleRange()) {
                         Debug.addMarker(player, pos.toBlockPos(),
                                         destination.getArgValues("name")[0],
                                         new Color(100, 100, 100, 100), 1300);

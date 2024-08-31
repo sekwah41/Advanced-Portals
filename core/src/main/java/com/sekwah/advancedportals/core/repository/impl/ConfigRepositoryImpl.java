@@ -41,8 +41,8 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
-    public int getVisibleRange() {
-        return this.config.visibleRange;
+    public int getShowVisibleRange() {
+        return this.config.showVisibleRange;
     }
 
     @Override
@@ -94,6 +94,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     @Override
     public boolean playFailSound() {
         return this.config.playFailSound;
+    }
+
+    @Override
+    public boolean getDisablePhysicsEvents() {
+        return this.config.disablePhysicsEvents;
     }
 
     @Override

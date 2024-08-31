@@ -22,11 +22,11 @@ public class Config {
 
     public String warpSound = "ENDER";
 
-    public String selectionBlock = "RED_STAINED_GLASS";
-
     public String translationFile = "en_GB";
 
-    public int visibleRange = 50;
+    public int showVisibleRange = 50;
+
+    public boolean disablePhysicsEvents = true;
 
     public int maxTriggerVisualisationSize = 1000;
 
