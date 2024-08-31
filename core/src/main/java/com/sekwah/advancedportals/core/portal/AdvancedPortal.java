@@ -13,6 +13,7 @@ import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import java.util.*;
 
 /**
@@ -104,28 +105,27 @@ public class AdvancedPortal implements TagTarget {
     }*/
 
     /**
-     * @param player The player on the server attempting to use an advanced
-     *     portal
+     * @param player        The player on the server attempting to use an advanced
+     *                      portal
      * @param moveActivated if the portal was activated by a move event (won't
-     *     trigger knockback)
+     *                      trigger knockback)
      * @return
      */
     public boolean activate(PlayerContainer player, boolean moveActivated) {
         var playerData = playerDataServices.getPlayerData(player);
         if (playerData.isInPortal())
             return false;
-        playerData.setInPortal(true);
         if (playerData.hasJoinCooldown()) {
             var cooldown =
-                (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
+                    (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
             player.sendMessage(Lang.translateInsertVariables(
-                "portal.cooldown.join", cooldown,
-                Lang.translate(cooldown == 1 ? "time.second"
-                                             : "time.seconds")));
+                    "portal.cooldown.join", cooldown,
+                    Lang.translate(cooldown == 1 ? "time.second"
+                            : "time.seconds")));
             if (configRepository.playFailSound()) {
                 var rand = new Random();
                 player.playSound("block.portal.travel", 0.05f,
-                                 rand.nextFloat() * 0.4F + 0.8F);
+                        rand.nextFloat() * 0.4F + 0.8F);
             }
             return false;
         }
@@ -139,36 +139,33 @@ public class AdvancedPortal implements TagTarget {
 
         for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
-            if (activationHandler != null) {
-                if (!activationHandler.preActivated(
-                        this, player, data,
-                        this.getArgValues(portalTag.NAME))) {
-                    return false;
-                }
+                    tagRegistry.getActivationHandler(portalTag.NAME);
+            if (activationHandler != null && !activationHandler.preActivated(
+                    this, player, data,
+                    this.getArgValues(portalTag.NAME))) {
+                return false;
             }
         }
         for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
-            if (activationHandler != null) {
-                if (!activationHandler.activated(
-                        this, player, data,
-                        this.getArgValues(portalTag.NAME))) {
-                    return false;
-                }
+                    tagRegistry.getActivationHandler(portalTag.NAME);
+            if (activationHandler != null && !activationHandler.activated(
+                    this, player, data,
+                    this.getArgValues(portalTag.NAME))) {
+                return false;
             }
         }
         for (DataTag portalTag : portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
+                    tagRegistry.getActivationHandler(portalTag.NAME);
             if (activationHandler != null) {
                 activationHandler.postActivated(
-                    this, player, data, this.getArgValues(portalTag.NAME));
+                        this, player, data, this.getArgValues(portalTag.NAME));
             }
         }
         if (data.hasActivated()) {
             playerData.setNetherPortalCooldown(1000);
+            playerData.setInPortal(true);
             return true;
         }
         return false;
@@ -192,12 +189,12 @@ public class AdvancedPortal implements TagTarget {
         double playerZ = loc.getPosZ();
 
         return Objects.equals(loc.getWorldName(), this.minLoc.getWorldName())
-            && playerX >= this.minLoc.getPosX() - additionalArea
-            && playerX < this.maxLoc.getPosX() + 1 + additionalArea
-            && playerY >= this.minLoc.getPosY() - additionalArea
-            && playerY < this.maxLoc.getPosY() + 1 + additionalArea
-            && playerZ >= this.minLoc.getPosZ() - additionalArea
-            && playerZ < this.maxLoc.getPosZ() + 1 + additionalArea;
+                && playerX >= this.minLoc.getPosX() - additionalArea
+                && playerX < this.maxLoc.getPosX() + 1 + additionalArea
+                && playerY >= this.minLoc.getPosY() - additionalArea
+                && playerY < this.maxLoc.getPosY() + 1 + additionalArea
+                && playerZ >= this.minLoc.getPosZ() - additionalArea
+                && playerZ < this.maxLoc.getPosZ() + 1 + additionalArea;
     }
 
     public void setArgValues(DataTag portalTag) {
