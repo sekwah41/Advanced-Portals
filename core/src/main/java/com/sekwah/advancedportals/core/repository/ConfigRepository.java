@@ -12,7 +12,7 @@ public interface ConfigRepository {
 
     void loadConfig(DataStorage dataStorage);
 
-    int getVisibleRange();
+    int getShowVisibleRange();
 
     int getMaxTriggerVisualisationSize();
 
@@ -33,6 +33,8 @@ public interface ConfigRepository {
     boolean playFailSound();
 
     void storeConfig();
+
+    boolean getDisablePhysicsEvents();
 
     CommandPortalConfig getCommandPortals();
 }
