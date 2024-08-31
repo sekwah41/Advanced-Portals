@@ -25,7 +25,8 @@ public class ActivationData {
     }
 
     public void setWarpStatus(WarpedStatus warped) {
-        if (this.warpStatus == WarpedStatus.WARPED || (this.warpStatus == WarpedStatus.ACTIVATED
+        if (this.warpStatus == WarpedStatus.WARPED
+            || (this.warpStatus == WarpedStatus.ACTIVATED
                 && warped != WarpedStatus.WARPED)) {
             return;
         }
