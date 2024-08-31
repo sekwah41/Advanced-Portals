@@ -95,7 +95,8 @@ public class PortalServices {
             }
         }
         var playerData = playerDataServices.getPlayerData(player);
-        if (!notInPortal) {
+        if (!playerData.isInPortal() && !notInPortal) {
+            playerData.setInPortal(true);
             var strength = configRepository.getThrowbackStrength();
             PlayerUtils.throwPlayerBack(player, strength);
         }

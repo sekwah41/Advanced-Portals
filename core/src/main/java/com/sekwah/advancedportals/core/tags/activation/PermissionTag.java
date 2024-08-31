@@ -13,10 +13,10 @@ import javax.inject.Inject;
 
 public class PermissionTag implements Tag.Activation {
     @Inject
-    transient PlayerDataServices playerDataServices;
+    PlayerDataServices playerDataServices;
 
     @Inject
-    transient ConfigRepository configRepository;
+    ConfigRepository configRepository;
 
     @Inject
     private InfoLogger infoLogger;

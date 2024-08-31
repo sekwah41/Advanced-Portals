@@ -3,8 +3,10 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.tags.activation.CommandTag;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import java.util.Arrays;
@@ -12,9 +14,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.permissions.PermissionAttachment;
 
 /**
  * Just a temporary container for whenever advanced portals needs to get data
@@ -111,5 +115,10 @@ public class SpigotPlayerContainer
     @Override
     public void playSound(String sound, float volume, float pitch) {
         this.player.playSound(this.player.getLocation(), sound, volume, pitch);
+    }
+
+    @Override
+    public ServerContainer getServer() {
+        return new SpigotServerContainer(this.player.getServer());
     }
 }

@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.repository;
 
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
+import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
 
 public interface ConfigRepository {
     boolean getUseOnlySpecialAxe();
@@ -32,4 +33,6 @@ public interface ConfigRepository {
     boolean playFailSound();
 
     void storeConfig();
+
+    CommandPortalConfig getCommandPortals();
 }
