@@ -19,10 +19,10 @@ import javax.annotation.Nullable;
 
 public class CooldownTag implements Tag.Activation, Tag.Creation {
     @Inject
-    transient PlayerDataServices playerDataServices;
+    PlayerDataServices playerDataServices;
 
     @Inject
-    transient ConfigRepository configRepository;
+    ConfigRepository configRepository;
 
     @Inject
     private InfoLogger infoLogger;
