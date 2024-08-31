@@ -95,10 +95,8 @@ public class PortalServices {
             }
         }
         var playerData = playerDataServices.getPlayerData(player);
-        // TODO need to make it only bounce the player back as they enter the portal, not EVERY movement event
-        //      This is to match the old behaviour of the plugin, if a player is already in the portal or entered triggering
-        //      the portal, they should not be thrown back again. Handy for stuff like trigger regions :)
-        if (!notInPortal) {
+        if (!playerData.isInPortal() && !notInPortal) {
+            playerData.setInPortal(true);
             var strength = configRepository.getThrowbackStrength();
             PlayerUtils.throwPlayerBack(player, strength);
         }

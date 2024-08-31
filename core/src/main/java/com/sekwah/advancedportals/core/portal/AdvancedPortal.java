@@ -115,7 +115,6 @@ public class AdvancedPortal implements TagTarget {
         var playerData = playerDataServices.getPlayerData(player);
         if (playerData.isInPortal())
             return false;
-        playerData.setInPortal(true);
         if (playerData.hasJoinCooldown()) {
             var cooldown =
                     (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
@@ -166,6 +165,7 @@ public class AdvancedPortal implements TagTarget {
         }
         if (data.hasActivated()) {
             playerData.setNetherPortalCooldown(1000);
+            playerData.setInPortal(true);
             return true;
         }
         return false;

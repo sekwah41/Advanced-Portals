@@ -31,6 +31,7 @@ public class CoreListeners {
 
     public void playerJoin(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);
+        this.playerDataServices.getPlayerData(player).setInPortal(true);
     }
 
     public void teleportEvent(PlayerContainer player) {
@@ -173,6 +174,7 @@ public class CoreListeners {
 
     public void worldChange(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);
+        this.playerDataServices.getPlayerData(player).setInPortal(true);
     }
 
     public boolean preventEntityCombust(EntityContainer entity) {
