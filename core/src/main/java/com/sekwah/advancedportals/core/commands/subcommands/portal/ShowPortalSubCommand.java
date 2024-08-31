@@ -138,7 +138,7 @@ public class ShowPortalSubCommand
                     if (Objects.equals(portal.getMinLoc().getWorldName(),
                                        player.getWorldName())
                         && portal.isLocationInPortal(
-                            player.getLoc(), config.getVisibleRange())) {
+                            player.getLoc(), config.getShowVisibleRange())) {
                         BlockLocation minLoc = portal.getMinLoc();
                         BlockLocation maxLoc = portal.getMaxLoc();
                         int midX = (minLoc.getPosX() + maxLoc.getPosX()) / 2;
