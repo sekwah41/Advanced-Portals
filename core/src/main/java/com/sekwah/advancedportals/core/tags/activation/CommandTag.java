@@ -10,7 +10,6 @@ import com.sekwah.advancedportals.core.warphandler.Tag;
 import javax.annotation.Nullable;
 
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
-
     @Inject
     ConfigRepository configRepository;
 
@@ -59,40 +58,41 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
-            for (String command : argData) {
-                char executionCommand = command.charAt(0);
-                String formattedCommand =
-                    command.replaceAll("@player", player.getName());
+        for (String command : argData) {
+            char executionCommand = command.charAt(0);
+            String formattedCommand =
+                command.replaceAll("@player", player.getName());
 
-                switch (executionCommand) {
-                    case '!':
-                        player.getServer().dispatchCommand(
-                            player.getUUID(), formattedCommand.substring(1),
-                            CommandLevel.OP);
-                        break;
-                    case '#':
-                        player.getServer().dispatchCommand(
-                            player.getUUID(), formattedCommand.substring(1),
-                            CommandLevel.CONSOLE);
-                        break;
-                    case '^':
-                        player.getServer().dispatchCommand(
-                            player.getUUID(), formattedCommand.substring(1),
-                            CommandLevel.PERMISSION_WILDCARD);
-                        break;
-                    default:
-                        player.getServer().dispatchCommand(player.getUUID(),
-                                                           formattedCommand,
-                                                           CommandLevel.PLAYER);
-                        break;
-                }
+            switch (executionCommand) {
+                case '!':
+                    player.getServer().dispatchCommand(
+                        player.getUUID(), formattedCommand.substring(1),
+                        CommandLevel.OP);
+                    break;
+                case '#':
+                    player.getServer().dispatchCommand(
+                        player.getUUID(), formattedCommand.substring(1),
+                        CommandLevel.CONSOLE);
+                    break;
+                case '^':
+                    player.getServer().dispatchCommand(
+                        player.getUUID(), formattedCommand.substring(1),
+                        CommandLevel.PERMISSION_WILDCARD);
+                    break;
+                default:
+                    player.getServer().dispatchCommand(player.getUUID(),
+                                                       formattedCommand,
+                                                       CommandLevel.PLAYER);
+                    break;
             }
+        }
     }
 
     @Override
     public boolean activated(TagTarget target, PlayerContainer player,
                              ActivationData activationData, String[] argData) {
-        // Will trigger in the post activation stage to make sure the command triggers after any teleportation
+        // Will trigger in the post activation stage to make sure the command
+        // triggers after any teleportation
         activationData.setWarpStatus(ActivationData.WarpedStatus.ACTIVATED);
         return true;
     }
