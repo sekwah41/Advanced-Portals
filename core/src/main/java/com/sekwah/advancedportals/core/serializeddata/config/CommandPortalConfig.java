@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.serializeddata.config;
 
 public class CommandPortalConfig {
-    public final boolean op = true;
-    public final boolean console = true;
-
-    public final boolean permsWildcard = true;
+    public boolean op = true;
+    public boolean console = true;
+    public boolean permsWildcard = true;
+    public boolean enabled = true;
 }
