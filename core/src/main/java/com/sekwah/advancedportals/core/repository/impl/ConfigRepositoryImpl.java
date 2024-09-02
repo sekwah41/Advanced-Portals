@@ -86,6 +86,16 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public String getWarpSound() {
+        return this.config.warpSound;
+    }
+
+    @Override
+    public String getWarpParticles() {
+        return this.config.warpParticles;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
         this.config = dataStorage.loadFile(Config.class, "config.yaml");

@@ -49,12 +49,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                 ActivationData activeData, String[] argData) {
         return true;
     }
-    // TODO: Check if its worth autocompleting an existing command in the
-    // command tag by
-    //                           grabbing all commands in the server
 
-    // TODO: Add a warning in console if op/* command is used and tell them to
-    // use console instead
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
@@ -101,10 +96,19 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     public boolean created(TagTarget target, PlayerContainer player,
                            String[] argData) {
         if (argData != null) {
+            var commandPortals = configRepository.getCommandPortals();
+            if(!commandPortals.enabled) {
+                player.sendMessage(Lang.translate("tag.command.disabled"));
+                return false;
+            }
             for (String command : argData) {
                 char executionCommand = command.charAt(0);
                 return switch (executionCommand) {
                     case '!' -> {
+                        if (!commandPortals.op) {
+                            player.sendMessage(Lang.translate("tag.command.op.disabled"));
+                            yield false;
+                        }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.op")) {
                             player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission", "OP"));
                             yield false;
@@ -112,6 +116,10 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         yield true;
                     }
                     case '#' -> {
+                        if (!commandPortals.console) {
+                            player.sendMessage(Lang.translate("tag.command.console.disabled"));
+                            yield false;
+                        }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.console")) {
                             player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission","Console"));
                             yield false;
@@ -119,6 +127,10 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         yield true;
                     }
                     case '^' -> {
+                        if (!commandPortals.permsWildcard) {
+                            player.sendMessage(Lang.translate("tag.command.permswildcard.disabled"));
+                            yield false;
+                        }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.permswild")) {
                             player.sendMessage(Lang.translateInsertVariables("tag.command.nopermission", "*"));
                             yield false;

@@ -37,4 +37,8 @@ public interface ConfigRepository {
     boolean getDisablePhysicsEvents();
 
     CommandPortalConfig getCommandPortals();
+
+    String getWarpSound();
+
+    String getWarpParticles();
 }

@@ -66,6 +66,9 @@ public class CoreListeners {
     public boolean blockBreak(PlayerContainer player, BlockLocation blockPos,
                               String blockMaterial, String itemInHandMaterial,
                               String itemInHandName) {
+        if (!configRepository.getPortalProtection())
+            return true;
+
         if (player == null) {
             return !portalServices.inPortalRegionProtected(blockPos);
         }
