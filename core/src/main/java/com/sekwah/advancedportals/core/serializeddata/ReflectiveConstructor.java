@@ -193,6 +193,7 @@ public class ReflectiveConstructor<T> extends Constructor {
      */
     private void setField(Object instance, Field field, Object value)
         throws IllegalAccessException {
+
         // Check for numeric type compatibility and cast if necessary
         if (field.getType() == float.class &&value instanceof Double) {
             value = ((Double) value).floatValue();
