@@ -27,7 +27,7 @@ permissions:
     default: op
   advancedportals.createportal.commandlevel.*:
     description: Gives access to all level raisers
-    default: false
+    default: op
     children:
       advancedportals.createportal.commandlevel.op: true
       advancedportals.createportal.commandlevel.permswild: true
