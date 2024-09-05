@@ -36,7 +36,7 @@
 translatedata.translationsoutdated= Some of the translations from the current translation file &e%1$s&c are out of date.
 translatedata.replacecommand= Use &e/portal langupdate&c to copy out a new default &een_GB&c file.
 translatedata.replaced= A new &een_GB&a file has been copied to the data folder.
-translatedata.updated= &e%1$s &atranslations have been added to the lang file. If you want to reset the lang file, Please use "&elangupdate overwrite&a".
+translatedata.updated= Lang file reloaded. &e%1$s &atranslations have been added. If you want to reset the file, Please use "&elangupdate overwrite&a".
 
 messageprefix.positive=&a[&eAdvancedPortals&a]
 messageprefix.negative=&c[&7AdvancedPortals&c]
@@ -175,3 +175,7 @@ tag.command.description=Sets a command on the post activation of the portal. Com
 tag.cooldown.fail= The cooldown must be a number.
 tag.command.nopermission= You do not have permission to create a command at %1$s command level
 tag.command.notenabled= Command portals of %1$s level are not enabled on this server.
+tag.command.disabled= Command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+tag.command.op.disabled= Op command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+tag.command.console.disabled= Console command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
