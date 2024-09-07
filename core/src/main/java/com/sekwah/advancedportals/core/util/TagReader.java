@@ -51,7 +51,7 @@ public class TagReader {
                 currentIdentifier = arg.substring(0, colonIndex);
                 currentValue = new StringBuilder(arg.substring(colonIndex + 1));
                 inQuotes = currentValue.toString().startsWith("\"");
-                if(inQuotes) {
+                if (inQuotes) {
                     currentValue.deleteCharAt(0);
                 }
             } else {
