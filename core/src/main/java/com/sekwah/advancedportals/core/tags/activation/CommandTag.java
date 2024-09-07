@@ -49,9 +49,9 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                 ActivationData activeData, String[] argData) {
         var commandPortals = configRepository.getCommandPortals();
 
-        if(!commandPortals.enabled) {
+        if (!commandPortals.enabled) {
             player.sendMessage(Lang.translate("messageprefix.negative")
-                    + Lang.translate("tag.command.disabled"));
+                               + Lang.translate("tag.command.disabled"));
             return false;
         }
 
@@ -60,22 +60,26 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
             switch (executionCommand) {
                 case '!':
                     if (!commandPortals.op) {
-                        player.sendMessage(Lang.translate("messageprefix.negative")
-                                + Lang.translate("tag.command.op.disabled"));
+                        player.sendMessage(
+                            Lang.translate("messageprefix.negative")
+                            + Lang.translate("tag.command.op.disabled"));
                         return false;
                     }
                     break;
                 case '#':
                     if (!commandPortals.console) {
-                        player.sendMessage(Lang.translate("messageprefix.negative")
-                                + Lang.translate("tag.command.console.disabled"));
+                        player.sendMessage(
+                            Lang.translate("messageprefix.negative")
+                            + Lang.translate("tag.command.console.disabled"));
                         return false;
                     }
                     break;
                 case '^':
                     if (!commandPortals.permsWildcard) {
-                        player.sendMessage(Lang.translate("messageprefix.negative")
-                                + Lang.translate("tag.command.permswildcard.disabled"));
+                        player.sendMessage(
+                            Lang.translate("messageprefix.negative")
+                            + Lang.translate(
+                                "tag.command.permswildcard.disabled"));
                         return false;
                     }
                     break;
@@ -134,9 +138,9 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                            String[] argData) {
         if (argData != null) {
             var commandPortals = configRepository.getCommandPortals();
-            if(!commandPortals.enabled) {
+            if (!commandPortals.enabled) {
                 player.sendMessage(Lang.translate("messageprefix.negative")
-                        + Lang.translate("tag.command.disabled"));
+                                   + Lang.translate("tag.command.disabled"));
                 return false;
             }
             for (String command : argData) {
