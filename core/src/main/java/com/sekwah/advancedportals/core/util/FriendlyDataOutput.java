@@ -51,13 +51,15 @@ public class FriendlyDataOutput {
     public void writeUtf(String text, int maxLength) {
         if (text.length() > maxLength) {
             throw new EncoderException("String too big (was " + text.length()
-                                       + " characters, max " + maxLength + ")");
+                                       + " characters, max " + maxLength
+                                       + ")");
         } else {
             byte[] abyte = text.getBytes(StandardCharsets.UTF_8);
             int i = getMaxEncodedUtfLength(maxLength);
             if (abyte.length > i) {
                 throw new EncoderException("String too big (was " + abyte.length
-                                           + " bytes encoded, max " + i + ")");
+                                           + " bytes encoded, max " + i
+                                           + ")");
             } else {
                 this.writeVarInt(abyte.length);
                 this.writeBytes(abyte);
