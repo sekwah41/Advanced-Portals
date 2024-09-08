@@ -14,6 +14,8 @@ import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
 import java.util.Objects;
 
 public class CoreListeners {
@@ -31,7 +33,18 @@ public class CoreListeners {
 
     public void playerJoin(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);
-        this.playerDataServices.getPlayerData(player).setInPortal(true);
+
+        this.setIfInPortal(player);
+    }
+
+    private void setIfInPortal(PlayerContainer player) {
+        String inPortal = this.portalServices.inPortalRegionGetName(player.getBlockLoc());
+
+        if (inPortal == null) {
+            inPortal = this.portalServices.inPortalRegionGetName(player.getBlockLoc().addY((int) player.getHeight()));
+        }
+
+        this.playerDataServices.getPlayerData(player).setInPortal(inPortal);
     }
 
     public void teleportEvent(PlayerContainer player) {
@@ -51,7 +64,7 @@ public class CoreListeners {
      * @param toLoc
      */
     public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
-        this.portalServices.playerMove(player, toLoc);
+        this.portalServices.checkPortalActivation(player, toLoc, TriggerType.MOVEMENT);
     }
 
     /**
@@ -177,7 +190,7 @@ public class CoreListeners {
 
     public void worldChange(PlayerContainer player) {
         this.playerDataServices.setJoinCooldown(player);
-        this.playerDataServices.getPlayerData(player).setInPortal(true);
+        this.setIfInPortal(player);
     }
 
     public boolean preventEntityCombust(EntityContainer entity) {
@@ -188,13 +201,35 @@ public class CoreListeners {
         var pos = entity.getBlockLoc();
         if (entity instanceof PlayerContainer player) {
             var playerData = playerDataServices.getPlayerData(player);
-            if (playerData.isNetherPortalCooldown()) {
+            if (playerData.getPortalBlockCooldown()) {
                 return false;
             }
         }
+
+        return !(portalServices.inPortalRegion(pos, 1) || portalServices.inPortalRegion(pos.addY((int) entity.getHeight()), 1));
+    }
+
+    public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
+
+        var playerData = playerDataServices.getPlayerData(player);
+
+        if (playerData.getPortalBlockCooldown()) {
+            return false;
+        }
+
+        var portalResult = this.portalServices.checkPortalActivation(player, toLoc, TriggerType.MOVEMENT);
+
+        if(portalResult != PortalServices.PortalActivationResult.NOT_IN_PORTAL) {
+            return false;
+        }
+
+        // Extra checks to prevent the player from being teleported by touching a portal but not having their body fully in the portal
+        var pos  = player.getBlockLoc();
+
         var feetInPortal = portalServices.inPortalRegion(pos, 1);
         var headInPortal = portalServices.inPortalRegion(
-            pos.addY((int) entity.getHeight()), 1);
+                pos.addY((int) player.getHeight()), 1);
+
         return !(feetInPortal || headInPortal);
     }
 

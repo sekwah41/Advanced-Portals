@@ -61,8 +61,8 @@ public class Listeners implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPortalEvent(PlayerPortalEvent event) {
-        if (!this.coreListeners.entityPortalEvent(
-                new SpigotPlayerContainer(event.getPlayer()))) {
+        if (!this.coreListeners.playerPortalEvent(
+                new SpigotPlayerContainer(event.getPlayer()), ContainerHelpers.toPlayerLocation(event.getFrom()))) {
             event.setCancelled(true);
         }
     }

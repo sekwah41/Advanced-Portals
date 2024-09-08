@@ -8,6 +8,8 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +67,7 @@ public class Destination implements TagTarget {
     }
 
     public boolean activate(PlayerContainer player) {
-        ActivationData data = new ActivationData(false);
+        ActivationData data = new ActivationData(TriggerType.MANUAL);
         this.portalActivate(player, data);
         this.postActivate(player, data);
         return true;

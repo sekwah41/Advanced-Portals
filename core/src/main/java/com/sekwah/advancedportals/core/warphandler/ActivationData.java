@@ -10,18 +10,18 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 public class ActivationData {
     private boolean warpAllowed = true;
 
-    public final boolean moveActivated;
-
     private WarpedStatus warpStatus = WarpedStatus.NOTACTIVATED;
 
     private PlayerLocation wantedLocation;
+
+    private TriggerType triggerType;
 
     public WarpedStatus getWarped() {
         return this.warpStatus;
     }
 
-    public ActivationData(boolean moveActivated) {
-        this.moveActivated = moveActivated;
+    public ActivationData(TriggerType triggerType) {
+        this.triggerType = triggerType;
     }
 
     public void setWarpStatus(WarpedStatus warped) {
@@ -31,6 +31,10 @@ public class ActivationData {
             return;
         }
         this.warpStatus = warped;
+    }
+
+    public TriggerType getTriggerType() {
+        return this.triggerType;
     }
 
     /**
