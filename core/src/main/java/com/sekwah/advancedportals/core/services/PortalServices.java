@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.portal.ActivationResult;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -10,10 +11,12 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
-import com.sekwah.advancedportals.core.tags.activation.NameTag;
+import com.sekwah.advancedportals.core.tags.NameTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
 import java.util.*;
 import javax.inject.Singleton;
 
@@ -67,42 +70,67 @@ public class PortalServices {
     }
 
     public boolean inPortalRegion(BlockLocation loc, int extraBlocks) {
-        for (AdvancedPortal portal : portalCache.values()) {
-            if (portal.isLocationInPortal(loc, extraBlocks)) {
-                return true;
-            }
-        }
-        return false;
+        return inPortalRegionGetName(loc, extraBlocks) != null;
     }
 
-    public void playerMove(PlayerContainer player, PlayerLocation toLoc) {
+    public String inPortalRegionGetName(PlayerLocation loc, int extraBlocks) {
+        return inPortalRegionGetName(loc.toBlockPos(), extraBlocks);
+    }
+
+    public String inPortalRegionGetName(BlockLocation loc) {
+        return inPortalRegionGetName(loc, 0);
+    }
+
+    public String inPortalRegionGetName(BlockLocation loc, int extraBlocks) {
+        for (AdvancedPortal portal : portalCache.values()) {
+            if (portal.isLocationInPortal(loc, extraBlocks)) {
+                return portal.getName();
+            }
+        }
+        return null;
+    }
+
+    public enum PortalActivationResult {
+        NOT_IN_PORTAL,
+        PORTAL_TELEPORTED,
+        PORTAL_ACTIVATED,
+        PORTAL_DENIED
+    }
+
+    public PortalActivationResult checkPortalActivation(PlayerContainer player, PlayerLocation toLoc, TriggerType triggerType) {
         var blockLoc = toLoc.toBlockPos();
         var blockEntityTopLoc = blockLoc.addY(player.getHeight());
         var world = player.getWorld();
         var blockMaterial = world.getBlock(blockLoc);
         var blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
+        var playerData = playerDataServices.getPlayerData(player);
 
-        var notInPortal = true;
         for (AdvancedPortal portal : portalCache.values()) {
             if ((portal.isLocationInPortal(toLoc)
                  && portal.isTriggerBlock(blockMaterial))
                 || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
-                notInPortal = false;
-                if (portal.activate(player, true)) {
-                    return;
+                var portalName = portal.getName();
+                if(Objects.equals(playerData.inPortal(), portalName)) {
+                    return PortalActivationResult.PORTAL_DENIED;
+                }
+                switch (portal.activate(player, triggerType)) {
+                    case SUCCESS:
+                        playerData.setInPortal(portal.getName());
+                        return PortalActivationResult.PORTAL_ACTIVATED;
+                    case FAILED_DO_KNOCKBACK:
+                        playerData.setInPortal(portal.getName());
+                        var strength = configRepository.getThrowbackStrength();
+                        PlayerUtils.throwPlayerBack(player, strength);
+
+                        return PortalActivationResult.PORTAL_DENIED;
                 }
             }
         }
-        var playerData = playerDataServices.getPlayerData(player);
-        if (!playerData.isInPortal() && !notInPortal) {
-            playerData.setInPortal(true);
-            var strength = configRepository.getThrowbackStrength();
-            PlayerUtils.throwPlayerBack(player, strength);
+        if (playerData.inPortal() != null) {
+            playerData.setNotInPortal();
         }
-        if (playerData.isInPortal() && notInPortal) {
-            playerData.setInPortal(false);
-        }
+        return PortalActivationResult.NOT_IN_PORTAL;
     }
 
     public List<String> getPortalNames() {

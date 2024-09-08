@@ -6,7 +6,7 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
-import com.sekwah.advancedportals.core.tags.activation.NameTag;
+import com.sekwah.advancedportals.core.tags.NameTag;
 import java.util.*;
 
 @Singleton

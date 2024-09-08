@@ -9,10 +9,12 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
-import com.sekwah.advancedportals.core.tags.activation.TriggerBlockTag;
+import com.sekwah.advancedportals.core.tags.TriggerBlockTag;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
 import java.util.*;
 
 /**
@@ -107,14 +109,12 @@ public class AdvancedPortal implements TagTarget {
      * @param player        The player on the server attempting to use an
      *     advanced
      *                      portal
-     * @param moveActivated if the portal was activated by a move event (won't
-     *                      trigger knockback)
-     * @return
+     * @param triggerType   The type of trigger that activated the portal
+     * @return Whether the portal was successfully activated
      */
-    public boolean activate(PlayerContainer player, boolean moveActivated) {
+    public ActivationResult activate(PlayerContainer player, TriggerType triggerType) {
         var playerData = playerDataServices.getPlayerData(player);
-        if (playerData.isInPortal())
-            return false;
+
         if (playerData.hasJoinCooldown()) {
             var cooldown =
                 (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
@@ -127,10 +127,10 @@ public class AdvancedPortal implements TagTarget {
                 player.playSound("block.portal.travel", 0.05f,
                                  rand.nextFloat() * 0.4F + 0.8F);
             }
-            return false;
+            return ActivationResult.FAILED_DO_KNOCKBACK;
         }
 
-        ActivationData data = new ActivationData(moveActivated);
+        ActivationData data = new ActivationData(triggerType);
         DataTag[] portalTags = new DataTag[args.size()];
         int i = 0;
         for (Map.Entry<String, String[]> entry : args.entrySet()) {
@@ -143,7 +143,7 @@ public class AdvancedPortal implements TagTarget {
             if (activationHandler != null
                 && !activationHandler.preActivated(
                     this, player, data, this.getArgValues(portalTag.NAME))) {
-                return false;
+                return ActivationResult.FAILED_DO_KNOCKBACK;
             }
         }
         for (DataTag portalTag : portalTags) {
@@ -152,7 +152,7 @@ public class AdvancedPortal implements TagTarget {
             if (activationHandler != null
                 && !activationHandler.activated(
                     this, player, data, this.getArgValues(portalTag.NAME))) {
-                return false;
+                return ActivationResult.FAILED_DO_KNOCKBACK;
             }
         }
         for (DataTag portalTag : portalTags) {
@@ -164,11 +164,11 @@ public class AdvancedPortal implements TagTarget {
             }
         }
         if (data.hasActivated()) {
-            playerData.setNetherPortalCooldown(1000);
-            playerData.setInPortal(true);
-            return true;
+            playerData.setPortalBlockCooldown(1000);
+            playerData.setInPortal(this.getName());
+            return ActivationResult.SUCCESS;
         }
-        return false;
+        return ActivationResult.FAILED_DO_KNOCKBACK;
     }
 
     public boolean isLocationInPortal(BlockLocation loc) {

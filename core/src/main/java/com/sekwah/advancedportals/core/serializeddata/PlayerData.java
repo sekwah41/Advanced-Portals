@@ -36,14 +36,14 @@ public class PlayerData {
     /**
      * If the player is in a portal. Stops re-triggering.
      */
-    private transient boolean isInPortal = false;
+    private transient String inPortal = null;
 
     /**
      * The next time System.currentTimeMillis() a player can use a portal.
      */
     private transient long joinCooldown;
 
-    private transient long netherPortalCooldown;
+    private transient long portalBlockCooldown;
 
     private HashMap<String, Long> perPortalCooldowns = new HashMap<>();
 
@@ -97,25 +97,25 @@ public class PlayerData {
         this.destiVisible = destiVisible;
     }
 
-    public boolean isInPortal() {
-        return isInPortal;
+    public String inPortal() {
+        return this.inPortal;
     }
 
-    public void setInPortal(boolean inPortal) {
-        isInPortal = inPortal;
+    public void setInPortal(String inPortal) {
+        this.inPortal = inPortal;
     }
 
-    public void setNetherPortalCooldown(long netherPortalCooldown) {
-        this.netherPortalCooldown =
-            System.currentTimeMillis() + netherPortalCooldown;
+    public void setPortalBlockCooldown(long portalBlockCooldown) {
+        this.portalBlockCooldown =
+            System.currentTimeMillis() + portalBlockCooldown;
     }
 
     public boolean hasJoinCooldown() {
         return System.currentTimeMillis() < joinCooldown;
     }
 
-    public boolean isNetherPortalCooldown() {
-        return System.currentTimeMillis() < netherPortalCooldown;
+    public boolean getPortalBlockCooldown() {
+        return System.currentTimeMillis() < portalBlockCooldown;
     }
 
     public void setPortalCooldown(String portalName, long cooldown) {
@@ -130,5 +130,9 @@ public class PlayerData {
 
     public double getPortalCooldownLeft(String portalName) {
         return perPortalCooldowns.get(portalName) - System.currentTimeMillis();
+    }
+
+    public void setNotInPortal() {
+        this.inPortal = null;
     }
 }

@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.tags.activation;
+package com.sekwah.advancedportals.core.tags;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;

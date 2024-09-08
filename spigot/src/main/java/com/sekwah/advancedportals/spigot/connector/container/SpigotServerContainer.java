@@ -3,13 +3,12 @@ package com.sekwah.advancedportals.spigot.connector.container;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
-import com.sekwah.advancedportals.core.tags.activation.CommandTag;
+import com.sekwah.advancedportals.core.tags.CommandTag;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.Server;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
