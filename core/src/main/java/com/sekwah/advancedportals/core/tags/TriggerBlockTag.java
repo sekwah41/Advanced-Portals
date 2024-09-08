@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.core.tags.activation;
+package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;

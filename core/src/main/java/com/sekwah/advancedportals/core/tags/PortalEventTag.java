@@ -1,23 +1,20 @@
-package com.sekwah.advancedportals.core.tags.activation;
+package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.destination.Destination;
-import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-import java.util.List;
-import java.util.Random;
-import javax.annotation.Nullable;
 
-public class CooldownTag implements Tag.Activation, Tag.Creation {
+import javax.annotation.Nullable;
+import java.util.Random;
+
+public class PortalEventTag implements Tag.Activation, Tag.Creation {
     @Inject
     PlayerDataServices playerDataServices;
 
