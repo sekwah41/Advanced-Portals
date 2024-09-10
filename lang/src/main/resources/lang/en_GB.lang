@@ -180,4 +180,3 @@ tag.command.disabled= Command portals are &edisabled &con this server. Please co
 tag.command.op.disabled= Op command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.console.disabled= Console command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
-
