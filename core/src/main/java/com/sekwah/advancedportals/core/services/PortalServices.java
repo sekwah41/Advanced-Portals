@@ -122,7 +122,6 @@ public class PortalServices {
                         playerData.setInPortal(portal.getName());
                         var strength = configRepository.getThrowbackStrength();
                         PlayerUtils.throwPlayerBack(player, strength);
-
                         return PortalActivationResult.PORTAL_DENIED;
                 }
             }

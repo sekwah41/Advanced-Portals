@@ -10,39 +10,37 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.spigot.commands.subcommands.portal.update.ConfigAccessor;
+import com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer.ConfigAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class UpdatePortalSubCommand implements SubCommand {
-    @Inject
-    PortalServices portalServices;
+public class ImportPortalSubCommand implements SubCommand {
 
     @Inject
     DestinationServices destinationServices;
 
     @Inject
-    PortalServices portalService;
+    PortalServices portalServices;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1 && "confirm".equals(args[1])) {
             sender.sendMessage(Lang.translate("messageprefix.positive")
                                + Lang.translateInsertVariables(
-                                   "command.portal.update.confirm"));
+                                   "command.portal.import.confirm"));
             int destinations = importDestinations();
             int portals = importPortals();
             sender.sendMessage(
                 Lang.translate("messageprefix.positive")
                 + Lang.translateInsertVariables(
-                    "command.portal.update.complete", portals, destinations));
+                    "command.portal.import.complete", portals, destinations));
             return;
         }
         sender.sendMessage(Lang.translate("messageprefix.positive")
                            + Lang.translateInsertVariables(
-                               "command.portal.update", getPortalCount(),
+                               "command.portal.import", getPortalCount(),
                                getDestinationCount()));
     }
 
@@ -112,7 +110,7 @@ public class UpdatePortalSubCommand implements SubCommand {
                 .toList()
                 .forEach(args::remove);
 
-            var portal = portalService.createPortal(pos1, pos2, args);
+            var portal = portalServices.createPortal(pos1, pos2, args);
 
             if (portal != null)
                 count++;
@@ -185,11 +183,11 @@ public class UpdatePortalSubCommand implements SubCommand {
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.portal.update.help");
+        return Lang.translate("command.portal.import.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.portal.update.detailedhelp");
+        return Lang.translate("command.portal.import.detailedhelp");
     }
 }
