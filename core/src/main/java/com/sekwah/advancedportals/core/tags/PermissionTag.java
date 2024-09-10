@@ -40,7 +40,7 @@ public class PermissionTag implements Tag.Activation {
     @Nullable
     @Override
     public String[] getAliases() {
-        return new String[0];
+        return aliases;
     }
 
     @Override
