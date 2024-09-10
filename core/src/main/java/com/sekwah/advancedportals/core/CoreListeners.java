@@ -217,7 +217,7 @@ public class CoreListeners {
             return false;
         }
 
-        var portalResult = this.portalServices.checkPortalActivation(player, toLoc, TriggerType.MOVEMENT);
+        var portalResult = this.portalServices.checkPortalActivation(player, toLoc, TriggerType.PORTAL);
 
         if(portalResult != PortalServices.PortalActivationResult.NOT_IN_PORTAL) {
             return false;

@@ -103,9 +103,16 @@ public class TagRegistry {
         return true;
     }
 
-    public List<Tag> getTags() {
-        // TODO Make a copy of the list to prevent issues with modification
+    public Tag getTag(String tagName) {
+        for (Tag tag : this.tags) {
+            if (tag.getName().equals(tagName)) {
+                return tag;
+            }
+        }
+        return null;
+    }
 
-        return this.tags;
+    public List<Tag> getTags() {
+        return new ArrayList<>(this.tags);
     }
 }

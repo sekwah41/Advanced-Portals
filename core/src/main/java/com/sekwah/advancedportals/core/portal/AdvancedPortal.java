@@ -30,6 +30,10 @@ public class AdvancedPortal implements TagTarget {
 
     private final HashMap<String, String[]> args = new HashMap<>();
 
+    private transient List<DataTag> portalTags = new ArrayList<>();
+
+    private transient boolean isSorted = false;
+
     @Inject
     private transient PlayerDataServices playerDataServices;
 
@@ -64,6 +68,7 @@ public class AdvancedPortal implements TagTarget {
 
     @Override
     public void setArgValues(String argName, String[] argValues) {
+        this.isSorted = false;
         this.args.put(argName, argValues);
     }
 
@@ -72,8 +77,26 @@ public class AdvancedPortal implements TagTarget {
         // TODO need to add the ability to add args after creation
     }
 
+    private void updatePortalTagList() {
+        portalTags.clear();
+        int i = 0;
+        for (Map.Entry<String, String[]> entry : args.entrySet()) {
+            this.portalTags.add(new DataTag(entry.getKey(), entry.getValue()));
+        }
+        // sort the tags by priority
+        this.portalTags.sort(Comparator.comparingInt(o -> {
+            var tag = tagRegistry.getTag(o.NAME);
+            if (tag instanceof Tag.OrderPriority tagPriority) {
+                return tagPriority.getPriority().ordinal();
+            } else {
+                return Tag.Priority.NORMAL.ordinal();
+            }
+        }));
+    }
+
     @Override
     public void removeArg(String arg) {
+        this.isSorted = false;
         this.args.remove(arg);
     }
 
@@ -113,6 +136,11 @@ public class AdvancedPortal implements TagTarget {
      * @return Whether the portal was successfully activated
      */
     public ActivationResult activate(PlayerContainer player, TriggerType triggerType) {
+        if(!isSorted) {
+            updatePortalTagList();
+            isSorted = true;
+        }
+
         var playerData = playerDataServices.getPlayerData(player);
 
         if (playerData.hasJoinCooldown()) {
@@ -131,22 +159,23 @@ public class AdvancedPortal implements TagTarget {
         }
 
         ActivationData data = new ActivationData(triggerType);
-        DataTag[] portalTags = new DataTag[args.size()];
-        int i = 0;
-        for (Map.Entry<String, String[]> entry : args.entrySet()) {
-            portalTags[i++] = new DataTag(entry.getKey(), entry.getValue());
-        }
 
-        for (DataTag portalTag : portalTags) {
+        for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
                 tagRegistry.getActivationHandler(portalTag.NAME);
-            if (activationHandler != null
-                && !activationHandler.preActivated(
-                    this, player, data, this.getArgValues(portalTag.NAME))) {
-                return ActivationResult.FAILED_DO_KNOCKBACK;
+            if (activationHandler != null) {
+                var preActivated = activationHandler.preActivated(
+                        this, player, data, this.getArgValues(portalTag.NAME));
+
+                if(!preActivated) {
+                    if(activationHandler instanceof Tag.DenyBehavior denyBehavior && denyBehavior.getDenyBehavior() == Tag.DenyBehavior.Behaviour.SILENT) {
+                        return ActivationResult.FAILED_DO_NOTHING;
+                    }
+                    return ActivationResult.FAILED_DO_KNOCKBACK;
+                }
             }
         }
-        for (DataTag portalTag : portalTags) {
+        for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
                 tagRegistry.getActivationHandler(portalTag.NAME);
             if (activationHandler != null
@@ -155,7 +184,7 @@ public class AdvancedPortal implements TagTarget {
                 return ActivationResult.FAILED_DO_KNOCKBACK;
             }
         }
-        for (DataTag portalTag : portalTags) {
+        for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
                 tagRegistry.getActivationHandler(portalTag.NAME);
             if (activationHandler != null) {
