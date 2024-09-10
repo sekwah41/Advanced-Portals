@@ -10,8 +10,9 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-import java.util.List;
+
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     public static String TAG_NAME = "destination";

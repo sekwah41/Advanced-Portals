@@ -11,8 +11,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import java.util.Random;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class CooldownTag implements Tag.Activation, Tag.Creation {
     @Inject

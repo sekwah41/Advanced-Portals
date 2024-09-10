@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
@@ -25,7 +26,7 @@ public class PermissionTag implements Tag.Activation {
 
     private final String[] aliases = new String[] {"perm"};
 
-    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL, TagType.DESTINATION};
 
     @Override
     public TagType[] getTagTypes() {

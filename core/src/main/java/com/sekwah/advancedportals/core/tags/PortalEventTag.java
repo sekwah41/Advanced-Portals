@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.tags;
 
+import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -55,6 +56,9 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete, Tag.Den
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
+        if(player.getGameMode() == GameMode.CREATIVE) {
+            return true;
+        }
         return !Objects.equals(argData[0], "true") || activeData.getTriggerType() == TriggerType.PORTAL;
     }
 

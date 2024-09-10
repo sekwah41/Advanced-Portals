@@ -164,6 +164,8 @@ public class AdvancedPortalsCore {
                                               new ListPortalsSubCommand());
         this.portalCommand.registerSubCommand("show",
                                               new ShowPortalSubCommand());
+        this.portalCommand.registerSubCommand("info",
+                                              new InfoPortalSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }

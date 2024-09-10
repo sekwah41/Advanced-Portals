@@ -62,7 +62,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
 
             if (!destinationTags.isEmpty()) {
                 this.filterAndProcessTags(destinationTags);
-                this.printTags(sender, destinationTags);
+                TagReader.printArgs(sender, destinationTags);
             }
             sender.sendMessage("");
             Destination destination = destinationServices.createDesti(

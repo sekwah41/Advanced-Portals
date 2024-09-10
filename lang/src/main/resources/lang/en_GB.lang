@@ -72,6 +72,10 @@ value needs spaces use the format tag:"value with spaces"
 command.createdesti.complete= The destination has been successfully 
 created.
 
+command.portal.info.complete= Portal information for &e%1$s&a:
+command.portal.info.notfound= No portal by the name &e%1$s &cwas found.
+
+
 command.create.tags=&aTags&7:
 
 command.playeronly= Sorry but that command can only be run by a player.

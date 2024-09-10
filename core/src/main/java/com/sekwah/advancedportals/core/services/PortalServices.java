@@ -90,6 +90,10 @@ public class PortalServices {
         return null;
     }
 
+    public AdvancedPortal getPortal(String portalName) {
+        return portalCache.get(portalName);
+    }
+
     public enum PortalActivationResult {
         NOT_IN_PORTAL,
         PORTAL_TELEPORTED,
