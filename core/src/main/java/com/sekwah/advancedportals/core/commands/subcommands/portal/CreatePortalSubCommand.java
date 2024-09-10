@@ -72,7 +72,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
             if (!portalTags.isEmpty()) {
                 this.filterAndProcessTags(portalTags);
-                this.printTags(sender, portalTags);
+                TagReader.printArgs(sender, portalTags);
             }
             sender.sendMessage("");
 
@@ -93,7 +93,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
                 sender.sendMessage(Lang.translate("messageprefix.positive")
                                    + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
-                this.printTags(sender, portal.getArgs());
+                TagReader.printArgs(sender, portal.getArgs());
             } else {
                 sender.sendMessage(Lang.translate("messageprefix.negative")
                                    + Lang.translate("command.create.error"));

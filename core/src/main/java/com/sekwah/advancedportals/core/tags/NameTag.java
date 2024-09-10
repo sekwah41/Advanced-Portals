@@ -4,8 +4,9 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-import java.util.List;
+
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * The name of the destination or portal.
