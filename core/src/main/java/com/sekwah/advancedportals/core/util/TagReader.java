@@ -1,8 +1,10 @@
 package com.sekwah.advancedportals.core.util;
 
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TagReader {
     public static boolean isClosedString(String[] args) {
@@ -93,5 +95,22 @@ public class TagReader {
             return arg.substring(0, splitLoc);
         }
         return null;
+    }
+
+
+
+    public static void printArgs(CommandSenderContainer sender,
+                                 List<DataTag> dataTags) {
+        for (DataTag tag : dataTags) {
+            if (tag.VALUES.length == 1) {
+                sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77:\u00A7e"
+                        + tag.VALUES[0]);
+            } else {
+                for (int i = 0; i < tag.VALUES.length; i++) {
+                    sender.sendMessage(" \u00A7a" + tag.NAME + "\u00A77[" + i
+                            + "]:\u00A7e" + tag.VALUES[i]);
+                }
+            }
+        }
     }
 }

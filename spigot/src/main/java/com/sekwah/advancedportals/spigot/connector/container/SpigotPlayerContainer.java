@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.spigot.connector.container;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
@@ -103,6 +104,15 @@ public class SpigotPlayerContainer
                                      channel, bytes);
         }
         return true;
+    }
+
+    @Override
+    public GameMode getGameMode() {
+        try {
+            return GameMode.valueOf(this.player.getGameMode().name());
+        } catch (IllegalArgumentException e) {
+            return GameMode.SURVIVAL;
+        }
     }
 
     public Player getPlayer() {

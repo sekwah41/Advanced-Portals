@@ -40,4 +40,6 @@ public interface PlayerContainer extends EntityContainer {
     void playSound(String sound, float volume, float pitch);
 
     ServerContainer getServer();
+
+    GameMode getGameMode();
 }
