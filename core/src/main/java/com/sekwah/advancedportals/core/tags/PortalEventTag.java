@@ -8,10 +8,14 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
 
-public class PortalEventTag implements Tag.Activation {
+public class PortalEventTag implements Tag.Activation, Tag.AutoComplete, Tag.DenyBehavior, Tag.OrderPriority {
     @Inject
     PlayerDataServices playerDataServices;
 
@@ -40,7 +44,7 @@ public class PortalEventTag implements Tag.Activation {
     @Nullable
     @Override
     public String[] getAliases() {
-        return new String[0];
+        return aliases;
     }
 
     @Override
@@ -51,21 +55,40 @@ public class PortalEventTag implements Tag.Activation {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        if (!player.hasPermission(argData[1])) {
-            player.sendMessage(Lang.translate("portal.error.nopermission"));
-            return false;
-        }
-        return true;
+        return !Objects.equals(argData[0], "true") || activeData.getTriggerType() == TriggerType.PORTAL;
     }
 
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
+        // Do nothing
     }
 
     @Override
     public boolean activated(TagTarget target, PlayerContainer player,
                              ActivationData activationData, String[] argData) {
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> autoComplete(String argData) {
+        return List.of("true", "false");
+    }
+
+    @Nullable
+    @Override
+    public String splitString() {
+        return "";
+    }
+
+    @Override
+    public Behaviour getDenyBehavior() {
+        return Behaviour.SILENT;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return Priority.HIGHEST;
     }
 }

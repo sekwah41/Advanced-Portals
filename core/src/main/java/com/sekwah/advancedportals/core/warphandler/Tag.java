@@ -29,6 +29,8 @@ public interface Tag {
      */
     enum TagType { PORTAL, DESTINATION }
 
+    enum Priority { LOWEST, LOW, NORMAL, HIGH, HIGHEST }
+
     /**
      * Used to flag where the auto complete should show more or less info.
      *
@@ -42,6 +44,16 @@ public interface Tag {
     String[] getAliases();
 
     String description();
+
+    interface OrderPriority {
+        Priority getPriority();
+    }
+
+    interface DenyBehavior {
+        enum Behaviour { SILENT, KNOCKBACK }
+
+        Behaviour getDenyBehavior();
+    }
 
     interface AutoComplete extends Tag {
         /**
