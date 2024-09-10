@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.commands.subcommands.portal.update;
+package com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer;
 
 import java.io.File;
 import java.io.IOException;

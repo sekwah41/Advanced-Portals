@@ -119,11 +119,11 @@ command.selector= You have been given a portal selector.
 command.selector.help=Gives you a portal region selector
 command.selector.detailedhelp=Gives you a portal selector to select the regions for making portals.
 
-command.portal.update= &e%1$s &aportals and &e%2$s &adestinations will be imported. Please type &e/portal update confirm &ato confirm this action. &7Config values will not be imported.
-command.portal.update.confirm= &aImporting portals and destinations.
-command.portal.update.complete= &aImported &e%1$s &aportals and &e%2$s &adestinations.
-command.portal.update.help=Imports portals and destinations from the old format.
-command.portal.update.detailedhelp=Imports portals and destinations from the old format. This not overwrite any existing portals and destinations with the same name.
+command.portal.import= &e%1$s &aportals and &e%2$s &adestinations will be imported. Please type &e/portal import confirm &ato confirm this action. &7Config values will not be imported.
+command.portal.import.confirm= &aImporting portals and destinations.
+command.portal.import.complete= &aImported &e%1$s &aportals and &e%2$s &adestinations.
+command.portal.import.help=Imports portals and destinations from the old format.
+command.portal.import.detailedhelp=Imports portals and destinations from the old format. This not overwrite any existing portals and destinations with the same name.
 
 command.portalblock= You have been given a &ePortal Block&a!
 
@@ -174,6 +174,7 @@ tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separated or multi tag.
 tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
+tag.portalEvent.description=Triggers the portal from portal events rather than the player entering the portal. (survival nether portal)
 
 tag.cooldown.fail= The cooldown must be a number.
 tag.command.nopermission= You do not have permission to create a command at %1$s command level
@@ -182,3 +183,4 @@ tag.command.disabled= Command portals are &edisabled &con this server. Please co
 tag.command.op.disabled= Op command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.console.disabled= Console command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+
