@@ -5,7 +5,7 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.util.GameScheduler;
-import com.sekwah.advancedportals.spigot.commands.subcommands.portal.UpdatePortalSubCommand;
+import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
@@ -63,8 +63,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         // injected to.
         this.portalsCore.onEnable();
 
-        this.portalsCore.registerPortalCommand("update",
-                                               new UpdatePortalSubCommand());
+        this.portalsCore.registerPortalCommand("import",
+                                               new ImportPortalSubCommand());
 
         new Metrics(this);
     }
