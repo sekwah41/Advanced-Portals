@@ -46,7 +46,7 @@ public class ImportPortalSubCommand implements SubCommand {
 
     private int importPortals() {
         ConfigAccessor portalConfig = new ConfigAccessor(
-            AdvancedPortalsPlugin.getInstance(), "portals.yaml");
+            AdvancedPortalsPlugin.getInstance(), "portals.yml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
@@ -110,6 +110,13 @@ public class ImportPortalSubCommand implements SubCommand {
                 .toList()
                 .forEach(args::remove);
 
+            // Find an arg called "delayed" and add a new one called portalEvent
+            var delayed = getArg(args, "delayed");
+            if (delayed != null) {
+                args.add(new DataTag("portalEvent", delayed));
+                args.removeIf(dataTag -> dataTag.NAME.equals("delayed"));
+            }
+
             var portal = portalServices.createPortal(pos1, pos2, args);
 
             if (portal != null)
@@ -130,7 +137,7 @@ public class ImportPortalSubCommand implements SubCommand {
 
     public int importDestinations() {
         ConfigAccessor destiConfig = new ConfigAccessor(
-            AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
+            AdvancedPortalsPlugin.getInstance(), "destinations.yml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
