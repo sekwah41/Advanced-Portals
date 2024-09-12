@@ -150,6 +150,8 @@ command.error.nametaken= The name &e%1$s &cis already taken.
 desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)
 
+desti.warp= &aYou have warped to &e%1$s&a.
+
 error.notplayer=Only players can do that.
 
 portal.selector.poschange=&aYou have selected &epos%1$s &aX&7:&e%2$s &aY&7:&e%3$s &aZ&7:&e%4$s

@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
@@ -21,6 +22,9 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
     @Inject
     WarpEffectRegistry warpEffectRegistry;
+
+    @Inject
+    ConfigRepository configRepository;
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
@@ -83,6 +87,12 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
                 warpEffectSound.onWarpSound(player, WarpEffect.Action.EXIT);
             }
             activationData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
+            if(this.configRepository.warpMessageOnActionBar()) {
+                player.sendMessage(Lang.translateInsertVariables("desti.warp", destination.getName()));
+            }
+            if(this.configRepository.warpMessageInChat()) {
+                player.sendMessage(destination.getWarpMessage());
+            }
         }
         return true;
     }
