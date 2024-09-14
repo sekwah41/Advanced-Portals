@@ -56,12 +56,15 @@ public class Lang {
             String translation = instance.languageMap.get(s);
             // noinspection ALL (not sure what the specific warning is for
             // escaped unicode)
-            translation =
-                translation.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
+            translation = convertColors(translation);
             return translation;
         } else {
             return s;
         }
+    }
+
+    public static String convertColors(String s) {
+        return s.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
     }
 
     public static String translateInsertVariables(String s, Object... args) {

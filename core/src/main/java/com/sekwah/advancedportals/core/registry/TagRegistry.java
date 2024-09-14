@@ -19,6 +19,8 @@ public class TagRegistry {
 
     private final ArrayList<Tag> tags = new ArrayList<>();
 
+    private final Map<String, Tag> tagMap = new HashMap<>();
+    private final Map<String, Tag.Activation> alwaysTriggerTags = new HashMap<>();
     private final Map<String, Tag.Activation> activationTags = new HashMap<>();
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
     private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
@@ -32,8 +34,12 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public Tag.Activation getActivationHandler(String arg) {
-        return this.activationTags.get(arg);
+    public Tag.Activation getActivationHandler(String arg, Tag.TagType targetType) {
+        var tag = this.activationTags.get(arg);
+        if (tag != null && Arrays.asList(tag.getTagTypes()).contains(targetType)) {
+                return tag;
+        }
+        return null;
     }
 
     /**
@@ -52,6 +58,10 @@ public class TagRegistry {
      */
     public Tag.TagStatus getStatusHandler(String arg) {
         return this.statusTags.get(arg);
+    }
+
+    public Map<String, Tag.Activation> getAlwaysTriggerTags() {
+        return this.alwaysTriggerTags;
     }
 
     /**
@@ -91,8 +101,13 @@ public class TagRegistry {
             return false;
         }
 
+        this.tagMap.put(tagName, tag);
+
         if (tag instanceof Tag.Activation tagActivation) {
             this.activationTags.put(tagName, tagActivation);
+            if(tagActivation.triggerWithNoArgs()) {
+                this.alwaysTriggerTags.put(tagName, tagActivation);
+            }
         }
         if (tag instanceof Tag.TagStatus tagStatus) {
             this.statusTags.put(tagName, tagStatus);
@@ -104,12 +119,7 @@ public class TagRegistry {
     }
 
     public Tag getTag(String tagName) {
-        for (Tag tag : this.tags) {
-            if (tag.getName().equals(tagName)) {
-                return tag;
-            }
-        }
-        return null;
+        return this.tagMap.get(tagName);
     }
 
     public List<Tag> getTags() {

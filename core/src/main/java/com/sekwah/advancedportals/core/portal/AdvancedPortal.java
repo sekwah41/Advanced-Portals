@@ -83,6 +83,13 @@ public class AdvancedPortal implements TagTarget {
         for (Map.Entry<String, String[]> entry : args.entrySet()) {
             this.portalTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
+
+        this.tagRegistry.getAlwaysTriggerTags().forEach((key, value) -> {
+            if (value.getTagTypes().length == 0) {
+                this.portalTags.add(new DataTag(key));
+            }
+        });
+
         // sort the tags by priority
         this.portalTags.sort(Comparator.comparingInt(o -> {
             var tag = tagRegistry.getTag(o.NAME);
@@ -92,6 +99,7 @@ public class AdvancedPortal implements TagTarget {
                 return Tag.Priority.NORMAL.ordinal();
             }
         }));
+        isSorted = true;
     }
 
     @Override
@@ -138,7 +146,6 @@ public class AdvancedPortal implements TagTarget {
     public ActivationResult activate(PlayerContainer player, TriggerType triggerType) {
         if(!isSorted) {
             updatePortalTagList();
-            isSorted = true;
         }
 
         var playerData = playerDataServices.getPlayerData(player);
@@ -162,7 +169,7 @@ public class AdvancedPortal implements TagTarget {
 
         for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
+                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null) {
                 var preActivated = activationHandler.preActivated(
                         this, player, data, this.getArgValues(portalTag.NAME));
@@ -177,7 +184,7 @@ public class AdvancedPortal implements TagTarget {
         }
         for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
+                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null
                 && !activationHandler.activated(
                     this, player, data, this.getArgValues(portalTag.NAME))) {
@@ -186,7 +193,7 @@ public class AdvancedPortal implements TagTarget {
         }
         for (DataTag portalTag : this.portalTags) {
             Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME);
+                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null) {
                 activationHandler.postActivated(
                     this, player, data, this.getArgValues(portalTag.NAME));

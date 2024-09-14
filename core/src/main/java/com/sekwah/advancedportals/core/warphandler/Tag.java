@@ -55,16 +55,6 @@ public interface Tag {
         Behaviour getDenyBehavior();
     }
 
-    /**
-     * Used to flag if the tag should always trigger even if the tag is not
-     * present. Example the default message behavior being overwritten by adding a tag.
-     * <p>
-     * This should be avoided where possible as it will also affect all existing portals.
-     */
-    interface AlwaysTrigger extends Tag {
-
-    }
-
     interface AutoComplete extends Tag {
         /**
          * This is used to get the auto complete for the tag. This is called
@@ -138,6 +128,10 @@ public interface Tag {
          */
         boolean preActivated(TagTarget target, PlayerContainer player,
                              ActivationData activeData, String[] argData);
+
+        default boolean triggerWithNoArgs() {
+            return false;
+        }
 
         /**
          * Activates after activation, should be used for actions such as

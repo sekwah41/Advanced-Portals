@@ -151,7 +151,7 @@ desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)
 desti.error.notfound= No destination by the name &e%1$s &cwas found.
 
-desti.warp= &aYou have warped to &e%1$s&a.
+desti.warpdesti.warp= &aYou have warped to &e%1$s&a.
 
 error.notplayer=Only players can do that.
 
@@ -179,6 +179,7 @@ tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separated or multi tag.
 tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
 tag.portalEvent.description=Triggers the portal from portal events rather than the player entering the portal. (survival nether portal)
+tag.message.description=Sets the message to be displayed when the portal is activated
 
 tag.cooldown.fail= The cooldown must be a number.
 tag.command.nopermission= You do not have permission to create a command at %1$s command level
