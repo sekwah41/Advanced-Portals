@@ -61,19 +61,19 @@ public class DestinationServices {
         // If the name is null, send an error saying that the name is required.
         if (nameTag == null) {
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("desti.error.noname"));
             return null;
         }
 
         if (name == null || name.equals("")) {
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.error.noname"));
             return null;
         } else if (this.destinationRepository.containsKey(name)) {
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translateInsertVariables(
                                        "command.error.nametaken", name));
             return null;
@@ -100,7 +100,7 @@ public class DestinationServices {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            player.sendMessage(Lang.translate("messageprefix.negative")
+            player.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("desti.error.save"));
         }
         return desti;

@@ -21,6 +21,10 @@ public class Lang {
     public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
 
+    private String negativePrefix;
+
+    private String positivePrefix;
+
     @Inject
     private DataStorage dataStorage;
 
@@ -34,6 +38,17 @@ public class Lang {
             instance.injectTranslations(DEFAULT_LANG);
         }
         instance.injectTranslations(fileName);
+
+        instance.negativePrefix = translate("messageprefix.negative");
+        instance.positivePrefix = translate("messageprefix.positive");
+    }
+
+    public static String getNegativePrefix() {
+        return instance.negativePrefix;
+    }
+
+    public static String getPositivePrefix() {
+        return instance.positivePrefix;
     }
 
     public static String translate(String s) {

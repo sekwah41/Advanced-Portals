@@ -51,13 +51,21 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        // Check that the destination exists.
-        for (String destiName : destinationServices.getDestinationNames()) {
-            if (destiName.equalsIgnoreCase(argData[0])) {
-                return true;
-            }
+        if (argData.length == 0) {
+            return false;
         }
-        return false;
+
+        String selectedArg = argData[new java.util.Random().nextInt(argData.length)];
+
+        activeData.setMetadata(TAG_NAME, selectedArg);
+
+
+        if(destinationServices.getDestination(selectedArg) == null) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("desti.error.notfound", selectedArg));
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -90,8 +98,8 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
             if(this.configRepository.warpMessageOnActionBar()) {
                 player.sendMessage(Lang.translateInsertVariables("desti.warp", destination.getName()));
             }
-            if(this.configRepository.warpMessageInChat()) {
-                player.sendMessage(destination.getWarpMessage());
+            else if(this.configRepository.warpMessageInChat()) {
+                player.sendMessage(Lang.getPositivePrefix() + Lang.translateInsertVariables("desti.warp", destination.getName()));
             }
         }
         return true;

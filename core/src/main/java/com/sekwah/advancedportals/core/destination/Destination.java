@@ -122,6 +122,10 @@ public class Destination implements TagTarget {
         return tagList;
     }
 
+    public String getName() {
+        return this.getArgValues("name")[0];
+    }
+
     public PlayerLocation getLoc() {
         return loc;
     }
