@@ -138,7 +138,7 @@ public class Listeners implements Listener {
                     if (delayed ? Portal.locationInPortal(portal, loc, 1)
                             : Portal.locationInPortalTrigger(portal, loc)) {
 
-                        player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, true));
+                        //player.setMetadata(HAS_WARPED, new FixedMetadataValue(plugin, true));
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new RemoveWarpData(player), 10);
                         if (portal.getTriggers().contains(Material.LAVA)) {
                             player.setMetadata(LAVA_WARPED, new FixedMetadataValue(plugin, true));
