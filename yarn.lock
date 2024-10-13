@@ -5,18 +5,18 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@auto-it/bot-list@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/bot-list@npm:11.1.6"
-  checksum: 10c0/c8dd21f3da6c1c490acb00a4ba146512d1363b81d8f5812304a9766af0c08246ce000d6bcfaa0a2b8ed0e24f283716d357a7c6b20104e79ce55864d641a15f65
+"@auto-it/bot-list@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/bot-list@npm:11.2.1"
+  checksum: 10c0/f6aa9b5e0de8b2b0e6e9f3ff14e9be13611bf62d37d9e353fc2d06874617753cb1b5ddec513cdd4389b8536d1b0a0f8acf5a6ba17eb494659925284bd9690bf8
   languageName: node
   linkType: hard
 
-"@auto-it/conventional-commits@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/conventional-commits@npm:11.1.6"
+"@auto-it/conventional-commits@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/conventional-commits@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
     array.prototype.flatmap: "npm:^1.2.2"
     conventional-changelog-core: "npm:^4.2.0"
     conventional-changelog-preset-loader: "npm:^2.3.4"
@@ -25,15 +25,15 @@ __metadata:
     fp-ts: "npm:^2.5.3"
     io-ts: "npm:^2.1.2"
     tslib: "npm:2.1.0"
-  checksum: 10c0/7cbf7b3c093c44c2b5772c6b6a5cf33e2c6affbd18fd17b3257eb52c330e1500a972b639c2428cd9f6a164374667fd7ec9e291286760564b60e0a677999c40ed
+  checksum: 10c0/9a10a1e4b078a4734450f5508da6e43409ad2a277698de7d341a0df14f8429ed6ea47dd491bc2e5c1e0cf00acbdccc2e51b38e434b51cf7dfad6713977691aaa
   languageName: node
   linkType: hard
 
-"@auto-it/core@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/core@npm:11.1.6"
+"@auto-it/core@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/core@npm:11.2.1"
   dependencies:
-    "@auto-it/bot-list": "npm:11.1.6"
+    "@auto-it/bot-list": "npm:11.2.1"
     "@endemolshinegroup/cosmiconfig-typescript-loader": "npm:^3.0.2"
     "@octokit/core": "npm:^3.5.1"
     "@octokit/plugin-enterprise-compatibility": "npm:1.3.0"
@@ -78,57 +78,57 @@ __metadata:
   peerDependenciesMeta:
     "@types/node":
       optional: true
-  checksum: 10c0/b1d70d53eb74821cddba48480927f01c8984c8e766fb615d57f2704ae0e7ce5bd55852cd1019cf71ac48bc6cbd6db6fef4e7f9d37a6a4ceaac1a2adfa29c8e0d
+  checksum: 10c0/da3939cf521b1c065306dccba561583df44ab649eb8ee9aae95c0c5fc4f84f9d4d75165d8e761e72dbf3276a4967b5ef4f663cfc3603dda6b6e5207d014278e7
   languageName: node
   linkType: hard
 
-"@auto-it/exec@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/exec@npm:11.1.6"
+"@auto-it/exec@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/exec@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
     endent: "npm:^2.1.0"
     fp-ts: "npm:^2.5.3"
     fromentries: "npm:^1.2.0"
     io-ts: "npm:^2.1.2"
     tslib: "npm:2.1.0"
-  checksum: 10c0/190cc3f7f8e676bf7fe04ed0dfb9c3b39591ffb472a412f1890e1329cdbc93610c0780a8fe3a38ec86cb9f089b2a585ad819e649c1df77ba12225b6159224503
+  checksum: 10c0/2ba39341e781494b08dd82c63c48928e4df60965e77c3fad4b9ce7fccabf9bafaca452de9efebdb5b4f222757bef1975327b26ba29c3585572848bb7e5c2f744
   languageName: node
   linkType: hard
 
-"@auto-it/first-time-contributor@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/first-time-contributor@npm:11.1.6"
+"@auto-it/first-time-contributor@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/first-time-contributor@npm:11.2.1"
   dependencies:
-    "@auto-it/bot-list": "npm:11.1.6"
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/bot-list": "npm:11.2.1"
+    "@auto-it/core": "npm:11.2.1"
     array.prototype.flatmap: "npm:^1.2.2"
     endent: "npm:^2.1.0"
     tslib: "npm:2.1.0"
     url-join: "npm:^4.0.0"
-  checksum: 10c0/79be70538914e75634027b8497e9d54c8164a1fc9feb276f325a040bca77a065d312d19dfb92a8f2323e79b47bf41daf37f98131d999596003daba8e6ba01822
+  checksum: 10c0/35aab06f083f8450c55691d3a5feaf472091d87766a1d728b09909a62a0d5b84a8d6c274aae9e77c85e3f6f95ccb8ebc626317191087533806468c0b6636f198
   languageName: node
   linkType: hard
 
-"@auto-it/gradle@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/gradle@npm:11.1.6"
+"@auto-it/gradle@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/gradle@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
     fp-ts: "npm:^2.5.3"
     io-ts: "npm:^2.1.2"
     semver: "npm:^7.0.0"
     tslib: "npm:2.1.0"
-  checksum: 10c0/533ef25d45cefd016926136b6790371f69df23db7faa7d89a5d0996ed8ff1b5296299760108a6a569634e4b6060471015b7f76339737cdf94dc0f6a16f30e1a7
+  checksum: 10c0/7b8dde507c0b3e7d59880d179cd078b78e6204b2c0aeea143f0f476c540236148b758328d0bad6df0081552ae1b4ffccb9dd8eccf6150dfe2dbcb9ee7f5d2163
   languageName: node
   linkType: hard
 
-"@auto-it/npm@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/npm@npm:11.1.6"
+"@auto-it/npm@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/npm@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
-    "@auto-it/package-json-utils": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
+    "@auto-it/package-json-utils": "npm:11.2.1"
     await-to-js: "npm:^3.0.0"
     endent: "npm:^2.1.0"
     env-ci: "npm:^5.0.1"
@@ -141,39 +141,39 @@ __metadata:
     typescript-memoize: "npm:^1.0.0-alpha.3"
     url-join: "npm:^4.0.0"
     user-home: "npm:^2.0.0"
-  checksum: 10c0/efe5ca78b65a064a7097d519e4e77da8182205491550f3f4a5a3bde780ef1ee095c9cc905bd535bb71d19409847566eb88e7e867592d6e3042a7b59390a85c38
+  checksum: 10c0/b06deb8f80f8dc1d07f78ffb58187b161ec694057159ddcc9656e9a0e94778659adb7b54351970369b107ead884596b338a46ed1c454270235a3390f7535bab9
   languageName: node
   linkType: hard
 
-"@auto-it/package-json-utils@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/package-json-utils@npm:11.1.6"
+"@auto-it/package-json-utils@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/package-json-utils@npm:11.2.1"
   dependencies:
     parse-author: "npm:^2.0.0"
     parse-github-url: "npm:1.0.2"
-  checksum: 10c0/a1cb6638eb476aedf2eb86e2be37c0e270dd47fca422526fa7b243c691090ab112a0f32c113693a910e22915f271fae50e683ae72c2c0762aa88607310a85777
+  checksum: 10c0/9a3a7509a8bb230a98d236d44ba38111bd57054a643c997dfb41d78e8af98ae238607682454ebe4e9427696e1e13092a3216121f4d8cec765ebf8947fc2d32fb
   languageName: node
   linkType: hard
 
-"@auto-it/released@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/released@npm:11.1.6"
+"@auto-it/released@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/released@npm:11.2.1"
   dependencies:
-    "@auto-it/bot-list": "npm:11.1.6"
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/bot-list": "npm:11.2.1"
+    "@auto-it/core": "npm:11.2.1"
     deepmerge: "npm:^4.0.0"
     fp-ts: "npm:^2.5.3"
     io-ts: "npm:^2.1.2"
     tslib: "npm:2.1.0"
-  checksum: 10c0/3b0991f5736235cf19714a59f8022753086beb68d4bc94a291b274cee5f4fe72ceb850864694adeb4c7cce0f6b162c4feb4e83affea81186816ffc5f380c3337
+  checksum: 10c0/e45e3351a1a8966821b6010a228c1ac2fa0d2ced5ca06f34b98a9deca5259b065870395f2fcecfdc26ea662365bb03b6aee5962a288dd414a64ec99997d91ece
   languageName: node
   linkType: hard
 
-"@auto-it/upload-assets@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/upload-assets@npm:11.1.6"
+"@auto-it/upload-assets@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/upload-assets@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
     endent: "npm:^2.1.0"
     fast-glob: "npm:^3.1.1"
     file-type: "npm:^16.0.0"
@@ -181,20 +181,20 @@ __metadata:
     io-ts: "npm:^2.1.2"
     terminal-link: "npm:^2.1.1"
     tslib: "npm:2.1.0"
-  checksum: 10c0/28487e93a6115de7fb99f8230d42d13f6e5bae04057659fb1c349e314e7c9be6361160fc5c7e0e62dc30f377b9eef5045ff83d9a1a608d16d07bb9cc4c40af03
+  checksum: 10c0/3110d1a14592e8d012fb5aa6c0fdf432678c1e650c689d89e47d7d0a134fde9b6a5d89065897580bfbf6a5c990a69676a401375a23a94b00253c84b8cb37d0a3
   languageName: node
   linkType: hard
 
-"@auto-it/version-file@npm:11.1.6":
-  version: 11.1.6
-  resolution: "@auto-it/version-file@npm:11.1.6"
+"@auto-it/version-file@npm:11.2.1":
+  version: 11.2.1
+  resolution: "@auto-it/version-file@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
     fp-ts: "npm:^2.5.3"
     io-ts: "npm:^2.1.2"
     semver: "npm:^7.0.0"
     tslib: "npm:1.10.0"
-  checksum: 10c0/4a209008184a37af4f0598c051be26d321ca0605470a9e74940d71aff4b9bb61c95c8cd19bbff9dd5eff86577bddd7ae45cd3b2742adc7ca103fb10875ab82c4
+  checksum: 10c0/d01bf1b497356544fa79f79cb12b0fbba07b68a982676442f821ce0493097cf804497d6d75b343c7c089a02c31333de73b777d2e7288630c152929406dc39007
   languageName: node
   linkType: hard
 
@@ -741,14 +741,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"auto@npm:11.1.6":
-  version: 11.1.6
-  resolution: "auto@npm:11.1.6"
+"auto@npm:11.2.1":
+  version: 11.2.1
+  resolution: "auto@npm:11.2.1"
   dependencies:
-    "@auto-it/core": "npm:11.1.6"
-    "@auto-it/npm": "npm:11.1.6"
-    "@auto-it/released": "npm:11.1.6"
-    "@auto-it/version-file": "npm:11.1.6"
+    "@auto-it/core": "npm:11.2.1"
+    "@auto-it/npm": "npm:11.2.1"
+    "@auto-it/released": "npm:11.2.1"
+    "@auto-it/version-file": "npm:11.2.1"
     await-to-js: "npm:^3.0.0"
     chalk: "npm:^4.0.0"
     command-line-application: "npm:^0.10.1"
@@ -759,7 +759,7 @@ __metadata:
     tslib: "npm:2.1.0"
   bin:
     auto: dist/bin/auto.js
-  checksum: 10c0/1009df6c407c16622e10d506083b97d8c25cc70f1a34d70c10baaddf5895b446ebf3c118a293d229f94d52ce9578d00318993c29e1325c2995770155497ad576
+  checksum: 10c0/91b5256c1d25d1197bf5530e15afb4c61e138c42856d1d1d1e0aff173951a08acd70c7ec1d53b8f312f949ca273b4718d915456f06d3e3dae9d93ba1db49bb45
   languageName: node
   linkType: hard
 
@@ -2975,13 +2975,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@auto-it/conventional-commits": "npm:11.1.6"
-    "@auto-it/exec": "npm:11.1.6"
-    "@auto-it/first-time-contributor": "npm:11.1.6"
-    "@auto-it/gradle": "npm:11.1.6"
-    "@auto-it/released": "npm:11.1.6"
-    "@auto-it/upload-assets": "npm:11.1.6"
-    auto: "npm:11.1.6"
+    "@auto-it/conventional-commits": "npm:11.2.1"
+    "@auto-it/exec": "npm:11.2.1"
+    "@auto-it/first-time-contributor": "npm:11.2.1"
+    "@auto-it/gradle": "npm:11.2.1"
+    "@auto-it/released": "npm:11.2.1"
+    "@auto-it/upload-assets": "npm:11.2.1"
+    auto: "npm:11.2.1"
     conventional-changelog-angular: "npm:5.0.13"
   languageName: unknown
   linkType: soft
