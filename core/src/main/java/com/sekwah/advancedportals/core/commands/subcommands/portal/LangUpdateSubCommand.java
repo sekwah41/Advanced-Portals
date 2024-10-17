@@ -30,7 +30,7 @@ public class LangUpdateSubCommand implements SubCommand {
         if (args.length > 1 && args[1].equalsIgnoreCase("overwrite")) {
             this.portalsCore.getDataStorage().copyDefaultFile(
                 "lang/" + configRepository.getTranslation() + ".lang", true);
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translate("translatedata.replaced"));
             Lang.loadLanguage(configRepository.getTranslation());
         } else {
@@ -74,7 +74,7 @@ public class LangUpdateSubCommand implements SubCommand {
             Lang.loadLanguage(configRepository.getTranslation());
 
             sender.sendMessage(
-                Lang.translate("messageprefix.positive")
+                Lang.getPositivePrefix()
                 + Lang.translateInsertVariables("translatedata.updated",
                                                 newTranslations.size()));
         }

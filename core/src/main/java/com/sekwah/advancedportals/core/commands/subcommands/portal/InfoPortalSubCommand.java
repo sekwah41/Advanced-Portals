@@ -19,15 +19,16 @@ public class InfoPortalSubCommand implements SubCommand {
             var portalName = args[1];
             var portal = portalServices.getPortal(portalName);
             if(portal == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
+                sender.sendMessage(Lang.getNegativePrefix()
                         + Lang.translateInsertVariables("command.portal.info.notfound", portalName));
                 return;
             }
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                     + Lang.translateInsertVariables("command.portal.info.complete", portalName));
             TagReader.printArgs(sender, portal.getArgs());
         } else {
-            sender.sendMessage(Lang.translate("command.portal.info.noname"));
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.info.noname"));
         }
     }
 

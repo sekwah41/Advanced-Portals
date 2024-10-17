@@ -40,5 +40,9 @@ public interface ConfigRepository {
 
     String getWarpSound();
 
+    boolean warpMessageOnActionBar();
+
+    boolean warpMessageInChat();
+
     String getWarpParticles();
 }

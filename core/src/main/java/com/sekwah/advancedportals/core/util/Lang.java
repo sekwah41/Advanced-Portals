@@ -21,6 +21,10 @@ public class Lang {
     public static final Lang instance = new Lang();
     private final HashMap<String, String> languageMap = new HashMap<>();
 
+    private String negativePrefix;
+
+    private String positivePrefix;
+
     @Inject
     private DataStorage dataStorage;
 
@@ -34,6 +38,17 @@ public class Lang {
             instance.injectTranslations(DEFAULT_LANG);
         }
         instance.injectTranslations(fileName);
+
+        instance.negativePrefix = translate("messageprefix.negative");
+        instance.positivePrefix = translate("messageprefix.positive");
+    }
+
+    public static String getNegativePrefix() {
+        return instance.negativePrefix;
+    }
+
+    public static String getPositivePrefix() {
+        return instance.positivePrefix;
     }
 
     public static String translate(String s) {
@@ -41,12 +56,15 @@ public class Lang {
             String translation = instance.languageMap.get(s);
             // noinspection ALL (not sure what the specific warning is for
             // escaped unicode)
-            translation =
-                translation.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
+            translation = convertColors(translation);
             return translation;
         } else {
             return s;
         }
+    }
+
+    public static String convertColors(String s) {
+        return s.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
     }
 
     public static String translateInsertVariables(String s, Object... args) {

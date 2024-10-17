@@ -117,6 +117,16 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean warpMessageOnActionBar() {
+        return this.config.warpMessageOnActionBar;
+    }
+
+    @Override
+    public boolean warpMessageInChat() {
+        return this.config.warpMessageInChat;
+    }
+
+    @Override
     public void storeConfig() {
         this.dataStorage.storeFile(this.config, "config.yaml");
     }

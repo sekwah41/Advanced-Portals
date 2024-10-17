@@ -51,7 +51,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
         var commandPortals = configRepository.getCommandPortals();
 
         if (!commandPortals.enabled) {
-            player.sendMessage(Lang.translate("messageprefix.negative")
+            player.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("tag.command.disabled"));
             return false;
         }
@@ -62,7 +62,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 case '!':
                     if (!commandPortals.op) {
                         player.sendMessage(
-                            Lang.translate("messageprefix.negative")
+                            Lang.getNegativePrefix()
                             + Lang.translate("tag.command.op.disabled"));
                         return false;
                     }
@@ -70,7 +70,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 case '#':
                     if (!commandPortals.console) {
                         player.sendMessage(
-                            Lang.translate("messageprefix.negative")
+                            Lang.getNegativePrefix()
                             + Lang.translate("tag.command.console.disabled"));
                         return false;
                     }
@@ -78,7 +78,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 case '^':
                     if (!commandPortals.permsWildcard) {
                         player.sendMessage(
-                            Lang.translate("messageprefix.negative")
+                            Lang.getNegativePrefix()
                             + Lang.translate(
                                 "tag.command.permswildcard.disabled"));
                         return false;
@@ -140,7 +140,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
         if (argData != null) {
             var commandPortals = configRepository.getCommandPortals();
             if (!commandPortals.enabled) {
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("tag.command.disabled"));
                 return false;
             }
@@ -149,12 +149,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 return switch (executionCommand) {
                     case '!' -> {
                         if (!commandPortals.op) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.op.disabled"));
                             yield false;
                         }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.op")) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "OP"));
                             yield false;
                         }
@@ -162,12 +162,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     }
                     case '#' -> {
                         if (!commandPortals.console) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.console.disabled"));
                             yield false;
                         }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.console")) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission","Console"));
                             yield false;
                         }
@@ -175,12 +175,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     }
                     case '^' -> {
                         if (!commandPortals.permsWildcard) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.permswildcard.disabled"));
                             yield false;
                         }
                         if (!player.hasPermission("advancedportals.createportal.commandlevel.permswild")) {
-                            player.sendMessage(Lang.translate("messageprefix.negative")
+                            player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "*"));
                             yield false;
                         }

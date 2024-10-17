@@ -19,12 +19,12 @@ public class TeleportDestiSubCommand implements SubCommand {
             if (destinationServices.teleportToDestination(
                     args[1], sender.getPlayerContainer())) {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
+                    Lang.getPositivePrefix()
                     + Lang.translate("command.destination.teleport.success")
                           .replaceAll("@destiname", args[1]));
             } else {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.destination.teleport.error")
                           .replaceAll("@destiname", args[1]));
             }

@@ -45,7 +45,7 @@ public class ShowDestiSubCommand
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (core.getMcVersion()[1] < 16) {
             sender.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("command.portal.show.unsupported"));
             return;
         }
@@ -54,11 +54,11 @@ public class ShowDestiSubCommand
             tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
             sender.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("command.destination.show.disabled"));
         } else {
             sender.sendMessage(
-                Lang.translate("messageprefix.positive")
+                Lang.getPositivePrefix()
                 + Lang.translate("command.destination.show.enabled"));
         }
         tempData.setDestiVisible(!tempData.isDestiVisible());

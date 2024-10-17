@@ -27,18 +27,18 @@ public class ImportPortalSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1 && "confirm".equals(args[1])) {
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translateInsertVariables(
                                    "command.portal.import.confirm"));
             int destinations = importDestinations();
             int portals = importPortals();
             sender.sendMessage(
-                Lang.translate("messageprefix.positive")
+                Lang.getPositivePrefix()
                 + Lang.translateInsertVariables(
                     "command.portal.import.complete", portals, destinations));
             return;
         }
-        sender.sendMessage(Lang.translate("messageprefix.positive")
+        sender.sendMessage(Lang.getPositivePrefix()
                            + Lang.translateInsertVariables(
                                "command.portal.import", getPortalCount(),
                                getDestinationCount()));

@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.spi.Message;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.*;
@@ -130,6 +131,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new PermissionTag());
         this.tagRegistry.registerTag(new CommandTag());
         this.tagRegistry.registerTag(new PortalEventTag());
+        this.tagRegistry.registerTag(new MessageTag());
     }
 
     /**

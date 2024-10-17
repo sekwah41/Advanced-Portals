@@ -87,7 +87,7 @@ public class CoreListeners {
         }
         if (!(PortalPermissions.BUILD.hasPermission(player)
               || !portalServices.inPortalRegionProtected(blockPos))) {
-            player.sendMessage(Lang.translate("messageprefix.negative")
+            player.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("portal.nobuild"));
             return false;
         }
@@ -128,7 +128,7 @@ public class CoreListeners {
         }
         if (portalServices.inPortalRegionProtected(blockPos)) {
             if (player != null) {
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("portal.nobuild"));
             }
             return false;

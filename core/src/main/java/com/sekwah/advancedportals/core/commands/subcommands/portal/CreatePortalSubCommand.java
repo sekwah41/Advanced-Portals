@@ -38,7 +38,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
         if (args.length > 1) {
             PlayerContainer player = sender.getPlayerContainer();
             if (player == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.create.console"));
                 return;
             }
@@ -60,7 +60,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             }
 
             if (nameTag == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.error.noname"));
                 return;
             }
@@ -90,16 +90,16 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             AdvancedPortal portal =
                 portalServices.createPortal(player, portalTags);
             if (portal != null) {
-                sender.sendMessage(Lang.translate("messageprefix.positive")
+                sender.sendMessage(Lang.getPositivePrefix()
                                    + Lang.translate("command.create.complete"));
                 sender.sendMessage(Lang.translate("command.create.tags"));
                 TagReader.printArgs(sender, portal.getArgs());
             } else {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.create.error"));
             }
         } else {
-            sender.sendMessage(Lang.translate("messageprefix.negative")
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("command.error.notags"));
         }
     }

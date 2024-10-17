@@ -17,7 +17,7 @@ public class PortalBlockSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
         if (player == null) {
-            sender.sendMessage(Lang.translate("messageprefix.negative")
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("command.playeronly"));
         } else {
             player.giveItem(
@@ -27,7 +27,7 @@ public class PortalBlockSubCommand implements SubCommand {
                     + "\u00A77: Rotate portal block",
                 "\u00A7r\u00A7e" + Lang.translate("items.interact.right")
                     + "\u00A77: Place portal block");
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translate("command.portalblock"));
         }
     }

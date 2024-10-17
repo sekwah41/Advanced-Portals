@@ -30,7 +30,7 @@ public class ReloadPortalSubCommand implements SubCommand {
         portalServices.loadPortals();
         destinationServices.loadDestinations();
         Lang.loadLanguage(configRepository.getTranslation());
-        sender.sendMessage(Lang.translate("messageprefix.positive")
+        sender.sendMessage(Lang.getPositivePrefix()
                            + Lang.translate("command.reload.reloaded"));
     }
 

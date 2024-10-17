@@ -19,11 +19,11 @@ public class RemoveDestiSubCommand implements SubCommand {
             if (destinationServices.removeDestination(
                     args[1], sender.getPlayerContainer())) {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
+                    Lang.getPositivePrefix()
                     + Lang.translate("command.destination.remove.complete"));
             } else {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.destination.remove.error"));
             }
         } else {

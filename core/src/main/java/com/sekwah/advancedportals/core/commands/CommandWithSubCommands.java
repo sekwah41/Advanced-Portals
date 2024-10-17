@@ -87,7 +87,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                                                      .getDetailedHelpText());
                         } else {
                             sender.sendMessage(
-                                Lang.translate("messageprefix.negative")
+                                Lang.getNegativePrefix()
                                 + Lang.translateInsertVariables(
                                     "command.help.invalidhelp", args[1]));
                         }
@@ -129,7 +129,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                             subCommand.onCommand(sender, args);
                         } else {
                             sender.sendMessage(
-                                Lang.translate("messageprefix.negative")
+                                Lang.getNegativePrefix()
                                 + Lang.translateInsertVariables(
                                     "command.subcommand.nopermission",
                                     commandExecuted));
@@ -138,11 +138,11 @@ public class CommandWithSubCommands implements CommandTemplate {
                     }
                 }
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.subcommand.invalid"));
             }
         } else {
-            sender.sendMessage(Lang.translate("messageprefix.negative")
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translateInsertVariables(
                                    "command.noargs", commandExecuted));
         }

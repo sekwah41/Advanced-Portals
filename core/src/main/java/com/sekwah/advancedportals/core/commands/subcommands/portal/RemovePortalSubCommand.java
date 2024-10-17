@@ -18,11 +18,11 @@ public class RemovePortalSubCommand implements SubCommand {
             if (portalServices.removePortal(args[1],
                                             sender.getPlayerContainer())) {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
+                    Lang.getPositivePrefix()
                     + Lang.translate("command.portal.remove.complete"));
             } else {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.portal.remove.error"));
             }
         } else {

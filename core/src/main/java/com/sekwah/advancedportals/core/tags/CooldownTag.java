@@ -104,7 +104,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
         try {
             Integer.parseInt(argData[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(Lang.translate("messageprefix.negative")
+            player.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("tag.cooldown.fail"));
             return false;
         }

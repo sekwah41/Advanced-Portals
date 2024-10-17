@@ -164,7 +164,7 @@ public class PortalServices {
 
         if (tempData.getPos1() == null || tempData.getPos2() == null) {
             player.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("portal.error.selection.missing"));
             return null;
         }
@@ -172,7 +172,7 @@ public class PortalServices {
         if (!tempData.getPos1().getWorldName().equals(
                 tempData.getPos2().getWorldName())) {
             player.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("portal.error.selection.differentworlds"));
             return null;
         }
@@ -193,12 +193,12 @@ public class PortalServices {
         String name = nameTag == null ? null : nameTag.VALUES[0];
         if (nameTag == null || name == null || name.isEmpty()) {
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.error.noname"));
             return null;
         } else if (this.portalRepository.containsKey(name)) {
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translateInsertVariables(
                                        "command.error.nametaken", name));
             return null;
@@ -230,7 +230,7 @@ public class PortalServices {
         } catch (Exception e) {
             e.printStackTrace();
             if (player != null)
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("portal.error.save"));
         }
 
