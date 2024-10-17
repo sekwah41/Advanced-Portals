@@ -13,6 +13,8 @@ public interface PlayerContainer extends EntityContainer {
 
     void sendMessage(String message);
 
+    void sendActionBar(String message);
+
     boolean isOp();
 
     boolean hasPermission(String permission);

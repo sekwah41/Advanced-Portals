@@ -15,7 +15,7 @@ public class ListPortalsSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         sender.sendMessage(
-            Lang.translate("messageprefix.positive")
+            Lang.getPositivePrefix()
             + Lang.translate("command.portal.list") + " "
             + portalServices.getPortalNames().stream().sorted().collect(
                 Collectors.joining(", ")));

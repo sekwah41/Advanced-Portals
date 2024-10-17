@@ -60,7 +60,7 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
         if (argData.length > 0) {
             String name = argData[0];
             if (name.contains(" ")) {
-                player.sendMessage(Lang.translate("messageprefix.negative")
+                player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("tag.name.error.nospaces"));
                 return false;
             }

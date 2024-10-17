@@ -29,7 +29,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             PlayerContainer player = sender.getPlayerContainer();
             if (player == null) {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.create.destination.console"));
                 return;
             }
@@ -51,7 +51,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             }
 
             if (nameTag == null) {
-                sender.sendMessage(Lang.translate("messageprefix.negative")
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("command.error.noname"));
                 return;
             }
@@ -69,16 +69,16 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
                 player, player.getLoc(), destinationTags);
             if (destination != null) {
                 sender.sendMessage(
-                    Lang.translate("messageprefix.positive")
+                    Lang.getPositivePrefix()
                     + Lang.translate("command.create.destination.complete"));
             } else {
                 sender.sendMessage("");
                 sender.sendMessage(
-                    Lang.translate("messageprefix.negative")
+                    Lang.getNegativePrefix()
                     + Lang.translate("command.create.destination.error"));
             }
         } else {
-            sender.sendMessage(Lang.translate("messageprefix.negative")
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("command.error.noname"));
         }
     }
