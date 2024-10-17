@@ -11,6 +11,9 @@ import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import java.util.Arrays;
 import java.util.UUID;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,6 +45,11 @@ public class SpigotPlayerContainer
     @Override
     public void sendMessage(String message) {
         player.sendMessage(message);
+    }
+
+    @Override
+    public void sendActionBar(String message) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 
     @Override

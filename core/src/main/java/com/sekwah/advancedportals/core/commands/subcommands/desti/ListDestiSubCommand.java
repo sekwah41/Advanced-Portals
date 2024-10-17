@@ -15,7 +15,7 @@ public class ListDestiSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         sender.sendMessage(
-            Lang.translate("messageprefix.positive")
+            Lang.getPositivePrefix()
             + Lang.translate("command.destination.list") + " "
             + portalServices.getDestinationNames().stream().sorted().collect(
                 Collectors.joining(", ")));
