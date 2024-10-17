@@ -15,6 +15,10 @@ public interface ServerContainer {
 
     PlayerContainer[] getPlayers();
 
+    void registerOutgoingChannel(String channel);
+
+    void registerIncomingChannel(String channel);
+
     void dispatchCommand(UUID uuid, String command,
                          CommandTag.CommandLevel commandLevel);
 }
