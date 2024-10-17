@@ -129,6 +129,11 @@ public interface Tag {
         boolean preActivated(TagTarget target, PlayerContainer player,
                              ActivationData activeData, String[] argData);
 
+        /**
+         * Please do not misuse this as it will cause problems for existing portals. This was mostly added for the message tag.
+         * Though can be used to globally attach behavior to all portals even if not set.
+         * @return if the tag should be triggered with no arguments
+         */
         default boolean triggerWithNoArgs() {
             return false;
         }

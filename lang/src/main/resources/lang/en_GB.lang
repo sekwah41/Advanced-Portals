@@ -71,6 +71,7 @@ command.create.destination.complete= The destination has been successfully creat
 
 command.portal.info.complete= Portal information for &e%1$s&a:
 command.portal.info.notfound= No portal by the name &e%1$s &cwas found.
+command.portal.info.noname= You must specify a name.
 
 
 command.create.tags=&aTags&7:

@@ -70,12 +70,11 @@ public class Destination implements TagTarget {
 
     private void updateDestiTagList() {
         destiTags.clear();
-        int i = 0;
         for (Map.Entry<String, String[]> entry : args.entrySet()) {
             this.destiTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
 
-        this.tagRegistry.getAlwaysTriggerTags().forEach((key, value) -> {
+        this.tagRegistry.getTriggerWithNoArgs().forEach((key, value) -> {
             if (value.getTagTypes().length == 0) {
                 this.destiTags.add(new DataTag(key));
             }
@@ -102,6 +101,9 @@ public class Destination implements TagTarget {
     }
 
     public boolean portalActivate(PlayerContainer player, ActivationData data) {
+        if(!isSorted) {
+            updateDestiTagList();
+        }
         DataTag[] destiTags = new DataTag[args.size()];
         int i = 0;
         for (Map.Entry<String, String[]> entry : args.entrySet()) {

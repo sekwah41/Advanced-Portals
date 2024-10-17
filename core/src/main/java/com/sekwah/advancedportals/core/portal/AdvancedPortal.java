@@ -77,14 +77,14 @@ public class AdvancedPortal implements TagTarget {
         // TODO need to add the ability to add args after creation
     }
 
-    private void updatePortalTagList() {
+    public void updatePortalTagList() {
         portalTags.clear();
         int i = 0;
         for (Map.Entry<String, String[]> entry : args.entrySet()) {
             this.portalTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
 
-        this.tagRegistry.getAlwaysTriggerTags().forEach((key, value) -> {
+        this.tagRegistry.getTriggerWithNoArgs().forEach((key, value) -> {
             if (value.getTagTypes().length == 0) {
                 this.portalTags.add(new DataTag(key));
             }

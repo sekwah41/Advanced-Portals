@@ -27,7 +27,8 @@ public class InfoPortalSubCommand implements SubCommand {
                     + Lang.translateInsertVariables("command.portal.info.complete", portalName));
             TagReader.printArgs(sender, portal.getArgs());
         } else {
-            sender.sendMessage(Lang.translate("command.portal.info.noname"));
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.info.noname"));
         }
     }
 
