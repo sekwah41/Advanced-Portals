@@ -39,11 +39,6 @@ public class MessageTag implements Tag.Activation {
     }
 
     @Override
-    public boolean triggerWithNoArgs() {
-        return true;
-    }
-
-    @Override
     public String getName() {
         return TAG_NAME;
     }
@@ -60,23 +55,25 @@ public class MessageTag implements Tag.Activation {
 
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-        return false;
+
+        String selectedArg = argData[random.nextInt(argData.length)];
+        activeData.setMetadata(TAG_NAME, selectedArg);
+        activeData.setWarpStatus(ActivationData.WarpedStatus.ACTIVATED);
+        return true;
     }
 
     @Override
     public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-        if(argData.length != 0) {
-            String selectedArg = argData[random.nextInt(argData.length)];
-
-            sendMessage(player, selectedArg);
-        }
 
         var destination = activationData.getMetadata(DestiTag.TAG_NAME);
-        if (destination == null) {
-            return;
+        var message = activationData.getMetadata(TAG_NAME);
+        if(destination == null) {
+            destination = "";
+        } else {
+            destination = destination.replaceAll("_", " ");
         }
 
-        player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("desti.warp", destination.replaceAll("_", " ")));
+        sendMessage(player, message.replaceAll("@desti", destination).replaceAll("@player", player.getName()));
     }
 
     @Override
@@ -86,7 +83,7 @@ public class MessageTag implements Tag.Activation {
 
     public void sendMessage(PlayerContainer player, String message) {
         if(this.configRepository.warpMessageOnActionBar()) {
-            player.sendMessage(Lang.convertColors(message));
+            player.sendActionBar(Lang.convertColors(message));
         }
         else if(this.configRepository.warpMessageInChat()) {
             player.sendMessage(Lang.getPositivePrefix() + " " + Lang.convertColors(message));

@@ -20,7 +20,6 @@ public class TagRegistry {
     private final ArrayList<Tag> tags = new ArrayList<>();
 
     private final Map<String, Tag> tagMap = new HashMap<>();
-    private final Map<String, Tag.Activation> triggerWithNoArgs = new HashMap<>();
     private final Map<String, Tag.Activation> activationTags = new HashMap<>();
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
     private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
@@ -58,10 +57,6 @@ public class TagRegistry {
      */
     public Tag.TagStatus getStatusHandler(String arg) {
         return this.statusTags.get(arg);
-    }
-
-    public Map<String, Tag.Activation> getTriggerWithNoArgs() {
-        return this.triggerWithNoArgs;
     }
 
     /**
@@ -105,9 +100,6 @@ public class TagRegistry {
 
         if (tag instanceof Tag.Activation tagActivation) {
             this.activationTags.put(tagName, tagActivation);
-            if(tagActivation.triggerWithNoArgs()) {
-                this.triggerWithNoArgs.put(tagName, tagActivation);
-            }
         }
         if (tag instanceof Tag.TagStatus tagStatus) {
             this.statusTags.put(tagName, tagStatus);

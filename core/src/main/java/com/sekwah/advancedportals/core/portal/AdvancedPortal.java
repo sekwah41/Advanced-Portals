@@ -84,12 +84,6 @@ public class AdvancedPortal implements TagTarget {
             this.portalTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
 
-        this.tagRegistry.getTriggerWithNoArgs().forEach((key, value) -> {
-            if (value.getTagTypes().length == 0) {
-                this.portalTags.add(new DataTag(key));
-            }
-        });
-
         // sort the tags by priority
         this.portalTags.sort(Comparator.comparingInt(o -> {
             var tag = tagRegistry.getTag(o.NAME);

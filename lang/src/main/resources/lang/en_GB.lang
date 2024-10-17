@@ -152,7 +152,7 @@ desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)
 desti.error.notfound= No destination by the name &e%1$s &cwas found.
 
-desti.warpdesti.warp= &aYou have warped to &e%1$s&a.
+desti.warpdesti.warp=&aYou have warped to &e%1$s&a.
 
 error.notplayer=Only players can do that.
 

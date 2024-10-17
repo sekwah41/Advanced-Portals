@@ -20,6 +20,10 @@ import java.util.Random;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     public static String TAG_NAME = "destination";
+
+    @Inject
+    ConfigRepository configRepository;
+
     @Inject
     DestinationServices destinationServices;
 
@@ -98,6 +102,10 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
                     activationHandler.postActivated(target, player, activationData, argData);
                 }
             }
+            var message = activationData.getMetadata(MessageTag.TAG_NAME);
+            if(message == null) {
+                sendMessage(player, Lang.translateInsertVariables("desti.warpdesti.warp", destination.getName().replaceAll("_", " ")));
+            }
         }
     }
 
@@ -126,6 +134,15 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
             activationData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         }
         return true;
+    }
+
+    public void sendMessage(PlayerContainer player, String message) {
+        if(this.configRepository.warpMessageOnActionBar()) {
+            player.sendActionBar(Lang.convertColors(message));
+        }
+        else if(this.configRepository.warpMessageInChat()) {
+            player.sendMessage(Lang.getPositivePrefix() + " " + Lang.convertColors(message));
+        }
     }
 
     @Override

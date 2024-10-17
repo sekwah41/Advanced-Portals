@@ -74,12 +74,6 @@ public class Destination implements TagTarget {
             this.destiTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
 
-        this.tagRegistry.getTriggerWithNoArgs().forEach((key, value) -> {
-            if (value.getTagTypes().length == 0) {
-                this.destiTags.add(new DataTag(key));
-            }
-        });
-
         this.destiTags.sort(Comparator.comparingInt(o -> {
             var tag = tagRegistry.getTag(o.NAME);
             if (tag instanceof Tag.OrderPriority tagPriority) {
