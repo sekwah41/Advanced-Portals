@@ -68,13 +68,19 @@ public class ImportPortalSubCommand implements SubCommand {
             if (triggerblock != null)
                 args.add(new DataTag("triggerblock", triggerblock.split(",")));
             // It's called bungee as that's the implementation behind it
-            var bungee = config.getString(portalName + ".bungee");
-            if (bungee != null)
-                args.add(new DataTag("bungee", bungee.split(",")));
 
             var destination = config.getString(portalName + ".destination");
             if (destination != null)
                 args.add(new DataTag("destination", destination.split(",")));
+
+            var bungee = config.getString(portalName + ".bungee");
+            if (bungee != null) {
+                if(destination == null) {
+                    args.add(new DataTag("bungee", bungee.split(",")));
+                } else {
+                    args.add(new DataTag("proxy", bungee.split(",")));
+                }
+            }
 
             ConfigurationSection portalConfigSection =
                 config.getConfigurationSection(portalName);
