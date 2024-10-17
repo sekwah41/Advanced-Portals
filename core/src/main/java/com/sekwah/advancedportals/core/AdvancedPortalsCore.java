@@ -117,10 +117,15 @@ public class AdvancedPortalsCore {
 
         this.registerCommands();
         this.registerTags();
+        this.registerChannels();
 
         this.portalServices.loadPortals();
         this.destinationServices.loadDestinations();
         this.infoLogger.info(Lang.translate("logger.pluginenable"));
+    }
+
+    private void registerChannels() {
+        this.serverContainer.registerOutgoingChannel(BungeeTag.PACKET_CHANNEL);
     }
 
     private void registerTags() {
@@ -132,6 +137,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new CommandTag());
         this.tagRegistry.registerTag(new PortalEventTag());
         this.tagRegistry.registerTag(new MessageTag());
+        this.tagRegistry.registerTag(new BungeeTag());
     }
 
     /**
