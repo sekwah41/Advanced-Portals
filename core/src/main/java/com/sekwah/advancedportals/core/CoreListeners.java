@@ -55,6 +55,10 @@ public class CoreListeners {
         this.playerDataServices.playerLeave(player);
     }
 
+    public void incomingMessage(PlayerContainer player, String channel, byte[] message) {
+        // TODO implement proxy handling
+    }
+
     public void tick() {
         this.gameScheduler.tick();
     }

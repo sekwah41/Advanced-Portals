@@ -34,10 +34,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
+        var serverContainer = new SpigotServerContainer(this.getServer());
         this.portalsCore = new AdvancedPortalsCore(
             matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
-            new SpigotInfoLogger(this),
-            new SpigotServerContainer(this.getServer()));
+            new SpigotInfoLogger(this), serverContainer);
         AdvancedPortalsModule module = this.portalsCore.getModule();
 
         module.addInstanceBinding(CommandRegister.class,
@@ -46,6 +46,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         Injector injector = module.getInjector();
 
         injector.injectMembers(this.portalsCore);
+        injector.injectMembers(serverContainer);
 
         Listeners listeners = injector.getInstance(Listeners.class);
         injector.injectMembers(listeners);
