@@ -12,15 +12,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-/**
- * The name of the destination or portal.
- *
- * <p>Most of the implementation of this tag is external, this is just to allow
- * for the tag to be used.
- *
- * <p>Most tags shouldn't be like this unless they are to be paired with
- * another tag.
- */
 public class MessageTag implements Tag.Activation {
 
     @Inject
@@ -55,10 +46,6 @@ public class MessageTag implements Tag.Activation {
 
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-
-        String selectedArg = argData[random.nextInt(argData.length)];
-        activeData.setMetadata(TAG_NAME, selectedArg);
-        activeData.setWarpStatus(ActivationData.WarpedStatus.ACTIVATED);
         return true;
     }
 
@@ -77,7 +64,10 @@ public class MessageTag implements Tag.Activation {
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+        String selectedArg = argData[random.nextInt(argData.length)];
+        activeData.setMetadata(TAG_NAME, selectedArg);
+        activeData.setWarpStatus(ActivationData.WarpedStatus.ACTIVATED);
         return true;
     }
 
