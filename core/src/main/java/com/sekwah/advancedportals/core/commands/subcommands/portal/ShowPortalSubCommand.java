@@ -62,7 +62,7 @@ public class ShowPortalSubCommand
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (core.getMcVersion()[1] < 16) {
             sender.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("command.portal.show.unsupported"));
             return;
         }
@@ -71,10 +71,10 @@ public class ShowPortalSubCommand
             playerDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isPortalVisible()) {
             sender.sendMessage(
-                Lang.translate("messageprefix.negative")
+                Lang.getNegativePrefix()
                 + Lang.translate("command.portal.show.disabled"));
         } else {
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translate("command.portal.show.enabled"));
         }
         tempData.setPortalVisible(!tempData.isPortalVisible());

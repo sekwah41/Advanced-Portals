@@ -17,14 +17,14 @@ public class EndGatewayBlockSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         PlayerContainer player = sender.getPlayerContainer();
         if (player == null) {
-            sender.sendMessage(Lang.translate("messageprefix.negative")
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("command.playeronly"));
         } else {
             player.giveItem(
                 "BLACK_WOOL", "\u00A78Gateway Block Placer",
                 "\u00A7r\u00A77This wool is made of a magical substance",
                 "\u00A7r\u00A7eRight Click\u00A77: Place portal block");
-            sender.sendMessage(Lang.translate("messageprefix.positive")
+            sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translate("command.gatewayblock"));
         }
     }
