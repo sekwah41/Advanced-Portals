@@ -35,7 +35,7 @@ public class Config {
     public boolean playFailSound = true;
 
     public boolean warpMessageOnActionBar = true;
-    
+
     public boolean warpMessageInChat = false;
 
     public CommandPortalConfig commandPortals = new CommandPortalConfig();
