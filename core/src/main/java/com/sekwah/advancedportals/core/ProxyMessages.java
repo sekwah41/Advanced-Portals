@@ -5,7 +5,7 @@ package com.sekwah.advancedportals.core;
  */
 public class ProxyMessages {
 
-    public static String CHANNEL_NAME = "advancedportals:warp";
+    public static String CHANNEL_NAME = "advancedportals";
 
     public static String PROXY_TRANSFER_DESTI = "proxy:transfer_desti";
     public static String PROXY_TRANSFER = "proxy:transfer";
