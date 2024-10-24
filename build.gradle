@@ -158,3 +158,16 @@ tasks.register('copyPlugin') {
         }
     }
 }
+
+// Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
+// DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
+tasks.register('runJar') {
+    doLast {
+        javaexec {
+            main "-jar"
+            args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
+            jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+            workingDir "${System.env.MC_SERVER_LOC}"
+        }
+    }
+}

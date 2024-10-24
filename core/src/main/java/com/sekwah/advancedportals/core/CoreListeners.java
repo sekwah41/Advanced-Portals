@@ -56,7 +56,7 @@ public class CoreListeners {
     }
 
     public void incomingMessage(PlayerContainer player, String channel, byte[] message) {
-        // TODO implement proxy handling
+
     }
 
     public void tick() {

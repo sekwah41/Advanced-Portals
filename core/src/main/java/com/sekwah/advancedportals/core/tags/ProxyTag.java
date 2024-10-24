@@ -2,19 +2,24 @@ package com.sekwah.advancedportals.core.tags;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.Random;
 
-public class BungeeTag implements Tag.Activation {
+public class ProxyTag implements Tag.Activation {
 
-    public static final String PACKET_CHANNEL = "BungeeCord";
+    @Inject
+    ConfigRepository configRepository;
 
-    public static String TAG_NAME = "bungee";
+    public static String TAG_NAME = "proxy";
 
     private final TagType[] tagTypes =
         new TagType[] {TagType.PORTAL};
@@ -38,7 +43,7 @@ public class BungeeTag implements Tag.Activation {
 
     @Override
     public String description() {
-        return Lang.translate("tag.bungee.description");
+        return Lang.translate("tag.proxy.description");
     }
 
     @Override
@@ -55,10 +60,8 @@ public class BungeeTag implements Tag.Activation {
     public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
         String selectedArg = argData[random.nextInt(argData.length)];
 
-        ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();
-        outForSend.writeUTF("Connect");
-        outForSend.writeUTF(selectedArg);
-        player.sendPacket(BungeeTag.PACKET_CHANNEL, outForSend.toByteArray());
+        var packet = new ProxyTransferPacket(selectedArg);
+        player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
         activeData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         return true;
     }
