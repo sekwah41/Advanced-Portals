@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.network;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.core.ProxyMessages;
 
 public class ProxyCommandPacket {
@@ -12,9 +13,11 @@ public class ProxyCommandPacket {
         this.command = command;
     }
 
-    public static void encode(ProxyCommandPacket msg, ByteArrayDataOutput buffer) {
+    public byte[] encode() {
+        ByteArrayDataOutput buffer = ByteStreams.newDataOutput();
         buffer.writeUTF(ProxyMessages.PROXY_COMMAND);
-        buffer.writeUTF(msg.command);
+        buffer.writeUTF(this.command);
+        return buffer.toByteArray();
     }
 
     public static ProxyCommandPacket decode(ByteArrayDataInput buffer) {

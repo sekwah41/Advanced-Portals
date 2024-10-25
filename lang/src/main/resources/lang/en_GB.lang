@@ -189,6 +189,7 @@ tag.command.disabled= Command portals are &edisabled &con this server. Please co
 tag.command.op.disabled= Op command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.console.disabled= Console command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+tag.command.proxy.disabled= Proxy command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 
 tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
 tag.proxy.description= Sets the server destination of the portal.

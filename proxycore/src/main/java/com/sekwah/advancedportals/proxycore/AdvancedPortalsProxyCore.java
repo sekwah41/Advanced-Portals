@@ -2,8 +2,10 @@ package com.sekwah.advancedportals.proxycore;
 
 import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.core.ProxyMessages;
+import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyServerContainer;
@@ -19,12 +21,11 @@ public class AdvancedPortalsProxyCore {
     }
 
     public void onEnable() {
-        this.logger.info("\u00A7aSuccessfully enabled!");
+        this.logger.info(Lang.convertColors("&aSuccessfully enabled!"));
     }
 
     public void onDisable() {
-
-        this.logger.info("\u00A7cDisabling plugin!");
+        this.logger.info(Lang.convertColors("&cDisabling plugin!"));
     }
 
     public void onServerConnect(ProxyServerContainer server, ProxyPlayerContainer player) {
@@ -37,7 +38,6 @@ public class AdvancedPortalsProxyCore {
      * @param message
      */
     public void incomingMessage(ProxyPlayerContainer player, byte[] message) {
-        this.logger.info("Message received from server via " + player.getName());
 
         var buffer = ByteStreams.newDataInput(message);
         var messageType = buffer.readUTF();
@@ -46,9 +46,14 @@ public class AdvancedPortalsProxyCore {
         // the encode behavior in the packets
         switch (messageType) {
             case ProxyMessages.PROXY_TRANSFER:
-                var msg = ProxyTransferPacket.decode(buffer);
-                this.logger.info("Transfer request for " + player.getName() + " to " + msg.getServerName());
-                this.proxyContainer.transferPlayer(player, msg.getServerName());
+                var transferPacket = ProxyTransferPacket.decode(buffer);
+                this.logger.info("Transfer request for " + player.getName() + " to " + transferPacket.getServerName());
+                this.proxyContainer.transferPlayer(player, transferPacket.getServerName());
+                break;
+            case ProxyMessages.PROXY_COMMAND:
+                var commandPacket = ProxyCommandPacket.decode(buffer);
+                this.logger.info("Command request for " + player.getName() + " to run /" + commandPacket.getCommand());
+                this.proxyContainer.invokeCommand(player, commandPacket.getCommand());
                 break;
             default:
                 this.logger.info("Unknown message type: " + messageType);
