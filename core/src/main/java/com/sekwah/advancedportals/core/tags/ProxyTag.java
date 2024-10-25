@@ -58,6 +58,12 @@ public class ProxyTag implements Tag.Activation {
 
     @Override
     public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+
+        if(!this.configRepository.getEnableProxySupport()) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.proxy.notenabled"));
+            return false;
+        }
+
         String selectedArg = argData[random.nextInt(argData.length)];
 
         var packet = new ProxyTransferPacket(selectedArg);

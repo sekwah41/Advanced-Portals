@@ -1,5 +1,8 @@
 package com.sekwah.advancedportals.proxycore;
 
+import com.google.common.io.ByteStreams;
+import com.sekwah.advancedportals.core.ProxyMessages;
+import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
@@ -34,6 +37,22 @@ public class AdvancedPortalsProxyCore {
      * @param message
      */
     public void incomingMessage(ProxyPlayerContainer player, byte[] message) {
-        this.logger.info("Message received from server");
+        this.logger.info("Message received from server via " + player.getName());
+
+        var buffer = ByteStreams.newDataInput(message);
+        var messageType = buffer.readUTF();
+
+        // Might be a bit overboard for some as they'll only have one value, but try to keep the decode behavior with
+        // the encode behavior in the packets
+        switch (messageType) {
+            case ProxyMessages.PROXY_TRANSFER:
+                var msg = ProxyTransferPacket.decode(buffer);
+                this.logger.info("Transfer request for " + player.getName() + " to " + msg.getServerName());
+                this.proxyContainer.transferPlayer(player, msg.getServerName());
+                break;
+            default:
+                this.logger.info("Unknown message type: " + messageType);
+        }
+
     }
 }

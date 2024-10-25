@@ -54,7 +54,7 @@ command.help.invalidhelp= Sorry but &e%1$s&c is not a valid page number or sub c
 
 command.reload.help=Reloads portal data
 command.reload.detailedhelp=Reloads all portal data from files in the data folder
-command.reload.reloaded= All Advanced Portals data reloaded
+command.reload.reloaded= All Advanced Portals data reloaded. Some config values may need a full server restart or a plugin reload to take effect.
 
 command.create.help=Creates portals
 command.create.error= There was a problem making the portal.
@@ -189,3 +189,6 @@ tag.command.disabled= Command portals are &edisabled &con this server. Please co
 tag.command.op.disabled= Op command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.console.disabled= Console command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
+
+tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
+tag.proxy.description= Sets the server destination of the portal.

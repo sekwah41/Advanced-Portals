@@ -18,6 +18,7 @@ public class ProxyTransferPacket {
         buffer.writeUTF(ProxyMessages.PROXY_TRANSFER);
         buffer.writeUTF(this.serverName);
         return buffer.toByteArray();
+
     }
 
     public static ProxyTransferPacket decode(ByteArrayDataInput buffer) {

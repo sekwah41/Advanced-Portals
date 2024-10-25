@@ -18,6 +18,7 @@ repositories {
 dependencies {
     // This is here just for referencing the proxy message strings
     implementation project(":core")
+    implementation group: 'com.google.guava', name: 'guava', version: '33.2.0-jre'
 }
 
 jar {

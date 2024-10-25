@@ -24,7 +24,6 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onMessageReceived(PluginMessageEvent event) {
-        this.plugin.getLogger().info("Message received " + event.getTag());
         if(!event.getTag().equalsIgnoreCase(ProxyMessages.CHANNEL_NAME)) return;
         event.setCancelled(true);
 
@@ -37,7 +36,6 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onServerConnected(ServerConnectedEvent event) {
-        this.plugin.getLogger().info("Server connected " + event.getServer().getInfo().getName());
         this.proxyCore.onServerConnect(new BungeeProxyServerContainer(event.getServer()), new BungeeProxyPlayerContainer(event.getPlayer()));
     }
 }

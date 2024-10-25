@@ -5,12 +5,15 @@ package com.sekwah.advancedportals.core;
  */
 public class ProxyMessages {
 
-    public static String CHANNEL_NAME = "advancedportals";
+    /**
+     * Could split by channel messages we will handle it ourselves
+     */
+    public static final String CHANNEL_NAME = "advancedportals:message";
 
-    public static String PROXY_TRANSFER_DESTI = "proxy:transfer_desti";
-    public static String PROXY_TRANSFER = "proxy:transfer";
-    public static String PROXY_DESTI = "proxy:destination";
-    public static String PROXY_COMMAND = "proxy:command";
+    public static final String PROXY_TRANSFER_DESTI = "proxy:transfer_desti";
+    public static final String PROXY_TRANSFER = "proxy:transfer";
+    public static final String PROXY_DESTI = "proxy:destination";
+    public static final String PROXY_COMMAND = "proxy:command";
 
-    public static String SERVER_DESTI = "server:destination";
+    public static final String SERVER_DESTI = "server:destination";
 }

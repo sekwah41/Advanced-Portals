@@ -15,4 +15,14 @@ public class BungeeProxyPlayerContainer implements ProxyPlayerContainer {
         return this.player;
     }
 
+    @Override
+    public String getUUID() {
+        return this.player.getUniqueId().toString();
+    }
+
+    @Override
+    public String getName() {
+        return this.player.getName();
+    }
+
 }
