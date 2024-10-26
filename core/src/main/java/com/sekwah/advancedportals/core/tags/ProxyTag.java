@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.network.ProxyTransferDestiPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -12,9 +13,10 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class ProxyTag implements Tag.Activation {
+public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
 
     @Inject
     ConfigRepository configRepository;
@@ -48,6 +50,8 @@ public class ProxyTag implements Tag.Activation {
 
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+        String selectedArg = argData[random.nextInt(argData.length)];
+        activeData.setMetadata(TAG_NAME, selectedArg);
         return true;
     }
 
@@ -66,9 +70,16 @@ public class ProxyTag implements Tag.Activation {
 
         String selectedArg = argData[random.nextInt(argData.length)];
 
-        var packet = new ProxyTransferPacket(selectedArg);
+        var desti = activeData.getMetadata(DestiTag.TAG_NAME);
+
+        var packet = desti == null ? new ProxyTransferPacket(selectedArg) : new ProxyTransferDestiPacket(selectedArg, desti);
         player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
         activeData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         return true;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return Priority.HIGHEST;
     }
 }
