@@ -19,12 +19,7 @@ public class AdvancedPortalsProxyCore {
     private final InfoLogger logger;
     private final ProxyContainer proxyContainer;
 
-    /**
-     * Keep a list of destinations players have been moved to
-     *
-     // TODO add a time to check against for this data to expire, and add a way to clean the data up every now and then
-     */
-    public HashMap<String, ProxyJoinData> PlayerJoinMap = new HashMap<>();
+    public HashMap<String, ProxyJoinData> playerJoinMap = new HashMap<>();
 
     public AdvancedPortalsProxyCore(InfoLogger logger, ProxyContainer proxyContainer) {
         this.logger = logger;
@@ -40,7 +35,16 @@ public class AdvancedPortalsProxyCore {
     }
 
     public void onServerConnect(ProxyServerContainer server, ProxyPlayerContainer player) {
+        if(this.playerJoinMap.containsKey(player.getUUID())) {
+            var joinData = this.playerJoinMap.get(player.getUUID());
+            if(joinData.isExpired()) return;
+            this.logger.info("Sending desti data for " + player.getName() + " to " + server.getServerName() + " with destination " + joinData.destination);
+            this.playerJoinMap.remove(player.getUUID());
+        }
+    }
 
+    public void onPlayerDisconnect(ProxyPlayerContainer player) {
+        this.playerJoinMap.remove(player.getUUID());
     }
 
     /**
@@ -70,6 +74,7 @@ public class AdvancedPortalsProxyCore {
                 var transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferDestiPacket.getServerName() + " with destination " + transferDestiPacket.getDestination());
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
+                this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
                 break;
             default:
                 this.logger.info("Unknown message type: " + messageType);

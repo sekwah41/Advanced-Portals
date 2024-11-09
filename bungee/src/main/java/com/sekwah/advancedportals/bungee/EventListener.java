@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.proxycore.AdvancedPortalsProxyCore;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -37,5 +38,10 @@ public class EventListener implements Listener {
     @EventHandler
     public void onServerConnected(ServerConnectedEvent event) {
         this.proxyCore.onServerConnect(new BungeeProxyServerContainer(event.getServer()), new BungeeProxyPlayerContainer(event.getPlayer()));
+    }
+
+    @EventHandler
+    public void onDisconnect(PlayerDisconnectEvent event) {
+        this.proxyCore.onPlayerDisconnect(new BungeeProxyPlayerContainer(event.getPlayer()));
     }
 }

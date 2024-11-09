@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.velocity;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.BuildConstants;
 import com.sekwah.advancedportals.core.ProxyMessages;
@@ -10,6 +8,7 @@ import com.sekwah.advancedportals.velocity.connector.container.VelocityProxyCont
 import com.sekwah.advancedportals.velocity.connector.container.VelocityProxyPlayerContainer;
 import com.sekwah.advancedportals.velocity.connector.container.VelocityProxyServerContainer;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -63,6 +62,11 @@ public class AdvancedPortalsVelocityPlugin {
         event.getPlayer().getCurrentServer().ifPresent(serverConnection -> {
             this.proxyCore.onServerConnect(new VelocityProxyServerContainer(serverConnection.getServer()), new VelocityProxyPlayerContainer(event.getPlayer()));
         });
+    }
+
+    @Subscribe
+    public void onDisconnect(DisconnectEvent event) {
+        this.proxyCore.onPlayerDisconnect(new VelocityProxyPlayerContainer(event.getPlayer()));
     }
 
 }

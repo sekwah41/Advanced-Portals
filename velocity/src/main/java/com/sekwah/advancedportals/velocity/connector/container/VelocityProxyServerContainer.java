@@ -4,7 +4,14 @@ import com.sekwah.advancedportals.proxycore.connector.container.ProxyServerConta
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 public class VelocityProxyServerContainer implements ProxyServerContainer {
-    public VelocityProxyServerContainer(RegisteredServer currentServer) {
+    private final RegisteredServer server;
 
+    public VelocityProxyServerContainer(RegisteredServer server) {
+        this.server = server;
+    }
+
+    @Override
+    public String getServerName() {
+        return this.server.getServerInfo().getName();
     }
 }

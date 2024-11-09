@@ -9,4 +9,9 @@ public class BungeeProxyServerContainer implements ProxyServerContainer {
     public BungeeProxyServerContainer(Server server) {
         this.server = server;
     }
+
+    @Override
+    public String getServerName() {
+        return this.server.getInfo().getName();
+    }
 }
