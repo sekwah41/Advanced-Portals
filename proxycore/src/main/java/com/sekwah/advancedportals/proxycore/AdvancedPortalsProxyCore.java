@@ -70,6 +70,7 @@ public class AdvancedPortalsProxyCore {
                 var transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferDestiPacket.getServerName() + " with destination " + transferDestiPacket.getDestination());
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
+                break;
             default:
                 this.logger.info("Unknown message type: " + messageType);
         }
