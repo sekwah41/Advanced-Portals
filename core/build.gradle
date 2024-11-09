@@ -1,6 +1,9 @@
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
+
+plugins {
+    id 'maven-publish'
+    id 'idea'
+    id 'eclipse'
+}
 
 configurations {
     // configuration that holds jars to copy into lib
@@ -31,4 +34,20 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/sources/templates')
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    def props = [
+            'version': project.version
+    ]
+    task.inputs.properties props
+
+    task.from templateSource
+    task.into templateDest
+    task.expand props
+}
+
+sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
 

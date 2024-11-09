@@ -19,10 +19,12 @@ buildscript {
 
 plugins {
     id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'idea'
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
@@ -168,6 +170,17 @@ tasks.register('runJar') {
             args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
             jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
             workingDir "${System.env.MC_SERVER_LOC}"
+        }
+    }
+}
+
+
+idea {
+    project {
+        settings {
+            taskTriggers {
+                afterSync(project(':core').tasks.named('generateTemplates'))
+            }
         }
     }
 }
