@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferDestiPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
+import com.sekwah.advancedportals.core.network.ServerDestiPacket;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
@@ -75,6 +76,7 @@ public class AdvancedPortalsProxyCore {
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferDestiPacket.getServerName() + " with destination " + transferDestiPacket.getDestination());
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
                 this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
+                player.sendPluginMessage(new ServerDestiPacket(transferDestiPacket.getServerName()).encode());
                 break;
             default:
                 this.logger.info("Unknown message type: " + messageType);

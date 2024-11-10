@@ -12,7 +12,6 @@ public class ProxyMessages {
 
     public static final String PROXY_TRANSFER_DESTI = "proxy:transfer_desti";
     public static final String PROXY_TRANSFER = "proxy:transfer";
-    public static final String PROXY_DESTI = "proxy:destination";
     public static final String PROXY_COMMAND = "proxy:command";
 
     public static final String SERVER_DESTI = "server:destination";

@@ -49,7 +49,7 @@ public class AdvancedPortalsVelocityPlugin {
     public void onPluginMessage(PluginMessageEvent event) {
         if (event.getIdentifier().equals(AP_CHANNEL)) {
             if(event.getSource() instanceof ServerConnection serverConnection) {
-                this.proxyCore.incomingMessage(new VelocityProxyPlayerContainer(serverConnection.getPlayer()), event.getData());
+                this.proxyCore.incomingMessage(new VelocityProxyPlayerContainer(serverConnection.getPlayer(), AP_CHANNEL), event.getData());
             }
             // So that client packets don't make it through to the servers, always trigger on this channel.
             event.setResult(PluginMessageEvent.ForwardResult.handled());
@@ -60,13 +60,13 @@ public class AdvancedPortalsVelocityPlugin {
     @Subscribe
     public void postJoinEvent(ServerPostConnectEvent event) {
         event.getPlayer().getCurrentServer().ifPresent(serverConnection -> {
-            this.proxyCore.onServerConnect(new VelocityProxyServerContainer(serverConnection.getServer()), new VelocityProxyPlayerContainer(event.getPlayer()));
+            this.proxyCore.onServerConnect(new VelocityProxyServerContainer(serverConnection.getServer()), new VelocityProxyPlayerContainer(event.getPlayer(), AP_CHANNEL));
         });
     }
 
     @Subscribe
     public void onDisconnect(DisconnectEvent event) {
-        this.proxyCore.onPlayerDisconnect(new VelocityProxyPlayerContainer(event.getPlayer()));
+        this.proxyCore.onPlayerDisconnect(new VelocityProxyPlayerContainer(event.getPlayer(), AP_CHANNEL));
     }
 
 }

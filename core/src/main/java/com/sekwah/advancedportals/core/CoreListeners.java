@@ -56,7 +56,10 @@ public class CoreListeners {
     }
 
     public void incomingMessage(PlayerContainer player, String channel, byte[] message) {
-
+        // Log all the info
+        System.out.println("Message from " + player.getName() + " on channel " + channel + " with message " + new String(message));
+        // Send a message to the player with the info
+        player.sendMessage("Message from " + player.getName() + " on channel " + channel + " with message " + new String(message));
     }
 
     public void tick() {
