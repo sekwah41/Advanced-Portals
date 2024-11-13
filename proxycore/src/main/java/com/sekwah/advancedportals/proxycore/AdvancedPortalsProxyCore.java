@@ -36,7 +36,6 @@ public class AdvancedPortalsProxyCore {
     }
 
     public void onServerConnect(ProxyServerContainer server, ProxyPlayerContainer player) {
-        System.out.println("Server connect");
         if(this.playerJoinMap.containsKey(player.getUUID())) {
             var joinData = this.playerJoinMap.get(player.getUUID());
             if(joinData.isExpired()) return;
