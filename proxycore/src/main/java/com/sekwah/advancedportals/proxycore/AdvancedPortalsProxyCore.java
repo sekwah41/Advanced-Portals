@@ -61,25 +61,26 @@ public class AdvancedPortalsProxyCore {
         // Might be a bit overboard for some as they'll only have one value, but try to keep the decode behavior with
         // the encode behavior in the packets
         switch (messageType) {
-            case ProxyMessages.PROXY_TRANSFER:
+            case ProxyMessages.PROXY_TRANSFER -> {
                 var transferPacket = ProxyTransferPacket.decode(buffer);
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferPacket.getServerName());
                 this.proxyContainer.transferPlayer(player, transferPacket.getServerName());
-                break;
-            case ProxyMessages.PROXY_COMMAND:
+            }
+            case ProxyMessages.PROXY_COMMAND -> {
                 var commandPacket = ProxyCommandPacket.decode(buffer);
                 this.logger.info("Command request for " + player.getName() + " to run /" + commandPacket.getCommand());
                 this.proxyContainer.invokeCommand(player, commandPacket.getCommand());
-                break;
-            case ProxyMessages.PROXY_TRANSFER_DESTI:
+            }
+            case ProxyMessages.PROXY_TRANSFER_DESTI -> {
                 var transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferDestiPacket.getServerName() + " with destination " + transferDestiPacket.getDestination());
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
                 this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
                 player.sendPluginMessage(new ServerDestiPacket(transferDestiPacket.getServerName()).encode());
-                break;
-            default:
+            }
+            default -> {
                 this.logger.info("Unknown message type: " + messageType);
+            }
         }
 
     }

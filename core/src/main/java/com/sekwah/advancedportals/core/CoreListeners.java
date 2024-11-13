@@ -1,15 +1,18 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.Direction;
+import com.sekwah.advancedportals.core.network.ServerDestiPacket;
 import com.sekwah.advancedportals.core.permissions.PortalPermissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -24,6 +27,9 @@ public class CoreListeners {
 
     @Inject
     private PortalServices portalServices;
+
+    @Inject
+    private DestinationServices destinationServices;
 
     @Inject
     private ConfigRepository configRepository;
@@ -56,10 +62,16 @@ public class CoreListeners {
     }
 
     public void incomingMessage(PlayerContainer player, String channel, byte[] message) {
-        // Log all the info
-        System.out.println("Message from " + player.getName() + " on channel " + channel + " with message " + new String(message));
-        // Send a message to the player with the info
-        player.sendMessage("Message from " + player.getName() + " on channel " + channel + " with message " + new String(message));
+        var buffer = ByteStreams.newDataInput(message);
+        var messageType = buffer.readUTF();
+
+        switch (messageType) {
+            case ProxyMessages.SERVER_DESTI -> {
+                var serverDestiPacket = ServerDestiPacket.decode(buffer);
+                this.destinationServices.teleportToDestination(serverDestiPacket.getDestination(), player);
+            }
+        }
+
     }
 
     public void tick() {
