@@ -114,6 +114,11 @@ command.destination.reload= Destinations reloaded.
 command.portal.list.help=Lists portals
 command.portal.list=&7 Portals&a:
 
+command.portal.disablebeacon.help=Disables the gateway beacon effect for a portal
+command.portal.disablebeacon.noname= You must specify a name
+command.portal.disablebeacon.complete= The beacon effect has been disabled for the portal.
+command.portal.disablebeacon.notfound= No portal by the name &e%1$s &cwas found.
+
 command.destination.list.help=Lists destinations
 command.destination.list=&7 Destinations&a:
 

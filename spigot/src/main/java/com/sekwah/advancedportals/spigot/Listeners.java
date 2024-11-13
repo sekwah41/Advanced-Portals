@@ -7,10 +7,14 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContainer;
 import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
 import java.util.List;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.EndGateway;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.world.ChunkLoadEvent;
 
 /**
  * Some of these will be passed to the core listener to handle the events,
@@ -201,6 +206,28 @@ public class Listeners implements Listener {
                 blockList.remove(i);
                 i--;
             }
+        }
+    }
+
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+        if(!configRepository.getDisableGatewayBeam()) {
+            return;
+        }
+        SpigotWorldContainer world = new SpigotWorldContainer(event.getWorld());
+        BlockState[] tileEntities = event.getChunk().getTileEntities();
+        for(BlockState block : tileEntities) {
+            if(block.getType() == Material.END_GATEWAY) {
+                var loc = block.getLocation();
+                if(portalServices.inPortalRegion(new BlockLocation(loc.getWorld().getName(),
+                        loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), 2)) {
+                    EndGateway tileState = (EndGateway) block;
+                    tileState.setAge(Long.MIN_VALUE);
+                    tileState.update();
+                }
+            }
+
         }
     }
 }
