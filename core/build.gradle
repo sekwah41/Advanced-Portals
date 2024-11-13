@@ -50,4 +50,3 @@ def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
 }
 
 sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
-
