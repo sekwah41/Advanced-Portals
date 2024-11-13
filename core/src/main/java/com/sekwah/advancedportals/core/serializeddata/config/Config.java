@@ -18,10 +18,6 @@ public class Config {
 
     public int joinCooldown = 5;
 
-    public String warpParticles = "ENDER";
-
-    public String warpSound = "ENDER";
-
     public String translationFile = "en_GB";
 
     public int showVisibleRange = 50;
@@ -41,4 +37,6 @@ public class Config {
     public CommandPortalConfig commandPortals = new CommandPortalConfig();
 
     public boolean enableProxySupport = false;
+
+    public WarpEffectConfig warpEffect = new WarpEffectConfig();
 }

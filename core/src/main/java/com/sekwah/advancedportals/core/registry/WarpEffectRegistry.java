@@ -40,7 +40,7 @@ public class WarpEffectRegistry {
     }
 
     public WarpEffect.Visual getVisualEffect(String name) {
-        if (this.warpEffects.containsKey(name)) {
+        if (this.warpEffects.containsKey(name.toLowerCase())) {
             var effect = this.warpEffects.get(name);
             if (effect instanceof WarpEffect.Visual visual) {
                 return visual;
@@ -51,7 +51,7 @@ public class WarpEffectRegistry {
             }
         } else {
             this.infoLogger.warning("No effect called " + name
-                                    + " was registered");
+                                    + " is registered");
             return null;
         }
     }
@@ -68,7 +68,7 @@ public class WarpEffectRegistry {
             }
         } else {
             this.infoLogger.warning("No effect called " + name
-                                    + " was registered");
+                                    + " is registered");
             return null;
         }
     }
