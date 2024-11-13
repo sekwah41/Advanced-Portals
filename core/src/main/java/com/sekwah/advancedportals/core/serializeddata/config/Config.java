@@ -39,4 +39,6 @@ public class Config {
     public boolean enableProxySupport = false;
 
     public WarpEffectConfig warpEffect = new WarpEffectConfig();
+
+    public boolean disableGatewayBeam = true;
 }
