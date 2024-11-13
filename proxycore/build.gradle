@@ -1,0 +1,29 @@
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+configurations {
+    // configuration that holds jars to copy into lib
+    includeLibs
+}
+
+repositories {
+
+    maven { url "https://repo.maven.apache.org/maven2" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+// includeLibs just says to include the library in the final jar
+dependencies {
+    // This is here just for referencing the proxy message strings
+    implementation project(":core")
+    implementation group: 'com.google.guava', name: 'guava', version: '33.2.0-jre'
+}
+
+jar {
+    from configurations.includeLibs.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }
+}
+

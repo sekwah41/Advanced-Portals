@@ -29,7 +29,7 @@ public interface Tag {
      */
     enum TagType { PORTAL, DESTINATION }
 
-    enum Priority { LOWEST, LOW, NORMAL, HIGH, HIGHEST }
+    enum Priority { HIGHEST, HIGH, NORMAL, LOW, LOWEST }
 
     /**
      * Used to flag where the auto complete should show more or less info.
@@ -65,9 +65,6 @@ public interface Tag {
          */
         @Nullable
         List<String> autoComplete(String argData);
-
-        @Nullable
-        String splitString();
     }
 
     interface Split extends Tag {
@@ -78,7 +75,9 @@ public interface Tag {
          * @return null if the tag does not support splitting
          */
         @Nullable
-        String splitString();
+        default String splitString() {
+            return ",";
+        }
     }
 
     /**

@@ -56,7 +56,7 @@ command.help.invalidhelp= &e%1$s&c ist keine gültige Seitennummer oder Sub-Comm
 
 command.reload.help=Ladet die Portal-Dateien neu
 command.reload.detailedhelp=Lade alle Portal-Dateien von den Dateien im Dateiordner neu.
-command.reload.reloaded= Alle Advanced Portals Dateien wurden neugeladet
+command.reload.reloaded= Alle Advanced Portals-Daten wurden neu geladen. Einige Konfigurationswerte erfordern möglicherweise einen vollständigen Serverneustart oder ein Plugin-Reload, um wirksam zu werden.
 
 command.create.help=Erstellt Portale
 command.create.error= Beim Portal erstellen ist ein Fehler aufgetreten:

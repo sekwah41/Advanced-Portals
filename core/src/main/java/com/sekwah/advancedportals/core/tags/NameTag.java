@@ -48,12 +48,6 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
         return null;
     }
 
-    @Nullable
-    @Override
-    public String splitString() {
-        return null;
-    }
-
     @Override
     public boolean created(TagTarget target, PlayerContainer player,
                            String[] argData) {

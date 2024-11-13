@@ -1,7 +1,10 @@
 package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
+import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -84,6 +87,14 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         return false;
                     }
                     break;
+                case '%':
+                    if (!commandPortals.proxy || !configRepository.getEnableProxySupport()) {
+                        player.sendMessage(
+                            Lang.getNegativePrefix()
+                            + Lang.translate("tag.command.proxy.disabled"));
+                        return false;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -115,6 +126,10 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     player.getServer().dispatchCommand(
                         player.getUUID(), formattedCommand.substring(1),
                         CommandLevel.PERMISSION_WILDCARD);
+                    break;
+                case '%':
+                    var packet = new ProxyCommandPacket(formattedCommand.substring(1));
+                    player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
                     break;
                 default:
                     player.getServer().dispatchCommand(player.getUUID(),

@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 public class ShowPortalSubCommand
     implements SubCommand, SubCommand.SubCommandOnInit {
-    static final int SHOW_TICKS = 1010;
+    static final int SHOW_TICKS = 1050;
 
     boolean alternate_show_trigger = true;
 
@@ -116,8 +116,14 @@ public class ShowPortalSubCommand
                         player.getWorldName())
                     && tempData.getPos2().getWorldName().equals(
                         player.getWorldName())) {
-                    debugVisuals(player, tempData.getPos1(), tempData.getPos2(),
-                                 SELECTION_COLOR, SHOW_TICKS);
+                    int widthX = Math.abs(tempData.getPos1().getPosX()
+                                          - tempData.getPos2().getPosX());
+                    int widthY = Math.abs(tempData.getPos1().getPosY() - tempData.getPos2().getPosY());
+                    int widthZ = Math.abs(tempData.getPos1().getPosZ() - tempData.getPos2().getPosZ());
+                    int totalBlocks = widthX * widthY * widthZ;
+                    if (totalBlocks <= config.getMaxTriggerVisualisationSize())
+                        debugVisuals(player, tempData.getPos1(), tempData.getPos2(),
+                                SELECTION_COLOR, SHOW_TICKS);
                 }
 
                 if (tempData.getPos1() != null

@@ -96,6 +96,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean getEnableProxySupport() {
+        return this.config.enableProxySupport;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
         this.config = dataStorage.loadFile(Config.class, "config.yaml");

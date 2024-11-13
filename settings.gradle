@@ -1,6 +1,7 @@
 rootProject.name = "Advanced-Portals"
 // Core modules
 include 'core'
+include 'proxycore'
 include 'lang'
 
 // Implementations
