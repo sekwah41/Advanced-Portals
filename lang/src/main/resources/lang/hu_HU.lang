@@ -53,7 +53,7 @@ command.help.invalidhelp= Sajnálom, de &e%1$s&c nem érvényes oldalszám vagy 
 
 command.reload.help=Portál adat újratöltése
 command.reload.detailedhelp=Újratölt minden portáladatot az adatmappában található fájlokból
-command.reload.reloaded= Minden Advanced Portals adat újratöltve
+command.reload.reloaded= Minden Advanced Portals adat újratöltve. Egyes konfigurációs értékek teljes szerverújraindítást vagy a plugin újratöltését igényelhetik a hatályba lépéshez.
 
 command.create.help=Portál létrehozása
 command.create.error= Hiba történt a portál létrehozásában:

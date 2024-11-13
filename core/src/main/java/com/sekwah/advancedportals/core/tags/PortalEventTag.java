@@ -80,12 +80,6 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete, Tag.Den
         return List.of("true", "false");
     }
 
-    @Nullable
-    @Override
-    public String splitString() {
-        return "";
-    }
-
     @Override
     public Behaviour getDenyBehavior() {
         return Behaviour.SILENT;

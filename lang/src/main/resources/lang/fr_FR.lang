@@ -37,7 +37,7 @@ translatedata.translationsoutdated=Certaines des traductions du fichier de tradu
 translatedata.replacecommand= Utilisez &e/portal transupdate&c pour copier un nouveau fichier par défaut de traduction &een_GB&c.
 translatedata.replaced= Un nouveau fichier &een_GB&a a bien été enregistré.
 
-messageprefix.positive=&c[&7AdvancedPortals&c]
+messageprefix.positive=&a[&7AdvancedPortals&a]
 messageprefix.negative=&c[&7AdvancedPortals&c]
 
 logger.pluginenable=Advanced portals have been enabled!
@@ -53,7 +53,7 @@ command.help.invalidhelp= Désolé mais &e%1$s&c n'est pas une page ou sous comm
 
 command.reload.help=Recharge les fichiers
 command.reload.detailedhelp=Recharge toutes les données du portail à partir des fichiers du dossier de données.
-command.reload.reloaded= Tous les fichiers ont bien été rechargés.
+command.reload.reloaded= Toutes les données d'Advanced Portals ont été rechargées. Certaines valeurs de configuration peuvent nécessiter un redémarrage complet du serveur ou un rechargement du plugin pour prendre effet.
 
 command.create.help=Crée un portail
 command.create.error= Une erreur est survenue en créant le portail:
