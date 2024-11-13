@@ -106,6 +106,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean getDisableGatewayBeam() {
+        return this.config.disableGatewayBeam;
+    }
+
+    @Override
     public void loadConfig(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
         this.config = dataStorage.loadFile(Config.class, "config.yaml");

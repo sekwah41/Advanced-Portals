@@ -75,4 +75,20 @@ public class BlockLocation {
         return new BlockLocation(this.worldName, this.posX,
                                  (this.posY + offsetY), this.posZ);
     }
+
+    public int getSize(BlockLocation pos2) {
+        int minX = Math.min(this.getPosX(), pos2.getPosX());
+        int minY = Math.min(this.getPosY(), pos2.getPosY());
+        int minZ = Math.min(this.getPosZ(), pos2.getPosZ());
+
+        int maxX = Math.max(this.getPosX(), pos2.getPosX());
+        int maxY = Math.max(this.getPosY(), pos2.getPosY());
+        int maxZ = Math.max(this.getPosZ(), pos2.getPosZ());
+
+        int widthX = maxX - minX + 1;
+        int widthY = maxY - minY + 1;
+        int widthZ = maxZ - minZ + 1;
+
+        return widthX * widthY * widthZ;
+    }
 }

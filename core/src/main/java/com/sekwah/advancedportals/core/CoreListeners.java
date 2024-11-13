@@ -141,6 +141,7 @@ public class CoreListeners {
                 return true;
             } else if (itemInHandName.equals("\u00A78Gateway Block Placer")) {
                 world.setBlock(blockPos, "END_GATEWAY");
+                world.disableBeacon(blockPos);
                 return true;
             }
             return true;

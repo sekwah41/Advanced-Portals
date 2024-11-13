@@ -49,4 +49,6 @@ public interface ConfigRepository {
     boolean getWarpEffectEnabled();
 
     boolean getEnableProxySupport();
+
+    boolean getDisableGatewayBeam();
 }

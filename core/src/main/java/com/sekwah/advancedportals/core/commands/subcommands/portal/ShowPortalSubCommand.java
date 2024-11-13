@@ -199,15 +199,11 @@ public class ShowPortalSubCommand
         int maxY = Math.max(pos1.getPosY(), pos2.getPosY());
         int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ());
 
+        var size = pos1.getSize(pos2);
+
         var world = player.getWorld();
 
-        int widthX = maxX - minX + 1;
-        int widthY = maxY - minY + 1;
-        int widthZ = maxZ - minZ + 1;
-
-        int totalBlocks = widthX * widthY * widthZ;
-
-        if (totalBlocks <= config.getMaxTriggerVisualisationSize()) {
+        if (size <= config.getMaxTriggerVisualisationSize()) {
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
