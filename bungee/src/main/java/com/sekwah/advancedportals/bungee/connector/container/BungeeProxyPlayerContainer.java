@@ -26,7 +26,7 @@ public class BungeeProxyPlayerContainer implements ProxyPlayerContainer {
         return this.player.getName();
     }
 
-    public void sendPluginMessage(byte[] data) {
+    public void sendServerPluginMessage(byte[] data) {
         this.player.getServer().sendData(ProxyMessages.CHANNEL_NAME, data);
     }
 

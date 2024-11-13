@@ -26,7 +26,7 @@ public class VelocityProxyPlayerContainer implements ProxyPlayerContainer {
     }
 
     @Override
-    public void sendPluginMessage(byte[] data) {
+    public void sendServerPluginMessage(byte[] data) {
         player.getCurrentServer().ifPresent(serverConnection -> serverConnection.sendPluginMessage(channel, data));
     }
 

@@ -36,10 +36,11 @@ public class AdvancedPortalsProxyCore {
     }
 
     public void onServerConnect(ProxyServerContainer server, ProxyPlayerContainer player) {
+        System.out.println("Server connect");
         if(this.playerJoinMap.containsKey(player.getUUID())) {
             var joinData = this.playerJoinMap.get(player.getUUID());
             if(joinData.isExpired()) return;
-            this.logger.info("Sending desti data for " + player.getName() + " to " + server.getServerName() + " with destination " + joinData.destination);
+            player.sendServerPluginMessage(new ServerDestiPacket(joinData.destination).encode());
             this.playerJoinMap.remove(player.getUUID());
         }
     }
@@ -73,10 +74,8 @@ public class AdvancedPortalsProxyCore {
             }
             case ProxyMessages.PROXY_TRANSFER_DESTI -> {
                 var transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
-                this.logger.info("Transfer request for " + player.getName() + " to " + transferDestiPacket.getServerName() + " with destination " + transferDestiPacket.getDestination());
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
                 this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
-                player.sendPluginMessage(new ServerDestiPacket(transferDestiPacket.getServerName()).encode());
             }
             default -> {
                 this.logger.info("Unknown message type: " + messageType);
