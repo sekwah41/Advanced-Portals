@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.spi.Message;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.*;
@@ -12,7 +11,6 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
-import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
@@ -65,10 +63,6 @@ public class AdvancedPortalsCore {
 
     @Inject
     private GameScheduler gameScheduler;
-
-    // TEMP REMOVE THIS THIS IS JUST FOR DEV
-    @Inject
-    private IPlayerDataRepository tempDataRepository;
 
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc,
                                InfoLogger infoLogger,
@@ -126,6 +120,10 @@ public class AdvancedPortalsCore {
 
     private void registerChannels() {
         this.serverContainer.registerOutgoingChannel(BungeeTag.PACKET_CHANNEL);
+        if(this.configRepository.getEnableProxySupport()) {
+            this.serverContainer.registerOutgoingChannel(ProxyMessages.CHANNEL_NAME);
+            this.serverContainer.registerIncomingChannel(ProxyMessages.CHANNEL_NAME);
+        }
     }
 
     private void registerTags() {
@@ -138,6 +136,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new PortalEventTag());
         this.tagRegistry.registerTag(new MessageTag());
         this.tagRegistry.registerTag(new BungeeTag());
+        this.tagRegistry.registerTag(new ProxyTag());
     }
 
     /**

@@ -39,4 +39,6 @@ public class Config {
     public boolean warpMessageInChat = false;
 
     public CommandPortalConfig commandPortals = new CommandPortalConfig();
+
+    public boolean enableProxySupport = false;
 }

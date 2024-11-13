@@ -65,6 +65,14 @@ public class PortalRepositoryImpl implements IPortalRepository {
         for (String fileName : allFiles) {
             AdvancedPortal portal = dataStorage.loadFile(
                 AdvancedPortal.class, fileLocation + fileName);
+
+            if (portal != null) {
+                AdvancedPortalsCore.getInstance()
+                        .getModule()
+                        .getInjector()
+                        .injectMembers(portal);
+            }
+
             // Forces the name tag to be up-to-date on load
             String[] name = portal.getArgValues(NameTag.TAG_NAME);
             if (name != null && name.length > 0) {

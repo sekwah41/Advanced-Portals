@@ -67,10 +67,12 @@ buildscript {
 
 plugins {
     id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'idea'
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'

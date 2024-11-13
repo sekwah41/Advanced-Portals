@@ -7,12 +7,15 @@ configurations {
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url 'https://papermc.io/repo/repository/maven-public/' }
-    maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
+    maven {
+        name 'papermc'
+        url 'https://repo.papermc.io/repository/maven-public/'
+    }
 }
 
 // includeLibs just says to include the library in the final jar
 dependencies {
+    implementation project(":proxycore")
     implementation project(":core")
 
     implementation("com.velocitypowered:velocity-api:3.1.0")
