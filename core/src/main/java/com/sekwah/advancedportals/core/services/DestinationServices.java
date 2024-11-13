@@ -3,7 +3,10 @@ package com.sekwah.advancedportals.core.services;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
@@ -19,6 +22,12 @@ import javax.inject.Singleton;
 public class DestinationServices {
     @Inject
     private IDestinationRepository destinationRepository;
+
+    @Inject
+    private WarpEffectRegistry warpEffectRegistry;
+
+    @Inject
+    private ConfigRepository configRepository;
 
     @Inject
     TagRegistry tagRegistry;
@@ -122,8 +131,23 @@ public class DestinationServices {
 
     public boolean teleportToDestination(String name,
                                          PlayerContainer playerContainer) {
+        return teleportToDestination(name, playerContainer, false);
+    }
+
+    public boolean teleportToDestination(String name,
+                                         PlayerContainer player, boolean doEffect) {
+        if(doEffect && configRepository.getWarpEffectEnabled()) {
+            var warpEffectVisual = warpEffectRegistry.getVisualEffect(configRepository.getWarpVisual());
+            if (warpEffectVisual != null) {
+                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+            }
+            var warpEffectSound = warpEffectRegistry.getSoundEffect(configRepository.getWarpSound());
+            if (warpEffectSound != null) {
+                warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
+            }
+        }
         if (this.destinationRepository.containsKey(name)) {
-            playerContainer.teleport(
+            player.teleport(
                 this.destinationRepository.get(name).getLoc());
             return true;
         }

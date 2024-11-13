@@ -87,12 +87,17 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     @Override
     public String getWarpSound() {
-        return this.config.warpSound;
+        return this.config.warpEffect.soundEffect;
     }
 
     @Override
-    public String getWarpParticles() {
-        return this.config.warpParticles;
+    public String getWarpVisual() {
+        return this.config.warpEffect.visualEffect;
+    }
+
+    @Override
+    public boolean getWarpEffectEnabled() {
+        return this.config.warpEffect.enabled;
     }
 
     @Override
