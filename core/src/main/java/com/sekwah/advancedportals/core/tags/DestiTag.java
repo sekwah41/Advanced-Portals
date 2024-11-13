@@ -128,20 +128,26 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            var warpEffectVisual = warpEffectRegistry.getVisualEffect("ender");
-            if (warpEffectVisual != null) {
-                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+            var warpEffectVisual = warpEffectRegistry.getVisualEffect(configRepository.getWarpVisual());
+            var warpEffectSound = warpEffectRegistry.getSoundEffect(configRepository.getWarpSound());
+            if(configRepository.getWarpEffectEnabled()) {
+                if (warpEffectVisual != null) {
+                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+                }
+                if (warpEffectSound != null) {
+                    warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
+                }
             }
-            var warpEffectSound = warpEffectRegistry.getSoundEffect("ender");
-            if (warpEffectSound != null) {
-                warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
-            }
+
             player.teleport(destination.getLoc());
-            if (warpEffectVisual != null) {
-                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.EXIT);
-            }
-            if (warpEffectSound != null) {
-                warpEffectSound.onWarpSound(player, WarpEffect.Action.EXIT);
+
+            if(configRepository.getWarpEffectEnabled()) {
+                if (warpEffectVisual != null) {
+                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.EXIT);
+                }
+                if (warpEffectSound != null) {
+                    warpEffectSound.onWarpSound(player, WarpEffect.Action.EXIT);
+                }
             }
             activationData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         }

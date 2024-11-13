@@ -68,7 +68,7 @@ public class CoreListeners {
         switch (messageType) {
             case ProxyMessages.SERVER_DESTI -> {
                 var serverDestiPacket = ServerDestiPacket.decode(buffer);
-                this.destinationServices.teleportToDestination(serverDestiPacket.getDestination(), player);
+                this.destinationServices.teleportToDestination(serverDestiPacket.getDestination(), player, true);
             }
         }
 
