@@ -45,4 +45,6 @@ public interface ConfigRepository {
     boolean warpMessageInChat();
 
     String getWarpParticles();
+
+    boolean getEnableProxySupport();
 }

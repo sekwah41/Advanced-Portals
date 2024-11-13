@@ -67,6 +67,10 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
         activeData.setMetadata(TAG_NAME, selectedArg);
 
+        if(activeData.getMetadata(ProxyTag.TAG_NAME) != null) {
+            return true;
+        }
+
         if(destinationServices.getDestination(selectedArg) == null) {
             player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("desti.error.notfound", selectedArg));
             return false;
@@ -92,6 +96,10 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
+        if(activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
+            return;
+        }
+
         var selectedArg = activationData.getMetadata(TAG_NAME);
         Destination destination = destinationServices.getDestination(selectedArg);
         if (destination != null) {
@@ -112,6 +120,10 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public boolean activated(TagTarget target, PlayerContainer player,
                              ActivationData activationData, String[] argData) {
+        if(activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
+            return true;
+        }
+
         var selectedArg = activationData.getMetadata(TAG_NAME);
         Destination destination =
             destinationServices.getDestination(selectedArg);
@@ -148,11 +160,5 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public List<String> autoComplete(String argData) {
         return destinationServices.getDestinationNames();
-    }
-
-    @Nullable
-    @Override
-    public String splitString() {
-        return ",";
     }
 }
