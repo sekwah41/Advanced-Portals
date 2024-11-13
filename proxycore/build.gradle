@@ -26,4 +26,3 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
-
