@@ -11,7 +11,7 @@ public class VersionSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         sender.sendMessage(Lang.getPositivePrefix()
                            + " Advanced Portals v"
-                           + AdvancedPortalsCore.version);
+                           + AdvancedPortalsCore.VERSION);
     }
 
     @Override

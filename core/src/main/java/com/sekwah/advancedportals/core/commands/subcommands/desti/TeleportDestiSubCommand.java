@@ -3,7 +3,7 @@ package com.sekwah.advancedportals.core.commands.subcommands.desti;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.util.Collections;
@@ -35,7 +35,7 @@ public class TeleportDestiSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || PortalPermissions.DESTI.hasPermission(sender);
+        return sender.isOp() || Permissions.DESTI.hasPermission(sender);
     }
 
     @Override

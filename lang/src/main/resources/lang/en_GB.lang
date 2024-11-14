@@ -173,6 +173,7 @@ command.lang.help=Update the translation file
 command.version.help=Returns the current version of the plugin
 
 command.subcommand.nopermission= Sorry but you don't have permission for that, please use &e/%1$s help &cif you would like a list of possible sub commands.
+command.nopermission= Sorry but you don't have permission for that.
 
 items.selector.name=Portal Region Selector
 items.selector.pos=Select pos %1$s

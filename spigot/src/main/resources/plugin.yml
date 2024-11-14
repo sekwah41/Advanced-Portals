@@ -18,35 +18,35 @@ permissions:
     description: Gives access to all commands
     default: op
     children:
-      advancedportals.createportal: true
+      advancedportals.create.portal: true
       advancedportals.portal: true
       advancedportals.build: true
       advancedportals.desti: true
-  advancedportals.createportal:
+  advancedportals.create.portal:
     description: Allows you to create portals
     default: op
-  advancedportals.createportal.commandlevel.*:
+  advancedportals.create.portal.commandlevel.*:
     description: Gives access to all level raisers
     default: op
     children:
-      advancedportals.createportal.commandlevel.op: true
-      advancedportals.createportal.commandlevel.permswild: true
-      advancedportals.createportal.commandlevel.console: true
-  advancedportals.createportal.commandlevel.op:
+      advancedportals.create.portal.commandlevel.op: true
+      advancedportals.create.portal.commandlevel.permswild: true
+      advancedportals.create.portal.commandlevel.console: true
+  advancedportals.create.portal.commandlevel.op:
     description: Allows you to increase the users level temporarily to op
     default: false
-  advancedportals.createportal.commandlevel.permswild:
+  advancedportals.create.portal.commandlevel.permswild:
     description: Allows you to increase the users level temporarily to have all perms
     default: false
-  advancedportals.createportal.commandlevel.console:
+  advancedportals.create.portal.commandlevel.console:
     description: Executes command in the console
     default: false
   advancedportals.portal:
-    description: Allows use of portal commands
-    default: op
+    description: Allows use of portal command
+    default: true
   advancedportals.build:
     description: Allows you to build in the portal regions
     default: op
   advancedportals.desti:
-    description: Gives access to all desti commands
-    default: op
+    description: Gives access to all desti command
+    default: true
