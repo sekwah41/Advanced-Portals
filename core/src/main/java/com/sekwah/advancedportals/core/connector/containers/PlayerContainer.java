@@ -8,16 +8,12 @@ import java.util.UUID;
  * Just a temporary container for whenever advanced portals needs to get data
  * from a player
  */
-public interface PlayerContainer extends EntityContainer {
+public interface PlayerContainer extends EntityContainer, HasPermission {
     UUID getUUID();
 
     void sendMessage(String message);
 
     void sendActionBar(String message);
-
-    boolean isOp();
-
-    boolean hasPermission(String permission);
 
     /**
      * @param blockPos

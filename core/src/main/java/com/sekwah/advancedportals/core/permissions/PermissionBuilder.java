@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.permissions;
 
-import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
-import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.HasPermission;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class PermissionBuilder {
     private final String permissionTag;
 
-    private final boolean op;
+    private final PermissionDefault permissionDefault;
 
     private final PermissionBuilder parent;
 
@@ -21,33 +20,33 @@ public class PermissionBuilder {
     PermissionBuilder(String permissionTag) {
         this.permissionTag = permissionTag;
         this.parent = null;
-        this.op = false;
+        this.permissionDefault = PermissionDefault.TRUE;
     }
 
     PermissionBuilder(String permissionTag, PermissionBuilder parent) {
         this.permissionTag = permissionTag;
         this.parent = parent;
-        this.op = parent.op;
+        this.permissionDefault = parent.permissionDefault;
     }
 
-    PermissionBuilder(String permissionTag, PermissionBuilder parent, boolean op) {
+    PermissionBuilder(String permissionTag, PermissionBuilder parent, PermissionDefault permissionDefault) {
         this.permissionTag = permissionTag;
         this.parent = parent;
-        this.op = op;
+        this.permissionDefault = permissionDefault;
     }
 
-    PermissionBuilder(String permissionTag, boolean op) {
+    PermissionBuilder(String permissionTag, PermissionDefault permissionDefault) {
         this.permissionTag = permissionTag;
         this.parent = null;
-        this.op = op;
+        this.permissionDefault = permissionDefault;
     }
 
     PermissionBuilder createChild(String permissionTag) {
         return new PermissionBuilder(permissionTag, this);
     }
 
-    PermissionBuilder createChild(String permissionTag, boolean op) {
-        return new PermissionBuilder(permissionTag, this, op);
+    PermissionBuilder createChild(String permissionTag, PermissionDefault permissionDefault) {
+        return new PermissionBuilder(permissionTag, this, permissionDefault);
     }
 
     @Override
@@ -59,11 +58,22 @@ public class PermissionBuilder {
         }
     }
 
-    public boolean hasPermission(CommandSenderContainer player) {
-        return player.isOp() && player.hasPermission(this.toString());
+    public boolean hasPermission(HasPermission sender) {
+        if(Permissions.hasPermissionManager) {
+            return sender.hasPermission(this.toString());
+        }
+        return switch (permissionDefault) {
+            case TRUE -> true;
+            case FALSE -> false;
+            case OP -> sender.isOp();
+            case NOT_OP -> !sender.isOp();
+        };
     }
 
-    public boolean hasPermission(PlayerContainer player) {
-        return player.hasPermission(this.toString());
+    public enum PermissionDefault {
+        TRUE,
+        FALSE,
+        OP,
+        NOT_OP
     }
 }

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class CommandWithSubCommands implements CommandTemplate {
     private final SubCommandRegistry subCommandRegistry;
 
-    private final int subCommandsPerPage = 7;
+    private final int subCommandsPerPage = 6;
     private final AdvancedPortalsCore pluginCore;
     private final PermissionBuilder permission;
 

@@ -24,7 +24,6 @@ import java.io.File;
 import java.util.Arrays;
 
 public class AdvancedPortalsCore {
-    public static final String VERSION = "1.0.0";
 
     private final InfoLogger infoLogger;
     private final DataStorage dataStorage;
@@ -74,7 +73,7 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.info("Loading Advanced Portals Core v" + VERSION
+        infoLogger.info("Loading Advanced Portals Core v" + BuildConstants.VERSION
                         + " for MC: " + mcVersion);
         try {
             mcVersionTemp = Arrays.stream(mcVersion.split("\\."))

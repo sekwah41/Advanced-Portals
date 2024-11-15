@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
@@ -30,6 +31,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         new Metrics(this);
+
+        Permissions.hasPermissionManager = true;
 
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");

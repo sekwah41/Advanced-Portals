@@ -1,11 +1,17 @@
 package com.sekwah.advancedportals.core.permissions;
 
-import org.checkerframework.checker.units.qual.C;
-
 public class Permissions {
 
     private Permissions() {
     }
+
+    /**
+     * If true then a permission manager is being used and don't check for op
+     *  for platforms like spigot this will always be true.
+     * <p>
+     *  This is to allow for negative permissions where a value may be defaulted to true.
+     */
+    public static boolean hasPermissionManager = false;
 
     private static final PermissionBuilder ROOT =
         new PermissionBuilder("advancedportals");
