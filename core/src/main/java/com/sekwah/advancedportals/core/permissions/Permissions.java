@@ -13,43 +13,41 @@ public class Permissions {
      */
     public static boolean hasPermissionManager = false;
 
-    private static final PermissionBuilder ROOT =
-        new PermissionBuilder("advancedportals");
+    public static final PermissionBuilder ROOT =
+        new PermissionBuilder("advancedportals").doNotExport();
 
     public static final PermissionBuilder BUILD =
-        ROOT.createChild("build");
+        ROOT.createChild("build", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder DESTI =
-        ROOT.createChild("desti");
+        ROOT.createChild("desti", PermissionBuilder.PermissionDefault.TRUE);
     public static final PermissionBuilder PORTAL =
-            ROOT.createChild("portal");
+            ROOT.createChild("portal", PermissionBuilder.PermissionDefault.TRUE);
 
     private static final PermissionBuilder CREATE =
             ROOT.createChild("create");
 
     public static final PermissionBuilder CREATE_PORTAL =
-            CREATE.createChild("portal");
+            CREATE.createChild("portal", PermissionBuilder.PermissionDefault.OP);
+    public static final PermissionBuilder CREATE_DESTI =
+            CREATE.createChild("desti", PermissionBuilder.PermissionDefault.OP);
 
     public static final PermissionBuilder LANG_UPDATE =
-        ROOT.createChild("lang_update");
+        ROOT.createChild("lang_update", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder RELOAD =
-        ROOT.createChild("reload");
+        ROOT.createChild("reload", PermissionBuilder.PermissionDefault.OP);
 
-    public class CreateCommandLevel {
-        private CreateCommandLevel() {
-        }
 
-        private static final PermissionBuilder CREATE_COMMAND_LEVEL =
-                CREATE_PORTAL.createChild("commandlevel");
 
-        public static final PermissionBuilder OP =
-                CREATE_COMMAND_LEVEL.createChild("op");
+    private static final PermissionBuilder CREATE_COMMAND_LEVEL =
+            CREATE_PORTAL.createChild("commandlevel").doNotExport();
 
-        public static final PermissionBuilder CONSOLE =
-                CREATE_COMMAND_LEVEL.createChild("console");
+    public static final PermissionBuilder CREATE_COMMAND_OP =
+            CREATE_COMMAND_LEVEL.createChild("op").description("Allows you to increase the users level temporarily to op");
 
-        public static final PermissionBuilder PERMSWILD =
-                CREATE_COMMAND_LEVEL.createChild("permswild");
+    public static final PermissionBuilder CREATE_COMMAND_CONSOLE =
+            CREATE_COMMAND_LEVEL.createChild("console");
 
-    }
+    public static final PermissionBuilder CREATE_COMMAND_PERMS =
+            CREATE_COMMAND_LEVEL.createChild("permswild");
 
 }

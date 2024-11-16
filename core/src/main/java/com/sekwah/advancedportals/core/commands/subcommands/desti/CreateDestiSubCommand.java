@@ -85,7 +85,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || Permissions.DESTI.hasPermission(sender);
+        return Permissions.CREATE_DESTI.hasPermission(sender);
     }
 
     @Override

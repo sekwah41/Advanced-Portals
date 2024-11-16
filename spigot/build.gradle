@@ -31,3 +31,38 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/resources/templates')
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    dependsOn 'compileJava'
+
+    doFirst {
+        def classLoader = new URLClassLoader(sourceSets.main.runtimeClasspath.files.collect { it.toURI().toURL() } as URL[], getClass().getClassLoader())
+
+        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.spigot.PermissionsGeneratorSpigot')
+        def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
+        def permissionsYaml = getPermissionsMethod.invoke(null)
+
+        def permissionsFile = file("$buildDir/generated/resources/permissions.yml")
+        permissionsFile.parentFile.mkdirs()
+        permissionsFile.text = permissionsYaml
+
+        println "Permissions YAML generated at: $permissionsFile"
+    }
+
+    def props = [
+            'permissions': file("$buildDir/generated/resources/permissions.yml").text,
+            'pluginVersion': project.version
+    ]
+    task.inputs.properties props
+
+    task.from templateSource
+    task.into templateDest
+    task.expand props
+}
+
+sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })

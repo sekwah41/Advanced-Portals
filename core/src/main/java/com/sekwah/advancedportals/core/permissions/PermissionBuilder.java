@@ -1,7 +1,9 @@
 package com.sekwah.advancedportals.core.permissions;
 
+import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.core.connector.containers.HasPermission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,17 +12,17 @@ import java.util.List;
  */
 public class PermissionBuilder {
     private final String permissionTag;
-
     private final PermissionDefault permissionDefault;
-
     private final PermissionBuilder parent;
-
-    private List<PermissionBuilder>[] children;
+    private final List<PermissionBuilder> children = new ArrayList<>();
+    private final List<PermissionBuilder> grantChildren = new ArrayList<>();
+    private String description;
+    private boolean doNotExport = false;
 
     PermissionBuilder(String permissionTag) {
         this.permissionTag = permissionTag;
         this.parent = null;
-        this.permissionDefault = PermissionDefault.TRUE;
+        this.permissionDefault = PermissionDefault.FALSE;
     }
 
     PermissionBuilder(String permissionTag, PermissionBuilder parent) {
@@ -41,12 +43,32 @@ public class PermissionBuilder {
         this.permissionDefault = permissionDefault;
     }
 
-    PermissionBuilder createChild(String permissionTag) {
-        return new PermissionBuilder(permissionTag, this);
+    public PermissionDefault getPermissionDefault() {
+        return permissionDefault;
     }
 
-    PermissionBuilder createChild(String permissionTag, PermissionDefault permissionDefault) {
-        return new PermissionBuilder(permissionTag, this, permissionDefault);
+    public PermissionBuilder createChild(String permissionTag) {
+        var child = new PermissionBuilder(permissionTag, this);
+        children.add(child);
+
+        return child;
+    }
+
+    public PermissionBuilder createChild(String permissionTag, PermissionDefault permissionDefault) {
+        var child = new PermissionBuilder(permissionTag, this, permissionDefault);
+        children.add(child);
+
+        return child;
+    }
+
+    public PermissionBuilder addGrantChild(PermissionBuilder child) {
+        grantChildren.add(child);
+        return this;
+    }
+
+    public PermissionBuilder doNotExport() {
+        this.doNotExport = true;
+        return this;
     }
 
     @Override
@@ -59,7 +81,7 @@ public class PermissionBuilder {
     }
 
     public boolean hasPermission(HasPermission sender) {
-        if(Permissions.hasPermissionManager) {
+        if (Permissions.hasPermissionManager) {
             return sender.hasPermission(this.toString());
         }
         return switch (permissionDefault) {
@@ -68,6 +90,27 @@ public class PermissionBuilder {
             case OP -> sender.isOp();
             case NOT_OP -> !sender.isOp();
         };
+    }
+
+    public List<PermissionBuilder> getChildren() {
+        return ImmutableList.copyOf(children);
+    }
+
+    public List<PermissionBuilder> getGrantChildren() {
+        return ImmutableList.copyOf(grantChildren);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isDoNotExport() {
+        return doNotExport;
+    }
+
+    public PermissionBuilder description(String description) {
+        this.description = description;
+        return this;
     }
 
     public enum PermissionDefault {
