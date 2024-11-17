@@ -18,7 +18,7 @@ public class PermissionsGeneratorSpigot {
         String indent = "  ";
         if(!permission.isDoNotExport()) {
             builder.append(indent).append(permission.toString()).append(":\n");
-            builder.append(indent).append(indent).append("default2ß: ");
+            builder.append(indent).append(indent).append("default: ");
             builder.append(permission.getPermissionDefault().toString().toLowerCase());
             builder.append("\n");
             if(permission.getDescription() != null) {
