@@ -1,13 +1,13 @@
 {
   "devDependencies": {
-    "@auto-it/conventional-commits": "11.1.6",
-    "@auto-it/exec": "11.1.6",
-    "@auto-it/first-time-contributor": "11.1.6",
-    "@auto-it/gradle": "11.1.6",
-    "@auto-it/released": "11.1.6",
-    "@auto-it/upload-assets": "11.1.6",
-    "auto": "11.1.6",
+    "@auto-it/conventional-commits": "11.3.0",
+    "@auto-it/exec": "11.3.0",
+    "@auto-it/first-time-contributor": "11.3.0",
+    "@auto-it/gradle": "11.3.0",
+    "@auto-it/released": "11.3.0",
+    "@auto-it/upload-assets": "11.3.0",
+    "auto": "11.3.0",
     "conventional-changelog-angular": "5.0.13"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.5.1"
 }
