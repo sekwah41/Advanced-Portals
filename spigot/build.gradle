@@ -32,16 +32,41 @@ jar {
     }
 }
 
+// Code for generating extra data in plugins.yml
+// This may be able to be simplified drastically, though the goal is to get this working for now
+//  as it has gone through a few iterations.
+sourceSets {
+    permissionsGen {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
 
+configurations {
+    permissionsGenCompileClasspath.extendsFrom compileClasspath
+}
+
+def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    source = sourceSets.permissionsGen.allJava
+    classpath = configurations.permissionsGenCompileClasspath
+    destinationDirectory = file("$buildDir/classes/permissionsGen")
+}
 
 def templateSource = file('src/main/templates')
 def templateDest = layout.buildDirectory.dir('generated/resources/templates')
 
 def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
-    dependsOn 'compileJava'
+    dependsOn compilePermissionsGen
 
     doFirst {
-        def classLoader = new URLClassLoader(sourceSets.main.runtimeClasspath.files.collect { it.toURI().toURL() } as URL[], getClass().getClassLoader())
+        def classFiles = files("$buildDir/classes/permissionsGen", sourceSets.permissionsGen.runtimeClasspath)
+                .collect { it.toURI().toURL() } as URL[];
+
+        classFiles += project(':core').sourceSets.main.output.classesDirs
+                .collect { it.toURI().toURL() }
+
+        def classLoader = new URLClassLoader(classFiles, getClass().getClassLoader())
 
         def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.spigot.PermissionsGeneratorSpigot')
         def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
