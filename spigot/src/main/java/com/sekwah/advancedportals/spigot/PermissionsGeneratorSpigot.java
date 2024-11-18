@@ -13,6 +13,7 @@ public class PermissionsGeneratorSpigot {
 
     public static String toPermBlock(PermissionBuilder permission) {
         StringBuilder builder = new StringBuilder();
+        builder.append("\n");
         String indent = "  ";
         if (!permission.isDoNotExport()) {
             builder.append(indent).append(permission).append(":\n");
