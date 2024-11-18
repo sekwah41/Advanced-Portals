@@ -13,5 +13,4 @@ commands:
     description: Can be used to access portal destinations.
     aliases: [desti]
     usage: /<command>
-permissions:
-${permissions}
+permissions: ${permissions}
