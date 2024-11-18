@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - master
+    - main
 name: release-please
 jobs:
   release-please:
