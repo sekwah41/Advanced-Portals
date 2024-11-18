@@ -5,9 +5,10 @@ import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.NameTag;
+
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Singleton;
 
 @Singleton
 public class DestinationRepositoryImpl implements IDestinationRepository {

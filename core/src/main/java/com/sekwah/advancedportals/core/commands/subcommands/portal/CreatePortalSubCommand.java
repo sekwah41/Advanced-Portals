@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.subcommands.common.CreateTaggedSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -12,10 +12,10 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.NameTag;
 import com.sekwah.advancedportals.core.tags.TriggerBlockTag;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +26,6 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
     @Inject
     TagRegistry tagRegistry;
-
-    @Inject
-    InfoLogger infoLogger;
 
     @Inject
     ConfigRepository config;
@@ -106,8 +103,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp()
-            || PortalPermissions.CREATE_PORTAL.hasPermission(sender);
+        return Permissions.CREATE_PORTAL.hasPermission(sender);
     }
 
     @Override

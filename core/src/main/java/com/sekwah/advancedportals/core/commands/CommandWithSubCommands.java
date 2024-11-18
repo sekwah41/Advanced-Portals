@@ -2,8 +2,10 @@ package com.sekwah.advancedportals.core.commands;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.permissions.PermissionBuilder;
 import com.sekwah.advancedportals.core.registry.SubCommandRegistry;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +14,14 @@ import java.util.stream.Collectors;
 public class CommandWithSubCommands implements CommandTemplate {
     private final SubCommandRegistry subCommandRegistry;
 
-    private final int subCommandsPerPage = 7;
+    private final int subCommandsPerPage = 6;
     private final AdvancedPortalsCore pluginCore;
+    private final PermissionBuilder permission;
 
-    public CommandWithSubCommands(AdvancedPortalsCore advancedPortalsCore) {
+    public CommandWithSubCommands(AdvancedPortalsCore advancedPortalsCore, PermissionBuilder permission) {
         this.subCommandRegistry = new SubCommandRegistry();
         this.pluginCore = advancedPortalsCore;
+        this.permission = permission;
     }
 
     public boolean registerSubCommand(String arg, SubCommand subCommand,
@@ -53,6 +57,10 @@ public class CommandWithSubCommands implements CommandTemplate {
     @Override
     public void onCommand(CommandSenderContainer sender, String commandExecuted,
                           String[] args) {
+        if(!permission.hasPermission(sender)) {
+            sender.sendMessage(Lang.getNegativePrefix() + Lang.translate("command.nopermission"));
+            return;
+        }
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("help")) {
                 int helpPage = 1;

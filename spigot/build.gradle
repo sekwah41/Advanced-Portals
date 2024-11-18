@@ -31,3 +31,81 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+// Code for generating extra data in plugins.yml
+// This may be able to be simplified drastically, though the goal is to get this working for now
+//  as it has gone through a few iterations.
+sourceSets {
+    permissionsGen {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
+configurations {
+    permissionsGenCompileClasspath.extendsFrom compileClasspath
+}
+
+def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    source = sourceSets.permissionsGen.allJava
+    classpath = configurations.permissionsGenCompileClasspath
+    destinationDirectory = file("$buildDir/classes/permissionsGen")
+}
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/resources/templates')
+
+def generatePermissionsYaml = tasks.register('generatePermissionsYaml') {
+    dependsOn compilePermissionsGen
+
+    doLast {
+        println "Generating permissions.yml file"
+
+        def classFiles = []
+        classFiles.addAll(files("$buildDir/classes/permissionsGen", sourceSets.permissionsGen.runtimeClasspath)
+                .collect { it.toURI().toURL() })
+
+        classFiles.addAll(project(':core').sourceSets.main.output.classesDirs
+                .collect { it.toURI().toURL() })
+
+        def urls = classFiles.toArray(new URL[0])
+
+        def parentClassLoader = Thread.currentThread().contextClassLoader
+        def classLoader = new URLClassLoader(urls, parentClassLoader)
+
+        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.spigot.PermissionsGeneratorSpigot')
+        def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
+        def permissionsYaml = getPermissionsMethod.invoke(null)
+
+        def permissionsFile = file("$buildDir/generated/resources/permissions.yml")
+        permissionsFile.parentFile.mkdirs()
+        permissionsFile.text = permissionsYaml
+
+        println "Permissions YAML generated at: $permissionsFile"
+    }
+}
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    dependsOn generatePermissionsYaml
+
+    def props = [
+            'permissions': { -> file("$buildDir/generated/resources/permissions.yml").text },
+            'pluginVersion': { -> project.version }
+    ]
+
+    task.inputs.properties(props)
+    task.from(templateSource)
+    task.into(templateDest)
+    task.expand(props)
+
+    doFirst {
+        println "Running generateTemplates task"
+    }
+}
+
+generateTemplates.configure {
+    outputs.upToDateWhen { false }
+}
+
+sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })

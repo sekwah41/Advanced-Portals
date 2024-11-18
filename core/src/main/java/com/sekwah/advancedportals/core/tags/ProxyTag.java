@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.core.tags;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
@@ -13,7 +11,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
