@@ -18,6 +18,8 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+import java.util.List;
+
 /**
  * Some of these will be passed to the core listener to handle the events,
  * others it's easier to just check directly.

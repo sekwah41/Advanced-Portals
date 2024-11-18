@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**

@@ -2,11 +2,12 @@ package com.sekwah.advancedportals.spigot.connector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotCommandSenderContainer;
-import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+
+import java.util.List;
 
 public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
     private final CommandTemplate commandExecutor;

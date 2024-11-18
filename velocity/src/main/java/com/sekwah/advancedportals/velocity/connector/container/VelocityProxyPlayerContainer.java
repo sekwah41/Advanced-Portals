@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.velocity.connector.container;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
-import net.kyori.adventure.text.Component;
 
 public class VelocityProxyPlayerContainer implements ProxyPlayerContainer {
 

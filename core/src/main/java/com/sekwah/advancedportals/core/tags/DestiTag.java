@@ -13,8 +13,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -84,7 +82,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
                 Tag.Activation activationHandler =
                         tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
                 if (activationHandler != null
-                        && !activationHandler.preActivated(target, player, activeData, argData)) {
+                        && !activationHandler.preActivated(target, player, activeData, destiTag.VALUES)) {
                     return false;
                 }
             }
