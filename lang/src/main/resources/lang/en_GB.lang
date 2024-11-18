@@ -62,15 +62,12 @@ command.create.portal.console= You cannot create a portal using the console.
 command.create.detailedhelp=Format is /portal create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
 command.create.complete= The portal has been successfully created.
 
-command.createdesti.help=Creates destinations
-command.createdesti.error= There was an error making the destination
-command.createdesti.console= You cannot create a destination using the 
-console.
-command.createdesti.detailedhelp=Format is /desti create (name) 
-[tag:tagvalue] List tags after create in the format tag:value, if your 
-value needs spaces use the format tag:"value with spaces"
-command.createdesti.complete= The destination has been successfully 
-created.
+command.create.destination.help=Creates destinations
+command.create.destination.error= There was a problem making the destination
+command.create.destination.console= You cannot create a destination using the console.
+command.create.destination.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
+command.create.destination.prep=&aCreating destination
+command.create.destination.complete= The destination has been successfully created.
 
 command.portal.info.complete= Portal information for &e%1$s&a:
 command.portal.info.notfound= No portal by the name &e%1$s &cwas found.

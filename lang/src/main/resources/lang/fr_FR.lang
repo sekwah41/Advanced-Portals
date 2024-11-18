@@ -40,9 +40,9 @@ translatedata.replaced= Un nouveau fichier &een_GB&a a bien été enregistré.
 messageprefix.positive=&a[&7AdvancedPortals&a]
 messageprefix.negative=&c[&7AdvancedPortals&c]
 
-logger.pluginenable=Advanced portals have been enabled!
-logger.plugindisable=Advanced portals are being disabled!
-logger.plugincrafterror=This version of craftbukkit is not yet supported or something went wrong, please post this message with the version number and the above stacktrace in an issue on GitHub v:%1$s
+logger.pluginenable=Advanced portals a bien été activé !
+logger.plugindisable=Advanced portals a bien été désactivé !
+logger.plugincrafterror=Cette version craftbukkit n'est pas supportée, veuillez poster ce message avec le numéro de version et la pile ci-dessus dans un numéro sur GitHub: v:%1$s
 
 command.noargs= Vous devez spécifier une sous commande, utilisez &e/%1$s help &cpour avoir la liste des commandes possibles.
 command.subcommand.invalid= Ce n'est pas une sous commande.
@@ -61,11 +61,11 @@ command.create.console= Vous ne pouvez pas créer un portail en utilisant la con
 command.create.detailedhelp=Le format est /portal create (name) [tag:tagvalue]
 command.create.complete= Le portail a bien été créé.
 
-command.createdesti.help=Creates destinations
-command.createdesti.error= There was an error making the destination
-command.createdesti.console= You cannot create a destination using the console.
-command.createdesti.detailedhelp=Format is /desti create (name) [tag:tagvalue] List tags after create in the format tag:value, if your value needs spaces use the format tag:"value with spaces"
-command.createdesti.complete= The destination has been successfully created.
+command.createdesti.help=Crée une destination
+command.createdesti.error= Une erreur est survenue en créant la destination:
+command.createdesti.console= Vous ne pouvez pas créer une destination en utilisant la console.
+command.createdesti.detailedhelp=Le format est /desti create (name) [tag:tagvalue]
+command.createdesti.complete= La destination a bien été créée.
 
 command.create.tags=&aTags:
 

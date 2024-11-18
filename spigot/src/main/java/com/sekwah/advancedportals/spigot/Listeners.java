@@ -1,9 +1,14 @@
 package com.sekwah.advancedportals.spigot;
 
-import com.sekwah.advancedportals.core.AdvancedPortalsCore;
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.CoreListeners;
-import com.sekwah.advancedportals.core.data.PortalLocation;
-import com.sekwah.advancedportals.coreconnector.container.PlayerContainer;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.services.PortalServices;
+import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContainer;
+import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContainer;
+import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,8 +30,8 @@ import java.util.List;
  * others it's easier to just check directly.
  */
 public class Listeners implements Listener {
-
-    private CoreListeners coreListeners = AdvancedPortalsCore.getInstance().getCoreListeners();
+    @Inject
+    private CoreListeners coreListeners;
 
     @Inject
     private PortalServices portalServices;
@@ -45,13 +50,65 @@ public class Listeners implements Listener {
         coreListeners.playerLeave(new SpigotPlayerContainer(event.getPlayer()));
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onMoveEvent(PlayerMoveEvent event) {
+        var to = event.getTo();
+        coreListeners.playerMove(new SpigotPlayerContainer(event.getPlayer()),
+                                 ContainerHelpers.toPlayerLocation(to));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityPortalEvent(EntityPortalEvent event) {
+        if (!this.coreListeners.entityPortalEvent(
+                new SpigotEntityContainer(event.getEntity()))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPortalEvent(PlayerPortalEvent event) {
+        if (!this.coreListeners.playerPortalEvent(
+                new SpigotPlayerContainer(event.getPlayer()), ContainerHelpers.toPlayerLocation(event.getFrom()))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onDamEvent(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player
+            && (event.getCause() == EntityDamageEvent.DamageCause.LAVA
+                || event.getCause() == EntityDamageEvent.DamageCause.FIRE
+                || event.getCause()
+                    == EntityDamageEvent.DamageCause.FIRE_TICK)) {
+            if (this.coreListeners.preventEntityCombust(
+                    new SpigotEntityContainer(event.getEntity()))) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCombustEntityEvent(EntityCombustEvent event) {
+        if (this.coreListeners.preventEntityCombust(
+                new SpigotEntityContainer(event.getEntity()))) {
+            event.setCancelled(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (!event.isCancelled()) {
             Location blockloc = event.getBlock().getLocation();
-            this.coreListeners.blockPlace(new SpigotPlayerContainer(event.getPlayer()),
-                    new PortalLocation(blockloc.getWorld().getName(), blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()), event.getBlockPlaced().getType().toString(),
-                    event.getItemInHand().getType().toString(), event.getItemInHand().getItemMeta().getDisplayName());
+            if (!this.coreListeners.blockPlace(
+                    new SpigotPlayerContainer(event.getPlayer()),
+                    new BlockLocation(
+                        blockloc.getWorld().getName(), blockloc.getBlockX(),
+                        blockloc.getBlockY(), blockloc.getBlockZ()),
+                    event.getBlockPlaced().getType().toString(),
+                    event.getItemInHand().getType().toString(),
+                    event.getItemInHand().getItemMeta().getDisplayName())) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -77,12 +134,15 @@ public class Listeners implements Listener {
                 || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             && event.getItem() != null) {
             Location blockloc = event.getClickedBlock().getLocation();
-            boolean allowEvent = this.coreListeners.playerInteractWithBlock(new SpigotPlayerContainer(event.getPlayer()),
-                    event.getClickedBlock().getType().toString(),
-                    event.getMaterial().toString(),
-                    event.getItem().getItemMeta().getDisplayName(),
-                    new PortalLocation(blockloc.getWorld().getName(), blockloc.getBlockX(), blockloc.getBlockY(), blockloc.getBlockZ()),
-                    event.getAction() == Action.LEFT_CLICK_BLOCK);
+            boolean allowEvent = this.coreListeners.playerInteractWithBlock(
+                new SpigotPlayerContainer(event.getPlayer()),
+                event.getClickedBlock().getType().toString(),
+                event.getMaterial().toString(),
+                event.getItem().getItemMeta().getDisplayName(),
+                new BlockLocation(blockloc.getWorld().getName(),
+                                  blockloc.getBlockX(), blockloc.getBlockY(),
+                                  blockloc.getBlockZ()),
+                event.getAction() == Action.LEFT_CLICK_BLOCK);
             event.setCancelled(!allowEvent);
         }
     }
