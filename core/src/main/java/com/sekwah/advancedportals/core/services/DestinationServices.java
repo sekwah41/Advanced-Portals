@@ -12,11 +12,12 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Singleton;
 
 @Singleton
 public class DestinationServices {

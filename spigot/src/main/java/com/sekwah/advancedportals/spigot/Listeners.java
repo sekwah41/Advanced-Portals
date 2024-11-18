@@ -9,7 +9,6 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContain
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContainer;
 import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,6 +22,8 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
+
+import java.util.List;
 
 /**
  * Some of these will be passed to the core listener to handle the events,

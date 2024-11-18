@@ -1,7 +1,5 @@
 package com.sekwah.advancedportals.core.permissions;
 
-import com.sekwah.advancedportals.core.commands.subcommands.portal.DisableBeaconSubCommand;
-
 public class Permissions {
 
     /**

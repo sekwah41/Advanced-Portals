@@ -12,10 +12,10 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.NameTag;
 import com.sekwah.advancedportals.core.tags.TriggerBlockTag;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -12,12 +12,11 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer.ConfigAccessor;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class ImportPortalSubCommand implements SubCommand {
 

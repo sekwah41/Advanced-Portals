@@ -1,6 +1,9 @@
 package com.sekwah.advancedportals.core.module;
 
-import com.google.inject.*;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Scopes;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -17,9 +20,10 @@ import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 public class AdvancedPortalsModule extends AbstractModule {
     private Injector injector;

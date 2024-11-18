@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.util.List;
 
 public class ReloadPortalSubCommand implements SubCommand {

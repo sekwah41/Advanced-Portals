@@ -13,8 +13,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
