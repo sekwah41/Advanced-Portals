@@ -48,7 +48,7 @@ jobs:
         extra_args: --all-files
 
     - name: Commit pre-commit changes
-      if: always()
+      if: github.event_name != 'pull_request' && always()
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -58,7 +58,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push pre-commit changes
-      if: always() && github.event.action != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize'
+      if: github.event_name != 'pull_request' && github.event.action != 'labeled' && github.event.action != 'synchronize' && always()
       run: |
         git push ${{ github.head_ref }}
       env:
