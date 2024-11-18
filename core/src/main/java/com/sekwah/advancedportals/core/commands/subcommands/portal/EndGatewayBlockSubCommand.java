@@ -32,8 +32,7 @@ public class EndGatewayBlockSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp()
-            || Permissions.CREATE_PORTAL.hasPermission(sender);
+        return Permissions.CREATE_PORTAL.hasPermission(sender);
     }
 
     @Override

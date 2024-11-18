@@ -48,6 +48,9 @@ public class Permissions {
     public static final PermissionBuilder CREATE_COMMAND_PERMS =
             CREATE_COMMAND_LEVEL.createChild("perms_wildcard").description("Allows you to increase the users level temporarily to have all perms");
 
+    public static final PermissionBuilder PORTAL_INFO =
+            PORTAL.createChild("info", PermissionBuilder.PermissionDefault.TRUE).description("Allows you to view portal information");
+
     static {
         // These are to add children which will not be used directly e.g. advancedportals.*
         ROOT.createChild("*", PermissionBuilder.PermissionDefault.OP).description("Gives access to all portal commands")
