@@ -15,26 +15,50 @@ public class Permissions {
 
     public static final PermissionBuilder BUILD =
         ROOT.createChild("build", PermissionBuilder.PermissionDefault.OP).description("Allows you to build in the portal regions");
+
+
     public static final PermissionBuilder DESTI =
         ROOT.createChild("desti", PermissionBuilder.PermissionDefault.TRUE).description("Allows you to use the destination command");
+
+    public static final PermissionBuilder CREATE_DESTI =
+            DESTI.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create destinations");
+
+    public static final PermissionBuilder TELEPORT_DESTI =
+        DESTI.createChild("teleport", PermissionBuilder.PermissionDefault.OP).description("Allows you to teleport to destinations");
+
+    public static final PermissionBuilder REMOVE_DESTI =
+        DESTI.createChild("remove", PermissionBuilder.PermissionDefault.OP).description("Allows you to remove destinations");
+
+    public static final PermissionBuilder LIST_DESTI =
+        DESTI.createChild("list", PermissionBuilder.PermissionDefault.OP).description("Allows you to list all destinations");
+
+    public static final PermissionBuilder SHOW_DESTI =
+        DESTI.createChild("show", PermissionBuilder.PermissionDefault.OP).description("Allows you to visualise the destination locations");
+
     public static final PermissionBuilder PORTAL =
             ROOT.createChild("portal", PermissionBuilder.PermissionDefault.TRUE).description("Allows you to use the portal command");
 
     public static final PermissionBuilder CREATE_PORTAL =
             PORTAL.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create portals");
 
-    public static final PermissionBuilder CREATE_DESTI =
-            DESTI.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create destinations");
+    public static final PermissionBuilder REMOVE_PORTAL =
+            PORTAL.createChild("remove", PermissionBuilder.PermissionDefault.OP).description("Allows you to remove portals");
+
+    public static final PermissionBuilder LIST_PORTAL =
+            PORTAL.createChild("list", PermissionBuilder.PermissionDefault.OP).description("Allows you to list all portals");
 
     public static final PermissionBuilder LANG_UPDATE =
-        ROOT.createChild("lang_update", PermissionBuilder.PermissionDefault.OP);
+            PORTAL.createChild("lang_update", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder RELOAD =
-        ROOT.createChild("reload", PermissionBuilder.PermissionDefault.OP);
+            PORTAL.createChild("reload", PermissionBuilder.PermissionDefault.OP);
 
     public static final PermissionBuilder DISABLE_BEACON =
-            ROOT.createChild("disable_beacon", PermissionBuilder.PermissionDefault.OP);
+            PORTAL.createChild("disable_beacon", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder IMPORT =
-            ROOT.createChild("import", PermissionBuilder.PermissionDefault.OP);
+            PORTAL.createChild("import", PermissionBuilder.PermissionDefault.OP);
+
+    public static final PermissionBuilder SHOW_PORTAL =
+            PORTAL.createChild("showt", PermissionBuilder.PermissionDefault.OP).description("Allows you to view the portal regions");
 
     private static final PermissionBuilder CREATE_COMMAND_LEVEL =
             CREATE_PORTAL.createChild("command_level").doNotExport();
@@ -49,7 +73,7 @@ public class Permissions {
             CREATE_COMMAND_LEVEL.createChild("perms_wildcard").description("Allows you to increase the users level temporarily to have all perms");
 
     public static final PermissionBuilder PORTAL_INFO =
-            PORTAL.createChild("info", PermissionBuilder.PermissionDefault.TRUE).description("Allows you to view portal information");
+            PORTAL.createChild("info", PermissionBuilder.PermissionDefault.OP).description("Allows you to view portal information");
 
     static {
         // These are to add children which will not be used directly e.g. advancedportals.*

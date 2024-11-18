@@ -34,7 +34,7 @@ public class RemoveDestiSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || Permissions.DESTI.hasPermission(sender);
+        return Permissions.REMOVE_DESTI.hasPermission(sender);
     }
 
     @Override

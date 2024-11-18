@@ -33,8 +33,7 @@ public class RemovePortalSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp()
-            || Permissions.CREATE_PORTAL.hasPermission(sender);
+        return Permissions.REMOVE_PORTAL.hasPermission(sender);
     }
 
     @Override

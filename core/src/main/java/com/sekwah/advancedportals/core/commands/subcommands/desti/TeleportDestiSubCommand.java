@@ -36,7 +36,7 @@ public class TeleportDestiSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || Permissions.DESTI.hasPermission(sender);
+        return Permissions.TELEPORT_DESTI.hasPermission(sender);
     }
 
     @Override
