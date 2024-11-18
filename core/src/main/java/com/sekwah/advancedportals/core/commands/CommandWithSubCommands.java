@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.permissions.PermissionBuilder;
 import com.sekwah.advancedportals.core.registry.SubCommandRegistry;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +17,8 @@ public class CommandWithSubCommands implements CommandTemplate {
     private final AdvancedPortalsCore pluginCore;
     private final PermissionBuilder permission;
 
-    public CommandWithSubCommands(AdvancedPortalsCore advancedPortalsCore, PermissionBuilder permission) {
+    public CommandWithSubCommands(AdvancedPortalsCore advancedPortalsCore,
+                                  PermissionBuilder permission) {
         this.subCommandRegistry = new SubCommandRegistry();
         this.pluginCore = advancedPortalsCore;
         this.permission = permission;
@@ -57,8 +57,9 @@ public class CommandWithSubCommands implements CommandTemplate {
     @Override
     public void onCommand(CommandSenderContainer sender, String commandExecuted,
                           String[] args) {
-        if(!permission.hasPermission(sender)) {
-            sender.sendMessage(Lang.getNegativePrefix() + Lang.translate("command.nopermission"));
+        if (!permission.hasPermission(sender)) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("command.nopermission"));
             return;
         }
         if (args.length > 0) {

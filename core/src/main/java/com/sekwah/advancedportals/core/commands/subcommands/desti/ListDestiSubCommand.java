@@ -6,7 +6,6 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

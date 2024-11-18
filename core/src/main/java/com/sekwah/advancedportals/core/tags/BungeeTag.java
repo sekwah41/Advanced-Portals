@@ -7,17 +7,14 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.Random;
 
 public class BungeeTag implements Tag.Activation {
-
     public static final String PACKET_CHANNEL = "BungeeCord";
 
     public static String TAG_NAME = "bungee";
 
-    private final TagType[] tagTypes =
-        new TagType[] {TagType.PORTAL};
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
     private final Random random = new Random();
 
@@ -42,17 +39,19 @@ public class BungeeTag implements Tag.Activation {
     }
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         return true;
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activeData, String[] argData) {
         String selectedArg = argData[random.nextInt(argData.length)];
 
         ByteArrayDataOutput outForSend = ByteStreams.newDataOutput();

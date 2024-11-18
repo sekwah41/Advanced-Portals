@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * I believe later versions of velocity have some component handlers for this, and I could just send it to the server as components
- * but ive decided to throw this in for now just to use the plugin logger. Also, to try to clone the bungee behavior as close as possible.
+ * I believe later versions of velocity have some component handlers for this,
+ * and I could just send it to the server as components but ive decided to throw
+ * this in for now just to use the plugin logger. Also, to try to clone the
+ * bungee behavior as close as possible.
  */
 public class MinecraftToAnsi {
-
-    private static final Map<Character, String> minecraftToAnsiMap = new HashMap<>();
+    private static final Map<Character, String> minecraftToAnsiMap =
+        new HashMap<>();
 
     static {
         minecraftToAnsiMap.put('0', "\u001B[30m"); // Black
@@ -28,12 +30,12 @@ public class MinecraftToAnsi {
         minecraftToAnsiMap.put('d', "\u001B[95m"); // Light Purple
         minecraftToAnsiMap.put('e', "\u001B[93m"); // Yellow
         minecraftToAnsiMap.put('f', "\u001B[97m"); // White
-        minecraftToAnsiMap.put('k', "\u001B[5m");  // Obfuscated (Blinking)
-        minecraftToAnsiMap.put('l', "\u001B[1m");  // Bold
-        minecraftToAnsiMap.put('m', "\u001B[9m");  // Strikethrough
-        minecraftToAnsiMap.put('n', "\u001B[4m");  // Underline
-        minecraftToAnsiMap.put('o', "\u001B[3m");  // Italic
-        minecraftToAnsiMap.put('r', "\u001B[0m");  // Reset
+        minecraftToAnsiMap.put('k', "\u001B[5m"); // Obfuscated (Blinking)
+        minecraftToAnsiMap.put('l', "\u001B[1m"); // Bold
+        minecraftToAnsiMap.put('m', "\u001B[9m"); // Strikethrough
+        minecraftToAnsiMap.put('n', "\u001B[4m"); // Underline
+        minecraftToAnsiMap.put('o', "\u001B[3m"); // Italic
+        minecraftToAnsiMap.put('r', "\u001B[0m"); // Reset
     }
 
     public static String convert(String text) {

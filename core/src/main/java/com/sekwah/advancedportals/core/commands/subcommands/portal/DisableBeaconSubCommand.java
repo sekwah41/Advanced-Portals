@@ -6,7 +6,6 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.List;
 
 public class DisableBeaconSubCommand implements SubCommand {
@@ -18,17 +17,22 @@ public class DisableBeaconSubCommand implements SubCommand {
         if (args.length > 1) {
             var portalName = args[1];
             var portal = portalServices.getPortal(portalName);
-            if(portal == null) {
-                sender.sendMessage(Lang.getNegativePrefix()
-                        + Lang.translateInsertVariables("command.portal.disablebeacon.notfound", portalName));
+            if (portal == null) {
+                sender.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables(
+                        "command.portal.disablebeacon.notfound", portalName));
                 return;
             }
-            sender.sendMessage(Lang.getPositivePrefix()
-                    + Lang.translateInsertVariables("command.portal.disablebeacon.complete", portalName));
+            sender.sendMessage(
+                Lang.getPositivePrefix()
+                + Lang.translateInsertVariables(
+                    "command.portal.disablebeacon.complete", portalName));
             sender.getPlayerContainer().getWorld().disableBeacon(portal);
         } else {
-            sender.sendMessage(Lang.getNegativePrefix()
-                    + Lang.translate("command.portal.disablebeacon.noname"));
+            sender.sendMessage(
+                Lang.getNegativePrefix()
+                + Lang.translate("command.portal.disablebeacon.noname"));
         }
     }
 

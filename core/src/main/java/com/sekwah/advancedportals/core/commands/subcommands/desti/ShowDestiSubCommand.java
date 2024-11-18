@@ -14,7 +14,6 @@ import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;

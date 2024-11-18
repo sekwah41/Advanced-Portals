@@ -12,7 +12,6 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.List;
 import java.util.Random;
 
@@ -65,24 +64,28 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
         activeData.setMetadata(TAG_NAME, selectedArg);
 
-        if(activeData.getMetadata(ProxyTag.TAG_NAME) != null) {
+        if (activeData.getMetadata(ProxyTag.TAG_NAME) != null) {
             return true;
         }
 
-        if(destinationServices.getDestination(selectedArg) == null) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("desti.error.notfound", selectedArg));
+        if (destinationServices.getDestination(selectedArg) == null) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translateInsertVariables(
+                                   "desti.error.notfound", selectedArg));
             return false;
         }
 
         // Check and trigger all tags on the destination
-        Destination destination = destinationServices.getDestination(selectedArg);
+        Destination destination =
+            destinationServices.getDestination(selectedArg);
         if (destination != null) {
-
             for (var destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
-                        tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
+                    tagRegistry.getActivationHandler(destiTag.NAME,
+                                                     Tag.TagType.DESTINATION);
                 if (activationHandler != null
-                        && !activationHandler.preActivated(target, player, activeData, destiTag.VALUES)) {
+                    && !activationHandler.preActivated(
+                        target, player, activeData, destiTag.VALUES)) {
                     return false;
                 }
             }
@@ -94,23 +97,29 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
-        if(activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
+        if (activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
             return;
         }
 
         var selectedArg = activationData.getMetadata(TAG_NAME);
-        Destination destination = destinationServices.getDestination(selectedArg);
+        Destination destination =
+            destinationServices.getDestination(selectedArg);
         if (destination != null) {
             for (var destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
-                        tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
+                    tagRegistry.getActivationHandler(destiTag.NAME,
+                                                     Tag.TagType.DESTINATION);
                 if (activationHandler != null) {
-                    activationHandler.postActivated(target, player, activationData, argData);
+                    activationHandler.postActivated(target, player,
+                                                    activationData, argData);
                 }
             }
             var message = activationData.getMetadata(MessageTag.TAG_NAME);
-            if(message == null) {
-                sendMessage(player, Lang.translateInsertVariables("desti.warpdesti.warp", destination.getName().replaceAll("_", " ")));
+            if (message == null) {
+                sendMessage(player,
+                            Lang.translateInsertVariables(
+                                "desti.warpdesti.warp",
+                                destination.getName().replaceAll("_", " ")));
             }
         }
     }
@@ -118,7 +127,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public boolean activated(TagTarget target, PlayerContainer player,
                              ActivationData activationData, String[] argData) {
-        if(activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
+        if (activationData.getMetadata(ProxyTag.TAG_NAME) != null) {
             return true;
         }
 
@@ -126,22 +135,27 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            var warpEffectVisual = warpEffectRegistry.getVisualEffect(configRepository.getWarpVisual());
-            var warpEffectSound = warpEffectRegistry.getSoundEffect(configRepository.getWarpSound());
-            if(configRepository.getWarpEffectEnabled()) {
+            var warpEffectVisual = warpEffectRegistry.getVisualEffect(
+                configRepository.getWarpVisual());
+            var warpEffectSound = warpEffectRegistry.getSoundEffect(
+                configRepository.getWarpSound());
+            if (configRepository.getWarpEffectEnabled()) {
                 if (warpEffectVisual != null) {
-                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+                    warpEffectVisual.onWarpVisual(player,
+                                                  WarpEffect.Action.ENTER);
                 }
                 if (warpEffectSound != null) {
-                    warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
+                    warpEffectSound.onWarpSound(player,
+                                                WarpEffect.Action.ENTER);
                 }
             }
 
             player.teleport(destination.getLoc());
 
-            if(configRepository.getWarpEffectEnabled()) {
+            if (configRepository.getWarpEffectEnabled()) {
                 if (warpEffectVisual != null) {
-                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.EXIT);
+                    warpEffectVisual.onWarpVisual(player,
+                                                  WarpEffect.Action.EXIT);
                 }
                 if (warpEffectSound != null) {
                     warpEffectSound.onWarpSound(player, WarpEffect.Action.EXIT);
@@ -153,11 +167,11 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     }
 
     public void sendMessage(PlayerContainer player, String message) {
-        if(this.configRepository.warpMessageOnActionBar()) {
+        if (this.configRepository.warpMessageOnActionBar()) {
             player.sendActionBar(Lang.convertColors(message));
-        }
-        else if(this.configRepository.warpMessageInChat()) {
-            player.sendMessage(Lang.getPositivePrefix() + " " + Lang.convertColors(message));
+        } else if (this.configRepository.warpMessageInChat()) {
+            player.sendMessage(Lang.getPositivePrefix() + " "
+                               + Lang.convertColors(message));
         }
     }
 

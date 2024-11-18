@@ -15,9 +15,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
-import javax.inject.Singleton;
 import java.util.*;
+import javax.inject.Singleton;
 
 @Singleton
 public class PortalServices {
@@ -100,7 +99,8 @@ public class PortalServices {
         PORTAL_DENIED
     }
 
-    public PortalActivationResult checkPortalActivation(PlayerContainer player, PlayerLocation toLoc, TriggerType triggerType) {
+    public PortalActivationResult checkPortalActivation(
+        PlayerContainer player, PlayerLocation toLoc, TriggerType triggerType) {
         var blockLoc = toLoc.toBlockPos();
         var blockEntityTopLoc = blockLoc.addY(player.getHeight());
         var world = player.getWorld();
@@ -114,7 +114,7 @@ public class PortalServices {
                 || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
                 var portalName = portal.getName();
-                if(Objects.equals(playerData.inPortal(), portalName)) {
+                if (Objects.equals(playerData.inPortal(), portalName)) {
                     return PortalActivationResult.PORTAL_DENIED;
                 }
                 switch (portal.activate(player, triggerType)) {
