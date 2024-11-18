@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.core.permissions;
 
+import com.sekwah.advancedportals.core.commands.subcommands.portal.DisableBeaconSubCommand;
+
 public class Permissions {
 
     /**
@@ -20,23 +22,24 @@ public class Permissions {
     public static final PermissionBuilder PORTAL =
             ROOT.createChild("portal", PermissionBuilder.PermissionDefault.TRUE).description("Allows you to use the portal command");
 
-    private static final PermissionBuilder CREATE =
-            ROOT.createChild("create");
-
     public static final PermissionBuilder CREATE_PORTAL =
-            CREATE.createChild("portal", PermissionBuilder.PermissionDefault.OP).description("Allows you to create portals");
+            PORTAL.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create portals");
+
     public static final PermissionBuilder CREATE_DESTI =
-            CREATE.createChild("desti", PermissionBuilder.PermissionDefault.OP);
+            DESTI.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create destinations");
 
     public static final PermissionBuilder LANG_UPDATE =
         ROOT.createChild("lang_update", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder RELOAD =
         ROOT.createChild("reload", PermissionBuilder.PermissionDefault.OP);
 
-
+    public static final PermissionBuilder DISABLE_BEACON =
+            ROOT.createChild("disable_beacon", PermissionBuilder.PermissionDefault.OP);
+    public static final PermissionBuilder IMPORT =
+            ROOT.createChild("import", PermissionBuilder.PermissionDefault.OP);
 
     private static final PermissionBuilder CREATE_COMMAND_LEVEL =
-            CREATE_PORTAL.createChild("commandlevel").doNotExport();
+            CREATE_PORTAL.createChild("command_level").doNotExport();
 
     public static final PermissionBuilder CREATE_COMMAND_OP =
             CREATE_COMMAND_LEVEL.createChild("op").description("Allows you to increase the users level temporarily to op");
@@ -45,7 +48,7 @@ public class Permissions {
             CREATE_COMMAND_LEVEL.createChild("console").description("Allows you to create portals which execute console commands");
 
     public static final PermissionBuilder CREATE_COMMAND_PERMS =
-            CREATE_COMMAND_LEVEL.createChild("permswild").description("Allows you to increase the users level temporarily to have all perms");
+            CREATE_COMMAND_LEVEL.createChild("perms_wildcard").description("Allows you to increase the users level temporarily to have all perms");
 
     static {
         // These are to add children which will not be used directly e.g. advancedportals.*
@@ -59,6 +62,5 @@ public class Permissions {
                 .addGrantChild(CREATE_COMMAND_OP)
                 .addGrantChild(CREATE_COMMAND_CONSOLE)
                 .addGrantChild(CREATE_COMMAND_PERMS);
-
     }
 }
