@@ -1,14 +1,28 @@
-![Advanced portals](https://i.imgur.com/UIF6cQR.png)
+![Advanced portals](./docs/logo.png)
 
-Need to write a new readme for this.
+[![Discord](https://img.shields.io/discord/168282484037910528.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/fAJ3xJg)
+[![](https://img.shields.io/github/contributors/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/graphs/contributors)
+[![](https://img.shields.io/github/issues/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/issues)
+[![](https://img.shields.io/github/issues-pr/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/pulls)
+[![](https://img.shields.io/github/forks/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/network/members)
+[![](https://img.shields.io/github/stars/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/stargazers)
+[![](https://img.shields.io/github/license/sekwah41/Advanced-Portals.svg?logo=github&style=for-the-badge)](https://github.com/sekwah41/Advanced-Portals/blob/master/LICENSE.md)
 
-Also I will set up release please to work with the below types for pretty changelogs.
+Advanced Portals
+==============
+An advanced portals plugin designed to have a wide range of features which are easy to use. It adds a bunch of commands to create and edit portals and destinations.
 
-The re-code is based off a mix of the original version, and the original re-code that was abandoned [see here](https://github.com/sekwah41/Advanced-Portals/tree/recode/src/main/java/com/sekwah/advancedportals).
+# Usage
 
-Part of this are currently a mess in terms of package organising, though any API changes will be documented in the changelog as well as the main registry classes should be relatively solid.
+Check out the [Tutorial](https://advancedportals.sekwah.com/docs/intro), [List of Commands](https://advancedportals.sekwah.com/docs/commands), and [List of Portal Tags](https://advancedportals.sekwah.com/docs/portal-tags).
 
-The goal of this rewrite is to make it easier to port to other platforms as well as add extra tags.
+# Download
+
+- [Bukkit](https://dev.bukkit.org/projects/advanced-portals)
+- [Spigot](https://www.spigotmc.org/resources/advanced-portals.14356/)
+- [Curseforge](https://www.curseforge.com/minecraft/bukkit-plugins/advanced-portals)
+- [Modrinth](https://modrinth.com/plugin/advanced-portals)
+- [Github](https://github.com/sekwah41/Advanced-Portals/releases)
 
 # Contributing
 Please ensure that your commits are in the following style for PR's
