@@ -12,12 +12,11 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Singleton;
 
 @Singleton
 public class DestinationServices {
@@ -135,21 +134,22 @@ public class DestinationServices {
         return teleportToDestination(name, playerContainer, false);
     }
 
-    public boolean teleportToDestination(String name,
-                                         PlayerContainer player, boolean doEffect) {
-        if(doEffect && configRepository.getWarpEffectEnabled()) {
-            var warpEffectVisual = warpEffectRegistry.getVisualEffect(configRepository.getWarpVisual());
+    public boolean teleportToDestination(String name, PlayerContainer player,
+                                         boolean doEffect) {
+        if (doEffect && configRepository.getWarpEffectEnabled()) {
+            var warpEffectVisual = warpEffectRegistry.getVisualEffect(
+                configRepository.getWarpVisual());
             if (warpEffectVisual != null) {
                 warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
             }
-            var warpEffectSound = warpEffectRegistry.getSoundEffect(configRepository.getWarpSound());
+            var warpEffectSound = warpEffectRegistry.getSoundEffect(
+                configRepository.getWarpSound());
             if (warpEffectSound != null) {
                 warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
             }
         }
         if (this.destinationRepository.containsKey(name)) {
-            player.teleport(
-                this.destinationRepository.get(name).getLoc());
+            player.teleport(this.destinationRepository.get(name).getLoc());
             return true;
         }
         return false;

@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.registry;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

@@ -13,21 +13,32 @@ public class VelocityProxyContainer implements ProxyContainer {
     }
 
     @Override
-    public void invokeCommand(ProxyPlayerContainer proxyPlayer, String command) {
-        if(proxyPlayer instanceof VelocityProxyPlayerContainer playerContainer) {
-            this.proxy.getCommandManager().executeAsync(playerContainer.getPlayer(), command);
+    public void invokeCommand(ProxyPlayerContainer proxyPlayer,
+                              String command) {
+        if (proxyPlayer
+            instanceof VelocityProxyPlayerContainer playerContainer) {
+            this.proxy.getCommandManager().executeAsync(
+                playerContainer.getPlayer(), command);
         }
     }
 
     @Override
-    public void transferPlayer(ProxyPlayerContainer proxyPlayer, String serverName) {
-        if(proxyPlayer instanceof VelocityProxyPlayerContainer playerContainer) {
-            this.proxy.getServer(serverName).ifPresentOrElse(
-                server -> {
-                    playerContainer.getPlayer().createConnectionRequest(server).fireAndForget();
-                },
-                () -> playerContainer.getPlayer().sendMessage(Component.text("Could not find server: " + serverName))
-            );
+    public void transferPlayer(ProxyPlayerContainer proxyPlayer,
+                               String serverName) {
+        if (proxyPlayer
+            instanceof VelocityProxyPlayerContainer playerContainer) {
+            this.proxy.getServer(serverName)
+                .ifPresentOrElse(
+                    server
+                    -> {
+                        playerContainer.getPlayer()
+                            .createConnectionRequest(server)
+                            .fireAndForget();
+                    },
+                    ()
+                        -> playerContainer.getPlayer().sendMessage(
+                            Component.text("Could not find server: "
+                                           + serverName)));
         }
     }
 }

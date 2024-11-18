@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.registry;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.*;
 
 /**
@@ -34,10 +33,12 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public Tag.Activation getActivationHandler(String arg, Tag.TagType targetType) {
+    public Tag.Activation getActivationHandler(String arg,
+                                               Tag.TagType targetType) {
         var tag = this.activationTags.get(arg);
-        if (tag != null && Arrays.asList(tag.getTagTypes()).contains(targetType)) {
-                return tag;
+        if (tag != null
+            && Arrays.asList(tag.getTagTypes()).contains(targetType)) {
+            return tag;
         }
         return null;
     }

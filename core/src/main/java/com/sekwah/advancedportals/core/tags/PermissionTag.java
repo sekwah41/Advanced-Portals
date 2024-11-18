@@ -8,7 +8,6 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
@@ -26,7 +25,8 @@ public class PermissionTag implements Tag.Activation {
 
     private final String[] aliases = new String[] {"perm"};
 
-    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL, TagType.DESTINATION};
+    private final TagType[] tagTypes =
+        new TagType[] {TagType.PORTAL, TagType.DESTINATION};
 
     @Override
     public TagType[] getTagTypes() {
@@ -53,16 +53,18 @@ public class PermissionTag implements Tag.Activation {
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
         var permission = argData[0];
-        if(permission.startsWith("!")) {
+        if (permission.startsWith("!")) {
             permission = permission.substring(1);
-            if(player.hasPermission(permission)) {
-                player.sendMessage(Lang.getNegativePrefix() + Lang.translate("portal.error.nopermission"));
+            if (player.hasPermission(permission)) {
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("portal.error.nopermission"));
                 return false;
             }
             return true;
-        }
-        else if (!player.hasPermission(argData[0])) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("portal.error.nopermission"));
+        } else if (!player.hasPermission(argData[0])) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("portal.error.nopermission"));
             return false;
         }
         return true;

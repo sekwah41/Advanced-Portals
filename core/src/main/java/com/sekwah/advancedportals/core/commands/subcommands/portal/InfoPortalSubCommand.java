@@ -7,7 +7,6 @@ import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
-
 import java.util.List;
 
 public class InfoPortalSubCommand implements SubCommand {
@@ -19,17 +18,20 @@ public class InfoPortalSubCommand implements SubCommand {
         if (args.length > 1) {
             var portalName = args[1];
             var portal = portalServices.getPortal(portalName);
-            if(portal == null) {
-                sender.sendMessage(Lang.getNegativePrefix()
-                        + Lang.translateInsertVariables("command.portal.info.notfound", portalName));
+            if (portal == null) {
+                sender.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables(
+                        "command.portal.info.notfound", portalName));
                 return;
             }
             sender.sendMessage(Lang.getPositivePrefix()
-                    + Lang.translateInsertVariables("command.portal.info.complete", portalName));
+                               + Lang.translateInsertVariables(
+                                   "command.portal.info.complete", portalName));
             TagReader.printArgs(sender, portal.getArgs());
         } else {
             sender.sendMessage(Lang.getNegativePrefix()
-                    + Lang.translate("command.portal.info.noname"));
+                               + Lang.translate("command.portal.info.noname"));
         }
     }
 

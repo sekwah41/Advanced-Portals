@@ -1,9 +1,8 @@
 package com.sekwah.advancedportals.spigot.reflection;
 
-import org.bukkit.entity.Player;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import org.bukkit.entity.Player;
 
 /**
  * Just a util class to force spigot to allow us to have fun with the

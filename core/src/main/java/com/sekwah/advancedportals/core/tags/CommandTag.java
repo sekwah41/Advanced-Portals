@@ -10,7 +10,6 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import javax.annotation.Nullable;
 
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
@@ -88,7 +87,8 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     }
                     break;
                 case '%':
-                    if (!commandPortals.proxy || !configRepository.getEnableProxySupport()) {
+                    if (!commandPortals.proxy
+                        || !configRepository.getEnableProxySupport()) {
                         player.sendMessage(
                             Lang.getNegativePrefix()
                             + Lang.translate("tag.command.proxy.disabled"));
@@ -128,8 +128,10 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                         CommandLevel.PERMISSION_WILDCARD);
                     break;
                 case '%':
-                    var packet = new ProxyCommandPacket(formattedCommand.substring(1));
-                    player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
+                    var packet =
+                        new ProxyCommandPacket(formattedCommand.substring(1));
+                    player.sendPacket(ProxyMessages.CHANNEL_NAME,
+                                      packet.encode());
                     break;
                 default:
                     player.getServer().dispatchCommand(player.getUUID(),

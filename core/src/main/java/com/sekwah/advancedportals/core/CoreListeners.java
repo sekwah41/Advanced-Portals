@@ -18,7 +18,6 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
 import java.util.Objects;
 
 public class CoreListeners {
@@ -44,10 +43,12 @@ public class CoreListeners {
     }
 
     private void setIfInPortal(PlayerContainer player) {
-        String inPortal = this.portalServices.inPortalRegionGetName(player.getBlockLoc());
+        String inPortal =
+            this.portalServices.inPortalRegionGetName(player.getBlockLoc());
 
         if (inPortal == null) {
-            inPortal = this.portalServices.inPortalRegionGetName(player.getBlockLoc().addY((int) player.getHeight()));
+            inPortal = this.portalServices.inPortalRegionGetName(
+                player.getBlockLoc().addY((int) player.getHeight()));
         }
 
         this.playerDataServices.getPlayerData(player).setInPortal(inPortal);
@@ -61,7 +62,8 @@ public class CoreListeners {
         this.playerDataServices.playerLeave(player);
     }
 
-    public void incomingMessage(PlayerContainer player, String channel, byte[] message) {
+    public void incomingMessage(PlayerContainer player, String channel,
+                                byte[] message) {
         var buffer = ByteStreams.newDataInput(message);
         var messageType = buffer.readUTF();
 
@@ -135,125 +137,126 @@ public class CoreListeners {
                     }
                 }
                 return true;
-            } else if (itemInHandName.equals(
-                           "\u00A78End Portal Block Placer")) {
-                world.setBlock(blockPos, "END_PORTAL");
-                return true;
-            } else if (itemInHandName.equals("\u00A78Gateway Block Placer")) {
-                world.setBlock(blockPos, "END_GATEWAY");
-                world.disableBeacon(blockPos);
-                return true;
-            }
+        }
+        else if (itemInHandName.equals("\u00A78End Portal Block Placer")) {
+            world.setBlock(blockPos, "END_PORTAL");
             return true;
         }
-        if (portalServices.inPortalRegionProtected(blockPos)) {
-            if (player != null) {
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("portal.nobuild"));
-            }
-            return false;
+        else if (itemInHandName.equals("\u00A78Gateway Block Placer")) {
+            world.setBlock(blockPos, "END_GATEWAY");
+            world.disableBeacon(blockPos);
+            return true;
         }
         return true;
     }
-
-    /**
-     * If the block is allowed to be interacted with e.g. a lever
-     * @player player causing the event (or null if not a player)
-     * @param blockPos
-     * @return
-     */
-    public boolean blockInteract(PlayerContainer player,
-                                 BlockLocation blockPos) {
-        return true;
+    if (portalServices.inPortalRegionProtected(blockPos)) {
+        if (player != null) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("portal.nobuild"));
+        }
+        return false;
     }
+    return true;
+}
 
-    /**
-     *  @param player
-     * @param blockLoc
-     * @param leftClick true = left click, false = right click
-     * @return if player is allowed to interact with block
-     */
-    public boolean playerInteractWithBlock(PlayerContainer player,
-                                           String blockMaterialname,
-                                           String itemMaterialName,
-                                           String itemName,
-                                           BlockLocation blockLoc,
-                                           boolean leftClick) {
-        if (itemName != null
-            && Permissions.CREATE_PORTAL.hasPermission(player)
-            && itemMaterialName.equalsIgnoreCase(
-                this.configRepository.getSelectorMaterial())
-            && (!this.configRepository.getUseOnlySpecialAxe()
-                || itemName.equals("\u00A7ePortal Region Selector"))) {
-            this.playerDataServices.playerSelectorActivate(player, blockLoc,
-                                                           leftClick);
-            return false;
-        } else if (itemName != null && leftClick
-                   && Objects.equals(itemMaterialName, "PURPLE_WOOL")
-                   && itemName.equals("\u00A75Portal Block Placer")
-                   && Permissions.BUILD.hasPermission(player)) {
-            if (!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
-                return false;
-            }
-            WorldContainer world = player.getWorld();
-            if (world.getBlockAxis(blockLoc) == BlockAxis.X) {
-                world.setBlockAxis(blockLoc, BlockAxis.Z);
-            } else {
-                world.setBlockAxis(blockLoc, BlockAxis.X);
-            }
+/**
+ * If the block is allowed to be interacted with e.g. a lever
+ * @player player causing the event (or null if not a player)
+ * @param blockPos
+ * @return
+ */
+public boolean blockInteract(PlayerContainer player, BlockLocation blockPos) {
+    return true;
+}
+
+/**
+ *  @param player
+ * @param blockLoc
+ * @param leftClick true = left click, false = right click
+ * @return if player is allowed to interact with block
+ */
+public boolean playerInteractWithBlock(PlayerContainer player,
+                                       String blockMaterialname,
+                                       String itemMaterialName, String itemName,
+                                       BlockLocation blockLoc,
+                                       boolean leftClick) {
+    if (itemName != null && Permissions.CREATE_PORTAL.hasPermission(player)
+        && itemMaterialName.equalsIgnoreCase(
+            this.configRepository.getSelectorMaterial())
+        && (!this.configRepository.getUseOnlySpecialAxe()
+            || itemName.equals("\u00A7ePortal Region Selector"))) {
+        this.playerDataServices.playerSelectorActivate(player, blockLoc,
+                                                       leftClick);
+        return false;
+    } else if (itemName != null && leftClick
+               && Objects.equals(itemMaterialName, "PURPLE_WOOL")
+               && itemName.equals("\u00A75Portal Block Placer")
+               && Permissions.BUILD.hasPermission(player)) {
+        if (!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
             return false;
         }
-
-        return true;
-    }
-
-    public void worldChange(PlayerContainer player) {
-        this.playerDataServices.setJoinCooldown(player);
-        this.setIfInPortal(player);
-    }
-
-    public boolean preventEntityCombust(EntityContainer entity) {
-        return portalServices.inPortalRegion(entity.getBlockLoc(), 2);
-    }
-
-    public boolean entityPortalEvent(EntityContainer entity) {
-        var pos = entity.getBlockLoc();
-        if (entity instanceof PlayerContainer player) {
-            var playerData = playerDataServices.getPlayerData(player);
-            if (playerData.getPortalBlockCooldown()) {
-                return false;
-            }
+        WorldContainer world = player.getWorld();
+        if (world.getBlockAxis(blockLoc) == BlockAxis.X) {
+            world.setBlockAxis(blockLoc, BlockAxis.Z);
+        } else {
+            world.setBlockAxis(blockLoc, BlockAxis.X);
         }
-
-        return !(portalServices.inPortalRegion(pos, 1) || portalServices.inPortalRegion(pos.addY((int) entity.getHeight()), 1));
+        return false;
     }
 
-    public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
+    return true;
+}
 
+public void worldChange(PlayerContainer player) {
+    this.playerDataServices.setJoinCooldown(player);
+    this.setIfInPortal(player);
+}
+
+public boolean preventEntityCombust(EntityContainer entity) {
+    return portalServices.inPortalRegion(entity.getBlockLoc(), 2);
+}
+
+public boolean entityPortalEvent(EntityContainer entity) {
+    var pos = entity.getBlockLoc();
+    if (entity instanceof PlayerContainer player) {
         var playerData = playerDataServices.getPlayerData(player);
-
         if (playerData.getPortalBlockCooldown()) {
             return false;
         }
-
-        var portalResult = this.portalServices.checkPortalActivation(player, toLoc, TriggerType.PORTAL);
-
-        if(portalResult != PortalServices.PortalActivationResult.NOT_IN_PORTAL) {
-            return false;
-        }
-
-        // Extra checks to prevent the player from being teleported by touching a portal but not having their body fully in the portal
-        var pos  = player.getBlockLoc();
-
-        var feetInPortal = portalServices.inPortalRegion(pos, 1);
-        var headInPortal = portalServices.inPortalRegion(
-                pos.addY((int) player.getHeight()), 1);
-
-        return !(feetInPortal || headInPortal);
     }
 
-    public boolean physicsEvent(BlockLocation blockLocation, String string) {
-        return !configRepository.getDisablePhysicsEvents()
-            || !portalServices.inPortalRegionProtected(blockLocation);
+    return !(portalServices.inPortalRegion(pos, 1)
+             || portalServices.inPortalRegion(
+                 pos.addY((int) entity.getHeight()), 1));
+}
+
+public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
+    var playerData = playerDataServices.getPlayerData(player);
+
+    if (playerData.getPortalBlockCooldown()) {
+        return false;
     }
+
+    var portalResult = this.portalServices.checkPortalActivation(
+        player, toLoc, TriggerType.PORTAL);
+
+    if (portalResult != PortalServices.PortalActivationResult.NOT_IN_PORTAL) {
+        return false;
+    }
+
+    // Extra checks to prevent the player from being teleported by touching a
+    // portal but not having their body fully in the portal
+    var pos = player.getBlockLoc();
+
+    var feetInPortal = portalServices.inPortalRegion(pos, 1);
+    var headInPortal =
+        portalServices.inPortalRegion(pos.addY((int) player.getHeight()), 1);
+
+    return !(feetInPortal || headInPortal);
+}
+
+public boolean physicsEvent(BlockLocation blockLocation, String string) {
+    return !configRepository.getDisablePhysicsEvents()
+        || !portalServices.inPortalRegionProtected(blockLocation);
+}
 }

@@ -10,12 +10,14 @@ public class AdvancedPortalsBungeePlugin extends Plugin {
 
     @Override
     public void onEnable() {
-        this.proxyCore = new AdvancedPortalsProxyCore(new BungeeInfoLogger(this), new BungeeProxyContainer(this));
+        this.proxyCore = new AdvancedPortalsProxyCore(
+            new BungeeInfoLogger(this), new BungeeProxyContainer(this));
         this.proxyCore.onEnable();
 
         getProxy().registerChannel(ProxyMessages.CHANNEL_NAME);
 
-        getProxy().getPluginManager().registerListener(this, new EventListener(this, this.proxyCore));
+        getProxy().getPluginManager().registerListener(
+            this, new EventListener(this, this.proxyCore));
     }
 
     @Override

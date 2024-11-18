@@ -6,7 +6,6 @@ import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.core.ProxyMessages;
 
 public class ProxyCommandPacket implements Packet {
-
     private final String command;
 
     public ProxyCommandPacket(String command) {

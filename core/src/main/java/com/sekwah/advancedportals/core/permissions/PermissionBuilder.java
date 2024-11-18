@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.permissions;
 
 import com.google.common.collect.ImmutableList;
 import com.sekwah.advancedportals.core.connector.containers.HasPermission;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +30,15 @@ public class PermissionBuilder {
         this.permissionDefault = parent.permissionDefault;
     }
 
-    PermissionBuilder(String permissionTag, PermissionBuilder parent, PermissionDefault permissionDefault) {
+    PermissionBuilder(String permissionTag, PermissionBuilder parent,
+                      PermissionDefault permissionDefault) {
         this.permissionTag = permissionTag;
         this.parent = parent;
         this.permissionDefault = permissionDefault;
     }
 
-    PermissionBuilder(String permissionTag, PermissionDefault permissionDefault) {
+    PermissionBuilder(String permissionTag,
+                      PermissionDefault permissionDefault) {
         this.permissionTag = permissionTag;
         this.parent = null;
         this.permissionDefault = permissionDefault;
@@ -54,8 +55,10 @@ public class PermissionBuilder {
         return child;
     }
 
-    public PermissionBuilder createChild(String permissionTag, PermissionDefault permissionDefault) {
-        var child = new PermissionBuilder(permissionTag, this, permissionDefault);
+    public PermissionBuilder createChild(String permissionTag,
+                                         PermissionDefault permissionDefault) {
+        var child =
+            new PermissionBuilder(permissionTag, this, permissionDefault);
         children.add(child);
 
         return child;
