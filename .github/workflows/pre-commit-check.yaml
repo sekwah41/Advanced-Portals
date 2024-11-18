@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [labeled, opened, reopened, synchronize]
   push:
-    branches: [spigot, re-recode]
+    branches: [main]
 
 concurrency:
   group: ${{ github.head_ref }}-precommit
