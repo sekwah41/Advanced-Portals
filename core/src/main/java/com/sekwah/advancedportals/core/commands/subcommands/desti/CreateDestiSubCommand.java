@@ -5,13 +5,14 @@ import com.sekwah.advancedportals.core.commands.subcommands.common.CreateTaggedS
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +86,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || PortalPermissions.DESTI.hasPermission(sender);
+        return Permissions.CREATE_DESTI.hasPermission(sender);
     }
 
     @Override

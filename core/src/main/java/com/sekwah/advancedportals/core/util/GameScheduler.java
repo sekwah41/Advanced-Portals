@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.util;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.inject.Singleton;
 
 /**
  * For all delayed and repeating tasks.

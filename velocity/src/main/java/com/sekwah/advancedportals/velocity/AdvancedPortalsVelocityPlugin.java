@@ -12,11 +12,11 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
-import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
-import org.slf4j.Logger;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
+import org.slf4j.Logger;
 
 @Plugin(authors = {"sekwah41"} ,id = "advancedportals", name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",

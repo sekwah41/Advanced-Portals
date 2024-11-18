@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
-import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -168,7 +168,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                     + Lang.translate("tag.command.op.disabled"));
                             yield false;
                         }
-                        if (!player.hasPermission("advancedportals.createportal.commandlevel.op")) {
+                        if (!Permissions.CREATE_COMMAND_OP.hasPermission(player)) {
                             player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "OP"));
                             yield false;
@@ -181,7 +181,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                     + Lang.translate("tag.command.console.disabled"));
                             yield false;
                         }
-                        if (!player.hasPermission("advancedportals.createportal.commandlevel.console")) {
+                        if (!Permissions.CREATE_COMMAND_CONSOLE.hasPermission(player)) {
                             player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission","Console"));
                             yield false;
@@ -194,7 +194,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                     + Lang.translate("tag.command.permswildcard.disabled"));
                             yield false;
                         }
-                        if (!player.hasPermission("advancedportals.createportal.commandlevel.permswild")) {
+                        if (!Permissions.CREATE_COMMAND_PERMS.hasPermission(player)) {
                             player.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "*"));
                             yield false;

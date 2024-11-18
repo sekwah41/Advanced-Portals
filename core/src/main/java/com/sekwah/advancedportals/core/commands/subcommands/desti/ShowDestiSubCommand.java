@@ -7,12 +7,14 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
@@ -66,7 +68,7 @@ public class ShowDestiSubCommand
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return Permissions.SHOW_DESTI.hasPermission(sender);
     }
 
     @Override

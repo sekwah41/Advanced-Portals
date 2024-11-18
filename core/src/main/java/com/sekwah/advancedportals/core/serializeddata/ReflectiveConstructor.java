@@ -1,15 +1,18 @@
 package com.sekwah.advancedportals.core.serializeddata;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.inject.Inject;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.*;
 import sun.misc.Unsafe;
+
+import javax.inject.Inject;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReflectiveConstructor<T> extends Constructor {
     private static final Unsafe unsafe = getUnsafe();

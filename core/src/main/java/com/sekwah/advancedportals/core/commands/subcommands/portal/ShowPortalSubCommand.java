@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
@@ -15,6 +16,7 @@ import com.sekwah.advancedportals.core.tags.NameTag;
 import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
@@ -82,7 +84,7 @@ public class ShowPortalSubCommand
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return Permissions.SHOW_PORTAL.hasPermission(sender);
     }
 
     @Override

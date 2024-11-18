@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.EncoderException;
+
 import java.nio.charset.StandardCharsets;
 
 /**

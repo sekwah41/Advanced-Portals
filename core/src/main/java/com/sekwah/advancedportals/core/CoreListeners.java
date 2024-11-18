@@ -8,7 +8,7 @@ import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.Direction;
 import com.sekwah.advancedportals.core.network.ServerDestiPacket;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
@@ -104,7 +104,7 @@ public class CoreListeners {
         if (player == null) {
             return !portalServices.inPortalRegionProtected(blockPos);
         }
-        if (!(PortalPermissions.BUILD.hasPermission(player)
+        if (!(Permissions.BUILD.hasPermission(player)
               || !portalServices.inPortalRegionProtected(blockPos))) {
             player.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("portal.nobuild"));
@@ -122,7 +122,7 @@ public class CoreListeners {
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos,
                               String blockMaterial, String itemInHandMaterial,
                               String itemInHandName) {
-        if (player != null && PortalPermissions.BUILD.hasPermission(player)) {
+        if (player != null && Permissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
             if (itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
@@ -180,8 +180,7 @@ public class CoreListeners {
                                            BlockLocation blockLoc,
                                            boolean leftClick) {
         if (itemName != null
-            && (player.isOp()
-                || PortalPermissions.CREATE_PORTAL.hasPermission(player))
+            && Permissions.CREATE_PORTAL.hasPermission(player)
             && itemMaterialName.equalsIgnoreCase(
                 this.configRepository.getSelectorMaterial())
             && (!this.configRepository.getUseOnlySpecialAxe()
@@ -192,7 +191,7 @@ public class CoreListeners {
         } else if (itemName != null && leftClick
                    && Objects.equals(itemMaterialName, "PURPLE_WOOL")
                    && itemName.equals("\u00A75Portal Block Placer")
-                   && PortalPermissions.BUILD.hasPermission(player)) {
+                   && Permissions.BUILD.hasPermission(player)) {
             if (!Objects.equals(blockMaterialname, "NETHER_PORTAL")) {
                 return false;
             }

@@ -5,8 +5,9 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.permissions.PortalPermissions;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.util.List;
 
 public class EndPortalBlockSubCommand implements SubCommand {
@@ -31,8 +32,7 @@ public class EndPortalBlockSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp()
-            || PortalPermissions.CREATE_PORTAL.hasPermission(sender);
+        return Permissions.CREATE_PORTAL.hasPermission(sender);
     }
 
     @Override

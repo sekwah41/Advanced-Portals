@@ -52,8 +52,17 @@ public class PermissionTag implements Tag.Activation {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        if (!player.hasPermission(argData[1])) {
-            player.sendMessage(Lang.translate("portal.error.nopermission"));
+        var permission = argData[0];
+        if(permission.startsWith("!")) {
+            permission = permission.substring(1);
+            if(player.hasPermission(permission)) {
+                player.sendMessage(Lang.getNegativePrefix() + Lang.translate("portal.error.nopermission"));
+                return false;
+            }
+            return true;
+        }
+        else if (!player.hasPermission(argData[0])) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("portal.error.nopermission"));
             return false;
         }
         return true;

@@ -3,9 +3,9 @@ package com.sekwah.advancedportals.core.commands.subcommands.portal;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
-import com.sekwah.advancedportals.core.util.TagReader;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class DisableBeaconSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return Permissions.DISABLE_BEACON.hasPermission(sender);
     }
 
     @Override

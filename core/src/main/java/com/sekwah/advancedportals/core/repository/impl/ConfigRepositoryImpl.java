@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
+
 import java.util.HashMap;
 
 @Singleton

@@ -1,14 +1,10 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
-public interface CommandSenderContainer {
+public interface CommandSenderContainer extends HasPermission {
     void sendMessage(String message);
 
-    boolean isOp();
-
     /**
-     * @return null if there isnt a player e.g. the console
+     * @return null if there isn't a player e.g. the console
      */
     PlayerContainer getPlayerContainer();
-
-    boolean hasPermission(String permission);
 }

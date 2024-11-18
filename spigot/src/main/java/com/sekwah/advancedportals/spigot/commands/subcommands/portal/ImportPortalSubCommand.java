@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.spigot.commands.subcommands.portal;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
@@ -11,10 +12,11 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer.ConfigAccessor;
+import org.bukkit.configuration.ConfigurationSection;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class ImportPortalSubCommand implements SubCommand {
 
@@ -185,7 +187,7 @@ public class ImportPortalSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return true;
+        return Permissions.IMPORT.hasPermission(sender);
     }
 
     @Override

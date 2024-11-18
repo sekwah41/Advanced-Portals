@@ -6,16 +6,15 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.plugin.messaging.PluginMessageListener;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class SpigotServerContainer implements ServerContainer {
     @Inject

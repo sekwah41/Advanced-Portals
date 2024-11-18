@@ -7,10 +7,11 @@ import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.util.Lang;
+
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Singleton;
 
 @Singleton
 public final class PlayerDataServices {

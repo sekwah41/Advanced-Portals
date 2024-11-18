@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
@@ -19,11 +20,11 @@ import com.sekwah.advancedportals.core.tags.*;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
+
 import java.io.File;
 import java.util.Arrays;
 
 public class AdvancedPortalsCore {
-    public static final String version = "1.0.0";
 
     private final InfoLogger infoLogger;
     private final DataStorage dataStorage;
@@ -73,7 +74,7 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.info("Loading Advanced Portals Core v" + version
+        infoLogger.info("Loading Advanced Portals Core v" + BuildConstants.VERSION
                         + " for MC: " + mcVersion);
         try {
             mcVersionTemp = Arrays.stream(mcVersion.split("\\."))
@@ -147,7 +148,7 @@ public class AdvancedPortalsCore {
     }
 
     private void registerPortalCommand(CommandRegister commandRegister) {
-        this.portalCommand = new CommandWithSubCommands(this);
+        this.portalCommand = new CommandWithSubCommands(this, Permissions.PORTAL);
 
         this.portalCommand.registerSubCommand("version",
                                               new VersionSubCommand());
@@ -180,7 +181,7 @@ public class AdvancedPortalsCore {
     }
 
     private void registerDestinationCommand(CommandRegister commandRegister) {
-        this.destiCommand = new CommandWithSubCommands(this);
+        this.destiCommand = new CommandWithSubCommands(this, Permissions.DESTI);
         this.destiCommand.registerSubCommand("create",
                                              new CreateDestiSubCommand());
         this.destiCommand.registerSubCommand("remove",
