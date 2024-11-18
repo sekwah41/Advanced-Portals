@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.bungee;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.logging.Level;
 
 public class BungeeInfoLogger extends InfoLogger {

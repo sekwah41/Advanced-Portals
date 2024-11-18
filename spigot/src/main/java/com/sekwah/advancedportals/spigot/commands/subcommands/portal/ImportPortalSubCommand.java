@@ -12,14 +12,12 @@ import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer.ConfigAccessor;
-import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class ImportPortalSubCommand implements SubCommand {
-
     @Inject
     DestinationServices destinationServices;
 
@@ -77,7 +75,7 @@ public class ImportPortalSubCommand implements SubCommand {
 
             var bungee = config.getString(portalName + ".bungee");
             if (bungee != null) {
-                if(destination == null) {
+                if (destination == null) {
                     args.add(new DataTag("bungee", bungee.split(",")));
                 } else {
                     args.add(new DataTag("proxy", bungee.split(",")));

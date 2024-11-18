@@ -2,9 +2,8 @@ package com.sekwah.advancedportals.core.warphandler;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
-
-import javax.annotation.Nullable;
 import java.util.List;
+import javax.annotation.Nullable;
 
 /**
  * If a tag can be used for any of them then either make it cast the target or

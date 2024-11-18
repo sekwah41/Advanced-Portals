@@ -5,11 +5,11 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 
 public class VelocityProxyPlayerContainer implements ProxyPlayerContainer {
-
     private final Player player;
     private final LegacyChannelIdentifier channel;
 
-    public VelocityProxyPlayerContainer(Player player, LegacyChannelIdentifier channel) {
+    public VelocityProxyPlayerContainer(Player player,
+                                        LegacyChannelIdentifier channel) {
         this.player = player;
         this.channel = channel;
     }
@@ -26,7 +26,9 @@ public class VelocityProxyPlayerContainer implements ProxyPlayerContainer {
 
     @Override
     public void sendServerPluginMessage(byte[] data) {
-        player.getCurrentServer().ifPresent(serverConnection -> serverConnection.sendPluginMessage(channel, data));
+        player.getCurrentServer().ifPresent(
+            serverConnection
+            -> serverConnection.sendPluginMessage(channel, data));
     }
 
     public Player getPlayer() {

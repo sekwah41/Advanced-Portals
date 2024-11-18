@@ -1,10 +1,10 @@
 package com.sekwah.advancedportals.core;
 
 /**
- * messages going to the proxy will start with proxy: messages going to the server will start with server:
+ * messages going to the proxy will start with proxy: messages going to the
+ * server will start with server:
  */
 public class ProxyMessages {
-
     /**
      * Could split by channel messages we will handle it ourselves
      */

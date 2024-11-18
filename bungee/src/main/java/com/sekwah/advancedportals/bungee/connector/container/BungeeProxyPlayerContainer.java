@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerConta
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeProxyPlayerContainer implements ProxyPlayerContainer {
-
     private final ProxiedPlayer player;
 
     public BungeeProxyPlayerContainer(ProxiedPlayer player) {
@@ -29,5 +28,4 @@ public class BungeeProxyPlayerContainer implements ProxyPlayerContainer {
     public void sendServerPluginMessage(byte[] data) {
         this.player.getServer().sendData(ProxyMessages.CHANNEL_NAME, data);
     }
-
 }

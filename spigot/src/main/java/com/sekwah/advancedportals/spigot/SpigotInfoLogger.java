@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.logging.Level;
 
 public class SpigotInfoLogger extends InfoLogger {

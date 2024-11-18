@@ -7,7 +7,6 @@ import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.IPortalRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.tags.NameTag;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +69,9 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
             if (portal != null) {
                 AdvancedPortalsCore.getInstance()
-                        .getModule()
-                        .getInjector()
-                        .injectMembers(portal);
+                    .getModule()
+                    .getInjector()
+                    .injectMembers(portal);
             }
 
             // Forces the name tag to be up-to-date on load

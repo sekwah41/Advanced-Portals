@@ -14,7 +14,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
 import java.util.*;
 
 /**
@@ -137,8 +136,9 @@ public class AdvancedPortal implements TagTarget {
      * @param triggerType   The type of trigger that activated the portal
      * @return Whether the portal was successfully activated
      */
-    public ActivationResult activate(PlayerContainer player, TriggerType triggerType) {
-        if(!isSorted) {
+    public ActivationResult activate(PlayerContainer player,
+                                     TriggerType triggerType) {
+        if (!isSorted) {
             updatePortalTagList();
         }
 
@@ -162,14 +162,17 @@ public class AdvancedPortal implements TagTarget {
         ActivationData data = new ActivationData(triggerType);
 
         for (DataTag portalTag : this.portalTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null) {
                 var preActivated = activationHandler.preActivated(
-                        this, player, data, this.getArgValues(portalTag.NAME));
+                    this, player, data, this.getArgValues(portalTag.NAME));
 
-                if(!preActivated) {
-                    if(activationHandler instanceof Tag.DenyBehavior denyBehavior && denyBehavior.getDenyBehavior() == Tag.DenyBehavior.Behaviour.SILENT) {
+                if (!preActivated) {
+                    if (activationHandler
+                            instanceof Tag.DenyBehavior denyBehavior
+                        && denyBehavior.getDenyBehavior()
+                            == Tag.DenyBehavior.Behaviour.SILENT) {
                         return ActivationResult.FAILED_DO_NOTHING;
                     }
                     return ActivationResult.FAILED_DO_KNOCKBACK;
@@ -177,8 +180,8 @@ public class AdvancedPortal implements TagTarget {
             }
         }
         for (DataTag portalTag : this.portalTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null
                 && !activationHandler.activated(
                     this, player, data, this.getArgValues(portalTag.NAME))) {
@@ -186,8 +189,8 @@ public class AdvancedPortal implements TagTarget {
             }
         }
         for (DataTag portalTag : this.portalTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(portalTag.NAME, Tag.TagType.PORTAL);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null) {
                 activationHandler.postActivated(
                     this, player, data, this.getArgValues(portalTag.NAME));

@@ -4,14 +4,12 @@ import com.sekwah.advancedportals.core.BuildConstants;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.List;
 
 public class VersionSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        sender.sendMessage(Lang.getPositivePrefix()
-                           + " Advanced Portals v"
+        sender.sendMessage(Lang.getPositivePrefix() + " Advanced Portals v"
                            + BuildConstants.VERSION);
     }
 

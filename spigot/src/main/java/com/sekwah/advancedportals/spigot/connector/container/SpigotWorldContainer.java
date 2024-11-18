@@ -14,12 +14,14 @@ import org.bukkit.block.data.Orientable;
 public class SpigotWorldContainer implements WorldContainer {
     private final World world;
 
-    // Should only be false for 1.13 and 1.13.2, though just to avoid possible crashes
+    // Should only be false for 1.13 and 1.13.2, though just to avoid possible
+    // crashes
     private static boolean endGatewaySetAgeExists;
 
     static {
         try {
-            endGatewaySetAgeExists = EndGateway.class.getMethod("setAge", long.class) != null;
+            endGatewaySetAgeExists =
+                EndGateway.class.getMethod("setAge", long.class) != null;
         } catch (NoSuchMethodException e) {
             endGatewaySetAgeExists = false;
         }
@@ -74,11 +76,13 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public void disableBeacon(BlockLocation location) {
-        if(!endGatewaySetAgeExists) return;
-        var block = this.world.getBlockAt(location.getPosX(), location.getPosY(),
-                location.getPosZ());
+        if (!endGatewaySetAgeExists)
+            return;
+        var block = this.world.getBlockAt(
+            location.getPosX(), location.getPosY(), location.getPosZ());
         var blockType = block.getType();
-        if(blockType == Material.END_GATEWAY && block.getState() instanceof EndGateway endGateway) {
+        if (blockType == Material.END_GATEWAY
+            && block.getState() instanceof EndGateway endGateway) {
             endGateway.setAge(Long.MIN_VALUE);
             endGateway.update();
         }
@@ -86,15 +90,16 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public void disableBeacon(AdvancedPortal portal) {
-        if(!endGatewaySetAgeExists) return;
+        if (!endGatewaySetAgeExists)
+            return;
         BlockLocation maxLoc = portal.getMaxLoc();
-        BlockLocation minLoc =  portal.getMinLoc();
+        BlockLocation minLoc = portal.getMinLoc();
 
         for (int x = minLoc.getPosX(); x <= maxLoc.getPosX(); x++) {
             for (int y = minLoc.getPosY(); y <= maxLoc.getPosY(); y++) {
                 for (int z = minLoc.getPosZ(); z <= maxLoc.getPosZ(); z++) {
                     Block block = world.getBlockAt(x, y, z);
-                    if(block.getType() == Material.END_GATEWAY) {
+                    if (block.getType() == Material.END_GATEWAY) {
                         EndGateway tileState = (EndGateway) block.getState();
                         tileState.setAge(Long.MIN_VALUE);
                         tileState.update();

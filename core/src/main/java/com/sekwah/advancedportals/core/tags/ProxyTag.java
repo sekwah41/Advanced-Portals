@@ -10,18 +10,15 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.Random;
 
 public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
-
     @Inject
     ConfigRepository configRepository;
 
     public static String TAG_NAME = "proxy";
 
-    private final TagType[] tagTypes =
-        new TagType[] {TagType.PORTAL};
+    private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
     private final Random random = new Random();
 
@@ -46,22 +43,24 @@ public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
     }
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         String selectedArg = argData[random.nextInt(argData.length)];
         activeData.setMetadata(TAG_NAME, selectedArg);
         return true;
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-
-        if(!this.configRepository.getEnableProxySupport()) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.proxy.notenabled"));
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activeData, String[] argData) {
+        if (!this.configRepository.getEnableProxySupport()) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("tag.proxy.notenabled"));
             return false;
         }
 
@@ -69,7 +68,9 @@ public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
 
         var desti = activeData.getMetadata(DestiTag.TAG_NAME);
 
-        var packet = desti == null ? new ProxyTransferPacket(selectedArg) : new ProxyTransferDestiPacket(selectedArg, desti);
+        var packet = desti == null
+            ? new ProxyTransferPacket(selectedArg)
+            : new ProxyTransferDestiPacket(selectedArg, desti);
         player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
         activeData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         return true;

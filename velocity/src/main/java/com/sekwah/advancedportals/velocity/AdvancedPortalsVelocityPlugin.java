@@ -18,11 +18,11 @@ import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import org.slf4j.Logger;
 
-@Plugin(authors = {"sekwah41"} ,id = "advancedportals", name = "Advanced Portals",
+@Plugin(authors = {"sekwah41"}, id = "advancedportals",
+        name = "Advanced Portals",
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
         version = BuildConstants.VERSION)
 public class AdvancedPortalsVelocityPlugin {
-
     private AdvancedPortalsProxyCore proxyCore;
 
     private final Logger logger;
@@ -34,7 +34,9 @@ public class AdvancedPortalsVelocityPlugin {
     public AdvancedPortalsVelocityPlugin(ProxyServer proxy, Logger logger) {
         this.proxy = proxy;
         this.logger = logger;
-        this.proxyCore = new AdvancedPortalsProxyCore(new VelocityInfoLogger(this.logger, this.proxy), new VelocityProxyContainer(this.proxy));
+        this.proxyCore = new AdvancedPortalsProxyCore(
+            new VelocityInfoLogger(this.logger, this.proxy),
+            new VelocityProxyContainer(this.proxy));
         this.proxyCore.onEnable();
     }
 
@@ -48,25 +50,32 @@ public class AdvancedPortalsVelocityPlugin {
     @Subscribe
     public void onPluginMessage(PluginMessageEvent event) {
         if (event.getIdentifier().equals(AP_CHANNEL)) {
-            if(event.getSource() instanceof ServerConnection serverConnection) {
-                this.proxyCore.incomingMessage(new VelocityProxyPlayerContainer(serverConnection.getPlayer(), AP_CHANNEL), event.getData());
+            if (event.getSource()
+                    instanceof ServerConnection serverConnection) {
+                this.proxyCore.incomingMessage(
+                    new VelocityProxyPlayerContainer(
+                        serverConnection.getPlayer(), AP_CHANNEL),
+                    event.getData());
             }
-            // So that client packets don't make it through to the servers, always trigger on this channel.
+            // So that client packets don't make it through to the servers,
+            // always trigger on this channel.
             event.setResult(PluginMessageEvent.ForwardResult.handled());
         }
     }
 
-
     @Subscribe
     public void postJoinEvent(ServerPostConnectEvent event) {
         event.getPlayer().getCurrentServer().ifPresent(serverConnection -> {
-            this.proxyCore.onServerConnect(new VelocityProxyServerContainer(serverConnection.getServer()), new VelocityProxyPlayerContainer(event.getPlayer(), AP_CHANNEL));
+            this.proxyCore.onServerConnect(
+                new VelocityProxyServerContainer(serverConnection.getServer()),
+                new VelocityProxyPlayerContainer(event.getPlayer(),
+                                                 AP_CHANNEL));
         });
     }
 
     @Subscribe
     public void onDisconnect(DisconnectEvent event) {
-        this.proxyCore.onPlayerDisconnect(new VelocityProxyPlayerContainer(event.getPlayer(), AP_CHANNEL));
+        this.proxyCore.onPlayerDisconnect(
+            new VelocityProxyPlayerContainer(event.getPlayer(), AP_CHANNEL));
     }
-
 }

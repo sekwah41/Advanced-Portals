@@ -6,7 +6,6 @@ import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.core.ProxyMessages;
 
 public class ServerDestiPacket implements Packet {
-
     private final String destination;
 
     public ServerDestiPacket(String destination) {
@@ -18,7 +17,6 @@ public class ServerDestiPacket implements Packet {
         buffer.writeUTF(ProxyMessages.SERVER_DESTI);
         buffer.writeUTF(this.destination);
         return buffer.toByteArray();
-
     }
 
     public static ServerDestiPacket decode(ByteArrayDataInput buffer) {

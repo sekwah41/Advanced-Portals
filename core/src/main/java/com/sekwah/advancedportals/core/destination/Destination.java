@@ -9,7 +9,6 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
 import java.util.*;
 
 /**
@@ -87,7 +86,7 @@ public class Destination implements TagTarget {
 
     public boolean activate(PlayerContainer player) {
         ActivationData data = new ActivationData(TriggerType.MANUAL);
-        if(this.portalActivate(player, data)) {
+        if (this.portalActivate(player, data)) {
             this.postActivate(player, data);
             return true;
         }
@@ -95,7 +94,7 @@ public class Destination implements TagTarget {
     }
 
     public boolean portalActivate(PlayerContainer player, ActivationData data) {
-        if(!isSorted) {
+        if (!isSorted) {
             updateDestiTagList();
         }
         DataTag[] destiTags = new DataTag[args.size()];
@@ -104,16 +103,17 @@ public class Destination implements TagTarget {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
-            if (activationHandler != null && !activationHandler.preActivated(
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                destiTag.NAME, Tag.TagType.DESTINATION);
+            if (activationHandler != null
+                && !activationHandler.preActivated(
                     this, player, data, this.getArgValues(destiTag.NAME))) {
                 return false;
             }
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                destiTag.NAME, Tag.TagType.DESTINATION);
             if (activationHandler != null) {
                 activationHandler.activated(this, player, data,
                                             this.getArgValues(destiTag.NAME));
@@ -129,8 +129,8 @@ public class Destination implements TagTarget {
             destiTags[i++] = new DataTag(entry.getKey(), entry.getValue());
         }
         for (DataTag destiTag : destiTags) {
-            Tag.Activation activationHandler =
-                tagRegistry.getActivationHandler(destiTag.NAME, Tag.TagType.DESTINATION);
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                destiTag.NAME, Tag.TagType.DESTINATION);
             if (activationHandler != null) {
                 activationHandler.postActivated(
                     this, player, data, this.getArgValues(destiTag.NAME));

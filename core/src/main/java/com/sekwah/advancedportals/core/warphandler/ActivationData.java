@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.core.warphandler;
 
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
-
 import java.util.HashMap;
 import java.util.Map;
 

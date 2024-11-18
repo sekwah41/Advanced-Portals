@@ -10,13 +10,13 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 
-public class PortalEventTag implements Tag.Activation, Tag.AutoComplete, Tag.DenyBehavior, Tag.OrderPriority {
+public class PortalEventTag implements Tag.Activation, Tag.AutoComplete,
+                                       Tag.DenyBehavior, Tag.OrderPriority {
     @Inject
     PlayerDataServices playerDataServices;
 
@@ -56,10 +56,11 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete, Tag.Den
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        if(player.getGameMode() == GameMode.CREATIVE) {
+        if (player.getGameMode() == GameMode.CREATIVE) {
             return true;
         }
-        return !Objects.equals(argData[0], "true") || activeData.getTriggerType() == TriggerType.PORTAL;
+        return !Objects.equals(argData[0], "true")
+            || activeData.getTriggerType() == TriggerType.PORTAL;
     }
 
     @Override

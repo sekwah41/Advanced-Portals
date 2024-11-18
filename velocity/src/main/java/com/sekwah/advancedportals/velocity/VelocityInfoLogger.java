@@ -6,10 +6,14 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.slf4j.Logger;
 
 public class VelocityInfoLogger extends InfoLogger {
-
     private final Logger logger;
     private final ProxyServer proxy;
-    private final LegacyComponentSerializer serializer = LegacyComponentSerializer.builder().character('&').hexCharacter('#').hexColors().build();
+    private final LegacyComponentSerializer serializer =
+        LegacyComponentSerializer.builder()
+            .character('&')
+            .hexCharacter('#')
+            .hexColors()
+            .build();
 
     public VelocityInfoLogger(Logger logger, ProxyServer proxy) {
         this.logger = logger;

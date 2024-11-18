@@ -13,35 +13,40 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 public class EventListener implements Listener {
-
-
     private final AdvancedPortalsBungeePlugin plugin;
     private final AdvancedPortalsProxyCore proxyCore;
 
-    public EventListener(AdvancedPortalsBungeePlugin plugin, AdvancedPortalsProxyCore proxyCore) {
+    public EventListener(AdvancedPortalsBungeePlugin plugin,
+                         AdvancedPortalsProxyCore proxyCore) {
         this.plugin = plugin;
         this.proxyCore = proxyCore;
     }
 
     @EventHandler
     public void onMessageReceived(PluginMessageEvent event) {
-        if(!event.getTag().equalsIgnoreCase(ProxyMessages.CHANNEL_NAME)) return;
+        if (!event.getTag().equalsIgnoreCase(ProxyMessages.CHANNEL_NAME))
+            return;
         event.setCancelled(true);
 
-        if(!(event.getSender() instanceof Server)) return;
+        if (!(event.getSender() instanceof Server))
+            return;
 
-        if(event.getReceiver() instanceof ProxiedPlayer player) {
-            this.proxyCore.incomingMessage(new BungeeProxyPlayerContainer(player), event.getData());
+        if (event.getReceiver() instanceof ProxiedPlayer player) {
+            this.proxyCore.incomingMessage(
+                new BungeeProxyPlayerContainer(player), event.getData());
         }
     }
 
     @EventHandler
     public void onServerConnected(ServerConnectedEvent event) {
-        this.proxyCore.onServerConnect(new BungeeProxyServerContainer(event.getServer()), new BungeeProxyPlayerContainer(event.getPlayer()));
+        this.proxyCore.onServerConnect(
+            new BungeeProxyServerContainer(event.getServer()),
+            new BungeeProxyPlayerContainer(event.getPlayer()));
     }
 
     @EventHandler
     public void onDisconnect(PlayerDisconnectEvent event) {
-        this.proxyCore.onPlayerDisconnect(new BungeeProxyPlayerContainer(event.getPlayer()));
+        this.proxyCore.onPlayerDisconnect(
+            new BungeeProxyPlayerContainer(event.getPlayer()));
     }
 }

@@ -20,12 +20,10 @@ import com.sekwah.advancedportals.core.tags.*;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.io.File;
 import java.util.Arrays;
 
 public class AdvancedPortalsCore {
-
     private final InfoLogger infoLogger;
     private final DataStorage dataStorage;
 
@@ -74,8 +72,8 @@ public class AdvancedPortalsCore {
         this.infoLogger = infoLogger;
 
         int[] mcVersionTemp;
-        infoLogger.info("Loading Advanced Portals Core v" + BuildConstants.VERSION
-                        + " for MC: " + mcVersion);
+        infoLogger.info("Loading Advanced Portals Core v"
+                        + BuildConstants.VERSION + " for MC: " + mcVersion);
         try {
             mcVersionTemp = Arrays.stream(mcVersion.split("\\."))
                                 .mapToInt(Integer::parseInt)
@@ -121,9 +119,11 @@ public class AdvancedPortalsCore {
 
     private void registerChannels() {
         this.serverContainer.registerOutgoingChannel(BungeeTag.PACKET_CHANNEL);
-        if(this.configRepository.getEnableProxySupport()) {
-            this.serverContainer.registerOutgoingChannel(ProxyMessages.CHANNEL_NAME);
-            this.serverContainer.registerIncomingChannel(ProxyMessages.CHANNEL_NAME);
+        if (this.configRepository.getEnableProxySupport()) {
+            this.serverContainer.registerOutgoingChannel(
+                ProxyMessages.CHANNEL_NAME);
+            this.serverContainer.registerIncomingChannel(
+                ProxyMessages.CHANNEL_NAME);
         }
     }
 
@@ -148,7 +148,8 @@ public class AdvancedPortalsCore {
     }
 
     private void registerPortalCommand(CommandRegister commandRegister) {
-        this.portalCommand = new CommandWithSubCommands(this, Permissions.PORTAL);
+        this.portalCommand =
+            new CommandWithSubCommands(this, Permissions.PORTAL);
 
         this.portalCommand.registerSubCommand("version",
                                               new VersionSubCommand());

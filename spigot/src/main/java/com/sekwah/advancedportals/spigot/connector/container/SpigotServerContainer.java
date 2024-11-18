@@ -7,14 +7,13 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 public class SpigotServerContainer implements ServerContainer {
     @Inject
@@ -75,13 +74,17 @@ public class SpigotServerContainer implements ServerContainer {
 
     @Override
     public void registerOutgoingChannel(String channel) {
-        server.getMessenger().registerOutgoingPluginChannel(AdvancedPortalsPlugin.getInstance(), channel);
+        server.getMessenger().registerOutgoingPluginChannel(
+            AdvancedPortalsPlugin.getInstance(), channel);
     }
 
     @Override
     public void registerIncomingChannel(String channel) {
-        server.getMessenger().registerIncomingPluginChannel(AdvancedPortalsPlugin.getInstance(), channel,
-                (s, player, bytes) -> coreListeners.incomingMessage(new SpigotPlayerContainer(player), s, bytes));
+        server.getMessenger().registerIncomingPluginChannel(
+            AdvancedPortalsPlugin.getInstance(), channel,
+            (s, player, bytes)
+                -> coreListeners.incomingMessage(
+                    new SpigotPlayerContainer(player), s, bytes));
     }
 
     // Check if it's a material compatible with making portals

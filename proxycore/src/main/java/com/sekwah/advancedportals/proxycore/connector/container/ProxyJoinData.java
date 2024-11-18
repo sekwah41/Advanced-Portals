@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.proxycore.connector.container;
 
 public class ProxyJoinData {
-
     public final String destination;
     public final String serverName;
     public final long joinTime;
@@ -13,6 +12,7 @@ public class ProxyJoinData {
     }
 
     public boolean isExpired() {
-        return System.currentTimeMillis() - this.joinTime > 1000 * 15; // 15 seconds
+        return System.currentTimeMillis() - this.joinTime
+            > 1000 * 15; // 15 seconds
     }
 }
