@@ -180,8 +180,7 @@ public class CoreListeners {
                                            BlockLocation blockLoc,
                                            boolean leftClick) {
         if (itemName != null
-            && (player.isOp()
-                || Permissions.CREATE_PORTAL.hasPermission(player))
+            && Permissions.CREATE_PORTAL.hasPermission(player)
             && itemMaterialName.equalsIgnoreCase(
                 this.configRepository.getSelectorMaterial())
             && (!this.configRepository.getUseOnlySpecialAxe()

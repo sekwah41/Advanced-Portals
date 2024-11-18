@@ -37,7 +37,7 @@ public class ReloadPortalSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp() || Permissions.RELOAD.hasPermission(sender);
+        return Permissions.RELOAD.hasPermission(sender);
     }
 
     @Override

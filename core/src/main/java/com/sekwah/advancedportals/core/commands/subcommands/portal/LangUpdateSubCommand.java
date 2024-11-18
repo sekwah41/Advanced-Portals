@@ -83,8 +83,7 @@ public class LangUpdateSubCommand implements SubCommand {
 
     @Override
     public boolean hasPermission(CommandSenderContainer sender) {
-        return sender.isOp()
-            || Permissions.LANG_UPDATE.hasPermission(sender);
+        return Permissions.LANG_UPDATE.hasPermission(sender);
     }
 
     @Override

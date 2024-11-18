@@ -41,6 +41,9 @@ public class Permissions {
     public static final PermissionBuilder CREATE_PORTAL =
             PORTAL.createChild("create", PermissionBuilder.PermissionDefault.OP).description("Allows you to create portals");
 
+    public static final PermissionBuilder SELECTOR =
+            PORTAL.createChild("selector", PermissionBuilder.PermissionDefault.OP).description("Allows you to give yourself a portal selector");
+
     public static final PermissionBuilder REMOVE_PORTAL =
             PORTAL.createChild("remove", PermissionBuilder.PermissionDefault.OP).description("Allows you to remove portals");
 
@@ -58,7 +61,7 @@ public class Permissions {
             PORTAL.createChild("import", PermissionBuilder.PermissionDefault.OP);
 
     public static final PermissionBuilder SHOW_PORTAL =
-            PORTAL.createChild("showt", PermissionBuilder.PermissionDefault.OP).description("Allows you to view the portal regions");
+            PORTAL.createChild("show", PermissionBuilder.PermissionDefault.OP).description("Allows you to view the portal regions");
 
     private static final PermissionBuilder CREATE_COMMAND_LEVEL =
             CREATE_PORTAL.createChild("command_level").doNotExport();
@@ -81,7 +84,21 @@ public class Permissions {
                 .addGrantChild(CREATE_PORTAL)
                 .addGrantChild(CREATE_DESTI)
                 .addGrantChild(DESTI)
-                .addGrantChild(PORTAL);
+                .addGrantChild(PORTAL)
+                .addGrantChild(TELEPORT_DESTI)
+                .addGrantChild(REMOVE_DESTI)
+                .addGrantChild(LIST_DESTI)
+                .addGrantChild(SHOW_DESTI)
+                .addGrantChild(SELECTOR)
+                .addGrantChild(REMOVE_PORTAL)
+                .addGrantChild(LIST_PORTAL)
+                .addGrantChild(LANG_UPDATE)
+                .addGrantChild(RELOAD)
+                .addGrantChild(DISABLE_BEACON)
+                .addGrantChild(IMPORT)
+                .addGrantChild(SHOW_PORTAL)
+                .addGrantChild(PORTAL_INFO)
+                .addGrantChild(BUILD);
 
         CREATE_COMMAND_LEVEL.createChild("*", PermissionBuilder.PermissionDefault.OP).description("Gives access to all command level raisers")
                 .addGrantChild(CREATE_COMMAND_OP)
