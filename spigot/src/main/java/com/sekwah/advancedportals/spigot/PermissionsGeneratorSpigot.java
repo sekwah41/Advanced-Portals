@@ -30,7 +30,7 @@ public class PermissionsGeneratorSpigot {
                 builder.append(indent).append(indent).append("children:\n");
                 for(PermissionBuilder child : children) {
                     builder.append(indent).append(indent).append(indent);
-                    builder.append(child.toString()).append("\n");
+                    builder.append(child.toString()).append(": true").append("\n");
                 }
             }
         }
