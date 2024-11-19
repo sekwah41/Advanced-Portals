@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.spigot.commands.subcommands.portal;
 
-import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
@@ -10,6 +9,7 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
+import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.importer.ConfigAccessor;
 import java.util.ArrayList;

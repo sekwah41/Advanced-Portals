@@ -1,11 +1,11 @@
 package com.sekwah.advancedportals.spigot.connector.container;
 
-import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
+import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import java.util.Arrays;
 import java.util.List;

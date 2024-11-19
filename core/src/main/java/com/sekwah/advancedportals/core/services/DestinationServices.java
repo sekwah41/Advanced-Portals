@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Singleton;
 
 @Singleton
 public class DestinationServices {

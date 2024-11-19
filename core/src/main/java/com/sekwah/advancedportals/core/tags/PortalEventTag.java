@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.tags;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -13,7 +14,6 @@ import com.sekwah.advancedportals.core.warphandler.TriggerType;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 
 public class PortalEventTag implements Tag.Activation, Tag.AutoComplete,
                                        Tag.DenyBehavior, Tag.OrderPriority {
