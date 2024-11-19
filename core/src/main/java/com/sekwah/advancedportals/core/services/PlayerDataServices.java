@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IPlayerDataRepository;
@@ -10,7 +11,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Singleton;
 
 @Singleton
 public final class PlayerDataServices {

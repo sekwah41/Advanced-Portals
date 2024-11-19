@@ -20,9 +20,10 @@ import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.ConfigProvider;
 import com.sekwah.advancedportals.core.util.InfoLogger;
+
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 public class AdvancedPortalsModule extends AbstractModule {
     private Injector injector;
@@ -72,7 +73,6 @@ public class AdvancedPortalsModule extends AbstractModule {
         }
     }
 
-    // TODO change it so that it'll set these up during the injector.
     public <T> void addInstanceBinding(Class<T> clazz, T instance) {
         delayedBindings.add(new DelayedBinding<>(clazz, instance));
     }

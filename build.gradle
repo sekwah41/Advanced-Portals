@@ -49,6 +49,7 @@ allprojects {
 
 }
 
+
 apply from: 'env-variables.gradle'
 
 
@@ -90,6 +91,9 @@ apply from: 'env-variables.gradle'
 
 println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
 
+tasks.named('jar') {
+    dependsOn(':core:shadowJar')
+}
 
 jar {
     // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
