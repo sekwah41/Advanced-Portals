@@ -17,14 +17,17 @@ buildscript {
 
 apply from: 'env-variables.gradle'
 
-/** For pre-releases and testers to be able to try the latest commits if they want.
- * If the builds start exceeding 8MB then we may want to upload to s3 instead and periodically clear.
- * TODO possibly add a task that announces when builds are made?
- * Though add a note that it may take a while for Curse to approve the files.
- */
+def getReleaseChangelog() {
+    def changelogFile = file('CHANGELOG.md')
+    def changelog = "## [${changelogFile.text.split('\n## \\[')[1]}\n\n"// ${project.github}/blob/${branch}/CHANGELOG.md
+    return changelog;
+}
+
 task discordupload {
     dependsOn(jar)
+
     doLast {
+
         String discordWebhook = System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
@@ -34,8 +37,26 @@ task discordupload {
             HttpPost uploadFile = new HttpPost(discordWebhook)
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-            builder.addTextBody("content", "New automated dev build\n\n" +
-                    "Current Features: <${project.github}/blob/${ext.githubSha}/docs/changelogs/SNAPSHOT_CHANGELOG.md>")
+            if(!isRelease) {
+                builder.addTextBody("content", "New snapshot or testing build")
+            } else {
+                def maxLength = 2000
+
+                def content = "New release build\n" +
+                        "```markdown\n" +
+                        "${getReleaseChangelog()}\n" +
+                        "```"
+
+                if (content.length() > maxLength) {
+                    def trimmedChangelog = getReleaseChangelog().take(maxLength - 15) // Reserve space for ending message
+                    content = "New release build\n" +
+                            "```markdown\n" +
+                            "${trimmedChangelog}\n" +
+                            "``` [Truncated]"
+                }
+
+                builder.addTextBody("content", content)
+            }
 
             builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
 
@@ -48,7 +69,7 @@ task discordupload {
             println("Posted build")
 
         } else {
-            println("Discord webhook unspecified ${sha}")
+            println("Discord webhook unspecified")
         }
     }
 }
