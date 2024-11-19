@@ -11,4 +11,3 @@ AlignAfterOpenBracket: Align
 PenaltyBreakBeforeFirstCallParameter: 1
 ColumnLimit: 80
 SpaceBeforeParens: ControlStatements
-InsertNewlineAtEOF: true

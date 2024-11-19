@@ -10,7 +10,6 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import javax.annotation.Nullable;
 
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
