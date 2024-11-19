@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.tags;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -9,7 +10,6 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 
 public class PermissionTag implements Tag.Activation {
     @Inject

@@ -1,12 +1,12 @@
 package com.sekwah.advancedportals.spigot.connector.container;
 
-import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
+import com.sekwah.advancedportals.shadowed.inject.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

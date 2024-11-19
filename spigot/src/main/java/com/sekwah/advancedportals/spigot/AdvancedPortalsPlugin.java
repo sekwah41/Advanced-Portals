@@ -1,11 +1,11 @@
 package com.sekwah.advancedportals.spigot;
 
-import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.util.GameScheduler;
+import com.sekwah.advancedportals.shadowed.inject.Injector;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;

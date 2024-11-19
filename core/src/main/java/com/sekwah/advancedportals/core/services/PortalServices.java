@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -16,7 +17,6 @@ import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
 import java.util.*;
-import javax.inject.Singleton;
 
 @Singleton
 public class PortalServices {
