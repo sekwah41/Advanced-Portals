@@ -51,6 +51,12 @@ allprojects {
 
 apply from: 'env-variables.gradle'
 
+
+println("Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'")
+println("Snapshot Name: ${ext.snapshotName}")
+println("Github SHA: ${ext.githubSha}")
+println("Sha Ref: ${ext.shaRef}")
+
 archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 def versionString = (file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '').replaceAll('\r', '')
@@ -184,3 +190,6 @@ idea {
         }
     }
 }
+
+apply from: 'curse.gradle'
+apply from: 'discord.gradle'
