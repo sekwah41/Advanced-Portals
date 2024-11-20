@@ -15,7 +15,6 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContain
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
-
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,7 +96,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         File destiFolder = new File(this.getDataFolder(), "desti");
         if (destiFile.exists() && !destiFolder.exists()) {
             destiFolder.mkdirs();
-            getLogger().info("Importing old destinations from destinations.yaml");
+            getLogger().info(
+                "Importing old destinations from destinations.yaml");
             LegacyImporter.importDestinations(this.destinationServices);
         }
 
