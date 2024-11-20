@@ -4,19 +4,31 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.services.DestinationServices;
+import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
+import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.shadowed.inject.Injector;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
+import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
+
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
     private AdvancedPortalsCore portalsCore;
+
+    @Inject
+    DestinationServices destinationServices;
+
+    @Inject
+    PortalServices portalServices;
 
     private static AdvancedPortalsPlugin instance;
 
@@ -48,6 +60,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         Injector injector = module.getInjector();
 
+        injector.injectMembers(this);
         injector.injectMembers(this.portalsCore);
         injector.injectMembers(serverContainer);
 
@@ -63,6 +76,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         injector.injectMembers(warpEffects);
         warpEffects.registerEffects();
 
+        checkAndCreateConfig();
+
         // Try to do this after setting up everything that would need to be
         // injected to.
         this.portalsCore.onEnable();
@@ -71,6 +86,28 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                                                new ImportPortalSubCommand());
 
         new Metrics(this);
+    }
+
+    private void checkAndCreateConfig() {
+        if (!this.getDataFolder().exists()) {
+            this.getDataFolder().mkdirs();
+        }
+
+        File destiFile = new File(this.getDataFolder(), "destinations.yml");
+        File destiFolder = new File(this.getDataFolder(), "desti");
+        if (destiFile.exists() && !destiFolder.exists()) {
+            destiFolder.mkdirs();
+            getLogger().info("Importing old destinations from destinations.yaml");
+            LegacyImporter.importDestinations(this.destinationServices);
+        }
+
+        File portalFile = new File(this.getDataFolder(), "portals.yml");
+        File portalFolder = new File(this.getDataFolder(), "portals");
+        if (portalFile.exists() && !portalFolder.exists()) {
+            portalFolder.mkdirs();
+            getLogger().info("Importing old portals from portals.yaml");
+            LegacyImporter.importPortals(this.portalServices);
+        }
     }
 
     @Override
