@@ -10,12 +10,10 @@ import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
-
 import java.util.List;
 import java.util.Set;
 
 public class ImportPortalSubCommand implements SubCommand {
-
     @Inject
     DestinationServices destinationServices;
 
@@ -28,7 +26,8 @@ public class ImportPortalSubCommand implements SubCommand {
             sender.sendMessage(Lang.getPositivePrefix()
                                + Lang.translateInsertVariables(
                                    "command.portal.import.confirm"));
-            int destinations = LegacyImporter.importDestinations(destinationServices);
+            int destinations =
+                LegacyImporter.importDestinations(destinationServices);
             int portals = LegacyImporter.importPortals(portalServices);
             sender.sendMessage(
                 Lang.getPositivePrefix()

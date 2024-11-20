@@ -6,35 +6,33 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class LegacyImporter {
-
     private LegacyImporter() {
     }
 
     public static int importPortals(PortalServices portalServices) {
         ConfigAccessor portalConfig = new ConfigAccessor(
-                AdvancedPortalsPlugin.getInstance(), "portals.yml");
+            AdvancedPortalsPlugin.getInstance(), "portals.yml");
         var config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         int count = 0;
         for (String portalName : portalSet) {
             BlockLocation pos1 =
-                    new BlockLocation(config.getString(portalName + ".world"),
-                            config.getInt(portalName + ".pos1.X"),
-                            config.getInt(portalName + ".pos1.Y"),
-                            config.getInt(portalName + ".pos1.Z"));
+                new BlockLocation(config.getString(portalName + ".world"),
+                                  config.getInt(portalName + ".pos1.X"),
+                                  config.getInt(portalName + ".pos1.Y"),
+                                  config.getInt(portalName + ".pos1.Z"));
             BlockLocation pos2 =
-                    new BlockLocation(config.getString(portalName + ".world"),
-                            config.getInt(portalName + ".pos2.X"),
-                            config.getInt(portalName + ".pos2.Y"),
-                            config.getInt(portalName + ".pos2.Z"));
+                new BlockLocation(config.getString(portalName + ".world"),
+                                  config.getInt(portalName + ".pos2.X"),
+                                  config.getInt(portalName + ".pos2.Y"),
+                                  config.getInt(portalName + ".pos2.Z"));
             List<DataTag> args = new ArrayList<>();
             args.add(new DataTag("name", portalName));
             var triggerblock = config.getString(portalName + ".triggerblock");
@@ -56,9 +54,9 @@ public class LegacyImporter {
             }
 
             ConfigurationSection portalConfigSection =
-                    config.getConfigurationSection(portalName);
+                config.getConfigurationSection(portalName);
             ConfigurationSection portalArgsConf =
-                    portalConfigSection.getConfigurationSection("portalArgs");
+                portalConfigSection.getConfigurationSection("portalArgs");
 
             if (portalArgsConf != null) {
                 Set<String> argsSet = portalArgsConf.getKeys(true);
@@ -66,8 +64,8 @@ public class LegacyImporter {
                     // skip if it argName starts with command.
                     if (portalArgsConf.isString(argName.toString())) {
                         args.add(new DataTag(
-                                argName.toString(),
-                                portalArgsConf.getString(argName.toString())));
+                            argName.toString(),
+                            portalArgsConf.getString(argName.toString())));
                     }
                 }
             }
@@ -82,12 +80,12 @@ public class LegacyImporter {
             }
             if (!commands.isEmpty()) {
                 args.add(
-                        new DataTag("commands", commands.toArray(new String[0])));
+                    new DataTag("commands", commands.toArray(new String[0])));
             }
             args.stream()
-                    .filter(dataTag -> dataTag.NAME.startsWith("command."))
-                    .toList()
-                    .forEach(args::remove);
+                .filter(dataTag -> dataTag.NAME.startsWith("command."))
+                .toList()
+                .forEach(args::remove);
 
             // Find an arg called "delayed" and add a new one called portalEvent
             var delayed = getArg(args, "delayed");
@@ -105,9 +103,10 @@ public class LegacyImporter {
         return count;
     }
 
-    public static int importDestinations(DestinationServices destinationServices) {
+    public static int importDestinations(
+        DestinationServices destinationServices) {
         ConfigAccessor destiConfig = new ConfigAccessor(
-                AdvancedPortalsPlugin.getInstance(), "destinations.yml");
+            AdvancedPortalsPlugin.getInstance(), "destinations.yml");
         var config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
@@ -115,14 +114,14 @@ public class LegacyImporter {
         for (String destiName : destiSet) {
             var destiPos = destiName + ".pos";
             var desti = destinationServices.createDesti(
-                    new PlayerLocation(
-                            config.getString(destiName + ".world"),
-                            config.getDouble(destiPos + ".X"),
-                            config.getDouble(destiPos + ".Y"),
-                            config.getDouble(destiPos + ".Z"),
-                            (float) config.getDouble(destiPos + ".yaw"),
-                            (float) config.getDouble(destiPos + ".pitch")),
-                    List.of(new DataTag("name", destiName)));
+                new PlayerLocation(
+                    config.getString(destiName + ".world"),
+                    config.getDouble(destiPos + ".X"),
+                    config.getDouble(destiPos + ".Y"),
+                    config.getDouble(destiPos + ".Z"),
+                    (float) config.getDouble(destiPos + ".yaw"),
+                    (float) config.getDouble(destiPos + ".pitch")),
+                List.of(new DataTag("name", destiName)));
             if (desti != null)
                 count++;
         }
@@ -137,5 +136,4 @@ public class LegacyImporter {
         }
         return null;
     }
-
 }
