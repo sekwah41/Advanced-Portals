@@ -114,6 +114,9 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     public void loadConfig(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
         this.config = dataStorage.loadFile(Config.class, "config.yaml");
+        if(config == null) {
+            this.config = new Config();
+        }
     }
 
     @Override
