@@ -64,7 +64,7 @@ public class Lang {
     }
 
     public static String convertColors(String s) {
-        return s.replaceAll("&([0-9a-frk-ox])", "\u00A7$1");
+        return s.replaceAll("&#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])", "&x&$1&$2&$3&$4&$5&$6").replaceAll("&([0-9a-fA-Fdwrk-ox#])", "\u00A7$1");
     }
 
     public static String translateInsertVariables(String s, Object... args) {
