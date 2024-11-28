@@ -34,6 +34,13 @@ public class MinecraftCustomPayload {
         throw new NoSuchFieldException("Field with type " + fieldType + " not found in object");
     }
 
+    /**
+     * Attempt to find the methods and classes needed.
+     */
+    public static void attemptFindData() {
+
+    }
+
     private static void outputAllMethodsToFile(Class clazz) throws IOException {
         var pluginInstance = AdvancedPortalsPlugin.getInstance();
         var dataFolder = pluginInstance.getDataFolder();

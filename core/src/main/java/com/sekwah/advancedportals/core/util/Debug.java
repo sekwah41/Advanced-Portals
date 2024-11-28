@@ -8,6 +8,8 @@ public class Debug {
     public static boolean addMarker(PlayerContainer player,
                                     BlockLocation blockPos, String name,
                                     Color color, int milliseconds) {
+        player.getWorld().spawnColoredDust(blockPos, 1, 1, 1, 20, color);
+
         FriendlyDataOutput out = new FriendlyDataOutput();
         out.writeBlock(blockPos);
         out.writeInt(color(color));

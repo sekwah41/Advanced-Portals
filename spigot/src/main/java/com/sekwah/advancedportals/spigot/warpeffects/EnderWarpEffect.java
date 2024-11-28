@@ -3,7 +3,9 @@ package com.sekwah.advancedportals.spigot.warpeffects;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.Particle;
 
 public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
@@ -15,6 +17,8 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
 
             player.getWorld().playSound(player.getLocation(),
                                         "entity.enderman.teleport", 1, 1);
+
+            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.RED, 1);
         }
     }
 

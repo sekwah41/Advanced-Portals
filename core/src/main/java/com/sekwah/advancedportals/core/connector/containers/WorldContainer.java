@@ -4,6 +4,8 @@ import com.sekwah.advancedportals.core.data.BlockAxis;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 
+import java.awt.*;
+
 public interface WorldContainer {
     void setBlock(BlockLocation location, String material);
 
@@ -16,4 +18,6 @@ public interface WorldContainer {
     void setBlockAxis(BlockLocation location, BlockAxis axis);
 
     void disableBeacon(AdvancedPortal portal);
+
+    void spawnColoredDust(BlockLocation blockPos, double xSpread, double ySpread, double zSpread, int count, Color color);
 }

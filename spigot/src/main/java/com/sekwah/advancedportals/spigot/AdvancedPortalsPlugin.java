@@ -14,6 +14,7 @@ import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
+import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import java.io.File;
 import java.util.regex.Matcher;
@@ -58,6 +59,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                                   new SpigotCommandRegister(this));
 
         Injector injector = module.getInjector();
+
+        MinecraftCustomPayload.attemptFindData();
 
         injector.injectMembers(this);
         injector.injectMembers(this.portalsCore);
