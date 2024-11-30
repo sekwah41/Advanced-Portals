@@ -10,10 +10,10 @@ import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.tags.NameTag;
-import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class ShowPortalSubCommand
 
     final Color TRIGGER_COLOR = new Color(0, 0, 255, 100);
 
-    final Color TRIGGER_OUTLINE_COLOR = new Color(0, 117, 200, 100);
+    final Vector OFFSET = new Vector(0.5, 0.5, 0.5);
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -108,92 +108,98 @@ public class ShowPortalSubCommand
             alternate_show_trigger = !alternate_show_trigger;
             for (PlayerContainer player : serverContainer.getPlayers()) {
                 var tempData = playerDataServices.getPlayerData(player);
+
                 if (!tempData.isPortalVisible()) {
                     continue;
                 }
 
-                if (tempData.getPos1() != null && tempData.getPos2() != null
-                    && tempData.getPos1().getWorldName().equals(
+                var pos1 = tempData.getPos1();
+                var pos2 = tempData.getPos2();
+
+                if (pos1 != null && pos2 != null
+                    && pos1.getWorldName().equals(
                         player.getWorldName())
-                    && tempData.getPos2().getWorldName().equals(
+                    && pos2.getWorldName().equals(
                         player.getWorldName())) {
-                    int widthX = Math.abs(tempData.getPos1().getPosX()
-                                          - tempData.getPos2().getPosX());
-                    int widthY = Math.abs(tempData.getPos1().getPosY()
-                                          - tempData.getPos2().getPosY());
-                    int widthZ = Math.abs(tempData.getPos1().getPosZ()
-                                          - tempData.getPos2().getPosZ());
+                    int widthX = Math.abs(pos1.getPosX()
+                                          - pos2.getPosX());
+                    int widthY = Math.abs(pos1.getPosY()
+                                          - pos2.getPosY());
+                    int widthZ = Math.abs(pos1.getPosZ()
+                                          - pos2.getPosZ());
                     int totalBlocks = widthX * widthY * widthZ;
                     if (totalBlocks <= config.getMaxTriggerVisualisationSize())
-                        debugVisuals(player, tempData.getPos1(),
-                                     tempData.getPos2(), SELECTION_COLOR,
-                                     SHOW_TICKS);
+                        debugVisuals(player, pos1,
+                                     pos2, SELECTION_COLOR);
                 }
 
-                if (tempData.getPos1() != null
-                    && tempData.getPos1().getWorldName().equals(
+                if (pos1 != null
+                    && pos1.getWorldName().equals(
                         player.getWorldName())) {
-                    Debug.addMarker(player, tempData.getPos1(), "Pos1",
-                                    POS1_COLOR, SHOW_TICKS);
+                    player.spawnColoredDust(pos1.toVector().add(OFFSET), 0.3, 0.3, 0.3,
+                                            10, POS1_COLOR);
                 }
-                if (tempData.getPos2() != null
-                    && tempData.getPos2().getWorldName().equals(
+                if (pos2 != null
+                    && pos2.getWorldName().equals(
                         player.getWorldName())) {
-                    Debug.addMarker(player, tempData.getPos2(), "Pos2",
-                                    POS2_COLOR, SHOW_TICKS);
+                    player.spawnColoredDust(pos2.toVector().add(OFFSET), 0.3,0.3,0.3,
+                                            10, POS2_COLOR);
                 }
 
-                var world = player.getWorld();
+                // If both are selected and both worlds are the same as the player
+                if(pos1 != null && pos2 != null &&
+                        pos1.getWorldName().equals(player.getWorldName()) &&
+                        pos2.getWorldName().equals(player.getWorldName())) {
+                    drawBox(player, pos1, pos2, SELECTION_COLOR);
+                }
+
                 for (var portal : portalServices.getPortals()) {
                     if (Objects.equals(portal.getMinLoc().getWorldName(),
                                        player.getWorldName())
                         && portal.isLocationInPortal(
                             player.getLoc(), config.getShowVisibleRange())) {
-                        BlockLocation minLoc = portal.getMinLoc();
-                        BlockLocation maxLoc = portal.getMaxLoc();
-                        int midX = (minLoc.getPosX() + maxLoc.getPosX()) / 2;
-                        int midZ = (minLoc.getPosZ() + maxLoc.getPosZ()) / 2;
-                        BlockLocation midPoint =
-                            new BlockLocation(minLoc.getWorldName(), midX,
-                                              maxLoc.getPosY(), midZ);
-                        Color color;
-                        if (portal.isTriggerBlock(world.getBlock(midPoint))) {
-                            color = TRIGGER_OUTLINE_COLOR;
-                        } else {
-                            if (midPoint.getPosX() == minLoc.getPosX()
-                                || midPoint.getPosX() == maxLoc.getPosX()
-                                || midPoint.getPosZ() == minLoc.getPosZ()
-                                || midPoint.getPosZ() == maxLoc.getPosZ())
-                                color = OUTLINE_COLOR;
-                            else
-                                color = new Color(0, 0, 0, 0);
-                        }
-                        debugVisuals(player, portal, OUTLINE_COLOR, SHOW_TICKS,
+                        debugVisuals(player, portal, OUTLINE_COLOR,
                                      TRIGGER_COLOR);
-                        var name = portal.getArgValues(NameTag.TAG_NAME);
-                        if (name != null && name.length > 0) {
-                            Debug.addMarker(player, midPoint, name[0], color,
-                                            SHOW_TICKS);
-                        }
                     }
                 }
             }
-        }, 1, 20);
+        }, 1,20);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
-                              BlockLocation pos2, Color color, int time) {
-        debugVisuals(player, pos1, pos2, color, time, null, null);
+                              BlockLocation pos2, Color color) {
+        debugVisuals(player, pos1, pos2, color, null, null);
     }
 
     private void debugVisuals(PlayerContainer player, AdvancedPortal portal,
-                              Color color, int time, Color triggerColor) {
-        debugVisuals(player, portal.getMinLoc(), portal.getMaxLoc(), color,
-                     time, triggerColor, portal);
+                              Color color, Color triggerColor) {
+        debugVisuals(player, portal.getMinLoc(), portal.getMaxLoc(), color, triggerColor, portal);
+    }
+
+    private void drawBox(PlayerContainer player, BlockLocation pos1,
+                         BlockLocation pos2, Color color) {
+        int minX = Math.min(pos1.getPosX(), pos2.getPosX());
+        int minY = Math.min(pos1.getPosY(), pos2.getPosY());
+        int minZ = Math.min(pos1.getPosZ(), pos2.getPosZ());
+
+        int maxX = Math.max(pos1.getPosX(), pos2.getPosX());
+        int maxY = Math.max(pos1.getPosY(), pos2.getPosY());
+        int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ());
+
+        float middleX = (maxX - minX) / 2f + minX;
+        float middleY = (maxY - minY) / 2f + minY;
+        float middleZ = (maxZ - minZ) / 2f + minZ;
+
+        float widthX = maxX - minX;
+        float widthY = maxY - minY;
+        float widthZ = maxZ - minZ;
+
+        player.spawnColoredDust(new Vector(minX, middleY, minZ + 1), 0, widthY / 2f, 0, (int) widthY,
+                color);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
-                              BlockLocation pos2, Color color, int time,
+                              BlockLocation pos2, Color color,
                               Color triggerColor, AdvancedPortal portal) {
         int minX = Math.min(pos1.getPosX(), pos2.getPosX());
         int minY = Math.min(pos1.getPosY(), pos2.getPosY());
@@ -206,6 +212,8 @@ public class ShowPortalSubCommand
         var size = pos1.getSize(pos2);
 
         var world = player.getWorld();
+
+        //drawBox(player, pos1, pos2, color);
 
         if (size <= config.getMaxTriggerVisualisationSize()) {
             for (int x = minX; x <= maxX; x++) {
@@ -220,74 +228,15 @@ public class ShowPortalSubCommand
                                     || z == maxZ)
                             || (z == minZ || z == maxZ)
                                 && (x == minX || x == maxX);
-                        if (isTrigger && isOutline && alternate_show_trigger) {
-                            Debug.addMarker(player, pos, "",
-                                            TRIGGER_OUTLINE_COLOR, time);
-                        } else if (isOutline) {
-                            Debug.addMarker(player, pos, "", color, time);
-                        } else if (isTrigger) {
-                            if (alternate_show_trigger)
-                                Debug.addMarker(player, pos, "", triggerColor,
-                                                time);
-                        }
+
+                       /* player.spawnColoredDust(pos.toVector().add(OFFSET), 0.2, 0.2, 0.2, 5,
+                                color);*/
+                        if (!isOutline && isTrigger && alternate_show_trigger)
+                            player.spawnColoredDust(pos.toVector().add(OFFSET), 0.2, 0.2, 0.2, 1,
+                                                triggerColor);
+
                     }
                 }
-            }
-        } else {
-            for (int x = minX; x <= maxX; x++) {
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), x, minY, minZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), x, minY, maxZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), x, maxY, minZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), x, maxY, maxZ), "",
-                    color, time);
-            }
-            for (int z = minZ + 1; z < maxZ; z++) {
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), minX, minY, z), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), maxX, minY, z), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), minX, maxY, z), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), maxX, maxY, z), "",
-                    color, time);
-            }
-
-            for (int y = minY + 1; y < maxY; y++) {
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), minX, y, minZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), maxX, y, minZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), minX, y, maxZ), "",
-                    color, time);
-                Debug.addMarker(
-                    player,
-                    new BlockLocation(pos1.getWorldName(), maxX, y, maxZ), "",
-                    color, time);
             }
         }
     }

@@ -9,9 +9,9 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
-import com.sekwah.advancedportals.core.util.Debug;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.awt.*;
@@ -95,6 +95,8 @@ public class ShowDestiSubCommand
                     continue;
                 }
 
+                var size = 0.2;
+
                 for (Destination destination :
                      destinationServices.getDestinations()) {
                     var pos = destination.getLoc();
@@ -102,12 +104,12 @@ public class ShowDestiSubCommand
                                        player.getWorldName())
                         && pos.distanceTo(player.getLoc())
                             < config.getShowVisibleRange()) {
-                        Debug.addMarker(player, pos.toBlockPos(),
-                                        destination.getArgValues("name")[0],
-                                        new Color(100, 100, 100, 100), 1300);
-                    }
+                        player.spawnColoredDust(
+                                pos.add(new Vector(0, 0.5, 0)), size, size, size, 20,
+                            new Color(255, 221, 0));
+
+                    } }
                 }
-            }
         }, 1, 20);
     }
 }

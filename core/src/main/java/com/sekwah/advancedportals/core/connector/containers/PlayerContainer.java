@@ -1,6 +1,9 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.Vector;
+
+import java.awt.*;
 import java.util.UUID;
 
 /**
@@ -20,18 +23,14 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
      */
     void sendFakeBlock(BlockLocation blockPos, String material);
 
-    /**
-     * Only 1.12 and below supported
-     *
-     * @param blockPos
-     * @param material
-     * @param data
-     */
-    void sendFakeBlockWithData(BlockLocation blockPos, String material,
-                               byte data);
-
     void giveItem(String material, String itemName, String... itemDescription);
 
+    /**
+     * Send packets down any channel except the minecraft: one.
+     * @param channel
+     * @param bytes
+     * @return
+     */
     boolean sendPacket(String channel, byte[] bytes);
 
     void playSound(String sound, float volume, float pitch);
@@ -39,4 +38,6 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
     ServerContainer getServer();
 
     GameMode getGameMode();
+
+    void spawnColoredDust(Vector pos, double xSpread, double ySpread, double zSpread, int count, Color color);
 }

@@ -6,9 +6,11 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.spigot.reflection.MinecraftCustomPayload;
+
+import java.awt.*;
 import java.util.Arrays;
 import java.util.UUID;
 import net.md_5.bungee.api.ChatMessageType;
@@ -16,6 +18,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,18 +81,6 @@ public class SpigotPlayerContainer
     public void sendFakeBlock(BlockLocation blockPos, String material) {
     }
 
-    /**
-     * Only 1.12 and below supported
-     *
-     * @param blockPos
-     * @param material
-     * @param data
-     */
-    @Override
-    public void sendFakeBlockWithData(BlockLocation blockPos, String material,
-                                      byte data) {
-    }
-
     @Override
     public void giveItem(String material, String itemName,
                          String... itemDescription) {
@@ -104,13 +95,8 @@ public class SpigotPlayerContainer
 
     @Override
     public boolean sendPacket(String channel, byte[] bytes) {
-        if (channel.startsWith("minecraft:")) {
-            return MinecraftCustomPayload.sendCustomPayload(player, channel,
-                                                            bytes);
-        } else {
             player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(),
                                      channel, bytes);
-        }
         return true;
     }
 
@@ -135,5 +121,16 @@ public class SpigotPlayerContainer
     @Override
     public ServerContainer getServer() {
         return new SpigotServerContainer(this.player.getServer());
+    }
+
+
+    @Override
+    public void spawnColoredDust(Vector position, double xSpread, double ySpread, double zSpread, int count, Color color) {
+        Particle.DustOptions dustOptions = new Particle.DustOptions(
+                org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
+                        color.getBlue()), 2);
+        this.player.spawnParticle(Particle.REDSTONE, position.getX(),
+                position.getY(), position.getZ(), count,
+                xSpread, ySpread, zSpread, count, dustOptions);
     }
 }

@@ -111,14 +111,4 @@ public class SpigotWorldContainer implements WorldContainer {
             }
         }
     }
-
-    @Override
-    public void spawnColoredDust(BlockLocation blockPos, double xSpread, double ySpread, double zSpread, int count, Color color) {
-        Particle.DustOptions dustOptions = new Particle.DustOptions(
-            org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
-                                    color.getBlue()), 1);
-        this.world.spawnParticle(Particle.REDSTONE, blockPos.getPosX(),
-                                    blockPos.getPosY(), blockPos.getPosZ(), 1,
-                xSpread, ySpread, zSpread, count, dustOptions);
-    }
 }
