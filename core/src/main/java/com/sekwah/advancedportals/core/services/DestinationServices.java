@@ -136,20 +136,20 @@ public class DestinationServices {
 
     public boolean teleportToDestination(String name, PlayerContainer player,
                                          boolean doEffect) {
-        if (doEffect && configRepository.getWarpEffectEnabled()) {
-            var warpEffectVisual = warpEffectRegistry.getVisualEffect(
-                configRepository.getWarpVisual());
-            if (warpEffectVisual != null) {
-                warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
-            }
-            var warpEffectSound = warpEffectRegistry.getSoundEffect(
-                configRepository.getWarpSound());
-            if (warpEffectSound != null) {
-                warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
-            }
-        }
         if (this.destinationRepository.containsKey(name)) {
             player.teleport(this.destinationRepository.get(name).getLoc());
+            if (doEffect && configRepository.getWarpEffectEnabled()) {
+                var warpEffectVisual = warpEffectRegistry.getVisualEffect(
+                        configRepository.getWarpVisual());
+                if (warpEffectVisual != null) {
+                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+                }
+                var warpEffectSound = warpEffectRegistry.getSoundEffect(
+                        configRepository.getWarpSound());
+                if (warpEffectSound != null) {
+                    warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
+                }
+            }
             return true;
         }
         return false;
