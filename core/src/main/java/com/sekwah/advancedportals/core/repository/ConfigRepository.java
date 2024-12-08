@@ -14,7 +14,8 @@ public interface ConfigRepository {
 
     int getShowVisibleRange();
 
-    int getMaxTriggerVisualisationSize();
+    int maxPortalVisualisationSize();
+    int maxSelectionVisualisationSize();
 
     String getDefaultTriggerBlock();
 
