@@ -52,7 +52,11 @@ public class Vector {
         return this.multiply(1.0D / this.length());
     }
 
-    private double length() {
+    public double length() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
+
+    public Vector subtract(Vector vec) {
+        return new Vector(this.x - vec.x, this.y - vec.y, this.z - vec.z);
     }
 }

@@ -99,4 +99,9 @@ public class BlockLocation {
     public WorldLocation toWorldLocation() {
         return new WorldLocation(this.worldName, this.posX, this.posY, this.posZ);
     }
+
+    public BlockLocation add(int x, int y, int z) {
+        return new BlockLocation(this.worldName, this.posX + x, this.posY + y,
+                                 this.posZ + z);
+    }
 }

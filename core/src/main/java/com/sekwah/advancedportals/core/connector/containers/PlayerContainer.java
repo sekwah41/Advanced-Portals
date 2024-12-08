@@ -39,5 +39,9 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
 
     GameMode getGameMode();
 
+    default void spawnColoredDust(Vector pos, int count, Color color) {
+        spawnColoredDust(pos, 0, 0, 0, count, color);
+    }
+
     void spawnColoredDust(Vector pos, double xSpread, double ySpread, double zSpread, int count, Color color);
 }

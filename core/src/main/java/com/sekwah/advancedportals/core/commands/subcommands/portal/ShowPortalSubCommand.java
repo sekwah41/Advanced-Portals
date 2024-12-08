@@ -13,7 +13,6 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
-import com.sekwah.advancedportals.core.tags.NameTag;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.awt.*;
@@ -26,7 +25,6 @@ import java.util.Objects;
  */
 public class ShowPortalSubCommand
     implements SubCommand, SubCommand.SubCommandOnInit {
-    static final int SHOW_TICKS = 1050;
 
     boolean alternate_show_trigger = true;
 
@@ -51,7 +49,7 @@ public class ShowPortalSubCommand
     final Color POS1_COLOR = new Color(0, 255, 0);
     final Color POS2_COLOR = new Color(255, 0, 0);
 
-    final Color SELECTION_COLOR = new Color(255, 0, 0, 100);
+    final Color SELECTION_COLOR = new Color(166, 166, 166, 255);
 
     final Color OUTLINE_COLOR = new Color(0, 255, 0, 100);
 
@@ -136,21 +134,19 @@ public class ShowPortalSubCommand
                 if (pos1 != null
                     && pos1.getWorldName().equals(
                         player.getWorldName())) {
-                    player.spawnColoredDust(pos1.toVector().add(OFFSET), 0.3, 0.3, 0.3,
-                                            10, POS1_COLOR);
+                    drawBox(player, pos1, pos1, POS1_COLOR, 0.25f);
                 }
                 if (pos2 != null
                     && pos2.getWorldName().equals(
                         player.getWorldName())) {
-                    player.spawnColoredDust(pos2.toVector().add(OFFSET), 0.3,0.3,0.3,
-                                            10, POS2_COLOR);
+                    drawBox(player, pos2, pos2, POS2_COLOR, 0.25f);
                 }
 
                 // If both are selected and both worlds are the same as the player
                 if(pos1 != null && pos2 != null &&
                         pos1.getWorldName().equals(player.getWorldName()) &&
                         pos2.getWorldName().equals(player.getWorldName())) {
-                    drawBox(player, pos1, pos2, SELECTION_COLOR);
+                    drawBox(player, pos1, pos2, SELECTION_COLOR, 1f, 2);
                 }
 
                 for (var portal : portalServices.getPortals()) {
@@ -163,7 +159,7 @@ public class ShowPortalSubCommand
                     }
                 }
             }
-        }, 1,20);
+        }, 1,10);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
@@ -177,25 +173,61 @@ public class ShowPortalSubCommand
     }
 
     private void drawBox(PlayerContainer player, BlockLocation pos1,
-                         BlockLocation pos2, Color color) {
+                         BlockLocation pos2, Color color, float particleDensity) {
+        drawBox(player, pos1, pos2, color, particleDensity, 0);
+    }
+
+    /**
+     *
+     * @param player
+     * @param pos1
+     * @param pos2
+     * @param color
+     * @param particleDensity
+     * @param hideCorners - how much to shrink in the corners, used for rendering more boxes there without overlap
+     */
+    private void drawBox(PlayerContainer player, BlockLocation pos1,
+                         BlockLocation pos2, Color color, float particleDensity, float hideCorners) {
         int minX = Math.min(pos1.getPosX(), pos2.getPosX());
         int minY = Math.min(pos1.getPosY(), pos2.getPosY());
         int minZ = Math.min(pos1.getPosZ(), pos2.getPosZ());
 
-        int maxX = Math.max(pos1.getPosX(), pos2.getPosX());
-        int maxY = Math.max(pos1.getPosY(), pos2.getPosY());
-        int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ());
+        int maxX = Math.max(pos1.getPosX(), pos2.getPosX()) + 1;
+        int maxY = Math.max(pos1.getPosY(), pos2.getPosY()) + 1;
+        int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ()) + 1;
 
-        float middleX = (maxX - minX) / 2f + minX;
-        float middleY = (maxY - minY) / 2f + minY;
-        float middleZ = (maxZ - minZ) / 2f + minZ;
+        if(maxX - minX - hideCorners > 0) {
+            drawLine(player, new Vector(minX, maxY, maxZ), new Vector(maxX - hideCorners, maxY, maxZ), color, particleDensity);
+            drawLine(player, new Vector(minX + hideCorners, minY, minZ), new Vector(maxX, minY, minZ), color, particleDensity);
+        }
+        if(maxY - minY - hideCorners > 0) {
+            drawLine(player, new Vector(minX, minY + hideCorners, minZ), new Vector(minX, maxY, minZ), color, particleDensity);
+            drawLine(player, new Vector(maxX, minY, maxZ), new Vector(maxX, maxY - hideCorners, maxZ), color, particleDensity);
+        }
+        if(maxZ - minZ - hideCorners > 0) {
+            drawLine(player, new Vector(maxX, maxY, minZ), new Vector(maxX, maxY, maxZ - hideCorners), color, particleDensity);
+            drawLine(player, new Vector(minX, minY, minZ + hideCorners), new Vector(minX, minY, maxZ), color, particleDensity);
+        }
+        drawLine(player, new Vector(maxX, minY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
+        drawLine(player, new Vector(maxX, minY, minZ), new Vector(maxX, minY, maxZ), color, particleDensity);
+        drawLine(player, new Vector(minX, maxY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
+        drawLine(player, new Vector(minX, maxY, minZ), new Vector(minX, maxY, maxZ), color, particleDensity);
+        drawLine(player, new Vector(minX, minY, maxZ), new Vector(maxX, minY, maxZ), color, particleDensity);
+        drawLine(player, new Vector(minX, minY, maxZ), new Vector(minX, maxY, maxZ), color, particleDensity);
 
-        float widthX = maxX - minX;
-        float widthY = maxY - minY;
-        float widthZ = maxZ - minZ;
+    }
 
-        player.spawnColoredDust(new Vector(minX, middleY, minZ + 1), 0, widthY / 2f, 0, (int) widthY,
-                color);
+    private void drawLine(PlayerContainer player, Vector start, Vector end, Color color, float particleDensity) {
+        Vector direction = end.subtract(start);
+        double length = direction.length();
+        if(length == 0) {
+            return;
+        }
+        direction = direction.normalize();
+        for (double i = 0; i <= length; i += particleDensity) {
+            Vector pos = start.add(direction.multiply(i));
+            player.spawnColoredDust(pos, 1, color);
+        }
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
