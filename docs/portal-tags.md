@@ -5,6 +5,15 @@ description: Information on all portal tags included in Advanced Portals.
 
 # Portal Tags
 
+**V2.0.0+ / recode info**
+
+The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
+The documentation will be updated soon.
+
+You can use the `/portals convert` command to port your portals to the latest version. Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+
+:::
+
 Below is a list of currently accepted tags for portals. Only the name: tag is necessary though other tags may be needed to give the portal's functionality.
 
 Example use: `/portal create name:testportal desti:somedesti triggerblock:WATER`

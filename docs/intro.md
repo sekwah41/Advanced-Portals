@@ -5,6 +5,17 @@ description: Quick introduction to Advanced Portals.
 
 # Tutorial Intro
 
+:::warning
+
+**V2.0.0+ / recode info**
+
+The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
+The documentation will be updated soon.
+
+You can use the `/portals convert` command to port your portals to the latest version. Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+
+:::
+
 Here is a YouTube video made by [LtJim007](https://www.youtube.com/channel/UCZvGH5UFnZGHL7t11RLhg2w) explaining the basics.
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nkOeMUkYz3Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

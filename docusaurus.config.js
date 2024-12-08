@@ -70,6 +70,10 @@ const config = {
                 href: 'https://dev.bukkit.org/projects/advanced-portals',
               },
               {
+                label: 'Modrinth',
+                href: 'https://modrinth.com/plugin/advanced-portals',
+              },
+              {
                 label: 'GitHub',
                 href: 'https://github.com/sekwah41/Advanced-Portals/releases',
               },
@@ -83,8 +87,8 @@ const config = {
                 href: 'https://discord.sekwah.com/',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/sekwah',
+                label: 'Bluesky',
+                href: 'https://bsky.app/profile/sekwah.com',
               },
             ],
           },
