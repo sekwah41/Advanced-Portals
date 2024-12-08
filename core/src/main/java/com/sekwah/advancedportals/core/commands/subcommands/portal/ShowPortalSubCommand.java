@@ -179,11 +179,11 @@ public class ShowPortalSubCommand
 
     /**
      *
-     * @param player
-     * @param pos1
-     * @param pos2
-     * @param color
-     * @param particleDensity
+     * @param player - the player to draw the box for
+     * @param pos1 - the first position of the box
+     * @param pos2 - the second position of the box
+     * @param color - color of the box
+     * @param particleDensity - distance between particles
      * @param hideCorners - how much to shrink in the corners, used for rendering more boxes there without overlap
      */
     private void drawBox(PlayerContainer player, BlockLocation pos1,
@@ -245,7 +245,7 @@ public class ShowPortalSubCommand
 
         var world = player.getWorld();
 
-        //drawBox(player, pos1, pos2, color);
+        drawBox(player, pos1, pos2, color, 0.5f);
 
         if (size <= config.getMaxTriggerVisualisationSize()) {
             for (int x = minX; x <= maxX; x++) {
@@ -255,15 +255,7 @@ public class ShowPortalSubCommand
                             new BlockLocation(pos1.getWorldName(), x, y, z);
                         boolean isTrigger = portal != null
                             && portal.isTriggerBlock(world.getBlock(pos));
-                        boolean isOutline = (y == minY || y == maxY)
-                                && (x == minX || x == maxX || z == minZ
-                                    || z == maxZ)
-                            || (z == minZ || z == maxZ)
-                                && (x == minX || x == maxX);
-
-                       /* player.spawnColoredDust(pos.toVector().add(OFFSET), 0.2, 0.2, 0.2, 5,
-                                color);*/
-                        if (!isOutline && isTrigger && alternate_show_trigger)
+                        if (isTrigger && alternate_show_trigger)
                             player.spawnColoredDust(pos.toVector().add(OFFSET), 0.2, 0.2, 0.2, 1,
                                                 triggerColor);
 
