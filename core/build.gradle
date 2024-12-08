@@ -37,6 +37,8 @@ shadowJar {
     relocate 'org.aopalliance', 'com.sekwah.advancedportals.shadowed.aopalliance'
     relocate 'org.checkerframework', 'com.sekwah.advancedportals.shadowed.checkerframework'
 
+    exclude 'io/netty/**'
+
     minimize()
 
     archiveClassifier.set('')

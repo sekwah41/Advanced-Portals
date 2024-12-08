@@ -3,7 +3,9 @@ package com.sekwah.advancedportals.spigot.warpeffects;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.Particle;
 
 public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override

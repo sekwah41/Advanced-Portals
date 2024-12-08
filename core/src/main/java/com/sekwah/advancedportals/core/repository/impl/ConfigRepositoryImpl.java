@@ -46,8 +46,13 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
-    public int getMaxTriggerVisualisationSize() {
-        return this.config.maxTriggerVisualisationSize;
+    public int maxPortalVisualisationSize() {
+        return this.config.maxPortalVisualisationSize;
+    }
+
+    @Override
+    public int maxSelectionVisualisationSize() {
+        return this.config.maxSelectionVisualisationSize;
     }
 
     @Override

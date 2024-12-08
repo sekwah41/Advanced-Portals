@@ -9,6 +9,7 @@ import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -38,9 +39,9 @@ public class EventListener implements Listener {
     }
 
     @EventHandler
-    public void onServerConnected(ServerConnectedEvent event) {
+    public void onServerConnected(ServerSwitchEvent event) {
         this.proxyCore.onServerConnect(
-            new BungeeProxyServerContainer(event.getServer()),
+            new BungeeProxyServerContainer(event.getPlayer().getServer()),
             new BungeeProxyPlayerContainer(event.getPlayer()));
     }
 

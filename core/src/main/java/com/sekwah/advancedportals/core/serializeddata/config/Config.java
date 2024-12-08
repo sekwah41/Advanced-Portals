@@ -24,7 +24,9 @@ public class Config {
 
     public boolean disablePhysicsEvents = true;
 
-    public int maxTriggerVisualisationSize = 1000;
+    public int maxPortalVisualisationSize = 200;
+
+    public int maxSelectionVisualisationSize = 1000;
 
     public double throwbackStrength = 0.7;
 
