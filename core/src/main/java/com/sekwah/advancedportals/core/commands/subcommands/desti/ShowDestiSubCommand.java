@@ -16,7 +16,6 @@ import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.Matrix;
-
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
@@ -106,21 +105,26 @@ public class ShowDestiSubCommand
                         && pos.distanceTo(player.getLoc())
                             < config.getShowVisibleRange()) {
                         drawArrow(player, pos, new Color(255, 221, 0));
-                    } }
+                    }
                 }
+            }
         }, 1, 5);
     }
 
-    // The arrow will be rotated around the player at 0 0 0 facing forwards in the positive Z direction
+    // The arrow will be rotated around the player at 0 0 0 facing forwards in
+    // the positive Z direction
     Vector BASE = new Vector(0, 0, -1);
     Vector TIP = new Vector(0, 0, 1);
     Vector LEFT = new Vector(0.7, 0, 0.2);
     Vector RIGHT = new Vector(-0.7, 0, 0.2);
 
-    public void drawArrow(PlayerContainer player, PlayerLocation playerLocation, Color color) {
+    public void drawArrow(PlayerContainer player, PlayerLocation playerLocation,
+                          Color color) {
         // Draw three lines to create an arrow, applying the yaw and pitch
         // to the direction of the arrow
-        Matrix rotation = Matrix.identity().rotY(-playerLocation.getYaw()).rotX(playerLocation.getPitch());
+        Matrix rotation = Matrix.identity()
+                              .rotY(-playerLocation.getYaw())
+                              .rotX(playerLocation.getPitch());
 
         Vector location = playerLocation.add(new Vector(0, 1.5, 0));
 

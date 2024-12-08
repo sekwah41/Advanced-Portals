@@ -140,14 +140,16 @@ public class DestinationServices {
             player.teleport(this.destinationRepository.get(name).getLoc());
             if (doEffect && configRepository.getWarpEffectEnabled()) {
                 var warpEffectVisual = warpEffectRegistry.getVisualEffect(
-                        configRepository.getWarpVisual());
+                    configRepository.getWarpVisual());
                 if (warpEffectVisual != null) {
-                    warpEffectVisual.onWarpVisual(player, WarpEffect.Action.ENTER);
+                    warpEffectVisual.onWarpVisual(player,
+                                                  WarpEffect.Action.ENTER);
                 }
                 var warpEffectSound = warpEffectRegistry.getSoundEffect(
-                        configRepository.getWarpSound());
+                    configRepository.getWarpSound());
                 if (warpEffectSound != null) {
-                    warpEffectSound.onWarpSound(player, WarpEffect.Action.ENTER);
+                    warpEffectSound.onWarpSound(player,
+                                                WarpEffect.Action.ENTER);
                 }
             }
             return true;

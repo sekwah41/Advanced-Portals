@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.connector.containers;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
-
 import java.awt.*;
 import java.util.UUID;
 
@@ -39,10 +38,11 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
 
     GameMode getGameMode();
 
-    default void drawLine(Vector start, Vector end, Color color, float particleDensity) {
+    default void drawLine(Vector start, Vector end, Color color,
+                          float particleDensity) {
         Vector direction = end.subtract(start);
         double length = direction.length();
-        if(length == 0) {
+        if (length == 0) {
             return;
         }
         direction = direction.normalize();
@@ -56,5 +56,6 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
         spawnColoredDust(pos, 0, 0, 0, count, color);
     }
 
-    void spawnColoredDust(Vector pos, double xSpread, double ySpread, double zSpread, int count, Color color);
+    void spawnColoredDust(Vector pos, double xSpread, double ySpread,
+                          double zSpread, int count, Color color);
 }
