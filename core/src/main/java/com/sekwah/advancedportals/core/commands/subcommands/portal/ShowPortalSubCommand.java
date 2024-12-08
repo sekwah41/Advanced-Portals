@@ -25,7 +25,6 @@ import java.util.Objects;
  */
 public class ShowPortalSubCommand
     implements SubCommand, SubCommand.SubCommandOnInit {
-
     boolean alternate_show_trigger = true;
 
     @Inject
@@ -115,38 +114,32 @@ public class ShowPortalSubCommand
                 var pos2 = tempData.getPos2();
 
                 if (pos1 != null && pos2 != null
-                    && pos1.getWorldName().equals(
-                        player.getWorldName())
-                    && pos2.getWorldName().equals(
-                        player.getWorldName())) {
-                    int widthX = Math.abs(pos1.getPosX()
-                                          - pos2.getPosX());
-                    int widthY = Math.abs(pos1.getPosY()
-                                          - pos2.getPosY());
-                    int widthZ = Math.abs(pos1.getPosZ()
-                                          - pos2.getPosZ());
+                    && pos1.getWorldName().equals(player.getWorldName())
+                    && pos2.getWorldName().equals(player.getWorldName())) {
+                    int widthX = Math.abs(pos1.getPosX() - pos2.getPosX());
+                    int widthY = Math.abs(pos1.getPosY() - pos2.getPosY());
+                    int widthZ = Math.abs(pos1.getPosZ() - pos2.getPosZ());
                     int totalBlocks = widthX * widthY * widthZ;
                     if (totalBlocks <= config.maxPortalVisualisationSize())
-                        debugVisuals(player, pos1,
-                                     pos2, SELECTION_COLOR);
+                        debugVisuals(player, pos1, pos2, SELECTION_COLOR);
                 }
 
                 if (pos1 != null
-                    && pos1.getWorldName().equals(
-                        player.getWorldName())) {
+                    && pos1.getWorldName().equals(player.getWorldName())) {
                     drawBox(player, pos1, pos1, POS1_COLOR, 0.25f);
                 }
                 if (pos2 != null
-                    && pos2.getWorldName().equals(
-                        player.getWorldName())) {
+                    && pos2.getWorldName().equals(player.getWorldName())) {
                     drawBox(player, pos2, pos2, POS2_COLOR, 0.25f);
                 }
 
-                // If both are selected and both worlds are the same as the player
-                if(pos1 != null && pos2 != null &&
-                        pos1.getWorldName().equals(player.getWorldName()) &&
-                        pos2.getWorldName().equals(player.getWorldName())) {
-                    if(pos1.distanceTo(pos2) <= config.maxSelectionVisualisationSize()) {
+                // If both are selected and both worlds are the same as the
+                // player
+                if (pos1 != null && pos2 != null
+                    && pos1.getWorldName().equals(player.getWorldName())
+                    && pos2.getWorldName().equals(player.getWorldName())) {
+                    if (pos1.distanceTo(pos2)
+                        <= config.maxSelectionVisualisationSize()) {
                         drawBox(player, pos1, pos2, SELECTION_COLOR, 1f);
                     }
                 }
@@ -161,7 +154,7 @@ public class ShowPortalSubCommand
                     }
                 }
             }
-        }, 1,5);
+        }, 1, 5);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
@@ -171,11 +164,13 @@ public class ShowPortalSubCommand
 
     private void debugVisuals(PlayerContainer player, AdvancedPortal portal,
                               Color color, Color triggerColor) {
-        debugVisuals(player, portal.getMinLoc(), portal.getMaxLoc(), color, triggerColor, portal);
+        debugVisuals(player, portal.getMinLoc(), portal.getMaxLoc(), color,
+                     triggerColor, portal);
     }
 
     private void drawBox(PlayerContainer player, BlockLocation pos1,
-                         BlockLocation pos2, Color color, float particleDensity) {
+                         BlockLocation pos2, Color color,
+                         float particleDensity) {
         int minX = Math.min(pos1.getPosX(), pos2.getPosX());
         int minY = Math.min(pos1.getPosY(), pos2.getPosY());
         int minZ = Math.min(pos1.getPosZ(), pos2.getPosZ());
@@ -184,19 +179,30 @@ public class ShowPortalSubCommand
         int maxY = Math.max(pos1.getPosY(), pos2.getPosY()) + 1;
         int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ()) + 1;
 
-        player.drawLine(new Vector(minX, maxY, maxZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(minX, minY, minZ), new Vector(maxX, minY, minZ), color, particleDensity);
-        player.drawLine(new Vector(minX, minY, minZ), new Vector(minX, maxY, minZ), color, particleDensity);
-        player.drawLine(new Vector(maxX, minY, maxZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(maxX, maxY, minZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(minX, minY, minZ), new Vector(minX, minY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(maxX, minY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
-        player.drawLine(new Vector(maxX, minY, minZ), new Vector(maxX, minY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(minX, maxY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
-        player.drawLine(new Vector(minX, maxY, minZ), new Vector(minX, maxY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(minX, minY, maxZ), new Vector(maxX, minY, maxZ), color, particleDensity);
-        player.drawLine(new Vector(minX, minY, maxZ), new Vector(minX, maxY, maxZ), color, particleDensity);
-
+        player.drawLine(new Vector(minX, maxY, maxZ),
+                        new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ),
+                        new Vector(maxX, minY, minZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ),
+                        new Vector(minX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, maxZ),
+                        new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, maxY, minZ),
+                        new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ),
+                        new Vector(minX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, minZ),
+                        new Vector(maxX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, minZ),
+                        new Vector(maxX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, maxY, minZ),
+                        new Vector(maxX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(minX, maxY, minZ),
+                        new Vector(minX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, maxZ),
+                        new Vector(maxX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, maxZ),
+                        new Vector(minX, maxY, maxZ), color, particleDensity);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
@@ -225,9 +231,9 @@ public class ShowPortalSubCommand
                         boolean isTrigger = portal != null
                             && portal.isTriggerBlock(world.getBlock(pos));
                         if (isTrigger && alternate_show_trigger)
-                            player.spawnColoredDust(pos.toVector().add(OFFSET), 0.2, 0.2, 0.2, 1,
-                                                triggerColor);
-
+                            player.spawnColoredDust(pos.toVector().add(OFFSET),
+                                                    0.2, 0.2, 0.2, 1,
+                                                    triggerColor);
                     }
                 }
             }

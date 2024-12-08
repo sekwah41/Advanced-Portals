@@ -9,7 +9,6 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-
 import java.awt.*;
 import java.util.Arrays;
 import java.util.UUID;
@@ -95,8 +94,8 @@ public class SpigotPlayerContainer
 
     @Override
     public boolean sendPacket(String channel, byte[] bytes) {
-            player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(),
-                                     channel, bytes);
+        player.sendPluginMessage(AdvancedPortalsPlugin.getInstance(), channel,
+                                 bytes);
         return true;
     }
 
@@ -123,19 +122,25 @@ public class SpigotPlayerContainer
         return new SpigotServerContainer(this.player.getServer());
     }
 
-
     @Override
-    public void spawnColoredDust(Vector position, double xSpread, double ySpread, double zSpread, int count, Color color) {
+    public void spawnColoredDust(Vector position, double xSpread,
+                                 double ySpread, double zSpread, int count,
+                                 Color color) {
         // Check distance to player
-        if(this.player.getLocation().distance(new Location(this.player.getWorld(), position.getX(), position.getY(), position.getZ())) > 180) {
+        if (this.player.getLocation().distance(
+                new Location(this.player.getWorld(), position.getX(),
+                             position.getY(), position.getZ()))
+            > 180) {
             return;
         }
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(
-                org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
-                        color.getBlue()), 1.5f);
+            org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
+                                     color.getBlue()),
+            1.5f);
         this.player.spawnParticle(Particle.REDSTONE, position.getX(),
-                position.getY(), position.getZ(), count,
-                xSpread, ySpread, zSpread, count, dustOptions);
+                                  position.getY(), position.getZ(), count,
+                                  xSpread, ySpread, zSpread, count,
+                                  dustOptions);
     }
 }
