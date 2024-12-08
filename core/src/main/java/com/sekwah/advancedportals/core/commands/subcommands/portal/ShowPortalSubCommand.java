@@ -126,7 +126,7 @@ public class ShowPortalSubCommand
                     int widthZ = Math.abs(pos1.getPosZ()
                                           - pos2.getPosZ());
                     int totalBlocks = widthX * widthY * widthZ;
-                    if (totalBlocks <= config.getMaxTriggerVisualisationSize())
+                    if (totalBlocks <= config.maxPortalVisualisationSize())
                         debugVisuals(player, pos1,
                                      pos2, SELECTION_COLOR);
                 }
@@ -146,7 +146,9 @@ public class ShowPortalSubCommand
                 if(pos1 != null && pos2 != null &&
                         pos1.getWorldName().equals(player.getWorldName()) &&
                         pos2.getWorldName().equals(player.getWorldName())) {
-                    drawBox(player, pos1, pos2, SELECTION_COLOR, 1f, 2);
+                    if(pos1.distanceTo(pos2) <= config.maxSelectionVisualisationSize()) {
+                        drawBox(player, pos1, pos2, SELECTION_COLOR, 1f);
+                    }
                 }
 
                 for (var portal : portalServices.getPortals()) {
@@ -159,7 +161,7 @@ public class ShowPortalSubCommand
                     }
                 }
             }
-        }, 1,10);
+        }, 1,5);
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
@@ -174,20 +176,6 @@ public class ShowPortalSubCommand
 
     private void drawBox(PlayerContainer player, BlockLocation pos1,
                          BlockLocation pos2, Color color, float particleDensity) {
-        drawBox(player, pos1, pos2, color, particleDensity, 0);
-    }
-
-    /**
-     *
-     * @param player - the player to draw the box for
-     * @param pos1 - the first position of the box
-     * @param pos2 - the second position of the box
-     * @param color - color of the box
-     * @param particleDensity - distance between particles
-     * @param hideCorners - how much to shrink in the corners, used for rendering more boxes there without overlap
-     */
-    private void drawBox(PlayerContainer player, BlockLocation pos1,
-                         BlockLocation pos2, Color color, float particleDensity, float hideCorners) {
         int minX = Math.min(pos1.getPosX(), pos2.getPosX());
         int minY = Math.min(pos1.getPosY(), pos2.getPosY());
         int minZ = Math.min(pos1.getPosZ(), pos2.getPosZ());
@@ -196,38 +184,19 @@ public class ShowPortalSubCommand
         int maxY = Math.max(pos1.getPosY(), pos2.getPosY()) + 1;
         int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ()) + 1;
 
-        if(maxX - minX - hideCorners > 0) {
-            drawLine(player, new Vector(minX, maxY, maxZ), new Vector(maxX - hideCorners, maxY, maxZ), color, particleDensity);
-            drawLine(player, new Vector(minX + hideCorners, minY, minZ), new Vector(maxX, minY, minZ), color, particleDensity);
-        }
-        if(maxY - minY - hideCorners > 0) {
-            drawLine(player, new Vector(minX, minY + hideCorners, minZ), new Vector(minX, maxY, minZ), color, particleDensity);
-            drawLine(player, new Vector(maxX, minY, maxZ), new Vector(maxX, maxY - hideCorners, maxZ), color, particleDensity);
-        }
-        if(maxZ - minZ - hideCorners > 0) {
-            drawLine(player, new Vector(maxX, maxY, minZ), new Vector(maxX, maxY, maxZ - hideCorners), color, particleDensity);
-            drawLine(player, new Vector(minX, minY, minZ + hideCorners), new Vector(minX, minY, maxZ), color, particleDensity);
-        }
-        drawLine(player, new Vector(maxX, minY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
-        drawLine(player, new Vector(maxX, minY, minZ), new Vector(maxX, minY, maxZ), color, particleDensity);
-        drawLine(player, new Vector(minX, maxY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
-        drawLine(player, new Vector(minX, maxY, minZ), new Vector(minX, maxY, maxZ), color, particleDensity);
-        drawLine(player, new Vector(minX, minY, maxZ), new Vector(maxX, minY, maxZ), color, particleDensity);
-        drawLine(player, new Vector(minX, minY, maxZ), new Vector(minX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, maxY, maxZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ), new Vector(maxX, minY, minZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ), new Vector(minX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, maxZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, maxY, minZ), new Vector(maxX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, minZ), new Vector(minX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(maxX, minY, minZ), new Vector(maxX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, maxY, minZ), new Vector(maxX, maxY, minZ), color, particleDensity);
+        player.drawLine(new Vector(minX, maxY, minZ), new Vector(minX, maxY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, maxZ), new Vector(maxX, minY, maxZ), color, particleDensity);
+        player.drawLine(new Vector(minX, minY, maxZ), new Vector(minX, maxY, maxZ), color, particleDensity);
 
-    }
-
-    private void drawLine(PlayerContainer player, Vector start, Vector end, Color color, float particleDensity) {
-        Vector direction = end.subtract(start);
-        double length = direction.length();
-        if(length == 0) {
-            return;
-        }
-        direction = direction.normalize();
-        for (double i = 0; i <= length; i += particleDensity) {
-            Vector pos = start.add(direction.multiply(i));
-            player.spawnColoredDust(pos, 1, color);
-        }
     }
 
     private void debugVisuals(PlayerContainer player, BlockLocation pos1,
@@ -245,9 +214,9 @@ public class ShowPortalSubCommand
 
         var world = player.getWorld();
 
-        drawBox(player, pos1, pos2, color, 0.5f);
+        if (size <= config.maxPortalVisualisationSize()) {
+            drawBox(player, pos1, pos2, color, 0.5f);
 
-        if (size <= config.getMaxTriggerVisualisationSize()) {
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {

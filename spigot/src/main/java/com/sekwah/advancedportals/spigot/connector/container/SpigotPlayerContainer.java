@@ -126,9 +126,14 @@ public class SpigotPlayerContainer
 
     @Override
     public void spawnColoredDust(Vector position, double xSpread, double ySpread, double zSpread, int count, Color color) {
+        // Check distance to player
+        if(this.player.getLocation().distance(new Location(this.player.getWorld(), position.getX(), position.getY(), position.getZ())) > 180) {
+            return;
+        }
+
         Particle.DustOptions dustOptions = new Particle.DustOptions(
                 org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
-                        color.getBlue()), 2);
+                        color.getBlue()), 1.5f);
         this.player.spawnParticle(Particle.REDSTONE, position.getX(),
                 position.getY(), position.getZ(), count,
                 xSpread, ySpread, zSpread, count, dustOptions);

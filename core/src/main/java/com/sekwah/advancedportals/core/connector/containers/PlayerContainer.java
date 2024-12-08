@@ -39,6 +39,19 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
 
     GameMode getGameMode();
 
+    default void drawLine(Vector start, Vector end, Color color, float particleDensity) {
+        Vector direction = end.subtract(start);
+        double length = direction.length();
+        if(length == 0) {
+            return;
+        }
+        direction = direction.normalize();
+        for (double i = 0; i <= length; i += particleDensity) {
+            Vector pos = start.add(direction.multiply(i));
+            this.spawnColoredDust(pos, 1, color);
+        }
+    }
+
     default void spawnColoredDust(Vector pos, int count, Color color) {
         spawnColoredDust(pos, 0, 0, 0, count, color);
     }
