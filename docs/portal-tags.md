@@ -51,7 +51,11 @@ The most common types generally used are `NETHER_PORTAL`, `END_PORTAL`, `END_GAT
 
 ### `bungee:(server_name)`
 
-**Note:** This should work for both bungee and velocity, however make sure you have bungee-plugin-message-channel set to true for it to work on velocity.
+:::note
+
+This should work for both bungee and velocity, however make sure you have bungee-plugin-message-channel set to true for it to work on velocity.
+
+:::
 
 Specifies which server to send the player too if connected through bungee. It needs to be the same as whatever you would use for `/server (server_name)` to swap manually.
 
