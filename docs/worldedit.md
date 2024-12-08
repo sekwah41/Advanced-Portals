@@ -5,6 +5,8 @@ description: Information on the optional WorldEdit integration in Advanced Porta
 
 # WorldEdit Integration
 
+:::warning
+
 **V2.0.0+ / recode info**
 
 The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
