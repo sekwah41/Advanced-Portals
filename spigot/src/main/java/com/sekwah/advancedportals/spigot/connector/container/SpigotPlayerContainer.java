@@ -72,14 +72,6 @@ public class SpigotPlayerContainer
         return this.player.hasPermission(permission);
     }
 
-    /**
-     * @param blockPos
-     * @param material
-     */
-    @Override
-    public void sendFakeBlock(BlockLocation blockPos, String material) {
-    }
-
     @Override
     public void giveItem(String material, String itemName,
                          String... itemDescription) {

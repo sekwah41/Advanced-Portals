@@ -19,11 +19,14 @@ public class SpigotServerContainer implements ServerContainer {
     @Inject
     private CoreListeners coreListeners;
     private final Server server;
-    private final List<String> triggerBlockList =
-        Arrays.stream(Material.values())
-            .filter(this::isAdvancedPortalBlock)
-            .map(Enum::name)
-            .toList();
+    // Create an array of items
+    private final List<String> commonTriggerBlockList = Arrays.asList(
+            Material.WATER, Material.LAVA, Material.AIR, Material.NETHER_PORTAL, Material.END_GATEWAY, Material.END_PORTAL).stream().map(Enum::name).toList();
+
+    private final List<String> fullTriggerBlockList =
+            Arrays.stream(Material.values())
+                    .map(Enum::name)
+                    .toList();
 
     public SpigotServerContainer(Server server) {
         this.server = server;
@@ -60,8 +63,13 @@ public class SpigotServerContainer implements ServerContainer {
     }
 
     @Override
-    public List<String> getTriggerBlocks() {
-        return this.triggerBlockList;
+    public List<String> getAllTriggerBlocks() {
+        return this.fullTriggerBlockList;
+    }
+
+    @Override
+    public List<String> getCommonTriggerBlocks() {
+        return this.commonTriggerBlockList;
     }
 
     @Override
@@ -85,14 +93,6 @@ public class SpigotServerContainer implements ServerContainer {
             (s, player, bytes)
                 -> coreListeners.incomingMessage(
                     new SpigotPlayerContainer(player), s, bytes));
-    }
-
-    // Check if it's a material compatible with making portals
-    private boolean isAdvancedPortalBlock(Material material) {
-        return switch (material) {
-            case WATER, LAVA, AIR, NETHER_PORTAL, END_GATEWAY, END_PORTAL -> true;
-            default -> false;
-        };
     }
 
     @Override
