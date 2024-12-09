@@ -37,7 +37,16 @@ public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
 
     @Override
     public List<String> autoComplete(String argData) {
-        return serverContainer.getTriggerBlocks();
+        System.out.println("Auto complete");
+        System.out.println(argData);
+
+        var triggerBlocks = serverContainer.getCommonTriggerBlocks().stream().filter(block -> block.contains(argData)).toList();
+
+        if(triggerBlocks.isEmpty()) {
+            return serverContainer.getAllTriggerBlocks();
+        }
+
+        return triggerBlocks;
     }
 
     @Nullable

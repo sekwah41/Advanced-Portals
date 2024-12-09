@@ -11,7 +11,9 @@ public interface ServerContainer {
 
     PlayerContainer getPlayer(UUID name);
 
-    List<String> getTriggerBlocks();
+    List<String> getAllTriggerBlocks();
+
+    List<String> getCommonTriggerBlocks();
 
     PlayerContainer[] getPlayers();
 

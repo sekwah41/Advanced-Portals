@@ -16,12 +16,6 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
 
     void sendActionBar(String message);
 
-    /**
-     * @param blockPos
-     * @param material
-     */
-    void sendFakeBlock(BlockLocation blockPos, String material);
-
     void giveItem(String material, String itemName, String... itemDescription);
 
     /**
