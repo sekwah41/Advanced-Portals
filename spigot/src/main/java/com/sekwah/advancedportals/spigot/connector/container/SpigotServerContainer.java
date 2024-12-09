@@ -20,13 +20,17 @@ public class SpigotServerContainer implements ServerContainer {
     private CoreListeners coreListeners;
     private final Server server;
     // Create an array of items
-    private final List<String> commonTriggerBlockList = Arrays.asList(
-            Material.WATER, Material.LAVA, Material.AIR, Material.NETHER_PORTAL, Material.END_GATEWAY, Material.END_PORTAL).stream().map(Enum::name).toList();
+    private final List<String> commonTriggerBlockList =
+        Arrays
+            .asList(Material.WATER, Material.LAVA, Material.AIR,
+                    Material.NETHER_PORTAL, Material.END_GATEWAY,
+                    Material.END_PORTAL)
+            .stream()
+            .map(Enum::name)
+            .toList();
 
     private final List<String> fullTriggerBlockList =
-            Arrays.stream(Material.values())
-                    .map(Enum::name)
-                    .toList();
+        Arrays.stream(Material.values()).map(Enum::name).toList();
 
     public SpigotServerContainer(Server server) {
         this.server = server;
@@ -96,7 +100,8 @@ public class SpigotServerContainer implements ServerContainer {
     }
 
     @Override
-    public void dispatchCommand(UUID uuid, String command, CommandTag.CommandLevel commandLevel) {
+    public void dispatchCommand(UUID uuid, String command,
+                                CommandTag.CommandLevel commandLevel) {
         Player player = server.getPlayer(uuid);
         switch (commandLevel) {
             case CONSOLE:
