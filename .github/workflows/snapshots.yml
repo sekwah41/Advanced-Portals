@@ -19,11 +19,11 @@ jobs:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
-    - name: Set up JDK 14
+    - name: Set up JDK 16
       uses: actions/setup-java@v3
       with:
         distribution: temurin
-        java-version: 14
+        java-version: 16
 #      - name: Download MC assets
 #        run: ./gradlew downloadAssets --info --debug || ./gradlew downloadAssets --info --debug || (sleep 30s && ./gradlew downloadAssets --info --debug)
 #      - name: Run DataGen
