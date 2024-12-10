@@ -16,22 +16,16 @@ buildscript {
 }
 
 apply from: 'env-variables.gradle'
-
-def getReleaseChangelog() {
-    def changelogFile = file('CHANGELOG.md')
-    def changelog = "## [${changelogFile.text.split('\n## \\[')[1]}\n\n"// ${project.github}/blob/${branch}/CHANGELOG.md
-    return changelog;
-}
+apply from: 'changelog-util.gradle'
 
 task discordupload {
     dependsOn(jar)
 
     doLast {
 
-        String discordWebhook = System.getenv("DISCORD_WEBHOOK")
+        String discordWebhook = isRelease ? System.getenv("DISCORD_RELEASE_WEBHOOK") : System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
-            println("Logging Into Discord")
 
             CloseableHttpClient httpClient = HttpClients.createDefault()
             HttpPost uploadFile = new HttpPost(discordWebhook)
@@ -43,19 +37,16 @@ task discordupload {
                 def maxLength = 2000
 
                 def content = "New release build\n" +
-                        "```markdown\n" +
-                        "${getReleaseChangelog()}\n" +
-                        "```"
+                        "${getReleaseChangelog()}\n"
 
                 if (content.length() > maxLength) {
-                    def trimmedChangelog = getReleaseChangelog().take(maxLength - 15) // Reserve space for ending message
-                    content = "New release build\n" +
-                            "```markdown\n" +
-                            "${trimmedChangelog}\n" +
-                            "``` [Truncated]"
+                    def afterMessage = "[See more on GitHub]"
+                    content = "${content.take(maxLength - afterMessage.length() - 1)}\n" +
+                            "${afterMessage}"
+
                 }
 
-                builder.addTextBody("content", content)
+                builder.addTextBody("content", content, ContentType.create("text/plain", "UTF-8"))
             }
 
             builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
@@ -65,6 +56,10 @@ task discordupload {
             uploadFile.setEntity(multipart)
             CloseableHttpResponse response = httpClient.execute(uploadFile)
             response.getEntity()
+
+            if(response.getStatusLine().getStatusCode() != 200) {
+                throw new RuntimeException("Failed to post build to discord")
+            }
 
             println("Posted build")
 

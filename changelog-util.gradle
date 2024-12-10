@@ -1,0 +1,5 @@
+ext.getReleaseChangelog = {
+    def changelogFile = file('CHANGELOG.md')
+    def changelog = "## [${changelogFile.text.split('\n## \\[')[1]}\n\n" // ${project.github}/blob/${branch}/CHANGELOG.md
+    return changelog
+}
