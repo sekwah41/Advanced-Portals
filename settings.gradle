@@ -10,4 +10,3 @@ include 'spigot'
 // Proxies
 include 'velocity'
 include 'bungee'
-
