@@ -200,7 +200,7 @@ modrinth {
     projectId = project.modrinth_slug
     versionType = "release"
     uploadFile = jar
-    loaders = ["spigot"]
+    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
     gameVersions = [
             "1.13",
             "1.13.1",
@@ -243,7 +243,10 @@ modrinth {
             "1.21.4"
     ]
     changelog = getReleaseChangelog()
+    syncBodyFrom = rootProject.file("README.md").text
 }
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 
 
 apply from: 'curse.gradle'

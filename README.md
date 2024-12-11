@@ -1,4 +1,5 @@
-![Advanced portals](./docs/logo.png)
+[//]: # (This is a link to the raw location so that the image can be displayed from pages like Modrinth)
+![Advanced portals](https://raw.githubusercontent.com/sekwah41/Advanced-Portals/refs/heads/main/docs/logo.png)
 
 [![Discord](https://img.shields.io/discord/168282484037910528.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/fAJ3xJg)
 [![](https://img.shields.io/github/contributors/sekwah41/Advanced-Portals.svg?style=for-the-badge&logo=github)](https://github.com/sekwah41/Advanced-Portals/graphs/contributors)
@@ -18,11 +19,11 @@ Check out the [Tutorial](https://advancedportals.sekwah.com/docs/intro), [List o
 
 # Download
 
+- [Modrinth](https://modrinth.com/plugin/advanced-portals)
 - [Bukkit](https://dev.bukkit.org/projects/advanced-portals)
 - [Spigot](https://www.spigotmc.org/resources/advanced-portals.14356/)
 - [Curseforge](https://www.curseforge.com/minecraft/bukkit-plugins/advanced-portals)
-- [Modrinth](https://modrinth.com/plugin/advanced-portals)
-- [Github](https://github.com/sekwah41/Advanced-Portals/releases)
+- [Github (Source Code)](https://github.com/sekwah41/Advanced-Portals/releases)
 
 # Contributing
 Please ensure that your commits are in the following style for PR's
