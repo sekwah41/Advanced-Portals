@@ -44,10 +44,6 @@ jobs:
       with:
         distribution: zulu
         java-version: 16
-#    - name: Download MC assets
-#      run: ./gradlew downloadAssets || ./gradlew downloadAssets || (sleep 30s && ./gradlew downloadAssets)
-#    - name: Run DataGen
-#      run: ./gradlew runData
     - name: Build and publish (release)
       env:
         CURSE_API: ${{ secrets.CURSE_API }}

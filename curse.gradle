@@ -162,7 +162,7 @@ task curseforge {
 
             uploadMetadata.changelog = "# New release build\n\n" + getReleaseChangelog()
             uploadMetadata.changelogType = "markdown"
-            uploadMetadata.releaseType = ext.isDevBranch ? "beta" : "release"
+            uploadMetadata.releaseType = rootProject.ext.isRelease ? "release" : "beta"
             uploadMetadata.gameVersions = supportedGameVersionIds
 
             def uploadId = uploadFile(uploadMetadata, file(jar.archiveFile), apiKey, gson)
@@ -175,9 +175,4 @@ task curseforge {
             println("Curse token unspecified")
         }
     }
-//        id = project.curse_project_id
-//        // TODO add code to reference this but also cut the latest change logs in for the files
-//        changelog = "${project.github}/blob/${sha}/CHANGELOG.md"
-//        changelogType = 'markdown'
-//        releaseType = 'release'
 }
