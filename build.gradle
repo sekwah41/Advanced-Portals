@@ -89,8 +89,6 @@ dependencies {
     includeLibs project(':velocity')
 }
 
-apply from: 'env-variables.gradle'
-
 println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
 
 tasks.named('jar') {
