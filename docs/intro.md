@@ -5,18 +5,23 @@ description: Quick introduction to Advanced Portals.
 
 # Tutorial Intro
 
-:::warning
+:::info
 
 **V2.0.0+ / recode info**
 
-The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
-The documentation will be updated soon.
+The re-code should detect that you have the old data and create copies in the new format, however you will need to re-do the config.
 
-You can use the `/portals convert` command to port your portals to the latest version. Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+If the portals to not import for any reason, you can manually trigger the import by running `/portals import`.
+
+Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
 
 :::
 
 Here is a YouTube video made by [LtJim007](https://www.youtube.com/channel/UCZvGH5UFnZGHL7t11RLhg2w) explaining the basics.
+
+:::info
+The video is for older versions so if you are using 2.0.0+ and a command does not work, please refer to the [commands page](./commands.md) for the latest information.
+:::
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nkOeMUkYz3Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -31,8 +36,5 @@ Here's a step by step guide.
 2. Go back to your portal. Take an iron axe (the special portal tool, by default: configurable). Left-click in the upper left of the portal, and right-click in the bottom right of the portal.
 
 3. Run `/portal create name:name-of-your-portal desti:name-of-destination triggerblock:name-of-trigger-element`. This is a basic example - more options can be found on the [tags page](./portal-tags.md).
-
-4. Replace the empty air in your portal with your trigger element by running `/fill bottom-right-coords upper-right-coords trigger-element`. The coordinates should have shown up in chat when you left-and-right-clicked with the iron axe.
-  - If your portal isn't rectangular: try `/fill`ing the area with glass or another block, breaking the glass in the shape of the portal, and then `/fill` the area again with your transportation trigger block. Then break the remaining glass.
 
 If you mess up, you can run `/desti remove name-of-destination` and `/portal remove name-of-portal` to remove a destination and a portal, respectively.

@@ -5,14 +5,19 @@ description: Information on the optional WorldEdit integration in Advanced Porta
 
 # WorldEdit Integration
 
-:::warning
+:::info
 
 **V2.0.0+ / recode info**
 
-The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
-The documentation will be updated soon.
+The re-code should detect that you have the old data and create copies in the new format, however you will need to re-do the config.
 
-You can use the `/portals convert` command to port your portals to the latest version. Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+If the portals to not import for any reason, you can manually trigger the import by running `/portals import`.
+
+Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+
+:::
+
+:::warning
 
 This feature is completely missing from the recode currently, and will be added back in the future.
 

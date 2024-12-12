@@ -5,14 +5,15 @@ description: Information on all portal tags included in Advanced Portals.
 
 # Portal Tags
 
-:::warning
+:::info
 
 **V2.0.0+ / recode info**
 
-The current documentation is related to versions below 2.0.0. While most should apply to the latest version, some features may have changed or be missing.
-The documentation will be updated soon.
+The re-code should detect that you have the old data and create copies in the new format, however you will need to re-do the config.
 
-You can use the `/portals convert` command to port your portals to the latest version. Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
+If the portals to not import for any reason, you can manually trigger the import by running `/portals import`.
+
+Do not worry. The original data will not be deleted, and you can revert to older versions if you run into problems.
 
 :::
 
@@ -34,7 +35,8 @@ These add or alter specific functionality for the portals.
 
 Sets the desired destination for the portal. If this is defined if the portal is triggered, the player will be teleported to the desired location.
 
-### `delayed:true`
+### `portalEvent:true`
+Alias: `delayed:true`
 
 The portal uses the portal event rather than movement events. Will trigger with a delay on portal events. While this does the normal delayed behaviour for nether portals (instant if you are in creative), the end portals will trigger instantly anyway as that is normal behaviour for them.
 
@@ -59,6 +61,10 @@ This should work for both bungee and velocity, however make sure you have bungee
 
 Specifies which server to send the player too if connected through bungee. It needs to be the same as whatever you would use for `/server (server_name)` to swap manually.
 
+### `proxy:(server_name)`
+
+This uses the proxy plugin to communicate so does not require on the bungee channel. This also allows for the use of desti: along with the proxy tag to teleport to a destination on another server.
+
 ### `message:(word)` or `message:"(some sentence you want)"`
 
 Sets the warp message for the portal. Colour codes can be used e.g. &c is red. [See here for color codes](https://minecraft.gamepedia.com/Formatting_codes).
@@ -66,6 +72,10 @@ Sets the warp message for the portal. Colour codes can be used e.g. &c is red. [
 ### `permission:(some.custom.test.perms)`
 
 Sets what permission you need to use the portal(can be customised to anything)
+
+### `cooldown:(time in seconds)`
+
+Sets the cooldown for that specific portal in seconds. This is per player and stored between logins so can be used set long delays.
 
 ### `command:(command) or command:"(multi-word command)"`
 
