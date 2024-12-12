@@ -11,7 +11,7 @@ public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
     @Inject
     private ServerContainer serverContainer;
 
-    public static String TAG_NAME = "triggerblock";
+    public static final String TAG_NAME = "triggerblock";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
@@ -37,9 +37,6 @@ public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
 
     @Override
     public List<String> autoComplete(String argData) {
-        System.out.println("Auto complete");
-        System.out.println(argData);
-
         var triggerBlocks = serverContainer.getCommonTriggerBlocks()
                                 .stream()
                                 .filter(block -> block.contains(argData))
@@ -50,11 +47,5 @@ public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split {
         }
 
         return triggerBlocks;
-    }
-
-    @Nullable
-    @Override
-    public String splitString() {
-        return ",";
     }
 }
