@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.0...v2.0.1) (2024-12-12)
+
+
+### Bug Fixes 🐛
+
+* remove spammy debug logs from tab auto complete ([#476](https://github.com/sekwah41/Advanced-Portals/issues/476)) ([46b6156](https://github.com/sekwah41/Advanced-Portals/commit/46b615624158c3c801dbdd1cbb7f0f803adb338d))
+
 ## [2.0.0](https://github.com/sekwah41/Advanced-Portals/compare/v1.0.0...v2.0.0) (2024-12-11)
 
 
