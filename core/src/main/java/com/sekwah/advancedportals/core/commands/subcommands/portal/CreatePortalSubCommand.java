@@ -61,11 +61,6 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
                 return;
             }
 
-            sender.sendMessage(Lang.centeredTitle(
-                Lang.translate("command.create.portal.prep")));
-            sender.sendMessage("");
-            sender.sendMessage(Lang.translate("command.create.tags"));
-
             if (!portalTags.isEmpty()) {
                 this.filterAndProcessTags(portalTags);
                 TagReader.printArgs(sender, portalTags);
