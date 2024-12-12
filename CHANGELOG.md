@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.1...v2.0.2) (2024-12-12)
+
+
+### Bug Fixes 🐛
+
+* remove unneeded extra chat messages when creating a portal ([12e3191](https://github.com/sekwah41/Advanced-Portals/commit/12e319160a58ee4fed00a4f8824e14ceaf573e25))
+
+
+### Changes to Existing Features 🔧
+
+* update the default visualisation sizes as they are quite small ([62d48e2](https://github.com/sekwah41/Advanced-Portals/commit/62d48e2cbc70fcd249abc67e1ee49b98ff7f2ed0))
+
 ## [2.0.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.0...v2.0.1) (2024-12-12)
 
 
