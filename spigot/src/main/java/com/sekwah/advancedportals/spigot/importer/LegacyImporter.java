@@ -1,8 +1,10 @@
 package com.sekwah.advancedportals.spigot.importer;
 
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
@@ -16,6 +18,7 @@ public class LegacyImporter {
     }
 
     public static int importPortals(PortalServices portalServices) {
+        // Check if the file exists and skip if it doesn't
         ConfigAccessor portalConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "portals.yml");
         var config = portalConfig.getConfig();
@@ -135,5 +138,43 @@ public class LegacyImporter {
             }
         }
         return null;
+    }
+
+    public static void importConfig(ConfigRepository configRepo) {
+        var config = new Config();
+        ConfigAccessor configOldAccessor = new ConfigAccessor(
+                AdvancedPortalsPlugin.getInstance(), "destinations.yml");
+        var configOld = configOldAccessor.getConfig();
+
+        // Map the values from the YAML file to the Config class fields
+        config.useOnlySpecialAxe = configOld.getBoolean("UseOnlyServerMadeAxe", config.useOnlySpecialAxe);
+        config.selectorMaterial = configOld.getString("AxeItemId", config.selectorMaterial);
+        config.portalProtection = configOld.getBoolean("PortalProtection", config.portalProtection);
+        config.portalProtectionRaduis = configOld.getInt("PortalProtectionArea", config.portalProtectionRaduis);
+        config.defaultTriggerBlock = configOld.getString("DefaultPortalTriggerBlock", config.defaultTriggerBlock);
+        if (config.defaultTriggerBlock.equals("PORTAL")) {
+            config.defaultTriggerBlock = "NETHER_PORTAL";
+        }
+        config.stopWaterFlow = configOld.getBoolean("StopWaterFlow", config.stopWaterFlow);
+        config.joinCooldown = configOld.getInt("PortalCooldown", config.joinCooldown);
+        config.maxPortalVisualisationSize = configOld.getInt("ShowSelectionBlockID", config.maxPortalVisualisationSize);
+        config.maxSelectionVisualisationSize = configOld.getInt("ShowSelectionBlockID", config.maxSelectionVisualisationSize);
+        config.throwbackStrength = configOld.getDouble("ThrowbackAmount", config.throwbackStrength);
+        config.playFailSound = configOld.getBoolean("PlayFailSound", config.playFailSound);
+        config.warpMessageOnActionBar = configOld.getInt("WarpMessageDisplay", 0) == 2;
+        config.warpMessageInChat = configOld.getInt("WarpMessageDisplay", 0) == 1;
+        config.enableProxySupport = configOld.getBoolean("ForceEnableProxySupport", config.enableProxySupport);
+        config.disableGatewayBeam = configOld.getBoolean("DisableGatewayBeam", config.disableGatewayBeam);
+
+        // Map nested objects (example for CommandPortalConfig)
+        Config.CommandPortalConfig commandConfig = new Config.CommandPortalConfig();
+        commandConfig.commandLogs = yamlConfig.getBoolean("CommandLogs", commandConfig.commandLogs);
+        config.commandPortals = commandConfig;
+
+        // Map other nested objects (example for WarpEffectConfig)
+        Config.WarpEffectConfig warpEffectConfig = new Config.WarpEffectConfig();
+        warpEffectConfig.effectType = yamlConfig.getInt("WarpParticles", warpEffectConfig.effectType);
+        warpEffectConfig.soundType = yamlConfig.getInt("WarpSound", warpEffectConfig.soundType);
+        config.warpEffect = warpEffectConfig;
     }
 }
