@@ -80,7 +80,7 @@ public class LegacyImporter {
             }
             if (!commands.isEmpty()) {
                 args.add(
-                    new DataTag("commands", commands.toArray(new String[0])));
+                    new DataTag("command", commands.toArray(new String[0])));
             }
             args.stream()
                 .filter(dataTag -> dataTag.NAME.startsWith("command."))
@@ -94,7 +94,7 @@ public class LegacyImporter {
                 args.removeIf(dataTag -> dataTag.NAME.equals("delayed"));
             }
 
-            var portal = portalServices.createPortal(pos1, pos2, args);
+            var portal = portalServices.createPortal(null, pos1, pos2, args);
 
             if (portal != null)
                 count++;
