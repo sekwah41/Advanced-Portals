@@ -16,6 +16,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
+import javax.annotation.Nullable;
 import java.util.*;
 
 @Singleton
@@ -152,11 +154,6 @@ public class PortalServices {
         return false;
     }
 
-    public AdvancedPortal createPortal(BlockLocation pos1, BlockLocation pos2,
-                                       List<DataTag> tags) {
-        return createPortal(null, pos1, pos2, tags);
-    }
-
     public AdvancedPortal createPortal(PlayerContainer player,
                                        ArrayList<DataTag> tags) {
         PlayerData tempData = playerDataServices.getPlayerData(player);
@@ -180,7 +177,14 @@ public class PortalServices {
                             tags);
     }
 
-    public AdvancedPortal createPortal(PlayerContainer player,
+    /**
+     * @param player if null it is assumed an automation is creating the portal so checks for permissions are not needed
+     * @param pos1
+     * @param pos2
+     * @param tags
+     * @return
+     */
+    public AdvancedPortal createPortal(@Nullable PlayerContainer player,
                                        BlockLocation pos1, BlockLocation pos2,
                                        List<DataTag> tags) {
         // Find the tag with the "name" NAME

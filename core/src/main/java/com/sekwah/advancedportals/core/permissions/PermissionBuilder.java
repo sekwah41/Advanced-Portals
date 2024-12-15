@@ -84,6 +84,9 @@ public class PermissionBuilder {
     }
 
     public boolean hasPermission(HasPermission sender) {
+        if(sender == null) {
+            return true;
+        }
         if (Permissions.hasPermissionManager) {
             return sender.hasPermission(this.toString());
         }
