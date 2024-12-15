@@ -23,6 +23,8 @@ public interface ConfigRepository {
 
     int getProtectionRadius();
 
+    boolean blockSpectatorMode();
+
     boolean getStopWaterFlow();
 
     boolean getPortalProtection();

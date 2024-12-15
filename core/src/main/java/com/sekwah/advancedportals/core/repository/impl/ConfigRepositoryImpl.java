@@ -135,6 +135,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean blockSpectatorMode() {
+        return this.config.blockSpectatorMode;
+    }
+
+    @Override
     public CommandPortalConfig getCommandPortals() {
         return this.config.commandPortals;
     }

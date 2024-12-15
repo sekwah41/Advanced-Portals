@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -102,6 +103,10 @@ public class PortalServices {
 
     public PortalActivationResult checkPortalActivation(
         PlayerContainer player, PlayerLocation toLoc, TriggerType triggerType) {
+        if(configRepository.blockSpectatorMode() && player.getGameMode() == GameMode.SPECTATOR) {
+            return PortalActivationResult.NOT_IN_PORTAL;
+        }
+
         var blockLoc = toLoc.toBlockPos();
         var blockEntityTopLoc = blockLoc.addY(player.getHeight());
         var world = player.getWorld();
