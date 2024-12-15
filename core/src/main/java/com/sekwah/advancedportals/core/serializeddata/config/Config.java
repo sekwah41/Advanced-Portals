@@ -24,6 +24,8 @@ public class Config {
 
     public boolean disablePhysicsEvents = true;
 
+    public boolean blockSpectatorMode = true;
+
     public int maxPortalVisualisationSize = 1000;
 
     public int maxSelectionVisualisationSize = 9000;
