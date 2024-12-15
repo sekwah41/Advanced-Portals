@@ -103,7 +103,8 @@ public class PortalServices {
 
     public PortalActivationResult checkPortalActivation(
         PlayerContainer player, PlayerLocation toLoc, TriggerType triggerType) {
-        if(configRepository.blockSpectatorMode() && player.getGameMode() == GameMode.SPECTATOR) {
+        if (configRepository.blockSpectatorMode()
+            && player.getGameMode() == GameMode.SPECTATOR) {
             return PortalActivationResult.NOT_IN_PORTAL;
         }
 
