@@ -16,9 +16,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
-
-import javax.annotation.Nullable;
 import java.util.*;
+import javax.annotation.Nullable;
 
 @Singleton
 public class PortalServices {
@@ -178,7 +177,8 @@ public class PortalServices {
     }
 
     /**
-     * @param player if null it is assumed an automation is creating the portal so checks for permissions are not needed
+     * @param player if null it is assumed an automation is creating the portal
+     *     so checks for permissions are not needed
      * @param pos1
      * @param pos2
      * @param tags
