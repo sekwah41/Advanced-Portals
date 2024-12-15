@@ -4,7 +4,9 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
 import com.sekwah.advancedportals.core.serializeddata.config.Config;
+import com.sekwah.advancedportals.core.serializeddata.config.WarpEffectConfig;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
@@ -143,11 +145,11 @@ public class LegacyImporter {
     public static void importConfig(ConfigRepository configRepo) {
         var config = new Config();
         ConfigAccessor configOldAccessor = new ConfigAccessor(
-                AdvancedPortalsPlugin.getInstance(), "destinations.yml");
+                AdvancedPortalsPlugin.getInstance(), "config.yml");
         var configOld = configOldAccessor.getConfig();
 
-        // Map the values from the YAML file to the Config class fields
         config.useOnlySpecialAxe = configOld.getBoolean("UseOnlyServerMadeAxe", config.useOnlySpecialAxe);
+        config.blockSpectatorMode = configOld.getBoolean("BlockSpectatorMode", config.blockSpectatorMode);
         config.selectorMaterial = configOld.getString("AxeItemId", config.selectorMaterial);
         config.portalProtection = configOld.getBoolean("PortalProtection", config.portalProtection);
         config.portalProtectionRaduis = configOld.getInt("PortalProtectionArea", config.portalProtectionRaduis);
@@ -157,24 +159,28 @@ public class LegacyImporter {
         }
         config.stopWaterFlow = configOld.getBoolean("StopWaterFlow", config.stopWaterFlow);
         config.joinCooldown = configOld.getInt("PortalCooldown", config.joinCooldown);
-        config.maxPortalVisualisationSize = configOld.getInt("ShowSelectionBlockID", config.maxPortalVisualisationSize);
-        config.maxSelectionVisualisationSize = configOld.getInt("ShowSelectionBlockID", config.maxSelectionVisualisationSize);
         config.throwbackStrength = configOld.getDouble("ThrowbackAmount", config.throwbackStrength);
         config.playFailSound = configOld.getBoolean("PlayFailSound", config.playFailSound);
-        config.warpMessageOnActionBar = configOld.getInt("WarpMessageDisplay", 0) == 2;
-        config.warpMessageInChat = configOld.getInt("WarpMessageDisplay", 0) == 1;
+        config.warpMessageOnActionBar = configOld.getInt("WarpMessageDisplay", 2) == 2;
+        config.warpMessageInChat = configOld.getInt("WarpMessageDisplay", 2) == 1;
         config.enableProxySupport = configOld.getBoolean("ForceEnableProxySupport", config.enableProxySupport);
         config.disableGatewayBeam = configOld.getBoolean("DisableGatewayBeam", config.disableGatewayBeam);
 
-        // Map nested objects (example for CommandPortalConfig)
-        Config.CommandPortalConfig commandConfig = new Config.CommandPortalConfig();
-        commandConfig.commandLogs = yamlConfig.getBoolean("CommandLogs", commandConfig.commandLogs);
+        CommandPortalConfig commandConfig = new CommandPortalConfig();
+        var commandString = configOld.getString("CommandLevels", "opcb");
+        commandConfig.enabled = !commandString.contains("n");
+        commandConfig.op = commandString.contains("o");
+        commandConfig.permsWildcard = commandString.contains("p");
+        commandConfig.console = commandString.contains("c");
+        commandConfig.proxy = commandString.contains("b");
+
         config.commandPortals = commandConfig;
 
-        // Map other nested objects (example for WarpEffectConfig)
-        Config.WarpEffectConfig warpEffectConfig = new Config.WarpEffectConfig();
-        warpEffectConfig.effectType = yamlConfig.getInt("WarpParticles", warpEffectConfig.effectType);
-        warpEffectConfig.soundType = yamlConfig.getInt("WarpSound", warpEffectConfig.soundType);
+        WarpEffectConfig warpEffectConfig = new WarpEffectConfig();
+        warpEffectConfig.visualEffect = configOld.getInt("WarpParticles", 1) == 1 ? "ender" : null;
+        warpEffectConfig.soundEffect = configOld.getInt("WarpSound", 1) == 1 ? "ender" : null;
         config.warpEffect = warpEffectConfig;
+
+        configRepo.importConfig(config);
     }
 }

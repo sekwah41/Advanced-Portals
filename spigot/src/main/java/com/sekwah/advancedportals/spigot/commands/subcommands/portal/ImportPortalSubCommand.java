@@ -1,8 +1,10 @@
 package com.sekwah.advancedportals.spigot.commands.subcommands.portal;
 
+import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -15,10 +17,16 @@ import java.util.Set;
 
 public class ImportPortalSubCommand implements SubCommand {
     @Inject
+    private AdvancedPortalsCore portalsCore;
+
+    @Inject
     DestinationServices destinationServices;
 
     @Inject
     PortalServices portalServices;
+
+    @Inject
+    ConfigRepository configRepo;
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
@@ -29,6 +37,12 @@ public class ImportPortalSubCommand implements SubCommand {
             int destinations =
                 LegacyImporter.importDestinations(destinationServices);
             int portals = LegacyImporter.importPortals(portalServices);
+            LegacyImporter.importConfig(this.configRepo);
+
+            portalsCore.loadPortalConfig();
+            portalServices.loadPortals();
+            destinationServices.loadDestinations();
+
             sender.sendMessage(
                 Lang.getPositivePrefix()
                 + Lang.translateInsertVariables(
