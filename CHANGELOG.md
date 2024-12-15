@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.2...v2.0.3) (2024-12-15)
+
+
+### Bug Fixes 🐛
+
+* command portals are being imported from old files with the wrong name ([93a7a5f](https://github.com/sekwah41/Advanced-Portals/commit/93a7a5f53e4d5e7099740acb5d43af4a96776851))
+* version number is now set correctly, was 1.0.0 ([837faa5](https://github.com/sekwah41/Advanced-Portals/commit/837faa5bcd1b9b0225e3361eb1f99fdc9e46c7a7))
+
 ## [2.0.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.1...v2.0.2) (2024-12-12)
 
 
