@@ -23,6 +23,9 @@ plugins {
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
+apply from: 'env-variables.gradle'
+apply from: 'changelog-util.gradle'
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
@@ -48,11 +51,15 @@ allprojects {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
 
+    ext.branch = rootProject.ext.branch
+    ext.snapshotName = rootProject.ext.snapshotName
+    ext.githubSha = rootProject.ext.githubSha
+    ext.shaRef = rootProject.ext.shaRef
+    ext.isRelease = rootProject.ext.isRelease
+
+    def versionString = (rootProject.file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '').replaceAll('\r', '')
+    setVersion(versionString)
 }
-
-
-apply from: 'env-variables.gradle'
-apply from: 'changelog-util.gradle'
 
 
 println("Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'")
@@ -62,8 +69,6 @@ println("Sha Ref: ${ext.shaRef}")
 
 archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
-def versionString = (file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '').replaceAll('\r', '')
-setVersion(versionString)
 println "Version: ${getVersion()}"
 
 description = ""
