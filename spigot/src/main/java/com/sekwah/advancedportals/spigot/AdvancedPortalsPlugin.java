@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -12,6 +13,7 @@ import com.sekwah.advancedportals.shadowed.inject.Injector;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
+import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
@@ -28,6 +30,9 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     @Inject
     PortalServices portalServices;
+
+    @Inject
+    ConfigRepository configRepo;
 
     private static AdvancedPortalsPlugin instance;
 
@@ -97,7 +102,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         if (destiFile.exists() && !destiFolder.exists()) {
             destiFolder.mkdirs();
             getLogger().info(
-                "Importing old destinations from destinations.yaml");
+                "Importing old destinations from destinations.yml");
             LegacyImporter.importDestinations(this.destinationServices);
         }
 
@@ -105,8 +110,15 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         File portalFolder = new File(this.getDataFolder(), "portals");
         if (portalFile.exists() && !portalFolder.exists()) {
             portalFolder.mkdirs();
-            getLogger().info("Importing old portals from portals.yaml");
+            getLogger().info("Importing old portals from portals.yml");
             LegacyImporter.importPortals(this.portalServices);
+        }
+
+        // Check if config.yml exists and config.yaml doesnt exist
+        File configFile = new File(this.getDataFolder(), "config.yml");
+        File configYamlFile = new File(this.getDataFolder(), "config.yaml");
+        if (configFile.exists() && !configYamlFile.exists()) {
+            LegacyImporter.importConfig(this.configRepo);
         }
     }
 
