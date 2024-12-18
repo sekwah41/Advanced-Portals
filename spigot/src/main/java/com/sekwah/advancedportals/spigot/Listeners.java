@@ -133,7 +133,17 @@ public class Listeners implements Listener {
             && (event.getAction() == Action.LEFT_CLICK_BLOCK
                 || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             && event.getItem() != null) {
+
+            if (event.getClickedBlock() == null)
+                return;
+            if (event.getItem().getItemMeta() == null)
+                return;
+
             Location blockloc = event.getClickedBlock().getLocation();
+
+            if (blockloc.getWorld() == null)
+                return;
+
             boolean allowEvent = this.coreListeners.playerInteractWithBlock(
                 new SpigotPlayerContainer(event.getPlayer()),
                 event.getClickedBlock().getType().toString(),
