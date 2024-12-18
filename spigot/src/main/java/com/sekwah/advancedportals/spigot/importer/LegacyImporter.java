@@ -156,8 +156,8 @@ public class LegacyImporter {
             configOld.getString("AxeItemId", config.selectorMaterial);
         config.portalProtection =
             configOld.getBoolean("PortalProtection", config.portalProtection);
-        config.portalProtectionRaduis = configOld.getInt(
-            "PortalProtectionArea", config.portalProtectionRaduis);
+        config.portalProtectionRadius = configOld.getInt(
+            "PortalProtectionArea", config.portalProtectionRadius);
         config.defaultTriggerBlock = configOld.getString(
             "DefaultPortalTriggerBlock", config.defaultTriggerBlock);
         if (config.defaultTriggerBlock.equals("PORTAL")) {
