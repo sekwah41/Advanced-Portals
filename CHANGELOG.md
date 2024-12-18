@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.3...v2.1.0) (2024-12-18)
+
+
+### Features ✨
+
+* make config values import from the old files ([04f1941](https://github.com/sekwah41/Advanced-Portals/commit/04f1941808c855daaaf06064733a7247e550b431))
+
+
+### Bug Fixes 🐛
+
+* disable spectators triggering portals by default ([f44f3fb](https://github.com/sekwah41/Advanced-Portals/commit/f44f3fb7d6d9c4924cdc1989c7432e45ade0682d)), closes [#491](https://github.com/sekwah41/Advanced-Portals/issues/491)
+* on interact null pointer exceptions ([53fad33](https://github.com/sekwah41/Advanced-Portals/commit/53fad3360c7126fc6c866177384b47fd123d3857))
+
 ## [2.0.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.2...v2.0.3) (2024-12-15)
 
 
