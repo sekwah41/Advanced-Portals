@@ -158,4 +158,9 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     public void storeConfig() {
         this.dataStorage.storeFile(this.config, "config.yaml");
     }
+
+    public void importConfig(Config config) {
+        this.config = config;
+        this.storeConfig();
+    }
 }

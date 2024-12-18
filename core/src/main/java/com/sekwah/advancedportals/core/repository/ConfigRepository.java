@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.repository;
 
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
+import com.sekwah.advancedportals.core.serializeddata.config.Config;
 
 public interface ConfigRepository {
     boolean getUseOnlySpecialAxe();
@@ -54,4 +55,6 @@ public interface ConfigRepository {
     boolean getEnableProxySupport();
 
     boolean getDisableGatewayBeam();
+
+    void importConfig(Config config);
 }
