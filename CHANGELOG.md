@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.0...v2.1.1) (2024-12-18)
+
+
+### Bug Fixes 🐛
+
+* portalProtectionRadius spelt wrong in the config ([204e4c0](https://github.com/sekwah41/Advanced-Portals/commit/204e4c07e9a539198bb893433fce2c9bc2fa8ded))
+
 ## [2.1.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.0.3...v2.1.0) (2024-12-18)
 
 
