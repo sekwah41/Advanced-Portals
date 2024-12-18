@@ -133,7 +133,6 @@ public class Listeners implements Listener {
             && (event.getAction() == Action.LEFT_CLICK_BLOCK
                 || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             && event.getItem() != null) {
-
             if (event.getClickedBlock() == null)
                 return;
             if (event.getItem().getItemMeta() == null)
