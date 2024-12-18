@@ -10,7 +10,7 @@ public class Config {
 
     public boolean portalProtection = true;
 
-    public int portalProtectionRaduis = 5;
+    public int portalProtectionRadius = 5;
 
     public String defaultTriggerBlock = "NETHER_PORTAL";
 

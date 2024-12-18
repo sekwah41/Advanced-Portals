@@ -67,7 +67,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
     @Override
     public int getProtectionRadius() {
-        return this.config.portalProtectionRaduis;
+        return this.config.portalProtectionRadius;
     }
 
     @Override
