@@ -251,11 +251,12 @@ public class DataStorage {
                     }
                 }
             }
-        } else {
-            infoLogger.warning(
-                "Directory does not exist or is not a directory: "
-                + fileLocation);
         }
+//        } else {
+//            infoLogger.warning(
+//                "Directory does not exist or is not a directory: "
+//                + fileLocation);
+//        }
         return list;
     }
 
