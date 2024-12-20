@@ -189,6 +189,9 @@ tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separ
 tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
 tag.portalEvent.description=Triggers the portal from portal events rather than the player entering the portal. (survival nether portal)
 tag.message.description=Sets the message to be displayed when the portal is activated
+tag.conditions.description=Sets the conditions for the portal to be activated
+tag.conditions.fail=The conditions to activate this portal have not been met
+tag.conditions.invalid=The conditions are invalid
 
 tag.cooldown.fail= The cooldown must be a number.
 tag.command.nopermission= You do not have permission to create a command at %1$s command level
