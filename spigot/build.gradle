@@ -9,6 +9,7 @@ repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url 'https://papermc.io/repo/repository/maven-public/' }
+    maven { url 'https://repo.extendedclip.com/releases/'}
 }
 
 // includeLibs just says to include the library in the final jar
@@ -23,6 +24,9 @@ dependencies {
     implementation "com.mojang:authlib:3.5.41"
     // Be careful to only use what you need to from paper, otherwise it will become incompatible with spigot.
     // compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+
+    // Soft dependencies
+    compileOnly 'me.clip:placeholderapi:2.11.6'
 }
 
 tasks.named('compileJava') {
