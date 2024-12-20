@@ -16,6 +16,7 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContain
 import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
+import com.sekwah.advancedportals.spigot.tags.ConditionsTag;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import java.io.File;
 import java.util.regex.Matcher;
@@ -89,6 +90,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.portalsCore.registerPortalCommand("import",
                                                new ImportPortalSubCommand());
 
+        registerPlaceholderAPI();
+
         new Metrics(this);
     }
 
@@ -125,5 +128,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         this.portalsCore.onDisable();
+    }
+
+    public void registerPlaceholderAPI() {
+        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(new ConditionsTag());
+        }
     }
 }
