@@ -88,8 +88,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         this.portalsCore.registerPortalCommand("import",
                                                new ImportPortalSubCommand());
-
-        new Metrics(this);
     }
 
     private void checkAndCreateConfig() {
