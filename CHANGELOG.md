@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.1...v2.1.2) (2024-12-20)
+
+
+### Bug Fixes 🐛
+
+* comment out log spam ([#500](https://github.com/sekwah41/Advanced-Portals/issues/500)) ([3067f92](https://github.com/sekwah41/Advanced-Portals/commit/3067f9241523c3e83139ae917b7c864ff54f570c))
+
 ## [2.1.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.0...v2.1.1) (2024-12-18)
 
 
