@@ -61,6 +61,14 @@ public class Permissions {
         PORTAL.createChild("list", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to list all portals");
 
+    public static final PermissionBuilder EDIT_PORTAL =
+            PORTAL.createChild("edit", PermissionBuilder.PermissionDefault.OP)
+                    .description("Allows you to edit portals");
+
+    public static final PermissionBuilder ADD_TAG_PORTAL =
+            EDIT_PORTAL.createChild("add_tag", PermissionBuilder.PermissionDefault.OP)
+                    .description("Allows you to add portals to existing tags");
+
     public static final PermissionBuilder LANG_UPDATE = PORTAL.createChild(
         "lang_update", PermissionBuilder.PermissionDefault.OP);
     public static final PermissionBuilder RELOAD =
