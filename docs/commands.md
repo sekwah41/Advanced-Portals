@@ -68,7 +68,35 @@ Gives you an end gateway block that you can build with.
 
 **Permission:** `advancedportals.portal.disable_beacon`
 
-Needs DisableGatewayBeam to be set to true in the config. Though also triggers on create or chunk load. This is just a backup method.
+Disable the end gateway blocks in the area of the portal. This should persist even after the chunk has reloaded.
+
+### `/portal import`
+
+**Permission:** `advancedportals.portal.import`
+
+Imports portals and destinations from the old format. This will not overwrite any existing portals and destinations with the same name, however all common config values will be overwritten.
+
+### `/portal langupdate`
+
+**Permission:** `advancedportals.portal.lang_update`
+
+Updates the language files with the latest strings. This will not overwrite any custom strings you have added though will add new translation keys to the end of the file.
+
+If you want to reset it back to the default file you can enter `/portal langupdate overwrite`
+
+### `/portal reload`
+
+**Permission:** `advancedportals.portal.reload`
+
+This will reload all the portal, destination and config data. Though some config values may need a server restart/full plugin reload.
+
+### `/portal show`
+
+**Permission:** `advancedportals.portal.show`
+
+This will visualise nearby portals with particles as well as the current selection region.
+
+![Portal particle visualisation](./images/portal-visualise.png)
 
 [//]: # (Currently not implemented)
 [//]: # (### `/portal select`)
@@ -96,6 +124,11 @@ Enter this command to destroy a portal with a set name. If the argument is left 
 ### `/portal help`
 
 Displays the help message.
+
+
+### `/portal version`
+
+Returns the current version of the plugin
 
 ## Destination Command
 
