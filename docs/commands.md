@@ -151,6 +151,13 @@ Permission: `advancedportals.desti.list`
 
 A list of created destinations.
 
+### `/desti show`
+Permission: `advancedportals.desti.show`
+
+This will visualise the surrounding destinations with an arrow shaped particle formation. The arrows are roughly positioned at the player head height for the default player size.
+
+![Arrow shaped particle formation](./images/desti-visualise.png)
+
 ### `/desti tp (desti name)`
 Permission: `advancedportals.desti.teleport`
 
