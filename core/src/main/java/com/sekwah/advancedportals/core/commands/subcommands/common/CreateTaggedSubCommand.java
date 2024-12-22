@@ -17,6 +17,10 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender,
                                       String[] args) {
+        return tabComplete(sender, args);
+    }
+
+    public List<String> tabComplete(CommandSenderContainer sender, String[] args) {
         if (TagReader.isClosedString(args)) {
             return List.of();
         }
@@ -29,7 +33,7 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
             // with :
             var split = lastArg.split(":");
             if (split.length == 2
-                || (split.length == 1 && lastArg.endsWith(":"))) {
+                    || (split.length == 1 && lastArg.endsWith(":"))) {
                 // Loop over tags in allTags and check if the first half of
                 // split is equal to the tag name or alias
                 for (Tag tag : allTags) {
@@ -50,7 +54,7 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                     }
 
                     if (tag instanceof Tag.AutoComplete autoComplete
-                        && startsWith) {
+                            && startsWith) {
                         var argData = split.length == 2 ? split[1] : "";
                         var tagSuggestions = autoComplete.autoComplete(argData);
 
@@ -58,39 +62,39 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                             if (tag instanceof Tag.Split splitTag) {
                                 var multiTagSplit = splitTag.splitString();
                                 boolean endsWithSplit =
-                                    argData.endsWith(multiTagSplit);
+                                        argData.endsWith(multiTagSplit);
                                 String[] items = argData.split(multiTagSplit);
                                 Set<String> existingItems =
-                                    Arrays
-                                        .stream(items, 0,
-                                                endsWithSplit
-                                                    ? items.length
-                                                    : items.length - 1)
-                                        .map(String::trim)
-                                        .collect(Collectors.toSet());
+                                        Arrays
+                                                .stream(items, 0,
+                                                        endsWithSplit
+                                                                ? items.length
+                                                                : items.length - 1)
+                                                .map(String::trim)
+                                                .collect(Collectors.toSet());
 
                                 String partialInput = endsWithSplit
-                                    ? ""
-                                    : items[items.length - 1].trim();
+                                        ? ""
+                                        : items[items.length - 1].trim();
                                 String baseString = endsWithSplit
-                                    ? argData
-                                    : argData.substring(
-                                          0,
-                                          argData.lastIndexOf(multiTagSplit)
-                                              + 1);
+                                        ? argData
+                                        : argData.substring(
+                                        0,
+                                        argData.lastIndexOf(multiTagSplit)
+                                                + 1);
 
                                 tagSuggestions =
-                                    tagSuggestions
-                                        .stream()
-                                        // Remove already listed items
-                                        .filter(s -> !existingItems.contains(s))
-                                        // Remove items that don't match the
-                                        // currently typed input
-                                        .filter(s -> s.startsWith(partialInput))
-                                        // Remap so the auto completes actually
-                                        // show
-                                        .map(s -> baseString + s)
-                                        .toList();
+                                        tagSuggestions
+                                                .stream()
+                                                // Remove already listed items
+                                                .filter(s -> !existingItems.contains(s))
+                                                // Remove items that don't match the
+                                                // currently typed input
+                                                .filter(s -> s.startsWith(partialInput))
+                                                // Remap so the auto completes actually
+                                                // show
+                                                .map(s -> baseString + s)
+                                                .toList();
                             }
 
                             // Loop over suggestions and add split[0] + ":" to
@@ -109,29 +113,32 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
         ArrayList<DataTag> tagsFromArgs = TagReader.getTagsFromArgs(args);
 
         allTags.stream()
-            .filter(tag -> {
-                for (DataTag argTag : tagsFromArgs) {
-                    if (argTag.NAME.equals(tag.getName())) {
-                        return false;
-                    }
-                    var aliases = tag.getAliases();
-                    if (aliases != null) {
-                        for (String alias : aliases) {
-                            if (argTag.NAME.equals(alias)) {
-                                return false;
+                .filter(tag -> {
+                    for (DataTag argTag : tagsFromArgs) {
+                        if(!tag.isSingleValueTag()) {
+                            return true;
+                        }
+                        if (argTag.NAME.equals(tag.getName())) {
+                            return false;
+                        }
+                        var aliases = tag.getAliases();
+                        if (aliases != null) {
+                            for (String alias : aliases) {
+                                if (argTag.NAME.equals(alias)) {
+                                    return false;
+                                }
                             }
                         }
                     }
-                }
-                return true;
-            })
-            .forEach(tag -> {
-                suggestions.add(tag.getName());
-                var aliases = tag.getAliases();
-                if (aliases != null) {
-                    suggestions.addAll(Arrays.stream(aliases).toList());
-                }
-            });
+                    return true;
+                })
+                .forEach(tag -> {
+                    suggestions.add(tag.getName());
+                    var aliases = tag.getAliases();
+                    if (aliases != null) {
+                        suggestions.addAll(Arrays.stream(aliases).toList());
+                    }
+                });
 
         // Loop over all suggestions and add : to the end
         for (int i = 0; i < suggestions.size(); i++) {

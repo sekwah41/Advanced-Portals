@@ -42,6 +42,11 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete,
         return TAG_NAME;
     }
 
+    @Override
+    public boolean isSingleValueTag() {
+        return true;
+    }
+
     @Nullable
     @Override
     public String[] getAliases() {

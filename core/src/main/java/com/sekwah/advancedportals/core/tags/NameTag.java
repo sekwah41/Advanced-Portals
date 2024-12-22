@@ -22,6 +22,11 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
         new TagType[] {TagType.PORTAL, TagType.DESTINATION};
 
     @Override
+    public boolean isSingleValueTag() {
+        return true;
+    }
+
+    @Override
     public TagType[] getTagTypes() {
         return tagTypes;
     }

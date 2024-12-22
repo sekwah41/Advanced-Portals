@@ -40,6 +40,14 @@ public interface Tag {
 
     String getName();
 
+    /**
+     * If the tag should not show in suggestions after the first tag
+     * @return
+     */
+    default boolean isSingleValueTag() {
+        return false;
+    }
+
     @Nullable
     String[] getAliases();
 
@@ -115,6 +123,7 @@ public interface Tag {
      * is hit (if listed) then the next action is activated - Desti.postActivate
      */
     interface Activation extends Tag {
+
         /**
          * Activates before the main part of activation. This should be for
          * prechecks e.g. if the player has enough money before then taking the
