@@ -177,7 +177,7 @@ public class AdvancedPortalsCore {
                                               new InfoPortalSubCommand());
         this.portalCommand.registerSubCommand("disablebeacon",
                                               new DisableBeaconSubCommand());
-        this.portalCommand.registerSubCommand("addtag", new EditPortalsSubCommand());
+        this.portalCommand.registerSubCommand("edit", new EditPortalsSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
