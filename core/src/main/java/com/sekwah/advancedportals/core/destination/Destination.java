@@ -67,6 +67,11 @@ public class Destination implements TagTarget {
         this.args.remove(arg);
     }
 
+    @Override
+    public boolean hasArg(String name) {
+        return this.args.containsKey(name);
+    }
+
     private void updateDestiTagList() {
         destiTags.clear();
         for (Map.Entry<String, String[]> entry : args.entrySet()) {

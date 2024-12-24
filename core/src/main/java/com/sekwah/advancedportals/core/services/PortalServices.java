@@ -159,6 +159,10 @@ public class PortalServices {
         return false;
     }
 
+    public boolean savePortal(AdvancedPortal portal) {
+        return this.portalRepository.save(portal.getName(), portal);
+    }
+
     public AdvancedPortal createPortal(PlayerContainer player,
                                        ArrayList<DataTag> tags) {
         PlayerData tempData = playerDataServices.getPlayerData(player);

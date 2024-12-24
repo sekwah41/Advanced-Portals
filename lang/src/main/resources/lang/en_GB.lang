@@ -132,7 +132,7 @@ command.portal.import= &e%1$s &aportals and &e%2$s &adestinations will be import
 command.portal.import.confirm= &aImporting portals and destinations.
 command.portal.import.complete= &aImported &e%1$s &aportals and &e%2$s &adestinations.
 command.portal.import.help=Imports portals and destinations from the old format.
-command.portal.import.detailedhelp=Imports portals and destinations from the old format. This not overwrite any existing portals and destinations with the same name however you will lose any config values setup.
+command.portal.import.detailedhelp=Imports portals and destinations from the old format. This not overwrite any existing portals and destinations with the same name however you will lose any config values setup.t
 
 command.portalblock= You have been given a &ePortal Block&a!
 
@@ -201,3 +201,19 @@ tag.command.proxy.disabled= Proxy command portals are &edisabled &con this serve
 
 tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
 tag.proxy.description= Sets the server destination of the portal.
+
+command.portal.edit.help=Alter details about existing portals.
+command.portal.edit.detailedhelp=Alter details about existing portals, such as adding and removing tags.
+
+command.portal.edit.error.noportalname= Please specify a portal to edit.
+command.portal.edit.error.notfound= No portal by the name &e%1$s &cwas found.
+command.portal.edit.error.nosubcommand= Please enter a valid edit subcommand.
+command.portal.edit.error.unrecognisedsubcommand= &e%1$s &csubcommand unrecognised.
+
+command.portal.edit.removetag.reject= You cannot remove that tag.
+command.portal.edit.error.tagnotfound= No tag by the name &e%1$s &cwas found.
+command.portal.edit.error.tagcannotalter= The tag &e%1$s &ccannot be altered.
+command.portal.edit.newsummary= New data for portal &e%1$s&a:
+command.portal.edit.removetag.success= The tag &e%1$s &ahas been removed from &e%2$s&a.
+command.portal.edit.removetag.success.partial= The tag &e%1$s &aindex &e%2$s &ahas been removed from &e%3$s&a.
+command.portal.edit.error.tagnotfoundinportal= The tag &e%1$s &cwas not found in portal &e%2$s&c.

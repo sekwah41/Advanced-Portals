@@ -15,7 +15,7 @@ import java.util.List;
  * <p>Most tags shouldn't be like this unless they are to be paired with
  * another tag.
  */
-public class NameTag implements Tag.AutoComplete, Tag.Creation {
+public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.TagStatus {
     public static String TAG_NAME = "name";
 
     private final TagType[] tagTypes =
@@ -68,5 +68,20 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation {
     @Override
     public void destroyed(TagTarget target, PlayerContainer player,
                           String[] argData) {
+    }
+
+    @Override
+    public boolean canAlterTag() {
+        return false;
+    }
+
+    @Override
+    public boolean tagAdded(TagTarget target, PlayerContainer player, int index, String argData) {
+        return false;
+    }
+
+    @Override
+    public boolean tagRemoved(TagTarget target, PlayerContainer player, int index, String argData) {
+        return false;
     }
 }

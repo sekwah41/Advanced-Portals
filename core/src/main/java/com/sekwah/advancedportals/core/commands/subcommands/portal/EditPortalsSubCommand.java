@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.edit.AddTagPortalEditSubCommand;
+import com.sekwah.advancedportals.core.commands.subcommands.portal.edit.RemoveTagPortalEditSubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.SubCommandRegistry;
@@ -24,7 +25,37 @@ public class EditPortalsSubCommand implements SubCommand, SubCommand.SubCommandO
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
+        if(args.length < 2) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.edit.error.noportalname"));
+            return;
+        }
+        var portalName = args[1];
 
+        var portal = portalServices.getPortal(portalName);
+
+        if(portal == null) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables("command.portal.edit.error.notfound", portalName));
+        }
+
+        if(args.length < 3) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.edit.error.nosubcommand"));
+
+        }
+
+        var argSubCommand = args[2];
+
+        var subCommand = subCommandRegistry.getSubCommand(argSubCommand);
+
+        if(subCommand == null) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.edit.error.unrecognisedsubcommand"));
+            return;
+        }
+
+        subCommand.onCommand(sender, args);
     }
 
     @Override
@@ -35,21 +66,31 @@ public class EditPortalsSubCommand implements SubCommand, SubCommand.SubCommandO
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender,
                                       String[] args) {
-        System.out.println(args.length);
         if(args.length == 2) {
             return portalServices.getPortalNames();
         }
-        return Collections.emptyList();
+        if(args.length == 3) {
+            return this.subCommandRegistry.getSubCommands();
+        }
+        var argSubCommand = args[2];
+
+        var subCommand = subCommandRegistry.getSubCommand(argSubCommand);
+
+        if(subCommand == null) {
+            return Collections.emptyList();
+        }
+
+        return subCommand.onTabComplete(sender, args);
     }
 
     @Override
     public String getBasicHelpText() {
-        return Lang.translate("command.portal.addtags.help");
+        return Lang.translate("command.portal.edit.help");
     }
 
     @Override
     public String getDetailedHelpText() {
-        return Lang.translate("command.portal.addtags.detailedhelp");
+        return Lang.translate("command.portal.edit.detailedhelp");
     }
 
     private boolean registerSubCommand(String arg, SubCommand subCommand,
@@ -72,6 +113,7 @@ public class EditPortalsSubCommand implements SubCommand, SubCommand.SubCommandO
 
     @Override
     public void registered() {
-        this.subCommandRegistry.registerSubCommand("addtags", new AddTagPortalEditSubCommand());
+        registerSubCommand("addtags", new AddTagPortalEditSubCommand());
+        registerSubCommand("removetag", new RemoveTagPortalEditSubCommand());
     }
 }

@@ -34,4 +34,6 @@ public interface TagTarget {
      * @param arg
      */
     void removeArg(String arg);
+
+    boolean hasArg(String name);
 }

@@ -169,9 +169,15 @@ public interface Tag {
     }
 
     /**
-     * Triggers when a tag is added or removed from a portal or destination
+     * Triggers when a tag is added or removed from a portal or destination after it's initial creation
+     * If this behavior is not defined then it will automatically allow adding and removing
      */
     interface TagStatus extends Tag {
+
+        default boolean canAlterTag() {
+            return true;
+        }
+
         /**
          * If the user has access to add the tag (this does not include being
          * added on creation)

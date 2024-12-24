@@ -101,6 +101,11 @@ public class AdvancedPortal implements TagTarget {
         this.args.remove(arg);
     }
 
+    @Override
+    public boolean hasArg(String name) {
+        return this.args.containsKey(name);
+    }
+
     /**
      * Updates the bounds of the portal based on the provided locations.
      *
