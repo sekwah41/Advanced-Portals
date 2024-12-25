@@ -213,6 +213,7 @@ command.portal.edit.error.unrecognisedsubcommand= &e%1$s &csubcommand unrecognis
 command.portal.edit.removetag.reject= You cannot remove that tag.
 command.portal.edit.error.tagnotfound= No tag by the name &e%1$s &cwas found.
 command.portal.edit.error.tagcannotalter= The tag &e%1$s &ccannot be altered.
+command.portal.edit.error.notagname= Please specify a tag name.
 command.portal.edit.newsummary= New data for portal &e%1$s&a:
 command.portal.edit.removetag.success= The tag &e%1$s &ahas been removed from &e%2$s&a.
 command.portal.edit.removetag.success.partial= The tag &e%1$s &aindex &e%2$s &ahas been removed from &e%3$s&a.

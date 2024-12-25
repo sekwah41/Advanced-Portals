@@ -34,11 +34,17 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
             return;
         }
 
+        if(subArgs.length < 3) {
+            sender.sendMessage(Lang.getNegativePrefix()
+                    + Lang.translate("command.portal.edit.error.notagname"));
+            return;
+        }
+
         var tag = tagRegistry.getTag(subArgs[2]);
 
         if(tag == null) {
             sender.sendMessage(Lang.getNegativePrefix()
-                    + Lang.translateInsertVariables("command.portal.edit.error.tagnotfound", subArgs[1]));
+                    + Lang.translateInsertVariables("command.portal.edit.error.tagnotfound", subArgs[2]));
             return;
         }
 

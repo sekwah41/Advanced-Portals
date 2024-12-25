@@ -37,12 +37,13 @@ public class EditPortalsSubCommand implements SubCommand, SubCommand.SubCommandO
         if(portal == null) {
             sender.sendMessage(Lang.getNegativePrefix()
                     + Lang.translateInsertVariables("command.portal.edit.error.notfound", portalName));
+            return;
         }
 
         if(args.length < 3) {
             sender.sendMessage(Lang.getNegativePrefix()
                     + Lang.translate("command.portal.edit.error.nosubcommand"));
-
+            return;
         }
 
         var argSubCommand = args[2];
@@ -51,7 +52,7 @@ public class EditPortalsSubCommand implements SubCommand, SubCommand.SubCommandO
 
         if(subCommand == null) {
             sender.sendMessage(Lang.getNegativePrefix()
-                    + Lang.translate("command.portal.edit.error.unrecognisedsubcommand"));
+                    + Lang.translateInsertVariables("command.portal.edit.error.unrecognisedsubcommand", argSubCommand));
             return;
         }
 
