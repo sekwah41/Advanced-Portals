@@ -66,7 +66,7 @@ public class CreateDestiSubCommand extends CreateTaggedSubCommand {
             }
             sender.sendMessage("");
             Destination destination = destinationServices.createDesti(
-                player, player.getLoc(), destinationTags);
+                sender, player.getLoc(), destinationTags);
             if (destination != null) {
                 sender.sendMessage(
                     Lang.getPositivePrefix()

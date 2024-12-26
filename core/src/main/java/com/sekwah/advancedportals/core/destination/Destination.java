@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.destination;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -47,22 +48,17 @@ public class Destination implements TagTarget {
     }
 
     @Override
-    public void setArgValues(String argName, String[] argValue) {
+    public void setArgValues(CommandSenderContainer player, String argName, String[] argValue) {
         this.isSorted = false;
         this.args.put(argName, argValue);
     }
 
-    @Override
-    public void addArg(String argName, String argValues) {
+    public void setArgValues(CommandSenderContainer player, DataTag portalTag) {
         this.isSorted = false;
+        this.setArgValues(player, portalTag.NAME, portalTag.VALUES);
     }
 
-    public void setArgValues(DataTag portalTag) {
-        this.isSorted = false;
-        this.setArgValues(portalTag.NAME, portalTag.VALUES);
-    }
-
-    public void removeArg(String arg) {
+    public void removeArg(CommandSenderContainer player,String arg) {
         this.isSorted = false;
         this.args.remove(arg);
     }

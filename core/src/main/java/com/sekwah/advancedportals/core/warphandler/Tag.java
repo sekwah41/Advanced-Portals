@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.warphandler;
 
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import java.util.List;
@@ -99,7 +100,7 @@ public interface Tag {
          * @param argData
          * @return If the tag is valid or allowed creation
          */
-        boolean created(TagTarget target, PlayerContainer player,
+        boolean created(TagTarget target, CommandSenderContainer player,
                         String[] argData);
 
         /**
@@ -109,7 +110,7 @@ public interface Tag {
          * @param player if null then removed by the server or a plugin
          * @param argData
          */
-        void destroyed(TagTarget target, PlayerContainer player,
+        void destroyed(TagTarget target, CommandSenderContainer player,
                        String[] argData);
     }
 
@@ -172,7 +173,7 @@ public interface Tag {
      * Triggers when a tag is added or removed from a portal or destination after it's initial creation
      * If this behavior is not defined then it will automatically allow adding and removing
      */
-    interface TagStatus extends Tag {
+    interface Status extends Tag {
 
         default boolean canAlterTag() {
             return true;
@@ -183,14 +184,12 @@ public interface Tag {
          * added on creation)
          *
          * @param target the target of the tag
-         * @param player if null then removed by the server or a plugin
-         * @param argData the data for the tag
-         * @param index the index of the tag in the list (if it is the only tag
-         *     it will be 0)
+         * @param sender if null then removed by the server or a plugin
+         * @param argData the data for the tag to be added
          * @return if the tag will be added.
          */
-        boolean tagAdded(TagTarget target, PlayerContainer player, int index,
-                         String argData);
+        boolean tagAdded(TagTarget target, CommandSenderContainer sender,
+                         String[] argData);
 
         /**
          * If the user has access to remove the tag (this does not include being
@@ -198,12 +197,23 @@ public interface Tag {
          *
          * @param target the target of the tag
          * @param player if null then removed by the server or a plugin
-         * @param argData the data of the tag to be removed
-         * @param index the index of the tag in the list (if it is the only tag
-         *     it will be 0)
+         * @param argsBefore the data of the tag currently
+         * @param argsAfter the desired data of the tag
          * @return if the tag will be removed.
          */
-        boolean tagRemoved(TagTarget target, PlayerContainer player, int index,
-                           String argData);
+        boolean tagModify(TagTarget target, PlayerContainer player,
+                           String[] argsBefore, String[] argsAfter);
+
+        /**
+         * If the user has access to remove the tag (this does not include being
+         * added on destruction)
+         *
+         * @param target the target of the tag
+         * @param player if null then removed by the server or a plugin
+         * @param argData the data of the tag to be removedt
+         * @return if the tag will be removed.
+         */
+        boolean tagRemoved(TagTarget target, PlayerContainer player,
+                           String[] argData);
     }
 }

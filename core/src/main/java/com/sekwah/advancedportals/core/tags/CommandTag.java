@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.ProxyMessages;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
 import com.sekwah.advancedportals.core.permissions.Permissions;
@@ -152,12 +153,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player,
+    public boolean created(TagTarget target, CommandSenderContainer sender,
                            String[] argData) {
         if (argData != null) {
             var commandPortals = configRepository.getCommandPortals();
             if (!commandPortals.enabled) {
-                player.sendMessage(Lang.getNegativePrefix()
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("tag.command.disabled"));
                 return false;
             }
@@ -166,12 +167,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 return switch (executionCommand) {
                     case '!' -> {
                         if (!commandPortals.op) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.op.disabled"));
                             yield false;
                         }
-                        if (!Permissions.CREATE_COMMAND_OP.hasPermission(player)) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                        if (!Permissions.CREATE_COMMAND_OP.hasPermission(sender)) {
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "OP"));
                             yield false;
                         }
@@ -179,12 +180,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     }
                     case '#' -> {
                         if (!commandPortals.console) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.console.disabled"));
                             yield false;
                         }
-                        if (!Permissions.CREATE_COMMAND_CONSOLE.hasPermission(player)) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                        if (!Permissions.CREATE_COMMAND_CONSOLE.hasPermission(sender)) {
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission","Console"));
                             yield false;
                         }
@@ -192,12 +193,12 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                     }
                     case '^' -> {
                         if (!commandPortals.permsWildcard) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translate("tag.command.permswildcard.disabled"));
                             yield false;
                         }
-                        if (!Permissions.CREATE_COMMAND_PERMS.hasPermission(player)) {
-                            player.sendMessage(Lang.getNegativePrefix()
+                        if (!Permissions.CREATE_COMMAND_PERMS.hasPermission(sender)) {
+                            sender.sendMessage(Lang.getNegativePrefix()
                                     + Lang.translateInsertVariables("tag.command.nopermission", "*"));
                             yield false;
                         }
@@ -211,7 +212,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
+    public void destroyed(TagTarget target, CommandSenderContainer sender, String[] argData) {
         // Needs created but not destroyed
     }
 

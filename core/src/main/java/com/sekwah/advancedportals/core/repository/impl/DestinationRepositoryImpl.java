@@ -50,7 +50,7 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
             // Forces the name tag to be up-to-date on load
             String[] name = destination.getArgValues(NameTag.TAG_NAME);
             if (name != null && name.length > 0) {
-                destination.setArgValues(NameTag.TAG_NAME,
+                destination.setArgValues(null, NameTag.TAG_NAME,
                                          new String[] {fileName});
             }
             destinations.add(destination);

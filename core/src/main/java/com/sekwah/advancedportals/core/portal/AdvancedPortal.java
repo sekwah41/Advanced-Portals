@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.portal;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -66,14 +67,16 @@ public class AdvancedPortal implements TagTarget {
     }
 
     @Override
-    public void setArgValues(String argName, String[] argValues) {
+    public void setArgValues(CommandSenderContainer sender, String argName, String[] argValues) {
         this.isSorted = false;
+        var tag = tagRegistry.getTag(argName);
+        if (tag instanceof Tag.Status status) {
+            var currentValue = this.args.get(argName);
+            if (currentValue == null) {
+                status.tagAdded(this, sender, argValues);
+            }
+        }
         this.args.put(argName, argValues);
-    }
-
-    @Override
-    public void addArg(String argName, String argValues) {
-        // TODO need to add the ability to add args after creation
     }
 
     public void updatePortalTagList() {
@@ -96,7 +99,7 @@ public class AdvancedPortal implements TagTarget {
     }
 
     @Override
-    public void removeArg(String arg) {
+    public void removeArg(CommandSenderContainer player, String arg) {
         this.isSorted = false;
         this.args.remove(arg);
     }
@@ -236,7 +239,7 @@ public class AdvancedPortal implements TagTarget {
     }
 
     public void setArgValues(DataTag portalTag) {
-        this.setArgValues(portalTag.NAME, portalTag.VALUES);
+        this.setArgValues(null, portalTag.NAME, portalTag.VALUES);
     }
 
     public ArrayList<DataTag> getArgs() {

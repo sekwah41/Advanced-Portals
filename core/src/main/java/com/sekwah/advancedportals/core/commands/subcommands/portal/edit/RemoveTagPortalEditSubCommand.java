@@ -11,7 +11,9 @@ import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class RemoveTagPortalEditSubCommand implements SubCommand {
     @Inject
@@ -48,7 +50,7 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
             return;
         }
 
-        if(tag instanceof Tag.TagStatus tagStatus) {
+        if(tag instanceof Tag.Status tagStatus) {
             if(!tagStatus.canAlterTag()) {
                 sender.sendMessage(Lang.getNegativePrefix()
                         + Lang.translateInsertVariables("command.portal.edit.error.tagcannotalter", subArgs[1]));
@@ -56,8 +58,38 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
             }
         }
 
+        boolean partialRemoval = false;
+        int valueIndex = -1;
+
         if(portal.hasArg(tag.getName())) {
-            portal.removeArg(tag.getName());
+            if(args.length == 5) {
+                try {
+                    var value = Integer.parseInt(args[4]);
+                    valueIndex = value;
+                    var values = portal.getArgValues(tag.getName());
+
+                    if(value < 0 || value >= values.length) {
+                        sender.sendMessage(Lang.getNegativePrefix()
+                                + Lang.translate("command.portal.edit.error.invalidindex"));
+                        return;
+                    }
+
+                    // remove value at index from the String[]
+                    var newValues = IntStream.range(0, values.length)
+                            .filter(i -> i != value)
+                            .mapToObj(i -> values[i])
+                            .toArray(String[]::new);
+                    portal.setArgValues(sender, tag.getName(), newValues);
+                    partialRemoval = true;
+                }
+                catch(NumberFormatException e) {
+                    sender.sendMessage(Lang.getNegativePrefix()
+                            + Lang.translate("command.portal.edit.error.invalidnumber"));
+                    return;
+                }
+            } else {
+                portal.removeArg(sender, tag.getName());
+            }
         } else {
             sender.sendMessage(Lang.getNegativePrefix()
                     + Lang.translateInsertVariables("command.portal.edit.error.tagnotfoundinportal", tag.getName(), portal.getName()));
@@ -72,7 +104,12 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
 
         portalServices.savePortal(portal);
 
-        sender.sendMessage(Lang.convertColors("\n&a") + Lang.translateInsertVariables("command.portal.edit.removetag.success", tag.getName(), portal.getName()));
+        if(partialRemoval) {
+            sender.sendMessage(Lang.getPositivePrefix()
+                    + Lang.translateInsertVariables("command.portal.edit.removetag.success.partial", tag.getName(), valueIndex, portal.getName()));
+        } else {
+            sender.sendMessage(Lang.convertColors("\n&a") + Lang.translateInsertVariables("command.portal.edit.removetag.success", tag.getName(), portal.getName()));
+        }
     }
 
     @Override
@@ -83,6 +120,11 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender,
                                       String[] args) {
+
+        if(args.length > 5) {
+            return Collections.emptyList();
+        }
+
         // trim first 3 values from args
         var subArgs = Arrays.copyOfRange(args, 1, args.length);
 
@@ -91,16 +133,34 @@ public class RemoveTagPortalEditSubCommand implements SubCommand {
         var portal = portalServices.getPortal(portalName);
 
         if(portal == null) {
-            return null;
+            return Collections.emptyList();
         }
 
-        return portal.getArgs().stream().filter(arg -> {
+        var tagNames = portal.getArgs().stream().filter(arg -> {
             var tag = tagRegistry.getTag(arg.NAME);
-            if(tag instanceof Tag.TagStatus tagStatus) {
+            if(tag instanceof Tag.Status tagStatus) {
                 return tagStatus.canAlterTag();
             }
             return true;
         }).map(arg -> arg.NAME).toList();
+
+        if(args.length == 4) {
+            return tagNames;
+        }
+
+        if(args.length == 5) {
+            // check if tagNames contains args[3] ignoring case
+            var tag = portal.getArgs().stream().filter(arg -> arg.NAME.equalsIgnoreCase(args[3])).findFirst().orElse(null);
+            if(tag == null) {
+                return Collections.emptyList();
+            }
+
+            return IntStream.range(0, tag.VALUES.length)
+                    .mapToObj(Integer::toString)
+                    .toList();
+        }
+
+        return Collections.emptyList();
     }
 
     @Override

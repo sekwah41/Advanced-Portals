@@ -22,7 +22,7 @@ public class TagRegistry {
     private final Map<String, Tag> tagMap = new HashMap<>();
     private final Map<String, Tag.Activation> activationTags = new HashMap<>();
     private final Map<String, Tag.Creation> creationTags = new HashMap<>();
-    private final Map<String, Tag.TagStatus> statusTags = new HashMap<>();
+    private final Map<String, Tag.Status> statusTags = new HashMap<>();
 
     @Inject
     private AdvancedPortalsCore pluginCore;
@@ -57,7 +57,7 @@ public class TagRegistry {
      * @param arg
      * @return
      */
-    public Tag.TagStatus getStatusHandler(String arg) {
+    public Tag.Status getStatusHandler(String arg) {
         return this.statusTags.get(arg);
     }
 
@@ -103,7 +103,7 @@ public class TagRegistry {
         if (tag instanceof Tag.Activation tagActivation) {
             this.activationTags.put(tagName, tagActivation);
         }
-        if (tag instanceof Tag.TagStatus tagStatus) {
+        if (tag instanceof Tag.Status tagStatus) {
             this.statusTags.put(tagName, tagStatus);
         }
         if (tag instanceof Tag.Creation tagCreation) {

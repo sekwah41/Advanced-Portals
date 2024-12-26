@@ -1,5 +1,8 @@
 package com.sekwah.advancedportals.core.registry;
 
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+
 /**
  * Something that a tag can be executed on.
  */
@@ -18,22 +21,14 @@ public interface TagTarget {
      * @param argName
      * @param argValues
      */
-    void setArgValues(String argName, String[] argValues);
-
-    /**
-     * Add a new arg to the tag
-     *
-     * @param argName
-     * @param argValues
-     */
-    void addArg(String argName, String argValues);
+    void setArgValues(CommandSenderContainer player, String argName, String[] argValues);
 
     /**
      * Remove the arg entirely from the target
      *
      * @param arg
      */
-    void removeArg(String arg);
+    void removeArg(CommandSenderContainer player, String arg);
 
     boolean hasArg(String name);
 }

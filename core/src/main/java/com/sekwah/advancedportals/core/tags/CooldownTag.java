@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -98,12 +99,12 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player,
+    public boolean created(TagTarget target, CommandSenderContainer sender,
                            String[] argData) {
         try {
             Integer.parseInt(argData[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(Lang.getNegativePrefix()
+            sender.sendMessage(Lang.getNegativePrefix()
                                + Lang.translate("tag.cooldown.fail"));
             return false;
         }
@@ -111,7 +112,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     }
 
     @Override
-    public void destroyed(TagTarget target, PlayerContainer player,
+    public void destroyed(TagTarget target, CommandSenderContainer sender,
                           String[] argData) {
     }
 }

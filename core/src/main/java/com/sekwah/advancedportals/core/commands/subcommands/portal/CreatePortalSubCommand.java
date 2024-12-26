@@ -79,7 +79,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             }
 
             AdvancedPortal portal =
-                portalServices.createPortal(player, portalTags);
+                portalServices.createPortal(sender, portalTags);
             if (portal != null) {
                 sender.sendMessage(Lang.getPositivePrefix()
                                    + Lang.translate("command.create.complete"));

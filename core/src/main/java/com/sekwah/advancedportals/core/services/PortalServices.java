@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
@@ -163,27 +164,33 @@ public class PortalServices {
         return this.portalRepository.save(portal.getName(), portal);
     }
 
-    public AdvancedPortal createPortal(PlayerContainer player,
+    public AdvancedPortal createPortal(CommandSenderContainer sender,
                                        ArrayList<DataTag> tags) {
-        PlayerData tempData = playerDataServices.getPlayerData(player);
+        if(sender instanceof PlayerContainer player) {
+            PlayerData tempData = playerDataServices.getPlayerData(player);
 
-        if (tempData.getPos1() == null || tempData.getPos2() == null) {
-            player.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translate("portal.error.selection.missing"));
-            return null;
+            if (tempData.getPos1() == null || tempData.getPos2() == null) {
+                player.sendMessage(
+                        Lang.getNegativePrefix()
+                                + Lang.translate("portal.error.selection.missing"));
+                return null;
+            }
+
+            if (!tempData.getPos1().getWorldName().equals(
+                    tempData.getPos2().getWorldName())) {
+                player.sendMessage(
+                        Lang.getNegativePrefix()
+                                + Lang.translate("portal.error.selection.differentworlds"));
+                return null;
+            }
+
+            return createPortal(sender, tempData.getPos1(), tempData.getPos2(),
+                    tags);
         }
 
-        if (!tempData.getPos1().getWorldName().equals(
-                tempData.getPos2().getWorldName())) {
-            player.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translate("portal.error.selection.differentworlds"));
-            return null;
-        }
-
-        return createPortal(player, tempData.getPos1(), tempData.getPos2(),
-                            tags);
+        sender.sendMessage(Lang.getNegativePrefix()
+                           + Lang.translate("command.error.noplayer"));
+        return null;
     }
 
     /**
@@ -194,7 +201,7 @@ public class PortalServices {
      * @param tags
      * @return
      */
-    public AdvancedPortal createPortal(@Nullable PlayerContainer player,
+    public AdvancedPortal createPortal(@Nullable CommandSenderContainer player,
                                        BlockLocation pos1, BlockLocation pos2,
                                        List<DataTag> tags) {
         // Find the tag with the "name" NAME

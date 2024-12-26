@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
@@ -56,7 +57,7 @@ public class DestinationServices {
         return createDesti(null, playerLocation, tags);
     }
 
-    public Destination createDesti(PlayerContainer player,
+    public Destination createDesti(CommandSenderContainer player,
                                    PlayerLocation playerLocation,
                                    List<DataTag> tags) {
         // Find the tag with the "name" NAME
@@ -90,7 +91,7 @@ public class DestinationServices {
 
         Destination desti = new Destination(playerLocation);
         for (DataTag portalTag : tags) {
-            desti.setArgValues(portalTag);
+            desti.setArgValues(player, portalTag);
         }
         for (DataTag destiTag : tags) {
             Tag.Creation creation =

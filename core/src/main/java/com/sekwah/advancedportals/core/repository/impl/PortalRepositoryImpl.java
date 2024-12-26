@@ -77,7 +77,7 @@ public class PortalRepositoryImpl implements IPortalRepository {
             // Forces the name tag to be up-to-date on load
             String[] name = portal.getArgValues(NameTag.TAG_NAME);
             if (name != null && name.length > 0) {
-                portal.setArgValues(
+                portal.setArgValues(null,
                     NameTag.TAG_NAME,
                     new String[] {fileName.replace(".yaml", "")});
             }

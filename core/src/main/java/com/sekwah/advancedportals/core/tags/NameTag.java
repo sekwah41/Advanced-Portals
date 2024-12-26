@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core.tags;
 
+import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -15,7 +16,7 @@ import java.util.List;
  * <p>Most tags shouldn't be like this unless they are to be paired with
  * another tag.
  */
-public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.TagStatus {
+public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.Status {
     public static String TAG_NAME = "name";
 
     private final TagType[] tagTypes =
@@ -52,12 +53,12 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.TagStatus {
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player,
+    public boolean created(TagTarget target, CommandSenderContainer sender,
                            String[] argData) {
         if (argData.length > 0) {
             String name = argData[0];
             if (name.contains(" ")) {
-                player.sendMessage(Lang.getNegativePrefix()
+                sender.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("tag.name.error.nospaces"));
                 return false;
             }
@@ -66,7 +67,7 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.TagStatus {
     }
 
     @Override
-    public void destroyed(TagTarget target, PlayerContainer player,
+    public void destroyed(TagTarget target, CommandSenderContainer sender,
                           String[] argData) {
     }
 
@@ -76,12 +77,17 @@ public class NameTag implements Tag.AutoComplete, Tag.Creation, Tag.TagStatus {
     }
 
     @Override
-    public boolean tagAdded(TagTarget target, PlayerContainer player, int index, String argData) {
+    public boolean tagAdded(TagTarget target, CommandSenderContainer sender, String[] argData) {
         return false;
     }
 
     @Override
-    public boolean tagRemoved(TagTarget target, PlayerContainer player, int index, String argData) {
+    public boolean tagModify(TagTarget target, PlayerContainer player, String[] argsBefore, String[] argsAfter) {
+        return false;
+    }
+
+    @Override
+    public boolean tagRemoved(TagTarget target, PlayerContainer player, String[] argData) {
         return false;
     }
 }
