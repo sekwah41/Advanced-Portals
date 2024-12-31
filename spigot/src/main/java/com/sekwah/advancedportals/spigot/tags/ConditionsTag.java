@@ -12,16 +12,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
-
     @Inject
     private InfoLogger infoLogger;
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
-
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         for (String condition : argData) {
-            if (!checkConditions(condition, Bukkit.getPlayer(player.getUUID()))) {
-                player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.conditions.fail"));
+            if (!checkConditions(condition,
+                                 Bukkit.getPlayer(player.getUUID()))) {
+                player.sendMessage(Lang.getNegativePrefix()
+                                   + Lang.translate("tag.conditions.fail"));
                 return false;
             }
         }
@@ -30,18 +31,19 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activationData, String[] argData) {
         return false;
     }
 
     @Override
     public TagType[] getTagTypes() {
-        return new TagType[] { TagType.PORTAL };
+        return new TagType[] {TagType.PORTAL};
     }
 
     @Override
@@ -65,7 +67,8 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
         // Check if the condition contains a valid operator
         if (!trimmedCondition.matches(".*(<=|>=|<|>|==).*")) {
-            // Log a warning or handle the case where the condition format is invalid
+            // Log a warning or handle the case where the condition format is
+            // invalid
             infoLogger.warning("Invalid operator: " + condition);
             return false;
         }
@@ -76,21 +79,28 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
         if (parts.length == 2) {
             // Trim to remove any leading/trailing whitespaces
             String placeholder = parts[0].trim();
-            String actualValue = PlaceholderAPI.setPlaceholders(player, placeholder);
+            String actualValue =
+                PlaceholderAPI.setPlaceholders(player, placeholder);
             String restOfCondition = parts[1].trim();
 
             // Preserve the operator
-            String operator = condition.substring(placeholder.length(), condition.length() - restOfCondition.length()).trim();
+            String operator =
+                condition
+                    .substring(placeholder.length(),
+                               condition.length() - restOfCondition.length())
+                    .trim();
 
             return performComparison(actualValue, operator, restOfCondition);
         } else {
-            // Log a warning or handle the case where the condition format is invalid
+            // Log a warning or handle the case where the condition format is
+            // invalid
             infoLogger.warning("Invalid condition format: " + condition);
             return false;
         }
     }
 
-    private boolean performComparison(String actualValue, String operator, String expectedValue) {
+    private boolean performComparison(String actualValue, String operator,
+                                      String expectedValue) {
         if (isNumeric(actualValue) && isNumeric(expectedValue)) {
             // Numeric comparison
             double actualNumeric = Double.parseDouble(actualValue);
@@ -132,16 +142,20 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
         for (String condition : argData) {
-            if (!checkConditions(condition, Bukkit.getPlayer(player.getUUID()))) {
-                player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.conditions.invalid"));
-                return false;
+                        if (!checkConditions(
+                                condition,
+                                Bukkit.getPlayer(player.getUUID()))) {
+                            player.sendMessage(
+                                Lang.getNegativePrefix()
+                                + Lang.translate("tag.conditions.invalid"));
+                            return false;
+                        }
+                    }
+                    return true;
+            }
+
+            @Override
+            public void destroyed(TagTarget target, PlayerContainer player,
+                                  String[] argData) {
             }
         }
-        return true;
-    }
-
-    @Override
-    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
-
-    }
-}
