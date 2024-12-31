@@ -81,8 +81,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         injector.injectMembers(warpEffects);
         warpEffects.registerEffects();
 
-        checkAndCreateConfig();
-
         // Try to do this after setting up everything that would need to be
         // injected to.
         this.portalsCore.onEnable();
@@ -90,6 +88,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.portalsCore.registerPortalCommand("import",
                                                new ImportPortalSubCommand());
 
+        checkAndCreateConfig();
         registerPlaceholderAPI();
     }
 
