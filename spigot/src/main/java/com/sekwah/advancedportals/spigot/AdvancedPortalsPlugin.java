@@ -129,8 +129,10 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
     }
 
     public void registerPlaceholderAPI() {
-        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(new ConditionsTag());
+        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI")
+            != null) {
+            AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(
+                new ConditionsTag());
         }
     }
 }
