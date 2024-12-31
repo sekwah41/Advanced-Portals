@@ -81,8 +81,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         injector.injectMembers(warpEffects);
         warpEffects.registerEffects();
 
-        checkAndCreateConfig();
-
         // Try to do this after setting up everything that would need to be
         // injected to.
         this.portalsCore.onEnable();
