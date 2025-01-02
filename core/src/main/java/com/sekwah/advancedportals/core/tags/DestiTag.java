@@ -152,6 +152,16 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
             player.teleport(destination.getLoc());
 
+            for (var destiTag : destination.getArgs()) {
+                Tag.Activation activationHandler =
+                        tagRegistry.getActivationHandler(destiTag.NAME,
+                                Tag.TagType.DESTINATION);
+                if (activationHandler != null) {
+                    activationHandler.activated(target, player,
+                            activationData, argData);
+                }
+            }
+
             if (configRepository.getWarpEffectEnabled()) {
                 if (warpEffectVisual != null) {
                     warpEffectVisual.onWarpVisual(player,
