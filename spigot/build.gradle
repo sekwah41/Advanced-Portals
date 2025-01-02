@@ -8,7 +8,10 @@ configurations {
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url 'https://papermc.io/repo/repository/maven-public/' }
+    maven {
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
     maven { url 'https://repo.extendedclip.com/releases/'}
 }
 
