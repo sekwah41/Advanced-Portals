@@ -65,7 +65,9 @@ public class TagReader {
 
             if (inQuotes && arg.endsWith("\"")) {
                 inQuotes = false;
-                currentValue.deleteCharAt(currentValue.length() - 1);
+                if(currentValue.length() > 1) {
+                    currentValue.deleteCharAt(currentValue.length() - 1);
+                }
             }
         }
 
