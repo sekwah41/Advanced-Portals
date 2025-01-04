@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.1...v2.2.0) (2025-01-04)
+
+
+### Features ✨
+
+* add placeholder api conditions support ([38a0d14](https://github.com/sekwah41/Advanced-Portals/commit/38a0d149d667ac09411cb71fe5677c702445452c))
+
+
+### Bug Fixes 🐛
+
+* auto import of old data causing plugin to not load ([#505](https://github.com/sekwah41/Advanced-Portals/issues/505)) ([c15a33e](https://github.com/sekwah41/Advanced-Portals/commit/c15a33ecde8616a3f80a38912e41e420fa428a2a))
+* comment out log spam ([#500](https://github.com/sekwah41/Advanced-Portals/issues/500)) ([3067f92](https://github.com/sekwah41/Advanced-Portals/commit/3067f9241523c3e83139ae917b7c864ff54f570c))
+* destination tags activation stage not triggering ([f1d4a9e](https://github.com/sekwah41/Advanced-Portals/commit/f1d4a9e124255886e696c4c96ee1a499d461d5a8))
+
 ## [2.1.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.0...v2.1.1) (2024-12-18)
 
 
