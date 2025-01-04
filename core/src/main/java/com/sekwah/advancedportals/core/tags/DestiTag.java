@@ -154,11 +154,11 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
             for (var destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
-                        tagRegistry.getActivationHandler(destiTag.NAME,
-                                Tag.TagType.DESTINATION);
+                    tagRegistry.getActivationHandler(destiTag.NAME,
+                                                     Tag.TagType.DESTINATION);
                 if (activationHandler != null) {
-                    activationHandler.activated(target, player,
-                            activationData, argData);
+                    activationHandler.activated(target, player, activationData,
+                                                argData);
                 }
             }
 
