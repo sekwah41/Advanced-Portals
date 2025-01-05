@@ -187,6 +187,7 @@ tag.permission.description=Sets the permission of a portal
 tag.desti.description=Sets the destination of the portal
 tag.name.error.nospaces= The name cannot contain spaces.
 tag.triggerblock.description=Sets the trigger block/s of the portal. Comma separated or multi tag.
+tag.triggerblock.error.invalid_material= The trigger block is invalid.
 tag.command.description=Sets a command on the post activation of the portal. Comma separated or multi tag.
 tag.portalEvent.description=Triggers the portal from portal events rather than the player entering the portal. (survival nether portal)
 tag.message.description=Sets the message to be displayed when the portal is activated
