@@ -146,7 +146,9 @@ public class DestinationServices {
                                                 .getLoc()
                                                 .getWorldName())
                 == null) {
-                infoLogger.warning(Lang.translate("desti.error.invalidworld"));
+                infoLogger.warning(Lang.translateInsertVariables(
+                        "desti.error.invalidworld",
+                        destinationRepository.get(name).getLoc().getWorldName()));
                 return false;
             }
 

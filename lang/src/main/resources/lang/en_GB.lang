@@ -158,7 +158,7 @@ command.error.nametaken= The name &e%1$s &cis already taken.
 desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)
 desti.error.notfound= No destination by the name &e%1$s &cwas found.
-desti.error.invalidworld= Destination world is not valid.
+desti.error.invalidworld= Destination world "%1$s" is not valid/loaded.
 
 desti.warpdesti.warp=&aYou have warped to &e%1$s&a.
 

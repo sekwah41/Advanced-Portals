@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.tags;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -9,6 +10,7 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -26,6 +28,12 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
     @Inject
     WarpEffectRegistry warpEffectRegistry;
+
+    @Inject
+    ServerContainer serverContainer;
+
+    @Inject
+    InfoLogger infoLogger;
 
     @Inject
     private transient TagRegistry tagRegistry;
@@ -134,6 +142,14 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         var selectedArg = activationData.getMetadata(TAG_NAME);
         Destination destination =
             destinationServices.getDestination(selectedArg);
+
+        if (serverContainer.getWorld(destination.getLoc().getWorldName()) == null) {
+            infoLogger.warning(Lang.translateInsertVariables(
+                                   "desti.error.invalidworld",
+                                   destination.getLoc().getWorldName()));
+            return false;
+        }
+
         if (destination != null) {
             var warpEffectVisual = warpEffectRegistry.getVisualEffect(
                 configRepository.getWarpVisual());
