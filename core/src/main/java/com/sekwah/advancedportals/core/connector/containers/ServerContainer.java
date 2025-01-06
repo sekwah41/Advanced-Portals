@@ -23,4 +23,7 @@ public interface ServerContainer {
 
     void dispatchCommand(UUID uuid, String command,
                          CommandTag.CommandLevel commandLevel);
+
+    String matchMaterialName(String materialName);
+
 }
