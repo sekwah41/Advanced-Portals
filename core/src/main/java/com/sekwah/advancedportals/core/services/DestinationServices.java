@@ -142,8 +142,10 @@ public class DestinationServices {
     public boolean teleportToDestination(String name, PlayerContainer player,
                                          boolean doEffect) {
         if (this.destinationRepository.containsKey(name)) {
-
-            if (player.getServer().getWorld(this.destinationRepository.get(name).getLoc().getWorldName()) == null) {
+            if (player.getServer().getWorld(this.destinationRepository.get(name)
+                                                .getLoc()
+                                                .getWorldName())
+                == null) {
                 infoLogger.warning(Lang.translate("desti.error.invalidworld"));
                 return false;
             }
