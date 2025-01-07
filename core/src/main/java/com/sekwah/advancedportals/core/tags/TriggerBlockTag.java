@@ -60,7 +60,7 @@ public class TriggerBlockTag implements Tag.AutoComplete, Tag.Split, Tag.Creatio
         for (int i = 0; i < argData.length; i++) {
             String material = serverContainer.matchMaterialName(argData[i]);
             if (material == null || !isValidMaterial(material)) {
-                infoLogger.warning(Lang.translate("tag.triggerblock.error.invalidmaterial"));
+                player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.triggerblock.error.invalidmaterial"));
                 return false;
             }
             argData[i] = material;
