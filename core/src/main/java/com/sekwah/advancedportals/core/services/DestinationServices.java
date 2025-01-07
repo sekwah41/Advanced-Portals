@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -12,7 +11,6 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.ArrayList;
@@ -30,9 +28,6 @@ public class DestinationServices {
 
     @Inject
     private ConfigRepository configRepository;
-
-    @Inject
-    InfoLogger infoLogger;
 
     @Inject
     TagRegistry tagRegistry;
@@ -146,7 +141,14 @@ public class DestinationServices {
                                                 .getLoc()
                                                 .getWorldName())
                 == null) {
-                infoLogger.warning(Lang.translate("desti.error.invalidworld"));
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables(
+                        "desti.error.invalidworld",
+                        destinationRepository.get(name).getName(),
+                        destinationRepository.get(name)
+                            .getLoc()
+                            .getWorldName()));
                 return false;
             }
 
