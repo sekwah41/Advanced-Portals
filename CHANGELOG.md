@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.2.0...v2.2.1) (2025-01-07)
+
+
+### Bug Fixes 🐛
+
+* check for world existence ([2528ebf](https://github.com/sekwah41/Advanced-Portals/commit/2528ebfe5141d29bc7762b283d188562e8424c8f))
+* teleport call that doesn't check world ([#513](https://github.com/sekwah41/Advanced-Portals/issues/513)) ([e1a9e3d](https://github.com/sekwah41/Advanced-Portals/commit/e1a9e3d86f085e746902c284177944233162a909))
+* trigger block validation ([#510](https://github.com/sekwah41/Advanced-Portals/issues/510)) ([ef6f976](https://github.com/sekwah41/Advanced-Portals/commit/ef6f97615f7c177564ac10c4989e386dabd60f80))
+
 ## [2.2.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.1.1...v2.2.0) (2025-01-04)
 
 
