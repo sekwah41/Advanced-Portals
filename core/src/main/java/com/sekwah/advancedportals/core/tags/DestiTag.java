@@ -10,7 +10,6 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
-import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -31,9 +30,6 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
     @Inject
     ServerContainer serverContainer;
-
-    @Inject
-    InfoLogger infoLogger;
 
     @Inject
     private transient TagRegistry tagRegistry;
