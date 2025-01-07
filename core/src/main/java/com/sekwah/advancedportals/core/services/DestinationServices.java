@@ -141,9 +141,14 @@ public class DestinationServices {
                                                 .getLoc()
                                                 .getWorldName())
                 == null) {
-                player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables(
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables(
                         "desti.error.invalidworld",
-                        destinationRepository.get(name).getName(), destinationRepository.get(name).getLoc().getWorldName()));
+                        destinationRepository.get(name).getName(),
+                        destinationRepository.get(name)
+                            .getLoc()
+                            .getWorldName()));
                 return false;
             }
 

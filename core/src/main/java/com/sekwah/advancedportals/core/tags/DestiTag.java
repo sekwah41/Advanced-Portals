@@ -139,10 +139,13 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
 
-        if (serverContainer.getWorld(destination.getLoc().getWorldName()) == null) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables(
+        if (serverContainer.getWorld(destination.getLoc().getWorldName())
+            == null) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translateInsertVariables(
                                    "desti.error.invalidworld",
-                                   destination.getName(), destination.getLoc().getWorldName()));
+                                   destination.getName(),
+                                   destination.getLoc().getWorldName()));
             return false;
         }
 
