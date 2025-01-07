@@ -155,9 +155,9 @@ public class SpigotServerContainer implements ServerContainer {
     @Override
     public String matchMaterialName(String materialName) {
         return Arrays.stream(Material.values())
-                .map(Enum::name)
-                .filter(name -> name.equalsIgnoreCase(materialName))
-                .findFirst()
-                .orElse(null);
+            .map(Enum::name)
+            .filter(name -> name.equalsIgnoreCase(materialName))
+            .findFirst()
+            .orElse(null);
     }
 }
