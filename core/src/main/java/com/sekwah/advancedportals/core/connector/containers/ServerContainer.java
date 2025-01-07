@@ -25,5 +25,4 @@ public interface ServerContainer {
                          CommandTag.CommandLevel commandLevel);
 
     String matchMaterialName(String materialName);
-
 }
