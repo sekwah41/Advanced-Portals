@@ -8,6 +8,8 @@ include 'lang'
 include 'spigot'
 include 'legacyspigot'
 
+include 'forge-1-18'
+
 // Proxies
 include 'velocity'
 include 'bungee'

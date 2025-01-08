@@ -1,0 +1,298 @@
+// Pulled from https://github.com/sekwah41/Naruto-Mod/blob/v1.3.0/build.gradle
+// TODO decide what needs to be removed and kept
+
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = "https://repo.spongepowered.org/maven" }
+        //maven { url = 'https://sizableshrimp.me/maven' }
+        maven { url = "https://plugins.gradle.org/m2/" }
+        maven { url = "https://maven.parchmentmc.org" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath "org.spongepowered:mixingradle:0.7+"
+        classpath "org.apache.httpcomponents:httpmime:4.5.13"
+        classpath "org.parchmentmc:librarian:1.+"
+    }
+}
+plugins {
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: "java"
+apply plugin: 'eclipse'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+//apply plugin: 'maven-publish'
+
+// May be able to remove it
+apply plugin: "org.spongepowered.mixin"
+
+def branch = System.getenv("GITHUB_REF")
+def snapshotName = null;
+if(branch != null) {
+    branch = branch.replace('refs/heads/', '')
+}
+def isRelease = System.getenv("IS_RELEASE") == "true"
+
+snapshotName = (branch == null || branch.startsWith("release-please")) ? "SNAPSHOT" : branch
+def githubSha = System.getenv("GITHUB_SHA")
+def shaRef = githubSha != null ? "-${githubSha.substring(0, 8)}" : ""
+
+println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
+
+// Get version from file managed by please-release
+def versionString = (file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '')
+setVersion(versionString)
+println "Version: ${getVersion()}"
+
+group = project.package // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = project.archive
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+repositories {
+    maven { url = "https://maven.sekwah.com" }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+minecraft {
+    // The mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   Snapshot are built nightly.
+    // stable_#            Stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // Simply re-run your setup task after changing the mappings to update your workspace.
+    //mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
+    //mappings channel: 'parchment', version: '2021.07.21-1.17'
+
+    // This is for personal local tests i was doing ignore it ;)
+    //mappings channel: 'snapshot', version: '20200706-unofficialtest-1.16.1'
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            //property 'forge.logging.markers', 'SCAN,REGISTR
+            //version=1.2.1ES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
+            mods {
+                "${project.modid}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', ''
+            //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                "${project.modid}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            forceExit false
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', ''
+            //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', project.modid, '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                "${project.modid}" {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+
+    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
+    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
+    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.24'
+
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    implementation fg.deobf("com.sekwah:SekCLib:0.3.0")
+    // Trick intellij to allow for better editing in here for the discord task
+    // compile "org.apache.httpcomponents:httpmime:4.5.13"
+    //implementation fg.deobf("curse.maven:torohealth-damage-indicators-245733:3556931")
+//    implementation fg.deobf("curse.maven:jei-238222:3592081")
+//    implementation fg.deobf("curse.maven:configured-457570:3559398")
+//    implementation fg.deobf("curse.maven:jade-324717:3614180")
+
+    //implementation fg.deobf("curse.maven:hwyla:${project.hwyla_fileid}")
+
+    //include('org.ow2.asm:asm-debug-all:5.2')
+
+    // You may put jars on which you depend on in ./libs or you may define them like so..
+    // compile "some.group:artifact:version:classifier"
+    // compile "some.group:artifact:version"
+
+    // Real examples
+    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // For more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+}
+
+mixin {
+    add sourceSets.main, "mixins.${project.modid}.refmap.json"
+
+    debug.verbose = true
+    debug.export = true
+}
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    finalizedBy 'reobfJar'
+    classifier = 'universal'
+    manifest {
+        attributes([
+                "Specification-Title": project.modid,
+                "Specification-Vendor": project.vendor,
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${versionString}",
+                "Implementation-Vendor" :project.vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "mixins.${project.modid}.json"
+        ])
+    }
+}
+
+// Example configuration to allow publishing using the maven-publish task
+// we define a custom artifact that is sourced from the reobfJar output task
+// and then declare that to be published
+// Note you'll need to add a repository here
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
+}
+
+task srcJar(type: Jar) {
+    build.dependsOn it
+    from sourceSets.main.allSource
+    classifier = 'sources'
+    from file("LICENSE")
+}
+
+task deobfJar(type: Jar) {
+    build.dependsOn it
+    from sourceSets.main.output
+    classifier = 'deobf'
+    from file("LICENSE")
+}
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        // For more info see https://medium.com/@jonastm/jdk-17-with-dcevm-and-hotswapagent-4fee7095617a on how to enable for java 17
+        substitute module('cpw.mods:securejarhandler') using module('cpw.mods:securejarhandler:0.9.+') because "Fixes support for DCEVM"
+    }
+}
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            artifact reobfArtifact
+//            artifact srcJar
+//            artifact deobfJar
+//        }
+//    }
+//    repositories {
+//        maven {
+//            url "s3://sekwah-maven/"
+//            authentication {
+//                awsIm(AwsImAuthentication)
+//            }
+//        }
+//    }
+//}
+
+/**
+ * For pre-releases and testers to be able to try the latest commits if they want.
+ * If the builds start exceeding 8MB then we may want to upload to s3 instead and periodically clear.
+ * TODO possibly add a task that announces when builds are made?
+ * Though add a note that it may take a while for Curse to approve the files.
+ */
+task discordupload {
+    dependsOn(jar)
+    doLast {
+        String discordWebhook = System.getenv("DISCORD_WEBHOOK")
+
+        if(discordWebhook != null) {
+            println("Logging Into Discord")
+
+            CloseableHttpClient httpClient = HttpClients.createDefault()
+            HttpPost uploadFile = new HttpPost(discordWebhook)
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+            if(!isRelease) {
+                builder.addTextBody("content", "New snapshot or testing build")
+            } else {
+                builder.addTextBody("content", "New release build\n\n" +
+                        "Current Features: <${project.github}/blob/master/CHANGELOG.md>")
+            }
+
+            builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+
+            HttpEntity multipart = builder.build()
+
+            uploadFile.setEntity(multipart)
+            CloseableHttpResponse response = httpClient.execute(uploadFile)
+            response.getEntity()
+
+            println("Posted build")
+
+        } else {
+            println("Discord webhook unspecified")
+        }
+    }
+}
+
+tasks.curseforge.enabled = System.getenv("CURSE_API") != null
