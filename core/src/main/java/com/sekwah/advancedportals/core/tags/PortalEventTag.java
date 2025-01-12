@@ -11,6 +11,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nullable;
@@ -78,7 +80,7 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete,
     @Nullable
     @Override
     public List<String> autoComplete(String argData) {
-        return List.of("true", "false");
+        return Arrays.asList("true", "false");
     }
 
     @Override

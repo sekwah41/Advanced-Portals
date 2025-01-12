@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.core.tags;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.network.Packet;
 import com.sekwah.advancedportals.core.network.ProxyTransferDestiPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferPacket;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -66,11 +67,14 @@ public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
 
         String selectedArg = argData[random.nextInt(argData.length)];
 
-        var desti = activeData.getMetadata(DestiTag.TAG_NAME);
+        String desti = activeData.getMetadata(DestiTag.TAG_NAME);
 
-        var packet = desti == null
-            ? new ProxyTransferPacket(selectedArg)
-            : new ProxyTransferDestiPacket(selectedArg, desti);
+        Packet packet;
+        if (desti == null) {
+            packet = new ProxyTransferPacket(selectedArg);
+        } else {
+            packet = new ProxyTransferDestiPacket(selectedArg, desti);
+        }
         player.sendPacket(ProxyMessages.CHANNEL_NAME, packet.encode());
         activeData.setWarpStatus(ActivationData.WarpedStatus.WARPED);
         return true;

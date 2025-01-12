@@ -74,8 +74,9 @@ public class Destination implements TagTarget {
         }
 
         this.destiTags.sort(Comparator.comparingInt(o -> {
-            var tag = tagRegistry.getTag(o.NAME);
-            if (tag instanceof Tag.OrderPriority tagPriority) {
+            Tag tag = tagRegistry.getTag(o.NAME);
+            if (tag instanceof Tag.OrderPriority ) {
+                Tag.OrderPriority tagPriority = (Tag.OrderPriority) tag;
                 return tagPriority.getPriority().ordinal();
             } else {
                 return Tag.Priority.NORMAL.ordinal();

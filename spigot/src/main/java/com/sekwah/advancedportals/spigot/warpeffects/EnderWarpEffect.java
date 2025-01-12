@@ -12,8 +12,10 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     public void onWarpSound(PlayerContainer playerContainer,
                             WarpEffect.Action action) {
         if (playerContainer
-            instanceof SpigotPlayerContainer spigotPlayerContainer) {
-            var player = spigotPlayerContainer.getPlayer();
+            instanceof SpigotPlayerContainer) {
+            SpigotPlayerContainer spigotPlayerContainer =
+                (SpigotPlayerContainer) playerContainer;
+            org.bukkit.entity.Player player = spigotPlayerContainer.getPlayer();
 
             player.getWorld().playSound(player.getLocation(),
                                         "entity.enderman.teleport", 1, 1);
@@ -24,10 +26,12 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     public void onWarpVisual(PlayerContainer playerContainer,
                              WarpEffect.Action action) {
         if (playerContainer
-            instanceof SpigotPlayerContainer spigotPlayerContainer) {
-            var player = spigotPlayerContainer.getPlayer();
-            var world = player.getWorld();
-            var loc = player.getLocation().clone();
+            instanceof SpigotPlayerContainer) {
+            SpigotPlayerContainer spigotPlayerContainer =
+                (SpigotPlayerContainer) playerContainer;
+            org.bukkit.entity.Player player = spigotPlayerContainer.getPlayer();
+            org.bukkit.World world = player.getWorld();
+            org.bukkit.Location loc = player.getLocation().clone();
             for (int i = 0; i < 10; i++) {
                 world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
             }

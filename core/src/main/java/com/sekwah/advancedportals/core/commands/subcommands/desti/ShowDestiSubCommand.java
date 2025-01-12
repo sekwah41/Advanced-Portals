@@ -53,7 +53,7 @@ public class ShowDestiSubCommand
             return;
         }
 
-        var tempData =
+        com.sekwah.advancedportals.core.serializeddata.PlayerData tempData =
             tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
             sender.sendMessage(
@@ -92,14 +92,14 @@ public class ShowDestiSubCommand
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
             for (PlayerContainer player : serverContainer.getPlayers()) {
-                var tempData = tempDataServices.getPlayerData(player);
+                com.sekwah.advancedportals.core.serializeddata.PlayerData tempData = tempDataServices.getPlayerData(player);
                 if (!tempData.isDestiVisible()) {
                     continue;
                 }
 
                 for (Destination destination :
                      destinationServices.getDestinations()) {
-                    var pos = destination.getLoc();
+                    PlayerLocation pos = destination.getLoc();
                     if (Objects.equals(pos.getWorldName(),
                                        player.getWorldName())
                         && pos.distanceTo(player.getLoc())

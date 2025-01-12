@@ -49,7 +49,7 @@ public class PermissionBuilder {
     }
 
     public PermissionBuilder createChild(String permissionTag) {
-        var child = new PermissionBuilder(permissionTag, this);
+        PermissionBuilder child = new PermissionBuilder(permissionTag, this);
         children.add(child);
 
         return child;
@@ -57,7 +57,7 @@ public class PermissionBuilder {
 
     public PermissionBuilder createChild(String permissionTag,
                                          PermissionDefault permissionDefault) {
-        var child =
+        PermissionBuilder child =
             new PermissionBuilder(permissionTag, this, permissionDefault);
         children.add(child);
 
@@ -90,12 +90,18 @@ public class PermissionBuilder {
         if (Permissions.hasPermissionManager) {
             return sender.hasPermission(this.toString());
         }
-        return switch (permissionDefault) {
-            case TRUE -> true;
-            case FALSE -> false;
-            case OP -> sender.isOp();
-            case NOT_OP -> !sender.isOp();
-        };
+        switch (permissionDefault) {
+            case TRUE:
+                return true;
+            case FALSE:
+                return false;
+            case OP:
+                return sender.isOp();
+            case NOT_OP:
+                return !sender.isOp();
+            default:
+                throw new IllegalStateException("Unexpected value: " + permissionDefault);
+        }
     }
 
     public List<PermissionBuilder> getChildren() {

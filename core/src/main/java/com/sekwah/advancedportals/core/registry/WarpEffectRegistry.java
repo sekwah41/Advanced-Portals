@@ -41,8 +41,9 @@ public class WarpEffectRegistry {
 
     public WarpEffect.Visual getVisualEffect(String name) {
         if (this.warpEffects.containsKey(name.toLowerCase())) {
-            var effect = this.warpEffects.get(name);
-            if (effect instanceof WarpEffect.Visual visual) {
+            WarpEffect effect = this.warpEffects.get(name);
+            if (effect instanceof WarpEffect.Visual) {
+                WarpEffect.Visual visual = (WarpEffect.Visual) effect;
                 return visual;
             } else {
                 this.infoLogger.warning("Effect called " + name
@@ -58,9 +59,9 @@ public class WarpEffectRegistry {
 
     public WarpEffect.Sound getSoundEffect(String name) {
         if (this.warpEffects.containsKey(name)) {
-            var effect = this.warpEffects.get(name);
-            if (effect instanceof WarpEffect.Sound sound) {
-                return sound;
+            WarpEffect effect = this.warpEffects.get(name);
+            if (effect instanceof WarpEffect.Sound) {
+                return (WarpEffect.Sound) effect;
             } else {
                 this.infoLogger.warning("Effect called " + name
                                         + " is not a sound effect");

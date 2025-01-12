@@ -217,7 +217,7 @@ public class AdvancedPortalsCore {
     }
 
     public void onDisable() {
-        for (var playerContainer : this.serverContainer.getPlayers()) {
+        for (com.sekwah.advancedportals.core.connector.containers.PlayerContainer playerContainer : this.serverContainer.getPlayers()) {
             playerDataRepository.playerLeave(playerContainer);
         }
         this.infoLogger.info(Lang.translate("logger.plugindisable"));

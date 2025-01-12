@@ -25,7 +25,7 @@ public class PermissionsGeneratorSpigot {
                 builder.append(indent).append(indent).append("description: ");
                 builder.append(permission.getDescription()).append("\n");
             }
-            var children = permission.getGrantChildren();
+            java.util.List<PermissionBuilder> children = permission.getGrantChildren();
             if (!children.isEmpty()) {
                 builder.append(indent).append(indent).append("children:\n");
                 for (PermissionBuilder child : children) {

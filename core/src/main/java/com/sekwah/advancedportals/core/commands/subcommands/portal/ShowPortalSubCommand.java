@@ -65,7 +65,7 @@ public class ShowPortalSubCommand
             return;
         }
 
-        var tempData =
+        com.sekwah.advancedportals.core.serializeddata.PlayerData tempData =
             playerDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isPortalVisible()) {
             sender.sendMessage(
@@ -104,14 +104,14 @@ public class ShowPortalSubCommand
         gameScheduler.intervalTickEvent("show_portal", () -> {
             alternate_show_trigger = !alternate_show_trigger;
             for (PlayerContainer player : serverContainer.getPlayers()) {
-                var tempData = playerDataServices.getPlayerData(player);
+                com.sekwah.advancedportals.core.serializeddata.PlayerData tempData = playerDataServices.getPlayerData(player);
 
                 if (!tempData.isPortalVisible()) {
                     continue;
                 }
 
-                var pos1 = tempData.getPos1();
-                var pos2 = tempData.getPos2();
+                BlockLocation pos1 = tempData.getPos1();
+                BlockLocation pos2 = tempData.getPos2();
 
                 if (pos1 != null && pos2 != null
                     && pos1.getWorldName().equals(player.getWorldName())
@@ -144,7 +144,7 @@ public class ShowPortalSubCommand
                     }
                 }
 
-                for (var portal : portalServices.getPortals()) {
+                for (AdvancedPortal portal : portalServices.getPortals()) {
                     if (Objects.equals(portal.getMinLoc().getWorldName(),
                                        player.getWorldName())
                         && portal.isLocationInPortal(
@@ -216,9 +216,9 @@ public class ShowPortalSubCommand
         int maxY = Math.max(pos1.getPosY(), pos2.getPosY());
         int maxZ = Math.max(pos1.getPosZ(), pos2.getPosZ());
 
-        var size = pos1.getSize(pos2);
+        int size = pos1.getSize(pos2);
 
-        var world = player.getWorld();
+        com.sekwah.advancedportals.core.connector.containers.WorldContainer world = player.getWorld();
 
         if (size <= config.maxPortalVisualisationSize()) {
             drawBox(player, pos1, pos2, color, 0.5f);
@@ -226,7 +226,7 @@ public class ShowPortalSubCommand
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
-                        var pos =
+                        BlockLocation pos =
                             new BlockLocation(pos1.getWorldName(), x, y, z);
                         boolean isTrigger = portal != null
                             && portal.isTriggerBlock(world.getBlock(pos));

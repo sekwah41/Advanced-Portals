@@ -58,7 +58,7 @@ public class ImportPortalSubCommand implements SubCommand {
     public int getDestinationCount() {
         ConfigAccessor destiConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
-        var config = destiConfig.getConfig();
+        org.bukkit.configuration.file.FileConfiguration config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
         return destiSet.size();
@@ -67,7 +67,7 @@ public class ImportPortalSubCommand implements SubCommand {
     public int getPortalCount() {
         ConfigAccessor portalConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "portals.yaml");
-        var config = portalConfig.getConfig();
+        org.bukkit.configuration.file.FileConfiguration config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         return portalSet.size();

@@ -83,7 +83,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            for (var destiTag : destination.getArgs()) {
+            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);
@@ -105,11 +105,11 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
             return;
         }
 
-        var selectedArg = activationData.getMetadata(TAG_NAME);
+        String selectedArg = activationData.getMetadata(TAG_NAME);
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            for (var destiTag : destination.getArgs()) {
+            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);
@@ -118,7 +118,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
                                                     activationData, argData);
                 }
             }
-            var message = activationData.getMetadata(MessageTag.TAG_NAME);
+            String message = activationData.getMetadata(MessageTag.TAG_NAME);
             if (message == null) {
                 sendMessage(player,
                             Lang.translateInsertVariables(
@@ -135,7 +135,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
             return true;
         }
 
-        var selectedArg = activationData.getMetadata(TAG_NAME);
+        String selectedArg = activationData.getMetadata(TAG_NAME);
         Destination destination =
             destinationServices.getDestination(selectedArg);
 
@@ -150,9 +150,9 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         }
 
         if (destination != null) {
-            var warpEffectVisual = warpEffectRegistry.getVisualEffect(
+            WarpEffect.Visual warpEffectVisual = warpEffectRegistry.getVisualEffect(
                 configRepository.getWarpVisual());
-            var warpEffectSound = warpEffectRegistry.getSoundEffect(
+            WarpEffect.Sound warpEffectSound = warpEffectRegistry.getSoundEffect(
                 configRepository.getWarpSound());
             if (configRepository.getWarpEffectEnabled()) {
                 if (warpEffectVisual != null) {
@@ -167,7 +167,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
             player.teleport(destination.getLoc());
 
-            for (var destiTag : destination.getArgs()) {
+            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);

@@ -49,8 +49,8 @@ public class MessageTag implements Tag.Activation {
     @Override
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
-        var destination = activationData.getMetadata(DestiTag.TAG_NAME);
-        var message = activationData.getMetadata(TAG_NAME);
+        String destination = activationData.getMetadata(DestiTag.TAG_NAME);
+        String message = activationData.getMetadata(TAG_NAME);
         if (destination == null) {
             destination = "";
         } else {

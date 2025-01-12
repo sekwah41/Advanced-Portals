@@ -85,8 +85,9 @@ public class AdvancedPortal implements TagTarget {
 
         // sort the tags by priority
         this.portalTags.sort(Comparator.comparingInt(o -> {
-            var tag = tagRegistry.getTag(o.NAME);
-            if (tag instanceof Tag.OrderPriority tagPriority) {
+            Tag tag = tagRegistry.getTag(o.NAME);
+            if (tag instanceof Tag.OrderPriority ) {
+                Tag.OrderPriority tagPriority = (Tag.OrderPriority) tag;
                 return tagPriority.getPriority().ordinal();
             } else {
                 return Tag.Priority.NORMAL.ordinal();
@@ -142,17 +143,17 @@ public class AdvancedPortal implements TagTarget {
             updatePortalTagList();
         }
 
-        var playerData = playerDataServices.getPlayerData(player);
+        com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
 
         if (playerData.hasJoinCooldown()) {
-            var cooldown =
+            int cooldown =
                 (int) Math.ceil(playerData.getJoinCooldownLeft() / 1000D);
             player.sendMessage(Lang.translateInsertVariables(
                 "portal.cooldown.join", cooldown,
                 Lang.translate(cooldown == 1 ? "time.second"
                                              : "time.seconds")));
             if (configRepository.playFailSound()) {
-                var rand = new Random();
+                Random rand = new Random();
                 player.playSound("block.portal.travel", 0.05f,
                                  rand.nextFloat() * 0.4F + 0.8F);
             }
@@ -165,15 +166,15 @@ public class AdvancedPortal implements TagTarget {
             Tag.Activation activationHandler = tagRegistry.getActivationHandler(
                 portalTag.NAME, Tag.TagType.PORTAL);
             if (activationHandler != null) {
-                var preActivated = activationHandler.preActivated(
+                boolean preActivated = activationHandler.preActivated(
                     this, player, data, this.getArgValues(portalTag.NAME));
 
                 if (!preActivated) {
-                    if (activationHandler
-                            instanceof Tag.DenyBehavior denyBehavior
-                        && denyBehavior.getDenyBehavior()
-                            == Tag.DenyBehavior.Behaviour.SILENT) {
-                        return ActivationResult.FAILED_DO_NOTHING;
+                    if (activationHandler instanceof Tag.DenyBehavior) {
+                        Tag.DenyBehavior denyBehaviorHandler = (Tag.DenyBehavior) activationHandler;
+                        if (denyBehaviorHandler.getDenyBehavior().equals(Tag.DenyBehavior.Behaviour.SILENT)) {
+                            return ActivationResult.FAILED_DO_NOTHING;
+                        }
                     }
                     return ActivationResult.FAILED_DO_KNOCKBACK;
                 }
@@ -243,7 +244,7 @@ public class AdvancedPortal implements TagTarget {
     }
 
     public boolean isTriggerBlock(String blockMaterial) {
-        var triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
+        String[] triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
         if (triggerBlocks != null) {
             for (String triggerBlock : triggerBlocks) {
                 if (blockMaterial.equals(triggerBlock)) {

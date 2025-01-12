@@ -52,11 +52,12 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activationData,
                                 String[] argData) {
-        var playerData = playerDataServices.getPlayerData(player);
-        if (target instanceof AdvancedPortal portal) {
-            var portalName = portal.getName();
+        com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+        if (target instanceof AdvancedPortal) {
+            AdvancedPortal portal = (AdvancedPortal) target;
+            String portalName = portal.getName();
             if (playerData.hasPortalCooldown(portalName)) {
-                var cooldown = (int) Math.ceil(
+                int cooldown = (int) Math.ceil(
                     playerData.getPortalCooldownLeft(portalName) / 1000D);
                 player.sendMessage(Lang.translateInsertVariables(
                     "portal.cooldown.individual", cooldown,
@@ -77,8 +78,9 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
         if (activationData.hasActivated()) {
-            if (target instanceof AdvancedPortal portal) {
-                var playerData = playerDataServices.getPlayerData(player);
+            if (target instanceof AdvancedPortal) {
+                AdvancedPortal portal = (AdvancedPortal) target;
+                com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
                 try {
                     playerData.setPortalCooldown(
                         portal.getName(), Integer.parseInt(argData[0]) * 1000);

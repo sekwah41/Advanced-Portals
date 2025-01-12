@@ -17,7 +17,8 @@ public class BungeeProxyContainer implements ProxyContainer {
     public void invokeCommand(ProxyPlayerContainer proxyPlayer,
                               String command) {
         // Should never not be true but just to be safe
-        if (proxyPlayer instanceof BungeeProxyPlayerContainer playerContainer) {
+        if (proxyPlayer instanceof BungeeProxyPlayerContainer) {
+            BungeeProxyPlayerContainer playerContainer = (BungeeProxyPlayerContainer) proxyPlayer;
             plugin.getProxy().getPluginManager().dispatchCommand(
                 playerContainer.getPlayer(), command);
         }
@@ -27,9 +28,10 @@ public class BungeeProxyContainer implements ProxyContainer {
     public void transferPlayer(ProxyPlayerContainer proxyPlayer,
                                String serverName) {
         // Should never not be true but just to be safe
-        if (proxyPlayer instanceof BungeeProxyPlayerContainer playerContainer) {
-            var serverInfo = plugin.getProxy().getServerInfo(serverName);
-            var player = playerContainer.getPlayer();
+        if (proxyPlayer instanceof BungeeProxyPlayerContainer) {
+            BungeeProxyPlayerContainer playerContainer = (BungeeProxyPlayerContainer) proxyPlayer;
+            net.md_5.bungee.api.config.ServerInfo serverInfo = plugin.getProxy().getServerInfo(serverName);
+            net.md_5.bungee.api.connection.ProxiedPlayer player = playerContainer.getPlayer();
             if (serverInfo == null) {
                 player.sendMessage(new TextComponent(
                     Lang.convertColors("&cCould not find server: &e")

@@ -37,7 +37,7 @@ public class AdvancedPortalsProxyCore {
     public void onServerConnect(ProxyServerContainer server,
                                 ProxyPlayerContainer player) {
         if (this.playerJoinMap.containsKey(player.getUUID())) {
-            var joinData = this.playerJoinMap.get(player.getUUID());
+            ProxyJoinData joinData = this.playerJoinMap.get(player.getUUID());
             if (joinData.isExpired())
                 return;
             player.sendServerPluginMessage(
@@ -57,31 +57,31 @@ public class AdvancedPortalsProxyCore {
      * @param message
      */
     public void incomingMessage(ProxyPlayerContainer player, byte[] message) {
-        var buffer = ByteStreams.newDataInput(message);
-        var messageType = buffer.readUTF();
+        com.sekwah.advancedportals.shadowed.guava.io.ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
+        String messageType = buffer.readUTF();
 
         // Might be a bit overboard for some as they'll only have one value, but
         // try to keep the decode behavior with the encode behavior in the
         // packets
         switch (messageType) {
-            case ProxyMessages.PROXY_TRANSFER -> {
-                var transferPacket = ProxyTransferPacket.decode(buffer);
+            case ProxyMessages.PROXY_TRANSFER:
+                ProxyTransferPacket transferPacket = ProxyTransferPacket.decode(buffer);
                 this.logger.info("Transfer request for " + player.getName() + " to " + transferPacket.getServerName());
                 this.proxyContainer.transferPlayer(player, transferPacket.getServerName());
-            }
-            case ProxyMessages.PROXY_COMMAND -> {
-                var commandPacket = ProxyCommandPacket.decode(buffer);
+                break;
+            case ProxyMessages.PROXY_COMMAND:
+                ProxyCommandPacket commandPacket = ProxyCommandPacket.decode(buffer);
                 this.logger.info("Command request for " + player.getName() + " to run /" + commandPacket.getCommand());
                 this.proxyContainer.invokeCommand(player, commandPacket.getCommand());
-            }
-            case ProxyMessages.PROXY_TRANSFER_DESTI -> {
-                var transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
+                break;
+            case ProxyMessages.PROXY_TRANSFER_DESTI:
+                ProxyTransferDestiPacket transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
                 this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
                 this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
-            }
-            default -> {
+                break;
+            default:
                 this.logger.info("Unknown message type: " + messageType);
-            }
+                break;
         }
 
     }

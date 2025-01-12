@@ -16,8 +16,8 @@ public class InfoPortalSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1) {
-            var portalName = args[1];
-            var portal = portalServices.getPortal(portalName);
+            String portalName = args[1];
+            com.sekwah.advancedportals.core.portal.AdvancedPortal portal = portalServices.getPortal(portalName);
             if (portal == null) {
                 sender.sendMessage(
                     Lang.getNegativePrefix()
