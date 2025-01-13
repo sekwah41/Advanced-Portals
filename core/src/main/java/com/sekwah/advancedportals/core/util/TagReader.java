@@ -17,7 +17,7 @@ public class TagReader {
                 currentValue = new StringBuilder(arg.substring(colonIndex + 1));
                 inQuotes = currentValue.toString().startsWith("\"");
             } else {
-                if (!currentValue.isEmpty()) {
+                if (currentValue.length() != 0) {
                     currentValue.append(" ");
                 }
                 currentValue.append(arg);
@@ -57,7 +57,7 @@ public class TagReader {
                     currentValue.deleteCharAt(0);
                 }
             } else {
-                if (!currentValue.isEmpty()) {
+                if (currentValue.length() != 0) {
                     currentValue.append(" ");
                 }
                 currentValue.append(arg);

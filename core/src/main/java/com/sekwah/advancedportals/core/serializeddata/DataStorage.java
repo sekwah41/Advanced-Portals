@@ -36,12 +36,12 @@ public class DataStorage {
 
         loaderOptions.setTagInspector(tagInspector);
 
-        var options = new DumperOptions();
+        DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        var representer = new ReflectiveRepresenter(options);
+        ReflectiveRepresenter representer = new ReflectiveRepresenter(options);
         representer.addClassTag(clazz, Tag.MAP);
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        var constructor = new ReflectiveConstructor(clazz, loaderOptions);
+        ReflectiveConstructor constructor = new ReflectiveConstructor(clazz, loaderOptions);
 
         AdvancedPortalsCore.getInstance()
             .getModule()

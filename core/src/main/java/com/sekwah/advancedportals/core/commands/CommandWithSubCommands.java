@@ -36,7 +36,8 @@ public class CommandWithSubCommands implements CommandTemplate {
         boolean result =
             this.subCommandRegistry.registerSubCommand(arg, subCommand)
             || hasRegistered;
-        if (subCommand instanceof SubCommand.SubCommandOnInit init) {
+        if (subCommand instanceof SubCommand.SubCommandOnInit ) {
+            SubCommand.SubCommandOnInit init = (SubCommand.SubCommandOnInit) subCommand;
             init.registered();
         }
         return result;
@@ -86,7 +87,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                         if (this.subCommandRegistry.isArgRegistered(
                                 subCommand)) {
                             sender.sendMessage("");
-                            var helpTitle = Lang.centeredTitle(
+                            String helpTitle = Lang.centeredTitle(
                                 Lang.translateInsertVariables(
                                     "command.help.subcommandheader", command,
                                     subCommand));
@@ -105,7 +106,7 @@ public class CommandWithSubCommands implements CommandTemplate {
                 }
                 sender.sendMessage("");
 
-                var helpTitle =
+                String helpTitle =
                     Lang.centeredTitle(Lang.translateInsertVariables(
                         "command.help.header", command, helpPage, pages));
 

@@ -18,6 +18,7 @@ import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreatePortalSubCommand extends CreateTaggedSubCommand {
     @Inject
@@ -67,7 +68,7 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
             }
             sender.sendMessage("");
 
-            var triggerBlockTag =
+            DataTag triggerBlockTag =
                 portalTags.stream()
                     .filter(tag -> tag.NAME.equals(TriggerBlockTag.TAG_NAME))
                     .findFirst()
@@ -102,13 +103,13 @@ public class CreatePortalSubCommand extends CreateTaggedSubCommand {
 
     @Override
     protected List<Tag> getRelatedTags() {
-        var tags = tagRegistry.getTags();
+        List<Tag> tags = tagRegistry.getTags();
         // Filter tags that support Destination
         return tags.stream()
             .filter(tag
                     -> Arrays.asList(tag.getTagTypes())
                            .contains(Tag.TagType.PORTAL))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @Override

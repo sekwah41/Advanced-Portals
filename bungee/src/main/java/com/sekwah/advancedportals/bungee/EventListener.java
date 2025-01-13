@@ -32,7 +32,8 @@ public class EventListener implements Listener {
         if (!(event.getSender() instanceof Server))
             return;
 
-        if (event.getReceiver() instanceof ProxiedPlayer player) {
+        if (event.getReceiver() instanceof ProxiedPlayer) {
+            ProxiedPlayer player = (ProxiedPlayer) event.getReceiver();
             this.proxyCore.incomingMessage(
                 new BungeeProxyPlayerContainer(player), event.getData());
         }

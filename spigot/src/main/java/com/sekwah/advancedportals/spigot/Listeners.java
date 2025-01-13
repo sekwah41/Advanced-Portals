@@ -23,6 +23,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Some of these will be passed to the core listener to handle the events,
@@ -51,7 +52,7 @@ public class Listeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMoveEvent(PlayerMoveEvent event) {
-        var to = event.getTo();
+        Location to = event.getTo();
         coreListeners.playerMove(new SpigotPlayerContainer(event.getPlayer()),
                                  ContainerHelpers.toPlayerLocation(to));
     }
@@ -189,7 +190,7 @@ public class Listeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
-        var itemInHand = event.getPlayer().getItemInHand();
+        ItemStack itemInHand = event.getPlayer().getItemInHand();
         if (!coreListeners.blockBreak(
                 new SpigotPlayerContainer(event.getPlayer()),
                 ContainerHelpers.toBlockLocation(
@@ -228,7 +229,7 @@ public class Listeners implements Listener {
         BlockState[] tileEntities = event.getChunk().getTileEntities();
         for (BlockState block : tileEntities) {
             if (block.getType() == Material.END_GATEWAY) {
-                var loc = block.getLocation();
+                Location loc = block.getLocation();
                 if (portalServices.inPortalRegion(
                         new BlockLocation(loc.getWorld().getName(),
                                           loc.getBlockX(), loc.getBlockY(),

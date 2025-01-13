@@ -35,7 +35,7 @@ public class TagRegistry {
      */
     public Tag.Activation getActivationHandler(String arg,
                                                Tag.TagType targetType) {
-        var tag = this.activationTags.get(arg);
+        Tag.Activation tag = this.activationTags.get(arg);
         if (tag != null
             && Arrays.asList(tag.getTagTypes()).contains(targetType)) {
             return tag;
@@ -79,7 +79,7 @@ public class TagRegistry {
             return false;
         }
 
-        var aliases = tag.getAliases();
+        String[] aliases = tag.getAliases();
         this.literalTags.add(tagName);
         if (aliases != null) {
             for (String alias : aliases) {
@@ -100,13 +100,16 @@ public class TagRegistry {
 
         this.tagMap.put(tagName, tag);
 
-        if (tag instanceof Tag.Activation tagActivation) {
+        if (tag instanceof Tag.Activation) {
+            Tag.Activation tagActivation = (Tag.Activation) tag;
             this.activationTags.put(tagName, tagActivation);
         }
-        if (tag instanceof Tag.TagStatus tagStatus) {
+        if (tag instanceof Tag.TagStatus) {
+            Tag.TagStatus tagStatus = (Tag.TagStatus) tag;
             this.statusTags.put(tagName, tagStatus);
         }
-        if (tag instanceof Tag.Creation tagCreation) {
+        if (tag instanceof Tag.Creation) {
+            Tag.Creation tagCreation = (Tag.Creation) tag;
             this.creationTags.put(tagName, tagCreation);
         }
         return true;

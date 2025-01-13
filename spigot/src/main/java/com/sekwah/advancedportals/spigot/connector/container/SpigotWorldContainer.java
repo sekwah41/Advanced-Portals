@@ -11,6 +11,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.EndGateway;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 
 public class SpigotWorldContainer implements WorldContainer {
@@ -52,10 +53,11 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public BlockAxis getBlockAxis(BlockLocation location) {
-        var block = world.getBlockAt(location.getPosX(), location.getPosY(),
+        Block block = world.getBlockAt(location.getPosX(), location.getPosY(),
                                      location.getPosZ());
-        var matData = block.getState().getBlockData();
-        if (matData instanceof Orientable rotatable) {
+        BlockData matData = block.getState().getBlockData();
+        if (matData instanceof Orientable) {
+            Orientable rotatable = (Orientable) matData;
             try {
                 return BlockAxis.valueOf(rotatable.getAxis().toString());
             } catch (IllegalArgumentException e) {
@@ -67,10 +69,11 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public void setBlockAxis(BlockLocation location, BlockAxis axis) {
-        var block = world.getBlockAt(location.getPosX(), location.getPosY(),
+        Block block = world.getBlockAt(location.getPosX(), location.getPosY(),
                                      location.getPosZ());
-        var matData = block.getState().getBlockData();
-        if (matData instanceof Orientable rotatable) {
+        BlockData matData = block.getState().getBlockData();
+        if (matData instanceof Orientable) {
+            Orientable rotatable = (Orientable) matData;
             rotatable.setAxis(Axis.valueOf(axis.toString()));
             block.setBlockData(rotatable);
         }
@@ -80,11 +83,12 @@ public class SpigotWorldContainer implements WorldContainer {
     public void disableBeacon(BlockLocation location) {
         if (!endGatewaySetAgeExists)
             return;
-        var block = this.world.getBlockAt(
+        Block block = this.world.getBlockAt(
             location.getPosX(), location.getPosY(), location.getPosZ());
-        var blockType = block.getType();
+        Material blockType = block.getType();
         if (blockType == Material.END_GATEWAY
-            && block.getState() instanceof EndGateway endGateway) {
+            && block.getState() instanceof EndGateway) {
+            EndGateway endGateway = (EndGateway) block.getState();
             endGateway.setAge(Long.MIN_VALUE);
             endGateway.update();
         }

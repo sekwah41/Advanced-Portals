@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -52,11 +53,12 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activationData,
                                 String[] argData) {
-        var playerData = playerDataServices.getPlayerData(player);
-        if (target instanceof AdvancedPortal portal) {
-            var portalName = portal.getName();
+        PlayerData playerData = playerDataServices.getPlayerData(player);
+        if (target instanceof AdvancedPortal) {
+            AdvancedPortal portal = (AdvancedPortal) target;
+            String portalName = portal.getName();
             if (playerData.hasPortalCooldown(portalName)) {
-                var cooldown = (int) Math.ceil(
+                int cooldown = (int) Math.ceil(
                     playerData.getPortalCooldownLeft(portalName) / 1000D);
                 player.sendMessage(Lang.translateInsertVariables(
                     "portal.cooldown.individual", cooldown,
@@ -77,8 +79,9 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     public void postActivated(TagTarget target, PlayerContainer player,
                               ActivationData activationData, String[] argData) {
         if (activationData.hasActivated()) {
-            if (target instanceof AdvancedPortal portal) {
-                var playerData = playerDataServices.getPlayerData(player);
+            if (target instanceof AdvancedPortal) {
+                AdvancedPortal portal = (AdvancedPortal) target;
+                PlayerData playerData = playerDataServices.getPlayerData(player);
                 try {
                     playerData.setPortalCooldown(
                         portal.getName(), Integer.parseInt(argData[0]) * 1000);

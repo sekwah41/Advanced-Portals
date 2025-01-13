@@ -54,7 +54,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
-        var serverContainer = new SpigotServerContainer(this.getServer());
+        SpigotServerContainer serverContainer = new SpigotServerContainer(this.getServer());
         this.portalsCore = new AdvancedPortalsCore(
             matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
             new SpigotInfoLogger(this), serverContainer);
@@ -77,7 +77,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.getServer().getScheduler().scheduleSyncRepeatingTask(
             this, scheduler::tick, 1, 1);
 
-        var warpEffects = new SpigotWarpEffects();
+        SpigotWarpEffects warpEffects = new SpigotWarpEffects();
         injector.injectMembers(warpEffects);
         warpEffects.registerEffects();
 

@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.spigot.importer;
 
+import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
@@ -10,10 +12,12 @@ import com.sekwah.advancedportals.core.serializeddata.config.WarpEffectConfig;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class LegacyImporter {
     private LegacyImporter() {
@@ -23,7 +27,7 @@ public class LegacyImporter {
         // Check if the file exists and skip if it doesn't
         ConfigAccessor portalConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "portals.yml");
-        var config = portalConfig.getConfig();
+        FileConfiguration config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         int count = 0;
@@ -40,16 +44,16 @@ public class LegacyImporter {
                                   config.getInt(portalName + ".pos2.Z"));
             List<DataTag> args = new ArrayList<>();
             args.add(new DataTag("name", portalName));
-            var triggerblock = config.getString(portalName + ".triggerblock");
+            String triggerblock = config.getString(portalName + ".triggerblock");
             if (triggerblock != null)
                 args.add(new DataTag("triggerblock", triggerblock.split(",")));
             // It's called bungee as that's the implementation behind it
 
-            var destination = config.getString(portalName + ".destination");
+            String destination = config.getString(portalName + ".destination");
             if (destination != null)
                 args.add(new DataTag("destination", destination.split(",")));
 
-            var bungee = config.getString(portalName + ".bungee");
+            String bungee = config.getString(portalName + ".bungee");
             if (bungee != null) {
                 if (destination == null) {
                     args.add(new DataTag("bungee", bungee.split(",")));
@@ -89,17 +93,17 @@ public class LegacyImporter {
             }
             args.stream()
                 .filter(dataTag -> dataTag.NAME.startsWith("command."))
-                .toList()
+                .collect(Collectors.toList())
                 .forEach(args::remove);
 
             // Find an arg called "delayed" and add a new one called portalEvent
-            var delayed = getArg(args, "delayed");
+            String delayed = getArg(args, "delayed");
             if (delayed != null) {
                 args.add(new DataTag("portalEvent", delayed));
                 args.removeIf(dataTag -> dataTag.NAME.equals("delayed"));
             }
 
-            var portal = portalServices.createPortal(null, pos1, pos2, args);
+            AdvancedPortal portal = portalServices.createPortal(null, pos1, pos2, args);
 
             if (portal != null)
                 count++;
@@ -112,13 +116,13 @@ public class LegacyImporter {
         DestinationServices destinationServices) {
         ConfigAccessor destiConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "destinations.yml");
-        var config = destiConfig.getConfig();
+        FileConfiguration config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
         int count = 0;
         for (String destiName : destiSet) {
-            var destiPos = destiName + ".pos";
-            var desti = destinationServices.createDesti(
+            String destiPos = destiName + ".pos";
+            Destination desti = destinationServices.createDesti(
                 new PlayerLocation(
                     config.getString(destiName + ".world"),
                     config.getDouble(destiPos + ".X"),
@@ -126,7 +130,7 @@ public class LegacyImporter {
                     config.getDouble(destiPos + ".Z"),
                     (float) config.getDouble(destiPos + ".yaw"),
                     (float) config.getDouble(destiPos + ".pitch")),
-                List.of(new DataTag("name", destiName)));
+                    Collections.singletonList(new DataTag("name", destiName)));
             if (desti != null)
                 count++;
         }
@@ -143,10 +147,10 @@ public class LegacyImporter {
     }
 
     public static void importConfig(ConfigRepository configRepo) {
-        var config = new Config();
+        Config config = new Config();
         ConfigAccessor configOldAccessor = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "config.yml");
-        var configOld = configOldAccessor.getConfig();
+        FileConfiguration configOld = configOldAccessor.getConfig();
 
         config.useOnlySpecialAxe = configOld.getBoolean(
             "UseOnlyServerMadeAxe", config.useOnlySpecialAxe);
@@ -181,7 +185,7 @@ public class LegacyImporter {
             "DisableGatewayBeam", config.disableGatewayBeam);
 
         CommandPortalConfig commandConfig = new CommandPortalConfig();
-        var commandString = configOld.getString("CommandLevels", "opcb");
+        String commandString = configOld.getString("CommandLevels", "opcb");
         commandConfig.enabled = !commandString.contains("n");
         commandConfig.op = commandString.contains("o");
         commandConfig.permsWildcard = commandString.contains("p");

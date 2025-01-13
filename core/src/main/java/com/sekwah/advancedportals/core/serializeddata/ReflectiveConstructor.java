@@ -33,10 +33,10 @@ public class ReflectiveConstructor<T> extends Constructor {
     private Object constructObject(Class<?> currentClass, Node node) {
         if (node instanceof MappingNode) {
             return constructFromMappingNode(currentClass, (MappingNode) node);
-        } else if (node instanceof ScalarNode scalarNode) {
-            return constructFromScalarNode(scalarNode);
-        } else if (node instanceof SequenceNode sequenceNode) {
-            return constructFromSequenceNode(sequenceNode);
+        } else if (node instanceof ScalarNode) {
+            return constructFromScalarNode((ScalarNode) node);
+        } else if (node instanceof SequenceNode) {
+            return constructFromSequenceNode((SequenceNode) node);
         } else {
             infoLogger.warning("Unexpected node type encountered: "
                                + node.getClass().getSimpleName());
@@ -67,18 +67,20 @@ public class ReflectiveConstructor<T> extends Constructor {
         if (currentClass.equals(HashMap.class)) {
             Map<String, Object> values = new HashMap<>();
             for (NodeTuple tuple : mappingNode.getValue()) {
-                var key = (String) constructObject(tuple.getKeyNode());
+                String key = (String) constructObject(tuple.getKeyNode());
 
-                var node = tuple.getValueNode();
+                Node node = tuple.getValueNode();
 
-                if (node instanceof ScalarNode scalarNode) {
-                    var constructedItem = constructFromScalarNode(scalarNode);
+                if (node instanceof ScalarNode) {
+                    Object constructedItem = constructFromScalarNode((ScalarNode) node);
                     values.put(key, constructedItem);
-                } else if (node instanceof SequenceNode sequenceNode) {
-                    var constructedItem =
+                } else if (node instanceof SequenceNode) {
+                    SequenceNode sequenceNode = (SequenceNode) node;
+                    Object constructedItem =
                         constructFromSequenceNode(sequenceNode);
                     values.put(key, constructedItem);
-                } else if (node instanceof MappingNode mappingNodeChild) {
+                } else if (node instanceof MappingNode) {
+                    MappingNode mappingNodeChild = (MappingNode) node;
                     try {
                         Object value = constructFromMappingNode(
                             Object.class, mappingNodeChild);
@@ -166,15 +168,17 @@ public class ReflectiveConstructor<T> extends Constructor {
                                                MappingNode mappingNode) {
         Map<String, Object> values = new HashMap<>();
         for (NodeTuple tuple : mappingNode.getValue()) {
-            var key = (String) super.constructObject(tuple.getKeyNode());
+            String key = (String) super.constructObject(tuple.getKeyNode());
 
-            var node = tuple.getValueNode();
+            Node node = tuple.getValueNode();
 
-            if (node instanceof ScalarNode scalarNode) {
+            if (node instanceof ScalarNode) {
+                ScalarNode scalarNode = (ScalarNode) node;
                 values.put(key, constructFromScalarNode(scalarNode));
-            } else if (node instanceof MappingNode mappingNodeChild) {
+            } else if (node instanceof MappingNode) {
+                MappingNode mappingNodeChild = (MappingNode) node;
                 try {
-                    var field = currentClass.getDeclaredField(key);
+                    Field field = currentClass.getDeclaredField(key);
                     Object value = constructFromMappingNode(field.getType(),
                                                             mappingNodeChild);
                     values.put(key, value);

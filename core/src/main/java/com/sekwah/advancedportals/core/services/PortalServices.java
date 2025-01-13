@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -108,19 +109,19 @@ public class PortalServices {
             return PortalActivationResult.NOT_IN_PORTAL;
         }
 
-        var blockLoc = toLoc.toBlockPos();
-        var blockEntityTopLoc = blockLoc.addY(player.getHeight());
-        var world = player.getWorld();
-        var blockMaterial = world.getBlock(blockLoc);
-        var blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
-        var playerData = playerDataServices.getPlayerData(player);
+        BlockLocation blockLoc = toLoc.toBlockPos();
+        BlockLocation blockEntityTopLoc = blockLoc.addY(player.getHeight());
+        WorldContainer world = player.getWorld();
+        String blockMaterial = world.getBlock(blockLoc);
+        String blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
+        PlayerData playerData = playerDataServices.getPlayerData(player);
 
         for (AdvancedPortal portal : portalCache.values()) {
             if ((portal.isLocationInPortal(toLoc)
                  && portal.isTriggerBlock(blockMaterial))
                 || (portal.isLocationInPortal(blockEntityTopLoc)
                     && portal.isTriggerBlock(blockEntityTopMaterial))) {
-                var portalName = portal.getName();
+                String portalName = portal.getName();
                 if (Objects.equals(playerData.inPortal(), portalName)) {
                     return PortalActivationResult.PORTAL_DENIED;
                 }
@@ -130,7 +131,7 @@ public class PortalServices {
                         return PortalActivationResult.PORTAL_ACTIVATED;
                     case FAILED_DO_KNOCKBACK:
                         playerData.setInPortal(portal.getName());
-                        var strength = configRepository.getThrowbackStrength();
+                        double strength = configRepository.getThrowbackStrength();
                         PlayerUtils.throwPlayerBack(player, strength);
                         return PortalActivationResult.PORTAL_DENIED;
                 }

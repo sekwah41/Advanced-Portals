@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TriggerBlockTag
     implements Tag.AutoComplete, Tag.Split, Tag.Creation {
@@ -39,10 +40,10 @@ public class TriggerBlockTag
 
     @Override
     public List<String> autoComplete(String argData) {
-        var triggerBlocks = serverContainer.getCommonTriggerBlocks()
-                                .stream()
-                                .filter(block -> block.contains(argData))
-                                .toList();
+        List<String> triggerBlocks = serverContainer.getCommonTriggerBlocks()
+                .stream()
+                .filter(block -> block.contains(argData))
+                .collect(Collectors.toList());
 
         if (triggerBlocks.isEmpty()) {
             return serverContainer.getAllTriggerBlocks();

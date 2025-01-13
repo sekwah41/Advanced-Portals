@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.util.List;
@@ -15,8 +16,8 @@ public class DisableBeaconSubCommand implements SubCommand {
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1) {
-            var portalName = args[1];
-            var portal = portalServices.getPortal(portalName);
+            String portalName = args[1];
+            AdvancedPortal portal = portalServices.getPortal(portalName);
             if (portal == null) {
                 sender.sendMessage(
                     Lang.getNegativePrefix()

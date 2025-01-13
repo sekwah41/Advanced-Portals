@@ -10,8 +10,11 @@ import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -27,10 +30,10 @@ public class SpigotServerContainer implements ServerContainer {
                     Material.END_PORTAL)
             .stream()
             .map(Enum::name)
-            .toList();
+            .collect(Collectors.toList());
 
     private final List<String> fullTriggerBlockList =
-        Arrays.stream(Material.values()).map(Enum::name).toList();
+        Arrays.stream(Material.values()).map(Enum::name).collect(Collectors.toList());
 
     public SpigotServerContainer(Server server) {
         this.server = server;
@@ -38,7 +41,7 @@ public class SpigotServerContainer implements ServerContainer {
 
     @Override
     public WorldContainer getWorld(String name) {
-        var world = server.getWorld(name);
+        World world = server.getWorld(name);
         if (world != null) {
             return new SpigotWorldContainer(world);
         } else {
@@ -48,7 +51,7 @@ public class SpigotServerContainer implements ServerContainer {
 
     @Override
     public PlayerContainer getPlayer(String name) {
-        var player = server.getPlayer(name);
+        Player player = server.getPlayer(name);
         if (player != null) {
             return new SpigotPlayerContainer(player);
         } else {
@@ -58,7 +61,7 @@ public class SpigotServerContainer implements ServerContainer {
 
     @Override
     public PlayerContainer getPlayer(UUID name) {
-        var player = server.getPlayer(name);
+        Player player = server.getPlayer(name);
         if (player != null) {
             return new SpigotPlayerContainer(player);
         } else {
@@ -110,7 +113,8 @@ public class SpigotServerContainer implements ServerContainer {
             case PLAYER:
                 server.dispatchCommand(player, command);
                 break;
-            case OP, PERMISSION_WILDCARD:
+            case OP:
+            case PERMISSION_WILDCARD:
                 executeCommandWithPermission(player, server, command,
                                              commandLevel);
                 break;

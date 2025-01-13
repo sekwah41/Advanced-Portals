@@ -126,13 +126,16 @@ public class Lang {
      * @return
      */
     public static String centeredTitle(String title) {
-        var titleLength = 54 - (Lang.textLength(title));
+        int titleLength = 54 - (Lang.textLength(title));
 
         int eachSide = titleLength / 2;
 
-        return "\u00A7e"
-            + "=".repeat(eachSide) + " " + title + " \u00A7e"
-            + "=".repeat(eachSide);
+        StringBuilder repeatedEquals = new StringBuilder();
+        for (int i = 0; i < eachSide; i++) {
+            repeatedEquals.append("=");
+        }
+
+        return "\u00A7e" + repeatedEquals.toString() + " " + title + " \u00A7e" + repeatedEquals.toString();
     }
 
     private void injectTranslations(String fileName) {

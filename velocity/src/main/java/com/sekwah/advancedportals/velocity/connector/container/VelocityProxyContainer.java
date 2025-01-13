@@ -16,7 +16,9 @@ public class VelocityProxyContainer implements ProxyContainer {
     public void invokeCommand(ProxyPlayerContainer proxyPlayer,
                               String command) {
         if (proxyPlayer
-            instanceof VelocityProxyPlayerContainer playerContainer) {
+            instanceof VelocityProxyPlayerContainer) {
+            VelocityProxyPlayerContainer playerContainer
+                = (VelocityProxyPlayerContainer) proxyPlayer;
             this.proxy.getCommandManager().executeAsync(
                 playerContainer.getPlayer(), command);
         }
@@ -26,19 +28,18 @@ public class VelocityProxyContainer implements ProxyContainer {
     public void transferPlayer(ProxyPlayerContainer proxyPlayer,
                                String serverName) {
         if (proxyPlayer
-            instanceof VelocityProxyPlayerContainer playerContainer) {
-            this.proxy.getServer(serverName)
-                .ifPresentOrElse(
-                    server
-                    -> {
-                        playerContainer.getPlayer()
-                            .createConnectionRequest(server)
-                            .fireAndForget();
-                    },
-                    ()
-                        -> playerContainer.getPlayer().sendMessage(
-                            Component.text("Could not find server: "
-                                           + serverName)));
+            instanceof VelocityProxyPlayerContainer) {
+            VelocityProxyPlayerContainer playerContainer
+                = (VelocityProxyPlayerContainer) proxyPlayer;
+            this.proxy.getServer(serverName);
+            if (this.proxy.getServer(serverName).isPresent()) {
+                playerContainer.getPlayer()
+                        .createConnectionRequest(this.proxy.getServer(serverName).get())
+                        .fireAndForget();
+            } else {
+                playerContainer.getPlayer().sendMessage(
+                        Component.text("Could not find server: " + serverName));
+            }
         }
     }
 }
