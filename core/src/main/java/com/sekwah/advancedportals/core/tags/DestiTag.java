@@ -168,7 +168,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
 
             player.teleport(destination.getLoc());
 
-            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
+            for (DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);

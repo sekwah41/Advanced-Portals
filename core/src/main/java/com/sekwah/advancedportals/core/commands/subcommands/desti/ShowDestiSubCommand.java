@@ -93,7 +93,7 @@ public class ShowDestiSubCommand
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
             for (PlayerContainer player : serverContainer.getPlayers()) {
-                com.sekwah.advancedportals.core.serializeddata.PlayerData tempData = tempDataServices.getPlayerData(player);
+                PlayerData tempData = tempDataServices.getPlayerData(player);
                 if (!tempData.isDestiVisible()) {
                     continue;
                 }

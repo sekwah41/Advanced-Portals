@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -40,7 +41,7 @@ public class SpigotServerContainer implements ServerContainer {
 
     @Override
     public WorldContainer getWorld(String name) {
-        org.bukkit.World world = server.getWorld(name);
+        World world = server.getWorld(name);
         if (world != null) {
             return new SpigotWorldContainer(world);
         } else {
