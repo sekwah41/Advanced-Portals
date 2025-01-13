@@ -12,6 +12,8 @@ import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +60,7 @@ public class ImportPortalSubCommand implements SubCommand {
     public int getDestinationCount() {
         ConfigAccessor destiConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "destinations.yaml");
-        var config = destiConfig.getConfig();
+        FileConfiguration config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
         return destiSet.size();
@@ -67,7 +69,7 @@ public class ImportPortalSubCommand implements SubCommand {
     public int getPortalCount() {
         ConfigAccessor portalConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "portals.yaml");
-        var config = portalConfig.getConfig();
+        FileConfiguration config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         return portalSet.size();

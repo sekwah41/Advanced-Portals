@@ -111,14 +111,20 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
             double actualNumeric = Double.parseDouble(actualValue);
             double expectedNumeric = Double.parseDouble(expectedValue);
 
-            return switch (operator) {
-                case "==" -> actualNumeric == expectedNumeric;
-                case "<" -> actualNumeric < expectedNumeric;
-                case ">" -> actualNumeric > expectedNumeric;
-                case "<=" -> actualNumeric <= expectedNumeric;
-                case ">=" -> actualNumeric >= expectedNumeric;
-                default -> false; // Unsupported operator
-            };
+            switch (operator) {
+                case "==":
+                    return actualNumeric == expectedNumeric;
+                case "<":
+                    return actualNumeric < expectedNumeric;
+                case ">":
+                    return actualNumeric > expectedNumeric;
+                case "<=":
+                    return actualNumeric <= expectedNumeric;
+                case ">=":
+                    return actualNumeric >= expectedNumeric;
+                default:
+                    return false; // Unsupported operator
+            }
         } else if (isBoolean(actualValue) && isBoolean(expectedValue)) {
             // Boolean comparison
             boolean actualBoolean = Boolean.parseBoolean(actualValue);

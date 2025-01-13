@@ -53,10 +53,10 @@ public class PlayerLocation extends WorldLocation {
         double rotX = this.getYaw();
         double rotY = this.getPitch();
 
-        var y = -Math.sin(Math.toRadians(rotY));
+        double y = -Math.sin(Math.toRadians(rotY));
         double xz = Math.cos(Math.toRadians(rotY));
-        var x = (-xz * Math.sin(Math.toRadians(rotX)));
-        var z = Math.cos(Math.toRadians(rotX));
+        double x = (-xz * Math.sin(Math.toRadians(rotX)));
+        double z = Math.cos(Math.toRadians(rotX));
 
         return new Vector(x, y, z);
     }

@@ -27,7 +27,7 @@ public final class PlayerDataServices {
 
     public PlayerData getPlayerData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
-            var tempData = tempDataRepository.get(player.getUUID().toString());
+            PlayerData tempData = tempDataRepository.get(player.getUUID().toString());
 
             if (tempData == null) {
                 tempData = new PlayerData();
@@ -37,7 +37,7 @@ public final class PlayerDataServices {
     }
 
     public void setJoinCooldown(PlayerContainer player) {
-        var tempData = getPlayerData(player);
+        PlayerData tempData = getPlayerData(player);
         tempData.setJoinCooldown(configRepository.getPortalCooldown() * 1000);
     }
 
@@ -50,7 +50,7 @@ public final class PlayerDataServices {
     public void playerSelectorActivate(PlayerContainer player,
                                        BlockLocation blockLoc,
                                        boolean leftClick) {
-        var tempData = getPlayerData(player);
+        PlayerData tempData = getPlayerData(player);
         if (leftClick) {
             tempData.setPos1(blockLoc);
         } else {

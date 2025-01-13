@@ -51,7 +51,8 @@ public class AdvancedPortalsVelocityPlugin {
     public void onPluginMessage(PluginMessageEvent event) {
         if (event.getIdentifier().equals(AP_CHANNEL)) {
             if (event.getSource()
-                    instanceof ServerConnection serverConnection) {
+                    instanceof ServerConnection) {
+                ServerConnection serverConnection = (ServerConnection) event.getSource();
                 this.proxyCore.incomingMessage(
                     new VelocityProxyPlayerContainer(
                         serverConnection.getPlayer(), AP_CHANNEL),

@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.DestinationServices;
@@ -53,7 +54,7 @@ public class ShowDestiSubCommand
             return;
         }
 
-        var tempData =
+        PlayerData tempData =
             tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
             sender.sendMessage(
@@ -92,14 +93,14 @@ public class ShowDestiSubCommand
     public void registered() {
         gameScheduler.intervalTickEvent("show_portal", () -> {
             for (PlayerContainer player : serverContainer.getPlayers()) {
-                var tempData = tempDataServices.getPlayerData(player);
+                PlayerData tempData = tempDataServices.getPlayerData(player);
                 if (!tempData.isDestiVisible()) {
                     continue;
                 }
 
                 for (Destination destination :
                      destinationServices.getDestinations()) {
-                    var pos = destination.getLoc();
+                    PlayerLocation pos = destination.getLoc();
                     if (Objects.equals(pos.getWorldName(),
                                        player.getWorldName())
                         && pos.distanceTo(player.getLoc())

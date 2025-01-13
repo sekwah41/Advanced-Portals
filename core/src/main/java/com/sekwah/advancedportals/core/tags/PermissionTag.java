@@ -52,7 +52,7 @@ public class PermissionTag implements Tag.Activation {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        var permission = argData[0];
+        String permission = argData[0];
         if (permission.startsWith("!")) {
             permission = permission.substring(1);
             if (player.hasPermission(permission)) {

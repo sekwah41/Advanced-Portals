@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
@@ -11,6 +12,7 @@ import com.sekwah.advancedportals.core.network.ServerDestiPacket;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
@@ -64,12 +66,13 @@ public class CoreListeners {
 
     public void incomingMessage(PlayerContainer player, String channel,
                                 byte[] message) {
-        var buffer = ByteStreams.newDataInput(message);
-        var messageType = buffer.readUTF();
+        ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
+        String messageType = buffer.readUTF();
 
         switch (messageType) {
-            case ProxyMessages.SERVER_DESTI -> {
-                var serverDestiPacket = ServerDestiPacket.decode(buffer);
+            case ProxyMessages.SERVER_DESTI:
+            {
+                ServerDestiPacket serverDestiPacket = ServerDestiPacket.decode(buffer);
                 this.destinationServices.teleportToDestination(serverDestiPacket.getDestination(), player, true);
             }
         }
@@ -129,7 +132,7 @@ public class CoreListeners {
             if (itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
                 for (Direction direction : Direction.values()) {
-                    var checkLoc = new BlockLocation(blockPos, direction);
+                    BlockLocation checkLoc = new BlockLocation(blockPos, direction);
                     if (world.getBlock(checkLoc).equals("NETHER_PORTAL")) {
                         world.setBlockAxis(blockPos,
                                            world.getBlockAxis(checkLoc));
@@ -217,9 +220,10 @@ public boolean preventEntityCombust(EntityContainer entity) {
 }
 
 public boolean entityPortalEvent(EntityContainer entity) {
-    var pos = entity.getBlockLoc();
-    if (entity instanceof PlayerContainer player) {
-        var playerData = playerDataServices.getPlayerData(player);
+    BlockLocation pos = entity.getBlockLoc();
+    if (entity instanceof PlayerContainer ) {
+        PlayerContainer player = (PlayerContainer) entity;
+        PlayerData playerData = playerDataServices.getPlayerData(player);
         if (playerData.getPortalBlockCooldown()) {
             return false;
         }
@@ -231,13 +235,13 @@ public boolean entityPortalEvent(EntityContainer entity) {
 }
 
 public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
-    var playerData = playerDataServices.getPlayerData(player);
+    PlayerData playerData = playerDataServices.getPlayerData(player);
 
     if (playerData.getPortalBlockCooldown()) {
         return false;
     }
 
-    var portalResult = this.portalServices.checkPortalActivation(
+    PortalServices.PortalActivationResult portalResult = this.portalServices.checkPortalActivation(
         player, toLoc, TriggerType.PORTAL);
 
     if (portalResult != PortalServices.PortalActivationResult.NOT_IN_PORTAL) {
@@ -246,10 +250,10 @@ public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
 
     // Extra checks to prevent the player from being teleported by touching a
     // portal but not having their body fully in the portal
-    var pos = player.getBlockLoc();
+    BlockLocation pos = player.getBlockLoc();
 
-    var feetInPortal = portalServices.inPortalRegion(pos, 1);
-    var headInPortal =
+    boolean feetInPortal = portalServices.inPortalRegion(pos, 1);
+    boolean headInPortal =
         portalServices.inPortalRegion(pos.addY((int) player.getHeight()), 1);
 
     return !(feetInPortal || headInPortal);
