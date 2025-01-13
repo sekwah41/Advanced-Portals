@@ -7,8 +7,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
@@ -19,12 +19,17 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
         for (String condition : argData) {
-            if (!checkConditions(condition,
-                                 Bukkit.getPlayer(player.getUUID()))) {
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("tag.conditions.fail"));
-                return false;
+            if (player instanceof SpigotPlayerContainer) {
+                SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
+
+                if (!checkConditions(condition,
+                        spigotPlayer.getPlayer())) {
+                    spigotPlayer.sendMessage(Lang.getNegativePrefix()
+                            + Lang.translate("tag.conditions.fail"));
+                    return false;
+                }
             }
+
         }
 
         return true;
@@ -142,17 +147,21 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
         for (String condition : argData) {
-                        if (!checkConditions(
-                                condition,
-                                Bukkit.getPlayer(player.getUUID()))) {
-                            player.sendMessage(
-                                Lang.getNegativePrefix()
-                                + Lang.translate("tag.conditions.invalid"));
-                            return false;
-                        }
-                    }
-                    return true;
+            if (player instanceof SpigotPlayerContainer) {
+                SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
+                if (!checkConditions(
+                        condition,
+                        spigotPlayer.getPlayer())) {
+                    spigotPlayer.sendMessage(
+                            Lang.getNegativePrefix()
+                                    + Lang.translate("tag.conditions.invalid"));
+                    return false;
+                }
             }
+
+        }
+        return true;
+    }
 
             @Override
             public void destroyed(TagTarget target, PlayerContainer player,
