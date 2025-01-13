@@ -54,7 +54,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         String mcVersion = this.getServer().getVersion();
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
-        SpigotServerContainer serverContainer = new SpigotServerContainer(this.getServer());
+        SpigotServerContainer serverContainer =
+            new SpigotServerContainer(this.getServer());
         this.portalsCore = new AdvancedPortalsCore(
             matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
             new SpigotInfoLogger(this), serverContainer);

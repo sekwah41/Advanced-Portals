@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -33,7 +32,9 @@ public class SpigotServerContainer implements ServerContainer {
             .collect(Collectors.toList());
 
     private final List<String> fullTriggerBlockList =
-        Arrays.stream(Material.values()).map(Enum::name).collect(Collectors.toList());
+        Arrays.stream(Material.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
 
     public SpigotServerContainer(Server server) {
         this.server = server;

@@ -12,10 +12,9 @@ import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
-import org.bukkit.configuration.file.FileConfiguration;
-
 import java.util.List;
 import java.util.Set;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class ImportPortalSubCommand implements SubCommand {
     @Inject

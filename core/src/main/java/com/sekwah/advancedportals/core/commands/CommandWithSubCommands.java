@@ -36,8 +36,9 @@ public class CommandWithSubCommands implements CommandTemplate {
         boolean result =
             this.subCommandRegistry.registerSubCommand(arg, subCommand)
             || hasRegistered;
-        if (subCommand instanceof SubCommand.SubCommandOnInit ) {
-            SubCommand.SubCommandOnInit init = (SubCommand.SubCommandOnInit) subCommand;
+        if (subCommand instanceof SubCommand.SubCommandOnInit) {
+            SubCommand.SubCommandOnInit init =
+                (SubCommand.SubCommandOnInit) subCommand;
             init.registered();
         }
         return result;

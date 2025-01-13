@@ -43,8 +43,8 @@ public class PortalRepositoryImpl implements IPortalRepository {
 
     @Override
     public AdvancedPortal get(String name) {
-        AdvancedPortal portal = dataStorage.loadFile(AdvancedPortal.class,
-                                          fileLocation + name + ".yaml");
+        AdvancedPortal portal = dataStorage.loadFile(
+            AdvancedPortal.class, fileLocation + name + ".yaml");
         if (portal != null) {
             AdvancedPortalsCore.getInstance()
                 .getModule()

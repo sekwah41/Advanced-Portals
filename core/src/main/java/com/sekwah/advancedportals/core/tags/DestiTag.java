@@ -151,10 +151,12 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         }
 
         if (destination != null) {
-            WarpEffect.Visual warpEffectVisual = warpEffectRegistry.getVisualEffect(
-                configRepository.getWarpVisual());
-            WarpEffect.Sound warpEffectSound = warpEffectRegistry.getSoundEffect(
-                configRepository.getWarpSound());
+            WarpEffect.Visual warpEffectVisual =
+                warpEffectRegistry.getVisualEffect(
+                    configRepository.getWarpVisual());
+            WarpEffect.Sound warpEffectSound =
+                warpEffectRegistry.getSoundEffect(
+                    configRepository.getWarpSound());
             if (configRepository.getWarpEffectEnabled()) {
                 if (warpEffectVisual != null) {
                     warpEffectVisual.onWarpVisual(player,

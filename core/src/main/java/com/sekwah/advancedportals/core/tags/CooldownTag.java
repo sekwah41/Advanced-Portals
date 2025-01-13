@@ -81,7 +81,8 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
         if (activationData.hasActivated()) {
             if (target instanceof AdvancedPortal) {
                 AdvancedPortal portal = (AdvancedPortal) target;
-                PlayerData playerData = playerDataServices.getPlayerData(player);
+                PlayerData playerData =
+                    playerDataServices.getPlayerData(player);
                 try {
                     playerData.setPortalCooldown(
                         portal.getName(), Integer.parseInt(argData[0]) * 1000);

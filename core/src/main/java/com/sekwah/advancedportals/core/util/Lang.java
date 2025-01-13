@@ -135,7 +135,8 @@ public class Lang {
             repeatedEquals.append("=");
         }
 
-        return "\u00A7e" + repeatedEquals.toString() + " " + title + " \u00A7e" + repeatedEquals.toString();
+        return "\u00A7e" + repeatedEquals.toString() + " " + title + " \u00A7e"
+            + repeatedEquals.toString();
     }
 
     private void injectTranslations(String fileName) {

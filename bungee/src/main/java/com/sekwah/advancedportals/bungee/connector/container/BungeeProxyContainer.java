@@ -20,7 +20,8 @@ public class BungeeProxyContainer implements ProxyContainer {
                               String command) {
         // Should never not be true but just to be safe
         if (proxyPlayer instanceof BungeeProxyPlayerContainer) {
-            BungeeProxyPlayerContainer playerContainer = (BungeeProxyPlayerContainer) proxyPlayer;
+            BungeeProxyPlayerContainer playerContainer =
+                (BungeeProxyPlayerContainer) proxyPlayer;
             plugin.getProxy().getPluginManager().dispatchCommand(
                 playerContainer.getPlayer(), command);
         }
@@ -31,7 +32,8 @@ public class BungeeProxyContainer implements ProxyContainer {
                                String serverName) {
         // Should never not be true but just to be safe
         if (proxyPlayer instanceof BungeeProxyPlayerContainer) {
-            BungeeProxyPlayerContainer playerContainer = (BungeeProxyPlayerContainer) proxyPlayer;
+            BungeeProxyPlayerContainer playerContainer =
+                (BungeeProxyPlayerContainer) proxyPlayer;
             ServerInfo serverInfo = plugin.getProxy().getServerInfo(serverName);
             ProxiedPlayer player = playerContainer.getPlayer();
             if (serverInfo == null) {

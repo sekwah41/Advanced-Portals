@@ -12,10 +12,8 @@ import com.sekwah.advancedportals.core.serializeddata.config.WarpEffectConfig;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -44,7 +42,8 @@ public class LegacyImporter {
                                   config.getInt(portalName + ".pos2.Z"));
             List<DataTag> args = new ArrayList<>();
             args.add(new DataTag("name", portalName));
-            String triggerblock = config.getString(portalName + ".triggerblock");
+            String triggerblock =
+                config.getString(portalName + ".triggerblock");
             if (triggerblock != null)
                 args.add(new DataTag("triggerblock", triggerblock.split(",")));
             // It's called bungee as that's the implementation behind it
@@ -103,7 +102,8 @@ public class LegacyImporter {
                 args.removeIf(dataTag -> dataTag.NAME.equals("delayed"));
             }
 
-            AdvancedPortal portal = portalServices.createPortal(null, pos1, pos2, args);
+            AdvancedPortal portal =
+                portalServices.createPortal(null, pos1, pos2, args);
 
             if (portal != null)
                 count++;
@@ -130,7 +130,7 @@ public class LegacyImporter {
                     config.getDouble(destiPos + ".Z"),
                     (float) config.getDouble(destiPos + ".yaw"),
                     (float) config.getDouble(destiPos + ".pitch")),
-                    Collections.singletonList(new DataTag("name", destiName)));
+                Collections.singletonList(new DataTag("name", destiName)));
             if (desti != null)
                 count++;
         }

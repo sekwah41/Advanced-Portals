@@ -72,7 +72,8 @@ public class ReflectiveConstructor<T> extends Constructor {
                 Node node = tuple.getValueNode();
 
                 if (node instanceof ScalarNode) {
-                    Object constructedItem = constructFromScalarNode((ScalarNode) node);
+                    Object constructedItem =
+                        constructFromScalarNode((ScalarNode) node);
                     values.put(key, constructedItem);
                 } else if (node instanceof SequenceNode) {
                     SequenceNode sequenceNode = (SequenceNode) node;
@@ -131,8 +132,8 @@ public class ReflectiveConstructor<T> extends Constructor {
                     }
                 } catch (Exception e) {
                     infoLogger.warning("Failed to set field " + field.getName()
-                                       + " in " + currentClass.getName()
-                                       + ": " + e.getMessage());
+                                       + " in " + currentClass.getName() + ": "
+                                       + e.getMessage());
                     infoLogger.error(e);
                     throw new RuntimeException("Failed to set field "
                                                    + field.getName() + " in "

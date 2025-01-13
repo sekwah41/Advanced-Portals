@@ -41,7 +41,8 @@ public class DataStorage {
         ReflectiveRepresenter representer = new ReflectiveRepresenter(options);
         representer.addClassTag(clazz, Tag.MAP);
         representer.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        ReflectiveConstructor constructor = new ReflectiveConstructor(clazz, loaderOptions);
+        ReflectiveConstructor constructor =
+            new ReflectiveConstructor(clazz, loaderOptions);
 
         AdvancedPortalsCore.getInstance()
             .getModule()

@@ -218,7 +218,8 @@ public class AdvancedPortalsCore {
     }
 
     public void onDisable() {
-        for (PlayerContainer playerContainer : this.serverContainer.getPlayers()) {
+        for (PlayerContainer playerContainer :
+             this.serverContainer.getPlayers()) {
             playerDataRepository.playerLeave(playerContainer);
         }
         this.infoLogger.info(Lang.translate("logger.plugindisable"));

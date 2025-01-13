@@ -131,7 +131,8 @@ public class PortalServices {
                         return PortalActivationResult.PORTAL_ACTIVATED;
                     case FAILED_DO_KNOCKBACK:
                         playerData.setInPortal(portal.getName());
-                        double strength = configRepository.getThrowbackStrength();
+                        double strength =
+                            configRepository.getThrowbackStrength();
                         PlayerUtils.throwPlayerBack(player, strength);
                         return PortalActivationResult.PORTAL_DENIED;
                 }
