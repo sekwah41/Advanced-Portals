@@ -100,7 +100,8 @@ public class PermissionBuilder {
             case NOT_OP:
                 return !sender.isOp();
             default:
-                throw new IllegalStateException("Unexpected value: " + permissionDefault);
+                throw new IllegalStateException("Unexpected value: "
+                                                + permissionDefault);
         }
     }
 
@@ -125,10 +126,5 @@ public class PermissionBuilder {
         return this;
     }
 
-    public enum PermissionDefault {
-        TRUE,
-        FALSE,
-        OP,
-        NOT_OP
-    }
+    public enum PermissionDefault { TRUE, FALSE, OP, NOT_OP }
 }

@@ -40,7 +40,8 @@ public class TriggerBlockTag
 
     @Override
     public List<String> autoComplete(String argData) {
-        List<String> triggerBlocks = serverContainer.getCommonTriggerBlocks()
+        List<String> triggerBlocks =
+            serverContainer.getCommonTriggerBlocks()
                 .stream()
                 .filter(block -> block.contains(argData))
                 .collect(Collectors.toList());

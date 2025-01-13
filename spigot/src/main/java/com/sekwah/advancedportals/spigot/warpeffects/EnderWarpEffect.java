@@ -10,8 +10,7 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
     public void onWarpSound(PlayerContainer playerContainer,
                             WarpEffect.Action action) {
-        if (playerContainer
-            instanceof SpigotPlayerContainer) {
+        if (playerContainer instanceof SpigotPlayerContainer) {
             SpigotPlayerContainer spigotPlayerContainer =
                 (SpigotPlayerContainer) playerContainer;
             org.bukkit.entity.Player player = spigotPlayerContainer.getPlayer();
@@ -24,8 +23,7 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
     public void onWarpVisual(PlayerContainer playerContainer,
                              WarpEffect.Action action) {
-        if (playerContainer
-            instanceof SpigotPlayerContainer) {
+        if (playerContainer instanceof SpigotPlayerContainer) {
             SpigotPlayerContainer spigotPlayerContainer =
                 (SpigotPlayerContainer) playerContainer;
             Player player = spigotPlayerContainer.getPlayer();

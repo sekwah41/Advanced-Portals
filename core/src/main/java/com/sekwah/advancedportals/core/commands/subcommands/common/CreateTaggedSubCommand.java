@@ -5,7 +5,6 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.util.TagReader;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,14 +46,14 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                         }
                     }
 
-                    if (tag instanceof Tag.AutoComplete
-                        && startsWith) {
+                    if (tag instanceof Tag.AutoComplete && startsWith) {
                         Tag.AutoComplete autoComplete = (Tag.AutoComplete) tag;
                         String argData = split.length == 2 ? split[1] : "";
-                        List<String> tagSuggestions = autoComplete.autoComplete(argData);
+                        List<String> tagSuggestions =
+                            autoComplete.autoComplete(argData);
 
                         if (tagSuggestions != null) {
-                            if (tag instanceof Tag.Split ) {
+                            if (tag instanceof Tag.Split) {
                                 Tag.Split splitTag = (Tag.Split) tag;
                                 String multiTagSplit = splitTag.splitString();
                                 boolean endsWithSplit =
@@ -75,9 +74,8 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                                 String baseString = endsWithSplit
                                     ? argData
                                     : argData.substring(
-                                          0,
-                                          argData.lastIndexOf(multiTagSplit)
-                                              + 1);
+                                        0,
+                                        argData.lastIndexOf(multiTagSplit) + 1);
 
                                 tagSuggestions =
                                     tagSuggestions
@@ -129,7 +127,8 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
                 suggestions.add(tag.getName());
                 String[] aliases = tag.getAliases();
                 if (aliases != null) {
-                    suggestions.addAll(Arrays.stream(aliases).collect(Collectors.toList()));
+                    suggestions.addAll(
+                        Arrays.stream(aliases).collect(Collectors.toList()));
                 }
             });
 
@@ -145,7 +144,7 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
 
         for (DataTag dataTag : dataTags) {
             for (Tag tag : relatedTags) {
-                if (tag instanceof Tag.Split ) {
+                if (tag instanceof Tag.Split) {
                     Tag.Split splitTag = (Tag.Split) tag;
                     String splitString = splitTag.splitString();
                     if (splitString != null) {

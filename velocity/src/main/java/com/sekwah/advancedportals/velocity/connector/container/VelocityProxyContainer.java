@@ -15,10 +15,9 @@ public class VelocityProxyContainer implements ProxyContainer {
     @Override
     public void invokeCommand(ProxyPlayerContainer proxyPlayer,
                               String command) {
-        if (proxyPlayer
-            instanceof VelocityProxyPlayerContainer) {
-            VelocityProxyPlayerContainer playerContainer
-                = (VelocityProxyPlayerContainer) proxyPlayer;
+        if (proxyPlayer instanceof VelocityProxyPlayerContainer) {
+            VelocityProxyPlayerContainer playerContainer =
+                (VelocityProxyPlayerContainer) proxyPlayer;
             this.proxy.getCommandManager().executeAsync(
                 playerContainer.getPlayer(), command);
         }
@@ -27,18 +26,18 @@ public class VelocityProxyContainer implements ProxyContainer {
     @Override
     public void transferPlayer(ProxyPlayerContainer proxyPlayer,
                                String serverName) {
-        if (proxyPlayer
-            instanceof VelocityProxyPlayerContainer) {
-            VelocityProxyPlayerContainer playerContainer
-                = (VelocityProxyPlayerContainer) proxyPlayer;
+        if (proxyPlayer instanceof VelocityProxyPlayerContainer) {
+            VelocityProxyPlayerContainer playerContainer =
+                (VelocityProxyPlayerContainer) proxyPlayer;
             this.proxy.getServer(serverName);
             if (this.proxy.getServer(serverName).isPresent()) {
                 playerContainer.getPlayer()
-                        .createConnectionRequest(this.proxy.getServer(serverName).get())
-                        .fireAndForget();
+                    .createConnectionRequest(
+                        this.proxy.getServer(serverName).get())
+                    .fireAndForget();
             } else {
                 playerContainer.getPlayer().sendMessage(
-                        Component.text("Could not find server: " + serverName));
+                    Component.text("Could not find server: " + serverName));
             }
         }
     }

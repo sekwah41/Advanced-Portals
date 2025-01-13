@@ -87,7 +87,7 @@ public class AdvancedPortal implements TagTarget {
         // sort the tags by priority
         this.portalTags.sort(Comparator.comparingInt(o -> {
             Tag tag = tagRegistry.getTag(o.NAME);
-            if (tag instanceof Tag.OrderPriority ) {
+            if (tag instanceof Tag.OrderPriority) {
                 Tag.OrderPriority tagPriority = (Tag.OrderPriority) tag;
                 return tagPriority.getPriority().ordinal();
             } else {
@@ -172,8 +172,10 @@ public class AdvancedPortal implements TagTarget {
 
                 if (!preActivated) {
                     if (activationHandler instanceof Tag.DenyBehavior) {
-                        Tag.DenyBehavior denyBehaviorHandler = (Tag.DenyBehavior) activationHandler;
-                        if (denyBehaviorHandler.getDenyBehavior().equals(Tag.DenyBehavior.Behaviour.SILENT)) {
+                        Tag.DenyBehavior denyBehaviorHandler =
+                            (Tag.DenyBehavior) activationHandler;
+                        if (denyBehaviorHandler.getDenyBehavior().equals(
+                                Tag.DenyBehavior.Behaviour.SILENT)) {
                             return ActivationResult.FAILED_DO_NOTHING;
                         }
                     }

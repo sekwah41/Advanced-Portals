@@ -154,14 +154,16 @@ public class DestinationServices {
 
             player.teleport(this.destinationRepository.get(name).getLoc());
             if (doEffect && configRepository.getWarpEffectEnabled()) {
-                WarpEffect.Visual warpEffectVisual = warpEffectRegistry.getVisualEffect(
-                    configRepository.getWarpVisual());
+                WarpEffect.Visual warpEffectVisual =
+                    warpEffectRegistry.getVisualEffect(
+                        configRepository.getWarpVisual());
                 if (warpEffectVisual != null) {
                     warpEffectVisual.onWarpVisual(player,
                                                   WarpEffect.Action.ENTER);
                 }
-                WarpEffect.Sound warpEffectSound = warpEffectRegistry.getSoundEffect(
-                    configRepository.getWarpSound());
+                WarpEffect.Sound warpEffectSound =
+                    warpEffectRegistry.getSoundEffect(
+                        configRepository.getWarpSound());
                 if (warpEffectSound != null) {
                     warpEffectSound.onWarpSound(player,
                                                 WarpEffect.Action.ENTER);

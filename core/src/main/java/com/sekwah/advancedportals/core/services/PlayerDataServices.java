@@ -27,7 +27,8 @@ public final class PlayerDataServices {
 
     public PlayerData getPlayerData(PlayerContainer player) {
         return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
-            PlayerData tempData = tempDataRepository.get(player.getUUID().toString());
+            PlayerData tempData =
+                tempDataRepository.get(player.getUUID().toString());
 
             if (tempData == null) {
                 tempData = new PlayerData();

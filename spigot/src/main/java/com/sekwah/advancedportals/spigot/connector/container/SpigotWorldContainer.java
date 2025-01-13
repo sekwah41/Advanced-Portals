@@ -54,7 +54,7 @@ public class SpigotWorldContainer implements WorldContainer {
     @Override
     public BlockAxis getBlockAxis(BlockLocation location) {
         Block block = world.getBlockAt(location.getPosX(), location.getPosY(),
-                                     location.getPosZ());
+                                       location.getPosZ());
         BlockData matData = block.getState().getBlockData();
         if (matData instanceof Orientable) {
             Orientable rotatable = (Orientable) matData;
@@ -70,7 +70,7 @@ public class SpigotWorldContainer implements WorldContainer {
     @Override
     public void setBlockAxis(BlockLocation location, BlockAxis axis) {
         Block block = world.getBlockAt(location.getPosX(), location.getPosY(),
-                                     location.getPosZ());
+                                       location.getPosZ());
         BlockData matData = block.getState().getBlockData();
         if (matData instanceof Orientable) {
             Orientable rotatable = (Orientable) matData;

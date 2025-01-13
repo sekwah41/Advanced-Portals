@@ -66,24 +66,34 @@ public class AdvancedPortalsProxyCore {
         // packets
         switch (messageType) {
             case ProxyMessages.PROXY_TRANSFER:
-                ProxyTransferPacket transferPacket = ProxyTransferPacket.decode(buffer);
-                this.logger.info("Transfer request for " + player.getName() + " to " + transferPacket.getServerName());
-                this.proxyContainer.transferPlayer(player, transferPacket.getServerName());
+                ProxyTransferPacket transferPacket =
+                    ProxyTransferPacket.decode(buffer);
+                this.logger.info("Transfer request for " + player.getName()
+                                 + " to " + transferPacket.getServerName());
+                this.proxyContainer.transferPlayer(
+                    player, transferPacket.getServerName());
                 break;
             case ProxyMessages.PROXY_COMMAND:
-                ProxyCommandPacket commandPacket = ProxyCommandPacket.decode(buffer);
-                this.logger.info("Command request for " + player.getName() + " to run /" + commandPacket.getCommand());
-                this.proxyContainer.invokeCommand(player, commandPacket.getCommand());
+                ProxyCommandPacket commandPacket =
+                    ProxyCommandPacket.decode(buffer);
+                this.logger.info("Command request for " + player.getName()
+                                 + " to run /" + commandPacket.getCommand());
+                this.proxyContainer.invokeCommand(player,
+                                                  commandPacket.getCommand());
                 break;
             case ProxyMessages.PROXY_TRANSFER_DESTI:
-                ProxyTransferDestiPacket transferDestiPacket = ProxyTransferDestiPacket.decode(buffer);
-                this.proxyContainer.transferPlayer(player, transferDestiPacket.getServerName());
-                this.playerJoinMap.put(player.getUUID(), new ProxyJoinData(transferDestiPacket.getDestination(), transferDestiPacket.getServerName()));
+                ProxyTransferDestiPacket transferDestiPacket =
+                    ProxyTransferDestiPacket.decode(buffer);
+                this.proxyContainer.transferPlayer(
+                    player, transferDestiPacket.getServerName());
+                this.playerJoinMap.put(
+                    player.getUUID(),
+                    new ProxyJoinData(transferDestiPacket.getDestination(),
+                                      transferDestiPacket.getServerName()));
                 break;
             default:
                 this.logger.info("Unknown message type: " + messageType);
                 break;
         }
-
     }
 }

@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.permissions.PermissionBuilder;
 import com.sekwah.advancedportals.core.permissions.Permissions;
-
 import java.util.List;
 
 public class PermissionsGeneratorSpigot {
