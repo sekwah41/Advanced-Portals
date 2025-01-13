@@ -3,9 +3,8 @@ package com.sekwah.advancedportals.spigot.warpeffects;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.Particle;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 
 public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
@@ -29,9 +28,9 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
             instanceof SpigotPlayerContainer) {
             SpigotPlayerContainer spigotPlayerContainer =
                 (SpigotPlayerContainer) playerContainer;
-            org.bukkit.entity.Player player = spigotPlayerContainer.getPlayer();
-            org.bukkit.World world = player.getWorld();
-            org.bukkit.Location loc = player.getLocation().clone();
+            Player player = spigotPlayerContainer.getPlayer();
+            World world = player.getWorld();
+            Location loc = player.getLocation().clone();
             for (int i = 0; i < 10; i++) {
                 world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
             }

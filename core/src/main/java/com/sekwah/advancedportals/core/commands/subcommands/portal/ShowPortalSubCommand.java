@@ -6,10 +6,12 @@ import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
+import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
@@ -65,7 +67,7 @@ public class ShowPortalSubCommand
             return;
         }
 
-        com.sekwah.advancedportals.core.serializeddata.PlayerData tempData =
+        PlayerData tempData =
             playerDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isPortalVisible()) {
             sender.sendMessage(
@@ -104,7 +106,7 @@ public class ShowPortalSubCommand
         gameScheduler.intervalTickEvent("show_portal", () -> {
             alternate_show_trigger = !alternate_show_trigger;
             for (PlayerContainer player : serverContainer.getPlayers()) {
-                com.sekwah.advancedportals.core.serializeddata.PlayerData tempData = playerDataServices.getPlayerData(player);
+                PlayerData tempData = playerDataServices.getPlayerData(player);
 
                 if (!tempData.isPortalVisible()) {
                     continue;
@@ -218,7 +220,7 @@ public class ShowPortalSubCommand
 
         int size = pos1.getSize(pos2);
 
-        com.sekwah.advancedportals.core.connector.containers.WorldContainer world = player.getWorld();
+        WorldContainer world = player.getWorld();
 
         if (size <= config.maxPortalVisualisationSize()) {
             drawBox(player, pos1, pos2, color, 0.5f);

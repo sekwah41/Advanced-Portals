@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.tags.TriggerBlockTag;
@@ -143,7 +144,7 @@ public class AdvancedPortal implements TagTarget {
             updatePortalTagList();
         }
 
-        com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+        PlayerData playerData = playerDataServices.getPlayerData(player);
 
         if (playerData.hasJoinCooldown()) {
             int cooldown =

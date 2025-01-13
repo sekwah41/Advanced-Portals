@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.commands.subcommands.desti.*;
 import com.sekwah.advancedportals.core.commands.subcommands.portal.*;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
+import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
@@ -217,7 +218,7 @@ public class AdvancedPortalsCore {
     }
 
     public void onDisable() {
-        for (com.sekwah.advancedportals.core.connector.containers.PlayerContainer playerContainer : this.serverContainer.getPlayers()) {
+        for (PlayerContainer playerContainer : this.serverContainer.getPlayers()) {
             playerDataRepository.playerLeave(playerContainer);
         }
         this.infoLogger.info(Lang.translate("logger.plugindisable"));

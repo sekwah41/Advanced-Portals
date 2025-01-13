@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.commands.SubCommand;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.TagReader;
@@ -17,7 +18,7 @@ public class InfoPortalSubCommand implements SubCommand {
     public void onCommand(CommandSenderContainer sender, String[] args) {
         if (args.length > 1) {
             String portalName = args[1];
-            com.sekwah.advancedportals.core.portal.AdvancedPortal portal = portalServices.getPortal(portalName);
+            AdvancedPortal portal = portalServices.getPortal(portalName);
             if (portal == null) {
                 sender.sendMessage(
                     Lang.getNegativePrefix()

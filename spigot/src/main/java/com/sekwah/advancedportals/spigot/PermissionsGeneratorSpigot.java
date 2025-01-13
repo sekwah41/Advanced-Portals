@@ -3,6 +3,8 @@ package com.sekwah.advancedportals.spigot;
 import com.sekwah.advancedportals.core.permissions.PermissionBuilder;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 
+import java.util.List;
+
 public class PermissionsGeneratorSpigot {
     private PermissionsGeneratorSpigot() {
     }
@@ -25,7 +27,7 @@ public class PermissionsGeneratorSpigot {
                 builder.append(indent).append(indent).append("description: ");
                 builder.append(permission.getDescription()).append("\n");
             }
-            java.util.List<PermissionBuilder> children = permission.getGrantChildren();
+            List<PermissionBuilder> children = permission.getGrantChildren();
             if (!children.isEmpty()) {
                 builder.append(indent).append(indent).append("children:\n");
                 for (PermissionBuilder child : children) {

@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -50,7 +51,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig commandPortals = configRepository.getCommandPortals();
+        CommandPortalConfig commandPortals = configRepository.getCommandPortals();
 
         if (!commandPortals.enabled) {
             player.sendMessage(Lang.getNegativePrefix()

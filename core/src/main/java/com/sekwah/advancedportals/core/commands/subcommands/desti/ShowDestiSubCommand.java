@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.services.DestinationServices;
@@ -53,7 +54,7 @@ public class ShowDestiSubCommand
             return;
         }
 
-        com.sekwah.advancedportals.core.serializeddata.PlayerData tempData =
+        PlayerData tempData =
             tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
             sender.sendMessage(

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -110,7 +111,7 @@ public class PortalServices {
 
         BlockLocation blockLoc = toLoc.toBlockPos();
         BlockLocation blockEntityTopLoc = blockLoc.addY(player.getHeight());
-        com.sekwah.advancedportals.core.connector.containers.WorldContainer world = player.getWorld();
+        WorldContainer world = player.getWorld();
         String blockMaterial = world.getBlock(blockLoc);
         String blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
         PlayerData playerData = playerDataServices.getPlayerData(player);

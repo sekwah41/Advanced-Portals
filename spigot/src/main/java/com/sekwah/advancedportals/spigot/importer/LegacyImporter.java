@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.spigot.importer;
 
+import com.sekwah.advancedportals.core.destination.Destination;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
@@ -15,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class LegacyImporter {
     private LegacyImporter() {
@@ -24,7 +27,7 @@ public class LegacyImporter {
         // Check if the file exists and skip if it doesn't
         ConfigAccessor portalConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "portals.yml");
-        org.bukkit.configuration.file.FileConfiguration config = portalConfig.getConfig();
+        FileConfiguration config = portalConfig.getConfig();
         Set<String> portalSet = config.getKeys(false);
 
         int count = 0;
@@ -100,7 +103,7 @@ public class LegacyImporter {
                 args.removeIf(dataTag -> dataTag.NAME.equals("delayed"));
             }
 
-            com.sekwah.advancedportals.core.portal.AdvancedPortal portal = portalServices.createPortal(null, pos1, pos2, args);
+            AdvancedPortal portal = portalServices.createPortal(null, pos1, pos2, args);
 
             if (portal != null)
                 count++;
@@ -113,13 +116,13 @@ public class LegacyImporter {
         DestinationServices destinationServices) {
         ConfigAccessor destiConfig = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "destinations.yml");
-        org.bukkit.configuration.file.FileConfiguration config = destiConfig.getConfig();
+        FileConfiguration config = destiConfig.getConfig();
         Set<String> destiSet = config.getKeys(false);
 
         int count = 0;
         for (String destiName : destiSet) {
             String destiPos = destiName + ".pos";
-            com.sekwah.advancedportals.core.destination.Destination desti = destinationServices.createDesti(
+            Destination desti = destinationServices.createDesti(
                 new PlayerLocation(
                     config.getString(destiName + ".world"),
                     config.getDouble(destiPos + ".X"),
@@ -147,7 +150,7 @@ public class LegacyImporter {
         Config config = new Config();
         ConfigAccessor configOldAccessor = new ConfigAccessor(
             AdvancedPortalsPlugin.getInstance(), "config.yml");
-        org.bukkit.configuration.file.FileConfiguration configOld = configOldAccessor.getConfig();
+        FileConfiguration configOld = configOldAccessor.getConfig();
 
         config.useOnlySpecialAxe = configOld.getBoolean(
             "UseOnlyServerMadeAxe", config.useOnlySpecialAxe);

@@ -9,6 +9,7 @@ import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
@@ -83,7 +84,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
+            for (DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);
@@ -109,7 +110,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
         Destination destination =
             destinationServices.getDestination(selectedArg);
         if (destination != null) {
-            for (com.sekwah.advancedportals.core.serializeddata.DataTag destiTag : destination.getArgs()) {
+            for (DataTag destiTag : destination.getArgs()) {
                 Tag.Activation activationHandler =
                     tagRegistry.getActivationHandler(destiTag.NAME,
                                                      Tag.TagType.DESTINATION);

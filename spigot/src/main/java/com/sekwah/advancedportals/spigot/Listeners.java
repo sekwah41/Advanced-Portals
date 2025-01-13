@@ -23,6 +23,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Some of these will be passed to the core listener to handle the events,
@@ -189,7 +190,7 @@ public class Listeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
-        org.bukkit.inventory.ItemStack itemInHand = event.getPlayer().getItemInHand();
+        ItemStack itemInHand = event.getPlayer().getItemInHand();
         if (!coreListeners.blockBreak(
                 new SpigotPlayerContainer(event.getPlayer()),
                 ContainerHelpers.toBlockLocation(

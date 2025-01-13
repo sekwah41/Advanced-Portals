@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
@@ -52,7 +53,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activationData,
                                 String[] argData) {
-        com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+        PlayerData playerData = playerDataServices.getPlayerData(player);
         if (target instanceof AdvancedPortal) {
             AdvancedPortal portal = (AdvancedPortal) target;
             String portalName = portal.getName();
@@ -80,7 +81,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
         if (activationData.hasActivated()) {
             if (target instanceof AdvancedPortal) {
                 AdvancedPortal portal = (AdvancedPortal) target;
-                com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+                PlayerData playerData = playerDataServices.getPlayerData(player);
                 try {
                     playerData.setPortalCooldown(
                         portal.getName(), Integer.parseInt(argData[0]) * 1000);

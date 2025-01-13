@@ -5,6 +5,8 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeProxyContainer implements ProxyContainer {
     private final AdvancedPortalsBungeePlugin plugin;
@@ -30,8 +32,8 @@ public class BungeeProxyContainer implements ProxyContainer {
         // Should never not be true but just to be safe
         if (proxyPlayer instanceof BungeeProxyPlayerContainer) {
             BungeeProxyPlayerContainer playerContainer = (BungeeProxyPlayerContainer) proxyPlayer;
-            net.md_5.bungee.api.config.ServerInfo serverInfo = plugin.getProxy().getServerInfo(serverName);
-            net.md_5.bungee.api.connection.ProxiedPlayer player = playerContainer.getPlayer();
+            ServerInfo serverInfo = plugin.getProxy().getServerInfo(serverName);
+            ProxiedPlayer player = playerContainer.getPlayer();
             if (serverInfo == null) {
                 player.sendMessage(new TextComponent(
                     Lang.convertColors("&cCould not find server: &e")

@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
@@ -11,6 +12,7 @@ import com.sekwah.advancedportals.core.network.ServerDestiPacket;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
+import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
@@ -64,7 +66,7 @@ public class CoreListeners {
 
     public void incomingMessage(PlayerContainer player, String channel,
                                 byte[] message) {
-        com.google.common.io.ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
+        ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
         String messageType = buffer.readUTF();
 
         switch (messageType) {
@@ -221,7 +223,7 @@ public boolean entityPortalEvent(EntityContainer entity) {
     BlockLocation pos = entity.getBlockLoc();
     if (entity instanceof PlayerContainer ) {
         PlayerContainer player = (PlayerContainer) entity;
-        com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+        PlayerData playerData = playerDataServices.getPlayerData(player);
         if (playerData.getPortalBlockCooldown()) {
             return false;
         }
@@ -233,7 +235,7 @@ public boolean entityPortalEvent(EntityContainer entity) {
 }
 
 public boolean playerPortalEvent(PlayerContainer player, PlayerLocation toLoc) {
-    com.sekwah.advancedportals.core.serializeddata.PlayerData playerData = playerDataServices.getPlayerData(player);
+    PlayerData playerData = playerDataServices.getPlayerData(player);
 
     if (playerData.getPortalBlockCooldown()) {
         return false;

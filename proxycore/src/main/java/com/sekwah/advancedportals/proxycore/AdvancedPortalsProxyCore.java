@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyJoinData;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyServerContainer;
+import com.sekwah.advancedportals.shadowed.guava.io.ByteArrayDataInput;
 import com.sekwah.advancedportals.shadowed.guava.io.ByteStreams;
 import java.util.HashMap;
 
@@ -57,7 +58,7 @@ public class AdvancedPortalsProxyCore {
      * @param message
      */
     public void incomingMessage(ProxyPlayerContainer player, byte[] message) {
-        com.sekwah.advancedportals.shadowed.guava.io.ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
+        ByteArrayDataInput buffer = ByteStreams.newDataInput(message);
         String messageType = buffer.readUTF();
 
         // Might be a bit overboard for some as they'll only have one value, but
