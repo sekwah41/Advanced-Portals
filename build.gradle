@@ -92,6 +92,7 @@ dependencies {
     includeLibs project(':bungee')
     includeLibs project(':spigot')
     includeLibs project(':velocity')
+    includeLibs project(':legacyspigot')
 }
 
 println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
