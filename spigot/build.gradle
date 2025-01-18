@@ -1,9 +1,18 @@
 
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+}
+
 // Check the root build.gradle under allprojects for common settings
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
+
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -30,8 +39,12 @@ dependencies {
 
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
-}
 
+    includeLibs project(':lang')
+    includeLibs project(':core')
+    includeLibs project(':bungee')
+    includeLibs project(':velocity')
+}
 tasks.named('compileJava') {
     dependsOn(':core:shadowJar')
 }
@@ -119,3 +132,94 @@ generateTemplates.configure {
 }
 
 sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
+
+tasks.register('downloadSekCDevToolsPlugin') {
+    doLast {
+        // Define the URL and destination path
+        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
+        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
+        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
+
+        // Create the directory if it doesn't exist
+        if (!destinationDir.exists()) {
+            destinationDir.mkdirs()
+        }
+
+        // Download the file if it doesn't exist
+        if (!destinationFile.exists()) {
+            println "Downloading SekCDevToolsPlugin..."
+            new URL(url).withInputStream { i ->
+                destinationFile.withOutputStream {
+                    it << i
+                }
+            }
+        } else {
+            println "SekCDevToolsPlugin already downloaded"
+        }
+    }
+}
+
+tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
+
+minecraftServerConfig {
+    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.20.2.jar')
+    jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.modrinth_slug
+    versionType = "release"
+    uploadFile = jar
+    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
+    gameVersions = [
+            "1.13",
+            "1.13.1",
+            "1.13.2",
+            "1.14",
+            "1.14.1",
+            "1.14.2",
+            "1.14.3",
+            "1.14.4",
+            "1.15",
+            "1.15.1",
+            "1.15.2",
+            "1.16",
+            "1.16.1",
+            "1.16.2",
+            "1.16.3",
+            "1.16.4",
+            "1.16.5",
+            "1.17",
+            "1.17.1",
+            "1.18",
+            "1.18.1",
+            "1.18.2",
+            "1.19",
+            "1.19.1",
+            "1.19.2",
+            "1.19.3",
+            "1.19.4",
+            "1.20",
+            "1.20.1",
+            "1.20.2",
+            "1.20.3",
+            "1.20.4",
+            "1.20.5",
+            "1.20.6",
+            "1.21",
+            "1.21.1",
+            "1.21.2",
+            "1.21.3",
+            "1.21.4"
+    ]
+    changelog = getReleaseChangelog()
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+
+apply from: '../curse.gradle'
+apply from: '../discord.gradle'
+

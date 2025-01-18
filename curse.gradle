@@ -21,7 +21,7 @@ buildscript {
     }
 }
 
-apply from: 'env-variables.gradle'
+apply from: rootProject.file('env-variables.gradle')
 
 static String getValueFromCurseAPI(apiKey, endpoint) {
     String API_BASE_URL = 'https://minecraft.curseforge.com'

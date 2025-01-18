@@ -15,8 +15,8 @@ buildscript {
     }
 }
 
-apply from: 'env-variables.gradle'
-apply from: 'changelog-util.gradle'
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
 
 task discordupload {
     dependsOn(jar)
