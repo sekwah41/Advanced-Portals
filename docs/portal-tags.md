@@ -99,4 +99,4 @@ You can only use one of these at the start of a command tag.
 
 `#` Execute command as console
 
-`%` Send command to bungee
+`%` Send command to the proxy (requires the proxy plugin to be installed)
