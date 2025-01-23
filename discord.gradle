@@ -19,6 +19,7 @@ apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
 
 task discordupload {
+    group = 'Distribute'
     dependsOn(jar)
 
     doLast {
@@ -26,7 +27,7 @@ task discordupload {
         String discordWebhook = isRelease ? System.getenv("DISCORD_RELEASE_WEBHOOK") : System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
-            long fileSizeInBytes = jarFile.length()
+            long fileSizeInBytes = jar.length()
             double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
 
             println("Selected file: ${jarFile.name}")

@@ -111,6 +111,7 @@ class UploadResponse {
 
 // Based on https://github.com/matthewprenger/CurseGradle as it didnt support Bukkit uploads at the time.
 task curseforge {
+    group = 'distribute'
     dependsOn(jar)
     doLast {
         String apiKey = System.getenv("CURSE_API")

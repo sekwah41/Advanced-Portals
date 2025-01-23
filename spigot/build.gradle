@@ -256,7 +256,7 @@ modrinth {
 }
 
 tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
+tasks.modrinth.group = "distribute"
 
 apply from: '../curse.gradle'
 apply from: '../discord.gradle'
