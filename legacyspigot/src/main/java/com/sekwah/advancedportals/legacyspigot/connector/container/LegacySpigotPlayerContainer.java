@@ -124,9 +124,13 @@ public class LegacySpigotPlayerContainer
             return;
         }
 
-        int intColor = color.getRGB();
+        // If red is 0 it seems to treat it as fully red too
+        if(color.getRed() == 0) {
+            color = new Color(1, color.getGreen(), color.getBlue());
+        }
 
-        this.player.playEffect(player.getLocation(), Effect.COLOURED_DUST, intColor);
+
+        this.player.spigot().playEffect(new Location(player.getWorld(), position.getX(), position.getY(), position.getZ()), Effect.COLOURED_DUST, 0,  0,color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1, 0, 64);
     }
 }
 

@@ -1,8 +1,19 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
+
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+}
+
 // Check the root build.gradle under allprojects for common settings
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
+archivesBaseName = "Advanced-Portals-Legacy-Spigot"
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -28,6 +39,11 @@ dependencies {
 
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
+
+    includeLibs project(':lang')
+    includeLibs project(':core')
+    includeLibs project(':bungee')
+    includeLibs project(':velocity')
 }
 
 tasks.named('compileJava') {
@@ -35,7 +51,189 @@ tasks.named('compileJava') {
 }
 
 jar {
-    from configurations.includeLibs.collect {
+    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("${File.separator}build${File.separator}libs")
+    } .collect {
+        println("Will Include: ${it.name}")
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+/**
+ * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
+ */
+tasks.register('copyPlugin') {
+    dependsOn(build)
+    doLast {
+        copy {
+            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Legacy-Spigot-${getVersion()}.jar")
+            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Legacy-Spigot.jar")
+
+            println "Handling file: $destinationFilePath"
+
+            byte[] newContent = Files.readAllBytes(sourceFilePath)
+
+            if (Files.exists(destinationFilePath)) {
+                println "File exists. Overwriting with new binary content."
+
+                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+            } else {
+                println "File does not exist. Copying from source."
+
+                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
+            }
+        }
+    }
+}
+
+// Code for generating extra data in plugins.yml
+// This may be able to be simplified drastically, though the goal is to get this working for now
+//  as it has gone through a few iterations.
+sourceSets {
+    permissionsGen {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
+configurations {
+    permissionsGenCompileClasspath.extendsFrom compileClasspath
+}
+
+def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    source = sourceSets.permissionsGen.allJava
+    classpath = configurations.permissionsGenCompileClasspath
+    destinationDirectory = file("$buildDir/classes/permissionsGen")
+}
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/resources/templates')
+
+def generatePermissionsYaml = tasks.register('generatePermissionsYaml') {
+    dependsOn compilePermissionsGen
+
+    doLast {
+        println "Generating permissions.yml file"
+
+        def classFiles = []
+        classFiles.addAll(files("$buildDir/classes/permissionsGen", sourceSets.permissionsGen.runtimeClasspath)
+                .collect { it.toURI().toURL() })
+
+        classFiles.addAll(project(':core').sourceSets.main.output.classesDirs
+                .collect { it.toURI().toURL() })
+
+        def urls = classFiles.toArray(new URL[0])
+
+        def parentClassLoader = Thread.currentThread().contextClassLoader
+        def classLoader = new URLClassLoader(urls, parentClassLoader)
+
+        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.legacyspigot.PermissionsGeneratorSpigot')
+        def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
+        def permissionsYaml = getPermissionsMethod.invoke(null)
+
+        def permissionsFile = file("$buildDir/generated/resources/permissions.yml")
+        permissionsFile.parentFile.mkdirs()
+        permissionsFile.text = permissionsYaml
+
+        println "Permissions YAML generated at: $permissionsFile"
+    }
+}
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    dependsOn generatePermissionsYaml
+
+    def props = [
+            'permissions': { -> file("$buildDir/generated/resources/permissions.yml").text },
+            'pluginVersion': { -> project.version }
+    ]
+
+    task.inputs.properties(props)
+    task.from(templateSource)
+    task.into(templateDest)
+    task.expand(props)
+
+    doFirst {
+        println "Running generateTemplates task"
+    }
+}
+
+generateTemplates.configure {
+    outputs.upToDateWhen { false }
+}
+
+sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
+
+
+tasks.register('downloadSekCDevToolsPlugin') {
+    doLast {
+        // Define the URL and destination path
+        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
+        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
+        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
+
+        // Create the directory if it doesn't exist
+        if (!destinationDir.exists()) {
+            destinationDir.mkdirs()
+        }
+
+        // Download the file if it doesn't exist
+        if (!destinationFile.exists()) {
+            println "Downloading SekCDevToolsPlugin..."
+            new URL(url).withInputStream { i ->
+                destinationFile.withOutputStream {
+                    it << i
+                }
+            }
+        } else {
+            println "SekCDevToolsPlugin already downloaded"
+        }
+    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.modrinth_slug
+    versionType = "release"
+    uploadFile = jar
+    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
+    gameVersions = [
+            "1.8",
+            "1.8.1",
+            "1.8.2",
+            "1.8.3",
+            "1.8.4",
+            "1.8.5",
+            "1.8.6",
+            "1.8.7",
+            "1.8.8",
+            "1.8.9",
+            "1.9",
+            "1.9.1",
+            "1.9.2",
+            "1.9.3",
+            "1.9.4",
+            "1.10",
+            "1.10.1",
+            "1.10.2",
+            "1.11",
+            "1.11.1",
+            "1.11.2",
+            "1.12",
+            "1.12.1",
+            "1.12.2",
+    ]
+    changelog = getReleaseChangelog()
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+tasks.modrinth.group = "distribute"
+
+apply from: '../curse.gradle'
+apply from: '../discord.gradle'
+
