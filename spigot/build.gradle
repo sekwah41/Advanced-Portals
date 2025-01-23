@@ -1,3 +1,7 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
 
 plugins {
     id "com.modrinth.minotaur" version "2.+"
@@ -10,6 +14,8 @@ configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
+
+archivesBaseName = "Advanced-Portals-Spigot"
 
 apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
@@ -45,15 +51,47 @@ dependencies {
     includeLibs project(':bungee')
     includeLibs project(':velocity')
 }
+
 tasks.named('compileJava') {
     dependsOn(':core:shadowJar')
 }
 
 jar {
+    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from configurations.includeLibs.collect {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+
+/**
+ * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
+ */
+tasks.register('copyPlugin') {
+    dependsOn(build)
+    doLast {
+        copy {
+            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Spigot-${getVersion()}.jar")
+            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Spigot.jar")
+
+            println "Handling file: $destinationFilePath"
+
+            byte[] newContent = Files.readAllBytes(sourceFilePath)
+
+            if (Files.exists(destinationFilePath)) {
+                println "File exists. Overwriting with new binary content."
+
+                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+            } else {
+                println "File does not exist. Copying from source."
+
+                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
+            }
+        }
+    }
+}
+
 
 // Code for generating extra data in plugins.yml
 // This may be able to be simplified drastically, though the goal is to get this working for now
@@ -162,7 +200,7 @@ tasks.register('downloadSekCDevToolsPlugin') {
 tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
 
 minecraftServerConfig {
-    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.20.2.jar')
+    jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar')
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
 }
 
