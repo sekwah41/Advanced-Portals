@@ -59,11 +59,15 @@ tasks.named('compileJava') {
 jar {
     dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from configurations.includeLibs.collect {
+
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("${File.separator}build${File.separator}libs")
+    } .collect {
+        println("Will Include: ${it.name}")
         it.isDirectory() ? it : zipTree(it)
     }
 }
-
 
 /**
  * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
