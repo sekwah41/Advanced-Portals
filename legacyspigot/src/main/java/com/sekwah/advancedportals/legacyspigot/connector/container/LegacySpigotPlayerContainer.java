@@ -7,6 +7,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -49,7 +50,7 @@ public class LegacySpigotPlayerContainer
 
     @Override
     public void sendActionBar(String message) {
-        player.sendMessage(Arrays.toString(TextComponent.fromLegacyText(message)));
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 
     @Override
