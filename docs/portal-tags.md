@@ -100,3 +100,15 @@ You can only use one of these at the start of a command tag.
 `#` Execute command as console
 
 `%` Send command to the proxy (requires the proxy plugin to be installed)
+
+### `conditions:(comparison)`
+
+For this tag you must have the [placeholder api](https://www.spigotmc.org/resources/placeholderapi.6245/) installed.
+
+Example: `conditions:%player_food_level%>=5`
+
+There are three kinds of comparisons that can be made: boolean, string and numeric.
+
+If both sides are numeric, then you can use the following operators: `==`, `<`, `>`, `<=`, `>=`. Otherwise, an equal comparison will be made to check if both sides are the same.
+
+You can find a list of placeholders [here](https://wiki.placeholderapi.com/users/placeholder-list/). However, some plugins may add their own custom placeholders, so that may not be all of them.
