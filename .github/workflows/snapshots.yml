@@ -6,32 +6,31 @@ on:
 name: Build
 jobs:
   snapshot:
-    #if: ${{!startsWith(github.ref.split(’/’)[2], 'release-please')}}
     runs-on: ubuntu-latest
-    # https://github.com/google-github-actions/release-please-action in case more config is needed
+    strategy:
+      matrix:
+        include:
+          - project: spigot
+            java-version: 16
+          - project: legacyspigot
+            java-version: 8
     steps:
     - uses: actions/checkout@v3
-        # these if statements ensure that a publication only occurs when
-        # a new release is created:
     - name: Cache Gradle packages
       uses: actions/cache@v3
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
-    - name: Set up JDK 16
+    - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: temurin
-        java-version: 16
-#      - name: Download MC assets
-#        run: ./gradlew downloadAssets --info --debug || ./gradlew downloadAssets --info --debug || (sleep 30s && ./gradlew downloadAssets --info --debug)
-#      - name: Run DataGen
-#        run: ./gradlew runData
+        java-version: ${{ matrix.java-version }}
     - name: Build and upload preview (run for non-release builds)
       if: ${{ github.ref && !contains( github.ref, 'renovate/deps') }}
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       run: |
         # Build
-        ./gradlew build discordupload
+        ./gradlew ${{ matrix.project }}:discordupload

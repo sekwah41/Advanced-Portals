@@ -168,33 +168,6 @@ generateTemplates.configure {
 
 sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
 
-
-tasks.register('downloadSekCDevToolsPlugin') {
-    doLast {
-        // Define the URL and destination path
-        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
-        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
-        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
-
-        // Create the directory if it doesn't exist
-        if (!destinationDir.exists()) {
-            destinationDir.mkdirs()
-        }
-
-        // Download the file if it doesn't exist
-        if (!destinationFile.exists()) {
-            println "Downloading SekCDevToolsPlugin..."
-            new URL(url).withInputStream { i ->
-                destinationFile.withOutputStream {
-                    it << i
-                }
-            }
-        } else {
-            println "SekCDevToolsPlugin already downloaded"
-        }
-    }
-}
-
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = project.modrinth_slug
