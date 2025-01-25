@@ -108,6 +108,9 @@ class UploadResponse {
     int id
 }
 
+ext {
+    supportedVersions = []
+}
 
 // Based on https://github.com/matthewprenger/CurseGradle as it didnt support Bukkit uploads at the time.
 task curseforge {
@@ -130,29 +133,10 @@ task curseforge {
             GameVersion[] gameVersions = gson.fromJson(gameVersionsString, GameVersion[].class)
             def versions = gameVersions.findAll {it.gameVersionTypeID == gameVersionTypeID}
 
-            String[] supportedVersions = [
-                    "1.21",
-                    "1.20.6",
-                    "1.20.5",
-                    "1.20.4",
-                    "1.20.3",
-                    "1.20.2",
-                    "1.20.1",
-                    "1.20",
-                    "1.19.4",
-                    "1.19.3",
-                    "1.19.2",
-                    "1.19.1",
-                    "1.19",
-                    "1.18.2",
-                    "1.18.1",
-                    "1.18",
-                    "1.17",
-                    "1.16",
-                    "1.15",
-                    "1.14",
-                    "1.13"
-            ]
+            if (supportedVersions.isEmpty()) {
+                println("No supported versions specified. Please set 'supportedVersions' in the applying file.")
+                return
+            }
 
             def supportedGameVersions = versions.findAll {supportedVersions.contains(it.name)}
             int[] supportedGameVersionIds = supportedGameVersions.collect {it.id}.toArray()
