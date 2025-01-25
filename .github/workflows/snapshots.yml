@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - project: spigot
-            java-version: 16
-          - project: legacyspigot
-            java-version: 8
+        - project: spigot
+          java-version: 16
+        - project: legacyspigot
+          java-version: 8
     steps:
     - uses: actions/checkout@v3
     - name: Cache Gradle packages
