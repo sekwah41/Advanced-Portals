@@ -28,25 +28,25 @@ jobs:
       matrix:
         include:
           # Java 8 for legacyspigot
-          - project: legacyspigot
-            java-version: 8
-            release-task: curseforge
-          - project: legacyspigot
-            java-version: 8
-            release-task: discordupload
-          - project: legacyspigot
-            java-version: 8
-            release-task: modrinth
+        - project: legacyspigot
+          java-version: 8
+          release-task: curseforge
+        - project: legacyspigot
+          java-version: 8
+          release-task: discordupload
+        - project: legacyspigot
+          java-version: 8
+          release-task: modrinth
           # Java 16 for spigot
-          - project: spigot
-            java-version: 16
-            release-task: curseforge
-          - project: spigot
-            java-version: 16
-            release-task: discordupload
-          - project: spigot
-            java-version: 16
-            release-task: modrinth
+        - project: spigot
+          java-version: 16
+          release-task: curseforge
+        - project: spigot
+          java-version: 16
+          release-task: discordupload
+        - project: spigot
+          java-version: 16
+          release-task: modrinth
     needs: release-please
     runs-on: ubuntu-latest
     environment: release
