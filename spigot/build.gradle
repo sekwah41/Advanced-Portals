@@ -1,9 +1,24 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
+
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+}
 
 // Check the root build.gradle under allprojects for common settings
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
+
+archivesBaseName = "Advanced-Portals-Spigot"
+
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -30,6 +45,11 @@ dependencies {
 
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
+
+    includeLibs project(':lang')
+    includeLibs project(':core')
+    includeLibs project(':bungee')
+    includeLibs project(':velocity')
 }
 
 tasks.named('compileJava') {
@@ -37,10 +57,45 @@ tasks.named('compileJava') {
 }
 
 jar {
-    from configurations.includeLibs.collect {
+    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("${File.separator}build${File.separator}libs")
+    } .collect {
+        println("Will Include: ${it.name}")
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
+/**
+ * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
+ */
+tasks.register('copyPlugin') {
+    dependsOn(build)
+    doLast {
+        copy {
+            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Spigot-${getVersion()}.jar")
+            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Spigot.jar")
+
+            println "Handling file: $destinationFilePath"
+
+            byte[] newContent = Files.readAllBytes(sourceFilePath)
+
+            if (Files.exists(destinationFilePath)) {
+                println "File exists. Overwriting with new binary content."
+
+                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+            } else {
+                println "File does not exist. Copying from source."
+
+                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
+            }
+        }
+    }
+}
+
 
 // Code for generating extra data in plugins.yml
 // This may be able to be simplified drastically, though the goal is to get this working for now
@@ -119,3 +174,100 @@ generateTemplates.configure {
 }
 
 sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
+
+tasks.register('downloadSekCDevToolsPlugin') {
+    doLast {
+        // Define the URL and destination path
+        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
+        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
+        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
+
+        // Create the directory if it doesn't exist
+        if (!destinationDir.exists()) {
+            destinationDir.mkdirs()
+        }
+
+        // Download the file if it doesn't exist
+        if (!destinationFile.exists()) {
+            println "Downloading SekCDevToolsPlugin..."
+            new URL(url).withInputStream { i ->
+                destinationFile.withOutputStream {
+                    it << i
+                }
+            }
+        } else {
+            println "SekCDevToolsPlugin already downloaded"
+        }
+    }
+}
+
+tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
+
+minecraftServerConfig {
+    jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar')
+    jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+}
+
+apply from: '../curse.gradle'
+
+supportedVersions = [
+        "1.13",
+        "1.13.1",
+        "1.13.2",
+        "1.14",
+        "1.14.1",
+        "1.14.2",
+        "1.14.3",
+        "1.14.4",
+        "1.15",
+        "1.15.1",
+        "1.15.2",
+        "1.16",
+        "1.16.1",
+        "1.16.2",
+        "1.16.3",
+        "1.16.4",
+        "1.16.5",
+        "1.17",
+        "1.17.1",
+        "1.18",
+        "1.18.1",
+        "1.18.2",
+        "1.19",
+        "1.19.1",
+        "1.19.2",
+        "1.19.3",
+        "1.19.4",
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
+        "1.20.5",
+        "1.20.6",
+        "1.21",
+        "1.21.1",
+        "1.21.2",
+        "1.21.3",
+        "1.21.4"
+]
+
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.modrinth_slug
+    versionType = "release"
+    uploadFile = jar
+    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
+    gameVersions = supportedVersions
+    changelog = getReleaseChangelog()
+    versionName = "Spigot [MC 1.13+]" + getVersion()
+    versionNumber = getVersion() + "-Spigot"
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+tasks.modrinth.group = "distribute"
+
+apply from: '../discord.gradle'
+

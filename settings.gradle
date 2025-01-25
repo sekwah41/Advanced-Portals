@@ -6,6 +6,7 @@ include 'lang'
 
 // Implementations
 include 'spigot'
+include 'legacyspigot'
 
 // Proxies
 include 'velocity'

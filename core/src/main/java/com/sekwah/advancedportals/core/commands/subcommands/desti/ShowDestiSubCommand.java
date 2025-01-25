@@ -47,13 +47,6 @@ public class ShowDestiSubCommand
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if (core.getMcVersion()[1] < 16) {
-            sender.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translate("command.portal.show.unsupported"));
-            return;
-        }
-
         PlayerData tempData =
             tempDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isDestiVisible()) {
