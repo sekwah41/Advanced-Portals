@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.2.1...v2.3.0) (2025-01-25)
+
+
+### Features ✨
+
+* add support for legacy spigot 1.8 - 1.12 ([#520](https://github.com/sekwah41/Advanced-Portals/issues/520)) ([2bdeb5b](https://github.com/sekwah41/Advanced-Portals/commit/2bdeb5b0b6219c1695a8f46268dcb5770e714d9a))
+
 ## [2.2.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.2.0...v2.2.1) (2025-01-07)
 
 
