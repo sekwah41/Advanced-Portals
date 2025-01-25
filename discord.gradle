@@ -46,20 +46,28 @@ task discordupload {
                 def content = "# New release build\n" +
                         "${getReleaseChangelog()}\n"
 
-                if (content.length() > maxLength) {
-                    def afterMessage = "[See more on GitHub](<https://github.com/sekwah41/Advanced-Portals/releases>)"
+                def downloadLink = "\n\n[Download here](https://modrinth.com/plugin/advanced-portals)"
+
+                if(isRelease && content.length() + downloadLink.length() <= maxLength) {
+                    content += downloadLink
+                }
+
+                if (content.length() + downloadLink.length() > maxLength) {
+                    def afterMessage = "[See more on GitHub](<https://github.com/sekwah41/Advanced-Portals/releases>)\n\n"
 
                     def truncatedContent = content.replaceAll(/(http[s]?:\/\/[^\s)]+)/, '<$1>').take(maxLength - afterMessage.length() - 1)
                     def lastFullLine = truncatedContent.lastIndexOf("\n")
                     content = "${truncatedContent.take(lastFullLine)}\n"
                     content += afterMessage
-
+                    content += downloadLink
                 }
 
                 builder.addTextBody("content", content, ContentType.create("text/plain", "UTF-8"))
             }
 
-            builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+            if(!isRelease) {
+                builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+            }
 
             HttpEntity multipart = builder.build()
 
