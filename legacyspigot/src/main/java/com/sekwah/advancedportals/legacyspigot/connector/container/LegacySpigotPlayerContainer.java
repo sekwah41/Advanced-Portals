@@ -50,7 +50,11 @@ public class LegacySpigotPlayerContainer
 
     @Override
     public void sendActionBar(String message) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        try {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        } catch (NoSuchMethodError e) {
+            player.sendMessage(message);
+        }
     }
 
     @Override
