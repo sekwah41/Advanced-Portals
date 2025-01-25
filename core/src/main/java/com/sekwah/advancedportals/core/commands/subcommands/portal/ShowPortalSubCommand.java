@@ -60,13 +60,6 @@ public class ShowPortalSubCommand
 
     @Override
     public void onCommand(CommandSenderContainer sender, String[] args) {
-        if (core.getMcVersion()[1] < 16) {
-            sender.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translate("command.portal.show.unsupported"));
-            return;
-        }
-
         PlayerData tempData =
             playerDataServices.getPlayerData(sender.getPlayerContainer());
         if (tempData.isPortalVisible()) {

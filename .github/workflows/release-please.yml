@@ -26,7 +26,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release-task: [curseforge, discordupload, modrinth]
+        include:
+          # Java 8 for legacyspigot
+          - project: legacyspigot
+            java-version: 8
+            release-task: curseforge
+          - project: legacyspigot
+            java-version: 8
+            release-task: discordupload
+          - project: legacyspigot
+            java-version: 8
+            release-task: modrinth
+          # Java 16 for spigot
+          - project: spigot
+            java-version: 16
+            release-task: curseforge
+          - project: spigot
+            java-version: 16
+            release-task: discordupload
+          - project: spigot
+            java-version: 16
+            release-task: modrinth
     needs: release-please
     runs-on: ubuntu-latest
     environment: release
@@ -39,11 +59,11 @@ jobs:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
-    - name: Set up JDK 16
+    - name: Set up JDK ${{ matrix.java-version }}
       uses: actions/setup-java@v3
       with:
-        distribution: zulu
-        java-version: 16
+        distribution: temurin
+        java-version: ${{ matrix.java-version }}
     - name: Build and publish (release)
       env:
         CURSE_API: ${{ secrets.CURSE_API }}
@@ -53,4 +73,4 @@ jobs:
         IS_RELEASE: true
       run: |
         # Build
-        ./gradlew build ${{ matrix.release-task }}
+        ./gradlew build ${{ matrix.project }}:${{ matrix.release-task }}

@@ -16,10 +16,7 @@ buildscript {
     }
 }
 
-
 plugins {
-    id "com.modrinth.minotaur" version "2.+"
-    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
@@ -67,7 +64,6 @@ println("Snapshot Name: ${ext.snapshotName}")
 println("Github SHA: ${ext.githubSha}")
 println("Sha Ref: ${ext.shaRef}")
 
-archivesBaseName = "Advanced-Portals"
 group = 'com.sekwah.advancedportals'
 println "Version: ${getVersion()}"
 
@@ -85,174 +81,18 @@ repositories {
     maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 
-// includeLibs just says to include the library in the final jar
-dependencies {
-    includeLibs project(':lang')
-    includeLibs project(':core')
-    includeLibs project(':bungee')
-    includeLibs project(':spigot')
-    includeLibs project(':velocity')
-}
+// Needed to find generateTemplates task
+evaluationDependsOn(':core')
 
 println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
-
-tasks.named('jar') {
-    dependsOn(':core:shadowJar')
-}
-
-jar {
-    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
-    from configurations.includeLibs.filter {
-        it.path.contains("${File.separator}build${File.separator}libs")
-    } .collect {
-        println("Will Include: ${it.name}")
-        it.isDirectory() ? it : zipTree(it)
-    }
-
-}
-
-// This is used to download my plugin for helping reload the server in tandem with the copyPlugin task
-tasks.register('downloadSekCDevToolsPlugin') {
-    doLast {
-        // Define the URL and destination path
-        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
-        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
-        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
-
-        // Create the directory if it doesn't exist
-        if (!destinationDir.exists()) {
-            destinationDir.mkdirs()
-        }
-
-        // Download the file if it doesn't exist
-        if (!destinationFile.exists()) {
-            println "Downloading SekCDevToolsPlugin..."
-            new URL(url).withInputStream { i ->
-                destinationFile.withOutputStream {
-                    it << i
-                }
-            }
-        } else {
-            println "SekCDevToolsPlugin already downloaded"
-        }
-    }
-}
-
-tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
-
-minecraftServerConfig {
-    jarUrl.set('https://download.getbukkit.org/spigot/spigot-1.20.2.jar')
-    jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
-}
-
-tasks.withType(Jar).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.WARN
-}
-
-/**
- * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
- */
-tasks.register('copyPlugin') {
-    dependsOn(build)
-    doLast {
-        copy {
-            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-${getVersion()}.jar")
-            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals.jar")
-
-            println "Handling file: $destinationFilePath"
-
-            byte[] newContent = Files.readAllBytes(sourceFilePath)
-
-            if (Files.exists(destinationFilePath)) {
-                println "File exists. Overwriting with new binary content."
-
-                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
-            } else {
-                println "File does not exist. Copying from source."
-
-                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
-            }
-        }
-    }
-}
-
-// Set SPIGOT_LOC to the location of your server and SPIGOT_JAR as the name of the jar file in the server you want to run
-// DIReallyKnowWhatIAmDoingISwear is to remove the stupid pause spigot has at the start
-tasks.register('runJar') {
-    doLast {
-        javaexec {
-            main "-jar"
-            args "${System.env.MC_SERVER_LOC}\\${System.env.MC_SERVER_JAR}.jar"
-            jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
-            workingDir "${System.env.MC_SERVER_LOC}"
-        }
-    }
-}
-
 
 idea {
     project {
         settings {
             taskTriggers {
-                afterSync(project(':core').tasks.named('generateTemplates'))
+                afterSync(project(':core').tasks.named('generateTemplates').get())
             }
         }
     }
 }
 
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = project.modrinth_slug
-    versionType = "release"
-    uploadFile = jar
-    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
-    gameVersions = [
-            "1.13",
-            "1.13.1",
-            "1.13.2",
-            "1.14",
-            "1.14.1",
-            "1.14.2",
-            "1.14.3",
-            "1.14.4",
-            "1.15",
-            "1.15.1",
-            "1.15.2",
-            "1.16",
-            "1.16.1",
-            "1.16.2",
-            "1.16.3",
-            "1.16.4",
-            "1.16.5",
-            "1.17",
-            "1.17.1",
-            "1.18",
-            "1.18.1",
-            "1.18.2",
-            "1.19",
-            "1.19.1",
-            "1.19.2",
-            "1.19.3",
-            "1.19.4",
-            "1.20",
-            "1.20.1",
-            "1.20.2",
-            "1.20.3",
-            "1.20.4",
-            "1.20.5",
-            "1.20.6",
-            "1.21",
-            "1.21.1",
-            "1.21.2",
-            "1.21.3",
-            "1.21.4"
-    ]
-    changelog = getReleaseChangelog()
-    syncBodyFrom = rootProject.file("README.md").text
-}
-
-tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
-
-apply from: 'curse.gradle'
-apply from: 'discord.gradle'
