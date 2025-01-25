@@ -261,6 +261,8 @@ modrinth {
     loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
+    versionName = "Spigot [MC 1.13+]" + getVersion()
+    versionNumber = getVersion() + "-Spigot"
     syncBodyFrom = rootProject.file("README.md").text
 }
 
