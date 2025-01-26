@@ -27,7 +27,7 @@ task discordupload {
         String discordWebhook = isRelease ? System.getenv("DISCORD_RELEASE_WEBHOOK") : System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
-            def jarFile = file(jar.archiveFile)
+            def jarFile = file(tasks.named('jar').get().archiveName)
             long fileSizeInBytes = jarFile.length()
             double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
 
