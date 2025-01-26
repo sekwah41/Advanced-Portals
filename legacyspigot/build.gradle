@@ -106,6 +106,7 @@ configurations {
 }
 
 def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    dependsOn(':core:shadowJar')
     source = sourceSets.permissionsGen.allJava
     classpath = configurations.permissionsGenCompileClasspath
     destinationDirectory = file("$buildDir/classes/permissionsGen")
