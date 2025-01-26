@@ -11,7 +11,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.0.+', changing: true
         classpath "org.spongepowered:mixingradle:0.7+"
         classpath "org.apache.httpcomponents:httpmime:4.5.13"
         classpath "org.parchmentmc:librarian:1.+"
@@ -30,26 +30,12 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 // May be able to remove it
 apply plugin: "org.spongepowered.mixin"
 
-def branch = System.getenv("GITHUB_REF")
-def snapshotName = null;
-if(branch != null) {
-    branch = branch.replace('refs/heads/', '')
-}
-def isRelease = System.getenv("IS_RELEASE") == "true"
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
 
-snapshotName = (branch == null || branch.startsWith("release-please")) ? "SNAPSHOT" : branch
-def githubSha = System.getenv("GITHUB_SHA")
-def shaRef = githubSha != null ? "-${githubSha.substring(0, 8)}" : ""
+println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
 
-println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
-
-// Get version from file managed by please-release
-def versionString = (file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '')
-setVersion(versionString)
-println "Version: ${getVersion()}"
-
-group = project.package // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = project.archive
+archivesBaseName = "Advanced-Portals-Forge-1-18"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -124,7 +110,6 @@ minecraft {
         data {
             workingDirectory project.file('run')
 
-            forceExit false
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
             //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -191,14 +176,13 @@ mixin {
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     finalizedBy 'reobfJar'
-    classifier = 'universal'
     manifest {
         attributes([
                 "Specification-Title": project.modid,
                 "Specification-Vendor": project.vendor,
                 "Specification-Version": "1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
-                "Implementation-Version": "${versionString}",
+                "Implementation-Version": "${getVersion()}",
                 "Implementation-Vendor" :project.vendor,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs": "mixins.${project.modid}.json"
@@ -216,19 +200,6 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
     builtBy 'reobfJar'
 }
 
-task srcJar(type: Jar) {
-    build.dependsOn it
-    from sourceSets.main.allSource
-    classifier = 'sources'
-    from file("LICENSE")
-}
-
-task deobfJar(type: Jar) {
-    build.dependsOn it
-    from sourceSets.main.output
-    classifier = 'deobf'
-    from file("LICENSE")
-}
 configurations.all {
     resolutionStrategy.dependencySubstitution {
         // For more info see https://medium.com/@jonastm/jdk-17-with-dcevm-and-hotswapagent-4fee7095617a on how to enable for java 17
@@ -236,63 +207,6 @@ configurations.all {
     }
 }
 
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            artifact reobfArtifact
-//            artifact srcJar
-//            artifact deobfJar
-//        }
-//    }
-//    repositories {
-//        maven {
-//            url "s3://sekwah-maven/"
-//            authentication {
-//                awsIm(AwsImAuthentication)
-//            }
-//        }
-//    }
-//}
-
-/**
- * For pre-releases and testers to be able to try the latest commits if they want.
- * If the builds start exceeding 8MB then we may want to upload to s3 instead and periodically clear.
- * TODO possibly add a task that announces when builds are made?
- * Though add a note that it may take a while for Curse to approve the files.
- */
-task discordupload {
-    dependsOn(jar)
-    doLast {
-        String discordWebhook = System.getenv("DISCORD_WEBHOOK")
-
-        if(discordWebhook != null) {
-            println("Logging Into Discord")
-
-            CloseableHttpClient httpClient = HttpClients.createDefault()
-            HttpPost uploadFile = new HttpPost(discordWebhook)
-
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-            if(!isRelease) {
-                builder.addTextBody("content", "New snapshot or testing build")
-            } else {
-                builder.addTextBody("content", "New release build\n\n" +
-                        "Current Features: <${project.github}/blob/master/CHANGELOG.md>")
-            }
-
-            builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
-
-            HttpEntity multipart = builder.build()
-
-            uploadFile.setEntity(multipart)
-            CloseableHttpResponse response = httpClient.execute(uploadFile)
-            response.getEntity()
-
-            println("Posted build")
-
-        } else {
-            println("Discord webhook unspecified")
-        }
-    }
-}
-
 tasks.curseforge.enabled = System.getenv("CURSE_API") != null
+
+apply from: '../discord.gradle'
