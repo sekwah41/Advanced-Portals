@@ -8,6 +8,7 @@ jobs:
   snapshot:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
         - project: spigot
