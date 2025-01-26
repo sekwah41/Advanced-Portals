@@ -46,24 +46,14 @@ static String getValueFromCurseAPI(apiKey, endpoint) {
             reader.close()
             throw new RuntimeException("[CurseForge] Error")
         } else {
-            throw new RuntimeException("[CurseForge] HTTP Error Code $response.statusLine.statusCode: $response.statusLine.reasonPhrase")
+            throw new RuntimeException("[CurseForge] HTTP Error Code ${response.statusLine.statusCode}: ${response.statusLine.reasonPhrase}")
         }
     }
 }
 
-/**
- * Upload a single file (in case you also want to upload the other files like source n stuff)
- * @param json
- * @param file
- * @return
- * @throws IOException
- * @throws URISyntaxException
- */
 UploadResponse uploadFile(Metadata metadata, File file, String apiKey, Gson gson) throws IOException, URISyntaxException {
     String API_BASE_URL = 'https://minecraft.curseforge.com'
     String UPLOAD_URL = "/api/projects/%s/upload-file"
-    // Upload
-    // Important info
     String uploadUrl = String.format(API_BASE_URL + UPLOAD_URL, project.curse_project_id)
 
     HttpClient client = HttpClientBuilder.create()
@@ -131,15 +121,15 @@ task curseforge {
             // Get game versions
             String gameVersionsString = getValueFromCurseAPI(apiKey, VERSION_URL)
             GameVersion[] gameVersions = gson.fromJson(gameVersionsString, GameVersion[].class)
-            def versions = gameVersions.findAll {it.gameVersionTypeID == gameVersionTypeID}
+            def versions = gameVersions.findAll { it.gameVersionTypeID == gameVersionTypeID }
 
             if (supportedVersions.isEmpty()) {
                 println("No supported versions specified. Please set 'supportedVersions' in the applying file.")
                 return
             }
 
-            def supportedGameVersions = versions.findAll {supportedVersions.contains(it.name)}
-            int[] supportedGameVersionIds = supportedGameVersions.collect {it.id}.toArray()
+            def supportedGameVersions = versions.findAll { supportedVersions.contains(it.name) }
+            int[] supportedGameVersionIds = supportedGameVersions.collect { it.id } as int[]
 
             println("Supported Version Id's ${supportedGameVersionIds}")
 
@@ -150,12 +140,13 @@ task curseforge {
             uploadMetadata.releaseType = rootProject.ext.isRelease ? "release" : "beta"
             uploadMetadata.gameVersions = supportedGameVersionIds
 
-            def uploadId = uploadFile(uploadMetadata, file(jar.archiveFile), apiKey, gson)
+            def jarTask = tasks.named('jar').get()
+            def jarFile = jarTask.archiveFile.get().asFile
+
+            def uploadId = uploadFile(uploadMetadata, jarFile, apiKey, gson)
 
             println("Uploaded with ID: ${uploadId.id}")
-
             println("Published build")
-
         } else {
             println("Curse token unspecified")
         }

@@ -27,7 +27,8 @@ task discordupload {
         String discordWebhook = isRelease ? System.getenv("DISCORD_RELEASE_WEBHOOK") : System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
-            def jarFile = file(tasks.named('jar').get().archiveName)
+            def jarTask = tasks.named('jar').get()
+            def jarFile = jarTask.archiveFile.get().asFile
             long fileSizeInBytes = jarFile.length()
             double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
 
@@ -66,7 +67,7 @@ task discordupload {
             }
 
             if(!isRelease) {
-                builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+                builder.addBinaryBody("file", jarFile, ContentType.APPLICATION_OCTET_STREAM, jarFile.name)
             }
 
             HttpEntity multipart = builder.build()
