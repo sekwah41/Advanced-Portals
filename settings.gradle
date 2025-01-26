@@ -1,15 +1,25 @@
 rootProject.name = "Advanced-Portals"
+
 // Core modules
 include 'core'
 include 'proxycore'
 include 'lang'
 
-// Implementations
-include 'spigot'
-include 'legacyspigot'
-
-include 'forge-1-18'
-
 // Proxies
 include 'velocity'
 include 'bungee'
+
+def targetModule = System.getenv("TARGET_MODULE")
+
+if (targetModule == null || targetModule.trim().isEmpty()) {
+    // Include all optional modules if no specific module is set
+    println "Including all targetable modules"
+    include('spigot')
+    include('legacyspigot')
+    include('forge-1-18')
+} else {
+    // Include only the specified optional module
+    println "Including optional module: $targetModule"
+    include(targetModule)
+}
+

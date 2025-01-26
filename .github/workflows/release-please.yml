@@ -68,6 +68,7 @@ jobs:
         DISCORD_RELEASE_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
         MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         IS_RELEASE: true
+        TARGET_MODULE: ${{ matrix.project }}
       run: |
         # Build
         ./gradlew build ${{ matrix.project }}:${{ matrix.release-task }}
