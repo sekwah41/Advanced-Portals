@@ -45,9 +45,6 @@ allprojects {
         }
     }
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-
     ext.branch = rootProject.ext.branch
     ext.snapshotName = rootProject.ext.snapshotName
     ext.githubSha = rootProject.ext.githubSha

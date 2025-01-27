@@ -24,7 +24,6 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: "java"
 apply plugin: 'eclipse'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 //apply plugin: 'maven-publish'
 
 // May be able to remove it
@@ -56,8 +55,8 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    //mappings channel: 'official', version: '1.18.1'
-    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
+    mappings channel: 'official', version: '1.18.1'
+    //mappings channel: 'parchment', version: '2021.12.19-1.18.1'
     //mappings channel: 'parchment', version: '2021.07.21-1.17'
 
     // This is for personal local tests i was doing ignore it ;)
@@ -128,6 +127,17 @@ minecraft {
     }
 }
 
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            mod_version: getVersion(),
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
@@ -135,7 +145,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.24'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.3.1'
 
     implementation 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
@@ -187,23 +197,6 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs": "mixins.${project.modid}.json"
         ])
-    }
-}
-
-// Example configuration to allow publishing using the maven-publish task
-// we define a custom artifact that is sourced from the reobfJar output task
-// and then declare that to be published
-// Note you'll need to add a repository here
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
-}
-
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        // For more info see https://medium.com/@jonastm/jdk-17-with-dcevm-and-hotswapagent-4fee7095617a on how to enable for java 17
-        substitute module('cpw.mods:securejarhandler') using module('cpw.mods:securejarhandler:0.9.+') because "Fixes support for DCEVM"
     }
 }
 
