@@ -76,6 +76,8 @@ minecraft {
             //property 'forge.logging.markers', 'SCAN,REGISTR
             //version=1.2.1ES,REGISTRYDUMP'
 
+            ideaModule "${rootProject.name}.${project.name}.main"
+
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
@@ -96,6 +98,8 @@ minecraft {
             property 'forge.logging.markers', ''
             //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
+            ideaModule "${rootProject.name}.${project.name}.main"
+
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
@@ -112,6 +116,8 @@ minecraft {
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', ''
             //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            ideaModule "${rootProject.name}.${project.name}.main"
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
