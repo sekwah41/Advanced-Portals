@@ -8,10 +8,6 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
-import com.sekwah.advancedportals.shadowed.inject.Injector;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.sekwah.advancedportals.legacyspigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.legacyspigot.connector.command.LegacySpigotCommandRegister;
 import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotServerContainer;
@@ -19,9 +15,12 @@ import com.sekwah.advancedportals.legacyspigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.legacyspigot.metrics.Metrics;
 import com.sekwah.advancedportals.legacyspigot.tags.ConditionsTag;
 import com.sekwah.advancedportals.legacyspigot.warpeffects.SpigotWarpEffects;
+import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.sekwah.advancedportals.shadowed.inject.Injector;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
     private AdvancedPortalsCore portalsCore;
