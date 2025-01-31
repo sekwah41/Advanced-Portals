@@ -47,7 +47,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new Metrics(this);
+        new Metrics(this, 4814);
 
         Permissions.hasPermissionManager = true;
 
