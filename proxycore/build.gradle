@@ -7,12 +7,6 @@ configurations {
     includeLibs
 }
 
-repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
 dependencies {
     implementation project(":core")
     runtimeOnly project(path: ':core', configuration: 'shadow')

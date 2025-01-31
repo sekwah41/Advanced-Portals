@@ -1,16 +1,6 @@
-// Check the root build.gradle under allprojects for common settings
-
 configurations {
     // configuration that holds jars to copy into lib
     includeLibs
-}
-
-repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
-    maven {
-        name 'papermc'
-        url 'https://repo.papermc.io/repository/maven-public/'
-    }
 }
 
 // includeLibs just says to include the library in the final jar
