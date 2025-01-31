@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.0...v2.3.1) (2025-01-31)
+
+
+### Bug Fixes 🐛
+
+* update bstats metrics as it was triggering an antivirus false positive ([71c7362](https://github.com/sekwah41/Advanced-Portals/commit/71c7362caec033be03c665335c61dc6fd6ee9589))
+
 ## [2.3.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.2.1...v2.3.0) (2025-01-25)
 
 
