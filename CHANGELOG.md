@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.1...v2.3.2) (2025-01-31)
+
+
+### Bug Fixes 🐛
+
+* lower java requirement to 8 for spigot builds ([#527](https://github.com/sekwah41/Advanced-Portals/issues/527)) ([3014d66](https://github.com/sekwah41/Advanced-Portals/commit/3014d66430309f0dee998cdd53a32332c3199108))
+
 ## [2.3.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.0...v2.3.1) (2025-01-31)
 
 
