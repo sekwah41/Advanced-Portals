@@ -11,7 +11,7 @@ jobs:
       matrix:
         include:
         - project: spigot
-          java-version: 16
+          java-version: 8
         - project: legacyspigot
           java-version: 8
     steps:
