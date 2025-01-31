@@ -39,6 +39,7 @@ archivesBaseName = "Advanced-Portals-Forge-1-18"
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
+    maven { url "https://repo.maven.apache.org/maven2" }
     maven { url = "https://maven.sekwah.com" }
     maven {
         url "https://www.cursemaven.com"
@@ -78,6 +79,8 @@ minecraft {
 
             ideaModule "${rootProject.name}.${project.name}.main"
 
+            singleInstance true
+
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
@@ -100,6 +103,8 @@ minecraft {
 
             ideaModule "${rootProject.name}.${project.name}.main"
 
+            singleInstance true
+
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
@@ -119,6 +124,8 @@ minecraft {
 
             ideaModule "${rootProject.name}.${project.name}.main"
 
+            singleInstance true
+
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
@@ -131,6 +138,12 @@ minecraft {
             }
         }
     }
+}
+
+// Check the root build.gradle under allprojects for common settings
+configurations {
+    // configuration that holds jars to copy into lib
+    includeLibs
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -156,7 +169,6 @@ dependencies {
     implementation 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("com.sekwah:SekCLib:0.3.0")
     // Trick intellij to allow for better editing in here for the discord task
     // compile "org.apache.httpcomponents:httpmime:4.5.13"
     //implementation fg.deobf("curse.maven:torohealth-damage-indicators-245733:3556931")
@@ -180,6 +192,12 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+
+    includeLibs project(':lang')
+    includeLibs project(':core')
+    //includeLibs project(':bungee')
+    //includeLibs project(':velocity')
+
 }
 
 mixin {
@@ -191,7 +209,17 @@ mixin {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
+    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
     finalizedBy 'reobfJar'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("${File.separator}build${File.separator}libs")
+    } .collect {
+        println("Will Include: ${it.name}")
+        it.isDirectory() ? it : zipTree(it)
+    }
     manifest {
         attributes([
                 "Specification-Title": project.modid,
@@ -209,3 +237,4 @@ jar {
 tasks.curseforge.enabled = System.getenv("CURSE_API") != null
 
 apply from: '../discord.gradle'
+
