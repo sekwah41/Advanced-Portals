@@ -1,12 +1,12 @@
 package com.sekwah.advancedportals.spigot.tags;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;

@@ -1,0 +1,36 @@
+/*
+make sure these are above the files importing
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+*/
+
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
+project.afterEvaluate {
+    tasks.named('shadowJar') {
+        configurations = [project.configurations.shade]
+
+        relocate 'com.google.code.gson', 'com.sekwah.advancedportals.shadowed.gson'
+        relocate 'com.google.inject', 'com.sekwah.advancedportals.shadowed.inject'
+        relocate 'com.google.errorprone', 'com.sekwah.advancedportals.shadowed.errorprone'
+        relocate 'org.yaml.snakeyaml', 'com.sekwah.advancedportals.shadowed.snakeyaml'
+        relocate 'com.google.common', 'com.sekwah.advancedportals.shadowed.guava'
+        relocate 'io.netty', 'com.sekwah.advancedportals.shadowed.netty'
+        relocate 'javax.annotation', 'com.sekwah.advancedportals.shadowed.javax.annotation'
+        relocate 'javax.inject', 'com.sekwah.advancedportals.shadowed.javax.inject'
+        relocate 'org.aopalliance', 'com.sekwah.advancedportals.shadowed.aopalliance'
+        relocate 'org.checkerframework', 'com.sekwah.advancedportals.shadowed.checkerframework'
+
+        exclude 'io/netty/**'
+
+        minimize()
+
+        archiveClassifier.set('')
+    }
+
+    assemble.dependsOn shadowJar
+}

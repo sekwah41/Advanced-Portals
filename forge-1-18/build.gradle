@@ -19,6 +19,7 @@ buildscript {
 }
 plugins {
     id "com.matthewprenger.cursegradle" version "1.4.0"
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -31,6 +32,8 @@ apply plugin: "org.spongepowered.mixin"
 
 apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
+
+apply from: rootProject.file('shadowJar.gradle')
 
 println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
 
@@ -140,11 +143,6 @@ minecraft {
     }
 }
 
-// Check the root build.gradle under allprojects for common settings
-configurations {
-    // configuration that holds jars to copy into lib
-    includeLibs
-}
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
@@ -193,8 +191,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 
-    includeLibs project(':lang')
-    includeLibs project(':core')
+    shade project(':lang')
+    shade project(':core')
     //includeLibs project(':bungee')
     //includeLibs project(':velocity')
 
@@ -209,17 +207,8 @@ mixin {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
-    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
+    archiveClassifier = 'slim'
     finalizedBy 'reobfJar'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
-    from configurations.includeLibs.filter {
-        it.path.contains("${File.separator}build${File.separator}libs")
-    } .collect {
-        println("Will Include: ${it.name}")
-        it.isDirectory() ? it : zipTree(it)
-    }
     manifest {
         attributes([
                 "Specification-Title": project.modid,
@@ -232,6 +221,12 @@ jar {
                 "MixinConfigs": "mixins.${project.modid}.json"
         ])
     }
+}
+
+assemble.dependsOn shadowJar
+
+reobf {
+    shadowJar {}
 }
 
 tasks.curseforge.enabled = System.getenv("CURSE_API") != null

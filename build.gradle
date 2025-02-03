@@ -66,11 +66,6 @@ println "Version: ${getVersion()}"
 
 description = ""
 
-configurations {
-    // configuration that holds jars to copy into lib
-    implementation.extendsFrom(includeLibs)
-}
-
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }

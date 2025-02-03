@@ -4,7 +4,7 @@ import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.services.PortalServices;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContainer;

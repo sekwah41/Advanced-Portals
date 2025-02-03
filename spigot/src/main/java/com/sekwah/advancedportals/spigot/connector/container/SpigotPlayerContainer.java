@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.spigot.connector.container;
 
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
@@ -7,7 +8,6 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
 import java.awt.*;
 import java.util.Arrays;

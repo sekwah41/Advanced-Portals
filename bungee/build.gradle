@@ -1,13 +1,12 @@
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
-
-configurations {
-    // configuration that holds jars to copy into lib
-    includeLibs
-}
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -15,26 +14,13 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
+apply from: rootProject.file('shadowJar.gradle')
+
 // includeLibs just says to include the library in the final jar
 dependencies {
-
-    // For bungee api
     implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
 
-    implementation project(":proxycore")
-    implementation project(":core")
+    shade project(":core")
+    shade project(":proxycore")
 }
 
-jar {
-    from configurations.includeLibs.collect { it.isDirectory() ? it : zipTree(it) }
-}
-
-
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-tasks.register('sourcesJar', Jar) {
-    dependsOn classes
-    getArchiveClassifier().set('sources')
-    from sourceSets.main.allSource
-}

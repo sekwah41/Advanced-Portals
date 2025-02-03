@@ -5,7 +5,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotEntityContainer;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.google.inject.Inject;
 import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotPlayerContainer;
 import com.sekwah.advancedportals.legacyspigot.utils.ContainerHelpers;
 import org.bukkit.Location;

@@ -1,12 +1,9 @@
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'maven-publish'
     id 'idea'
     id 'eclipse'
-}
-
-configurations {
 }
 
 repositories {
@@ -25,35 +22,8 @@ dependencies {
     implementation group: 'io.netty', name: 'netty-codec', version: '4.1.109.Final'
 }
 
-shadowJar {
-    relocate 'com.google.code.gson', 'com.sekwah.advancedportals.shadowed.gson'
-    relocate 'com.google.inject', 'com.sekwah.advancedportals.shadowed.inject'
-    relocate 'com.google.errorprone', 'com.sekwah.advancedportals.shadowed.errorprone'
-    relocate 'org.yaml.snakeyaml', 'com.sekwah.advancedportals.shadowed.snakeyaml'
-    relocate 'com.google.common', 'com.sekwah.advancedportals.shadowed.guava'
-    relocate 'io.netty', 'com.sekwah.advancedportals.shadowed.netty'
-    relocate 'javax.annotation', 'com.sekwah.advancedportals.shadowed.javax.annotation'
-    relocate 'javax.inject', 'com.sekwah.advancedportals.shadowed.javax.inject'
-    relocate 'org.aopalliance', 'com.sekwah.advancedportals.shadowed.aopalliance'
-    relocate 'org.checkerframework', 'com.sekwah.advancedportals.shadowed.checkerframework'
-
-    exclude 'io/netty/**'
-
-    minimize()
-
-    archiveClassifier.set('')
-}
-
-tasks.named('jar') {
-    enabled = false
-}
-
 tasks.named('build') {
     dependsOn tasks.named('shadowJar')
-}
-
-artifacts {
-    runtimeOnly shadowJar
 }
 
 def templateSource = file('src/main/templates')

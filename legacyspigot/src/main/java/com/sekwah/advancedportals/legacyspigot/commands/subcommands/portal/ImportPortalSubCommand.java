@@ -11,7 +11,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.legacyspigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.legacyspigot.importer.LegacyImporter;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.google.inject.Inject;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;

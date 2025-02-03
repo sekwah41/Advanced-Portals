@@ -2,11 +2,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-configurations {
-    // configuration that holds jars to copy into lib
-    includeLibs
-}
-
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
@@ -16,15 +11,12 @@ repositories {
 dependencies {
     implementation project(":core")
     runtimeOnly project(path: ':core', configuration: 'shadow')
+    implementation group: 'com.google.guava', name: 'guava', version: '33.2.0-jre'
+    implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.109.Final'
+    implementation group: 'io.netty', name: 'netty-codec', version: '4.1.109.Final'
 }
 
 tasks.named('compileJava') {
     dependsOn(':core:shadowJar')
 }
 
-
-jar {
-    from configurations.includeLibs.collect {
-        it.isDirectory() ? it : zipTree(it)
-    }
-}

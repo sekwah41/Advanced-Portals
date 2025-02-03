@@ -6,13 +6,11 @@ import java.nio.file.StandardOpenOption
 plugins {
     id "com.modrinth.minotaur" version "2.+"
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-// Check the root build.gradle under allprojects for common settings
-configurations {
-    // configuration that holds jars to copy into lib
-    includeLibs
-}
+apply from: rootProject.file('shadowJar.gradle')
+
 archivesBaseName = "Advanced-Portals-Legacy-Spigot"
 
 repositories {
@@ -25,7 +23,6 @@ repositories {
     maven { url 'https://repo.extendedclip.com/releases/'}
 }
 
-// includeLibs just says to include the library in the final jar
 dependencies {
     implementation project(":core")
     runtimeOnly project(path: ':core', configuration: 'shadow')
@@ -40,27 +37,18 @@ dependencies {
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
-    includeLibs project(':lang')
-    includeLibs project(':core')
-    includeLibs project(':bungee')
-    includeLibs project(':velocity')
+    shade project(':lang')
+    shade project(':core')
+    shade project(':bungee')
+    shade project(':velocity')
+}
+
+tasks.named('jar') {
+    enabled = false
 }
 
 tasks.named('compileJava') {
     dependsOn(':core:shadowJar')
-}
-
-jar {
-    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
-    from configurations.includeLibs.filter {
-        it.path.contains("${File.separator}build${File.separator}libs")
-    } .collect {
-        println("Will Include: ${it.name}")
-        it.isDirectory() ? it : zipTree(it)
-    }
 }
 
 /**

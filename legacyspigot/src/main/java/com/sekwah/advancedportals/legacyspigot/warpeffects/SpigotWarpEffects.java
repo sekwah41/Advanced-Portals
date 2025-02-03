@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.legacyspigot.warpeffects;
 
 import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.google.inject.Inject;
 
 public class SpigotWarpEffects {
     @Inject

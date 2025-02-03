@@ -7,18 +7,15 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
-}
-
-// Check the root build.gradle under allprojects for common settings
-configurations {
-    // configuration that holds jars to copy into lib
-    includeLibs
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 archivesBaseName = "Advanced-Portals-Spigot"
 
 apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
+
+apply from: rootProject.file('shadowJar.gradle')
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -30,10 +27,7 @@ repositories {
     maven { url 'https://repo.extendedclip.com/releases/'}
 }
 
-// includeLibs just says to include the library in the final jar
 dependencies {
-    implementation project(":core")
-    runtimeOnly project(path: ':core', configuration: 'shadow')
 
     // For spigot api
     // We are using an older version to try and ensure that we are not using anything new older versions cant use.
@@ -46,27 +40,12 @@ dependencies {
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
-    includeLibs project(':lang')
-    includeLibs project(':core')
-    includeLibs project(':bungee')
-    includeLibs project(':velocity')
-}
+    shade group: 'com.google.inject', name: 'guice', version: '5.0.1'
 
-tasks.named('compileJava') {
-    dependsOn(':core:shadowJar')
-}
-
-jar {
-    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
-    from configurations.includeLibs.filter {
-        it.path.contains("${File.separator}build${File.separator}libs")
-    } .collect {
-        println("Will Include: ${it.name}")
-        it.isDirectory() ? it : zipTree(it)
-    }
+    shade project(':lang')
+    shade project(':core')
+    shade project(':bungee')
+    //shade project(':velocity')
 }
 
 /**
@@ -118,6 +97,14 @@ def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile)
     classpath = configurations.permissionsGenCompileClasspath
     destinationDirectory = file("$buildDir/classes/permissionsGen")
 }
+
+def coreJarTask = project(':core').tasks.named('shadowJar')
+
+tasks.named('compilePermissionsGen').configure {
+    dependsOn(coreJarTask)
+    inputs.file(coreJarTask.map { it.archiveFile.get().asFile })
+}
+
 
 def templateSource = file('src/main/templates')
 def templateDest = layout.buildDirectory.dir('generated/resources/templates')
@@ -200,6 +187,10 @@ tasks.register('downloadSekCDevToolsPlugin') {
             println "SekCDevToolsPlugin already downloaded"
         }
     }
+}
+
+tasks.named('jar') {
+    enabled = false
 }
 
 tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)

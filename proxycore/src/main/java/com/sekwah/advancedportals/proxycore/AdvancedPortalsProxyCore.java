@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.proxycore;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import com.sekwah.advancedportals.core.ProxyMessages;
 import com.sekwah.advancedportals.core.network.ProxyCommandPacket;
 import com.sekwah.advancedportals.core.network.ProxyTransferDestiPacket;
@@ -11,8 +13,6 @@ import com.sekwah.advancedportals.proxycore.connector.container.ProxyContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyJoinData;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyPlayerContainer;
 import com.sekwah.advancedportals.proxycore.connector.container.ProxyServerContainer;
-import com.sekwah.advancedportals.shadowed.guava.io.ByteArrayDataInput;
-import com.sekwah.advancedportals.shadowed.guava.io.ByteStreams;
 import java.util.HashMap;
 
 public class AdvancedPortalsProxyCore {

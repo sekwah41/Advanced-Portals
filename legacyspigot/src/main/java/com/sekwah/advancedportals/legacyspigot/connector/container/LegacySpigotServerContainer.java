@@ -6,7 +6,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.shadowed.inject.Inject;
+import com.google.inject.Inject;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
