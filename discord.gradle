@@ -20,14 +20,14 @@ apply from: rootProject.file('changelog-util.gradle')
 
 task discordupload {
     group = 'Distribute'
-    dependsOn(jar)
+    dependsOn(shadowJar)
 
     doLast {
 
         String discordWebhook = isRelease ? System.getenv("DISCORD_RELEASE_WEBHOOK") : System.getenv("DISCORD_WEBHOOK")
 
         if(discordWebhook != null) {
-            def jarTask = tasks.named('jar').get()
+            def jarTask = tasks.named('shadowJar').get()
             def jarFile = jarTask.archiveFile.get().asFile
             long fileSizeInBytes = jarFile.length()
             double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
