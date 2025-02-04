@@ -43,9 +43,9 @@ dependencies {
     shade group: 'com.google.inject', name: 'guice', version: '5.0.1'
 
     shade project(':lang')
-    shade project(':core')
-    shade project(':bungee')
-    //shade project(':velocity')
+    shade project(path: ':core', configuration: 'shadow')
+    shade project(path: ':bungee', configuration: 'shadow')
+    shade project(path: ':velocity', configuration: 'shadow')
 }
 
 /**

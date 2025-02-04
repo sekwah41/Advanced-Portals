@@ -38,17 +38,13 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
     shade project(':lang')
-    shade project(':core')
-    shade project(':bungee')
-    shade project(':velocity')
+    shade project(path: ':core', configuration: 'shadow')
+    shade project(path: ':bungee', configuration: 'shadow')
+    shade project(path: ':velocity', configuration: 'shadow')
 }
 
 tasks.named('jar') {
     enabled = false
-}
-
-tasks.named('compileJava') {
-    dependsOn(':core:shadowJar')
 }
 
 /**

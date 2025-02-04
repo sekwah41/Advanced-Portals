@@ -1,4 +1,8 @@
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven {
@@ -6,6 +10,9 @@ repositories {
         url 'https://repo.papermc.io/repository/maven-public/'
     }
 }
+
+
+apply from: rootProject.file('shadowJar.gradle')
 
 // includeLibs just says to include the library in the final jar
 dependencies {

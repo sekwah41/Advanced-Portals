@@ -1,6 +1,12 @@
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'java'
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -8,15 +14,13 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
+apply from: rootProject.file('shadowJar.gradle')
+
 dependencies {
     implementation project(":core")
-    runtimeOnly project(path: ':core', configuration: 'shadow')
     implementation group: 'com.google.guava', name: 'guava', version: '33.2.0-jre'
     implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.109.Final'
     implementation group: 'io.netty', name: 'netty-codec', version: '4.1.109.Final'
 }
 
-tasks.named('compileJava') {
-    dependsOn(':core:shadowJar')
-}
 
