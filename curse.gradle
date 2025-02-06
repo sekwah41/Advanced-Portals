@@ -105,7 +105,7 @@ ext {
 // Based on https://github.com/matthewprenger/CurseGradle as it didnt support Bukkit uploads at the time.
 task curseforge {
     group = 'distribute'
-    dependsOn(jar)
+    dependsOn(shadowJar)
     doLast {
         String apiKey = System.getenv("CURSE_API")
 
@@ -140,7 +140,7 @@ task curseforge {
             uploadMetadata.releaseType = rootProject.ext.isRelease ? "release" : "beta"
             uploadMetadata.gameVersions = supportedGameVersionIds
 
-            def jarTask = tasks.named('jar').get()
+            def jarTask = tasks.named('shadowJar').get()
             def jarFile = jarTask.archiveFile.get().asFile
 
             def uploadId = uploadFile(uploadMetadata, jarFile, apiKey, gson)

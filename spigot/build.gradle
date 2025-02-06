@@ -249,7 +249,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = project.modrinth_slug
     versionType = "release"
-    uploadFile = jar
+    uploadFile = shadowJar
     loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
