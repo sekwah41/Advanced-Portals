@@ -100,6 +100,13 @@ public class Listeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         if (!event.isCancelled()) {
             Location blockloc = event.getBlock().getLocation();
+
+            if (blockloc.getWorld() == null)
+                return;
+
+            if (event.getItemInHand().getItemMeta() == null)
+                return;
+
             if (!this.coreListeners.blockPlace(
                     new SpigotPlayerContainer(event.getPlayer()),
                     new BlockLocation(
