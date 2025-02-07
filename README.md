@@ -17,13 +17,15 @@ An advanced portals plugin designed to have a wide range of features which are e
 
 Check out the [Tutorial](https://advancedportals.sekwah.com/docs/intro), [List of Commands](https://advancedportals.sekwah.com/docs/commands), and [List of Portal Tags](https://advancedportals.sekwah.com/docs/portal-tags).
 
+To be clear, the main target for this plugin is 1.13+ spigot. If you find any issues or inconsistencies with other versions please raise an issue!
+
 # Download
 
 - [Modrinth](https://modrinth.com/plugin/advanced-portals)
 - [Bukkit](https://dev.bukkit.org/projects/advanced-portals)
 - [Spigot](https://www.spigotmc.org/resources/advanced-portals.14356/)
 - [Curseforge](https://www.curseforge.com/minecraft/bukkit-plugins/advanced-portals)
-- [Github (Source Code)](https://github.com/sekwah41/Advanced-Portals/releases)
+- [GitHub (Source Code)](https://github.com/sekwah41/Advanced-Portals/releases)
 
 # Contributing
 Please ensure that your commits are in the following style for PR's

@@ -2,10 +2,11 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
 
 plugins {
     id "com.modrinth.minotaur" version "2.+"
-    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'dev.s7a.gradle.minecraft.server' version '3.2.1'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
@@ -193,11 +194,14 @@ tasks.named('jar') {
     enabled = false
 }
 
-tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
+task launchMinecraftServer(type: LaunchMinecraftServerTask) {
 
-minecraftServerConfig {
+    dependsOn(downloadSekCDevToolsPlugin)
+    dependsOn("copyPlugin")
     jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar')
     jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+
+    agreeEula.set(true)
 }
 
 apply from: '../curse.gradle'
