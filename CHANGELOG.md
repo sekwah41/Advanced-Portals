@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.2...v2.3.3) (2025-02-07)
+
+
+### Bug Fixes 🐛
+
+* add block place null checks ([#530](https://github.com/sekwah41/Advanced-Portals/issues/530)) ([74bcc7c](https://github.com/sekwah41/Advanced-Portals/commit/74bcc7cb7b2c9324e9df6b622d593775279be048))
+
 ## [2.3.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.1...v2.3.2) (2025-01-31)
 
 
