@@ -18,8 +18,6 @@ dependencies {
     implementation group: 'com.google.inject', name: 'guice', version: '5.0.1'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     implementation group: 'com.google.guava', name: 'guava', version: '33.2.0-jre'
-    implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.109.Final'
-    implementation group: 'io.netty', name: 'netty-codec', version: '4.1.109.Final'
 }
 
 tasks.named('build') {
