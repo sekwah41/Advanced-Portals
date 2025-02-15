@@ -37,7 +37,7 @@ public class AdvancedPortalsMod {
 
         this.portalsCore = new AdvancedPortalsCore(
                 version, FMLPaths.CONFIGDIR.get().toFile(),
-                new ForgeInfoLogger(LOGGER), null);
+                new ForgeInfoLogger(LOGGER), new ForgeServerContainer());
         AdvancedPortalsModule module = this.portalsCore.getModule();
 
         module.addInstanceBinding(CommandRegister.class,
