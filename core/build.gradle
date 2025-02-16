@@ -39,3 +39,16 @@ def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
 }
 
 sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/sources/templates"
+        }
+    }
+    generatedTemplates {
+        java {
+            srcDir layout.buildDirectory.dir('generated/sources/templates').get().asFile
+        }
+    }
+}
