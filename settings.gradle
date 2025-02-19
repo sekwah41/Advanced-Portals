@@ -24,17 +24,29 @@ include 'lang'
 include 'velocity'
 include 'bungee'
 
-def targetModule = System.getenv("TARGET_MODULE")
+def loadTargetModulesFromEnvFile() {
+    def envFile = file('.env')
+    if (!envFile.exists()) return null
 
-if (targetModule == null || targetModule.trim().isEmpty()) {
-    // Include all optional modules if no specific module is set
-    println "Including all targetable modules"
+    def lines = envFile.readLines().findAll { line ->
+        def trimmed = line.trim()
+        return trimmed && !trimmed.startsWith('#')
+    }
+    // Join non-empty lines with commas
+    return lines.join(',')
+}
+
+def targetModules = System.getenv("TARGET_MODULE") ?: loadTargetModulesFromEnvFile()
+
+if (targetModules == null || targetModules.trim().isEmpty()) {
+    // If none are specified just default to spigot for local dev.
+    println "No modules specified, defaulting to spigot only"
     include('spigot')
-    include('legacyspigot')
-    include('forge-1-18')
 } else {
     // Include only the specified optional module
-    println "Including optional module: $targetModule"
-    include(targetModule)
+    targetModules.split(',').collect { it.trim() }.each { moduleName ->
+        println "Including optional module: $moduleName"
+        include(moduleName)
+    }
 }
 
