@@ -105,7 +105,8 @@ minecraft {
             mods {
                 "${project.modid}" {
                     source sourceSets.main
-                    //source project(":core").sourceSets.main
+                    source project(":core").sourceSets.main
+                    source project(":core").sourceSets.generatedTemplates
                 }
             }
         }
@@ -129,7 +130,7 @@ minecraft {
             mods {
                 "${project.modid}" {
                     source sourceSets.main
-                    //source project(":core").sourceSets.main
+                    source project(":core").sourceSets.main
                 }
             }
         }
@@ -159,6 +160,7 @@ minecraft {
     }
 }
 
+jarJar.enable()
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
@@ -183,34 +185,12 @@ dependencies {
     implementation 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    // Trick intellij to allow for better editing in here for the discord task
-    // compile "org.apache.httpcomponents:httpmime:4.5.13"
-    //implementation fg.deobf("curse.maven:torohealth-damage-indicators-245733:3556931")
-//    implementation fg.deobf("curse.maven:jei-238222:3592081")
-//    implementation fg.deobf("curse.maven:configured-457570:3559398")
-//    implementation fg.deobf("curse.maven:jade-324717:3614180")
+    // Copy this from core
+    implementation jarJar(group: 'com.google.code.gson', name: 'gson', version: '[2.8.9,)')
+    implementation jarJar(group: 'com.google.inject', name: 'guice', version: '[5.0.1,)')
+    implementation jarJar(group: 'org.yaml', name: 'snakeyaml', version: '[2.2,)')
+    implementation jarJar(group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)')
 
-    //implementation fg.deobf("curse.maven:hwyla:${project.hwyla_fileid}")
-
-    //include('org.ow2.asm:asm-debug-all:5.2')
-
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
-
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // For more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
-    shade group: 'com.google.inject', name: 'guice', version: '5.0.1'
-
-    shade project(':lang')
-    shade project(':core')
-    implementation project(':core')
     //includeLibs project(':bungee')
     //includeLibs project(':velocity')
 
@@ -231,7 +211,7 @@ jar {
         attributes([
                 "Specification-Title": project.modid,
                 "Specification-Vendor": project.vendor,
-                "Specification-Version": "1", // We are version 1 of ourselves
+                "Specification-Version": "1",
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${getVersion()}",
                 "Implementation-Vendor" :project.vendor,
@@ -256,9 +236,41 @@ reobf {
     shadowJar {}
 }
 
-tasks.curseforge.enabled = System.getenv("CURSE_API") != null
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir '../core/src/main/java'
+            srcDir '../core/build/generated/templates'
+        }
+        resources {
+            srcDir 'src/main/resources'
+            srcDir '../core/src/main/resources'
+        }
+    }
+}
+
+
+tasks.curseforge.enabled = System.getenv("CUsourceSets {\n" +
+        "    main {\n" +
+        "        java {\n" +
+        "            srcDir 'src/main/java' // Default source folder for forge-1-18\n" +
+        "            srcDir '../core/src/main/java' // Include core's Java source files\n" +
+        "        }\n" +
+        "        resources {\n" +
+        "            srcDir 'src/main/resources' // Default resources folder for forge-1-18\n" +
+        "            srcDir '../core/src/main/resources' // Include core's resource files\n" +
+        "        }\n" +
+        "    }\n" +
+        "}\nRSE_API") != null
 
 apply from: '../discord.gradle'
+
+tasks.named('compileJava') {
+    dependsOn ':core:generateTemplates'
+    dependsOn ':core:classes'
+}
+
 
 idea {
     module {
