@@ -147,7 +147,6 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
 
         if (economyProvider == null) return;
-        if (economyProvider.getProvider() == null) return;
         AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(new CostTag(economyProvider.getProvider()));
     }
 }

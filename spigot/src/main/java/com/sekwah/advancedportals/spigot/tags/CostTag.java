@@ -49,7 +49,7 @@ public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
 
     @Override
     public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-        return false;
+        return true;
     }
 
     @Override
