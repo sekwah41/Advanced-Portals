@@ -17,10 +17,15 @@ import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.tags.ConditionsTag;
+import com.sekwah.advancedportals.spigot.tags.CostTag;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
@@ -55,14 +60,14 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         Pattern pattern = Pattern.compile("\\(MC: ([\\d.]+)\\)");
         Matcher matcher = pattern.matcher(mcVersion);
         SpigotServerContainer serverContainer =
-            new SpigotServerContainer(this.getServer());
+                new SpigotServerContainer(this.getServer());
         this.portalsCore = new AdvancedPortalsCore(
-            matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
-            new SpigotInfoLogger(this), serverContainer);
+                matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
+                new SpigotInfoLogger(this), serverContainer);
         AdvancedPortalsModule module = this.portalsCore.getModule();
 
         module.addInstanceBinding(CommandRegister.class,
-                                  new SpigotCommandRegister(this));
+                new SpigotCommandRegister(this));
 
         Injector injector = module.getInjector();
 
@@ -76,7 +81,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         GameScheduler scheduler = injector.getInstance(GameScheduler.class);
         this.getServer().getScheduler().scheduleSyncRepeatingTask(
-            this, scheduler::tick, 1, 1);
+                this, scheduler::tick, 1, 1);
 
         SpigotWarpEffects warpEffects = new SpigotWarpEffects();
         injector.injectMembers(warpEffects);
@@ -87,10 +92,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.portalsCore.onEnable();
 
         this.portalsCore.registerPortalCommand("import",
-                                               new ImportPortalSubCommand());
+                new ImportPortalSubCommand());
 
         checkAndCreateConfig();
         registerPlaceholderAPI();
+        checkVault();
     }
 
     private void checkAndCreateConfig() {
@@ -103,7 +109,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         if (destiFile.exists() && !destiFolder.exists()) {
             destiFolder.mkdirs();
             getLogger().info(
-                "Importing old destinations from destinations.yml");
+                    "Importing old destinations from destinations.yml");
             LegacyImporter.importDestinations(this.destinationServices);
         }
 
@@ -128,11 +134,20 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.portalsCore.onDisable();
     }
 
-    public void registerPlaceholderAPI() {
+    private void registerPlaceholderAPI() {
         if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI")
-            != null) {
+                != null) {
             AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(
-                new ConditionsTag());
+                    new ConditionsTag());
         }
     }
+
+    public void checkVault() {
+        if (this.getServer().getPluginManager().getPlugin("Vault") == null) return;
+        RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
+
+        if (economyProvider == null) return;
+        AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(new CostTag(economyProvider.getProvider()));
+    }
 }
+
