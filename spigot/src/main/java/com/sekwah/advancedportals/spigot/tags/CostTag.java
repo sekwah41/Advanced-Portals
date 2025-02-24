@@ -6,14 +6,12 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import java.util.ArrayList;
+import java.util.List;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
-
     private final Economy economy;
 
     public CostTag(Economy economy) {
@@ -21,16 +19,19 @@ public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
     }
 
     @Override
-    public boolean preActivated(TagTarget target, PlayerContainer player, ActivationData activeData, String[] argData) {
+    public boolean preActivated(TagTarget target, PlayerContainer player,
+                                ActivationData activeData, String[] argData) {
         double cost;
         try {
             cost = Double.parseDouble(argData[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.cost.error"));
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("tag.cost.error"));
             return false;
         }
 
-        if (!(player instanceof SpigotPlayerContainer)) return false;
+        if (!(player instanceof SpigotPlayerContainer))
+            return false;
 
         SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
 
@@ -38,23 +39,28 @@ public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
             return true;
         }
 
-        player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("tag.cost.fail", cost));
+        player.sendMessage(
+            Lang.getNegativePrefix()
+            + Lang.translateInsertVariables("tag.cost.fail", cost));
         return false;
     }
 
     @Override
-    public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-        economy.withdrawPlayer(((SpigotPlayerContainer) player).getPlayer(), Double.parseDouble(argData[0]));
+    public void postActivated(TagTarget target, PlayerContainer player,
+                              ActivationData activationData, String[] argData) {
+        economy.withdrawPlayer(((SpigotPlayerContainer) player).getPlayer(),
+                               Double.parseDouble(argData[0]));
     }
 
     @Override
-    public boolean activated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
+    public boolean activated(TagTarget target, PlayerContainer player,
+                             ActivationData activationData, String[] argData) {
         return true;
     }
 
     @Override
     public TagType[] getTagTypes() {
-        return new TagType[]{TagType.PORTAL, TagType.DESTINATION};
+        return new TagType[] {TagType.PORTAL, TagType.DESTINATION};
     }
 
     @Override
@@ -84,22 +90,25 @@ public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
+    public boolean created(TagTarget target, PlayerContainer player,
+                           String[] argData) {
         try {
             Double.parseDouble(argData[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.cost.number"));
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("tag.cost.number"));
             return false;
         }
         if (Double.parseDouble(argData[0]) <= 0) {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("tag.cost.negative"));
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("tag.cost.negative"));
             return false;
         }
         return true;
     }
 
     @Override
-    public void destroyed(TagTarget target, PlayerContainer player, String[] argData) {
-
+    public void destroyed(TagTarget target, PlayerContainer player,
+                          String[] argData) {
     }
 }
