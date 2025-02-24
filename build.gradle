@@ -56,6 +56,14 @@ allprojects {
 
     def versionString = (rootProject.file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '').replaceAll('\r', '')
     setVersion(versionString)
+
+    repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
+    }
 }
 
 
@@ -72,13 +80,6 @@ description = ""
 configurations {
     // configuration that holds jars to copy into lib
     implementation.extendsFrom(includeLibs)
-}
-
-repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 
 // Needed to find generateTemplates task
