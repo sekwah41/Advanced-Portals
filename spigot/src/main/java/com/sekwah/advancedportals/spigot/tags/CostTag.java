@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
 
-    Economy economy;
+    private final Economy economy;
 
     public CostTag(Economy economy) {
         this.economy = economy;
@@ -35,18 +35,16 @@ public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
         SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
 
         if (economy.has(spigotPlayer.getPlayer(), cost)) {
-            economy.withdrawPlayer(spigotPlayer.getPlayer(), cost);
-        } else {
-            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("tag.cost.fail", cost));
-            return false;
+            return true;
         }
 
-        return true;
+        player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("tag.cost.fail", cost));
+        return false;
     }
 
     @Override
     public void postActivated(TagTarget target, PlayerContainer player, ActivationData activationData, String[] argData) {
-
+        economy.withdrawPlayer(((SpigotPlayerContainer) player).getPlayer(), Double.parseDouble(argData[0]));
     }
 
     @Override
