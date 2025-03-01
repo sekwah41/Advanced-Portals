@@ -1,0 +1,207 @@
+# Igual aos arquivos de idioma padrão do Minecraft, mas pode lidar com comentários se um # for o primeiro caractere
+# Qualquer coisa não definida nas traduções será padronizada para o arquivo en_GB.
+# O en_GB padrão sempre será carregado antes de qualquer outro arquivo, mesmo que você crie um novo en_GB, para que novas strings
+# não tenham valores em branco, possivelmente tornando novos recursos inutilizáveis.
+#
+# O formato das strings incluídas é %(número do argumento)$s  (começa em 1, não 0)
+# Então a ordem das variáveis inseridas na string não é fixa. Assim como no Minecraft.
+#
+# Para cores, use & ou §
+# &0   Preto
+# &1   Azul Escuro
+# &2   Verde Escuro
+# &3   Aqua Escuro
+# &4   Vermelho Escuro
+# &5   Roxo Escuro
+# &6   Dourado
+# &7   Cinza
+# &8   Cinza Escuro
+# &9   Azul
+# &a   Verde
+# &b   Aqua
+# &c   Vermelho
+# &d   Roxo Claro
+# &e   Amarelo
+# &f   Branco
+# &k   Obfuscado
+# &l   Negrito
+# &m   Tachado
+# &n   Sublinhado
+# &o   Itálico
+# &r   Resetar
+#
+# &x   Cor Hex (#aa5f10 representado por &x&r&r&g&g&b&b) - Spigot 1.16.1+
+# &#   Cor Hex (#aa5f10 representado por &#rrggbb) - Spigot 1.16.1+
+#
+# Algumas mensagens de depuração podem não estar listadas aqui para tradução.
+
+translatedata.translationsoutdated= Algumas das traduções do arquivo de tradução atual &e%1$s&c estão desatualizadas.
+translatedata.replacecommand= Use &e/portal langupdate&c para copiar um novo arquivo padrão &een_GB&c.
+translatedata.replaced= Um novo arquivo &een_GB&a foi copiado para a pasta de dados.
+translatedata.updated= Arquivo de idioma recarregado. &e%1$s &atraduções foram adicionadas. Se quiser redefinir o arquivo, use "&elangupdate overwrite&a".
+
+messageprefix.positive=&a[&eAdvancedPortals&a]
+messageprefix.negative=&c[&7AdvancedPortals&c]
+
+logger.pluginenable=Advanced Portals foi ativado!
+logger.plugindisable=Advanced Portals está sendo desativado!
+logger.plugincrafterror=Esta versão do craftbukkit ainda não é compatível ou algo deu errado. Por favor, poste esta mensagem com o número da versão e o stacktrace acima em um problema no GitHub v:%1$s
+
+command.noargs= Desculpe, mas você precisa especificar um subcomando. Use &e/%1$s help &cse quiser uma lista de subcomandos possíveis.
+command.subcommand.invalid= Desculpe, mas esse não é um subcomando válido.
+
+command.help.header=&a%1$s Ajuda - Página %2$s de %3$s
+command.help.subcommandheader=&a%1$s Ajuda - %2$s
+command.help.invalidhelp= Desculpe, mas &e%1$s&c não é um número de página ou subcomando válido.
+
+command.reload.help=Recarrega os dados dos portais
+command.reload.detailedhelp=Recarrega todos os dados dos portais a partir dos arquivos na pasta de dados
+command.reload.reloaded= Todos os dados do Advanced Portals foram recarregados. Alguns valores de configuração podem precisar de uma reinicialização completa do servidor ou recarregamento do plugin para surtirem efeito.
+
+command.create.help=Cria portais
+command.create.error= Ocorreu um problema ao criar o portal.
+command.create.portal.console= Você não pode criar um portal usando o console.
+command.create.detailedhelp=O formato é /portal create (nome) [tag:valor] Liste as tags após criar no formato tag:valor. Se o valor precisar de espaços, use o formato tag:"valor com espaços"
+command.create.complete= O portal foi criado com sucesso.
+
+command.create.destination.help=Cria destinos
+command.create.destination.error= Ocorreu um problema ao criar o destino.
+command.create.destination.console= Você não pode criar um destino usando o console.
+command.create.destination.detailedhelp=O formato é /desti create (nome) [tag:valor] Liste as tags após criar no formato tag:valor. Se o valor precisar de espaços, use o formato tag:"valor com espaços"
+command.create.destination.prep=&aCriando destino
+command.create.destination.complete= O destino foi criado com sucesso.
+
+command.portal.info.complete= Informações do portal para &e%1$s&a:
+command.portal.info.notfound= Nenhum portal com o nome &e%1$s &cfoi encontrado.
+command.portal.info.noname= Você deve especificar um nome.
+
+command.create.tags=&aTags&7:
+
+command.playeronly= Desculpe, mas esse comando só pode ser executado por um jogador.
+
+command.portal.remove.noname= Você precisa informar o nome do portal que deseja remover.
+command.portal.remove.error= Ocorreu um problema ao remover o portal.
+command.portal.remove.noname=Nenhum portal com esse nome foi encontrado
+command.portal.remove.invalidselection=A seleção de portal que você tinha não é mais válida
+command.portal.remove.noselection=Você não tem um portal selecionado
+command.portal.remove.complete= O portal foi removido com sucesso.
+
+command.portal.show.help=Mostra portais próximos
+command.portal.show.detailedhelp=Mostra portais próximos. Depende de marcadores de depuração, então pode não funcionar em certas versões do Minecraft (apenas 1.16+ no momento).
+command.portal.show.enabled= Marcadores de portal agora estão ativados.
+command.portal.show.disabled= Marcadores de portal agora estão desativados.
+command.portal.show.unsupported= Marcadores de portal não são suportados nesta versão do Minecraft. (Apenas 1.16+ no momento)
+
+command.destination.noname=Nenhum destino com esse nome foi encontrado
+
+command.destination.remove.error= Ocorreu um problema ao remover o destino.
+command.destination.remove.complete= O destino foi removido com sucesso.
+
+command.destination.show.help=Mostra destinos próximos
+command.destination.show.detailedhelp=Mostra destinos próximos. Depende de marcadores de depuração, então pode não funcionar em certas versões do Minecraft (somente 1.16+ no momento).
+command.destination.show.enabled= Marcadores de destino agora estão ativados.
+command.destination.show.disabled= Marcadores de destino agora estão desativados.
+command.destination.show.unsupported= Marcadores de destino não são suportados nesta versão do Minecraft. (Somente 1.16+ no momento)
+
+command.destination.teleport.help=Teleporta para um destino específico.
+command.destination.teleport.detailedhelp=Teleporta para o destino especificado pelo nome.
+command.destination.teleport.error= Ocorreu um erro ao teleportar para o destino (@destiname).
+command.destination.teleport.success= Você foi teleportado para o destino (@destiname).
+
+command.destination.reload.help=Recarrega os dados de destino do repositório.
+command.destination.reload.detailedhelp=Este comando recarrega todos os dados de destino do repositório, atualizando o cache com os dados mais recentes.
+command.destination.reload= Destinos recarregados.
+
+command.portal.list.help=Lista os portais
+command.portal.list=&7 Portais&a:
+
+command.portal.disablebeacon.help=Desativa o efeito de farol do portal
+command.portal.disablebeacon.noname= Você deve especificar um nome
+command.portal.disablebeacon.complete= O efeito de farol foi desativado para este portal.
+command.portal.disablebeacon.notfound= Nenhum portal com o nome &e%1$s &cfoi encontrado.
+
+command.destination.list.help=Lista os destinos
+command.destination.list=&7 Destinos&a:
+
+command.selector= Você recebeu um seletor de portal.
+command.selector.help=Fornece um seletor de região de portal
+command.selector.detailedhelp=Fornece um seletor de portal para selecionar as regiões ao criar portais.
+
+command.portal.import= &e%1$s &aportais e &e%2$s &adestinos serão importados. O arquivo de configuração também será sobrescrito. Digite &e/portal import confirm &apara confirmar esta ação.
+command.portal.import.confirm= &aImportando portais e destinos.
+command.portal.import.complete= &aImportados &e%1$s &aportais e &e%2$s &adestinos.
+command.portal.import.help=Importa portais e destinos do formato antigo.
+command.portal.import.detailedhelp=Importa portais e destinos do formato antigo. Isso não sobrescreve portais e destinos existentes com o mesmo nome, mas você perderá quaisquer valores de configuração definidos.
+
+command.portalblock= Você recebeu um &eBloco de Portal&a!
+
+command.endportalblock= Você recebeu um &8Colocador de Bloco de Portal do End&a!
+
+command.gatewayblock= Você recebeu um &8Colocador de Bloco de Portal de Passagem&a!
+
+portal.error.invalidselection= Você deve ter pos1 e pos2 selecionados para criar um portal.
+portal.error.takenname= O nome escolhido para o portal já está em uso.
+portal.error.selection.differentworlds= Ambos os pontos selecionados devem estar no mesmo mundo.
+portal.error.selection.missing= Você precisa selecionar os dois pontos para o portal.
+portal.error.save= Ocorreu um problema ao salvar o portal.
+portal.error.nopermission= Você não tem permissão para usar este portal.
+
+portal.nobuild= Você não tem permissão para construir aqui!
+
+desti.info.noargs=&cNenhuma tag foi fornecida.
+
+command.error.noname= Você deve especificar um nome &enome:algumNomeAqui
+command.error.notags= Nenhuma tag foi fornecida. Você precisa incluir pelo menos &enome:(nome)&c.
+command.error.nametaken= O nome &e%1$s &cja está em uso.
+
+desti.error.save= Ocorreu um problema ao salvar o destino.
+desti.error.noname= Você deve especificar um nome. (nome:algumNomeAqui)
+desti.error.notfound= Nenhum destino com o nome &e%1$s &cfoi encontrado.
+desti.error.invalidworld= O destino "%1$s" no mundo "%2$s" não é válido/não está carregado.
+
+desti.warpdesti.warp=&aVocê foi teleportado para &e%1$s&a.
+
+error.notplayer=Apenas jogadores podem executar este comando.
+
+portal.selector.poschange=&aVocê selecionou &epos%1$s &aX&7:&e%2$s &aY&7:&e%3$s &aZ&7:&e%4$s
+
+time.second=segundo
+time.seconds=segundos
+portal.cooldown.join=&cAinda há &e%1$s &c%2$s de tempo de proteção de entrada.
+portal.cooldown.individual=&cAguarde &e%1$s &c%2$s antes de tentar entrar neste portal novamente.
+
+command.lang.help=Atualiza o arquivo de tradução
+
+command.version.help=Retorna a versão atual do plugin
+
+command.subcommand.nopermission= Desculpe, mas você não tem permissão para isso. Use &e/%1$s help &cpara ver uma lista de subcomandos possíveis.
+command.nopermission= Desculpe, mas você não tem permissão para isso.
+
+items.selector.name=Seletor de Região de Portal
+items.selector.pos=Selecionar pos %1$s
+items.interact.left=Clique Esquerdo
+items.interact.right=Clique Direito
+
+tag.permission.description=Define a permissão de um portal
+tag.desti.description=Define o destino do portal
+tag.name.error.nospaces= O nome não pode conter espaços.
+tag.triggerblock.description=Define os blocos de ativação do portal. Separados por vírgula ou múltiplas tags.
+tag.triggerblock.error.invalidmaterial= O bloco de ativação é inválido.
+tag.command.description=Define um comando a ser executado após a ativação do portal. Separados por vírgula ou múltiplas tags.
+tag.portalEvent.description=Ativa o portal a partir de eventos de portal, em vez de quando um jogador entra nele. (portal do Nether no modo sobrevivência)
+tag.message.description=Define a mensagem a ser exibida quando o portal for ativado.
+tag.conditions.description=Define as condições para ativação do portal.
+tag.conditions.fail=As condições para ativar este portal não foram atendidas.
+tag.conditions.invalid=As condições são inválidas.
+
+tag.cooldown.fail= O tempo de recarga deve ser um número.
+tag.command.nopermission= Você não tem permissão para criar um comando no nível %1$s.
+tag.command.notenabled= Portais de comando no nível %1$s não estão ativados neste servidor.
+tag.command.disabled= Portais de comando estão &edesativados &c neste servidor. Entre em contato com um administrador se isso for um problema.
+tag.command.op.disabled= Portais de comando de operador estão &edesativados &c neste servidor. Entre em contato com um administrador se isso for um problema.
+tag.command.console.disabled= Portais de comando do console estão &edesativados &c neste servidor. Entre em contato com um administrador se isso for um problema.
+tag.command.permswildcard.disabled= Portais de comando com permissão curinga &e*&c estão &edesativados &c neste servidor. Entre em contato com um administrador se isso for um problema.
+tag.command.proxy.disabled= Portais de comando de proxy estão &edesativados &c neste servidor. Entre em contato com um administrador se isso for um problema.
+
+tag.proxy.notenabled= Portais de proxy estão atualmente &edesativados &c neste servidor. Entre em contato com um administrador para ativá-los.
+tag.proxy.description= Define o destino do portal em outro servidor.

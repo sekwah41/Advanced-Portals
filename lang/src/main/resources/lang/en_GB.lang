@@ -194,6 +194,11 @@ tag.message.description=Sets the message to be displayed when the portal is acti
 tag.conditions.description=Sets the conditions for the portal to be activated
 tag.conditions.fail=The conditions to activate this portal have not been met
 tag.conditions.invalid=The conditions are invalid
+tag.cost.description=Sets the cost of entering the portal
+tag.cost.fail=You do not have enough money to enter this portal. The price is &e$%1$s
+tag.cost.negative=The cost must be a positive number.
+tag.cost.number=The cost must be a number.
+tag.cost.error=There was an error processing the cost. Please contact an Admin.
 
 tag.cooldown.fail= The cooldown must be a number.
 tag.command.nopermission= You do not have permission to create a command at %1$s command level

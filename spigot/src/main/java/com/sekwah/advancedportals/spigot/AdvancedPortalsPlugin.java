@@ -17,10 +17,14 @@ import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.tags.ConditionsTag;
+import com.sekwah.advancedportals.spigot.tags.CostTag;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
@@ -91,6 +95,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         checkAndCreateConfig();
         registerPlaceholderAPI();
+        checkVault();
     }
 
     private void checkAndCreateConfig() {
@@ -128,11 +133,23 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         this.portalsCore.onDisable();
     }
 
-    public void registerPlaceholderAPI() {
+    private void registerPlaceholderAPI() {
         if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI")
             != null) {
             AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(
                 new ConditionsTag());
         }
+    }
+
+    public void checkVault() {
+        if (this.getServer().getPluginManager().getPlugin("Vault") == null)
+            return;
+        RegisteredServiceProvider<Economy> economyProvider =
+            Bukkit.getServicesManager().getRegistration(Economy.class);
+
+        if (economyProvider == null)
+            return;
+        AdvancedPortalsCore.getInstance().getTagRegistry().registerTag(
+            new CostTag(economyProvider.getProvider()));
     }
 }
