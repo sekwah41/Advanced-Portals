@@ -31,30 +31,15 @@ apply plugin: "java"
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
-}
 
-def branch = System.getenv("GITHUB_REF")
-def snapshotName = null;
-if(branch != null) {
-    branch = branch.replace('refs/heads/', '')
-}
-def isRelease = System.getenv("IS_RELEASE") == "true"
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
 
-snapshotName = (branch == null || branch.startsWith("release-please")) ? "SNAPSHOT" : branch
-def githubSha = System.getenv("GITHUB_SHA")
-def shaRef = githubSha != null ? "-${githubSha.substring(0, 8)}" : ""
+apply from: rootProject.file('shadowJar.gradle')
 
 println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
 
-// Get version from file managed by please-release
-def versionString = (file('./version.txt').text + (isRelease ? "" : "-${snapshotName}${shaRef}")).replaceAll('\n', '')
-setVersion(versionString)
-println "Version: ${getVersion()}"
-
-group = project.package
-archivesBaseName = project.archive
+archivesBaseName = "Advanced-Portals-Forge-1-21"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
@@ -69,7 +54,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = project.modid
 }
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))

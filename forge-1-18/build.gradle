@@ -39,6 +39,8 @@ println "Branch ${ext.branch}${ext.shaRef} isRelease: '${ext.isRelease}'"
 
 archivesBaseName = "Advanced-Portals-Forge-1-18"
 
+archivesBaseName = "Advanced-Portals-Forge-1-18"
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 configurations {
