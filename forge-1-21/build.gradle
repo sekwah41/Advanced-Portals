@@ -25,6 +25,7 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id 'net.neoforged.moddev' version '1.0.21'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 apply plugin: "java"
@@ -43,6 +44,9 @@ archivesBaseName = "Advanced-Portals-Forge-1-21"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+var mc_version = "1.21.4"
+var neo_version = "21.4.112-beta"
+
 repositories {
     mavenLocal()
     maven {
@@ -59,13 +63,19 @@ base {
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
+assemble.dependsOn shadowJar
+
+shadowJar {
+    configurations = [project.configurations.shade]
+    mergeServiceFiles()
+}
+
 neoForge {
-    // Specify the version of NeoForge to use.
-    version = project.neo_version
+    version = neo_version
 
     parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+        mappingsVersion = "2025.02.16"
+        minecraftVersion = mc_version
     }
 
     // This line is optional. Access Transformers are automatically detected
@@ -78,13 +88,13 @@ neoForge {
             client()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
         }
 
         server {
             server()
             programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -92,7 +102,7 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
         }
 
         data {
@@ -102,7 +112,7 @@ neoForge {
             // gameDirectory = project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll '--mod', project.modid, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
         // applies to all the run configs above
@@ -126,7 +136,7 @@ neoForge {
         // these are used to tell the game which sources are for which mod
         // mostly optional in a single mod project
         // but multi mod projects should define one per mod
-        "${mod_id}" {
+        "${modid}" {
             sourceSet(sourceSets.main)
         }
     }
@@ -158,17 +168,17 @@ dependencies {
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [minecraft_version      : minecraft_version,
-                             minecraft_version_range: minecraft_version_range,
+    var replaceProperties = [minecraft_version      : mc_version,
+                             minecraft_version_range: "[1.21.4,1.22)",
                              neo_version            : neo_version,
-                             neo_version_range      : neo_version_range,
-                             loader_version_range   : loader_version_range,
-                             mod_id                 : mod_id,
-                             mod_name               : title,
-                             mod_license            : mod_license,
+                             neo_version_range      : "[21.4.0,)",
+                             loader_version_range   : "[4,)",
+                             mod_id                 : project.modid,
+                             mod_name               : project.name,
+                             mod_license            : project.mod_license,
                              mod_version            : getVersion(),
-                             mod_authors            : mod_authors,
-                             mod_description        : mod_description]
+                             mod_authors            : project.author,
+                             mod_description        : project.mod_description]
     inputs.properties replaceProperties
     expand replaceProperties
     from "src/main/templates"
@@ -196,7 +206,7 @@ task srcJar(type: Jar) {
     build.dependsOn it
     from sourceSets.main.allSource
     archiveClassifier = 'sources'
-    archiveBaseName = "${archivesBaseName}${project.mc_version}"
+    archiveBaseName = "${archivesBaseName}${mc_version}"
     from file("LICENSE")
 }
 
@@ -204,7 +214,7 @@ task deobfJar(type: Jar) {
     build.dependsOn it
     from sourceSets.main.output
     archiveClassifier = 'deobf'
-    archiveBaseName = "${archivesBaseName}${project.mc_version}"
+    archiveBaseName = "${archivesBaseName}${mc_version}"
     from file("LICENSE")
 }
 
@@ -226,7 +236,7 @@ publishing {
 }
 
 def getReleaseChangelog() {
-    def changelogFile = file('CHANGELOG.md')
+    def changelogFile = rootProject.file('CHANGELOG.md')
     def changelog = "## [${changelogFile.text.split('\n## \\[')[1]}\n\n"// ${project.github}/blob/${branch}/CHANGELOG.md
     return changelog;
 }
