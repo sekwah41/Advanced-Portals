@@ -24,7 +24,7 @@ buildscript {
 plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
-    id 'net.neoforged.gradle.userdev' version '7.0.173'
+    id 'earth.terrarium.cloche' version '0.8.20'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
@@ -55,6 +55,18 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    cloche {
+        librariesMinecraft()
+    }
+
+    mavenCentral()
+
+    cloche {
+        main()
+
+        mavenFabric()
+        mavenNeoforged()
+    }
 }
 
 base {
@@ -70,51 +82,29 @@ shadowJar {
     mergeServiceFiles()
 }
 
-runs {
-    // applies to all the run configs below
-    configureEach {
-        // Recommended logging data for a userdev environment
-        // The markers can be added/remove as needed separated by commas.
-        // "SCAN": For mods scan.
-        // "REGISTRIES": For firing of registry events.
-        // "REGISTRYDUMP": For getting the contents of all registries.
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
+// https://github.com/terrarium-earth/cloche
+cloche {
+    minecraftVersion = "1.21.1"
 
-        // Recommended logging level for the console
-        // You can set various levels here.
-        // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-        systemProperty 'forge.logging.console.level', 'debug'
-
-        modSource project.sourceSets.main
+    metadata {
+        modId = "example"
+        name = "Example Mod"
+        license = "ARR"
+        description = "Hello!"
     }
 
-    client {
-        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
-    }
+    neoforge {
+        loaderVersion = "21.1.135"
 
-    server {
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
-        argument '--nogui'
-    }
+        data()
 
-    // This run config launches GameTestServer and runs all registered gametests, then exits.
-    // By default, the server will crash when no gametests are provided.
-    // The gametest system is also enabled by default for other run configs under the /test command.
-    gameTestServer {
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
-    }
-
-    clientData {
-        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
-        // workingDirectory project.file('run-data')
-
-        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-        arguments.addAll '--mod', project.modid, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        runs {
+            server()
+            client()
+            data()
+        }
     }
 }
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     // Example mod dependency with JEI
