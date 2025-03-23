@@ -253,18 +253,7 @@ sourceSets {
 }
 
 
-tasks.curseforge.enabled = System.getenv("CUsourceSets {\n" +
-        "    main {\n" +
-        "        java {\n" +
-        "            srcDir 'src/main/java' // Default source folder for forge-1-18\n" +
-        "            srcDir '../core/src/main/java' // Include core's Java source files\n" +
-        "        }\n" +
-        "        resources {\n" +
-        "            srcDir 'src/main/resources' // Default resources folder for forge-1-18\n" +
-        "            srcDir '../core/src/main/resources' // Include core's resource files\n" +
-        "        }\n" +
-        "    }\n" +
-        "}\nRSE_API") != null
+tasks.curseforge.enabled = System.getenv("CURSE_API") != null
 
 apply from: '../discord.gradle'
 
