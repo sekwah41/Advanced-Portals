@@ -45,7 +45,7 @@ archivesBaseName = "Advanced-Portals-Forge-1-21"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 var mc_version = "1.21.4"
-var neo_version = "21.4.112-beta"
+var neo_version = "21.4.123"
 
 repositories {
     mavenLocal()
@@ -84,110 +84,25 @@ shadowJar {
 
 // https://github.com/terrarium-earth/cloche
 cloche {
-    minecraftVersion = "1.21.1"
+    minecraftVersion = mc_version
 
     metadata {
-        modId = "example"
-        name = "Example Mod"
-        license = "ARR"
-        description = "Hello!"
+        modId = project.modid
+        name = project.name
+        license = project.mod_license
+        description = project.mod_description
+        author = project.author
     }
 
-    neoforge {
-        loaderVersion = "21.1.135"
-
-        data()
-
-        runs {
-            server()
-            client()
-            data()
+    singleTarget {
+        neoforge {
+            loaderVersion = neo_version
         }
     }
-}
 
-dependencies {
-    // Example mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
-    // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
+    dependencies {
+        implementation project(":core")
 
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
-
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
-
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-}
-
-tasks.withType(ProcessResources).configureEach {
-    var replaceProperties = [minecraft_version      : mc_version,
-                             minecraft_version_range: "[1.21.4,1.22)",
-                             neo_version            : neo_version,
-                             neo_version_range      : "[21.4.0,)",
-                             loader_version_range   : "[4,)",
-                             mod_id                 : project.modid,
-                             mod_name               : project.name,
-                             mod_license            : project.mod_license,
-                             mod_version            : getVersion(),
-                             mod_authors            : project.author,
-                             mod_description        : project.mod_description]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/neoforge.mods.toml']) {
-        expand replaceProperties
-    }
-}
-
-// Example configuration to allow publishing using the maven-publish task
-// we define a custom artifact that is sourced from the reobfJar output task
-// and then declare that to be published
-// Note you'll need to add a repository here
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
-}
-
-task srcJar(type: Jar) {
-    build.dependsOn it
-    from sourceSets.main.allSource
-    archiveClassifier = 'sources'
-    archiveBaseName = "${archivesBaseName}${mc_version}"
-    from file("LICENSE")
-}
-
-task deobfJar(type: Jar) {
-    build.dependsOn it
-    from sourceSets.main.output
-    archiveClassifier = 'deobf'
-    archiveBaseName = "${archivesBaseName}${mc_version}"
-    from file("LICENSE")
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact reobfArtifact
-            artifact srcJar
-        }
-    }
-    repositories {
-        maven {
-            url "s3://sekwah-maven/"
-            authentication {
-                awsIm(AwsImAuthentication)
-            }
-        }
     }
 }
 
@@ -203,18 +118,18 @@ def getReleaseChangelog() {
  * TODO possibly add a task that announces when builds are made?
  * Though add a note that it may take a while for Curse to approve the files.
  */
-task discordupload {
+tasks.register('discordupload') {
     dependsOn(jar)
     doLast {
         String discordWebhook = System.getenv("DISCORD_WEBHOOK")
 
-        if(discordWebhook != null) {
+        if (discordWebhook != null) {
 
             CloseableHttpClient httpClient = HttpClients.createDefault()
             HttpPost uploadFile = new HttpPost(discordWebhook)
 
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-            if(!isRelease) {
+            if (!isRelease) {
                 builder.addTextBody("content", "New snapshot or testing build")
             } else {
                 builder.addTextBody("content", "New release build\n" +
@@ -243,27 +158,27 @@ task discordupload {
 
 tasks.curseforge.enabled = System.getenv("CURSE_API") != null
 
-curseforge {
-    logger.info("Curse api: " + System.getenv("CURSE_API"))
-    if (System.getenv("CURSE_API") != null) {
-        apiKey = System.getenv("CURSE_API")
-    }
-    project {
-        id = project.curse_project_id
-        // TODO add code to reference this but also cut the latest change logs in for the files
-        changelog = getReleaseChangelog()
-        changelogType = 'markdown'
-        releaseType = 'release'
-        addGameVersion '1.20'
-        addGameVersion '1.20.1'
-
-        mainArtifact(jar){
-
-        }
-        addArtifact srcJar
-        addArtifact deobfJar
-    }
-}
+//curseforge {
+//    logger.info("Curse api: " + System.getenv("CURSE_API"))
+//    if (System.getenv("CURSE_API") != null) {
+//        apiKey = System.getenv("CURSE_API")
+//    }
+//    project {
+//        id = project.curse_project_id
+//        // TODO add code to reference this but also cut the latest change logs in for the files
+//        changelog = getReleaseChangelog()
+//        changelogType = 'markdown'
+//        releaseType = 'release'
+//        addGameVersion '1.20'
+//        addGameVersion '1.20.1'
+//
+//        mainArtifact(jar){
+//
+//        }
+//        addArtifact srcJar
+//        addArtifact deobfJar
+//    }
+//}
 
 // https://github.com/modrinth/minotaur
 modrinth {
@@ -271,7 +186,6 @@ modrinth {
     projectId = project.modrinth_slug
     versionType = "release"
     uploadFile = jar
-    additionalFiles = [srcJar, deobfJar]
     gameVersions = ["1.20", "1.20.1"]
     changelog = getReleaseChangelog()
 }
