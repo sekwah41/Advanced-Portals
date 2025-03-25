@@ -97,13 +97,20 @@ cloche {
     singleTarget {
         neoforge {
             loaderVersion = neo_version
+
+            runs {
+                server
+                client
+                data
+            }
         }
     }
+}
 
-    dependencies {
-        implementation project(":core")
-
-    }
+dependencies {
+    implementation project(":core")
+    implementation(group: 'com.google.inject', name: 'guice', version: '5.0.1')
+    neoforgeInclude(group: 'com.google.inject', name: 'guice', version: '5.0.1')
 }
 
 def getReleaseChangelog() {

@@ -1,7 +1,7 @@
 package com.sekwah.advancedportals.forge;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class ForgeInfoLogger extends InfoLogger {
     private final Logger logger;
