@@ -10,7 +10,6 @@ buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url = "https://repo.spongepowered.org/maven" }
-        //maven { url = 'https://sizableshrimp.me/maven' }
         maven { url = "https://plugins.gradle.org/m2/" }
         maven { url = "https://maven.parchmentmc.org" }
         mavenCentral()
@@ -99,9 +98,9 @@ cloche {
             loaderVersion = neo_version
 
             runs {
-                server
-                client
-                data
+                server()
+                client()
+                data()
             }
         }
     }
