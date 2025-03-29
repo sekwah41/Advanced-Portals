@@ -75,7 +75,7 @@ cloche {
 
     metadata {
         modId = project.modid
-        name = rootProject.name
+        name = project.mod_name
         license = project.mod_license
         description = project.mod_description
         author = project.author
