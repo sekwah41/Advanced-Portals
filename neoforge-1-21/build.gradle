@@ -24,7 +24,7 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id 'earth.terrarium.cloche' version '0.8.20'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.5'
 }
 
 apply plugin: "java"
@@ -35,16 +35,15 @@ apply plugin: 'maven-publish'
 apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
 
-apply from: rootProject.file('shadowJar.gradle')
-
 println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
-
-archivesBaseName = "Advanced-Portals-Forge-1-21"
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 var mc_version = "1.21.4"
 var neo_version = "21.4.123"
+
+archivesBaseName = "Advanced-Portals-${mc_version}"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
 
 repositories {
     mavenLocal()
@@ -68,18 +67,7 @@ repositories {
     }
 }
 
-base {
-    archivesName = project.modid
-}
-
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-
-assemble.dependsOn shadowJar
-
-shadowJar {
-    configurations = [project.configurations.shade]
-    mergeServiceFiles()
-}
 
 // https://github.com/terrarium-earth/cloche
 cloche {
@@ -87,15 +75,21 @@ cloche {
 
     metadata {
         modId = project.modid
-        name = project.name
+        name = rootProject.name
         license = project.mod_license
         description = project.mod_description
         author = project.author
+        icon = "logo.png"
+        url = project.website
     }
 
     singleTarget {
         neoforge {
             loaderVersion = neo_version
+
+            metadata {
+                // custom("updateJSONURL", "https://api.modrinth.com/updates/advanced-portals/forge_updates.json")
+            }
 
             runs {
                 server()
@@ -107,9 +101,17 @@ cloche {
 }
 
 dependencies {
-    implementation project(":core")
-    implementation(group: 'com.google.inject', name: 'guice', version: '5.0.1')
-    neoforgeInclude(group: 'com.google.inject', name: 'guice', version: '5.0.1')
+    implementation project(':core')
+
+    implementation(group: 'com.google.inject', name: 'guice', version: '7.0.0')
+    neoforgeInclude(group: 'com.google.inject', name: 'guice', version: '7.0.0')
+
+    implementation(group: 'com.google.code.gson', name: 'gson', version: '[2.8.9,)')
+    neoforgeInclude(group: 'com.google.code.gson', name: 'gson', version: '[2.8.9,)')
+    implementation(group: 'org.yaml', name: 'snakeyaml', version: '[2.2,)')
+    neoforgeInclude(group: 'org.yaml', name: 'snakeyaml', version: '[2.2,)')
+    implementation(group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)')
+    neoforgeInclude(group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)')
 }
 
 def getReleaseChangelog() {

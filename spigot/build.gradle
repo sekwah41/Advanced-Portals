@@ -8,15 +8,13 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id 'dev.s7a.gradle.minecraft.server' version '3.2.1'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.5'
 }
 
 archivesBaseName = "Advanced-Portals-Spigot"
 
 apply from: rootProject.file('env-variables.gradle')
 apply from: rootProject.file('changelog-util.gradle')
-
-apply from: rootProject.file('shadowJar.gradle')
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -41,13 +39,39 @@ dependencies {
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
-    shade group: 'com.google.inject', name: 'guice', version: '5.0.1'
+    shade group: 'com.google.inject', name: 'guice', version: '7.0.0'
 
     shade project(':lang')
     shade project(path: ':core', configuration: 'shadow')
     shade project(path: ':bungee', configuration: 'shadow')
     shade project(path: ':velocity', configuration: 'shadow')
 }
+
+project.afterEvaluate {
+    tasks.named('shadowJar') {
+        configurations = [project.configurations.shade]
+
+        relocate 'com.google.code.gson', 'com.sekwah.advancedportals.shadowed.gson'
+        relocate 'com.google.inject', 'com.sekwah.advancedportals.shadowed.inject'
+        relocate 'com.google.errorprone', 'com.sekwah.advancedportals.shadowed.errorprone'
+        relocate 'org.yaml.snakeyaml', 'com.sekwah.advancedportals.shadowed.snakeyaml'
+        relocate 'com.google.common', 'com.sekwah.advancedportals.shadowed.guava'
+        relocate 'io.netty', 'com.sekwah.advancedportals.shadowed.netty'
+        relocate 'javax.annotation', 'com.sekwah.advancedportals.shadowed.javax.annotation'
+        relocate 'javax.inject', 'com.sekwah.advancedportals.shadowed.javax.inject'
+        relocate 'org.aopalliance', 'com.sekwah.advancedportals.shadowed.aopalliance'
+        relocate 'org.checkerframework', 'com.sekwah.advancedportals.shadowed.checkerframework'
+
+        exclude 'io/netty/**'
+
+        minimize()
+
+        archiveClassifier.set('')
+    }
+
+    assemble.dependsOn shadowJar
+}
+
 
 /**
  * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
@@ -89,6 +113,8 @@ sourceSets {
 }
 
 configurations {
+    shade
+    implementation.extendsFrom shade
     permissionsGenCompileClasspath.extendsFrom compileClasspath
 }
 

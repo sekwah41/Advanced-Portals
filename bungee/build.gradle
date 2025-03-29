@@ -1,6 +1,6 @@
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.5'
 }
 
 apply plugin: 'maven-publish'
@@ -14,13 +14,16 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-apply from: rootProject.file('shadowJar.gradle')
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
 
 // includeLibs just says to include the library in the final jar
 dependencies {
     implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
 
-    shade project(":core")
-    shade project(":proxycore")
+    implementation project(":core")
+    implementation project(":proxycore")
 }
 
