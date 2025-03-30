@@ -28,8 +28,6 @@ public class AdvancedPortalsMod {
     private AdvancedPortalsCore portalsCore;
 
     public AdvancedPortalsMod() {
-        // TODO make sure that this doesnt crash trying to run on a client pack
-
         String version = ModList.get().getModContainerById("minecraft").get().getModInfo().getVersion().toString();
 
         ForgeServerContainer serverContainer =
