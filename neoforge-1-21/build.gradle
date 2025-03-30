@@ -87,6 +87,8 @@ cloche {
         neoforge {
             loaderVersion = neo_version
 
+
+
             metadata {
                 // custom("updateJSONURL", "https://api.modrinth.com/updates/advanced-portals/forge_updates.json")
             }

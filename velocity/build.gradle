@@ -1,7 +1,4 @@
 
-plugins {
-    id 'com.gradleup.shadow' version '8.3.5'
-}
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -13,6 +10,7 @@ repositories {
 
 // includeLibs just says to include the library in the final jar
 dependencies {
+    implementation project(":proxycore")
     implementation project(":proxycore")
     implementation project(":core")
 

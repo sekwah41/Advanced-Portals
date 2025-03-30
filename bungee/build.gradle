@@ -1,8 +1,4 @@
 
-plugins {
-    id 'com.gradleup.shadow' version '8.3.5'
-}
-
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
@@ -14,16 +10,11 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-configurations {
-    shade
-    implementation.extendsFrom shade
-}
-
 // includeLibs just says to include the library in the final jar
 dependencies {
     implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
-
     implementation project(":core")
     implementation project(":proxycore")
 }
+
 

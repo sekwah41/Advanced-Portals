@@ -12,35 +12,30 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
+configurations {
+    shade
+    shadow {
+        canBeConsumed = true
+        canBeResolved = true
+    }
+}
+
 // includeLibs just says to include the library in the final jar
 dependencies {
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
+    shade group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
     implementation group: 'com.google.inject', name: 'guice', version: '7.0.0'
+    shade group: 'com.google.inject', name: 'guice', version: '7.0.0'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
+    shade group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     implementation group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)'
+    shade group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)'
     implementation 'com.github.spotbugs:spotbugs-annotations:4.9.3'
-}
-
-
-configurations {
-    shade
-    implementation.extendsFrom shade
 }
 
 project.afterEvaluate {
     tasks.named('shadowJar') {
         configurations = [project.configurations.shade]
-
-        relocate 'com.google.code.gson', 'com.sekwah.advancedportals.shadowed.gson'
-        relocate 'com.google.inject', 'com.sekwah.advancedportals.shadowed.inject'
-        relocate 'com.google.errorprone', 'com.sekwah.advancedportals.shadowed.errorprone'
-        relocate 'org.yaml.snakeyaml', 'com.sekwah.advancedportals.shadowed.snakeyaml'
-        relocate 'com.google.common', 'com.sekwah.advancedportals.shadowed.guava'
-        relocate 'io.netty', 'com.sekwah.advancedportals.shadowed.netty'
-        relocate 'javax.annotation', 'com.sekwah.advancedportals.shadowed.javax.annotation'
-        relocate 'javax.inject', 'com.sekwah.advancedportals.shadowed.javax.inject'
-        relocate 'org.aopalliance', 'com.sekwah.advancedportals.shadowed.aopalliance'
-        relocate 'org.checkerframework', 'com.sekwah.advancedportals.shadowed.checkerframework'
 
         exclude 'io/netty/**'
 
@@ -60,28 +55,27 @@ tasks.named('build') {
 def templateSource = file('src/main/templates')
 def templateDest = layout.buildDirectory.dir('generated/sources/templates')
 
-def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
-    def props = [
-            'version': project.version
-    ]
-    task.inputs.properties props
+def generateTemplates = tasks.register('generateTemplates', Copy) {
+    def props = ['version': project.version]
+    inputs.properties props
 
-    task.from templateSource
-    task.into templateDest
-    task.expand props
+    from templateSource
+    into templateDest
+    expand props
 }
 
-sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
+tasks.named('compileJava') {
+    dependsOn(generateTemplates)
+    doFirst {
+        source(generateTemplates.get().outputs.files)
+    }
+}
 
-sourceSets {
-    main {
-        java {
-            srcDir "$buildDir/generated/sources/templates"
-        }
-    }
-    generatedTemplates {
-        java {
-            srcDir layout.buildDirectory.dir('generated/sources/templates').get().asFile
-        }
-    }
+artifacts {
+    shadow shadowJar
+    archives shadowJar
+}
+
+tasks.named('jar') {
+    enabled = false
 }

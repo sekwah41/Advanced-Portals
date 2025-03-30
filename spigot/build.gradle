@@ -26,6 +26,12 @@ repositories {
     maven { url 'https://repo.extendedclip.com/releases/'}
 }
 
+
+configurations {
+    shade
+    permissionsGenCompileClasspath.extendsFrom compileClasspath
+}
+
 dependencies {
 
     // For spigot api
@@ -42,9 +48,11 @@ dependencies {
     shade group: 'com.google.inject', name: 'guice', version: '7.0.0'
 
     shade project(':lang')
+    implementation project(':lang')
     shade project(path: ':core', configuration: 'shadow')
-    shade project(path: ':bungee', configuration: 'shadow')
-    shade project(path: ':velocity', configuration: 'shadow')
+    implementation project(path: ':core', configuration: 'shadow')
+    shade project(path: ':bungee')
+    shade project(path: ':velocity')
 }
 
 project.afterEvaluate {
@@ -112,11 +120,6 @@ sourceSets {
     }
 }
 
-configurations {
-    shade
-    implementation.extendsFrom shade
-    permissionsGenCompileClasspath.extendsFrom compileClasspath
-}
 
 def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
     dependsOn(':core:shadowJar')
