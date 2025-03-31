@@ -104,6 +104,7 @@ cloche {
 
 dependencies {
     implementation project(path: ':core', configuration: 'shadow')
+    implementation project(':lang')
 
     implementation(group: 'com.google.inject', name: 'guice', version: '7.0.0')
     neoforgeInclude(group: 'com.google.inject', name: 'guice', version: '7.0.0')
