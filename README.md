@@ -27,6 +27,21 @@ To be clear, the main target for this plugin is 1.13+ spigot. If you find any is
 - [Curseforge](https://www.curseforge.com/minecraft/bukkit-plugins/advanced-portals)
 - [GitHub (Source Code)](https://github.com/sekwah41/Advanced-Portals/releases)
 
+# Environment Configuration
+The `.env.example` file is used to specify environments like `spigot`, `legacyspigot`, `forge-1-18`, and `neoforge-1-21`. Copy this file and rename it to `.env`, then uncomment the environments you want to run locally.
+
+# Pre-commit Checks
+Pre-commit checks are configured in `.github/workflows/pre-commit-check.yaml`. The `pre-commit` tool is used for code consistency. If this is not run it will be automatically applied once pr's are merged so please do not make reformatting pr's or reformat any files you are working on heavily.
+
+# Release Process
+The release process is managed using `release-please` as configured in `.github/workflows/release-please.yml`.
+
+# Snapshot Builds
+Snapshot builds are defined in the workflow `.github/workflows/snapshots.yml`.
+
+# Code Formatting
+Code formatting is handled using `.clang-format` and `.clang-format-ignore` for ignored files. Though there seem some odd consistencies on different operating systems currently.
+
 # Contributing
 Please ensure that your commits are in the following style for PR's
 
