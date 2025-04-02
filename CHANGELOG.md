@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.3...v2.4.0) (2025-03-01)
+
+
+### Features ✨
+
+* add cost tag (vault support [#537](https://github.com/sekwah41/Advanced-Portals/issues/537)) ([d672533](https://github.com/sekwah41/Advanced-Portals/commit/d672533b8fa9acf8db53bc2c30aef3095f6bfca5))
+
 ## [2.3.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.2...v2.3.3) (2025-02-07)
 
 
