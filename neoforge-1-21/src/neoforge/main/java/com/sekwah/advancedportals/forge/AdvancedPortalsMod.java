@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.forge;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
@@ -13,12 +14,12 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod("advancedportals")
-@EventBusSubscriber(modid = AdvancedPortalsMod.MOD_ID)
 public class AdvancedPortalsMod {
 
     public static final String MOD_ID = "advancedportals";
@@ -26,6 +27,9 @@ public class AdvancedPortalsMod {
     private static final Logger LOGGER = LogManager.getLogger(AdvancedPortalsMod.MOD_ID);
 
     private AdvancedPortalsCore portalsCore;
+
+    @Inject
+    private ForgeCommandRegister commandRegister;
 
     public AdvancedPortalsMod() {
         String version = ModList.get().getModContainerById("minecraft").get().getModInfo().getVersion().toString();
@@ -46,6 +50,9 @@ public class AdvancedPortalsMod {
         injector.injectMembers(this);
         injector.injectMembers(this.portalsCore);
         injector.injectMembers(serverContainer);
+
+        // Using the private methods to trigger allows for use of the dependency injection better.
+        NeoForge.EVENT_BUS.addListener(this::onServerStarting);
 
 //        Listeners listeners = injector.getInstance(Listeners.class);
 //        injector.injectMembers(listeners);
@@ -68,9 +75,8 @@ public class AdvancedPortalsMod {
     {
     }
 
-    @SubscribeEvent
-    public static void onServerStarting(RegisterCommandsEvent event) {
-        LOGGER.debug("Registering commands");
+    private void onServerStarting(RegisterCommandsEvent event) {
+        this.commandRegister.registerCommandsEvent(event);
     }
 
 }
