@@ -95,6 +95,15 @@ public class Listeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         if (!event.isCancelled()) {
             Location blockloc = event.getBlock().getLocation();
+
+            if (blockloc.getWorld() == null)
+                return;
+
+            if (event.getItemInHand().getItemMeta() == null)
+                return;
+
+            String displayName = event.getItemInHand().getItemMeta().getDisplayName();
+
             if (!this.coreListeners.blockPlace(
                     new LegacySpigotPlayerContainer(event.getPlayer()),
                     new BlockLocation(
@@ -102,7 +111,7 @@ public class Listeners implements Listener {
                         blockloc.getBlockY(), blockloc.getBlockZ()),
                     event.getBlockPlaced().getType().toString(),
                     event.getItemInHand().getType().toString(),
-                    event.getItemInHand().getItemMeta().getDisplayName())) {
+                    displayName)) {
                 event.setCancelled(true);
             }
         }
