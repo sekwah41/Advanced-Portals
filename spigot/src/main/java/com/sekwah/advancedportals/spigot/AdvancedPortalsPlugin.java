@@ -15,6 +15,7 @@ import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
+import com.sekwah.advancedportals.spigot.module.SpigotModule;
 import com.sekwah.advancedportals.spigot.tags.ConditionsTag;
 import com.sekwah.advancedportals.spigot.warpeffects.SpigotWarpEffects;
 import java.io.File;
@@ -57,11 +58,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
             new SpigotServerContainer(this.getServer());
         this.portalsCore = new AdvancedPortalsCore(
             matcher.find() ? matcher.group(1) : "0.0.0", this.getDataFolder(),
-            new SpigotInfoLogger(this), serverContainer);
+            new SpigotInfoLogger(this), serverContainer, new SpigotModule(this));
         AdvancedPortalsModule module = this.portalsCore.getModule();
-
-        module.addInstanceBinding(CommandRegister.class,
-                                  new SpigotCommandRegister(this));
 
         Injector injector = module.getInjector();
 

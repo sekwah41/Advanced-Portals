@@ -46,6 +46,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
     shade group: 'com.google.inject', name: 'guice', version: '7.0.0'
+    implementation group: 'com.google.inject', name: 'guice', version: '7.0.0'
 
     shade project(':lang')
     implementation project(':lang')
