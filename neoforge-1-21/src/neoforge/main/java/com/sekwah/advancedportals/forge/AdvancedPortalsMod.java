@@ -3,14 +3,12 @@ package com.sekwah.advancedportals.forge;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
-import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.forge.connector.command.ForgeCommandRegister;
 import com.sekwah.advancedportals.forge.connector.container.ForgeServerContainer;
-import net.neoforged.bus.api.SubscribeEvent;
+import com.sekwah.advancedportals.forge.module.ForgeModule;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
@@ -39,11 +37,8 @@ public class AdvancedPortalsMod {
 
         this.portalsCore = new AdvancedPortalsCore(
                 version, FMLPaths.CONFIGDIR.get().toFile(),
-                new ForgeInfoLogger(LOGGER), new ForgeServerContainer());
+                new ForgeInfoLogger(LOGGER), new ForgeServerContainer(), new ForgeModule());
         AdvancedPortalsModule module = this.portalsCore.getModule();
-
-        module.addInstanceBinding(CommandRegister.class,
-                new ForgeCommandRegister());
 
         Injector injector = module.getInjector();
 

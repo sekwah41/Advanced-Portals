@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Scopes;
+import com.google.inject.util.Modules;
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
@@ -27,12 +28,14 @@ import javax.annotation.Nonnull;
 public class AdvancedPortalsModule extends AbstractModule {
     private Injector injector;
     private AdvancedPortalsCore advancedPortalsCore;
+    private final AbstractModule platformSpecificModule;
     private DataStorage dataStorage;
 
     private List<DelayedBinding> delayedBindings = new ArrayList<>();
 
-    public AdvancedPortalsModule(AdvancedPortalsCore advancedPortalsCore) {
+    public AdvancedPortalsModule(AdvancedPortalsCore advancedPortalsCore, AbstractModule platformSpecificModule) {
         this.advancedPortalsCore = advancedPortalsCore;
+        this.platformSpecificModule = platformSpecificModule;
     }
 
     /**
@@ -90,7 +93,7 @@ public class AdvancedPortalsModule extends AbstractModule {
     @Nonnull
     public Injector getInjector() {
         if (injector == null) {
-            injector = Guice.createInjector(this);
+            injector = Guice.createInjector(Modules.combine(this, platformSpecificModule));
         }
         return injector;
     }

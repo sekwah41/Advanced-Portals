@@ -1,5 +1,6 @@
 package com.sekwah.advancedportals.core;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.sekwah.advancedportals.core.commands.CommandWithSubCommands;
@@ -66,7 +67,7 @@ public class AdvancedPortalsCore {
 
     public AdvancedPortalsCore(String mcVersion, File dataStorageLoc,
                                InfoLogger infoLogger,
-                               ServerContainer serverContainer) {
+                               ServerContainer serverContainer, AbstractModule platformSpecificModule) {
         instance = this;
         this.serverContainer = serverContainer;
         this.dataStorage = new DataStorage(dataStorageLoc);
@@ -89,7 +90,7 @@ public class AdvancedPortalsCore {
         }
         this.mcVersion = mcVersionTemp;
 
-        this.module = new AdvancedPortalsModule(this);
+        this.module = new AdvancedPortalsModule(this, platformSpecificModule);
     }
 
     /**
