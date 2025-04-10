@@ -106,8 +106,11 @@ command.destination.show.unsupported= Destination markers are not supported on t
 
 command.destination.teleport.help=Teleports to specified destination.
 command.destination.teleport.detailedhelp=Teleports to destination given by the name of the destination.
-command.destination.teleport.error= There was an error teleporting to your destination (@destiname).
-command.destination.teleport.success= You have teleported to destination (@destiname).
+command.destination.teleport.error= There was an error teleporting to &e%1$s&c.
+command.destination.teleport.success= You have teleported to &e%1$s&a.
+
+command.destination.teleportplayer.success= You have teleported &e%1$s &ato destination &e%2$s&a.
+command.destination.teleportplayer.error= There was an error teleporting &e%1$s &cto destination &e%2$s&c.
 
 command.destination.reload.help=Reloads the destination data from the repository.
 command.destination.reload.detailedhelp=This command will reload all destination data from the repository, updating the cache with the latest data.
