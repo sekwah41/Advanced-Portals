@@ -11,9 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -164,5 +168,21 @@ public class SpigotServerContainer implements ServerContainer {
             .filter(name -> name.equalsIgnoreCase(materialName))
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public boolean isWaterLogged(String blockName) {
+        if (blockName == null) return false;
+
+        Material blockMaterial = Material.matchMaterial(blockName);
+        if (blockMaterial == null) return false;
+
+        // Check if the block is waterlogged
+        BlockData blockData = blockMaterial.createBlockData();
+        if (blockData instanceof Waterlogged) {
+            return ((Waterlogged) blockData).isWaterlogged();
+        }
+
+        return false;
     }
 }
