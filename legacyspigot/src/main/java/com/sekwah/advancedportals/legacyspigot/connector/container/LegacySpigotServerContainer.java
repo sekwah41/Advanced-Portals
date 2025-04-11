@@ -7,17 +7,16 @@ import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 public class LegacySpigotServerContainer implements ServerContainer {
     @Inject
@@ -25,8 +24,9 @@ public class LegacySpigotServerContainer implements ServerContainer {
     private final Server server;
     // Create an array of items
     private final List<String> commonTriggerBlockList =
-        Stream.of(Material.WATER, Material.LAVA, Material.AIR,
-                Material.PORTAL, Material.ENDER_PORTAL)
+        Stream
+            .of(Material.WATER, Material.LAVA, Material.AIR, Material.PORTAL,
+                Material.ENDER_PORTAL)
             .map(Enum::name)
             .collect(Collectors.toList());
 

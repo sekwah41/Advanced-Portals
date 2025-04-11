@@ -173,4 +173,36 @@ public class DestinationServices {
         }
         return false;
     }
+
+    public boolean renameDestination(String oldName, String newName, PlayerContainer player) {
+        // Check if the old destination exists
+        if (!destinationRepository.containsKey(oldName)) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables(
+                    "command.error.destination.notfound", oldName));
+            return false;
+        }
+
+        // Check if the new name is already taken
+        if (destinationRepository.containsKey(newName)) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables(
+                    "command.error.nametaken", newName));
+            return false;
+        }
+
+        // Retrieve the destination and remove the old entry
+        Destination destination = destinationRepository.get(oldName);
+        destinationRepository.delete(oldName);
+        destinationCache.remove(oldName);
+
+        // Save the destination with the new name
+        if (destinationRepository.save(newName, destination)) {
+            destinationCache.put(newName, destination);
+            player.sendMessage(Lang.getPositivePrefix() + Lang.translateInsertVariables(
+                    "command.destination.rename.success", oldName, newName));
+            return true;
+        } else {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("command.destination.rename.error"));
+            return false;
+        }
+    }
 }

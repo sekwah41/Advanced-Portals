@@ -2,14 +2,14 @@ package com.sekwah.advancedportals.legacyspigot.connector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotCommandSenderContainer;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import java.util.List;
-
-public class LegacySpigotCommandHandler implements CommandExecutor, TabCompleter {
+public class LegacySpigotCommandHandler
+    implements CommandExecutor, TabCompleter {
     private final CommandTemplate commandExecutor;
 
     public LegacySpigotCommandHandler(CommandTemplate commandExecutor) {
@@ -20,8 +20,8 @@ public class LegacySpigotCommandHandler implements CommandExecutor, TabCompleter
     public boolean onCommand(CommandSender commandSender, Command command,
                              String s, String[] args) {
         this.commandExecutor.onCommand(
-            new LegacySpigotCommandSenderContainer(commandSender), command.getName(),
-            args);
+            new LegacySpigotCommandSenderContainer(commandSender),
+            command.getName(), args);
         return true;
     }
 
