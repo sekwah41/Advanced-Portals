@@ -45,6 +45,12 @@ public class Permissions {
         DESTI.createChild("show", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to visualise the destination locations");
 
+    public static final PermissionBuilder TELEPORT_PLAYER_DESTI =
+        DESTI
+            .createChild("teleportplayer",
+                         PermissionBuilder.PermissionDefault.OP)
+            .description("Allows you to teleport a player to a destination");
+
     public static final PermissionBuilder PORTAL =
         ROOT.createChild("portal", PermissionBuilder.PermissionDefault.TRUE)
             .description("Allows you to use the portal command");
@@ -112,6 +118,7 @@ public class Permissions {
             .addGrantChild(REMOVE_DESTI)
             .addGrantChild(LIST_DESTI)
             .addGrantChild(SHOW_DESTI)
+            .addGrantChild(TELEPORT_PLAYER_DESTI)
             .addGrantChild(SELECTOR)
             .addGrantChild(REMOVE_PORTAL)
             .addGrantChild(LIST_PORTAL)
