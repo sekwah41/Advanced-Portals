@@ -21,6 +21,10 @@ public class Permissions {
         ROOT.createChild("desti", PermissionBuilder.PermissionDefault.TRUE)
             .description("Allows you to use the destination command");
 
+    public static final PermissionBuilder RENAME_DESTI =
+        DESTI.createChild("rename", PermissionBuilder.PermissionDefault.OP)
+                .description("Allwows you to rename destinations");
+
     public static final PermissionBuilder CREATE_DESTI =
         DESTI.createChild("create", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to create destinations");

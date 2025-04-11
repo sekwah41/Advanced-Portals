@@ -1,7 +1,6 @@
 package com.sekwah.advancedportals.legacyspigot;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
-
 import java.util.logging.Level;
 
 public class LegacySpigotInfoLogger extends InfoLogger {

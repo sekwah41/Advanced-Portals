@@ -6,11 +6,10 @@ import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
+import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotPlayerContainer;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
-
-import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotPlayerContainer;
 
 public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Inject
