@@ -178,7 +178,7 @@ public class DestinationServices {
         // Check if the old destination exists
         if (!destinationRepository.containsKey(oldName)) {
             player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables(
-                    "command.error.destination.notfound", oldName));
+                    "command.destination.rename.notfound", oldName));
             return false;
         }
 
