@@ -47,4 +47,10 @@ public class LegacySpigotWorldContainer implements WorldContainer {
     @Override
     public void disableBeacon(AdvancedPortal portal) {
     }
+
+    @Override
+    public boolean isWaterlogged(BlockLocation location) {
+        // Waterlogged blocks were introduced in 1.13.
+        return false;
+    }
 }

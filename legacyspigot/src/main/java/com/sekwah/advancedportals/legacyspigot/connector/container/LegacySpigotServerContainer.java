@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
@@ -166,7 +167,7 @@ public class LegacySpigotServerContainer implements ServerContainer {
     }
 
     @Override
-    public boolean isWaterLogged(String blockName) {
+    public boolean isWaterLogged(BlockLocation location) {
         // Waterlogged blocks were introduced in 1.13.
         return false;
     }

@@ -4,6 +4,7 @@ import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
+import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
 import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
@@ -168,21 +170,5 @@ public class SpigotServerContainer implements ServerContainer {
             .filter(name -> name.equalsIgnoreCase(materialName))
             .findFirst()
             .orElse(null);
-    }
-
-    @Override
-    public boolean isWaterLogged(String blockName) {
-        if (blockName == null) return false;
-
-        Material blockMaterial = Material.matchMaterial(blockName);
-        if (blockMaterial == null) return false;
-
-        // Check if the block is waterlogged
-        BlockData blockData = blockMaterial.createBlockData();
-        if (blockData instanceof Waterlogged) {
-            return ((Waterlogged) blockData).isWaterlogged();
-        }
-
-        return false;
     }
 }
