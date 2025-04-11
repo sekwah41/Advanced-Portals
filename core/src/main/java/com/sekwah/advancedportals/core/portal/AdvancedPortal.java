@@ -250,7 +250,7 @@ public class AdvancedPortal implements TagTarget {
         String[] triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
         if (triggerBlocks != null) {
             for (String triggerBlock : triggerBlocks) {
-                if (blockMaterial.equals(triggerBlock)) {
+                if (blockMaterial.equalsIgnoreCase(triggerBlock)) {
                     return true;
                 }
             }

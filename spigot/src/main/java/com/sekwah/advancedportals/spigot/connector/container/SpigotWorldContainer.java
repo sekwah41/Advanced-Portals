@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.EndGateway;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
+import org.bukkit.block.data.Waterlogged;
 
 public class SpigotWorldContainer implements WorldContainer {
     private final World world;
@@ -49,6 +50,18 @@ public class SpigotWorldContainer implements WorldContainer {
                         location.getPosZ())
             .getType()
             .toString();
+    }
+
+    @Override
+    public boolean isWaterlogged(BlockLocation location) {
+        Block block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
+
+        BlockData blockData = block.getBlockData();
+        if (blockData instanceof Waterlogged) {
+            return ((Waterlogged) blockData).isWaterlogged();
+        }
+
+        return false;
     }
 
     @Override
