@@ -2,7 +2,7 @@ package com.sekwah.advancedportals.core.connector.containers;
 
 public interface CommandSenderContainer extends HasPermission {
     void sendMessage(String message);
-    
+
     ServerContainer getServer();
 
     /**
