@@ -5,7 +5,8 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class LegacySpigotCommandSenderContainer implements CommandSenderContainer {
+public class LegacySpigotCommandSenderContainer
+    implements CommandSenderContainer {
     private final CommandSender sender;
 
     public LegacySpigotCommandSenderContainer(CommandSender commandSender) {
