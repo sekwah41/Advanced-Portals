@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.4.0...v2.5.0) (2025-04-11)
+
+
+### Features ✨
+
+* add rename destination sub-command ([#548](https://github.com/sekwah41/Advanced-Portals/issues/548)) ([96cdd06](https://github.com/sekwah41/Advanced-Portals/commit/96cdd06f96c1a0c90ebc0108e8f85b607dca4036))
+* desti tp another player to a destination ([#549](https://github.com/sekwah41/Advanced-Portals/issues/549)) ([3eb0f96](https://github.com/sekwah41/Advanced-Portals/commit/3eb0f96467de9ffc4b86fd24353907be5bfec0d9))
+
+
+### Bug Fixes 🐛
+
+* **legacy-spigot:** add null check to avoid throwing errors in console ([#545](https://github.com/sekwah41/Advanced-Portals/issues/545)) ([3263b56](https://github.com/sekwah41/Advanced-Portals/commit/3263b568925691a7a924ea7f02d32fc9aaf26d32))
+
 ## [2.4.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.3.3...v2.4.0) (2025-03-01)
 
 
