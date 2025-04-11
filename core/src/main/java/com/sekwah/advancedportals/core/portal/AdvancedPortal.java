@@ -2,7 +2,6 @@ package com.sekwah.advancedportals.core.portal;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
-import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -24,9 +23,6 @@ import java.util.*;
 public class AdvancedPortal implements TagTarget {
     @Inject
     private transient TagRegistry tagRegistry;
-
-    @Inject
-    private transient ServerContainer serverContainer;
 
     private BlockLocation maxLoc;
 
@@ -254,11 +250,8 @@ public class AdvancedPortal implements TagTarget {
         String[] triggerBlocks = this.getArgValues(TriggerBlockTag.TAG_NAME);
         if (triggerBlocks != null) {
             for (String triggerBlock : triggerBlocks) {
-                if (blockMaterial.equals(triggerBlock)) {
+                if (blockMaterial.equalsIgnoreCase(triggerBlock)) {
                     return true;
-                }
-                if (triggerBlock.equalsIgnoreCase("water")) {
-                    return serverContainer.isWaterLogged(blockMaterial);
                 }
             }
         }
