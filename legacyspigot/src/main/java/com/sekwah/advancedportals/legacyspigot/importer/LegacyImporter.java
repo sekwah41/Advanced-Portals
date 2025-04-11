@@ -12,14 +12,13 @@ import com.sekwah.advancedportals.core.serializeddata.config.WarpEffectConfig;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class LegacyImporter {
     private LegacyImporter() {
