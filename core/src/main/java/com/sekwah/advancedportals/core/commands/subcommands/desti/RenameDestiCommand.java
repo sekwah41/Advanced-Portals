@@ -6,12 +6,10 @@ import com.sekwah.advancedportals.core.connector.containers.CommandSenderContain
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.util.Lang;
-
 import java.util.Collections;
 import java.util.List;
 
 public class RenameDestiCommand implements SubCommand {
-
     @Inject
     DestinationServices destinationServices;
 
@@ -20,13 +18,19 @@ public class RenameDestiCommand implements SubCommand {
         if (args.length > 2) {
             String oldName = args[1];
             String newName = args[2];
-            if (destinationServices.renameDestination(oldName, newName, sender.getPlayerContainer())) {
-                sender.sendMessage(Lang.getPositivePrefix() + Lang.translate("command.destination.rename.complete"));
+            if (destinationServices.renameDestination(
+                    oldName, newName, sender.getPlayerContainer())) {
+                sender.sendMessage(
+                    Lang.getPositivePrefix()
+                    + Lang.translate("command.destination.rename.complete"));
             } else {
-                sender.sendMessage(Lang.getNegativePrefix() + Lang.translate("command.destination.rename.error"));
+                sender.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.destination.rename.error"));
             }
         } else {
-            sender.sendMessage(Lang.translate("command.destination.rename.usage"));
+            sender.sendMessage(
+                Lang.translate("command.destination.rename.usage"));
         }
     }
 
@@ -36,7 +40,8 @@ public class RenameDestiCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         return Collections.emptyList();
     }
 

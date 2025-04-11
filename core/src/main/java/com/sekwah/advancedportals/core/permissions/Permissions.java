@@ -23,7 +23,7 @@ public class Permissions {
 
     public static final PermissionBuilder RENAME_DESTI =
         DESTI.createChild("rename", PermissionBuilder.PermissionDefault.OP)
-                .description("Allwows you to rename destinations");
+            .description("Allwows you to rename destinations");
 
     public static final PermissionBuilder CREATE_DESTI =
         DESTI.createChild("create", PermissionBuilder.PermissionDefault.OP)
