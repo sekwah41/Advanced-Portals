@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.legacyspigot.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
+import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,11 @@ public class LegacySpigotCommandSenderContainer implements CommandSenderContaine
 
     public void sendMessage(String message) {
         sender.sendMessage(message);
+    }
+
+    @Override
+    public ServerContainer getServer() {
+        return new LegacySpigotServerContainer(sender.getServer());
     }
 
     public boolean isOp() {
