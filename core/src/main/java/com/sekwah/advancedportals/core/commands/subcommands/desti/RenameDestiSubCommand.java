@@ -25,8 +25,9 @@ public class RenameDestiSubCommand implements SubCommand {
                     + Lang.translate("command.destination.rename.error"));
             }
         } else {
-            sender.sendMessage(Lang.getNegativePrefix()
-                    + Lang.translate("command.destination.rename.usage"));
+            sender.sendMessage(
+                Lang.getNegativePrefix()
+                + Lang.translate("command.destination.rename.usage"));
         }
     }
 
@@ -36,7 +37,8 @@ public class RenameDestiSubCommand implements SubCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSenderContainer sender, String[] args) {
+    public List<String> onTabComplete(CommandSenderContainer sender,
+                                      String[] args) {
         if (args.length == 2) {
             List<String> destiNames = destinationServices.getDestinationNames();
             Collections.sort(destiNames);

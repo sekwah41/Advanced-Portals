@@ -25,7 +25,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         if (!isValidName(name)) {
             throw new IllegalArgumentException("Invalid name: " + name);
         }
-        return dataStorage.storeFile(destination, fileLocation + name + ".yaml");
+        return dataStorage.storeFile(destination,
+                                     fileLocation + name + ".yaml");
     }
 
     @Override
@@ -49,7 +50,8 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
         if (!isValidName(name)) {
             throw new IllegalArgumentException("Invalid name: " + name);
         }
-        return dataStorage.loadFile(Destination.class, fileLocation + name + ".yaml");
+        return dataStorage.loadFile(Destination.class,
+                                    fileLocation + name + ".yaml");
     }
 
     @Override
