@@ -165,6 +165,7 @@ desti.info.noargs=&cNo tags were given
 command.error.noname= You must specify a name &ename:someNameHere
 command.error.notags= No tags have been given. You need to include at least &ename:(name)&c.
 command.error.nametaken= The name &e%1$s &cis already taken.
+command.error.invalidname= The name provided is invalid. Please avoid using special characters or slashes.
 
 desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)

@@ -59,70 +59,84 @@ public class DestinationServices {
     public Destination createDesti(PlayerContainer player,
                                    PlayerLocation playerLocation,
                                    List<DataTag> tags) {
-        // Find the tag with the "name" NAME
-        DataTag nameTag = tags.stream()
-                              .filter(tag -> tag.NAME.equals("name"))
-                              .findFirst()
-                              .orElse(null);
+        try {
+            // Find the tag with the "name" NAME
+            DataTag nameTag = tags.stream()
+                    .filter(tag -> tag.NAME.equals("name"))
+                    .findFirst()
+                    .orElse(null);
 
-        String name = nameTag == null ? null : nameTag.VALUES[0];
+            String name = nameTag == null ? null : nameTag.VALUES[0];
 
-        // If the name is null, send an error saying that the name is required.
-        if (nameTag == null) {
-            if (player != null)
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("desti.error.noname"));
-            return null;
-        }
+            // If the name is null, send an error saying that the name is required.
+            if (nameTag == null) {
+                if (player != null)
+                    player.sendMessage(Lang.getNegativePrefix()
+                            + Lang.translate("desti.error.noname"));
+                return null;
+            }
 
-        if (name == null || name.equals("")) {
-            if (player != null)
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("command.error.noname"));
-            return null;
-        } else if (this.destinationRepository.containsKey(name)) {
-            if (player != null)
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translateInsertVariables(
-                                       "command.error.nametaken", name));
-            return null;
-        }
+            if (name == null || name.equals("")) {
+                if (player != null)
+                    player.sendMessage(Lang.getNegativePrefix()
+                            + Lang.translate("command.error.noname"));
+                return null;
+            } else if (this.destinationRepository.containsKey(name)) {
+                if (player != null)
+                    player.sendMessage(Lang.getNegativePrefix()
+                            + Lang.translateInsertVariables(
+                            "command.error.nametaken", name));
+                return null;
+            }
 
-        Destination desti = new Destination(playerLocation);
-        for (DataTag portalTag : tags) {
-            desti.setArgValues(portalTag);
-        }
-        for (DataTag destiTag : tags) {
-            Tag.Creation creation =
-                tagRegistry.getCreationHandler(destiTag.NAME);
-            if (creation != null) {
-                if (!creation.created(desti, player, destiTag.VALUES)) {
-                    return null;
+            Destination desti = new Destination(playerLocation);
+            for (DataTag portalTag : tags) {
+                desti.setArgValues(portalTag);
+            }
+            for (DataTag destiTag : tags) {
+                Tag.Creation creation =
+                        tagRegistry.getCreationHandler(destiTag.NAME);
+                if (creation != null) {
+                    if (!creation.created(desti, player, destiTag.VALUES)) {
+                        return null;
+                    }
                 }
             }
-        }
-        try {
             if (this.destinationRepository.save(name, desti)) {
                 this.destinationCache.put(name, desti);
             } else {
                 return null;
             }
+            return desti;
+        } catch (IllegalArgumentException e) {
+            if (player != null) {
+                player.sendMessage(Lang.getNegativePrefix()
+                                   + Lang.translate("command.error.invalidname"));
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            player.sendMessage(Lang.getNegativePrefix()
-                               + Lang.translate("desti.error.save"));
+            if (player != null) {
+                player.sendMessage(Lang.getNegativePrefix()
+                                   + Lang.translate("desti.error.save"));
+            }
+            return null;
         }
-        return desti;
     }
 
     public boolean removeDestination(String name,
                                      PlayerContainer playerContainer) {
-        this.destinationCache.remove(name);
-        if (this.destinationRepository.containsKey(name)) {
+        try {
             this.destinationRepository.delete(name);
+            this.destinationCache.remove(name);
             return true;
+        } catch (IllegalArgumentException e) {
+            if (playerContainer != null) {
+                playerContainer.sendMessage(Lang.getNegativePrefix()
+                                             + Lang.translate("command.error.invalidname"));
+            }
+            return false;
         }
-        return false;
     }
 
     public Destination getDestination(String name) {
