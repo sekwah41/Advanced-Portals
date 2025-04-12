@@ -115,15 +115,18 @@ public class PortalServices {
         String blockMaterial = world.getBlock(blockLoc);
         boolean blockMaterialWaterlogged = world.isWaterlogged(blockLoc);
         String blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
-        boolean blockEntityTopMaterialWaterlogged = world.isWaterlogged(blockEntityTopLoc);
+        boolean blockEntityTopMaterialWaterlogged =
+            world.isWaterlogged(blockEntityTopLoc);
         PlayerData playerData = playerDataServices.getPlayerData(player);
 
         for (AdvancedPortal portal : portalCache.values()) {
             boolean checkWaterLogged = portal.isTriggerBlock("water");
             if ((portal.isLocationInPortal(toLoc)
-                 && ((checkWaterLogged && blockMaterialWaterlogged) || portal.isTriggerBlock(blockMaterial)))
+                 && ((checkWaterLogged && blockMaterialWaterlogged)
+                     || portal.isTriggerBlock(blockMaterial)))
                 || (portal.isLocationInPortal(blockEntityTopLoc)
-                    && ((checkWaterLogged && blockEntityTopMaterialWaterlogged) || portal.isTriggerBlock(blockEntityTopMaterial)))) {
+                    && ((checkWaterLogged && blockEntityTopMaterialWaterlogged)
+                        || portal.isTriggerBlock(blockEntityTopMaterial)))) {
                 String portalName = portal.getName();
                 if (Objects.equals(playerData.inPortal(), portalName)) {
                     return PortalActivationResult.PORTAL_DENIED;
