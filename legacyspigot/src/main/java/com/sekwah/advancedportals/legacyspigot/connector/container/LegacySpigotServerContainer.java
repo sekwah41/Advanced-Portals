@@ -165,10 +165,4 @@ public class LegacySpigotServerContainer implements ServerContainer {
             .findFirst()
             .orElse(null);
     }
-
-    @Override
-    public boolean isWaterLogged(BlockLocation location) {
-        // Waterlogged blocks were introduced in 1.13.
-        return false;
-    }
 }
