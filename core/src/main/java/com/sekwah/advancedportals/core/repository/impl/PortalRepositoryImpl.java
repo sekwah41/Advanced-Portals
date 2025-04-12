@@ -26,23 +26,39 @@ public class PortalRepositoryImpl implements IPortalRepository {
      */
     private List<AdvancedPortal> portals = new ArrayList<>();
 
+    private boolean isValidName(String name) {
+        return name != null && !name.contains("/") && !name.contains("\\");
+    }
+
     @Override
     public boolean save(String name, AdvancedPortal portal) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.storeFile(portal, fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean containsKey(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.fileExists(fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean delete(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
     @Override
     public AdvancedPortal get(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         AdvancedPortal portal = dataStorage.loadFile(
             AdvancedPortal.class, fileLocation + name + ".yaml");
         if (portal != null) {
