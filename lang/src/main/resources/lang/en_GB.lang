@@ -95,7 +95,6 @@ command.portal.show.unsupported= Portal markers are not supported on this versio
 
 command.destination.noname=No destination by that name was found
 
-command.destination.rename.complete= The destination has been successfully renamed from &e%1$s &ato &e%2$s&a.
 command.destination.rename.error= There was a problem renaming the destination.
 command.destination.rename.usage= Usage: /desti rename <oldName> <newName>
 command.destination.rename.help= Renames a destination
@@ -166,6 +165,7 @@ command.error.noname= You must specify a name &ename:someNameHere
 command.error.notags= No tags have been given. You need to include at least &ename:(name)&c.
 command.error.nametaken= The name &e%1$s &cis already taken.
 command.error.invalidname= The name provided is invalid. Please avoid using special characters or slashes.
+command.error.destination.notfound= No destination by the name &e%1$s &cwas found.
 
 desti.error.save= There was a problem saving the destination.
 desti.error.noname= You must specify a name. (name:someNameHere)

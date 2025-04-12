@@ -150,80 +150,92 @@ public class DestinationServices {
 
     public boolean teleportToDestination(String name, PlayerContainer player,
                                          boolean doEffect) {
-        if (this.destinationRepository.containsKey(name)) {
-            if (player.getServer().getWorld(this.destinationRepository.get(name)
-                                                .getLoc()
-                                                .getWorldName())
-                == null) {
-                player.sendMessage(
-                    Lang.getNegativePrefix()
-                    + Lang.translateInsertVariables(
-                        "desti.error.invalidworld",
-                        destinationRepository.get(name).getName(),
-                        destinationRepository.get(name)
-                            .getLoc()
-                            .getWorldName()));
-                return false;
-            }
+        try {
+            if (this.destinationRepository.containsKey(name)) {
+                if (player.getServer().getWorld(this.destinationRepository.get(name)
+                                                    .getLoc()
+                                                    .getWorldName())
+                    == null) {
+                    player.sendMessage(
+                        Lang.getNegativePrefix()
+                        + Lang.translateInsertVariables(
+                            "desti.error.invalidworld",
+                            destinationRepository.get(name).getName(),
+                            destinationRepository.get(name)
+                                .getLoc()
+                                .getWorldName()));
+                    return false;
+                }
 
-            player.teleport(this.destinationRepository.get(name).getLoc());
-            if (doEffect && configRepository.getWarpEffectEnabled()) {
-                WarpEffect.Visual warpEffectVisual =
-                    warpEffectRegistry.getVisualEffect(
-                        configRepository.getWarpVisual());
-                if (warpEffectVisual != null) {
-                    warpEffectVisual.onWarpVisual(player,
-                                                  WarpEffect.Action.ENTER);
+                player.teleport(this.destinationRepository.get(name).getLoc());
+                if (doEffect && configRepository.getWarpEffectEnabled()) {
+                    WarpEffect.Visual warpEffectVisual =
+                        warpEffectRegistry.getVisualEffect(
+                            configRepository.getWarpVisual());
+                    if (warpEffectVisual != null) {
+                        warpEffectVisual.onWarpVisual(player,
+                                                      WarpEffect.Action.ENTER);
+                    }
+                    WarpEffect.Sound warpEffectSound =
+                        warpEffectRegistry.getSoundEffect(
+                            configRepository.getWarpSound());
+                    if (warpEffectSound != null) {
+                        warpEffectSound.onWarpSound(player,
+                                                    WarpEffect.Action.ENTER);
+                    }
                 }
-                WarpEffect.Sound warpEffectSound =
-                    warpEffectRegistry.getSoundEffect(
-                        configRepository.getWarpSound());
-                if (warpEffectSound != null) {
-                    warpEffectSound.onWarpSound(player,
-                                                WarpEffect.Action.ENTER);
-                }
+                return true;
             }
-            return true;
+            return false;
+        } catch (IllegalArgumentException e) {
+            player.sendMessage(Lang.getNegativePrefix()
+                               + Lang.translate("command.error.invalidname"));
+            return false;
         }
-        return false;
     }
 
     public boolean renameDestination(String oldName, String newName,
                                      PlayerContainer player) {
-        // Check if the old destination exists
-        if (!destinationRepository.containsKey(oldName)) {
-            player.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translateInsertVariables(
-                    "command.error.destination.notfound", oldName));
-            return false;
-        }
+        try {
+            // Check if the old destination exists
+            if (!destinationRepository.containsKey(oldName)) {
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translateInsertVariables(
+                        "command.error.destination.notfound", oldName));
+                return false;
+            }
 
-        // Check if the new name is already taken
-        if (destinationRepository.containsKey(newName)) {
+            // Check if the new name is already taken
+            if (destinationRepository.containsKey(newName)) {
+                player.sendMessage(Lang.getNegativePrefix()
+                                   + Lang.translateInsertVariables(
+                                       "command.error.nametaken", newName));
+                return false;
+            }
+
+            // Retrieve the destination and remove the old entry
+            Destination destination = destinationRepository.get(oldName);
+            destinationRepository.delete(oldName);
+            destinationCache.remove(oldName);
+
+            // Save the destination with the new name
+            if (destinationRepository.save(newName, destination)) {
+                destinationCache.put(newName, destination);
+                player.sendMessage(
+                    Lang.getPositivePrefix()
+                    + Lang.translateInsertVariables(
+                        "command.destination.rename.success", oldName, newName));
+                return true;
+            } else {
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.destination.rename.error"));
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
             player.sendMessage(Lang.getNegativePrefix()
-                               + Lang.translateInsertVariables(
-                                   "command.error.nametaken", newName));
-            return false;
-        }
-
-        // Retrieve the destination and remove the old entry
-        Destination destination = destinationRepository.get(oldName);
-        destinationRepository.delete(oldName);
-        destinationCache.remove(oldName);
-
-        // Save the destination with the new name
-        if (destinationRepository.save(newName, destination)) {
-            destinationCache.put(newName, destination);
-            player.sendMessage(
-                Lang.getPositivePrefix()
-                + Lang.translateInsertVariables(
-                    "command.destination.rename.success", oldName, newName));
-            return true;
-        } else {
-            player.sendMessage(
-                Lang.getNegativePrefix()
-                + Lang.translate("command.destination.rename.error"));
+                               + Lang.translate("command.error.invalidname"));
             return false;
         }
     }
