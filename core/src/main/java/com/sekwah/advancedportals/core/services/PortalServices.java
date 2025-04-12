@@ -159,8 +159,9 @@ public class PortalServices {
             return true;
         } catch (IllegalArgumentException e) {
             if (player != null) {
-                player.sendMessage(Lang.getNegativePrefix()
-                                     + Lang.translate("command.error.invalidname"));
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
             }
             return false;
         }
@@ -202,7 +203,8 @@ public class PortalServices {
                                        List<DataTag> tags) {
         try {
             // Find the tag with the "name" NAME
-            DataTag nameTag = tags.stream()
+            DataTag nameTag =
+                tags.stream()
                     .filter(tag -> tag.NAME.equals(NameTag.TAG_NAME))
                     .findFirst()
                     .orElse(null);
@@ -210,19 +212,20 @@ public class PortalServices {
             String name = nameTag == null ? null : nameTag.VALUES[0];
             if (nameTag == null || name == null || name.isEmpty()) {
                 if (player != null)
-                    player.sendMessage(Lang.getNegativePrefix()
-                            + Lang.translate("command.error.noname"));
+                    player.sendMessage(
+                        Lang.getNegativePrefix()
+                        + Lang.translate("command.error.noname"));
                 return null;
             } else if (this.portalRepository.containsKey(name)) {
                 if (player != null)
                     player.sendMessage(Lang.getNegativePrefix()
-                            + Lang.translateInsertVariables(
-                            "command.error.nametaken", name));
+                                       + Lang.translateInsertVariables(
+                                           "command.error.nametaken", name));
                 return null;
             }
 
             AdvancedPortal portal =
-                    new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
+                new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
 
             for (DataTag portalTag : tags) {
                 portal.setArgValues(portalTag);
@@ -230,7 +233,7 @@ public class PortalServices {
 
             for (DataTag portalTag : tags) {
                 Tag.Creation creation =
-                        tagRegistry.getCreationHandler(portalTag.NAME);
+                    tagRegistry.getCreationHandler(portalTag.NAME);
                 if (creation != null) {
                     if (!creation.created(portal, player, portalTag.VALUES)) {
                         return null;
@@ -247,15 +250,16 @@ public class PortalServices {
             return portal;
         } catch (IllegalArgumentException e) {
             if (player != null) {
-                player.sendMessage(Lang.getNegativePrefix()
-                        + Lang.translate("command.error.invalidname"));
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
             }
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             if (player != null)
                 player.sendMessage(Lang.getNegativePrefix()
-                        + Lang.translate("portal.error.save"));
+                                   + Lang.translate("portal.error.save"));
             return null;
         }
     }

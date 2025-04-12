@@ -62,30 +62,32 @@ public class DestinationServices {
         try {
             // Find the tag with the "name" NAME
             DataTag nameTag = tags.stream()
-                    .filter(tag -> tag.NAME.equals("name"))
-                    .findFirst()
-                    .orElse(null);
+                                  .filter(tag -> tag.NAME.equals("name"))
+                                  .findFirst()
+                                  .orElse(null);
 
             String name = nameTag == null ? null : nameTag.VALUES[0];
 
-            // If the name is null, send an error saying that the name is required.
+            // If the name is null, send an error saying that the name is
+            // required.
             if (nameTag == null) {
                 if (player != null)
                     player.sendMessage(Lang.getNegativePrefix()
-                            + Lang.translate("desti.error.noname"));
+                                       + Lang.translate("desti.error.noname"));
                 return null;
             }
 
             if (name == null || name.equals("")) {
                 if (player != null)
-                    player.sendMessage(Lang.getNegativePrefix()
-                            + Lang.translate("command.error.noname"));
+                    player.sendMessage(
+                        Lang.getNegativePrefix()
+                        + Lang.translate("command.error.noname"));
                 return null;
             } else if (this.destinationRepository.containsKey(name)) {
                 if (player != null)
                     player.sendMessage(Lang.getNegativePrefix()
-                            + Lang.translateInsertVariables(
-                            "command.error.nametaken", name));
+                                       + Lang.translateInsertVariables(
+                                           "command.error.nametaken", name));
                 return null;
             }
 
@@ -95,7 +97,7 @@ public class DestinationServices {
             }
             for (DataTag destiTag : tags) {
                 Tag.Creation creation =
-                        tagRegistry.getCreationHandler(destiTag.NAME);
+                    tagRegistry.getCreationHandler(destiTag.NAME);
                 if (creation != null) {
                     if (!creation.created(desti, player, destiTag.VALUES)) {
                         return null;
@@ -110,8 +112,9 @@ public class DestinationServices {
             return desti;
         } catch (IllegalArgumentException e) {
             if (player != null) {
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("command.error.invalidname"));
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
             }
             return null;
         } catch (Exception e) {
@@ -132,8 +135,9 @@ public class DestinationServices {
             return true;
         } catch (IllegalArgumentException e) {
             if (playerContainer != null) {
-                playerContainer.sendMessage(Lang.getNegativePrefix()
-                                             + Lang.translate("command.error.invalidname"));
+                playerContainer.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
             }
             return false;
         }
@@ -152,9 +156,10 @@ public class DestinationServices {
                                          boolean doEffect) {
         try {
             if (this.destinationRepository.containsKey(name)) {
-                if (player.getServer().getWorld(this.destinationRepository.get(name)
-                                                    .getLoc()
-                                                    .getWorldName())
+                if (player.getServer().getWorld(
+                        this.destinationRepository.get(name)
+                            .getLoc()
+                            .getWorldName())
                     == null) {
                     player.sendMessage(
                         Lang.getNegativePrefix()
@@ -222,10 +227,10 @@ public class DestinationServices {
             // Save the destination with the new name
             if (destinationRepository.save(newName, destination)) {
                 destinationCache.put(newName, destination);
-                player.sendMessage(
-                    Lang.getPositivePrefix()
-                    + Lang.translateInsertVariables(
-                        "command.destination.rename.success", oldName, newName));
+                player.sendMessage(Lang.getPositivePrefix()
+                                   + Lang.translateInsertVariables(
+                                       "command.destination.rename.success",
+                                       oldName, newName));
                 return true;
             } else {
                 player.sendMessage(

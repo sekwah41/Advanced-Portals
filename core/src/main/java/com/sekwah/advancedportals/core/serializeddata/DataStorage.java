@@ -90,8 +90,11 @@ public class DataStorage {
 
         // Ensure the file is within the data folder
         try {
-            if (!outFile.getCanonicalPath().startsWith(this.dataFolder.getCanonicalPath())) {
-                throw new SecurityException("Attempted to store a file outside the data folder: " + location);
+            if (!outFile.getCanonicalPath().startsWith(
+                    this.dataFolder.getCanonicalPath())) {
+                throw new SecurityException(
+                    "Attempted to store a file outside the data folder: "
+                    + location);
             }
         } catch (IOException e) {
             infoLogger.warning("Failed to validate file path: " + location);
@@ -99,7 +102,8 @@ public class DataStorage {
             return false;
         }
 
-        if (!outFile.getParentFile().exists() && !outFile.getParentFile().mkdirs()) {
+        if (!outFile.getParentFile().exists()
+            && !outFile.getParentFile().mkdirs()) {
             infoLogger.warning("Failed to create folder for file: " + location);
         }
 
