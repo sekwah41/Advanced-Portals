@@ -54,7 +54,8 @@ public class SpigotWorldContainer implements WorldContainer {
 
     @Override
     public boolean isWaterlogged(BlockLocation location) {
-        Block block = world.getBlockAt(location.getPosX(), location.getPosY(), location.getPosZ());
+        Block block = world.getBlockAt(location.getPosX(), location.getPosY(),
+                                       location.getPosZ());
 
         BlockData blockData = block.getBlockData();
         if (blockData instanceof Waterlogged) {

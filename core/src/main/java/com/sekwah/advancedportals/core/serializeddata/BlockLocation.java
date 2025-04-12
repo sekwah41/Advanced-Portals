@@ -3,7 +3,6 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.sekwah.advancedportals.core.data.Direction;
 
 public class BlockLocation {
-
     private final int posX;
 
     private final int posY;
