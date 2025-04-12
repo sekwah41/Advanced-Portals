@@ -16,22 +16,40 @@ public class DestinationRepositoryImpl implements IDestinationRepository {
     @Inject
     DataStorage dataStorage;
 
+    private boolean isValidName(String name) {
+        return name != null && !name.contains("/") && !name.contains("\\");
+    }
+
     @Override
     public boolean save(String name, Destination destination) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.storeFile(destination,
                                      fileLocation + name + ".yaml");
     }
 
+    @Override
     public boolean containsKey(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.fileExists(fileLocation + name + ".yaml");
     }
 
     @Override
     public boolean delete(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.deleteFile(fileLocation + name + ".yaml");
     }
 
+    @Override
     public Destination get(String name) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
         return dataStorage.loadFile(Destination.class,
                                     fileLocation + name + ".yaml");
     }
