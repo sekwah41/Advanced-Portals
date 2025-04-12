@@ -115,7 +115,7 @@ public class PortalServices {
         String blockMaterial = world.getBlock(blockLoc);
         boolean blockMaterialWaterlogged = world.isWaterlogged(blockLoc);
         String blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
-        boolean blockEntityTopMaterialWaterlogged = world.isWaterlogged(blockLoc);
+        boolean blockEntityTopMaterialWaterlogged = world.isWaterlogged(blockEntityTopLoc);
         PlayerData playerData = playerDataServices.getPlayerData(player);
 
         for (AdvancedPortal portal : portalCache.values()) {
