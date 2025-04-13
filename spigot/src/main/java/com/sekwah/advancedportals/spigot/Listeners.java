@@ -102,7 +102,9 @@ public class Listeners implements Listener {
         if (!event.isCancelled()) {
             Location blockloc = event.getBlock().getLocation();
 
-            if (blockloc == null || blockloc.getWorld() == null || event.getItemInHand() == null || event.getItemInHand().getItemMeta() == null) {
+            if (blockloc == null || blockloc.getWorld() == null
+                || event.getItemInHand() == null
+                || event.getItemInHand().getItemMeta() == null) {
                 return;
             }
 
