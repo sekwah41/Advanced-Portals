@@ -15,6 +15,8 @@ jobs:
           java-version: 8
         - project: legacyspigot
           java-version: 8
+        - project: neoforge-1-21
+        java-version: 21
     steps:
     - uses: actions/checkout@v3
     - name: Cache Gradle packages
