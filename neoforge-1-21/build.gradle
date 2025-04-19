@@ -23,7 +23,7 @@ buildscript {
 plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
-    id 'earth.terrarium.cloche' version '0.9.3'
+    id 'earth.terrarium.cloche' version '0.9.4'
     id 'com.gradleup.shadow' version '8.3.5'
 }
 
@@ -37,7 +37,7 @@ apply from: rootProject.file('changelog-util.gradle')
 
 println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
 
-var mc_version = "1.21.5"
+var mc_version = "1.21.4"
 var neo_version = "21.4.123"
 
 archivesBaseName = "Advanced-Portals-${mc_version}"
@@ -46,6 +46,9 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 
 repositories {
+    cloche {
+        all()
+    }
     mavenLocal()
     maven {
         url "https://www.cursemaven.com"
@@ -58,13 +61,6 @@ repositories {
     }
 
     mavenCentral()
-
-    cloche {
-        main()
-
-        mavenFabric()
-        mavenNeoforged()
-    }
 }
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
