@@ -62,7 +62,7 @@ public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        if (argData.length == 0) {
+        if (argData == null || argData.length == 0) {
             return false;
         }
         String selectedArg = argData[random.nextInt(argData.length)];
