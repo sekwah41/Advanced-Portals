@@ -37,7 +37,7 @@ public class ForgeCommandRegister implements CommandRegister {
             String commandName = entry.getKey();
             CommandTemplate commandExecutor = entry.getValue();
 
-            ForgeCommandHandler commandHandler = new ForgeCommandHandler();
+            ForgeCommandHandler commandHandler = new ForgeCommandHandler(commandExecutor);
 
             // Register the command with the dispatcher
             dispatcher.register(
