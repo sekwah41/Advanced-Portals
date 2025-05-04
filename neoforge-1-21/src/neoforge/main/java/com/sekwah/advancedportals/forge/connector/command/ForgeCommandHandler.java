@@ -10,6 +10,8 @@ import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.forge.connector.container.ForgeCommandSenderContainer;
 import net.minecraft.commands.CommandSourceStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -28,10 +30,26 @@ public class ForgeCommandHandler implements Command<CommandSourceStack>, Suggest
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) throws CommandSyntaxException {
-        System.out.println(builder.getInput()t);
-        //List<String> suggestions = commandExecutor.onTabComplete(new ForgeCommandSenderContainer(context.getSource()), )
+        var endsWithSpace = context.getInput().endsWith(" ");
 
-        return Suggestions.empty();
+        var args = new ArrayList<>(Arrays.stream(context.getInput().split(" ")).toList());
+
+        args.removeFirst();
+
+        if(endsWithSpace) {
+            args.add("");
+        }
+
+        List<String> results = commandExecutor.onTabComplete(
+                new ForgeCommandSenderContainer(context.getSource()),
+                args.toArray(new String[0])
+        );
+
+        for (String s : results) {
+            builder.suggest(s);
+        }
+
+        return builder.buildFuture();
     }
 
     @Override

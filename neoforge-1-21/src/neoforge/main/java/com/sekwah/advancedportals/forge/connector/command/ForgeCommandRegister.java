@@ -3,7 +3,9 @@ package com.sekwah.advancedportals.forge.connector.command;
 import com.google.inject.Inject;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
 import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.util.InfoLogger;
@@ -43,6 +45,8 @@ public class ForgeCommandRegister implements CommandRegister {
             dispatcher.register(
                     LiteralArgumentBuilder.<CommandSourceStack>literal(commandName).requires(commandHandler)
                             .executes(commandHandler)
+                            .then(RequiredArgumentBuilder.<CommandSourceStack, String>argument("arg", StringArgumentType.greedyString())
+                                    .suggests(commandHandler).executes(commandHandler))
             );
         }
     }
