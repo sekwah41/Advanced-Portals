@@ -23,7 +23,7 @@ buildscript {
 plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
-    id 'earth.terrarium.cloche' version '0.8.20'
+    id 'earth.terrarium.cloche' version '0.9.9'
     id 'com.gradleup.shadow' version '8.3.5'
 }
 
@@ -47,6 +47,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
     mavenLocal()
+    // Temp till cloche is fixed
+    maven {url = "https://maven.neoforged.net/mojang-meta" }
     maven {
         url "https://www.cursemaven.com"
         content {
