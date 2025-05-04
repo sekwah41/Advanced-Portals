@@ -11,6 +11,9 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContain
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Inject
     private InfoLogger infoLogger;
@@ -67,41 +70,27 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     private boolean checkConditions(String condition, Player player) {
-        // Remove whitespaces before splitting the condition
-        String trimmedCondition = condition.replaceAll("\\s+", "");
+        // Regular expression to find valid operators with optional surrounding whitespace
+        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==)\\s*");
+        Matcher matcher = operatorPattern.matcher(condition);
 
-        // Check if the condition contains a valid operator
-        if (!trimmedCondition.matches(".*(<=|>=|<|>|==).*")) {
-            // Log a warning or handle the case where the condition format is
-            // invalid
+        if (!matcher.find()) {
+            // Log a warning for invalid operator
             infoLogger.warning("Invalid operator: " + condition);
             return false;
         }
 
-        // Split the condition into placeholder and value parts
-        String[] parts = trimmedCondition.split("<=|>=|<|>|==");
+        // Extract the operator position and parts
+        int operatorStart = matcher.start();
+        int operatorEnd = matcher.end();
+        String placeholder = condition.substring(0, operatorStart).trim();
+        String operator = matcher.group(1);
+        String restOfCondition = condition.substring(operatorEnd).trim();
 
-        if (parts.length == 2) {
-            // Trim to remove any leading/trailing whitespaces
-            String placeholder = parts[0].trim();
-            String actualValue =
-                PlaceholderAPI.setPlaceholders(player, placeholder);
-            String restOfCondition = parts[1].trim();
+        // Get the actual value from the placeholder
+        String actualValue = PlaceholderAPI.setPlaceholders(player, placeholder);
 
-            // Preserve the operator
-            String operator =
-                condition
-                    .substring(placeholder.length(),
-                               condition.length() - restOfCondition.length())
-                    .trim();
-
-            return performComparison(actualValue, operator, restOfCondition);
-        } else {
-            // Log a warning or handle the case where the condition format is
-            // invalid
-            infoLogger.warning("Invalid condition format: " + condition);
-            return false;
-        }
+        return performComparison(actualValue, operator, restOfCondition);
     }
 
     private boolean performComparison(String actualValue, String operator,
