@@ -45,6 +45,12 @@ public class ForgeCommandHandler implements Command<CommandSourceStack>, Suggest
                 args.toArray(new String[0])
         );
 
+        builder = builder.createOffset(builder.getInput().lastIndexOf(' ') + 1);
+
+        if (results == null) {
+            return Suggestions.empty();
+        }
+
         for (String s : results) {
             builder.suggest(s);
         }
