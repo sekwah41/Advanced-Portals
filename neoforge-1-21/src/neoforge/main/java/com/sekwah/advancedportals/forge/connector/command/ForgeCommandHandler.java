@@ -25,11 +25,17 @@ public class ForgeCommandHandler implements Command<CommandSourceStack>, Suggest
 
     @Override
     public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        var input = context.getInput().split(" ");
+        var command = input[0];
+        var args = new String[input.length - 1];
+        System.arraycopy(input, 1, args, 0, input.length - 1);
+        commandExecutor.onCommand(new ForgeCommandSenderContainer(context.getSource()), command, args);
+
         return Command.SINGLE_SUCCESS;
     }
 
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) throws CommandSyntaxException {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         var endsWithSpace = context.getInput().endsWith(" ");
 
         var args = new ArrayList<>(Arrays.stream(context.getInput().split(" ")).toList());
@@ -64,9 +70,9 @@ public class ForgeCommandHandler implements Command<CommandSourceStack>, Suggest
         return builder.buildFuture();
     }
 
+    // The commands themselves are not locked off, so we always return true. But the underlying commands may be.
     @Override
     public boolean test(CommandSourceStack commandSourceStack) {
-        // TODO check if the command sender has permission to execute the command
         return true;
     }
 }

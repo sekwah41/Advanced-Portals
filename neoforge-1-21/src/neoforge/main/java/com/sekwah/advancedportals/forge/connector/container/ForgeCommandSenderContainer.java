@@ -3,6 +3,7 @@ package com.sekwah.advancedportals.forge.connector.container;
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
 
 public class ForgeCommandSenderContainer implements CommandSenderContainer {
     private final CommandSourceStack source;
@@ -13,7 +14,7 @@ public class ForgeCommandSenderContainer implements CommandSenderContainer {
 
     @Override
     public void sendMessage(String message) {
-
+        this.source.sendSystemMessage(Component.literal(message));
     }
 
     @Override

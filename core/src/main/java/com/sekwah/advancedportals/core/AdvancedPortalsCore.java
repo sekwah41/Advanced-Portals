@@ -105,7 +105,6 @@ public class AdvancedPortalsCore {
         injector.injectMembers(this);
         injector.injectMembers(Lang.instance);
 
-        // AdvancedPortalsModule module = new AdvancedPortalsModule(this);
         this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
         this.loadPortalConfig();
         Lang.loadLanguage(configRepository.getTranslation());
