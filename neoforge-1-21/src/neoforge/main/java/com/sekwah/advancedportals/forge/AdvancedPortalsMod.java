@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.io.File;
 
 @Mod("advancedportals")
 public class AdvancedPortalsMod {
@@ -35,8 +36,10 @@ public class AdvancedPortalsMod {
         ForgeServerContainer serverContainer =
                 new ForgeServerContainer();
 
+        File advancedPortalsConfigDir = new File(FMLPaths.CONFIGDIR.get().toFile(), "advancedportals");
+
         this.portalsCore = new AdvancedPortalsCore(
-                version, FMLPaths.CONFIGDIR.get().toFile(),
+                version, advancedPortalsConfigDir,
                 new ForgeInfoLogger(LOGGER), new ForgeServerContainer(), new ForgeModule());
         AdvancedPortalsModule module = this.portalsCore.getModule();
 

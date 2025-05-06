@@ -19,12 +19,16 @@ public class ForgeCommandSenderContainer implements CommandSenderContainer {
 
     @Override
     public PlayerContainer getPlayerContainer() {
+        if(this.source.isPlayer()) {
+            return new ForgePlayerContainer(this.source.getPlayer());
+        }
+
         return null;
     }
 
     @Override
     public boolean isOp() {
-        return false;
+        return this.source.hasPermission(4);
     }
 
     @Override

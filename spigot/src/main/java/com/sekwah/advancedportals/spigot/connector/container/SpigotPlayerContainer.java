@@ -75,13 +75,13 @@ public class SpigotPlayerContainer
     @Override
     public void giveItem(String material, String itemName,
                          String... itemDescription) {
-        ItemStack regionselector =
+        ItemStack itemStack =
             new ItemStack(Material.getMaterial(material));
-        ItemMeta selectorname = regionselector.getItemMeta();
-        selectorname.setDisplayName(itemName);
-        selectorname.setLore(Arrays.asList(itemDescription));
-        regionselector.setItemMeta(selectorname);
-        this.player.getInventory().addItem(regionselector);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(itemName);
+        itemMeta.setLore(Arrays.asList(itemDescription));
+        itemStack.setItemMeta(itemMeta);
+        this.player.getInventory().addItem(itemStack);
     }
 
     @Override
