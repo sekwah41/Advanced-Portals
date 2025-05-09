@@ -89,9 +89,10 @@ cloche {
         neoforge {
             loaderVersion = neo_version
 
-
+            mixins.from("src/neoforge/main/advanced_portals.mixins.json")
 
             metadata {
+                // Find out how to add it under the mods section
                 // custom("updateJSONURL", "https://api.modrinth.com/updates/advanced-portals/forge_updates.json")
             }
 

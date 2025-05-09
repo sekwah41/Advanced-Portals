@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_21",
+  "package": "com.sekwah.advancedportals.forge.mixin",
+  "mixins": [
+    "common.EntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
