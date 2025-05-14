@@ -223,3 +223,14 @@ tag.command.proxy.disabled= Proxy command portals are &edisabled &con this serve
 
 tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
 tag.proxy.description= Sets the server destination of the portal.
+tag.group.description= Sets the group for this portal. Used for organizing portals.
+
+command.portal.group.header=&7 Portal Groups&a:
+command.portal.group.list=&7 Portals in group&a:
+command.portal.group.help=Lists all portal groups and their portals.
+command.portal.group.detailedhelp=Lists all portal groups and the portals in each group. If a group is specified, only portals in that group are listed.
+
+command.destination.group.header=&7 Destination Groups&a:
+command.destination.group.list=&7 Destinations in group&a:
+command.destination.group.help=Lists all destination groups and their destinations.
+command.destination.group.detailedhelp=Lists all destination groups and the destinations in each group. If a group is specified, only destinations in that group are listed.

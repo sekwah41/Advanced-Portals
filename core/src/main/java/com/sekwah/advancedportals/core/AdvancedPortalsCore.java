@@ -135,6 +135,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new TriggerBlockTag());
         this.tagRegistry.registerTag(new PermissionTag());
         this.tagRegistry.registerTag(new CommandTag());
+        this.tagRegistry.registerTag(new GroupTag());
         this.tagRegistry.registerTag(new PortalEventTag());
         this.tagRegistry.registerTag(new MessageTag());
         this.tagRegistry.registerTag(new BungeeTag());
@@ -178,6 +179,8 @@ public class AdvancedPortalsCore {
                                               new InfoPortalSubCommand());
         this.portalCommand.registerSubCommand("disablebeacon",
                                               new DisableBeaconSubCommand());
+        this.portalCommand.registerSubCommand("listgroup",
+                                              new ListPortalGroupSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
@@ -194,6 +197,7 @@ public class AdvancedPortalsCore {
             "teleport", new TeleportDestiSubCommand(), "tp", "warp");
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
+        this.destiCommand.registerSubCommand("listgroup", new ListDestiGroupSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }
