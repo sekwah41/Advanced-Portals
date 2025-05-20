@@ -232,6 +232,10 @@ public class PortalServices {
 
             AdvancedPortal portal =
                 new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
+            AdvancedPortalsCore.getInstance()
+                .getModule()
+                .getInjector()
+                .injectMembers(portal);
 
             for (DataTag portalTag : tags) {
                 portal.setArgValues(portalTag);

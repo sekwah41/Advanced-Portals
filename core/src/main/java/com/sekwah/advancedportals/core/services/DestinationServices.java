@@ -92,6 +92,10 @@ public class DestinationServices {
             }
 
             Destination desti = new Destination(playerLocation);
+            AdvancedPortalsCore.getInstance()
+                .getModule()
+                .getInjector()
+                .injectMembers(desti);
             for (DataTag portalTag : tags) {
                 desti.setArgValues(portalTag);
             }
