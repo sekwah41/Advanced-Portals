@@ -15,6 +15,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import java.util.*;
 
 /**
@@ -39,6 +40,9 @@ public class AdvancedPortal implements TagTarget {
 
     @Inject
     transient ConfigRepository configRepository;
+
+    @Inject
+    private transient InfoLogger infoLogger;
 
     public AdvancedPortal() {
         this.minLoc = new BlockLocation();
@@ -110,6 +114,16 @@ public class AdvancedPortal implements TagTarget {
      * @param loc2 The second location.
      */
     public void updateBounds(BlockLocation loc1, BlockLocation loc2) {
+        String world1 = loc1.getWorldName();
+        String world2 = loc2.getWorldName();
+
+        if (!world1.equals(world2)) {
+            if (this.infoLogger != null) {
+                this.infoLogger.warning("Portal bounds span multiple worlds: '" + world1 + "' and '" + world2 + "'");
+            }
+            throw new IllegalArgumentException("Portal bounds must be within the same world");
+        }
+
         int minX = Math.min(loc1.getPosX(), loc2.getPosX());
         int minY = Math.min(loc1.getPosY(), loc2.getPosY());
         int minZ = Math.min(loc1.getPosZ(), loc2.getPosZ());
@@ -118,8 +132,8 @@ public class AdvancedPortal implements TagTarget {
         int maxY = Math.max(loc1.getPosY(), loc2.getPosY());
         int maxZ = Math.max(loc1.getPosZ(), loc2.getPosZ());
 
-        this.minLoc = new BlockLocation(loc1.getWorldName(), minX, minY, minZ);
-        this.maxLoc = new BlockLocation(loc2.getWorldName(), maxX, maxY, maxZ);
+        this.minLoc = new BlockLocation(world1, minX, minY, minZ);
+        this.maxLoc = new BlockLocation(world1, maxX, maxY, maxZ);
     }
 
     /*public boolean hasTriggerBlock(String blockMaterial) {

@@ -31,6 +31,9 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)'
     //shade group: 'com.google.guava', name: 'guava', version: '[33.2.0-jre,)'
     implementation 'com.github.spotbugs:spotbugs-annotations:4.9.3'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.9.3'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.9.3'
 }
 
 project.afterEvaluate {
@@ -78,4 +81,8 @@ artifacts {
 
 tasks.named('jar') {
     enabled = false
+}
+
+test {
+    useJUnitPlatform()
 }

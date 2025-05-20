@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TagReader {
-    public static boolean isClosedString(String[] args) {
+    public static boolean isOpenString(String[] args) {
         StringBuilder currentValue = new StringBuilder();
         boolean inQuotes = false;
 

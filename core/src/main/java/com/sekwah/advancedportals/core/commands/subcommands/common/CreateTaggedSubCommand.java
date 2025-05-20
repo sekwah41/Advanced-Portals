@@ -14,7 +14,7 @@ public abstract class CreateTaggedSubCommand implements SubCommand {
     @Override
     public List<String> onTabComplete(CommandSenderContainer sender,
                                       String[] args) {
-        if (TagReader.isClosedString(args)) {
+        if (TagReader.isOpenString(args)) {
             return Collections.emptyList();
         }
 
