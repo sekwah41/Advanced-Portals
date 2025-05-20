@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Do not register to here. Register to the sprcific subcommand registry
+ * Do not register to here. Register to the specific subcommand registry
  * classes.
  *
  * <p>Designed to let addons add new command sections to access, edit or add
