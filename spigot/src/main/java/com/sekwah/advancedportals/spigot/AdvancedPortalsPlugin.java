@@ -5,6 +5,7 @@ import com.sekwah.advancedportals.core.connector.commands.CommandRegister;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
+import com.sekwah.advancedportals.core.services.EventDispatcher;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
@@ -13,6 +14,7 @@ import com.sekwah.advancedportals.shadowed.inject.Injector;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
+import com.sekwah.advancedportals.spigot.services.SpigotEventDispatcher;
 import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
@@ -67,6 +69,8 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
 
         module.addInstanceBinding(CommandRegister.class,
                                   new SpigotCommandRegister(this));
+        module.addInstanceBinding(EventDispatcher.class,
+                                  new SpigotEventDispatcher());
 
         Injector injector = module.getInjector();
 
