@@ -113,14 +113,20 @@ public class PortalServices {
         BlockLocation blockEntityTopLoc = blockLoc.addY(player.getHeight());
         WorldContainer world = player.getWorld();
         String blockMaterial = world.getBlock(blockLoc);
+        boolean blockMaterialWaterlogged = world.isWaterlogged(blockLoc);
         String blockEntityTopMaterial = world.getBlock(blockEntityTopLoc);
+        boolean blockEntityTopMaterialWaterlogged =
+            world.isWaterlogged(blockEntityTopLoc);
         PlayerData playerData = playerDataServices.getPlayerData(player);
 
         for (AdvancedPortal portal : portalCache.values()) {
+            boolean checkWaterLogged = portal.isTriggerBlock("water");
             if ((portal.isLocationInPortal(toLoc)
-                 && portal.isTriggerBlock(blockMaterial))
+                 && ((checkWaterLogged && blockMaterialWaterlogged)
+                     || portal.isTriggerBlock(blockMaterial)))
                 || (portal.isLocationInPortal(blockEntityTopLoc)
-                    && portal.isTriggerBlock(blockEntityTopMaterial))) {
+                    && ((checkWaterLogged && blockEntityTopMaterialWaterlogged)
+                        || portal.isTriggerBlock(blockEntityTopMaterial)))) {
                 String portalName = portal.getName();
                 if (Objects.equals(playerData.inPortal(), portalName)) {
                     return PortalActivationResult.PORTAL_DENIED;
@@ -153,12 +159,18 @@ public class PortalServices {
     }
 
     public boolean removePortal(String name, PlayerContainer player) {
-        this.portalCache.remove(name);
-        if (this.portalRepository.containsKey(name)) {
+        try {
             this.portalRepository.delete(name);
+            this.portalCache.remove(name);
             return true;
+        } catch (IllegalArgumentException e) {
+            if (player != null) {
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
+            }
+            return false;
         }
-        return false;
     }
 
     public AdvancedPortal createPortal(PlayerContainer player,
@@ -195,57 +207,67 @@ public class PortalServices {
     public AdvancedPortal createPortal(@Nullable PlayerContainer player,
                                        BlockLocation pos1, BlockLocation pos2,
                                        List<DataTag> tags) {
-        // Find the tag with the "name" NAME
-        DataTag nameTag = tags.stream()
-                              .filter(tag -> tag.NAME.equals(NameTag.TAG_NAME))
-                              .findFirst()
-                              .orElse(null);
+        try {
+            // Find the tag with the "name" NAME
+            DataTag nameTag =
+                tags.stream()
+                    .filter(tag -> tag.NAME.equals(NameTag.TAG_NAME))
+                    .findFirst()
+                    .orElse(null);
 
-        String name = nameTag == null ? null : nameTag.VALUES[0];
-        if (nameTag == null || name == null || name.isEmpty()) {
-            if (player != null)
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translate("command.error.noname"));
-            return null;
-        } else if (this.portalRepository.containsKey(name)) {
-            if (player != null)
-                player.sendMessage(Lang.getNegativePrefix()
-                                   + Lang.translateInsertVariables(
-                                       "command.error.nametaken", name));
-            return null;
-        }
+            String name = nameTag == null ? null : nameTag.VALUES[0];
+            if (nameTag == null || name == null || name.isEmpty()) {
+                if (player != null)
+                    player.sendMessage(
+                        Lang.getNegativePrefix()
+                        + Lang.translate("command.error.noname"));
+                return null;
+            } else if (this.portalRepository.containsKey(name)) {
+                if (player != null)
+                    player.sendMessage(Lang.getNegativePrefix()
+                                       + Lang.translateInsertVariables(
+                                           "command.error.nametaken", name));
+                return null;
+            }
 
-        AdvancedPortal portal =
-            new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
+            AdvancedPortal portal =
+                new AdvancedPortal(pos1, pos2, tagRegistry, playerDataServices);
 
-        for (DataTag portalTag : tags) {
-            portal.setArgValues(portalTag);
-        }
+            for (DataTag portalTag : tags) {
+                portal.setArgValues(portalTag);
+            }
 
-        for (DataTag portalTag : tags) {
-            Tag.Creation creation =
-                tagRegistry.getCreationHandler(portalTag.NAME);
-            if (creation != null) {
-                if (!creation.created(portal, player, portalTag.VALUES)) {
-                    return null;
+            for (DataTag portalTag : tags) {
+                Tag.Creation creation =
+                    tagRegistry.getCreationHandler(portalTag.NAME);
+                if (creation != null) {
+                    if (!creation.created(portal, player, portalTag.VALUES)) {
+                        return null;
+                    }
                 }
             }
-        }
 
-        try {
             if (this.portalRepository.save(name, portal)) {
                 this.portalCache.put(name, portal);
             } else {
                 return null;
             }
+
+            return portal;
+        } catch (IllegalArgumentException e) {
+            if (player != null) {
+                player.sendMessage(
+                    Lang.getNegativePrefix()
+                    + Lang.translate("command.error.invalidname"));
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             if (player != null)
                 player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("portal.error.save"));
+            return null;
         }
-
-        return portal;
     }
 
     public boolean removePlayerSelection(PlayerContainer player) {

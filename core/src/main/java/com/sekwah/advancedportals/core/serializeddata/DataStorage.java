@@ -87,6 +87,21 @@ public class DataStorage {
     public boolean storeFile(Object dataHolder, String location) {
         Yaml yaml = getYaml(dataHolder.getClass());
         File outFile = new File(this.dataFolder, location);
+
+        // Ensure the file is within the data folder
+        try {
+            if (!outFile.getCanonicalPath().startsWith(
+                    this.dataFolder.getCanonicalPath())) {
+                throw new SecurityException(
+                    "Attempted to store a file outside the data folder: "
+                    + location);
+            }
+        } catch (IOException e) {
+            infoLogger.warning("Failed to validate file path: " + location);
+            infoLogger.error(e);
+            return false;
+        }
+
         if (!outFile.getParentFile().exists()
             && !outFile.getParentFile().mkdirs()) {
             infoLogger.warning("Failed to create folder for file: " + location);

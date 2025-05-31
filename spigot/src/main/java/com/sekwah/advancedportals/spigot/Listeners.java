@@ -10,7 +10,6 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotEntityContain
 import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContainer;
 import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,11 +106,11 @@ public class Listeners implements Listener {
         if (!event.isCancelled()) {
             Location blockloc = event.getBlock().getLocation();
 
-            if (blockloc.getWorld() == null)
+            if (blockloc == null || blockloc.getWorld() == null
+                || event.getItemInHand() == null
+                || event.getItemInHand().getItemMeta() == null) {
                 return;
-
-            if (event.getItemInHand().getItemMeta() == null)
-                return;
+            }
 
             if (!this.coreListeners.blockPlace(
                     new SpigotPlayerContainer(event.getPlayer()),
@@ -248,18 +247,18 @@ public class Listeners implements Listener {
         }
 
         Arrays.stream(event.getChunk().getTileEntities())
-                .filter(blockState -> blockState.getType() == Material.END_GATEWAY)
-                .forEach(endGatewayPortal -> {
-                    Location loc = endGatewayPortal.getLocation();
-                    if (portalServices.inPortalRegion(
-                            new BlockLocation(loc.getWorld().getName(),
-                                    loc.getBlockX(), loc.getBlockY(),
-                                    loc.getBlockZ()),
-                            2)) {
-                        EndGateway tileState = (EndGateway) endGatewayPortal;
-                        tileState.setAge(Long.MIN_VALUE);
-                        tileState.update();
-                    }
-                });
+            .filter(blockState -> blockState.getType() == Material.END_GATEWAY)
+            .forEach(endGatewayPortal -> {
+                Location loc = endGatewayPortal.getLocation();
+                if (portalServices.inPortalRegion(
+                        new BlockLocation(loc.getWorld().getName(),
+                                          loc.getBlockX(), loc.getBlockY(),
+                                          loc.getBlockZ()),
+                        2)) {
+                    EndGateway tileState = (EndGateway) endGatewayPortal;
+                    tileState.setAge(Long.MIN_VALUE);
+                    tileState.update();
+                }
+            });
     }
 }

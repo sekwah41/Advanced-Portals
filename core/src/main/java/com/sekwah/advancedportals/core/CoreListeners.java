@@ -128,9 +128,14 @@ public class CoreListeners {
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos,
                               String blockMaterial, String itemInHandMaterial,
                               String itemInHandName) {
+        if (blockPos == null || blockMaterial == null) {
+            return false;
+        }
+
         if (player != null && Permissions.BUILD.hasPermission(player)) {
             WorldContainer world = player.getWorld();
-            if (itemInHandName.equals("\u00A75Portal Block Placer")) {
+            if (itemInHandName != null
+                && itemInHandName.equals("\u00A75Portal Block Placer")) {
                 world.setBlock(blockPos, "NETHER_PORTAL");
                 for (Direction direction : Direction.values()) {
                     BlockLocation checkLoc =
@@ -142,17 +147,21 @@ public class CoreListeners {
                     }
                 }
                 return true;
-            } else if (itemInHandName.equals(
+            } else if (itemInHandName != null
+                       && itemInHandName.equals(
                            "\u00A78End Portal Block Placer")) {
                 world.setBlock(blockPos, "END_PORTAL");
                 return true;
-            } else if (itemInHandName.equals("\u00A78Gateway Block Placer")) {
+            } else if (itemInHandName != null
+                       && itemInHandName.equals(
+                           "\u00A78Gateway Block Placer")) {
                 world.setBlock(blockPos, "END_GATEWAY");
                 world.disableBeacon(blockPos);
                 return true;
             }
             return true;
         }
+
         if (portalServices.inPortalRegionProtected(blockPos)) {
             if (player != null) {
                 player.sendMessage(Lang.getNegativePrefix()

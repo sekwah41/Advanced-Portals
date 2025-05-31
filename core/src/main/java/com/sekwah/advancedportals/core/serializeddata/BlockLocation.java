@@ -3,8 +3,6 @@ package com.sekwah.advancedportals.core.serializeddata;
 import com.sekwah.advancedportals.core.data.Direction;
 
 public class BlockLocation {
-    // These should be treated as final, they only are not for serialization
-    // purposes
     private final int posX;
 
     private final int posY;

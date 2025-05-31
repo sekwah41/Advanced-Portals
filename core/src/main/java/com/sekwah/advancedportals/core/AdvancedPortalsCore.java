@@ -188,8 +188,10 @@ public class AdvancedPortalsCore {
                                              new CreateDestiSubCommand());
         this.destiCommand.registerSubCommand("remove",
                                              new RemoveDestiSubCommand());
+        this.destiCommand.registerSubCommand("rename",
+                                             new RenameDestiSubCommand());
         this.destiCommand.registerSubCommand(
-            "teleport", new TeleportDestiSubCommand(), "tp");
+            "teleport", new TeleportDestiSubCommand(), "tp", "warp");
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
 

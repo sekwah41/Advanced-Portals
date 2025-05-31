@@ -6,7 +6,11 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
+import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.UUID;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -16,11 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.awt.*;
-import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
-import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Just a temporary container for whenever advanced portals needs to get data
@@ -51,7 +50,8 @@ public class LegacySpigotPlayerContainer
     @Override
     public void sendActionBar(String message) {
         try {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                                        TextComponent.fromLegacyText(message));
         } catch (NoSuchMethodError e) {
             player.sendMessage(message);
         }
@@ -130,12 +130,14 @@ public class LegacySpigotPlayerContainer
         }
 
         // If red is 0 it seems to treat it as fully red too
-        if(color.getRed() == 0) {
+        if (color.getRed() == 0) {
             color = new Color(1, color.getGreen(), color.getBlue());
         }
 
-
-        this.player.spigot().playEffect(new Location(player.getWorld(), position.getX(), position.getY(), position.getZ()), Effect.COLOURED_DUST, 0,  0,color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1, 0, 64);
+        this.player.spigot().playEffect(
+            new Location(player.getWorld(), position.getX(), position.getY(),
+                         position.getZ()),
+            Effect.COLOURED_DUST, 0, 0, color.getRed() / 255.0f,
+            color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1, 0, 64);
     }
 }
-

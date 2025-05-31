@@ -7,7 +7,6 @@ import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-
 public class LegacySpigotWorldContainer implements WorldContainer {
     private final World world;
 
@@ -43,13 +42,15 @@ public class LegacySpigotWorldContainer implements WorldContainer {
 
     @Override
     public void setBlockAxis(BlockLocation location, BlockAxis axis) {
-
     }
 
     @Override
     public void disableBeacon(AdvancedPortal portal) {
-
     }
 
-
+    @Override
+    public boolean isWaterlogged(BlockLocation location) {
+        // Waterlogged blocks were introduced in 1.13.
+        return false;
+    }
 }
