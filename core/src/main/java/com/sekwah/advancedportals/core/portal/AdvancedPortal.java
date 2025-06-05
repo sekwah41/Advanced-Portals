@@ -261,4 +261,19 @@ public class AdvancedPortal implements TagTarget {
     public String getName() {
         return getArgValues("name")[0];
     }
+
+    public boolean isChunkOverlapping(int chunkX, int chunkZ) {
+        int chunkMinX = chunkX * 16;
+        int chunkMinZ = chunkZ * 16;
+        int chunkMaxX = chunkMinX + 15;
+        int chunkMaxZ = chunkMinZ + 15;
+
+        int portalMinX = minLoc.getPosX();
+        int portalMaxX = maxLoc.getPosX();
+        int portalMinZ = minLoc.getPosZ();
+        int portalMaxZ = maxLoc.getPosZ();
+
+        return !(portalMaxX < chunkMinX || portalMinX > chunkMaxX ||
+                portalMaxZ < chunkMinZ || portalMinZ > chunkMaxZ);
+    }
 }

@@ -1,6 +1,7 @@
 package com.sekwah.advancedportals.spigot;
 
 import com.sekwah.advancedportals.core.CoreListeners;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.services.PortalServices;
@@ -11,6 +12,9 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotWorldContaine
 import com.sekwah.advancedportals.spigot.utils.ContainerHelpers;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -233,6 +237,15 @@ public class Listeners implements Listener {
         if (!configRepository.getDisableGatewayBeam()) {
             return;
         }
+        Chunk chunk = event.getChunk();
+        List<AdvancedPortal> checkPortals = portalServices.getPortals()
+                .stream().filter(portal -> portal.isTriggerBlock(Material.END_GATEWAY.toString()))
+                .filter(portal -> portal.isChunkOverlapping(chunk.getX(), chunk.getZ())).collect(Collectors.toList());
+
+        if(checkPortals.isEmpty()) {
+            return;
+        }
+
         Arrays.stream(event.getChunk().getTileEntities())
             .filter(blockState -> blockState.getType() == Material.END_GATEWAY)
             .forEach(endGatewayPortal -> {
