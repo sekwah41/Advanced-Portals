@@ -38,7 +38,7 @@ public class AdvancedPortal implements TagTarget {
     private transient PlayerDataServices playerDataServices;
 
     @Inject
-    transient ConfigRepository configRepository;
+    private transient ConfigRepository configRepository;
 
     public AdvancedPortal() {
         this.minLoc = new BlockLocation();
