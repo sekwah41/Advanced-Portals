@@ -140,21 +140,34 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     @Override
-    public boolean created(TagTarget target, PlayerContainer player,
-                           String[] argData) {
+    public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
         for (String condition : argData) {
-            if (player instanceof SpigotPlayerContainer) {
-                SpigotPlayerContainer spigotPlayer =
-                    (SpigotPlayerContainer) player;
-                if (!checkConditions(condition, spigotPlayer.getPlayer())) {
+            if (!isValidConditionSyntax(condition)) {
+                if (player instanceof SpigotPlayerContainer) {
+                    SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
                     spigotPlayer.sendMessage(
-                        Lang.getNegativePrefix()
-                        + Lang.translate("tag.conditions.invalid"));
-                    return false;
+                            Lang.getNegativePrefix()
+                                    + Lang.translate("tag.conditions.invalid"));
                 }
+                return false;
             }
         }
         return true;
+    }
+
+    private boolean isValidConditionSyntax(String condition) {
+        // Check for a valid operator in the condition
+        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==)\\s*");
+        Matcher matcher = operatorPattern.matcher(condition);
+        if (!matcher.find()) {
+            return false;
+        }
+        // Optionally, check that there is something on both sides of the operator
+        int operatorStart = matcher.start();
+        int operatorEnd = matcher.end();
+        String left = condition.substring(0, operatorStart).trim();
+        String right = condition.substring(operatorEnd).trim();
+        return !left.isEmpty() && !right.isEmpty();
     }
 
     @Override
