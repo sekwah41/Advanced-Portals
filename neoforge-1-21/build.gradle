@@ -46,8 +46,6 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
     mavenLocal()
-    mavenCentral()
-
     // Fixes for binaries in odd places and whatnot
     maven {
         url "https://libraries.minecraft.net"
@@ -55,6 +53,7 @@ repositories {
     maven {url = "https://maven.neoforged.net/releases" }
     maven {url = "https://maven.neoforged.net/mojang-meta" }
 
+    mavenCentral()
     // Other repod
     maven {
         url "https://www.cursemaven.com"
