@@ -36,8 +36,8 @@ apply from: rootProject.file('changelog-util.gradle')
 
 println "Branch ${branch}${shaRef} isRelease: '${isRelease}'"
 
-var mc_version = "1.21.4"
-var neo_version = "21.4.123"
+var mc_version = "1.21.5"
+var neo_version = "21.5.75"
 
 archivesBaseName = "Advanced-Portals-${mc_version}"
 
@@ -46,16 +46,22 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
     mavenLocal()
-    // Temp till cloche is fixed
+    mavenCentral()
+
+    // Fixes for binaries in odd places and whatnot
+    maven {
+        url "https://libraries.minecraft.net"
+    }
+    maven {url = "https://maven.neoforged.net/releases" }
     maven {url = "https://maven.neoforged.net/mojang-meta" }
+
+    // Other repod
     maven {
         url "https://www.cursemaven.com"
         content {
             includeGroup "curse.maven"
         }
     }
-
-    mavenCentral()
 
     cloche {
         librariesMinecraft()
