@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.6.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.5.0...v2.6.0) (2025-06-15)
+
+
+### Features ✨
+
+* improve onChunkLoad performance ([#567](https://github.com/sekwah41/Advanced-Portals/issues/567)) ([7603215](https://github.com/sekwah41/Advanced-Portals/commit/76032156bbf2f9c436a1db41d827fd5b093742b7))
+
+
+### Bug Fixes 🐛
+
+* clean up conditions ([#560](https://github.com/sekwah41/Advanced-Portals/issues/560)) ([91072bd](https://github.com/sekwah41/Advanced-Portals/commit/91072bd5130f732c11d73d44acd2baa56832aea3))
+* null check for DestiTag ([#558](https://github.com/sekwah41/Advanced-Portals/issues/558)) ([071197e](https://github.com/sekwah41/Advanced-Portals/commit/071197e4902f1824cabeff30ae1637a942c0329a))
+* switch tag target config to private scope ([58579a5](https://github.com/sekwah41/Advanced-Portals/commit/58579a5adab5de05712c58aac3813c509e15c048))
+
 ## [2.5.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.4.0...v2.5.0) (2025-04-13)
 
 
