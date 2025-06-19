@@ -163,6 +163,7 @@ portal.error.save= There was a problem saving the portal.
 portal.error.nopermission= You don't have permission to use that portal.
 
 portal.nobuild= You don't have permission to build here!
+portal.permission.denied= You don't have permission to use this portal.
 
 desti.info.noargs=&cNo tags were given
 
