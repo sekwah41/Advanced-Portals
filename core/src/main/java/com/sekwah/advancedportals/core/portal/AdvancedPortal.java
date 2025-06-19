@@ -137,9 +137,8 @@ public class AdvancedPortal implements TagTarget {
 
         PlayerData playerData = playerDataServices.getPlayerData(player);
 
-        // Check for portal use permission
         if (!Permissions.USE_PORTAL.hasPermission(player)) {
-            player.sendMessage(Lang.translate("portal.permission.denied"));
+            player.sendMessage(Lang.translate("portal.error.nopermission"));
             return ActivationResult.FAILED_DO_NOTHING;
         }
 
