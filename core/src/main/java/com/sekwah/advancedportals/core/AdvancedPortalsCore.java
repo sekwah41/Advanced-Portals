@@ -178,6 +178,8 @@ public class AdvancedPortalsCore {
                                               new InfoPortalSubCommand());
         this.portalCommand.registerSubCommand("disablebeacon",
                                               new DisableBeaconSubCommand());
+        this.portalCommand.registerSubCommand("activate",
+                                              new ActivatePortalSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }

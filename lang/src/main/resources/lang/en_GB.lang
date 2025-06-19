@@ -157,6 +157,13 @@ portal.error.selection.missing= You need to select both points for the portal.
 portal.error.save= There was a problem saving the portal.
 portal.error.nopermission= You don't have permission to use that portal.
 
+command.activate.usage=Usage: {0}
+command.activate.playernotfound=Player not found: {0}
+command.activate.portalnotfound=Portal not found: {0}
+command.activate.success=Activated portal '{0}' for player '{1}'.
+command.activate.help=Force a player to activate a portal by name, bypassing cooldown.
+command.activate.detailedhelp=Forces a player to activate a portal by name, applying all portal effects as if entered normally, but bypassing cooldown and knockback. Usage: /portal activate <player> <portal_name>
+
 portal.nobuild= You don't have permission to build here!
 
 desti.info.noargs=&cNo tags were given

@@ -105,6 +105,11 @@ public class Permissions {
         PORTAL.createChild("info", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to view portal information");
 
+    public static final PermissionBuilder PORTAL_ACTIVATE =
+        PORTAL.createChild("activate", PermissionBuilder.PermissionDefault.OP)
+            .description("Allows you to force a player to activate a portal by name via /portal activate");
+
+
     static {
         // These are to add children which will not be used directly e.g.
         // advancedportals.*
