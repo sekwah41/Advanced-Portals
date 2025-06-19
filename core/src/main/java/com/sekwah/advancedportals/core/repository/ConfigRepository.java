@@ -8,6 +8,7 @@ public interface ConfigRepository {
     boolean getUseOnlySpecialAxe();
 
     String getTranslation();
+    void setTranslation(String translation);
 
     String getSelectorMaterial();
 

@@ -222,4 +222,10 @@ tag.command.permswildcard.disabled= Wildcard &e*&c permission command portals ar
 tag.command.proxy.disabled= Proxy command portals are &edisabled &con this server. Please contact a server admin if this is an issue.
 
 tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
-tag.proxy.description= Sets the server destination of the portal.
+
+command.portal.lang.basic=Lists available languages or sets the language. Usage: /portal lang [code]
+command.portal.lang.detailed=Use /portal lang to list available languages. Use /portal lang <code> to set the language. Example: /portal lang en_GB
+command.portal.lang.list=Available languages:
+command.portal.lang.usage=Use /portal lang <code> to set the language.
+command.portal.lang.notfound=Language '%1$s' not found. Use /portal lang to list available languages.
+command.portal.lang.set=Language set to %1$s.
