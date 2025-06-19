@@ -208,6 +208,34 @@ public class AdvancedPortal implements TagTarget {
         return ActivationResult.FAILED_DO_KNOCKBACK;
     }
 
+    /**
+     * Force-activates this portal for a player, bypassing cooldown and knockback.
+     * Applies all portal effects as if entered normally.
+     *
+     * @param player The player to activate the portal for
+     */
+    public void forceActivateForPlayer(PlayerContainer player) {
+        ActivationData data = new ActivationData(TriggerType.PORTAL);
+        for (DataTag portalTag : this.portalTags) {
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                portalTag.NAME, Tag.TagType.PORTAL);
+            if (activationHandler != null) {
+                boolean preActivated = activationHandler.preActivated(
+                    this, player, data, this.getArgValues(portalTag.NAME));
+                if (!preActivated) {
+                    return;
+                }
+            }
+        }
+        for (DataTag portalTag : this.portalTags) {
+            Tag.Activation activationHandler = tagRegistry.getActivationHandler(
+                portalTag.NAME, Tag.TagType.PORTAL);
+            if (activationHandler != null) {
+                activationHandler.activated(this, player, data, this.getArgValues(portalTag.NAME));
+            }
+        }
+    }
+
     public boolean isLocationInPortal(BlockLocation loc) {
         return this.isLocationInPortal(loc, 0);
     }
