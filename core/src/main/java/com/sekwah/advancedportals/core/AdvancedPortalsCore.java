@@ -104,6 +104,21 @@ public class AdvancedPortalsCore {
         injector.injectMembers(this);
         injector.injectMembers(Lang.instance);
 
+        copyAllLangFiles();
+
+        this.loadPortalConfig();
+        Lang.loadLanguage(configRepository.getTranslation());
+
+        this.registerCommands();
+        this.registerTags();
+        this.registerChannels();
+
+        this.portalServices.loadPortals();
+        this.destinationServices.loadDestinations();
+        this.infoLogger.info(Lang.translate("logger.pluginenable"));
+    }
+
+    private void copyAllLangFiles() {
         try {
             String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
             try (java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath)) {
@@ -120,17 +135,6 @@ public class AdvancedPortalsCore {
             infoLogger.info("Failed to copy all language files: " + e.getMessage());
             e.printStackTrace();
         }
-
-        this.loadPortalConfig();
-        Lang.loadLanguage(configRepository.getTranslation());
-
-        this.registerCommands();
-        this.registerTags();
-        this.registerChannels();
-
-        this.portalServices.loadPortals();
-        this.destinationServices.loadDestinations();
-        this.infoLogger.info(Lang.translate("logger.pluginenable"));
     }
 
     private void registerChannels() {
