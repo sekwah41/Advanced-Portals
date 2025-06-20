@@ -104,8 +104,23 @@ public class AdvancedPortalsCore {
         injector.injectMembers(this);
         injector.injectMembers(Lang.instance);
 
-        // AdvancedPortalsModule module = new AdvancedPortalsModule(this);
-        this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
+        try {
+            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            try (java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath)) {
+                java.util.Enumeration<java.util.jar.JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    java.util.jar.JarEntry entry = entries.nextElement();
+                    String name = entry.getName();
+                    if (name.startsWith("lang/") && name.endsWith(".lang")) {
+                        this.dataStorage.copyDefaultFile(name, false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            infoLogger.info("Failed to copy all language files: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         this.loadPortalConfig();
         Lang.loadLanguage(configRepository.getTranslation());
 
@@ -178,7 +193,8 @@ public class AdvancedPortalsCore {
                                               new InfoPortalSubCommand());
         this.portalCommand.registerSubCommand("disablebeacon",
                                               new DisableBeaconSubCommand());
-        this.portalCommand.registerSubCommand("lang", new PortalLangSubCommand();
+        this.portalCommand.registerSubCommand("lang",
+                                              new PortalLangSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }
