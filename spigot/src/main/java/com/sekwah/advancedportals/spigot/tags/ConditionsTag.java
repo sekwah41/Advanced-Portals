@@ -65,7 +65,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     private boolean checkConditions(String condition, Player player) {
-        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==)\\s*");
+        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==|!=)\\s*");
         Matcher matcher = operatorPattern.matcher(condition);
         if (!matcher.find()) {
             infoLogger.warning("Invalid operator: " + condition);
@@ -86,6 +86,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
             double expectedNumeric = Double.parseDouble(expectedValue);
             switch (operator) {
                 case "==": return actualNumeric == expectedNumeric;
+                case "!=": return actualNumeric != expectedNumeric;
                 case "<":  return actualNumeric < expectedNumeric;
                 case ">":  return actualNumeric > expectedNumeric;
                 case "<=": return actualNumeric <= expectedNumeric;
@@ -93,9 +94,19 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
                 default:   return false;
             }
         } else if (isBoolean(actualValue) && isBoolean(expectedValue)) {
-            return Boolean.parseBoolean(actualValue) == Boolean.parseBoolean(expectedValue);
+            boolean actualBool = Boolean.parseBoolean(actualValue);
+            boolean expectedBool = Boolean.parseBoolean(expectedValue);
+            switch (operator) {
+                case "==": return actualBool == expectedBool;
+                case "!=": return actualBool != expectedBool;
+                default: return false;
+            }
         } else {
-            return actualValue.equals(expectedValue);
+            switch (operator) {
+                case "==": return actualValue.equals(expectedValue);
+                case "!=": return !actualValue.equals(expectedValue);
+                default: return false;
+            }
         }
     }
 
@@ -117,7 +128,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
         for (String condition : argData) {
             if (!isValidConditionSyntax(condition)) {
                 if (player instanceof SpigotPlayerContainer) {
-                    ((SpigotPlayerContainer) player).sendMessage(
+                    player.sendMessage(
                         Lang.getNegativePrefix() + Lang.translate("tag.conditions.invalid"));
                 }
                 return false;
@@ -127,7 +138,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     private boolean isValidConditionSyntax(String condition) {
-        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==)\\s*");
+        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==|!=)\\s*");
         Matcher matcher = operatorPattern.matcher(condition);
         if (!matcher.find()) return false;
         int operatorStart = matcher.start();
