@@ -14,6 +14,7 @@ import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.tags.NameTag;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.util.PlayerUtils;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -36,6 +37,9 @@ public class PortalServices {
 
     @Inject
     TagRegistry tagRegistry;
+
+    @Inject
+    private InfoLogger infoLogger;
 
     public void loadPortals() {
         List<String> portalNames = portalRepository.getAllNames();
@@ -262,7 +266,7 @@ public class PortalServices {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            infoLogger.error(e);
             if (player != null)
                 player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("portal.error.save"));

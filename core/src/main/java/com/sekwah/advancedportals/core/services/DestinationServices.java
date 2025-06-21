@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.repository.IDestinationRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataTag;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class DestinationServices {
 
     @Inject
     TagRegistry tagRegistry;
+
+    @Inject
+    private InfoLogger infoLogger;
 
     private final Map<String, Destination> destinationCache = new HashMap<>();
 
@@ -118,7 +122,7 @@ public class DestinationServices {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            infoLogger.error(e);
             if (player != null) {
                 player.sendMessage(Lang.getNegativePrefix()
                                    + Lang.translate("desti.error.save"));
