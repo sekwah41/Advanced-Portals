@@ -69,7 +69,7 @@ public class DataStorage {
                 return dataHolder.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException
                      | NoSuchMethodException | InvocationTargetException e) {
-                e.printStackTrace();
+                infoLogger.error(e);
             }
             return null;
         }
@@ -153,18 +153,18 @@ public class DataStorage {
 
                 writeToFile(inputStream, outFile);
             } catch (NullPointerException e) {
-                e.printStackTrace();
                 this.infoLogger.warning("Could not load " + sourceLoc
                                         + ". The file does"
                                         + ("not exist or there has been an "
                                            + "error reading the file."));
+                infoLogger.error(e);
                 return false;
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
                 this.infoLogger.warning("Could not create " + sourceLoc);
+                infoLogger.error(e);
             } catch (IOException e) {
-                e.printStackTrace();
                 this.infoLogger.warning("File error reading " + sourceLoc);
+                infoLogger.error(e);
             }
         }
         return true;
@@ -185,7 +185,7 @@ public class DataStorage {
             try {
                 return new FileInputStream(inFile);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                infoLogger.error(e);
                 return null;
             }
         } else {
@@ -194,11 +194,11 @@ public class DataStorage {
                 return this.getClass().getClassLoader().getResourceAsStream(
                     location);
             } catch (NullPointerException e) {
-                e.printStackTrace();
                 this.infoLogger.warning("Could not load " + location
                                         + ". The file does"
                                         + ("not exist or there has been an "
                                            + "error reading the file."));
+                infoLogger.error(e);
                 return null;
             }
         }
@@ -209,7 +209,7 @@ public class DataStorage {
         try {
             writeToFile(inputStream, outFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            infoLogger.error(e);
         }
     }
 

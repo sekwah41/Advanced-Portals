@@ -84,7 +84,7 @@ public class Lang {
         InputStream stream =
             this.dataStorage.loadResource("lang/" + fileName + ".lang");
         if (stream != null) {
-            return Lang.parseLang(stream);
+            return Lang.parseLang(stream, infoLogger);
         }
         return Collections.emptyMap();
     }
@@ -94,7 +94,7 @@ public class Lang {
             this.getClass().getClassLoader().getResourceAsStream(
                 "lang/" + fileName + ".lang");
         if (stream != null) {
-            return Lang.parseLang(stream);
+            return Lang.parseLang(stream, infoLogger);
         }
         return Collections.emptyMap();
     }
@@ -145,7 +145,7 @@ public class Lang {
                 "lang/" + fileName + ".lang");
             if (url != null) {
                 Map<String, String> initialMap =
-                    Lang.parseLang(url.openStream());
+                    Lang.parseLang(url.openStream(),infoLogger);
                 Lang.instance.languageMap.putAll(initialMap);
             } else {
                 this.infoLogger.warning("Could not load " + fileName
@@ -153,16 +153,16 @@ public class Lang {
                                            + "as it doesn't exist."));
             }
         } catch (IOException e) {
-            e.printStackTrace();
             this.infoLogger.warning("Could not load " + fileName
                                     + ".lang from within Advanced Portals.");
+            infoLogger.error(e);
         }
 
         Map<String, String> newLangMap = this.getLanguageMap(fileName);
         Lang.instance.languageMap.putAll(newLangMap);
     }
 
-    public static Map<String, String> parseLang(InputStream inputStream) {
+    public static Map<String, String> parseLang(InputStream inputStream, InfoLogger infoLogger) {
         Scanner scanner = new Scanner(inputStream, "UTF-8");
         String line = getNextLine(scanner);
         HashMap<String, String> newMap = new HashMap<>();
@@ -178,7 +178,7 @@ public class Lang {
         try {
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            infoLogger.error(e);
         }
         return newMap;
     }

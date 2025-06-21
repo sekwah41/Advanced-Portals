@@ -36,6 +36,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public void setTranslation(String translation) {
+        this.config.translationFile = translation;
+    }
+
+    @Override
     public String getSelectorMaterial() {
         return this.config.selectorMaterial;
     }

@@ -105,6 +105,11 @@ public class Permissions {
         PORTAL.createChild("info", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to view portal information");
 
+    public static final PermissionBuilder PORTAL_LANG =
+        PORTAL.createChild("lang", PermissionBuilder.PermissionDefault.OP)
+            .description("Allows you to list and change the plugin language");
+
+
     static {
         // These are to add children which will not be used directly e.g.
         // advancedportals.*

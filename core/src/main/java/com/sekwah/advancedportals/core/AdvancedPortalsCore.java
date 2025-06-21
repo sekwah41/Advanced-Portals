@@ -81,7 +81,7 @@ public class AdvancedPortalsCore {
                                 .toArray();
         } catch (NumberFormatException e) {
             infoLogger.info("Failed to parse MC version: " + mcVersion);
-            e.printStackTrace();
+            infoLogger.error(e);
             mcVersionTemp = new int[] {0, 0, 0};
         }
         if (mcVersionTemp.length == 2) {
@@ -104,8 +104,8 @@ public class AdvancedPortalsCore {
         injector.injectMembers(this);
         injector.injectMembers(Lang.instance);
 
-        // AdvancedPortalsModule module = new AdvancedPortalsModule(this);
-        this.dataStorage.copyDefaultFile("lang/en_GB.lang", false);
+        copyAllLangFiles();
+
         this.loadPortalConfig();
         Lang.loadLanguage(configRepository.getTranslation());
 
@@ -116,6 +116,25 @@ public class AdvancedPortalsCore {
         this.portalServices.loadPortals();
         this.destinationServices.loadDestinations();
         this.infoLogger.info(Lang.translate("logger.pluginenable"));
+    }
+
+    private void copyAllLangFiles() {
+        try {
+            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            try (java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath)) {
+                java.util.Enumeration<java.util.jar.JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    java.util.jar.JarEntry entry = entries.nextElement();
+                    String name = entry.getName();
+                    if (name.startsWith("lang/") && name.endsWith(".lang")) {
+                        this.dataStorage.copyDefaultFile(name, false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            infoLogger.info("Failed to copy all language files: " + e.getMessage());
+            infoLogger.error(e);
+        }
     }
 
     private void registerChannels() {
@@ -178,6 +197,8 @@ public class AdvancedPortalsCore {
                                               new InfoPortalSubCommand());
         this.portalCommand.registerSubCommand("disablebeacon",
                                               new DisableBeaconSubCommand());
+        this.portalCommand.registerSubCommand("lang",
+                                              new PortalLangSubCommand());
 
         commandRegister.registerCommand("portal", this.portalCommand);
     }

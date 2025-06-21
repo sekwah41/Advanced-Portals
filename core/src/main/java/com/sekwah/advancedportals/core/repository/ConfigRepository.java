@@ -9,6 +9,8 @@ public interface ConfigRepository {
 
     String getTranslation();
 
+    void setTranslation(String translation);
+
     String getSelectorMaterial();
 
     void loadConfig(DataStorage dataStorage);
