@@ -223,3 +223,7 @@ tag.command.proxy.disabled= Proxy command portals are &edisabled &con this serve
 
 tag.proxy.notenabled= Proxy portals are currently &edisabled &con this server. Please contact a server admin to enable them.
 tag.proxy.description= Sets the server destination of the portal.
+
+command.portal.move.help=Moves a portal to your selected region
+command.portal.move.detailedhelp=Usage: /portal move <name> - Moves the specified portal to the region you have selected with your selector tool
+command.portal.move.complete=Moved portal %1$s to your selected region
