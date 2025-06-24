@@ -196,6 +196,7 @@ public class AdvancedPortalsCore {
             "teleport", new TeleportDestiSubCommand(), "tp", "warp");
         this.destiCommand.registerSubCommand("list", new ListDestiSubCommand());
         this.destiCommand.registerSubCommand("show", new ShowDestiSubCommand());
+        this.destiCommand.registerSubCommand("move", new MoveDestiSubCommand());
 
         commandRegister.registerCommand("destination", this.destiCommand);
     }
