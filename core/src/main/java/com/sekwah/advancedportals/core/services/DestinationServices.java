@@ -244,4 +244,25 @@ public class DestinationServices {
             return false;
         }
     }
+
+    /**
+     * Change the location of an existing destination and persist the change.
+     *
+     * @param name   The name of the destination.
+     * @param newLoc The new PlayerLocation.
+     * @param player The player requesting the change (for feedback).
+     */
+    public void changeDestinationLocation(String name, PlayerLocation newLoc, PlayerContainer player) {
+        Destination destination = destinationRepository.get(name);
+        if (destination == null) {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translateInsertVariables("command.destination.notfound", name));
+            return;
+        }
+        destination.setLoc(newLoc);
+        if (destinationRepository.save(name, destination)) {
+            player.sendMessage(Lang.getPositivePrefix() + Lang.translateInsertVariables("command.destination.moved", name));
+        } else {
+            player.sendMessage(Lang.getNegativePrefix() + Lang.translate("command.destination.move.error"));
+        }
+    }
 }

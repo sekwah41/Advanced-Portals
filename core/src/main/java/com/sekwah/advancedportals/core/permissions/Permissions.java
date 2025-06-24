@@ -105,6 +105,10 @@ public class Permissions {
         PORTAL.createChild("info", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to view portal information");
 
+    public static final PermissionBuilder MOVE_DESTI =
+        DESTI.createChild("move", PermissionBuilder.PermissionDefault.OP)
+            .description("Allows you to move a destination to your current location");
+
     static {
         // These are to add children which will not be used directly e.g.
         // advancedportals.*
