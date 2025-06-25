@@ -65,7 +65,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     private boolean checkConditions(String condition, Player player) {
-        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==|!=)\\s*");
+        Pattern operatorPattern = Pattern.compile("(?>\\s*)(<=|>=|<|>|==|!=)(?>\\s*)");
         Matcher matcher = operatorPattern.matcher(condition);
         if (!matcher.find()) {
             infoLogger.warning("Invalid operator: " + condition);
@@ -138,7 +138,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     }
 
     private boolean isValidConditionSyntax(String condition) {
-        Pattern operatorPattern = Pattern.compile("\\s*(<=|>=|<|>|==|!=)\\s*");
+        Pattern operatorPattern = Pattern.compile("(?>\\s*)(?:<=|>=|<|>|==|!=)(?>\\s*)");
         Matcher matcher = operatorPattern.matcher(condition);
         if (!matcher.find()) return false;
         int operatorStart = matcher.start();
