@@ -30,7 +30,7 @@ public class AdvancedPortal implements TagTarget {
 
     private final HashMap<String, String[]> args = new HashMap<>();
 
-    private transient List<DataTag> portalTags = new ArrayList<>();
+    private final transient List<DataTag> portalTags = new ArrayList<>();
 
     private transient boolean isSorted = false;
 
@@ -79,7 +79,6 @@ public class AdvancedPortal implements TagTarget {
 
     public void updatePortalTagList() {
         portalTags.clear();
-        int i = 0;
         for (Map.Entry<String, String[]> entry : args.entrySet()) {
             this.portalTags.add(new DataTag(entry.getKey(), entry.getValue()));
         }
@@ -121,15 +120,6 @@ public class AdvancedPortal implements TagTarget {
         this.minLoc = new BlockLocation(loc1.getWorldName(), minX, minY, minZ);
         this.maxLoc = new BlockLocation(loc2.getWorldName(), maxX, maxY, maxZ);
     }
-
-    /*public boolean hasTriggerBlock(String blockMaterial) {
-        for(String triggerBlock : triggerBlocks) {
-            if(blockMaterial.equals(triggerBlock)) {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     /**
      * @param player        The player on the server attempting to use an
