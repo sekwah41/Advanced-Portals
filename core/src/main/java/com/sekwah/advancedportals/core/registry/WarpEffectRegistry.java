@@ -11,7 +11,7 @@ import java.util.Map;
  * @author sekwah41
  */
 public class WarpEffectRegistry {
-    private Map<String, WarpEffect> warpEffects = new HashMap();
+    private final Map<String, WarpEffect> warpEffects = new HashMap();
 
     @Inject
     private AdvancedPortalsCore portalsCore;

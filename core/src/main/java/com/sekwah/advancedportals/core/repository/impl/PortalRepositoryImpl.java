@@ -24,7 +24,7 @@ public class PortalRepositoryImpl implements IPortalRepository {
      * <p>If we need to get it by name we can just load it from the file, but
      * this is good for looping fast for the player move events.
      */
-    private List<AdvancedPortal> portals = new ArrayList<>();
+    private final List<AdvancedPortal> portals = new ArrayList<>();
 
     private boolean isValidName(String name) {
         return name != null && !name.contains("/") && !name.contains("\\");

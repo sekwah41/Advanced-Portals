@@ -6,7 +6,6 @@ import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.legacyspigot.connector.container.LegacySpigotPlayerContainer;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 

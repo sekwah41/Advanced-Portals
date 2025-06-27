@@ -9,7 +9,6 @@ import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContain
 import java.util.ArrayList;
 import java.util.List;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class CostTag implements Tag.Activation, Tag.AutoComplete, Tag.Creation {
     private final Economy economy;
