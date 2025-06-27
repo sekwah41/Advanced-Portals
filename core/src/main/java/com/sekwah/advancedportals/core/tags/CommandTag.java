@@ -42,12 +42,6 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
         return Lang.translate("tag.command.description");
     }
 
-    @Nullable
-    @Override
-    public String splitString() {
-        return ",";
-    }
-
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {

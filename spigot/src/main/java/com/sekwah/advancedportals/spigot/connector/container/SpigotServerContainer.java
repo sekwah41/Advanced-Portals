@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -24,11 +25,9 @@ public class SpigotServerContainer implements ServerContainer {
     private final Server server;
     // Create an array of items
     private final List<String> commonTriggerBlockList =
-        Arrays
-            .asList(Material.WATER, Material.LAVA, Material.AIR,
-                    Material.NETHER_PORTAL, Material.END_GATEWAY,
-                    Material.END_PORTAL)
-            .stream()
+        Stream.of(Material.WATER, Material.LAVA, Material.AIR,
+                Material.NETHER_PORTAL, Material.END_GATEWAY,
+                Material.END_PORTAL)
             .map(Enum::name)
             .collect(Collectors.toList());
 
