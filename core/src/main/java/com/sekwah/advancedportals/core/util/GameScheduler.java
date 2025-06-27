@@ -73,7 +73,7 @@ public final class GameScheduler {
     }
 
     public static class DelayedGameIntervalEvent extends DelayedGameTickEvent {
-        public int interval;
+        public final int interval;
 
         public DelayedGameIntervalEvent(String name, Runnable consumer,
                                         int ticks, int interval) {

@@ -27,7 +27,7 @@ public class PortalEventTag implements Tag.Activation, Tag.AutoComplete,
     @Inject
     private InfoLogger infoLogger;
 
-    public static String TAG_NAME = "portalEvent";
+    public static final String TAG_NAME = "portalEvent";
 
     private final String[] aliases = new String[] {"delayed"};
 

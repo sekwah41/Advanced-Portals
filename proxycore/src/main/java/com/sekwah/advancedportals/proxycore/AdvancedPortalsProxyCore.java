@@ -19,7 +19,7 @@ public class AdvancedPortalsProxyCore {
     private final InfoLogger logger;
     private final ProxyContainer proxyContainer;
 
-    public HashMap<String, ProxyJoinData> playerJoinMap = new HashMap<>();
+    public final HashMap<String, ProxyJoinData> playerJoinMap = new HashMap<>();
 
     public AdvancedPortalsProxyCore(InfoLogger logger,
                                     ProxyContainer proxyContainer) {
