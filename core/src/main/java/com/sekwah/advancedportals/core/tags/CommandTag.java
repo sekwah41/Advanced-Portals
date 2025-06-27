@@ -17,7 +17,7 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Inject
     ConfigRepository configRepository;
 
-    public static String TAG_NAME = "command";
+    public static final String TAG_NAME = "command";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
@@ -40,12 +40,6 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public String description() {
         return Lang.translate("tag.command.description");
-    }
-
-    @Nullable
-    @Override
-    public String splitString() {
-        return ",";
     }
 
     @Override

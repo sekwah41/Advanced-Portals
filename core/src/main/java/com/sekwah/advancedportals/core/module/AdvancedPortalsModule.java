@@ -26,17 +26,17 @@ import javax.annotation.Nonnull;
 
 public class AdvancedPortalsModule extends AbstractModule {
     private Injector injector;
-    private AdvancedPortalsCore advancedPortalsCore;
+    private final AdvancedPortalsCore advancedPortalsCore;
     private DataStorage dataStorage;
 
-    private List<DelayedBinding> delayedBindings = new ArrayList<>();
+    private final List<DelayedBinding> delayedBindings = new ArrayList<>();
 
     public AdvancedPortalsModule(AdvancedPortalsCore advancedPortalsCore) {
         this.advancedPortalsCore = advancedPortalsCore;
     }
 
     /**
-     * https://github.com/google/guice/wiki/Bindings
+     * <a href="<a">href="https://github.com/google/guice/wiki</a>/Bindings">...</a>
      */
     @Override
     protected void configure() {
@@ -76,7 +76,7 @@ public class AdvancedPortalsModule extends AbstractModule {
         delayedBindings.add(new DelayedBinding<>(clazz, instance));
     }
 
-    class DelayedBinding<T> {
+    static class DelayedBinding<T> {
         private final T instance;
         private final Class<T> clazz;
 

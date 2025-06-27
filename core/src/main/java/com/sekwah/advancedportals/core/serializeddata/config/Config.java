@@ -18,17 +18,17 @@ public class Config {
 
     public int joinCooldown = 5;
 
-    public String translationFile = "en_GB";
+    public final String translationFile = "en_GB";
 
-    public int showVisibleRange = 50;
+    public final int showVisibleRange = 50;
 
-    public boolean disablePhysicsEvents = true;
+    public final boolean disablePhysicsEvents = true;
 
     public boolean blockSpectatorMode = true;
 
-    public int maxPortalVisualisationSize = 1000;
+    public final int maxPortalVisualisationSize = 1000;
 
-    public int maxSelectionVisualisationSize = 9000;
+    public final int maxSelectionVisualisationSize = 9000;
 
     public double throwbackStrength = 0.7;
 

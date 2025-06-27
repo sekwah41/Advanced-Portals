@@ -21,7 +21,7 @@ public class PermissionTag implements Tag.Activation {
     @Inject
     private InfoLogger infoLogger;
 
-    public static String TAG_NAME = "permission";
+    public static final String TAG_NAME = "permission";
 
     private final String[] aliases = new String[] {"perm"};
 

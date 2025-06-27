@@ -24,7 +24,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     @Inject
     private InfoLogger infoLogger;
 
-    public static String TAG_NAME = "cooldown";
+    public static final String TAG_NAME = "cooldown";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
@@ -85,7 +85,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
                     playerDataServices.getPlayerData(player);
                 try {
                     playerData.setPortalCooldown(
-                        portal.getName(), Integer.parseInt(argData[0]) * 1000);
+                        portal.getName(), (long) Integer.parseInt(argData[0]) * 1000L);
                 } catch (NumberFormatException e) {
                     infoLogger.warning(
                         "Cooldown tag failed to set cooldown for portal: "

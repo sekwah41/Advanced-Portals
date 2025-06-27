@@ -17,7 +17,7 @@ public final class PlayerDataServices {
     /**
      * Possibly change to the cache map Aztec was talking about
      */
-    private Map<UUID, PlayerData> tempDataMap = new HashMap<>();
+    private final Map<UUID, PlayerData> tempDataMap = new HashMap<>();
 
     @Inject
     private IPlayerDataRepository tempDataRepository;

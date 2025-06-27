@@ -12,7 +12,7 @@ import java.util.Random;
 public class BungeeTag implements Tag.Activation {
     public static final String PACKET_CHANNEL = "BungeeCord";
 
-    public static String TAG_NAME = "bungee";
+    public static final String TAG_NAME = "bungee";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 

@@ -11,7 +11,7 @@ import java.util.Map;
  * @author sekwah41
  */
 public class WarpEffectRegistry {
-    private Map<String, WarpEffect> warpEffects = new HashMap();
+    private final Map<String, WarpEffect> warpEffects = new HashMap<>();
 
     @Inject
     private AdvancedPortalsCore portalsCore;
@@ -43,8 +43,7 @@ public class WarpEffectRegistry {
         if (this.warpEffects.containsKey(name.toLowerCase())) {
             WarpEffect effect = this.warpEffects.get(name);
             if (effect instanceof WarpEffect.Visual) {
-                WarpEffect.Visual visual = (WarpEffect.Visual) effect;
-                return visual;
+                return (WarpEffect.Visual) effect;
             } else {
                 this.infoLogger.warning("Effect called " + name
                                         + " is not a visual effect");

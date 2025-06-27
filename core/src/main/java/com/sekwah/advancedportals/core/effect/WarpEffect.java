@@ -5,7 +5,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 public interface WarpEffect {
     enum Action {
         ENTER,
-        EXIT;
+        EXIT
     }
 
     interface Sound extends WarpEffect {

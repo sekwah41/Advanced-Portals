@@ -39,15 +39,11 @@ public class ConfigAccessor {
 
     // Saves all the data to the selected yml file
     public void saveConfig() {
-        if (fileConfiguration == null || configFile == null) {
-            return;
-        } else {
-            try {
-                getConfig().save(configFile);
-            } catch (IOException ex) {
-                plugin.getLogger().log(
-                    Level.SEVERE, "Could not save config to " + configFile, ex);
-            }
+        try {
+            getConfig().save(configFile);
+        } catch (IOException ex) {
+            plugin.getLogger().log(
+                Level.SEVERE, "Could not save config to " + configFile, ex);
         }
     }
 

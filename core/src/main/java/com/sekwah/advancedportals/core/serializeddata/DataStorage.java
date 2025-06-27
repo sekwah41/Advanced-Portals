@@ -28,7 +28,7 @@ public class DataStorage {
         this.dataFolder = dataStorageLoc;
     }
 
-    private Yaml getYaml(Class<? extends Object> clazz) {
+    private Yaml getYaml(Class<?> clazz) {
         LoaderOptions loaderOptions = new LoaderOptions();
 
         TagInspector tagInspector =
