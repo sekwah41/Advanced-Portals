@@ -45,7 +45,7 @@ public class PlayerData {
 
     private transient long portalBlockCooldown;
 
-    private HashMap<String, Long> perPortalCooldowns = new HashMap<>();
+    private final HashMap<String, Long> perPortalCooldowns = new HashMap<>();
 
     private String selectedPortal;
 

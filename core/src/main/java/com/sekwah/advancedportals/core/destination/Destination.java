@@ -28,8 +28,8 @@ public class Destination implements TagTarget {
 
     private PlayerLocation loc;
 
-    private HashMap<String, String[]> args = new HashMap<>();
-    private transient List<DataTag> destiTags = new ArrayList<>();
+    private final HashMap<String, String[]> args = new HashMap<>();
+    private final transient List<DataTag> destiTags = new ArrayList<>();
 
     private transient boolean isSorted = false;
 

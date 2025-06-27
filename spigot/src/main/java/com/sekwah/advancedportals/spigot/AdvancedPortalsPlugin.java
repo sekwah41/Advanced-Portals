@@ -13,7 +13,6 @@ import com.sekwah.advancedportals.shadowed.inject.Injector;
 import com.sekwah.advancedportals.spigot.commands.subcommands.portal.ImportPortalSubCommand;
 import com.sekwah.advancedportals.spigot.connector.command.SpigotCommandRegister;
 import com.sekwah.advancedportals.spigot.connector.container.SpigotServerContainer;
-import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
 import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
 import com.sekwah.advancedportals.spigot.metrics.Metrics;
 import com.sekwah.advancedportals.spigot.tags.ConditionsTag;

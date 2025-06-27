@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 @Singleton
 public class ConfigRepositoryImpl implements ConfigRepository {
-    private HashMap<String, Config> configs;
+    private final HashMap<String, Config> configs;
     private Config config;
     private DataStorage dataStorage;
 

@@ -77,7 +77,7 @@ public class DestinationServices {
                 return null;
             }
 
-            if (name == null || name.equals("")) {
+            if (name == null || name.isEmpty()) {
                 if (player != null)
                     player.sendMessage(
                         Lang.getNegativePrefix()

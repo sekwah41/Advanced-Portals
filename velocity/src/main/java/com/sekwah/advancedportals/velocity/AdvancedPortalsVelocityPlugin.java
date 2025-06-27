@@ -23,7 +23,7 @@ import org.slf4j.Logger;
         url = "https://www.spigotmc.org/resources/advanced-portals.14356/",
         version = BuildConstants.VERSION)
 public class AdvancedPortalsVelocityPlugin {
-    private AdvancedPortalsProxyCore proxyCore;
+    private final AdvancedPortalsProxyCore proxyCore;
 
     private final Logger logger;
     private final ProxyServer proxy;

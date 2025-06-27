@@ -16,9 +16,9 @@ public class ActivationData {
 
     private PlayerLocation wantedLocation;
 
-    private TriggerType triggerType;
+    private final TriggerType triggerType;
 
-    private Map<String, String> metadata = new HashMap<>();
+    private final Map<String, String> metadata = new HashMap<>();
 
     public WarpedStatus getWarped() {
         return this.warpStatus;
@@ -86,6 +86,6 @@ public class ActivationData {
          * Nothing has activated on the portal (may need to come up with a new
          * name)
          */
-        NOTACTIVATED;
+        NOTACTIVATED
     }
 }
