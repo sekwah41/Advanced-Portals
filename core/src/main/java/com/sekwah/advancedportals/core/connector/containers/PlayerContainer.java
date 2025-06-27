@@ -1,6 +1,5 @@
 package com.sekwah.advancedportals.core.connector.containers;
 
-import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import java.awt.*;
 import java.util.UUID;

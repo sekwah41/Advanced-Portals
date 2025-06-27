@@ -1,8 +1,8 @@
 package com.sekwah.advancedportals.core.registry;
 
 public class CommandException {
-    private CommandErrorCode errorCode;
-    private String message;
+    private final CommandErrorCode errorCode;
+    private final String message;
 
     public CommandException(CommandErrorCode errorCode, String message) {
         this.errorCode = errorCode;
