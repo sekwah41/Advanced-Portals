@@ -18,12 +18,12 @@ import java.util.Map;
  * @author sekwah41
  */
 public class SubCommandRegistry {
-    protected Map<String, SubCommand> subCommandMap = new HashMap<>();
+    protected final Map<String, SubCommand> subCommandMap = new HashMap<>();
 
     /**
      * List of subcommand names which should be in order alphabetically
      */
-    protected ArrayList<String> subCommands = new ArrayList<>();
+    protected final ArrayList<String> subCommands = new ArrayList<>();
 
     @Inject
     private InfoLogger infoLogger;

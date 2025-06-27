@@ -107,10 +107,10 @@ public class ShowDestiSubCommand
 
     // The arrow will be rotated around the player at 0 0 0 facing forwards in
     // the positive Z direction
-    Vector BASE = new Vector(0, 0, -1);
-    Vector TIP = new Vector(0, 0, 1);
-    Vector LEFT = new Vector(0.7, 0, 0.2);
-    Vector RIGHT = new Vector(-0.7, 0, 0.2);
+    final Vector BASE = new Vector(0, 0, -1);
+    final Vector TIP = new Vector(0, 0, 1);
+    final Vector LEFT = new Vector(0.7, 0, 0.2);
+    final Vector RIGHT = new Vector(-0.7, 0, 0.2);
 
     public void drawArrow(PlayerContainer player, PlayerLocation playerLocation,
                           Color color) {
