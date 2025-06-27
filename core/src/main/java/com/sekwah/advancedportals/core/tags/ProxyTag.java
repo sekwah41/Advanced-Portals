@@ -17,7 +17,7 @@ public class ProxyTag implements Tag.Activation, Tag.OrderPriority, Tag.Split {
     @Inject
     ConfigRepository configRepository;
 
-    public static String TAG_NAME = "proxy";
+    public static final String TAG_NAME = "proxy";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 

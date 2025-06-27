@@ -95,7 +95,8 @@ public class Metrics {
         boolean isFolia = false;
         try {
             isFolia = Class.forName("io.papermc.paper.threadedregions.RegionizedServer") != null;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
+
         }
         metricsBase =
                 new // See https://github.com/Bastian/bstats-metrics/pull/126

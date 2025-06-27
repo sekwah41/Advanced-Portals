@@ -16,7 +16,7 @@ import java.util.List;
  * another tag.
  */
 public class NameTag implements Tag.AutoComplete, Tag.Creation {
-    public static String TAG_NAME = "name";
+    public static final String TAG_NAME = "name";
 
     private final TagType[] tagTypes =
         new TagType[] {TagType.PORTAL, TagType.DESTINATION};

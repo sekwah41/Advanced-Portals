@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 public class DestiTag implements Tag.Activation, Tag.AutoComplete, Tag.Split {
-    public static String TAG_NAME = "destination";
+    public static final String TAG_NAME = "destination";
 
     @Inject
     ConfigRepository configRepository;

@@ -13,7 +13,7 @@ public class MessageTag implements Tag.Activation {
     @Inject
     ConfigRepository configRepository;
 
-    public static String TAG_NAME = "message";
+    public static final String TAG_NAME = "message";
 
     private final TagType[] tagTypes =
         new TagType[] {TagType.PORTAL, TagType.DESTINATION};

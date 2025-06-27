@@ -24,7 +24,7 @@ public class CooldownTag implements Tag.Activation, Tag.Creation {
     @Inject
     private InfoLogger infoLogger;
 
-    public static String TAG_NAME = "cooldown";
+    public static final String TAG_NAME = "cooldown";
 
     private final TagType[] tagTypes = new TagType[] {TagType.PORTAL};
 
