@@ -43,8 +43,7 @@ public class WarpEffectRegistry {
         if (this.warpEffects.containsKey(name.toLowerCase())) {
             WarpEffect effect = this.warpEffects.get(name);
             if (effect instanceof WarpEffect.Visual) {
-                WarpEffect.Visual visual = (WarpEffect.Visual) effect;
-                return visual;
+                return (WarpEffect.Visual) effect;
             } else {
                 this.infoLogger.warning("Effect called " + name
                                         + " is not a visual effect");
