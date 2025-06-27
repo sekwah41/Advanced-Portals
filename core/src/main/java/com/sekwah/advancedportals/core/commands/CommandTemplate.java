@@ -7,7 +7,7 @@ import java.util.List;
  * Already know spigot's auto complete possibilities
  *
  * <p>Sponge
- * https://docs.spongepowered.org/stable/en/plugin/commands/arguments.html#custom-command-elements
+ * <a href="<a">href="https://docs.spongepowered.org/stable/en/plugin/commands/arguments.html#custom-command</a>-elements">...</a>
  */
 public interface CommandTemplate {
     void onCommand(CommandSenderContainer sender, String commandExecuted,

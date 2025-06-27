@@ -36,7 +36,7 @@ public class AdvancedPortalsModule extends AbstractModule {
     }
 
     /**
-     * https://github.com/google/guice/wiki/Bindings
+     * <a href="<a">href="https://github.com/google/guice/wiki</a>/Bindings">...</a>
      */
     @Override
     protected void configure() {
