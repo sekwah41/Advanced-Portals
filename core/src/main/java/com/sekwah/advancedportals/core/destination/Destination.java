@@ -151,6 +151,11 @@ public class Destination implements TagTarget {
         return this.getArgValues("name")[0];
     }
 
+    @Override
+    public Tag.TagType targetTagType() {
+        return Tag.TagType.DESTINATION;
+    }
+
     public PlayerLocation getLoc() {
         return loc;
     }
