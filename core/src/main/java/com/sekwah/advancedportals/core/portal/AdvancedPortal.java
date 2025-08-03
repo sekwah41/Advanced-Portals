@@ -262,6 +262,11 @@ public class AdvancedPortal implements TagTarget {
         return getArgValues("name")[0];
     }
 
+    @Override
+    public Tag.TagType targetTagType() {
+        return Tag.TagType.PORTAL;
+    }
+
     public boolean isChunkOverlapping(int chunkX, int chunkZ) {
         int chunkMinX = chunkX * 16;
         int chunkMinZ = chunkZ * 16;
