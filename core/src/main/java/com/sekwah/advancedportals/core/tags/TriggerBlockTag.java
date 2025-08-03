@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import java.util.List;
@@ -13,6 +14,9 @@ public class TriggerBlockTag
     implements Tag.AutoComplete, Tag.Split, Tag.Creation {
     @Inject
     private ServerContainer serverContainer;
+
+    @Inject
+    private InfoLogger infoLogger;
 
     public static final String TAG_NAME = "triggerblock";
 
@@ -59,9 +63,13 @@ public class TriggerBlockTag
         for (int i = 0; i < argData.length; i++) {
             String material = serverContainer.matchMaterialName(argData[i]);
             if (material == null || !isValidMaterial(material)) {
-                player.sendMessage(
-                    Lang.getNegativePrefix()
-                    + Lang.translate("tag.triggerblock.error.invalidmaterial"));
+                if(player != null) {
+                    player.sendMessage(
+                            Lang.getNegativePrefix()
+                                    + Lang.translate("tag.triggerblock.error.invalidmaterial"));
+                } else {
+                    infoLogger.warning("Invalid material " + argData[i] + " on " + target.targetTagType().toString() + ": " + target.getName());
+                }
                 return false;
             }
             argData[i] = material;

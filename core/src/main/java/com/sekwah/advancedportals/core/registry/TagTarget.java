@@ -1,5 +1,7 @@
 package com.sekwah.advancedportals.core.registry;
 
+import com.sekwah.advancedportals.core.warphandler.Tag;
+
 /**
  * Something that a tag can be executed on.
  */
@@ -34,4 +36,8 @@ public interface TagTarget {
      * @param arg
      */
     void removeArg(String arg);
+
+    String getName();
+
+    Tag.TagType targetTagType();
 }
