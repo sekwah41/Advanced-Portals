@@ -105,6 +105,10 @@ public class Permissions {
         PORTAL.createChild("info", PermissionBuilder.PermissionDefault.OP)
             .description("Allows you to view portal information");
 
+    public static final PermissionBuilder USE_PORTAL =
+        PORTAL.createChild("use", PermissionBuilder.PermissionDefault.TRUE)
+            .description("Allows you to use (enter/activate) portals");
+
     static {
         // These are to add children which will not be used directly e.g.
         // advancedportals.*

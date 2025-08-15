@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.core.portal;
 
 import com.google.inject.Inject;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
+import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
@@ -135,6 +136,11 @@ public class AdvancedPortal implements TagTarget {
         }
 
         PlayerData playerData = playerDataServices.getPlayerData(player);
+
+        if (!Permissions.USE_PORTAL.hasPermission(player)) {
+            player.sendMessage(Lang.translate("portal.error.nopermission"));
+            return ActivationResult.FAILED_DO_KNOCKBACK;
+        }
 
         if (playerData.hasJoinCooldown()) {
             int cooldown =
