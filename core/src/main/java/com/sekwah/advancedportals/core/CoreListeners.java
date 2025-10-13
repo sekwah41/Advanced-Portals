@@ -128,6 +128,9 @@ public class CoreListeners {
     public boolean blockPlace(PlayerContainer player, BlockLocation blockPos,
                               String blockMaterial, String itemInHandMaterial,
                               String itemInHandName) {
+        if (!configRepository.getPortalProtection())
+            return true;
+
         if (blockPos == null || blockMaterial == null) {
             return false;
         }
