@@ -10,16 +10,20 @@ configurations {
 }
 
 repositories {
+    mavenCentral()
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://libraries.minecraft.net" }
 }
 
 // includeLibs just says to include the library in the final jar
 dependencies {
 
     // For bungee api
-    implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
+    compileOnly("net.md-5:bungeecord-api:1.21-R0.3") {
+        exclude group: "net.md-5", module: "brigadier"
+    }
 
     implementation project(":proxycore")
     implementation project(":core")
