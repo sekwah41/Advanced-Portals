@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.6.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.5.0...v2.6.0) (2025-10-14)
+
+
+### Features ✨
+
+* add != ([c7f97f0](https://github.com/sekwah41/Advanced-Portals/commit/c7f97f0ba850ab6ca0a4032901bb746a83c22934))
+* add portal move command ([923853c](https://github.com/sekwah41/Advanced-Portals/commit/923853c32884ee06313a9f808b4b46e4e71b58b5))
+* desti move command ([c86f9bc](https://github.com/sekwah41/Advanced-Portals/commit/c86f9bc3283880b18d05f4e4d4082da59126f57f))
+* global portal permission ([#570](https://github.com/sekwah41/Advanced-Portals/issues/570)) ([cf36646](https://github.com/sekwah41/Advanced-Portals/commit/cf366460af5840ed8f2cb83929574bafebe304e9))
+* improve onChunkLoad performance ([#567](https://github.com/sekwah41/Advanced-Portals/issues/567)) ([7603215](https://github.com/sekwah41/Advanced-Portals/commit/76032156bbf2f9c436a1db41d827fd5b093742b7))
+
+
+### Bug Fixes 🐛
+
+* clean up conditions ([#560](https://github.com/sekwah41/Advanced-Portals/issues/560)) ([91072bd](https://github.com/sekwah41/Advanced-Portals/commit/91072bd5130f732c11d73d44acd2baa56832aea3))
+* disabling block place protection too ([93167ca](https://github.com/sekwah41/Advanced-Portals/commit/93167caf3ddad69e88bb1dd1b729e0728645c6fe))
+* log to the console if the player adding a triggerblock is null ([1b50b17](https://github.com/sekwah41/Advanced-Portals/commit/1b50b17da64e05c4e9ca364061497358cf7e0d5e))
+* null check for DestiTag ([#558](https://github.com/sekwah41/Advanced-Portals/issues/558)) ([071197e](https://github.com/sekwah41/Advanced-Portals/commit/071197e4902f1824cabeff30ae1637a942c0329a))
+* raw type usage in WarpEffectRegistry ([4c4083c](https://github.com/sekwah41/Advanced-Portals/commit/4c4083c9026edd6420bd6fba05a62b0c4bc03dcd))
+* switch tag target config to private scope ([58579a5](https://github.com/sekwah41/Advanced-Portals/commit/58579a5adab5de05712c58aac3813c509e15c048))
+* update bungeecord-api version and add additional maven repository ([5c47d68](https://github.com/sekwah41/Advanced-Portals/commit/5c47d68a61c6961bdc17325ccfce961ba0b5e83d))
+* use atomic and non capturing regex groups ([0555997](https://github.com/sekwah41/Advanced-Portals/commit/05559973adb51ffcf6e73216d87c15a259f559b8))
+
 ## [2.5.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.4.0...v2.5.0) (2025-04-13)
 
 
