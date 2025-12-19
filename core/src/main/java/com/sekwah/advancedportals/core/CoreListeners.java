@@ -18,6 +18,7 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PlayerDataServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.GameScheduler;
+import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.TriggerType;
 import java.util.Objects;
@@ -34,6 +35,9 @@ public class CoreListeners {
 
     @Inject
     private ConfigRepository configRepository;
+
+    @Inject
+    private InfoLogger logger;
 
     @Inject
     private GameScheduler gameScheduler;
@@ -73,6 +77,9 @@ public class CoreListeners {
             case ProxyMessages.SERVER_DESTI: {
                 ServerDestiPacket serverDestiPacket =
                     ServerDestiPacket.decode(buffer);
+                this.logger.info("Received server destination packet for player "
+                                 + player.getName() + " to go to "
+                                 + serverDestiPacket.getDestination());
                 this.destinationServices.teleportToDestination(
                     serverDestiPacket.getDestination(), player, true);
             }

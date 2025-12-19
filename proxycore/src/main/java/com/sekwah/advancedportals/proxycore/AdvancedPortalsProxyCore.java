@@ -41,6 +41,10 @@ public class AdvancedPortalsProxyCore {
             ProxyJoinData joinData = this.playerJoinMap.get(player.getUUID());
             if (joinData.isExpired())
                 return;
+            this.logger.info("Connected player " + player.getName()
+                             + " to server " + server.getServerName()
+                             + " sending destination "
+                             + joinData.destination);
             player.sendServerPluginMessage(
                 new ServerDestiPacket(joinData.destination).encode());
             this.playerJoinMap.remove(player.getUUID());
@@ -84,6 +88,11 @@ public class AdvancedPortalsProxyCore {
             case ProxyMessages.PROXY_TRANSFER_DESTI:
                 ProxyTransferDestiPacket transferDestiPacket =
                     ProxyTransferDestiPacket.decode(buffer);
+                this.logger.info("Transfer request for " + player.getName()
+                                 + " to destination "
+                                 + transferDestiPacket.getDestination()
+                                 + " on server "
+                                 + transferDestiPacket.getServerName());
                 this.proxyContainer.transferPlayer(
                     player, transferDestiPacket.getServerName());
                 this.playerJoinMap.put(
