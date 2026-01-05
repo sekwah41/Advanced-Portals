@@ -18,6 +18,9 @@ An advanced portals plugin designed to have a wide range of features which are e
 Check out the [Tutorial](https://advancedportals.sekwah.com/docs/intro), [List of Commands](https://advancedportals.sekwah.com/docs/commands), and [List of Portal Tags](https://advancedportals.sekwah.com/docs/portal-tags).
 
 # Download
+**Note:** Please make sure you download the right version for the right loader and mc version.
+
+Also the proxy plugin for both velocity as well as bungee is contained within the jar files.
 
 - [Modrinth](https://modrinth.com/plugin/advanced-portals)
 - [Bukkit](https://dev.bukkit.org/projects/advanced-portals)
