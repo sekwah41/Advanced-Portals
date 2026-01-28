@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.6.0...v2.6.1) (2026-01-28)
+
+
+### Bug Fixes 🐛
+
+* flagged as fix to trigger a new release pipeline ([13f1e8a](https://github.com/sekwah41/Advanced-Portals/commit/13f1e8a138666dff7aad9724136308bde1b83ee9))
+
 ## [2.6.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.5.0...v2.6.0) (2025-10-14)
 
 
