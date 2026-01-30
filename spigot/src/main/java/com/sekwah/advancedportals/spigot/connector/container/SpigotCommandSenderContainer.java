@@ -2,6 +2,7 @@ package com.sekwah.advancedportals.spigot.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
+import com.sekwah.advancedportals.core.util.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,9 @@ public class SpigotCommandSenderContainer implements CommandSenderContainer {
     }
 
     public void sendMessage(String message) {
+        if (message.isBlank()
+                || message.equals(Lang.getPositivePrefix())
+                || message.equals(Lang.getNegativePrefix())) return;
         sender.sendMessage(message);
     }
 
