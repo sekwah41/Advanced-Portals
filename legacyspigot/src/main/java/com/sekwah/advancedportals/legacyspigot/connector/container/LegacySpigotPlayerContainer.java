@@ -6,6 +6,7 @@ import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
+import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.legacyspigot.AdvancedPortalsPlugin;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
 import java.awt.*;
@@ -44,6 +45,9 @@ public class LegacySpigotPlayerContainer
 
     @Override
     public void sendMessage(String message) {
+        if (message.isBlank()
+                || message.equals(Lang.getPositivePrefix())
+                || message.equals(Lang.getNegativePrefix())) return;
         player.sendMessage(message);
     }
 
