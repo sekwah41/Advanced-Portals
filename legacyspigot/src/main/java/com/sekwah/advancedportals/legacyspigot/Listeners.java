@@ -165,6 +165,29 @@ public class Listeners implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.LEFT_CLICK_BLOCK
+            && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        if (event.getClickedBlock() == null) {
+            return;
+        }
+        Location blockloc = event.getClickedBlock().getLocation();
+        if (blockloc.getWorld() == null) {
+            return;
+        }
+        boolean allowEvent = this.coreListeners.blockInteract(
+            new LegacySpigotPlayerContainer(event.getPlayer()),
+            new BlockLocation(blockloc.getWorld().getName(),
+                              blockloc.getBlockX(), blockloc.getBlockY(),
+                              blockloc.getBlockZ()));
+        if (!allowEvent) {
+            event.setCancelled(true);
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void spawnMobEvent(CreatureSpawnEvent event) {
         if (event.getSpawnReason()

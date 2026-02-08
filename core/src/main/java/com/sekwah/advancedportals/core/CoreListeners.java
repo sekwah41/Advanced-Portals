@@ -10,6 +10,7 @@ import com.sekwah.advancedportals.core.data.BlockAxis;
 import com.sekwah.advancedportals.core.data.Direction;
 import com.sekwah.advancedportals.core.network.ServerDestiPacket;
 import com.sekwah.advancedportals.core.permissions.Permissions;
+import com.sekwah.advancedportals.core.portal.AdvancedPortal;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerData;
@@ -183,6 +184,31 @@ public class CoreListeners {
      */
     public boolean blockInteract(PlayerContainer player,
                                  BlockLocation blockPos) {
+        if (player == null) {
+            return true;
+        }
+
+        String portalName = this.portalServices.inPortalRegionGetName(blockPos);
+        if (portalName != null) {
+            AdvancedPortal portal = this.portalServices.getPortal(portalName);
+            if (portal != null) {
+                String[] interactionTriggerValue =
+                    portal.getArgValues("interaction_trigger");
+                if (interactionTriggerValue != null
+                    && interactionTriggerValue.length > 0
+                    && interactionTriggerValue[0].equalsIgnoreCase("true")) {
+                    PlayerLocation playerLocation =
+                        new PlayerLocation(blockPos.getWorldName(),
+                                           blockPos.getPosX() + 0.5,
+                                           blockPos.getPosY(),
+                                           blockPos.getPosZ() + 0.5);
+                    this.portalServices.checkPortalActivation(
+                        player, playerLocation, TriggerType.BLOCK_INTERACTION);
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

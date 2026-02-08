@@ -139,6 +139,7 @@ public class AdvancedPortalsCore {
         this.tagRegistry.registerTag(new MessageTag());
         this.tagRegistry.registerTag(new BungeeTag());
         this.tagRegistry.registerTag(new ProxyTag());
+        this.tagRegistry.registerTag(new InteractionTriggerTag());
     }
 
     /**

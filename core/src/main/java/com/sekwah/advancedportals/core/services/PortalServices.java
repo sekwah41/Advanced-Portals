@@ -120,6 +120,15 @@ public class PortalServices {
         PlayerData playerData = playerDataServices.getPlayerData(player);
 
         for (AdvancedPortal portal : portalCache.values()) {
+            if (triggerType == TriggerType.MOVEMENT) {
+                String[] interactionTriggerValue =
+                    portal.getArgValues("interaction_trigger");
+                if (interactionTriggerValue != null
+                    && interactionTriggerValue.length > 0
+                    && interactionTriggerValue[0].equalsIgnoreCase("true")) {
+                    continue;
+                }
+            }
             boolean checkWaterLogged = portal.isTriggerBlock("water");
             if ((portal.isLocationInPortal(toLoc)
                  && ((checkWaterLogged && blockMaterialWaterlogged)
