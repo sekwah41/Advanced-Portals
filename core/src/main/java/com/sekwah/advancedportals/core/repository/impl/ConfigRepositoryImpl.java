@@ -155,6 +155,11 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     }
 
     @Override
+    public boolean disablePlayerDataSaving() {
+        return this.config.disablePlayerDataSaving;
+    }
+
+    @Override
     public void storeConfig() {
         this.dataStorage.storeFile(this.config, "config.yaml");
     }

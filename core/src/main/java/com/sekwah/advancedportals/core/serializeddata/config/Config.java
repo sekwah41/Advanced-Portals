@@ -45,4 +45,6 @@ public class Config {
     public WarpEffectConfig warpEffect = new WarpEffectConfig();
 
     public boolean disableGatewayBeam = true;
+
+    public boolean disablePlayerDataSaving = false;
 }

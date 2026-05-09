@@ -56,5 +56,7 @@ public interface ConfigRepository {
 
     boolean getDisableGatewayBeam();
 
+    boolean disablePlayerDataSaving();
+
     void importConfig(Config config);
 }

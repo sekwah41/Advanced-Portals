@@ -43,8 +43,10 @@ public final class PlayerDataServices {
     }
 
     public void playerLeave(PlayerContainer player) {
-        tempDataRepository.save(player.getUUID().toString(),
-                                getPlayerData(player));
+        if(!configRepository.disablePlayerDataSaving()) {
+            tempDataRepository.save(player.getUUID().toString(),
+                    getPlayerData(player));
+        }
         tempDataMap.remove(player.getUUID());
     }
 
