@@ -127,8 +127,7 @@ public class Listeners implements Listener {
     public void onPhysicsEvent(BlockPhysicsEvent event) {
         if (!coreListeners.physicsEvent(
                 ContainerHelpers.toBlockLocation(
-                    event.getBlock().getLocation()),
-                event.getBlock().getType().toString())) {
+                    event.getBlock().getLocation()))) {
             event.setCancelled(true);
         }
     }
