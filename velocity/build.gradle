@@ -6,11 +6,11 @@ configurations {
 }
 
 repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
     maven {
         name 'papermc'
         url 'https://repo.papermc.io/repository/maven-public/'
     }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 // includeLibs just says to include the library in the final jar
