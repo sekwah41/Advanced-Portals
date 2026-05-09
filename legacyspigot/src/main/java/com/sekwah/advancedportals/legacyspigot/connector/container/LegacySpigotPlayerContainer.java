@@ -45,7 +45,7 @@ public class LegacySpigotPlayerContainer
 
     @Override
     public void sendMessage(String message) {
-        if (message.isBlank()
+        if (message.trim().isEmpty()
                 || message.equals(Lang.getPositivePrefix())
                 || message.equals(Lang.getNegativePrefix())) return;
         player.sendMessage(message);
