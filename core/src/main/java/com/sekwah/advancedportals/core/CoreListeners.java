@@ -277,7 +277,7 @@ public class CoreListeners {
         return !(feetInPortal || headInPortal);
     }
 
-    public boolean physicsEvent(BlockLocation blockLocation, String string) {
+    public boolean physicsEvent(BlockLocation blockLocation) {
         return !configRepository.getDisablePhysicsEvents()
             || !portalServices.inPortalRegionProtected(blockLocation);
     }
