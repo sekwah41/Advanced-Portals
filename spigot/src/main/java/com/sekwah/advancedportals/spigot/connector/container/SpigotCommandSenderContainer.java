@@ -14,7 +14,7 @@ public class SpigotCommandSenderContainer implements CommandSenderContainer {
     }
 
     public void sendMessage(String message) {
-        if (message.trim().isEmpty()
+        if (message.isBlank()
                 || message.equals(Lang.getPositivePrefix())
                 || message.equals(Lang.getNegativePrefix())) return;
         sender.sendMessage(message);

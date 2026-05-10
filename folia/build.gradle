@@ -39,7 +39,7 @@ dependencies {
 
     // For spigot api
     // We are using an older version to try and ensure that we are not using anything new older versions cant use.
-    compileOnly "dev.folia:folia-api:26.1.2-R0.1-SNAPSHOT"
+    compileOnly "dev.folia:folia-api:26.1.2.build.8-stable"
     // compileOnly "com.mojang:authlib:3.5.41"
     // Be careful to only use what you need to from paper, otherwise it will become incompatible with spigot.
     // compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'

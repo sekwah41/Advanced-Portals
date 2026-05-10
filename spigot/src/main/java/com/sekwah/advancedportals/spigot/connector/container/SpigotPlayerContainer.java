@@ -45,7 +45,7 @@ public class SpigotPlayerContainer
 
     @Override
     public void sendMessage(String message) {
-        if (message.trim().isEmpty()
+        if (message.isBlank()
                 || message.equals(Lang.getPositivePrefix())
                 || message.equals(Lang.getNegativePrefix())) return;
         player.sendMessage(message);
