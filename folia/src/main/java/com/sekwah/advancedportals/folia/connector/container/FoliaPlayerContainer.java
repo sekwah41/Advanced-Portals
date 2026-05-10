@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.connector.container;
+package com.sekwah.advancedportals.folia.connector.container;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.GameMode;
@@ -8,7 +8,7 @@ import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;
 import com.sekwah.advancedportals.core.serializeddata.Vector;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.folia.AdvancedPortalsPlugin;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.UUID;
@@ -26,14 +26,14 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Just a temporary container for whenever advanced portals needs to get data
  * from a player
  */
-public class SpigotPlayerContainer
-    extends SpigotEntityContainer implements PlayerContainer {
+public class FoliaPlayerContainer
+    extends FoliaEntityContainer implements PlayerContainer {
     @Inject
     private AdvancedPortalsCore portalsCore;
 
     private final Player player;
 
-    public SpigotPlayerContainer(Player player) {
+    public FoliaPlayerContainer(Player player) {
         super(player);
         this.player = player;
     }
@@ -114,7 +114,7 @@ public class SpigotPlayerContainer
 
     @Override
     public ServerContainer getServer() {
-        return new SpigotServerContainer(this.player.getServer());
+        return new FoliaServerContainer(this.player.getServer());
     }
 
     @Override
@@ -133,7 +133,7 @@ public class SpigotPlayerContainer
             org.bukkit.Color.fromRGB(color.getRed(), color.getGreen(),
                                      color.getBlue()),
             1.5f);
-        this.player.spawnParticle(Particle.REDSTONE, position.getX(),
+        this.player.spawnParticle(Particle.DUST, position.getX(),
                                   position.getY(), position.getZ(), count,
                                   xSpread, ySpread, zSpread, count,
                                   dustOptions);

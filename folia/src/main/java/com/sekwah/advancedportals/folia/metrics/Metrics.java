@@ -12,7 +12,7 @@
  *
  * Violations will result in a ban of your plugin and account from bStats.
  */
-package com.sekwah.advancedportals.spigot.metrics;
+package com.sekwah.advancedportals.folia.metrics;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -115,7 +115,7 @@ public class Metrics {
                         this::appendServiceData,
                         isFolia
                                 ? null
-                                : submitDataTask -> Bukkit.getScheduler().runTask(plugin, submitDataTask),
+                                : submitDataTask -> plugin.getServer().getAsyncScheduler().runNow(plugin, (_) -> submitDataTask.run()),
                         plugin::isEnabled,
                         (message, error) -> this.plugin.getLogger().log(Level.WARNING, message, error),
                         (message) -> this.plugin.getLogger().log(Level.INFO, message),

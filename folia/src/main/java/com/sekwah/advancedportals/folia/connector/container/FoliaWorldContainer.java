@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.connector.container;
+package com.sekwah.advancedportals.folia.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.data.BlockAxis;
@@ -13,7 +13,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Waterlogged;
 
-public class SpigotWorldContainer implements WorldContainer {
+public class FoliaWorldContainer implements WorldContainer {
     private final World world;
 
     // Should only be false for 1.13 and 1.13.2, though just to avoid possible
@@ -29,7 +29,7 @@ public class SpigotWorldContainer implements WorldContainer {
         }
     }
 
-    public SpigotWorldContainer(World world) {
+    public FoliaWorldContainer(World world) {
         this.world = world;
     }
 

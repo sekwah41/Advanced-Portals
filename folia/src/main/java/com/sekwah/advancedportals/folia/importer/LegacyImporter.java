@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.importer;
+package com.sekwah.advancedportals.folia.importer;
 
 import com.sekwah.advancedportals.core.destination.Destination;
 import com.sekwah.advancedportals.core.portal.AdvancedPortal;
@@ -11,7 +11,7 @@ import com.sekwah.advancedportals.core.serializeddata.config.Config;
 import com.sekwah.advancedportals.core.serializeddata.config.WarpEffectConfig;
 import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.folia.AdvancedPortalsPlugin;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.bukkit.configuration.ConfigurationSection;

@@ -14,6 +14,8 @@ jobs:
           java-version: 17
         - project: legacyspigot
           java-version: 17
+        - project: folia
+          java-version: 25
     steps:
     - uses: actions/checkout@v3
     - name: Cache Gradle packages

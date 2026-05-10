@@ -1,17 +1,17 @@
-package com.sekwah.advancedportals.spigot.connector.command;
+package com.sekwah.advancedportals.folia.connector.command;
 
 import com.sekwah.advancedportals.core.commands.CommandTemplate;
-import com.sekwah.advancedportals.spigot.connector.container.SpigotCommandSenderContainer;
+import com.sekwah.advancedportals.folia.connector.container.FoliaCommandSenderContainer;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
+public class FoliaCommandHandler implements CommandExecutor, TabCompleter {
     private final CommandTemplate commandExecutor;
 
-    public SpigotCommandHandler(CommandTemplate commandExecutor) {
+    public FoliaCommandHandler(CommandTemplate commandExecutor) {
         this.commandExecutor = commandExecutor;
     }
 
@@ -19,7 +19,7 @@ public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender commandSender, Command command,
                              String s, String[] args) {
         this.commandExecutor.onCommand(
-            new SpigotCommandSenderContainer(commandSender), command.getName(),
+            new FoliaCommandSenderContainer(commandSender), command.getName(),
             args);
         return true;
     }
@@ -29,6 +29,6 @@ public class SpigotCommandHandler implements CommandExecutor, TabCompleter {
                                       Command command, String s,
                                       String[] args) {
         return this.commandExecutor.onTabComplete(
-            new SpigotCommandSenderContainer(commandSender), args);
+            new FoliaCommandSenderContainer(commandSender), args);
     }
 }

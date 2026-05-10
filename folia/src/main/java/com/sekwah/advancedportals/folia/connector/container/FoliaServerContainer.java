@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.connector.container;
+package com.sekwah.advancedportals.folia.connector.container;
 
 import com.sekwah.advancedportals.core.CoreListeners;
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
@@ -6,7 +6,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.connector.containers.WorldContainer;
 import com.sekwah.advancedportals.core.tags.CommandTag;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.folia.AdvancedPortalsPlugin;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +19,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-public class SpigotServerContainer implements ServerContainer {
+public class FoliaServerContainer implements ServerContainer {
     @Inject
     private CoreListeners coreListeners;
     private final Server server;
@@ -36,7 +36,7 @@ public class SpigotServerContainer implements ServerContainer {
             .map(Enum::name)
             .collect(Collectors.toList());
 
-    public SpigotServerContainer(Server server) {
+    public FoliaServerContainer(Server server) {
         this.server = server;
     }
 
@@ -44,7 +44,7 @@ public class SpigotServerContainer implements ServerContainer {
     public WorldContainer getWorld(String name) {
         World world = server.getWorld(name);
         if (world != null) {
-            return new SpigotWorldContainer(world);
+            return new FoliaWorldContainer(world);
         } else {
             return null;
         }
@@ -54,7 +54,7 @@ public class SpigotServerContainer implements ServerContainer {
     public PlayerContainer getPlayer(String name) {
         Player player = server.getPlayer(name);
         if (player != null) {
-            return new SpigotPlayerContainer(player);
+            return new FoliaPlayerContainer(player);
         } else {
             return null;
         }
@@ -64,7 +64,7 @@ public class SpigotServerContainer implements ServerContainer {
     public PlayerContainer getPlayer(UUID name) {
         Player player = server.getPlayer(name);
         if (player != null) {
-            return new SpigotPlayerContainer(player);
+            return new FoliaPlayerContainer(player);
         } else {
             return null;
         }
@@ -84,7 +84,7 @@ public class SpigotServerContainer implements ServerContainer {
     public PlayerContainer[] getPlayers() {
         return server.getOnlinePlayers()
             .stream()
-            .map(SpigotPlayerContainer::new)
+            .map(FoliaPlayerContainer::new)
             .toArray(PlayerContainer[] ::new);
     }
 
@@ -100,7 +100,7 @@ public class SpigotServerContainer implements ServerContainer {
             AdvancedPortalsPlugin.getInstance(), channel,
             (s, player, bytes)
                 -> coreListeners.incomingMessage(
-                    new SpigotPlayerContainer(player), s, bytes));
+                    new FoliaPlayerContainer(player), s, bytes));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.connector.container;
+package com.sekwah.advancedportals.folia.connector.container;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.connector.containers.EntityContainer;
@@ -15,13 +15,13 @@ import org.bukkit.entity.Entity;
  * Just a temporary container for whenever advanced portals needs to get data
  * from a player
  */
-public class SpigotEntityContainer implements EntityContainer {
+public class FoliaEntityContainer implements EntityContainer {
     @Inject
     private AdvancedPortalsCore portalsCore;
 
     private final Entity entity;
 
-    public SpigotEntityContainer(Entity entity) {
+    public FoliaEntityContainer(Entity entity) {
         this.entity = entity;
     }
 
@@ -54,7 +54,7 @@ public class SpigotEntityContainer implements EntityContainer {
 
     @Override
     public WorldContainer getWorld() {
-        return new SpigotWorldContainer(this.entity.getWorld());
+        return new FoliaWorldContainer(this.entity.getWorld());
     }
 
     @Override

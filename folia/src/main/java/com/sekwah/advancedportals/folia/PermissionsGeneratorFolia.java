@@ -1,11 +1,11 @@
-package com.sekwah.advancedportals.spigot;
+package com.sekwah.advancedportals.folia;
 
 import com.sekwah.advancedportals.core.permissions.PermissionBuilder;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import java.util.List;
 
-public class PermissionsGeneratorSpigot {
-    private PermissionsGeneratorSpigot() {
+public class PermissionsGeneratorFolia {
+    private PermissionsGeneratorFolia() {
     }
 
     public static String getPermissions() {

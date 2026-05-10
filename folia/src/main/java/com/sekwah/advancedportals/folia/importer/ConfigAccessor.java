@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.importer;
+package com.sekwah.advancedportals.folia.importer;
 
 import java.io.File;
 import java.io.IOException;

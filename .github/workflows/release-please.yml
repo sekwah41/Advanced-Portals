@@ -45,6 +45,9 @@ jobs:
         - project: spigot
           java-version: 17
           release-task: modrinth
+        - project: folia
+          java-version: 25
+          release-task: modrinth
     needs: release-please
     runs-on: ubuntu-latest
     environment: release

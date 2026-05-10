@@ -1,8 +1,8 @@
-package com.sekwah.advancedportals.spigot.warpeffects;
+package com.sekwah.advancedportals.folia.warpeffects;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.effect.WarpEffect;
-import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import com.sekwah.advancedportals.folia.connector.container.FoliaPlayerContainer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
@@ -10,9 +10,9 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
     public void onWarpSound(PlayerContainer playerContainer,
                             WarpEffect.Action action) {
-        if (playerContainer instanceof SpigotPlayerContainer) {
-            SpigotPlayerContainer spigotPlayerContainer =
-                (SpigotPlayerContainer) playerContainer;
+        if (playerContainer instanceof FoliaPlayerContainer) {
+            FoliaPlayerContainer spigotPlayerContainer =
+                (FoliaPlayerContainer) playerContainer;
             org.bukkit.entity.Player player = spigotPlayerContainer.getPlayer();
 
             player.getWorld().playSound(player.getLocation(),
@@ -23,9 +23,9 @@ public class EnderWarpEffect implements WarpEffect.Visual, WarpEffect.Sound {
     @Override
     public void onWarpVisual(PlayerContainer playerContainer,
                              WarpEffect.Action action) {
-        if (playerContainer instanceof SpigotPlayerContainer) {
-            SpigotPlayerContainer spigotPlayerContainer =
-                (SpigotPlayerContainer) playerContainer;
+        if (playerContainer instanceof FoliaPlayerContainer) {
+            FoliaPlayerContainer spigotPlayerContainer =
+                (FoliaPlayerContainer) playerContainer;
             Player player = spigotPlayerContainer.getPlayer();
             World world = player.getWorld();
             Location loc = player.getLocation().clone();

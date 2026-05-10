@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.commands.subcommands.portal;
+package com.sekwah.advancedportals.folia.commands.subcommands.portal;
 
 import com.sekwah.advancedportals.core.AdvancedPortalsCore;
 import com.sekwah.advancedportals.core.commands.SubCommand;
@@ -9,9 +9,9 @@ import com.sekwah.advancedportals.core.services.DestinationServices;
 import com.sekwah.advancedportals.core.services.PortalServices;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
-import com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin;
-import com.sekwah.advancedportals.spigot.importer.ConfigAccessor;
-import com.sekwah.advancedportals.spigot.importer.LegacyImporter;
+import com.sekwah.advancedportals.folia.AdvancedPortalsPlugin;
+import com.sekwah.advancedportals.folia.importer.ConfigAccessor;
+import com.sekwah.advancedportals.folia.importer.LegacyImporter;
 import java.util.List;
 import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;

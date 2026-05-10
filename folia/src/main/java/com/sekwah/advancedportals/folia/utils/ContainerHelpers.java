@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.utils;
+package com.sekwah.advancedportals.folia.utils;
 
 import com.sekwah.advancedportals.core.serializeddata.BlockLocation;
 import com.sekwah.advancedportals.core.serializeddata.PlayerLocation;

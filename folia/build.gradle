@@ -15,7 +15,7 @@ configurations {
     includeLibs
 }
 
-base.archivesName.set("Advanced-Portals-Spigot")
+base.archivesName.set("Advanced-Portals-Folia")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -24,7 +24,6 @@ apply from: rootProject.file('changelog-util.gradle')
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
@@ -37,21 +36,23 @@ dependencies {
     implementation project(":core")
     runtimeOnly project(path: ':core', configuration: 'shadow')
 
-    // For spigot api
-    // We are using an older version to try and ensure that we are not using anything new older versions cant use.
     compileOnly "dev.folia:folia-api:26.1.2.build.8-stable"
-    // compileOnly "com.mojang:authlib:3.5.41"
-    // Be careful to only use what you need to from paper, otherwise it will become incompatible with spigot.
-    // compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 
     // Soft dependencies
     compileOnly 'me.clip:placeholderapi:2.11.6'
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 
     includeLibs project(':lang')
     includeLibs project(':core')
     includeLibs project(':bungee')
     includeLibs project(':velocity')
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.named('compileJava') {
@@ -78,8 +79,8 @@ tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
         copy {
-            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Spigot-${getVersion()}.jar")
-            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Spigot.jar")
+            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Folia-${getVersion()}.jar")
+            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Folia.jar")
 
             println "Handling file: $destinationFilePath"
 
@@ -142,7 +143,7 @@ def generatePermissionsYaml = tasks.register('generatePermissionsYaml') {
         def parentClassLoader = Thread.currentThread().contextClassLoader
         def classLoader = new URLClassLoader(urls, parentClassLoader)
 
-        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.spigot.PermissionsGeneratorSpigot')
+        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.folia.PermissionsGeneratorFolia')
         def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
         def permissionsYaml = getPermissionsMethod.invoke(null)
 
@@ -271,11 +272,11 @@ modrinth {
     projectId = project.modrinth_slug
     versionType = "release"
     uploadFile = jar
-    loaders = ["spigot", "bukkit", "paper", "velocity", "waterfall", "bungeecord", "purpur"]
+    loaders = ["velocity", "waterfall", "bungeecord", "folia"]
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
-    versionName = "Spigot [MC 1.13+] " + getVersion()
-    versionNumber = getVersion() + "-Spigot"
+    versionName = "Folia [MC 26+] " + getVersion()
+    versionNumber = getVersion() + "-Folia"
     syncBodyFrom = rootProject.file("README.md").text
 }
 

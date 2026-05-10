@@ -1,12 +1,14 @@
-package com.sekwah.advancedportals.spigot;
+package com.sekwah.advancedportals.folia;
 
 import com.sekwah.advancedportals.core.util.InfoLogger;
+import com.sekwah.advancedportals.folia.AdvancedPortalsPlugin;
+
 import java.util.logging.Level;
 
-public class SpigotInfoLogger extends InfoLogger {
+public class FoliaInfoLogger extends InfoLogger {
     private final AdvancedPortalsPlugin plugin;
 
-    public SpigotInfoLogger(AdvancedPortalsPlugin plugin) {
+    public FoliaInfoLogger(AdvancedPortalsPlugin plugin) {
         this.plugin = plugin;
     }
 

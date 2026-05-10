@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.tags;
+package com.sekwah.advancedportals.folia.tags;
 
 import com.sekwah.advancedportals.core.connector.containers.PlayerContainer;
 import com.sekwah.advancedportals.core.registry.TagTarget;
@@ -7,7 +7,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
 import com.sekwah.advancedportals.shadowed.inject.Inject;
-import com.sekwah.advancedportals.spigot.connector.container.SpigotPlayerContainer;
+import com.sekwah.advancedportals.folia.connector.container.FoliaPlayerContainer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -21,8 +21,8 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Override
     public boolean preActivated(TagTarget target, PlayerContainer player,
                                 ActivationData activeData, String[] argData) {
-        if (!(player instanceof SpigotPlayerContainer)) return true;
-        SpigotPlayerContainer spigotPlayer = (SpigotPlayerContainer) player;
+        if (!(player instanceof FoliaPlayerContainer)) return true;
+        FoliaPlayerContainer spigotPlayer = (FoliaPlayerContainer) player;
         for (String condition : argData) {
             if (!checkConditions(condition, spigotPlayer.getPlayer())) {
                 spigotPlayer.sendMessage(
@@ -127,7 +127,7 @@ public class ConditionsTag implements Tag.Activation, Tag.Split, Tag.Creation {
     public boolean created(TagTarget target, PlayerContainer player, String[] argData) {
         for (String condition : argData) {
             if (!isValidConditionSyntax(condition)) {
-                if (player instanceof SpigotPlayerContainer) {
+                if (player instanceof FoliaPlayerContainer) {
                     player.sendMessage(
                         Lang.getNegativePrefix() + Lang.translate("tag.conditions.invalid"));
                 }

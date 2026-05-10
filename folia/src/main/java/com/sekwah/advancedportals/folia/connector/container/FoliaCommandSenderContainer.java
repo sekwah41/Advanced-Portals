@@ -1,4 +1,4 @@
-package com.sekwah.advancedportals.spigot.connector.container;
+package com.sekwah.advancedportals.folia.connector.container;
 
 import com.sekwah.advancedportals.core.connector.containers.CommandSenderContainer;
 import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
@@ -6,10 +6,10 @@ import com.sekwah.advancedportals.core.util.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpigotCommandSenderContainer implements CommandSenderContainer {
+public class FoliaCommandSenderContainer implements CommandSenderContainer {
     private final CommandSender sender;
 
-    public SpigotCommandSenderContainer(CommandSender commandSender) {
+    public FoliaCommandSenderContainer(CommandSender commandSender) {
         this.sender = commandSender;
     }
 
@@ -22,7 +22,7 @@ public class SpigotCommandSenderContainer implements CommandSenderContainer {
 
     @Override
     public ServerContainer getServer() {
-        return new SpigotServerContainer(sender.getServer());
+        return new FoliaServerContainer(sender.getServer());
     }
 
     public boolean isOp() {
@@ -32,9 +32,9 @@ public class SpigotCommandSenderContainer implements CommandSenderContainer {
     /**
      * @return null if there isnt a player e.g. the console
      */
-    public SpigotPlayerContainer getPlayerContainer() {
+    public FoliaPlayerContainer getPlayerContainer() {
         if (sender instanceof Player) {
-            return new SpigotPlayerContainer((Player) sender);
+            return new FoliaPlayerContainer((Player) sender);
         }
         return null;
     }
