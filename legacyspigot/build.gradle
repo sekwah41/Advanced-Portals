@@ -13,7 +13,9 @@ configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
-archivesBaseName = "Advanced-Portals-Legacy-Spigot"
+base.archivesName.set("Advanced-Portals-Legacy-Spigot")
+
+def buildDir = layout.buildDirectory.get().asFile
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -106,6 +108,7 @@ configurations {
 }
 
 def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    dependsOn(':core:shadowJar')
     source = sourceSets.permissionsGen.allJava
     classpath = configurations.permissionsGenCompileClasspath
     destinationDirectory = file("$buildDir/classes/permissionsGen")
