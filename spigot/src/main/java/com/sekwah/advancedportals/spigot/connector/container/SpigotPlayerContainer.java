@@ -51,6 +51,12 @@ public class SpigotPlayerContainer
         player.sendMessage(message);
     }
 
+
+    @Override
+    public void runTask(Runnable runnable) {
+        runnable.run();
+    }
+
     @Override
     public void sendActionBar(String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,

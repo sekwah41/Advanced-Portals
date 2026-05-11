@@ -105,7 +105,7 @@ public class ShowPortalSubCommand
                     continue;
                 }
 
-                player.runRegionalTask(() -> {
+                player.runTask(() -> {
                     BlockLocation pos1 = tempData.getPos1();
                     BlockLocation pos2 = tempData.getPos2();
 

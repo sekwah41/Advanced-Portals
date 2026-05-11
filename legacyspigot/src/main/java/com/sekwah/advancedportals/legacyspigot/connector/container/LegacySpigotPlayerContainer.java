@@ -50,6 +50,11 @@ public class LegacySpigotPlayerContainer
                 || message.equals(Lang.getNegativePrefix())) return;
         player.sendMessage(message);
     }
+    
+    @Override
+    public void runTask(Runnable runnable) {
+        runnable.run();
+    }
 
     @Override
     public void sendActionBar(String message) {

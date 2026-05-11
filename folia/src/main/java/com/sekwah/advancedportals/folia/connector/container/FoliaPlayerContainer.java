@@ -52,7 +52,7 @@ public class FoliaPlayerContainer
     }
 
     @Override
-    public void runRegionalTask(Runnable runnable) {
+    public void runTask(Runnable runnable) {
         this.player.getServer().getRegionScheduler().run(AdvancedPortalsPlugin.getInstance(), player.getLocation(), (_) -> {
             runnable.run();
         });

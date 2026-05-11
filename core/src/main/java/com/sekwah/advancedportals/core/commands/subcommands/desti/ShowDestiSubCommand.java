@@ -90,7 +90,7 @@ public class ShowDestiSubCommand
                 if (!tempData.isDestiVisible()) {
                     continue;
                 }
-                player.runRegionalTask(() -> {
+                player.runTask(() -> {
                     for (Destination destination :
                             destinationServices.getDestinations()) {
                         PlayerLocation pos = destination.getLoc();
