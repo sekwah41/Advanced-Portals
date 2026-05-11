@@ -52,6 +52,13 @@ public class FoliaPlayerContainer
     }
 
     @Override
+    public void runRegionalTask(Runnable runnable) {
+        this.player.getServer().getRegionScheduler().run(AdvancedPortalsPlugin.getInstance(), player.getLocation(), (_) -> {
+            runnable.run();
+        });
+    }
+
+    @Override
     public void sendActionBar(String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                     TextComponent.fromLegacyText(message));
@@ -64,10 +71,12 @@ public class FoliaPlayerContainer
 
     @Override
     public boolean teleport(PlayerLocation location) {
-        return this.player.teleport(new Location(
-            Bukkit.getWorld(location.getWorldName()), location.getPosX(),
-            location.getPosY(), location.getPosZ(), location.getYaw(),
-            location.getPitch()));
+        this.player.teleportAsync(new Location(
+                Bukkit.getWorld(location.getWorldName()), location.getPosX(),
+                location.getPosY(), location.getPosZ(), location.getYaw(),
+                location.getPitch()));
+        // Nowhere in core do we currently pay attention to this, but it may be interesting to make it handle async in the future.
+        return true;
     }
 
     @Override

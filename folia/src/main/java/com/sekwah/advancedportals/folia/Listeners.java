@@ -67,6 +67,16 @@ public class Listeners implements Listener {
             event.setCancelled(true);
         }
     }
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityPortalEnterEvent(EntityPortalEnterEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (!this.coreListeners.playerPortalEvent(
+                    new FoliaPlayerContainer(player),
+                    ContainerHelpers.toPlayerLocation(event.getLocation()))) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler(ignoreCancelled = true)
     public void onPortalEvent(PlayerPortalEvent event) {

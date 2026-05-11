@@ -47,9 +47,10 @@ public class FoliaEntityContainer implements EntityContainer {
 
     @Override
     public boolean teleport(PlayerLocation location) {
-        return this.entity.teleport(new Location(
-            Bukkit.getWorld(location.getWorldName()), location.getPosX(),
-            location.getPosY(), location.getPosZ()));
+        this.entity.teleportAsync(new Location(
+                Bukkit.getWorld(location.getWorldName()), location.getPosX(),
+                location.getPosY(), location.getPosZ()));
+        return true;
     }
 
     @Override

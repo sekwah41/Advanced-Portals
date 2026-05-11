@@ -90,17 +90,18 @@ public class ShowDestiSubCommand
                 if (!tempData.isDestiVisible()) {
                     continue;
                 }
-
-                for (Destination destination :
-                     destinationServices.getDestinations()) {
-                    PlayerLocation pos = destination.getLoc();
-                    if (Objects.equals(pos.getWorldName(),
-                                       player.getWorldName())
-                        && pos.distanceTo(player.getLoc())
-                            < config.getShowVisibleRange()) {
-                        drawArrow(player, pos, new Color(255, 221, 0));
+                player.runRegionalTask(() -> {
+                    for (Destination destination :
+                            destinationServices.getDestinations()) {
+                        PlayerLocation pos = destination.getLoc();
+                        if (Objects.equals(pos.getWorldName(),
+                                player.getWorldName())
+                                && pos.distanceTo(player.getLoc())
+                                < config.getShowVisibleRange()) {
+                            drawArrow(player, pos, new Color(255, 221, 0));
+                        }
                     }
-                }
+                });
             }
         }, 1, 5);
     }

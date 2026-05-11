@@ -21,10 +21,6 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sekwah.advancedportals.folia.FoliaInfoLogger;
-import com.sekwah.advancedportals.folia.Listeners;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {

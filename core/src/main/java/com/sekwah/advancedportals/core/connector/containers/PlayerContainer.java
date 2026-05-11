@@ -27,6 +27,8 @@ public interface PlayerContainer extends EntityContainer, HasPermission {
 
     void playSound(String sound, float volume, float pitch);
 
+    void runRegionalTask(Runnable runnable);
+
     ServerContainer getServer();
 
     GameMode getGameMode();

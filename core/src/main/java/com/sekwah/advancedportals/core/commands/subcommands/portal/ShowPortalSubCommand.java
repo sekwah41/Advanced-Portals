@@ -105,49 +105,51 @@ public class ShowPortalSubCommand
                     continue;
                 }
 
-                BlockLocation pos1 = tempData.getPos1();
-                BlockLocation pos2 = tempData.getPos2();
+                player.runRegionalTask(() -> {
+                    BlockLocation pos1 = tempData.getPos1();
+                    BlockLocation pos2 = tempData.getPos2();
 
-                if (pos1 != null && pos2 != null
-                    && pos1.getWorldName().equals(player.getWorldName())
-                    && pos2.getWorldName().equals(player.getWorldName())) {
-                    int widthX = Math.abs(pos1.getPosX() - pos2.getPosX());
-                    int widthY = Math.abs(pos1.getPosY() - pos2.getPosY());
-                    int widthZ = Math.abs(pos1.getPosZ() - pos2.getPosZ());
-                    int totalBlocks = widthX * widthY * widthZ;
-                    if (totalBlocks <= config.maxPortalVisualisationSize())
-                        debugVisuals(player, pos1, pos2, SELECTION_COLOR);
-                }
-
-                if (pos1 != null
-                    && pos1.getWorldName().equals(player.getWorldName())) {
-                    drawBox(player, pos1, pos1, POS1_COLOR, 0.25f);
-                }
-                if (pos2 != null
-                    && pos2.getWorldName().equals(player.getWorldName())) {
-                    drawBox(player, pos2, pos2, POS2_COLOR, 0.25f);
-                }
-
-                // If both are selected and both worlds are the same as the
-                // player
-                if (pos1 != null && pos2 != null
-                    && pos1.getWorldName().equals(player.getWorldName())
-                    && pos2.getWorldName().equals(player.getWorldName())) {
-                    if (pos1.distanceTo(pos2)
-                        <= config.maxSelectionVisualisationSize()) {
-                        drawBox(player, pos1, pos2, SELECTION_COLOR, 1f);
+                    if (pos1 != null && pos2 != null
+                            && pos1.getWorldName().equals(player.getWorldName())
+                            && pos2.getWorldName().equals(player.getWorldName())) {
+                        int widthX = Math.abs(pos1.getPosX() - pos2.getPosX());
+                        int widthY = Math.abs(pos1.getPosY() - pos2.getPosY());
+                        int widthZ = Math.abs(pos1.getPosZ() - pos2.getPosZ());
+                        int totalBlocks = widthX * widthY * widthZ;
+                        if (totalBlocks <= config.maxPortalVisualisationSize())
+                            debugVisuals(player, pos1, pos2, SELECTION_COLOR);
                     }
-                }
 
-                for (AdvancedPortal portal : portalServices.getPortals()) {
-                    if (Objects.equals(portal.getMinLoc().getWorldName(),
-                                       player.getWorldName())
-                        && portal.isLocationInPortal(
-                            player.getLoc(), config.getShowVisibleRange())) {
-                        debugVisuals(player, portal, OUTLINE_COLOR,
-                                     TRIGGER_COLOR);
+                    if (pos1 != null
+                            && pos1.getWorldName().equals(player.getWorldName())) {
+                        drawBox(player, pos1, pos1, POS1_COLOR, 0.25f);
                     }
-                }
+                    if (pos2 != null
+                            && pos2.getWorldName().equals(player.getWorldName())) {
+                        drawBox(player, pos2, pos2, POS2_COLOR, 0.25f);
+                    }
+
+                    // If both are selected and both worlds are the same as the
+                    // player
+                    if (pos1 != null && pos2 != null
+                            && pos1.getWorldName().equals(player.getWorldName())
+                            && pos2.getWorldName().equals(player.getWorldName())) {
+                        if (pos1.distanceTo(pos2)
+                                <= config.maxSelectionVisualisationSize()) {
+                            drawBox(player, pos1, pos2, SELECTION_COLOR, 1f);
+                        }
+                    }
+
+                    for (AdvancedPortal portal : portalServices.getPortals()) {
+                        if (Objects.equals(portal.getMinLoc().getWorldName(),
+                                player.getWorldName())
+                                && portal.isLocationInPortal(
+                                player.getLoc(), config.getShowVisibleRange())) {
+                            debugVisuals(player, portal, OUTLINE_COLOR,
+                                    TRIGGER_COLOR);
+                        }
+                    }
+                });
             }
         }, 1, 5);
     }

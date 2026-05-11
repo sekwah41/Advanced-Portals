@@ -1,9 +1,11 @@
-main: com.sekwah.advancedportals.spigot.AdvancedPortalsPlugin
+main: com.sekwah.advancedportals.folia.AdvancedPortalsPlugin
 name: AdvancedPortals
 version: ${pluginVersion}
 author: sekwah41
 description: An advanced portals plugin for bukkit.
 api-version: 1.13
+folia-supported: true
+website: https://advancedportals.sekwah.com/
 softdepend: [PlaceholderAPI, Vault]
 commands:
   portal:
