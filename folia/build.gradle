@@ -245,7 +245,7 @@ supportedVersions = [
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = project.modrinth_slug
-    versionType = "release"
+    versionType = "beta"
     uploadFile = jar
     loaders = ["velocity", "waterfall", "bungeecord", "folia"]
     gameVersions = supportedVersions
