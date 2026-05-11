@@ -71,23 +71,23 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        copy {
-            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Legacy-Spigot-${getVersion()}.jar")
-            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Legacy-Spigot.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Legacy-Spigot-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Legacy-Spigot.jar")
 
-            println "Handling file: $destinationFilePath"
+        Files.createDirectories(destinationFilePath.getParent())
 
-            byte[] newContent = Files.readAllBytes(sourceFilePath)
+        println "Handling file: $destinationFilePath"
 
-            if (Files.exists(destinationFilePath)) {
-                println "File exists. Overwriting with new binary content."
+        byte[] newContent = Files.readAllBytes(sourceFilePath)
 
-                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
-            } else {
-                println "File does not exist. Copying from source."
+        if (Files.exists(destinationFilePath)) {
+            println "File exists. Overwriting with new binary content."
 
-                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
-            }
+            Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+        } else {
+            println "File does not exist. Copying from source."
+
+            Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 }

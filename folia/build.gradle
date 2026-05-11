@@ -2,10 +2,12 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask.JarUrl
 
 plugins {
     id "com.modrinth.minotaur" version "2.+"
-    id 'dev.s7a.gradle.minecraft.server' version '1.1.0'
+    id 'dev.s7a.gradle.minecraft.server' version '4.0.2'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
@@ -78,23 +80,23 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        copy {
-            def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Folia-${getVersion()}.jar")
-            def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Folia.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Folia-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Folia.jar")
 
-            println "Handling file: $destinationFilePath"
+        Files.createDirectories(destinationFilePath.getParent())
 
-            byte[] newContent = Files.readAllBytes(sourceFilePath)
+        println "Handling file: $destinationFilePath"
 
-            if (Files.exists(destinationFilePath)) {
-                println "File exists. Overwriting with new binary content."
+        byte[] newContent = Files.readAllBytes(sourceFilePath)
 
-                Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
-            } else {
-                println "File does not exist. Copying from source."
+        if (Files.exists(destinationFilePath)) {
+            println "File exists. Overwriting with new binary content."
 
-                Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
-            }
+            Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+        } else {
+            println "File does not exist. Copying from source."
+
+            Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 }
@@ -179,37 +181,10 @@ generateTemplates.configure {
 
 sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
 
-tasks.register('downloadSekCDevToolsPlugin') {
-    doLast {
-        // Define the URL and destination path
-        def url = 'https://github.com/sekwah41/SekCDevToolsPlugin/releases/download/v1.0.0/SekCDevToolsPlugin-1.0-SNAPSHOT.jar'
-        def destinationDir = new File("$buildDir/MinecraftServer/plugins")
-        def destinationFile = new File(destinationDir, 'SekCDevToolsPlugin-1.0-SNAPSHOT.jar')
-
-        // Create the directory if it doesn't exist
-        if (!destinationDir.exists()) {
-            destinationDir.mkdirs()
-        }
-
-        // Download the file if it doesn't exist
-        if (!destinationFile.exists()) {
-            println "Downloading SekCDevToolsPlugin..."
-            new URL(url).withInputStream { i ->
-                destinationFile.withOutputStream {
-                    it << i
-                }
-            }
-        } else {
-            println "SekCDevToolsPlugin already downloaded"
-        }
-    }
-}
-
-tasks.launchMinecraftServer.dependsOn(downloadSekCDevToolsPlugin)
-
-minecraftServerConfig {
-    jarUrl.set('https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar')
-    jvmArgument = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"]
+tasks.register('launchMinecraftServer', LaunchMinecraftServerTask) {
+    jarUrl.set({ 'https://fill-data.papermc.io/v1/objects/607afd1c3320008e1ffd2eaee6780ace4419d5f8c527b75e79f259be79ebf57b/folia-26.1.2-8.jar' } as JarUrl)
+    jvmArgument.set(["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"])
+    agreeEula.set(true)
 }
 
 apply from: '../curse.gradle'
