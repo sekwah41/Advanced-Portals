@@ -22,7 +22,9 @@ import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.InfoLogger;
 import com.sekwah.advancedportals.core.util.Lang;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AdvancedPortalsCore {
     private final InfoLogger infoLogger;
@@ -37,6 +39,8 @@ public class AdvancedPortalsCore {
     private final int[] mcVersion;
 
     private final ServerContainer serverContainer;
+
+    private final List<Runnable> configReloadListeners = new ArrayList<>();
 
     private static AdvancedPortalsCore instance;
 
@@ -220,6 +224,17 @@ public class AdvancedPortalsCore {
     public void loadPortalConfig() {
         this.configRepository.loadConfig(this.dataStorage);
         this.configRepository.storeConfig();
+        this.notifyConfigReloadListeners();
+    }
+
+    public void registerConfigReloadListener(Runnable listener) {
+        this.configReloadListeners.add(listener);
+    }
+
+    private void notifyConfigReloadListeners() {
+        for (Runnable listener : this.configReloadListeners) {
+            listener.run();
+        }
     }
 
     public void onDisable() {
