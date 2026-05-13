@@ -19,6 +19,7 @@ jobs:
         command: manifest
         token: ${{ secrets.PAT }}
           # See how to configure file https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md
+        release-type: 'simple'
       # See output info at https://github.com/google-github-actions/release-please-action#configuration for variables
 
   # Possibly optimise this by building and then passing the folder across to these stages
@@ -29,20 +30,23 @@ jobs:
         include:
           # Java 8 for legacyspigot
         - project: legacyspigot
-          java-version: 8
+          java-version: 17
           release-task: curseforge
         - project: legacyspigot
-          java-version: 8
+          java-version: 17
           release-task: modrinth
           # Java 16 for spigot
         - project: spigot
-          java-version: 8
+          java-version: 17
           release-task: curseforge
         - project: spigot
-          java-version: 8
+          java-version: 17
           release-task: discordupload
         - project: spigot
-          java-version: 8
+          java-version: 17
+          release-task: modrinth
+        - project: folia
+          java-version: 25
           release-task: modrinth
     needs: release-please
     runs-on: ubuntu-latest

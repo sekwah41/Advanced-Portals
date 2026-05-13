@@ -45,8 +45,13 @@ allprojects {
         }
     }
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     ext.branch = rootProject.ext.branch
     ext.snapshotName = rootProject.ext.snapshotName

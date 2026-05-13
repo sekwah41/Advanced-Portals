@@ -1,0 +1,215 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask.JarUrl
+
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id 'dev.s7a.gradle.minecraft.server' version '4.0.2'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+}
+
+// Check the root build.gradle under allprojects for common settings
+configurations {
+    // configuration that holds jars to copy into lib
+    includeLibs
+}
+
+base.archivesName.set("Advanced-Portals-Folia")
+
+def buildDir = layout.buildDirectory.get().asFile
+
+apply from: rootProject.file('env-variables.gradle')
+apply from: rootProject.file('changelog-util.gradle')
+
+repositories {
+    maven { url "https://repo.maven.apache.org/maven2" }
+    maven {
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
+    maven { url 'https://repo.extendedclip.com/releases/'}
+}
+
+// includeLibs just says to include the library in the final jar
+dependencies {
+    implementation project(":core")
+    runtimeOnly project(path: ':core', configuration: 'shadow')
+
+    compileOnly "dev.folia:folia-api:26.1.2.build.8-stable"
+
+    // Soft dependencies
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+
+    includeLibs project(':lang')
+    includeLibs project(':core')
+    includeLibs project(':bungee')
+    includeLibs project(':velocity')
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.named('compileJava') {
+    dependsOn(':core:shadowJar')
+}
+
+jar {
+    dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Filters the files out that are in the build folders. Look to see if there is a better way to do this?
+    from configurations.includeLibs.filter {
+        it.path.contains("${File.separator}build${File.separator}libs")
+    } .collect {
+        println("Will Include: ${it.name}")
+        it.isDirectory() ? it : zipTree(it)
+    }
+}
+
+/**
+ * Will build then copy it to the minecraft server folder for use with the launch task and dev tools plugin
+ */
+tasks.register('copyPlugin') {
+    dependsOn(build)
+    doLast {
+        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Folia-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Folia.jar")
+
+        Files.createDirectories(destinationFilePath.getParent())
+
+        println "Handling file: $destinationFilePath"
+
+        byte[] newContent = Files.readAllBytes(sourceFilePath)
+
+        if (Files.exists(destinationFilePath)) {
+            println "File exists. Overwriting with new binary content."
+
+            Files.write(destinationFilePath, newContent, StandardOpenOption.TRUNCATE_EXISTING)
+        } else {
+            println "File does not exist. Copying from source."
+
+            Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
+
+// Code for generating extra data in plugins.yml
+// This may be able to be simplified drastically, though the goal is to get this working for now
+//  as it has gone through a few iterations.
+sourceSets {
+    permissionsGen {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
+configurations {
+    permissionsGenCompileClasspath.extendsFrom compileClasspath
+}
+
+def compilePermissionsGen = tasks.register('compilePermissionsGen', JavaCompile) {
+    dependsOn(':core:shadowJar')
+    source = sourceSets.permissionsGen.allJava
+    classpath = configurations.permissionsGenCompileClasspath
+    destinationDirectory = file("$buildDir/classes/permissionsGen")
+}
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/resources/templates')
+
+def generatePermissionsYaml = tasks.register('generatePermissionsYaml') {
+    dependsOn compilePermissionsGen
+
+    doLast {
+        println "Generating permissions.yml file"
+
+        def classFiles = []
+        classFiles.addAll(files("$buildDir/classes/permissionsGen", sourceSets.permissionsGen.runtimeClasspath)
+                .collect { it.toURI().toURL() })
+
+        classFiles.addAll(project(':core').sourceSets.main.output.classesDirs
+                .collect { it.toURI().toURL() })
+
+        def urls = classFiles.toArray(new URL[0])
+
+        def parentClassLoader = Thread.currentThread().contextClassLoader
+        def classLoader = new URLClassLoader(urls, parentClassLoader)
+
+        def permissionsGeneratorClass = classLoader.loadClass('com.sekwah.advancedportals.folia.PermissionsGeneratorFolia')
+        def getPermissionsMethod = permissionsGeneratorClass.getMethod('getPermissions')
+        def permissionsYaml = getPermissionsMethod.invoke(null)
+
+        def permissionsFile = file("$buildDir/generated/resources/permissions.yml")
+        permissionsFile.parentFile.mkdirs()
+        permissionsFile.text = permissionsYaml
+
+        println "Permissions YAML generated at: $permissionsFile"
+    }
+}
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    dependsOn generatePermissionsYaml
+
+    def props = [
+            'permissions': { -> file("$buildDir/generated/resources/permissions.yml").text },
+            'pluginVersion': { -> project.version }
+    ]
+
+    task.inputs.properties(props)
+    task.from(templateSource)
+    task.into(templateDest)
+    task.expand(props)
+
+    doFirst {
+        println "Running generateTemplates task"
+    }
+}
+
+generateTemplates.configure {
+    outputs.upToDateWhen { false }
+}
+
+sourceSets.main.resources.srcDir(generateTemplates.map { it.outputs })
+
+tasks.register('launchMinecraftServer', LaunchMinecraftServerTask) {
+    jarUrl.set({ 'https://fill-data.papermc.io/v1/objects/607afd1c3320008e1ffd2eaee6780ace4419d5f8c527b75e79f259be79ebf57b/folia-26.1.2-8.jar' } as JarUrl)
+    jvmArgument.set(["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005", "-DIReallyKnowWhatIAmDoingISwear=true"])
+    agreeEula.set(true)
+}
+
+apply from: '../curse.gradle'
+
+supportedVersions = [
+        "26.1",
+        "26.1.1",
+        "26.1.2",
+]
+
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.modrinth_slug
+    versionType = "alpha"
+    uploadFile = jar
+    loaders = ["velocity", "waterfall", "bungeecord", "folia"]
+    gameVersions = supportedVersions
+    changelog = getReleaseChangelog()
+    versionName = "Folia [MC 26+] " + getVersion()
+    versionNumber = getVersion() + "-Folia"
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+tasks.modrinth.group = "distribute"
+
+apply from: '../discord.gradle'

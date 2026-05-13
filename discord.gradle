@@ -66,7 +66,7 @@ task discordupload {
             }
 
             if(!isRelease) {
-                builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveName)
+                builder.addBinaryBody("file", file(jar.archiveFile).newInputStream(), ContentType.APPLICATION_OCTET_STREAM, jar.archiveFileName.get())
             }
 
             HttpEntity multipart = builder.build()

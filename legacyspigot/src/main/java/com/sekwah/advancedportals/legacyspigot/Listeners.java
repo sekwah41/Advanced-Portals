@@ -120,15 +120,6 @@ public class Listeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPhysicsEvent(BlockPhysicsEvent event) {
-        if (!coreListeners.physicsEvent(
-                ContainerHelpers.toBlockLocation(
-                    event.getBlock().getLocation()))) {
-            event.setCancelled(true);
-        }
-    }
-
     @EventHandler
     public void onWorldChangeEvent(PlayerChangedWorldEvent event) {
         coreListeners.worldChange(

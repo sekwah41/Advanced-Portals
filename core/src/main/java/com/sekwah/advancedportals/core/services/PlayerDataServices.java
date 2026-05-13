@@ -11,6 +11,7 @@ import com.sekwah.advancedportals.core.util.Lang;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Singleton
 public final class PlayerDataServices {
@@ -18,6 +19,7 @@ public final class PlayerDataServices {
      * Possibly change to the cache map Aztec was talking about
      */
     private final Map<UUID, PlayerData> tempDataMap = new HashMap<>();
+    public static final ReentrantReadWriteLock tempDataMapLock = new ReentrantReadWriteLock();
 
     @Inject
     private IPlayerDataRepository tempDataRepository;
@@ -26,15 +28,19 @@ public final class PlayerDataServices {
     private ConfigRepository configRepository;
 
     public PlayerData getPlayerData(PlayerContainer player) {
-        return tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
+
+        tempDataMapLock.writeLock().lock();
+        var playerData = tempDataMap.computeIfAbsent(player.getUUID(), uuid -> {
             PlayerData tempData =
-                tempDataRepository.get(player.getUUID().toString());
+                    tempDataRepository.get(player.getUUID().toString());
 
             if (tempData == null) {
                 tempData = new PlayerData();
             }
             return tempData;
         });
+        tempDataMapLock.writeLock().unlock();
+        return playerData;
     }
 
     public void setJoinCooldown(PlayerContainer player) {
@@ -47,7 +53,9 @@ public final class PlayerDataServices {
             tempDataRepository.save(player.getUUID().toString(),
                     getPlayerData(player));
         }
+        tempDataMapLock.writeLock().lock();
         tempDataMap.remove(player.getUUID());
+        tempDataMapLock.writeLock().unlock();
     }
 
     public void playerSelectorActivate(PlayerContainer player,
