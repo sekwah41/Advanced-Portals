@@ -75,9 +75,10 @@ task discordupload {
             CloseableHttpResponse response = httpClient.execute(uploadFile)
             response.getEntity()
 
-            if(response.getStatusLine().getStatusCode() != 200) {
+            def statusCode = response.getStatusLine().getStatusCode()
+            if(statusCode != 200 && statusCode != 204) {
                 println("Failed to post build to Discord.")
-                println("Status Code: " + response.getStatusLine().getStatusCode())
+                println("Status Code: " + statusCode)
                 println("Reason Phrase: " + response.getStatusLine().getReasonPhrase())
 
                 String responseContent = response.getEntity() != null ?
