@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.7.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.6.1...v2.7.0) (2026-05-13)
+
+
+### Features ✨
+
+* add config to toggle physics events & add folia version ([#593](https://github.com/sekwah41/Advanced-Portals/issues/593)) ([a0f8ce8](https://github.com/sekwah41/Advanced-Portals/commit/a0f8ce8d3e9bdbab4816ccd632958a5eecce5c96))
+* add the ability to disable saving playerData files ([fce0283](https://github.com/sekwah41/Advanced-Portals/commit/fce02833901802c4228e8a3657dda90c3dd7acd4))
+* prevent sending empty messages to sender/player ([b5227b6](https://github.com/sekwah41/Advanced-Portals/commit/b5227b6b6caafc7511469f96526e9d237935c64e))
+
+
+### Bug Fixes 🐛
+
+* issue with compiling on java 8 ([381851f](https://github.com/sekwah41/Advanced-Portals/commit/381851fbb56f856744d979280df51d41da5cd6d7))
+* remove unneeded type block type fetch in phyics events ([ec0734e](https://github.com/sekwah41/Advanced-Portals/commit/ec0734ee67bbdb66b1a0a7e5e2db2a653aa69393))
+
 ## [2.6.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.6.0...v2.6.1) (2026-01-28)
 
 
