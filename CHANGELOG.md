@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.0...v2.7.1) (2026-05-13)
+
+
+### Bug Fixes 🐛
+
+* folia version was breaking others compiling on lower java ([#594](https://github.com/sekwah41/Advanced-Portals/issues/594)) ([3fc7548](https://github.com/sekwah41/Advanced-Portals/commit/3fc75487049bb6c975cd4dfd9f1b2d70410b8918))
+
 ## [2.7.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.6.1...v2.7.0) (2026-05-13)
 
 
