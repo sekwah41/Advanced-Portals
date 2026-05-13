@@ -24,10 +24,13 @@ import java.util.regex.Pattern;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AdvancedPortalsPlugin extends JavaPlugin {
     private AdvancedPortalsCore portalsCore;
+    private PhysicsListeners physicsListeners;
+    private boolean physicsEventsRegistered;
 
     @Inject
     DestinationServices destinationServices;
@@ -77,6 +80,11 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         injector.injectMembers(listeners);
         this.getServer().getPluginManager().registerEvents(listeners, this);
 
+        this.physicsListeners = injector.getInstance(PhysicsListeners.class);
+        injector.injectMembers(this.physicsListeners);
+        this.portalsCore.registerConfigReloadListener(
+            this::syncPhysicsEventRegistry);
+
         GameScheduler scheduler = injector.getInstance(GameScheduler.class);
         this.getServer().getScheduler().scheduleSyncRepeatingTask(
             this, scheduler::tick, 1, 1);
@@ -93,6 +101,7 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
                                                new ImportPortalSubCommand());
 
         checkAndCreateConfig();
+        syncPhysicsEventRegistry();
         registerPlaceholderAPI();
         checkVault();
     }
@@ -124,6 +133,20 @@ public class AdvancedPortalsPlugin extends JavaPlugin {
         File configYamlFile = new File(this.getDataFolder(), "config.yaml");
         if (configFile.exists() && !configYamlFile.exists()) {
             LegacyImporter.importConfig(this.configRepo);
+        }
+    }
+
+
+    private void syncPhysicsEventRegistry() {
+        boolean shouldRegister = this.configRepo.getDisablePhysicsEvents();
+        if (shouldRegister && !this.physicsEventsRegistered) {
+            this.getServer().getPluginManager().registerEvents(
+                this.physicsListeners, this);
+            this.physicsEventsRegistered = true;
+        }
+        else if (!shouldRegister && this.physicsEventsRegistered) {
+            HandlerList.unregisterAll(this.physicsListeners);
+            this.physicsEventsRegistered = false;
         }
     }
 

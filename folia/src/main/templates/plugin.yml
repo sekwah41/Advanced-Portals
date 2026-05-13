@@ -1,0 +1,19 @@
+main: com.sekwah.advancedportals.folia.AdvancedPortalsPlugin
+name: AdvancedPortals
+version: ${pluginVersion}
+author: sekwah41
+description: An advanced portals plugin for bukkit.
+api-version: 1.13
+folia-supported: true
+website: https://advancedportals.sekwah.com/
+softdepend: [PlaceholderAPI, Vault]
+commands:
+  portal:
+    description: The main command for the advanced portals
+    aliases: [portals, aportals, advancedportals]
+    usage: /<command>
+  destination:
+    description: Can be used to access portal destinations.
+    aliases: [desti]
+    usage: /<command>
+permissions: ${permissions}
