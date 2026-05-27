@@ -17,7 +17,7 @@ configurations {
     includeLibs
 }
 
-base.archivesName.set("Advanced-Portals-Folia")
+base.archivesName.set("advanced-portals-folia")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -80,8 +80,8 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Folia-${getVersion()}.jar")
-        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Folia.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-folia-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/advanced-portals-folia.jar")
 
         Files.createDirectories(destinationFilePath.getParent())
 
@@ -205,7 +205,7 @@ modrinth {
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
     versionName = "Folia [MC 26+] " + getVersion()
-    versionNumber = getVersion() + "-Folia"
+    versionNumber = getVersion() + "-folia"
     syncBodyFrom = rootProject.file("README.md").text
 }
 
