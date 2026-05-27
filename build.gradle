@@ -63,11 +63,18 @@ allprojects {
     setVersion(versionString)
 
     repositories {
-        maven { url 'https://jitpack.io' }
         maven { url "https://repo.maven.apache.org/maven2" }
         maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://repo.papermc.io/repository/maven-public/" }
+        exclusiveContent {
+            forRepository {
+                maven { url 'https://jitpack.io' }
+            }
+            filter {
+                includeGroup "com.github.MilkBowl"
+            }
+        }
     }
 }
 
