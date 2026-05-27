@@ -17,7 +17,7 @@ configurations {
     includeLibs
 }
 
-base.archivesName.set("advanced-portals-folia")
+base.archivesName.set("advanced-portals")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -62,6 +62,7 @@ tasks.named('compileJava') {
 }
 
 jar {
+    archiveClassifier.set("folia")
     dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -80,7 +81,7 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-folia-${getVersion()}.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-${getVersion()}-folia.jar")
         def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/advanced-portals-folia.jar")
 
         Files.createDirectories(destinationFilePath.getParent())
