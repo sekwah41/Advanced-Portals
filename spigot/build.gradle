@@ -17,7 +17,7 @@ configurations {
     includeLibs
 }
 
-base.archivesName.set("Advanced-Portals-Spigot")
+base.archivesName.set("advanced-portals-spigot")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -79,8 +79,8 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Spigot-${getVersion()}.jar")
-        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Spigot.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-spigot-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/advanced-portals-spigot.jar")
 
         Files.createDirectories(destinationFilePath.getParent())
 
@@ -277,7 +277,7 @@ modrinth {
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
     versionName = "Spigot [MC 1.13+] " + getVersion()
-    versionNumber = getVersion() + "-Spigot"
+    versionNumber = getVersion() + "-spigot"
     syncBodyFrom = rootProject.file("README.md").text
 }
 

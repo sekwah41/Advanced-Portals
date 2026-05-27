@@ -1,4 +1,4 @@
-rootProject.name = "Advanced-Portals"
+rootProject.name = "advanced-portals"
 // Core modules
 include 'core'
 include 'proxycore'
