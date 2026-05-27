@@ -13,7 +13,7 @@ configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
-base.archivesName.set("advanced-portals-legacy-spigot")
+base.archivesName.set("advanced-portals")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -53,6 +53,7 @@ tasks.named('compileJava') {
 }
 
 jar {
+    archiveClassifier.set("legacy-spigot")
     dependsOn(':bungee:jar', ':lang:jar', ':proxycore:jar', ':velocity:jar')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -71,7 +72,7 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-legacy-spigot-${getVersion()}.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-${getVersion()}-legacy-spigot.jar")
         def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/advanced-portals-legacy-spigot.jar")
 
         Files.createDirectories(destinationFilePath.getParent())
