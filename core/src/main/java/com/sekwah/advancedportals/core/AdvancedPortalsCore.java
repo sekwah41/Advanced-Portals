@@ -12,6 +12,7 @@ import com.sekwah.advancedportals.core.connector.containers.ServerContainer;
 import com.sekwah.advancedportals.core.module.AdvancedPortalsModule;
 import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagRegistry;
+import com.sekwah.advancedportals.core.registry.WarpEffectRegistry;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.DataStorage;
 import com.sekwah.advancedportals.core.services.DestinationServices;
@@ -55,6 +56,9 @@ public class AdvancedPortalsCore {
 
     @Inject
     private TagRegistry tagRegistry;
+
+    @Inject
+    WarpEffectRegistry warpEffectRegistry;
 
     @Inject
     private PortalServices portalServices;
@@ -259,6 +263,22 @@ public class AdvancedPortalsCore {
 
     public TagRegistry getTagRegistry() {
         return this.tagRegistry;
+    }
+
+    public WarpEffectRegistry getWarpEffectRegistry() {
+        return this.warpEffectRegistry;
+    }
+
+    public PlayerDataServices getPlayerDataRepository() {
+        return playerDataRepository;
+    }
+
+    public PortalServices getPortalServices() {
+        return portalServices;
+    }
+
+    public DestinationServices getDestinationServices() {
+        return destinationServices;
     }
 
     public GameScheduler getGameScheduler() {
