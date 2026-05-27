@@ -13,7 +13,7 @@ configurations {
     // configuration that holds jars to copy into lib
     includeLibs
 }
-base.archivesName.set("Advanced-Portals-Legacy-Spigot")
+base.archivesName.set("advanced-portals-legacy-spigot")
 
 def buildDir = layout.buildDirectory.get().asFile
 
@@ -71,8 +71,8 @@ jar {
 tasks.register('copyPlugin') {
     dependsOn(build)
     doLast {
-        def sourceFilePath = Paths.get("$buildDir/libs/Advanced-Portals-Legacy-Spigot-${getVersion()}.jar")
-        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/Advanced-Portals-Legacy-Spigot.jar")
+        def sourceFilePath = Paths.get("$buildDir/libs/advanced-portals-legacy-spigot-${getVersion()}.jar")
+        def destinationFilePath = Paths.get("$buildDir/MinecraftServer/plugins/advanced-portals-legacy-spigot.jar")
 
         Files.createDirectories(destinationFilePath.getParent())
 
@@ -210,7 +210,7 @@ modrinth {
     gameVersions = supportedVersions
     changelog = getReleaseChangelog()
     versionName = "Legacy Spigot [MC 1.8.8 - 1.12.2] " + getVersion()
-    versionNumber = getVersion() + "-LegacySpigot"
+    versionNumber = getVersion() + "-legacy-spigot"
     syncBodyFrom = rootProject.file("README.md").text
 }
 
