@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.1...v2.7.2) (2026-05-27)
+
+
+### Bug Fixes 🐛
+
+* lower case the naming across all release files ([a793e0f](https://github.com/sekwah41/Advanced-Portals/commit/a793e0fb6c3f9489068e00cf646f843f38ff330a))
+
 ## [2.7.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.0...v2.7.1) (2026-05-13)
 
 
