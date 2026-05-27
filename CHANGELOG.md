@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.2...v2.7.3) (2026-05-27)
+
+
+### Bug Fixes 🐛
+
+* change version and platform jar naming for maven usage ([f058851](https://github.com/sekwah41/Advanced-Portals/commit/f058851a540c6e02b8f41a28434a56fb4e05029b))
+
 ## [2.7.2](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.1...v2.7.2) (2026-05-27)
 
 
