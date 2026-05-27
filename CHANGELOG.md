@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.3...v2.8.0) (2026-05-27)
+
+
+### Features ✨
+
+* expose the internal registries and other elements through portals core for addons ([622da55](https://github.com/sekwah41/Advanced-Portals/commit/622da554ce36eb3b69c7c646227bb77f3f7d6540))
+
 ## [2.7.3](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.2...v2.7.3) (2026-05-27)
 
 
