@@ -1,0 +1,14 @@
+when:
+  - event: push
+
+matrix:
+  include:
+    - project: "spigot"
+    - project: "legacyspigot"
+    - project: "folia"
+
+steps:
+  - name: snapshot-${project}
+    image: codeberg.org/sekwah/advanced-portals/advanced-portals-ci:dev
+    commands:
+      - gradle ${project}:build --no-watch-fs --no-daemon

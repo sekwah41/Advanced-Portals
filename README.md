@@ -47,3 +47,12 @@ The scopes available should be the specific modules being worked on. E.g. core, 
 That is handled on the [website](https://github.com/sekwah41/Advanced-Portals/tree/website) branch.
 
 At some point I may merge this onto this branch to try to push for documentation changes with new features, though for now this works.
+
+## CI
+If you make any changes to the CI make sure that you test it locally first.
+
+For example testing the snapshots locally is done via `woodpecker-cli exec --pipeline-event push .woodpecker/snapshot.yml`.
+
+Ensure docker is set up locally and the woodpecker cli is installed.
+
+If you are testing on an arm system you may need to set `DOCKER_DEFAULT_PLATFORM=linux/amd64`
