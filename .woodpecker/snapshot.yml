@@ -2,6 +2,7 @@ when:
   - event: push
 
 matrix:
+  platform: ["codeberg-tiny"]
   include:
     - project: "spigot"
     - project: "legacyspigot"
@@ -11,4 +12,5 @@ steps:
   - name: snapshot-${project}
     image: codeberg.org/sekwah/advanced-portals/advanced-portals-ci:dev
     commands:
+      - free -m
       - gradle ${project}:build --no-watch-fs --no-daemon
