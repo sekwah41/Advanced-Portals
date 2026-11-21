@@ -8,6 +8,7 @@ import com.sekwah.advancedportals.core.permissions.Permissions;
 import com.sekwah.advancedportals.core.registry.TagTarget;
 import com.sekwah.advancedportals.core.repository.ConfigRepository;
 import com.sekwah.advancedportals.core.serializeddata.config.CommandPortalConfig;
+import com.sekwah.advancedportals.core.util.GameScheduler;
 import com.sekwah.advancedportals.core.util.Lang;
 import com.sekwah.advancedportals.core.warphandler.ActivationData;
 import com.sekwah.advancedportals.core.warphandler.Tag;
@@ -16,6 +17,9 @@ import javax.annotation.Nullable;
 public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
     @Inject
     ConfigRepository configRepository;
+
+    @Inject
+    GameScheduler gameScheduler;
 
     public static final String TAG_NAME = "command";
 
@@ -109,19 +113,16 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
 
             switch (executionCommand) {
                 case '!':
-                    player.getServer().dispatchCommand(
-                        player.getUUID(), formattedCommand.substring(1),
-                        CommandLevel.OP);
+                    dispatchNextTick(player, formattedCommand.substring(1),
+                                     CommandLevel.OP);
                     break;
                 case '#':
-                    player.getServer().dispatchCommand(
-                        player.getUUID(), formattedCommand.substring(1),
-                        CommandLevel.CONSOLE);
+                    dispatchNextTick(player, formattedCommand.substring(1),
+                                     CommandLevel.CONSOLE);
                     break;
                 case '^':
-                    player.getServer().dispatchCommand(
-                        player.getUUID(), formattedCommand.substring(1),
-                        CommandLevel.PERMISSION_WILDCARD);
+                    dispatchNextTick(player, formattedCommand.substring(1),
+                                     CommandLevel.PERMISSION_WILDCARD);
                     break;
                 case '%':
                     ProxyCommandPacket packet =
@@ -130,12 +131,20 @@ public class CommandTag implements Tag.Activation, Tag.Split, Tag.Creation {
                                       packet.encode());
                     break;
                 default:
-                    player.getServer().dispatchCommand(player.getUUID(),
-                                                       formattedCommand,
-                                                       CommandLevel.PLAYER);
+                    dispatchNextTick(player, formattedCommand,
+                                     CommandLevel.PLAYER);
                     break;
             }
         }
+    }
+
+    private void dispatchNextTick(PlayerContainer player, String command,
+                                  CommandLevel commandLevel) {
+        gameScheduler.delayedTickEvent(
+            "portal-command",
+            () -> player.getServer().dispatchCommand(
+                player.getUUID(), command, commandLevel),
+            1);
     }
 
     @Override
