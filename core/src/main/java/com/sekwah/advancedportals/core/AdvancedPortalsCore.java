@@ -89,7 +89,7 @@ public class AdvancedPortalsCore {
                                 .toArray();
         } catch (NumberFormatException e) {
             infoLogger.info("Failed to parse MC version: " + mcVersion);
-            e.printStackTrace();
+            infoLogger.error(e);
             mcVersionTemp = new int[] {0, 0, 0};
         }
         if (mcVersionTemp.length == 2) {

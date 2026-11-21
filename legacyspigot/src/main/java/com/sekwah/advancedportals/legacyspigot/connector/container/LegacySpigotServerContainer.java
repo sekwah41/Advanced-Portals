@@ -106,6 +106,10 @@ public class LegacySpigotServerContainer implements ServerContainer {
     public void dispatchCommand(UUID uuid, String command,
                                 CommandTag.CommandLevel commandLevel) {
         Player player = server.getPlayer(uuid);
+        if (player == null
+            && commandLevel != CommandTag.CommandLevel.CONSOLE) {
+            return;
+        }
         switch (commandLevel) {
             case CONSOLE:
                 server.dispatchCommand(server.getConsoleSender(), command);

@@ -153,7 +153,7 @@ public class Lang {
                                            + "as it doesn't exist."));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            this.infoLogger.error(e);
             this.infoLogger.warning("Could not load " + fileName
                                     + ".lang from within Advanced Portals.");
         }
@@ -178,7 +178,7 @@ public class Lang {
         try {
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            instance.infoLogger.error(e);
         }
         return newMap;
     }
