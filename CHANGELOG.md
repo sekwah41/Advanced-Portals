@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.1](https://github.com/sekwah41/Advanced-Portals/compare/v2.8.0...v2.8.1) (2026-11-21)
+
+
+### Bug Fixes 🐛
+
+* delay commands to next tick rather than immediately ([13d71d1](https://github.com/sekwah41/Advanced-Portals/commit/13d71d152240008340d2a8bcacbf27e7de44291c))
+* update logger for some errors ([59b098f](https://github.com/sekwah41/Advanced-Portals/commit/59b098f2395c562e9dd046dbb6f0655ee87f1278))
+
 ## [2.8.0](https://github.com/sekwah41/Advanced-Portals/compare/v2.7.3...v2.8.0) (2026-05-27)
 
 
